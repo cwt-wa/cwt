@@ -1,0 +1,53 @@
+button {
+	font-size: 10pt;
+}
+
+.button {
+	border: 1px solid black;
+	margin: 1px;
+}
+
+.button:hover {
+	cursor: pointer;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);
+	-moz-opacity: 0.6;
+}
+
+#text {
+	margin: 10px auto 0px auto;
+    padding: 20px 0px 20px 20px;
+    border: 1px solid #C4C4C4;
+    box-shadow: 4px 4px 3px #C4C4C4;
+}
+
+#margin {
+	display: block;
+	margin-left: 320px;
+	margin-top: 3px;
+	white-space: nowrap;
+}
+
+#toolbar {
+	display: inline-block;
+}
+
+#BBpreview {
+    margin-left: 70px;
+}
+
+
+#show_preview {
+	color: white;
+}
+
+#progress {
+    margin: 10px auto 0px auto;
+    text-align: center;
+}
+
+#progressbar {
+    position: relative;
+    height: 21px;
+    width: auto;
+    display: inline-block;
+}

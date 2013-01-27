@@ -1,0 +1,452 @@
+html, body {
+    font-family: Ubuntu, "Lucida Grande", Calibri, Tahoma, Verdana, Arial, sans-serif;
+    color: white;
+    font-size: 10pt;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    background: url('/img/background.jpg');  
+    overflow-x: hidden;
+}
+
+/* Headings */
+
+#topbar {
+    width: 100%;
+    background-color: #3F3429; /*#31271F #201A16*/
+    height: 30px;
+    padding: 3px;
+    margin: 0px;
+}
+
+#time {
+    float: left;
+    color: white;
+    position: relative;
+    margin-left: 70px;
+    padding-top: 4px;
+    z-index: 2;
+}
+
+#banner {
+    float: left;
+    background-color: #3F3429;
+    position: relative;
+    padding: 15px 15px 5px 15px;
+    margin-top: -30px;
+    z-index: 1;
+}
+
+/* Menu */
+
+#menu {
+    font-family: Ubuntu, Tahoma, Verdana, sans-serif;
+    margin: 13px 0px 70px 435px;
+}
+
+.menu_item {
+    text-align: center;
+    display: inline-block;
+    color: white;
+    background-color: #26323B; /*004050*/
+    height: 35px;
+    width: 85px;
+    padding-top: 15px;
+    margin-left: 6px;
+    border: 1px solid lightgray;
+    border-style: outset;
+    font-weight: bold;
+}
+
+.popcorn_item {
+    text-align: center;
+    color: white;
+    background-color: #26323B; /*004050*/
+    height: 40px;
+    width: 50px;
+    padding-top: 10px;
+    margin-left: 491px;
+    margin-top: -52px;
+    border: 1px solid lightgray;
+    border-style: outset;
+    font-weight: bold;
+}
+
+.menu_item:hover, .popcorn_item:hover {
+    background-color: #303F4B;
+    cursor: pointer;
+}
+
+.menu_item:active {
+    border-style: inset;
+    background-color: #1C252B;
+}
+
+.popcorn_item:active {
+    border-style: inset;
+    background-color: #1C252B;
+}
+
+/* Elements */
+
+#container {
+    margin: -30px auto 0px auto;
+    padding: 0px;
+    width: 980px;
+    overflow: visible;
+}
+
+#content {
+    margin-top: -50px;
+    overflow: visible;
+}
+
+#box { /* 980px - 20px - 20px = 940px */
+    margin: 10px auto 0px auto;
+    padding: 20px;
+    border: 1px solid #C4C4C4;
+    box-shadow: 4px 4px 3px #C4C4C4;
+    background-color: transparent;
+    overflow: visible;
+}
+
+#boxFloat {
+    float: left;
+    margin: 0px 0px;
+    padding: 20px;
+    border: 1px solid #C4C4C4;
+    box-shadow: 4px 4px 3px #C4C4C4;
+}
+
+/* User Area */
+
+#user {
+    text-align: right;
+    color: white;
+    height: 30px;
+}
+
+#userpanel {
+    display: inline-block;
+    height: 30px;
+    width: 550px;
+}
+
+/* User Menu */
+
+#menu_user {
+    display: inline-block;
+    margin-left: 5px;
+    text-align: right;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+.item_user {
+    text-align: center;
+    display: block;
+    margin-top: -6px;
+    padding: 10px 10px 0px 10px;
+    height: 26px;
+    background-color: #2F251E;
+    font-weight: bold;
+}
+
+.item_user:hover {
+    cursor: pointer;
+    background-color: #5D4D3C;
+}
+
+.open_item_user {
+    position: relative;
+    float: right;
+    overflow: visible;
+    text-align: center;
+    display: none;
+    background-color: #5D4D3C;
+    width: 118px;
+    padding: 10px 0px;
+    border: 1px solid #3F3429;
+    border-top: none;
+    box-shadow: 4px 4px 3px #C4C4C4;    
+}
+
+.gu_item a {
+    color: white;
+    font-weight: normal;
+}
+
+.gu_item:hover {
+    cursor: pointer;
+    background-color: #3170CE;
+}
+
+/* Footer */
+
+#wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -40px;
+}
+
+#push {
+    height: 60px;
+    clear: both;
+}
+
+#footer {
+    color: lightgray;
+    width: 960px;
+    height: 20px;
+    margin: 0px auto 0px;
+    padding: 10px;
+    background-color: #2E2E2E; /*004050*/
+}
+
+#copyright {
+    float: left;
+}
+
+#pages {
+    text-align: right;
+}
+
+/* Recurring */
+
+#adminNews {
+    text-align: center;
+    position: relative; 
+    font-family: Arial;
+    font-size: 8pt; 
+    margin: -30px 0px 0px 770px; 
+    border: 1px solid #C4C4C4;
+    background-color: #2E2E2E;
+    padding: 2px;
+}
+
+#dblButton {
+    width: 30px; 
+    height: 20px; 
+    text-align: center;
+    margin: 0px auto;
+    white-space: nowrap;
+}
+
+.dblButtonBasic, .dblButtonTrue {
+    display: inline-block; 
+    padding: 0px;
+    margin: 0px;
+    width: 15px;
+    height: 20px;
+    border: 1px solid #C4C4C4;
+    border-style: outset;
+}
+
+.dblButtonFalse {
+    display: inline-block; 
+    padding: 0px;
+    margin: 0px;
+    width: 15px;
+    height: 20px;
+    border: 1px solid #C4C4C4;
+    border-style: inset;
+    background-color: gray;
+}
+
+.dblButtonBasic:hover {
+    border-style: inset;
+    cursor: pointer;
+}
+
+#loading {
+    height: 19px;
+    margin-bottom: -5px;
+    display: none;
+}
+
+#progress {
+    margin: 10px auto 0px auto;
+    text-align: center;
+}
+
+#progressbar {
+    position: relative;
+    height: 21px;
+    width: auto;
+    display: inline-block;
+}
+
+img {
+    border: none;
+}
+
+h1 {
+    font-size: 20pt;
+}
+
+h2 {
+    font-size: 16pt;
+}
+
+h3 {
+    font-size: 14pt;
+}
+
+h4 {
+    font-size: 12pt;
+}
+
+input, textarea, select {
+    font-family: Ubuntu, "Lucida Grande", Calibri, Tahoma, Verdana, Arial, sans-serif;
+    font-size: 10pt;
+}
+
+input[type=submit], button {
+    font-family: Ubuntu, "Lucida Grande", Calibri, Tahoma, Verdana, Arial, sans-serif;
+    border: 1px solid #C0C0C0;
+    padding: 1px 10px;
+}
+
+input[type=submit]:active, button:active {
+    border-style: inset;
+}
+
+input[type=submit]:hover, button:hover {
+    cursor: pointer;
+}
+
+input[disabled=disabled], button[disabled=disabled] {
+    border-style: inset;
+}
+
+a {
+    font-weight: bold;
+    color: #3170CE;
+    text-decoration: none;
+    border: none;
+}
+
+.plain {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.plainer {
+    font-weight: normal;
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+a:active {
+    color: green;
+}
+
+ul {
+    list-style: square;
+} 
+
+/* Messages */
+
+#authMessage {
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #DBDBDB;
+    border-style: outset;
+    margin: 15px auto 15px auto;
+    padding: 20px;
+    overflow: visible;
+    background-color: #790000; /* Like error. */
+}
+
+#flashMessage {
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #DBDBDB;
+    border-style: outset;
+    margin: 15px auto 15px auto;
+    padding: 20px;
+    overflow: visible;
+}
+
+.success, .message {
+    background-color: #004011;
+}
+
+.error {
+    background-color: #790000;
+}
+
+.warning {
+    background-color: #494736;
+}
+
+/* Tiny messages that appear next to inputs fields. */
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+/* Paging */
+
+.paging {
+    background:transparent;
+    color: #ccc;
+    margin-top: 1em;
+    clear:both;
+    text-align:center;
+}
+.paging .current,
+.paging .disabled,
+.paging a {
+    text-decoration: none;
+    padding: 5px 8px;
+    display: inline-block
+}
+.paging > span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-left: 0;
+}
+.paging > span:hover {
+    background: #efefef;
+}
+.paging .prev {
+    border-left: 1px solid #ccc;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+}
+.paging .next {
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+}
+.paging .disabled {
+    color: #ddd;
+}
+.paging .disabled:hover {
+    background: transparent;
+}
+.paging .current {
+    background: #efefef;
+    color: #c73e14;
+}
+
+
+/* Cake Generic - Development Mode */
+
+.cake-debug-output {
+    background-color: lightgray;
+    color: black;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+}

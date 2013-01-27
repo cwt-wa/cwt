@@ -1,0 +1,213 @@
+<?php echo $this->Html->docType('html4-trans'); ?>
+<head>
+	<?php echo $this->Html->charset(); ?>
+	<title>
+		<?php echo ('CWT - '); ?>
+		<?php echo $title_for_layout; ?>
+	</title>
+	<?php
+		echo $this->Html->meta('icon');
+
+		echo $this->Html->css('style');
+
+		echo $this->Html->script('jquery');
+		echo $this->Html->script('gmt');
+		echo $this->Html->script('user');
+
+		echo $scripts_for_layout;
+	?>
+	<?php if($_SERVER['REMOTE_ADDR'] != '127.0.0.1'): ?>
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-33673621-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+	<?php endif; ?>
+	<script type="text/javascript">
+		function donate() {
+			$('#donate_form').submit();
+		}
+	</script>
+</head>
+<style type="text/css">
+	.userbutton {
+		text-align: center;
+	}
+</style>
+<body>    
+<div id="wrapper">    
+    <div id="topbar">        
+    </div>
+    <div id="container">        
+        <div id="time">
+        	<script language="JavaScript">displayTime();</script> GMT
+        </div>
+        <div id="user">
+        	<?php if($logged_in): ?>            		            
+		    <div id="userpanel">
+	        	<?php if(@$current_user['up_menu'] == 'apply'): // Ready to apply. ?>
+	        		<div id="menu_user">
+	        			<?php
+		        			echo $this->Html->link('<div id="up_apply" class="plain item_user">Apply for CWT</div>',
+		        				'/rules/view/apply/',
+		        				array('escape' => false));
+		        		?>
+	        		</div>		
+	        	<?php elseif(@$current_user['up_menu'] == 'report'): // Ready to report a game. ?>
+					<div id="menu_user" style="width:120px !important;">
+						<div id="up_report" class="item_user">
+				    		Report a Game		    		
+				    	</div>
+				    	<div id="report" class="open_item_user" style="width:350px; margin-right:-120px;">			    		
+				    	</div>
+					</div>	
+	        	<?php endif; ?>
+	        	<?php if($up_stream['maintainer']): ?>
+		    		<div id="menu_user">
+		    			<div id="up_stream" class="item_user">
+				    		<?php echo $up_stream['maintainer']['title'] ?>
+				    	</div>		    	
+				    	<div id="stream" class="open_item_user">
+				    		<div class="gu_item">
+				    			<?php echo $this->Html->link('Schedule Stream',
+				    				'/streams/schedule/' . $up_stream['maintainer']['id']); ?>
+				    		</div>
+				    		<div class="gu_item">
+				    			<?php echo $this->Html->link('View my Stream',
+				    				'/streams/view/' . $up_stream['maintainer']['id']); ?>
+				    		</div>
+				    		<div class="gu_item">
+				    			<?php echo $this->Html->link('Edit Description',
+				    				'/streams/edit/' . $up_stream['maintainer']['id'] . '/description'); ?>
+				    		</div>
+				    		<div class="gu_item">
+				    			<?php echo $this->Html->link('Edit Stream',
+				    				'/streams/edit/' . $up_stream['maintainer']['id']); ?>
+				    		</div>
+				    		<div class="gu_item" id="changepw">
+				    			<?php echo $this->Form->postLink('Delete Stream :(', '/streams/delete/' . $up_stream['maintainer']['id'], null, __('Are you sure you want to delete %s?', $up_stream['maintainer']['title'])); ?>
+				    		</div>
+				    	</div>
+		    		</div>
+		    	<?php endif; ?>
+		    	<div id="menu_user">
+		    		<div id="up_user" class="item_user">
+			    		<?php echo $current_user['username'] ?>
+			    	</div>		    	
+			    	<div id="generaluser" class="open_item_user">
+			    		<div class="gu_item" id="editprofile">
+			    			<?php echo $this->Html->link('Edit profile',
+			    				array('controller'=>'profiles', 'action'=>'edit')); ?>
+			    		</div>
+			    		<div class="gu_item">
+			    			<?php echo $this->Html->link('View profile',
+			    				array('controller'=>'users', 'action'=>'view', $current_user['id'])); ?>
+			    		</div>
+			    		<div class="gu_item">
+			    			<?php echo $this->Html->link('Change photo',
+			    				array('controller'=>'profiles', 'action'=>'photo')); ?>
+			    		</div>
+			    		<div class="gu_item" id="changepw">
+			    			<?php echo $this->Html->link('Change password',
+			    				array('controller'=>'users', 'action'=>'password')); ?>
+			    		</div>
+			    		<?php if($current_user['admin']): ?>
+				    		<div class="gu_item">
+				    			<?php echo $this->Html->link('Admin Panel',
+				    				'/pages/admin'); ?>
+				    		</div>
+				    	<?php endif; ?>
+			    		<div class="gu_item">
+			    			<?php echo $this->Html->link('Log out',
+			    				'/users/logout'); ?>
+			    		</div>
+			    	</div>
+		    	</div>
+		    </div>
+		    <?php else:
+		            echo $this->Form->create('User', array(
+		            	'action' => 'login',
+		            	'style' => 'display:inline',
+					    'inputDefaults' => array(
+					        'label' => false,
+					        'div' => false,
+					        'error' => false
+					    )
+					));
+		            echo $this->Form->input('username', array('div'=>false, 'label'=>false, 'class'=>'userbutton'));
+		            echo '&nbsp';
+		            echo $this->Form->input('password', array('div'=>false, 'label'=>false, 'class'=>'userbutton'));
+		            echo '&nbsp';
+		            echo $this->Form->end(array('label'=>'Log in', 'div'=>false, 'style'=>'width:80px'));
+		            echo '&nbsp|&nbsp';
+		            echo $this->Html->link($this->Form->button('Register', array('style'=>'display:inline; width:80px')),
+		            	'/users/add', array('escape' => false));		         
+	        endif; ?> 
+        </div>  
+
+        <div id="banner">
+        	<?php 
+        		echo $this->Html->link($this->Html->image('logo.png'),
+        			'/',
+        			array('escape'=>false));
+            ?>
+        </div>
+        <div id="menu">
+        	<?php echo $this->Html->link('<div class="menu_item">Players</div>', '/users', array('escape'=>false)); ?>
+        	<div class="menu_item" onclick="donate()">
+        		<form style="display:none;" id="donate_form" target="_blank" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+					<input type="hidden" name="cmd" value="_donations">
+					<input type="hidden" name="business" value="donate@cwtsite.com">
+					<input type="hidden" name="lc" value="US">
+					<input type="hidden" name="item_name" value="Crespo's Worms Tournament">
+					<input type="hidden" name="no_note" value="0">
+					<input type="hidden" name="currency_code" value="USD">
+					<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
+					<input style="display:none;" id="donate" type="image" src="" border="0" name="submit" alt="Donate!">
+				</form>Donate
+        	</div>
+        	<?php echo $this->Html->link('<div class="menu_item">Groups</div>', '/groups', array('escape'=>false)); ?>
+        	<?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape'=>false)); ?>
+        	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', 'http://www.facebook.com/CresposWormsTournament', array('escape'=>false, 'target'=>'_blank')); ?>
+        	<?php echo $this->Html->link('<div class="popcorn_item">' . $this->Html->image('popcorn.png') . '</div>', '/streams', array('escape'=>false)); ?>
+        </div>   
+            
+        <div id="content">
+	        <?php echo $this->Session->flash(); ?>
+	        <?php echo $this->Session->flash('auth'); ?>
+	    
+	    	<?php echo $content_for_layout; ?>
+        </div>
+    </div>
+    <div id="push">   		
+   	</div>
+</div>
+	<div id="footer">
+		<div id="copyright"> 
+   			<b>Crespo’s Worms Tournament 2012</b> by Joschi, Kayz and Zemke
+   		</div>
+   		<div id="pages">
+   			<?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>
+   			&bull;
+   			<?php echo $this->Html->link('Rules', '/rules/view', array('class' => 'plainer')) ?>
+   			&bull; 
+   			<?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
+   			&bull; 
+   			<?php echo $this->Html->link('Replays', '/tournaments/download/replays', array('class' => 'plainer')) ?>
+   			&bull;  
+   			<?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
+   			&bull; 
+   			<?php echo $this->Html->link('TUS', 'http://www.tus-wa.com', array('target' => '_blank', 'class' => 'plainer')) ?>
+   			&bull; 
+   			<?php echo $this->Html->link('Forum', 'http://www.cwt.boards.net', array('target' => '_blank', 'class' => 'plainer')) ?>
+   		</div>
+	</div>
+<?php echo $this->Js->writeBuffer(); // Write cached scripts ?>
+</body>
+</html>

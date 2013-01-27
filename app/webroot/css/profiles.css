@@ -1,0 +1,41 @@
+#timeline {
+    position: relative;
+    margin: 10px 0px;
+    border: 1px solid #C4C4C4;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    box-shadow: 4px 4px 3px #C4C4C4;
+    background-color: white;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    background-color: #887059;
+    height: 50px;
+    white-space: nowrap;
+}
+
+.timeline_item {
+    position: relative;
+	display: inline-block;
+	text-align: center;
+	border-right: 1px solid #635240;
+	padding-right: 10px;
+}
+
+#actions {
+    margin-left: 510px;
+    text-align: center;
+    margin-bottom: -30px
+}
+
+.actions_item {
+    font-weight: bold;
+    background-color: #587089;
+    display: inline-block;
+    width: 100px;
+    padding: 10px 10px;
+    margin: 0px 5px;
+}
+
+.actions_item:hover {
+    cursor: pointer;
+}

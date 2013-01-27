@@ -1,0 +1,379 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{fancyhdr} % fancy headers
+\usepackage{graphicx} % include images
+\usepackage{tabularx} % easier tables
+\usepackage{hyperref} % Better hyperlinks
+\usepackage[utf8]{inputenc} % utf-8 encoding
+\usepackage[german]{babel} % German language
+
+% Syntax Highltihgting for Python Code.
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=python,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+
+\cfoot[\thesection]{{\small EWE Project Counter\\Dokumentation}}
+\rfoot[\thesection]{{\Large \vspace{0.5mm}\thepage}}
+\lfoot[\thesection]{{\small Björn Nowak\\Florian Zemke}}
+
+\pagestyle{fancyplain} % Applying fancy headers.
+\author{Björn Nowak\\Florian Zemke}
+\title{EWE Project Counter}
+
+\begin{document} 
+
+\maketitle % cover
+\tableofcontents % list of contents 
+
+\chapter{Vorwort}
+	Der EWE Project Counter gleicht die Benutzer des LDAP mit denen des JIRA ab.\\Auf den folgenden Seiten wird ausschließlich das zweite Jahr der Entwicklung unter Björn Nowak und Florian Zemke dokumentiert.
+	
+	\section{Verantwortliche}
+
+	\subsection{Entwickler}
+	
+	\subsubsection{1. Jahr}
+	\begin{description}
+	\item[Mirko Schröder] \hfill \\
+	Fachinformatiker für Anwendungsentwicklung, Jahrgang 2011
+	\item[Jasper Meyer] \hfill \\
+	Dualer Student Wirtschaftsinformatik, Jahrgang 2012
+	\end{description}
+	
+	\subsubsection{2. Jahr}
+	\begin{description}	
+	\item[Björn Nowak] \hfill \\
+	Fachinformatiker für Anwendungsentwicklung, Jahrgang 2012
+	\item[Florian Zemke] \hfill \\
+	Fachinformatiker für Anwendungsentwicklung, Jahrgang 2012
+	\end{description}
+	
+	\subsection{Betreuung}
+	\begin{description}
+	\item[Manse Wolken] \hfill \\
+	Team System Engineering und Support
+	\end{description}
+	
+	\section{Namensgebung}
+	Nach der Projekt-Übergabe von Mirko und Jasper an Björn und Florian wurde dem Programm intern der Name „Jasrim“ (Zusammensetzung aus Jasper und Mirko) gegeben.\\
+	Im Git Repository des E-Konzern ist das Projekt als ewe-project-counter hinterlegt. Somit ist das Projekt allgemein als „EWE Project Counter“ zu identifizieren. Unter den Entwicklern spricht man aber nach wie vor über Jasrim.
+	
+	\section{Vorbereitung}
+	Die Entwickler im ersten Jahr hatten das Projekt prozedual programmiert und in einer Datei zusammengefasst.\\
+	Auch die Entwickler im zweiten Jahr hatten gerade erst einen Python-Kurs durchgearbeitet, verfügten aber über weitergehendere Kenntnisse in Objekt-orientierten Programmiersprachen. So wurde durch die Objekt-Orientierung beispielsweise das Datenmodell mittels Objekten vereinfacht.\\
+	Es muss sichergestellt sein, dass JIRA Remote-API-Aufrufe akzeptiert, sonst kann man nicht mit dem API auf JIRA zugreifen. Diese Einstellung ist als Administrator im Menü unter Administration$\rightarrow$Allgemeine Konfiguration zu ändern. Sollte die JIRA-Konfiguration Remote-API-Aufrufe nicht akzeptieren, wird diese Fehlermeldung wiedergegeben:
+	\begin{lstlisting}
+suds.transport.TransportError: HTTP Error 503: Service Unavailable
+	\end{lstlisting}	
+	
+\chapter{Verwendete Technologien}
+	\section{Betriebssysteme}	
+	Die komplette Entwicklung sollte zunächst auf dem Unix Betriebssystem OpenBSD stattfinden. Wegen Kompatibilitätsproblemen wurde die Entwicklung jedoch auf ein anderes Betriebssystem verlegt. So fand die Entwicklung auf dem Linux-basiertem Betriebssystem Ubuntu statt, wobei auf OpenBSD nach wie vor die LDAP-Implementierung lief, mit der sich von Ubuntu aus verbunden wurde.
+	
+	\section{JIRA und LDAP}
+	Man entschied sich die Entwicklung auf einer lokalen JIRA Installation stattfinden zu lassen, da sich die anfänglichen Arbeiten auf Code-Refactoring beschränkten. Als das Programm dann im Verlaufe der Entwicklung ausführlicher getestet werden musste, wurden die Entwickler mit den nötigen Rechten ausgestattet, um sich mit dem E-Konzern JIRA zu verbinden.
+	
+	\section{Die Programmiersprache}
+	Das Programm ist in Python 2.7.3 geschrieben und getestet. Python ist eine Objekt-orientierte Programmiersprache, dessen Design-Philosophie Code-Lesbarkeit besonders hervorheben soll. Es muss besonderer Wert auf Einrückungen gelegt werden. Anweisungen in Verzweigungen oder auch in Schleifen werden allein durch Einrückungen (vier Leerschritte) erkannt. Sie stellt also eine besonders gute Sprache für Anfänger dar, ist aber auch für Fortgeschrittene angenehm zu schreiben. Ein gutes Tutorial ist unter den Namen \href{http:///www.learnpythonthehardway.org}{Python The Hard Way}\footnote{http:///www.learnpythonthehardway.org} zu finden.\\
+	Das LDAP und JIRA stellen APIs für Python bereit, um nötige Daten aus den Systemen zu sammeln.
+	
+	\section{Übersicht}
+	\begin{description}
+	\item[Ubuntu] 12.04 \hfill \\
+	Ein Linux-basiertes Betriebssystem, auf dem das Programm geschrieben und getestet wurde.
+	\item[JIRA] 5.0 (E-Konzern), 5.1.2 (lokal) \hfill \\
+	Eine Web-basierte Platform für Projektmanagement und Bug Tracking.
+	\item[LDAP] 3 \hfill \\
+	Lightweight Directory Access Protocol (kurz: LDAP). „Es erlaubt die Abfrage und die Modifikation von Informationen eines Verzeichnisdienstes (eine im Netzwerk verteilte hierarchische Datenbank) über ein IP-Netzwerk.“\footnote{Quelle: Wikipedia}
+	\item[OpenLDAP] 2.3 \hfill \\
+	Eine Implementierung des LDAP auf dem lokalen System.
+	\item[OpenBSD] 5.1 \hfill \\
+	Ein Unix-ähnliches Betriebssystem.
+	\item[PostgreSQL] 9.1.2 \hfill \\
+	Ein Datenbankmanagementsystem, das die Daten von JIRA beinhaltete und auf OpenBSD lief.
+	\item[Apache Directory Studio] 1.5.3  \hfill \\
+	Ein Client für die Verwaltung vom LDAP.
+	\item[Python] 2.7.3 \hfill \\
+	Das Programm wurde mit Python 2.7.3 geschrieben und getestet.
+	\item[SOAPpy] 0.11.3 \hfill \\
+	Das API von JIRA für Python.
+	\item[ldap] 2.3.13 \hfill \\
+	Das API vom LDAP für Python.
+	\end{description}
+	                                                                                                                                                                                                                                                                                                                                                                     
+	
+\chapter{Schwierigkeiten}	
+	\section{Virtuelle Maschinen}
+	Bei der Entwicklung wurden zwei Maschinen eingerichtet, OpenBSD und Ubuntu. Das ist eigentlich nicht notwendig. Dies könnte zum Beispiel zu andauernden Aktualisieren von Konfigurations-Dateien führen, wenn sich die IPs der Maschinen verändern. Wenn alle Daten lokal auf einer Maschine sind, dann erspart man sich möglicherweise zeitaufwendige Arbeiten. Das Nutzen von zwei virtuellen Maschinen empfiehlt sich jedoch, um das Server-Client-Verhältnis nachzustellen.
+	
+	\section{OpenLDAP Firewall}
+	Bei der Installation des OpenLDAP ist Acht zu geben, dass man nicht aus Versehen eine Firewall mitinstalliert. Das würde die Verbindung zum LDAP unmöglich machen.
+
+	\section{E-Konzern JIRA Backup}
+	Zu Anfang wurde für kleine Tests eine lokale JIRA Installation benutzt. Später sollte dann ein Backup vom E-Konzern JIRA erstellt und auf dem lokalen JIRA eingespeißt werden. Dabei stürtzte das E-Konzern JIRA ab. Es empfiel sich daher, direkt Accounts mit Admin-Rechten im E-Konzern JIRA anzufragen.
+	
+	\section{Version Controlling}
+	Wie bei JIRA, sollten auch hier Vorkehrungen getroffen werden. Es sollte gleich der Zugang zum ewe-project-counter Repository ermöglicht werden. Definitiv sollte von Anfang an sorgfältig mit Git gearbeitet werden. Die \href{http:///www.git-scm.com/book/en}{Dokumentation zu Git}\footnote{http:///www.git-scm.com/book/en} ist besonders gut geschrieben. Der Pfad zum ewe-project-counter ist wie folgt (Stand 25.10.2012):
+	\begin{lstlisting}
+http://deinUsername@git.e-konzern.de/git/ewe-project-counter
+	\end{lstlisting}
+	
+\chapter{Refaktorierung}
+	Im zweiten Jahr der Entwicklung wurde das Programm umfangreich refakoriert.
+	
+	\section{Datenmodell}
+		Das Datenmodel wurde nahezu komplett neu aufgesetzt.
+		
+		\section{Gegenüberstellung}
+		
+		\subsubsection{1. Jahr}
+		\includegraphics[width=18cm]{datamodel1.jpg}
+		
+		\subsubsection{2. Jahr}
+		\includegraphics[width=15cm]{datamodel2.jpg}
+	
+	\section{Prozedural und Objekt-orientiert}
+	Alle Teile des Programms wurden in Klassen ausgelagert und Methoden erstellt. Es enstand eine Bibliothek.\\
+	Die auszuführende Datei spricht diese Bibliothek an.\\
+	Es gibt eine Datei, die Importiertung absolviert und bereitstellt. So kann zentral, von allen Dateien darauf zugegriffen werden.\\
+	Es gibt eine Main-Klasse, die Verbindungen zu den APIs aufbaut und Variablen initialisiert. So wird das Objekt der Klasse auch vielen anderen Klassen mitgegeben.\\
+	Näheres zur Verteilung der Dateien und ihre Aufgaben im nächsten Kapitel auf der nchsten Seite.
+	
+\chapter{Workflow}
+	\section{Aufteilung}
+	Der EWE Project Counter ist in einen Start-Bereich und eine Bibliothek aufgeteilt.\\\\
+	
+	\begin{figure}[h]
+		\includegraphics[width=16cm]{organization.png}\\\\\\
+	\end{figure}	
+
+	\section{Ablauf}
+	\begin{lstlisting}
+#run.py	
+
+from library import main
+from library import counter
+from library import output
+
+Main = main.Main()
+Output = output.Output()
+
+Main.connect()
+
+counter.file_open(Main)
+counter.calc_totals(Main)
+Output.view(Main)
+
+Main.disconnect()
+	\end{lstlisting}
+	\vspace{10mm}
+	\begin{center}
+		Baut eine Verbindung zum LDAP und JIRA auf, loggt sich ein und stellt die APIs zur Verfügung.
+		\linebreak\\$\Downarrow$\linebreak\\
+		Öffnet die CSV-Datei liest sie aus und sucht nach Benutzern in den jeweiligen Projekten (JIRA) oder Gruppen (LDAP).
+		Die Benutzer werden in das Datenmodell eingeschrieben:
+		\begin{lstlisting}
+Firma
+	Projekt
+		Schluessel
+			(Gruppe im LDAP)
+				BenutzerA, BenutzerB, BenutzerC, ...
+		\end{lstlisting}
+		$\Downarrow$\linebreak\\
+		Das Datenmodell wird entsprechen der zuvor eingegebenen Parameter in der Konsole oder in einer CSV-Datei ausgegeben.\\
+	\end{center}
+	
+\chapter{Datenmodell}
+	\section{Einführung}
+	Die Data-Klasse hält Referenzen zu den Klassen Company, Project und Group bereit. Die Group-Klasse spielt vorest nur beim LDAP-System eine Rolle.
+		\begin{lstlisting}
+class Data(object):
+    def __init__(self):
+        self.companies = {} # Entaelt Objekte von Company().
+        self.projects = []
+        self.users = []
+        self.users_distinct = []
+
+class Company(object):
+    def __init__(self, NAME):
+        self.projects = {}  # Enthaelt Objekte von Project().
+        self.name = NAME
+        self.users = []
+        self.users_distinct = []
+
+class Project(object):
+    def __init__(self, NAME):
+        self.users = []
+        self.users_distinct = []
+        self.groups = {} # Enthaelt Objekte von Group().
+        self.name = NAME
+        self.leader = ""
+        self.costunit = ""
+
+class Group(object):
+    def __init__(self):
+        self.users = []
+        self.users_distinct = []
+	\end{lstlisting}
+	{\footnotesize Distinct: Users werden einzeln gezählt und kommen nicht doppelt} vor. 	
+	
+	\section{Beispiele}
+	\subsection{JIRA}
+	Aus folgender input.csv...
+	\begin{lstlisting}
+BTC,ADIS,BTCADIS,JIRA
+	\end{lstlisting}
+    ... ergibt sich folgender Weg zu den Usern des Projekts ADIS der Firma BTC im JIRA:
+    \begin{lstlisting}
+DATA.companies['BTC'].projects['ADIS'].users
+	\end{lstlisting}
+   
+	\subsection{LDAP}
+	Aus folgender input.csv...
+	\begin{lstlisting}
+EWE,Frida,project-btc-frida,LDAP
+	\end{lstlisting}
+    ... ergibt sich folgender Weg zu den Usern des Projekts Frida der Firma EWE und der Gruppe project-btc-frida im LDAP:
+    \begin{lstlisting}
+DATA.companies['EWE'].projects['Frida'].groups['project-btc-frida'].users
+	\end{lstlisting}
+	\newpage	
+	
+	\section{Referenzen}
+	Hier wird das obige Beispiel vom JIRA (4.2.1) zur Veranschauung aufgegriffen, um die Objekt-Referenzen von Data zu Company, zu Project darzustellen.
+	
+	\begin{lstlisting}
+
+DATA.companies = {
+	'EWETEL': <library.data.Company object at 0x98d016c>,
+	'BTC': <library.data.Company object at 0x989ae0c>, # <--
+	'EWE': <library.data.Company object at 0x976df0c>
+}
+
+JPAR.companies['BTC'].projects = {
+	'SAP Einfuehrung Alno': <library.data.Project object at 0x990550c>,
+	'Scriptomato': <library.data.Project object at 0x9c022cc>,
+	'Hertener Logistik': <library.data.Project object at 0x972558c>,
+	'ADIS': <library.data.Project object at 0x989ab2c>, # <--
+	'Geomarketing': <library.data.Project object at 0x96037ac>
+}
+
+JPAR.companies['BTC'].projects['ADIS'].users = [
+	'caheilen.btc',
+	'erwillms.btc',
+	'oluhlenb.btc',
+	'sibehlin.btc',
+	'gerakows.btc',
+	'ulfrech.con',
+	'dipannen.btc'
+]
+	\end{lstlisting}	
+	
+	\section{Hilfe zum Datenmodell}
+	Weitere detailierte Informationen sind im Pydoc zu finden:
+	\begin{lstlisting}
+$ pydoc library/data.py
+	\end{lstlisting}
+
+\chapter{Bedienung}
+	\section{Input CSV}
+	Das Programm prüft nicht alle Daten des JIRA oder LDAP. Welche Daten abgeglichen werden sollen, steht in der input.csv.\\	
+	
+	\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+	\begin{tabularx}{\textwidth}{ |l|R|l|R| }
+		\hline
+		{\bf Firma} & {\bf Projekt} & {\bf Schlüssel} & {\bf System} \\
+		\hline
+		EWE & EASY+ & wiki-etl-easyplus\_user & LDAP \\
+		\hline
+		BTC & Bruns & BRUNSGIST & JIRA \\
+		\hline
+		EWETEL & BMP & TKBMP & JIRA \\
+		\hline
+	\end{tabularx}\linebreak\linebreak
+	
+	Schlüssel und System sind dabei die wichtigen Komponenten. Beim JIRA-System stellt der Schlüssel den ProjectKey dar und beim LDAP ist der Schlüssel der Gruppen-Name. Firma und Projekt sind nur der Speicherort, unter den die Benutzer aus dem jeweiligen Projekt (JIRA) bzw. der jeweiligen Gruppe (LDAP) abgespeichert werden soll.	
+	
+	\subsection{Besonderheit}
+	Es ist möglich in der input.csv den Schlüssel wegzulassen, wenn der Projekt-Name derselbe ist. Im Code wird, obwohl das System JIRA ist, zumeist ein addLDAP() ausgeführt, weil der Schlüssel meistens angegeben ist.
+	\begin{lstlisting}
+if system == "JIRA":
+	# [...]
+	
+	if key == "":
+    		JPAR.addJIRA(entry[0], entry[1][0], entry[1][1])
+	else:
+    		JPAR.addLDAP(entry[0], project, entry[1][0], entry[1][1])
+	\end{lstlisting}
+	
+	\section{Anzeige-Parameter}
+	\begin{description}
+  	\item[-w] \hfill \\
+  	Zeigt Warnungen für deaktivierte oder nicht verfügbare Projekte und Benutzer und Gruppen, die im LDAP fehlen, an. Projekte sind zum Beispiel nicht verfügbar, wenn man nicht ausreichend Rechte besitzt, um sie zu erreichen. 
+  	\item[-d] \hfill \\
+  	Zeigt Benutzer einzeln. Sie werden also nicht doppelt in einem Projekt gezählt, sollten sie individuell im Projekt sein und zusätzlich ein Mitglied einer Gruppe sein, die ebenfalls im Projekt ist.
+  	\item[-l] \hfill \\
+  	Zeigt den Projektleiter an. Sie wird direkt aus der input.csv gelesen.
+  	\item[-c] \hfill \\
+  	Zeigt die Ksotenstelle eines Projektes an. Sie wird direkt aus der input.csv gelesen.
+  	\item[-cl oder -lc] \hfill \\
+  	-l und -c kombinert auf schnelle Weise.
+	\end{description}
+
+	\section{Ausgabe-Parameter}
+	\begin{description}
+  	\item[[Kein Parameter]] \hfill \\
+  	Standardmäßige Ausgabe in der Konsole.
+  	\item[-csv] \hfill \\
+  	Gibt die standardmäßige Ausgabe im CSV-Stil in der Konsole wieder.
+  	\item[-csv Pfad/zur/Datei.csv] \hfill \\
+  	Speichert die standardmäßige Ausgabe in einer CSV-Datei.
+  	\item[-usr Pfad/zur/Datei.csv] \hfill \\
+  	Speichert die standardmäßige Ausgabe nach Benutzern geordnet in einer CSV-Datei.
+	\end{description}
+	\newpage
+
+	\section{Hilfe}
+	Die Hilfe-Seite vom EWE Project Counter:
+	\begin{lstlisting}
+$ python run.py help
+	\end{lstlisting}	
+	\vspace{5mm}	
+	Es gibt erweiterte Hilfen zu einigen Dateien der Bilbiothek:\\
+	search.py, counter.py, data.py, output.py
+	\begin{lstlisting}
+# Erweiterte Hilfe zur data.py
+$ pydoc librabry/data.py 
+	\end{lstlisting}	
+	\vspace{5mm}	
+	Diese Dokumentation kann unter Linux und Windows über Parameter aufgerufen werden:
+	\begin{lstlisting}
+# Oeffnet den PDF Reader mit dieser Dokumentation.
+$ python run.py help doc
+	\end{lstlisting}	
+		
+\end{document}
