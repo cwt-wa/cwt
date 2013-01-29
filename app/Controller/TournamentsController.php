@@ -95,6 +95,16 @@ class TournamentsController extends AppController {
 		            'extension' => 'wsc',
 		            'path'      => 'files' . DS . 'downloads' . DS
 		        ));
+			break;
+			case 'cwt2009':
+				$this->set(array(
+                    'id'        => 'cwt2009.zip',
+		            'name'      => 'cwt2009',
+		            'download'  => true,
+		            'extension' => 'zip',
+		            'path'      => 'files' . DS . 'downloads' . DS
+		        ));
+			break;
 		}
 	}
 

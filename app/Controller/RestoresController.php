@@ -4,42 +4,53 @@ App::uses('AppController', 'Controller');
 
 class RestoresController extends AppController {
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+
+        if (!$this->Auth->loggedIn()) {
+            $this->loadModel('User');
+            CakeLog::write('restore', $this->User->realIP() . ' Login halt.');
+            $this->Auth->flash($this->Auth->authError);
+            $this->redirect('/users/login?referer=/restore');
+        }
+    }
+
     public function add() {
+        $logMsgBeginning = '#' . $this->Auth->user('id') . ' '
+                . $this->Auth->user('username')
+                . ' (' . $this->User->realIP() . '): ';
+        CakeLog::write('restore', $logMsgBeginning . 'Accessing the page.');
+
         if ($this->request->is('post')) {
             $this->Restore->create();
             $this->loadModel('User');
 
-            $logMsgBeginning = '#' . $this->Auth->user('id') . ' '
-                    . $this->Auth->user('username')
-                    . ' (' . $this->User->realIP() . '): ';
+            $this->request->data['Restore']['reported'] =
+                    $this->Restore->formatDate(
+                    $this->request->data['Restore']['reported']);
 
-            if ($this->request->is('ajax')) {
-                if ($this->Restore->save($this->request->data)) {
-                    CakeLog::write('restore', $logMsgBeginning
-                            . json_encode($this->request->data));
+            if ($this->Restore->save($this->request->data)) {
+                CakeLog::write('restore', $logMsgBeginning
+                        . 'Restored ' . json_encode($this->request->data));
+
+                if ($this->request->is('ajax')) {
+                    $this->set('response', 'Successfully added. Thank you!');
+                    $this->render('/Pages/response', 'ajax');
                 } else {
-                    CakeLog::write('restore', $logMsgBeginning
-                            . json_encode($this->Restore->validationErrors));
-                }
-                
-                Configure::write('debug', 0);
-                $this->set('json', $this->Restore->validationErrors);
-                $this->render('/Pages/json', 'ajax');
-            } else {
-                if ($this->Restore->save($this->request->data)) {
-                    CakeLog::write('restore', $logMsgBeginning
-                            . json_encode($this->request->data));
-
                     $this->Session->setFlash(
                             'The game has been added to the list 
                             of games to be restored. Thank you!');
+                }
+            } else {
+                CakeLog::write('restore', $logMsgBeginning
+                        . 'Failure ' . json_encode($this->Restore->validationErrors));
+                $errors = array_values($this->Restore->validationErrors);
+
+                if ($this->request->is('ajax')) {
+                    $this->set('failed', true);
+                    $this->set('response', $errors[0][0]);
+                    $this->render('/Pages/response', 'ajax');
                 } else {
-                    debug($this->Restore->validationErrors);
-
-                    CakeLog::write('restore', $logMsgBeginning
-                            . json_encode($this->Restore->validationErrors));
-
-                    $errors = array_values($this->Restore->validationErrors);
                     $this->Session->setFlash($errors[0][0], 'default', array('class' => 'error'));
                 }
             }

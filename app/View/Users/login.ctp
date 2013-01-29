@@ -5,7 +5,8 @@
 				'label' => false,
 				'style' => 'text-align:center;',
 				'div' => false
-			)
+			),
+            'action' => '/login?referer=' . $referer
 		));
 	?>
 		<fieldset>

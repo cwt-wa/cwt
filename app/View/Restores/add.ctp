@@ -62,34 +62,12 @@
         RestoreAdd.ScoreA.add(Validate.ResultHeight);
         
         $('#RestoreAddForm').submit(function() {
-            console.log("Form submitted.");
+            console.log("Called!");
             
-            $.ajax({
-                url: "/restores/add",
-                type: "POST",
-                data: {
-                    "data[Restore][reported][year]": $("#RestoreReportedYear").val(),
-                    "data[Restore][stage]": $("#RestoreStage").val(),
-                    "data[Restore][reported][month]": $("#RestoreReportedMonth").val(),
-                    "data[Restore][reported][day]": $("#RestoreReportedDay").val(),
-                    "data[Restore][home_id]": $("#RestoreHomeId").val(),
-                    "data[Restore][away_id]": $("#RestoreAwayId").val(),
-                    "data[Restore][score_h]": $("#RestoreScoreH").val(),
-                    "data[Restore][score_a]": $("#RestoreScoreA").val()  
-                },
-                beforeSend: function() {
-                    $(".RestoreAddFormLoading").fadeIn(0);
-                },
-                success: function(response) {
-                    $(".RestoreAddFormLoading").fadeOut(0);
-                    // That's the only possible validation error left,
-                    // after the live validation.
-                    alert("Sorry, this game has already been added.")
-                }
+            $.each(RestoreAdd, function(key, val) {
+                console.log(key + ": " + val);
+                val.validate();
             });
-            
-            console.log("Retun false.");
-            return false;
         });
     });
 </script>
@@ -100,13 +78,13 @@
     It will help to restore the archive of CWT. Thank you for your help!
 </div>
 <div id="box" style="background-color:#3F2828; text-align:center; height:80px; margin-left:838px; width:100px;">
-    <img src="/img/arrow_down.png">
-    <br><br>
-    Download<br>the old site
+    <a href="/tournaments/download/cwt2009">
+        <img src="/img/arrow_down.png">
+        <br><br>
+        Download<br>the old site
+    </a>
 </div>
 <div id="boxFloat" style="background-color:#2F2923; text-align:center; width:785px; margin-top:10px;">
-    <div id="RestoreAddFormSuccess">&nbsp;</div>
-
     <?php
     echo $this->Form->create('Restore', array(
         'inputDefaults' => array(
@@ -178,19 +156,24 @@
         </tr>
         <tr>
             <td align="right">
-
+                <span class="RestoreAddFormSuccess"></span>
             </td>
             <td align="left">
-                <?php echo $this->Form->submit('Submit', array('div' => false)); ?>
+                <?php
+                echo $this->Js->submit('Submit', array(
+                    'div' => false,
+                    'before' => $this->Js->get('.RestoreAddFormLoading')->effect('fadeIn'),
+                    'success' => $this->Js->get('.RestoreAddFormLoading')->effect('fadeOut'),
+                    'update' => '.RestoreAddFormSuccess'
+                ));
+                ?>
                 <img class="RestoreAddFormLoading" id="loading" src="/img/loading.gif">
-                <img class="RestoreAddFormSuccess" id="loading" src="/img/tick.gif">
-                <img class="RestoreAddFormFailure" id="loading" src="/img/cross.gif">
             </td>
         </tr>
     </table>
     <?php echo $this->Form->end() ?>
 </div>
-<div id="box" style="background-color:#2F2923; text-align:center; margin-left:838px;">
+<div id="box" style="background-color:#2F2923; text-align:center; margin-left:838px; white-space:nowrap;">
     <span style="font-size:12pt; font-weight:bold;">Number of<br>Added Games</span>
     <br>
     <table align="center">

@@ -119,6 +119,10 @@ class UsersController extends AppController {
     }
 
     public function login() {
+        if (!$_GET['referer']) {
+            $_GET['referer'] = '/';
+        }
+        
         if($this->request->is('post')) {
             unset($this->User->validate);
             $user = $this->User->update($this->request->data['User']);
@@ -135,7 +139,7 @@ class UsersController extends AppController {
             		);
 	                
 	                $this->Session->setFlash('You have been logged in.');
-	                $this->redirect('/');   
+	                $this->redirect($_GET['referer']);   
 	            } else {
 	                $this->Session->setFlash(
 	                	'Login failed.', 
@@ -151,6 +155,8 @@ class UsersController extends AppController {
             	);
             }
         }
+        
+        $this->set('referer', $_GET['referer']);
     }
     
     public function logout() {

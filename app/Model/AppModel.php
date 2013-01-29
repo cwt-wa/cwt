@@ -2,7 +2,15 @@
 App::uses('Model', 'Model');
 
 class AppModel extends Model {	
-	public function validateId($id, $model) {
+	/**
+     * Validate a Model's Id.
+     * 
+     * @param int $id Id to be validated.  
+     * @param str $model The Model the Id belongs to.
+     * @return boolean False, if the Id is less than one or doesn't exist
+     * in the given Model's database table, true otherwise.
+     */
+    public function validateId($id, $model) {
 		$this->Model = ClassRegistry::init($model);
         
         if ($id < 1) {
@@ -17,7 +25,43 @@ class AppModel extends Model {
         
 		return (bool) $isExistentId;
 	}
-	
+    
+    /**
+     * Properly formats input that came from the three FormHelper's methods
+     * FormHelper::year(), FormHelper::month() and FormHelper::day().
+     * This method should be called from the Controller, so that the date can
+     * then be correctly validated and inserted into the database. This method's
+     * return value should be assigned to the the corresponding
+     * Controller::request->data array element that will go into
+     * validation/database.
+     * 
+     * @param array $dateArray array('year' => '', 'month' => '', 'day' => '')
+     * @return string The formatted date YYYY-MM-DD
+     */
+    public function formatDate($dateArray) {
+        if (empty($dateArray['year'])) {
+            $dateArray['year'] = '0000';
+        }
+        
+        if (empty($dateArray['month'])) {
+            $dateArray['month'] = '00';
+        }
+        
+        if (empty($dateArray['day'])) {
+            $dateArray['day'] = '00';
+        }
+        
+        $formattedDate = 
+            $dateArray['year'] . '-'
+            . $dateArray['month'] . '-'
+            . $dateArray['day'];
+        
+        return $formattedDate;
+    }
+
+     /**
+     * DEPRECATED - Use the Tournament Model instead.
+     */
 	public function tourneyStatus() {
         $this->bindModel(array('hasMany' =>
             array('Tournament' => array('className' => 'Tournament'))));
@@ -25,7 +69,10 @@ class AppModel extends Model {
         return $status;
     }
 
-    public function tourneyStarted() {
+    /**
+     * DEPRECATED - Use the Tournament Model instead.
+     */
+	public function tourneyStarted() {
     	if($this->tourneyStatus() == 'pending'
     	|| $this->tourneyStatus() == 'archived') {
     		return false;
@@ -34,38 +81,14 @@ class AppModel extends Model {
     	}
     }
 
-    // Returns whole row of the most recent tourney. DEPRECATED
-    public function tourneyInfo() {    
+    /**
+     * DEPRECATED - Use the Tournament Model instead.
+     */
+	public function tourneyInfo() {    
         $row = $this->find('first', array(
             'limit' => 1,
             'order' => array('Tournament.id' => 'desc')
         ));
         return $row['Tournament'];
     }
-
-    // Write (default) or get a trace. DEPRECATED
-    /*public function trace($controller, $action, $additional = '', $write_or_get = 'write') {
-        $this->bindModel(array('hasMany' =>
-            array('Trace' => array('className' => 'Trace'))));
-
-        if($write_or_get == 'write') {
-            $this->Trace->save(array(
-                'user_id' => AuthComponent::user('id'),
-                'controller' => $controller,
-                'action' => $action,
-                'additional' => $additional
-            ), array('validate'=>false, 'callbacks'=>false));
-        } else {
-            $getTrace = $this->Trace->find('first', array(
-                'conditions' => array(
-                    'Trace.user_id' => AuthComponent::user('id'),
-                    'Trace.controller' => $controller,
-                    'Trace.action' => $action,
-                    'Trace.additional' => $additional
-                )
-            ));
-        
-            return $getTrace['Trace'];
-        }
-    }*/
 }

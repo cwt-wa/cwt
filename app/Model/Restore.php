@@ -47,8 +47,8 @@ class Restore extends AppModel {
     );
     public $validate = array(
         'reported' => array(
-            'date' => array(
-                'rule' => array('date', 'ymd'),
+            'validateMonthDay' => array(
+                'rule' => array('validateMonthDay'),
                 'message' => 'Invalid date.',
                 'allowEmpty' => true
             )
@@ -80,7 +80,7 @@ class Restore extends AppModel {
         'home_id' => array(
             'notEmpty' => array(
                 'rule' => 'notEmpty',
-                'message' => 'Requires both players.',
+                'message' => 'Requires home player.',
                 'required' => true,
                 'allowEmpty' => false
             ),
@@ -96,7 +96,7 @@ class Restore extends AppModel {
         'away_id' => array(
             'notEmpty' => array(
                 'rule' => 'notEmpty',
-                'message' => 'Requires both players.',
+                'message' => 'Requires away player.',
                 'required' => true,
                 'allowEmpty' => false
             )
@@ -118,7 +118,7 @@ class Restore extends AppModel {
                 'conditions' => array(
                     'Restore.tournament_id' => $tournament_id
                 )
-                    ));
+            ));
         }
 
         return $numberOfAddedGames;
@@ -133,6 +133,25 @@ class Restore extends AppModel {
 
     public function beforeSave($options = array()) {
         $this->data['Restore']['submitter_id'] = AuthComponent::user('id');
+        return true;
+    }
+    
+    public function validateMonthDay($field) {
+        $month = substr($field['reported'], 5, 2);
+        $day   = substr($field['reported'], 8);
+        
+        if ($month == '00' && $day == '00') {
+            return true;
+        }
+       
+        if ($month < 1 || $day < 1) {
+            return false;
+        }
+        
+        if ($month > 12 || $day > 31) {
+            return false;
+        }
+        
         return true;
     }
 
