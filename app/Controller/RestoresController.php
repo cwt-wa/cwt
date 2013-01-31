@@ -66,7 +66,14 @@ class RestoresController extends AppController {
         $stages = $this->Restore->validStages;
         $scores = $this->Restore->validScores;
         $numberOfAddedGames = $this->Restore->numberOfAddedGames();
-        $this->set(compact('tournaments', 'homes', 'aways', 'stages', 'scores', 'numberOfAddedGames'));
+        $this->set('restores', $restores = $this->paginate());
+        $this->set(compact(
+            'tournaments', 'homes', 'aways', 'stages', 'scores',
+            'numberOfAddedGames', 'restores'));
+    }
+    
+    public function index() {
+        $this->set('restores', $restores = $this->paginate());
     }
 
 }

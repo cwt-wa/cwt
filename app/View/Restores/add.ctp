@@ -69,6 +69,16 @@
                 val.validate();
             });
         });
+        
+        $.ajax({
+            url: "/restores/index",
+            success: function(response) {
+                $('.TheIndexPage').html(response);
+            },
+            error: function() {
+                $('.TheIndexPage').html("Unable to laod the index page. :(");
+            }
+        });
     });
 </script>
 
@@ -84,7 +94,7 @@
         Download<br>the old site
     </a>
 </div>
-<div id="boxFloat" style="background-color:#2F2923; text-align:center; width:785px; margin-top:10px;">
+<div id="boxFloat" style="background-color:#887059; text-align:center; width:785px; margin-top:10px;">
     <?php
     echo $this->Form->create('Restore', array(
         'inputDefaults' => array(
@@ -173,7 +183,7 @@
     </table>
     <?php echo $this->Form->end() ?>
 </div>
-<div id="box" style="background-color:#2F2923; text-align:center; margin-left:838px; white-space:nowrap;">
+<div id="box" style="background-color:#3E3328; text-align:center; margin-left:838px; white-space:nowrap;">
     <span style="font-size:12pt; font-weight:bold;">Number of<br>Added Games</span>
     <br>
     <table align="center">
@@ -187,4 +197,7 @@
     </table>
     <br>
     Thanks to the<br>submitters!
+</div>
+<div id="box" class="TheIndexPage" style="background-color:#3E3328; text-align:center;">
+    <img src="/img/loading.gif" />
 </div>
