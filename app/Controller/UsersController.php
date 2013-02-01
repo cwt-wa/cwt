@@ -119,7 +119,7 @@ class UsersController extends AppController {
     }
 
     public function login() {
-        if (!$_GET['referer']) {
+        if (!isset($_GET['referer'])) {
             $_GET['referer'] = '/';
         }
         

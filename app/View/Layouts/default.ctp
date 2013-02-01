@@ -51,7 +51,7 @@
         <div id="user">
         	<?php if($logged_in): ?>            		            
 		    <div id="userpanel">
-	        	<?php if(@$current_user['up_menu'] == 'apply'): // Ready to apply. ?>
+	        	<?php if($current_user['up_menu'] == 'apply'): // Ready to apply. ?>
 	        		<div id="menu_user">
 	        			<?php
 		        			echo $this->Html->link('<div id="up_apply" class="plain item_user">Apply for CWT</div>',
@@ -59,7 +59,7 @@
 		        				array('escape' => false));
 		        		?>
 	        		</div>		
-	        	<?php elseif(@$current_user['up_menu'] == 'report'): // Ready to report a game. ?>
+	        	<?php elseif($current_user['up_menu'] == 'report'): // Ready to report a game. ?>
 					<div id="menu_user" style="width:120px !important;">
 						<div id="up_report" class="item_user">
 				    		Report a Game		    		
@@ -68,7 +68,7 @@
 				    	</div>
 					</div>	
 	        	<?php endif; ?>
-	        	<?php if($up_stream['maintainer']): ?>
+	        	<?php if($up_stream != false): ?>
 		    		<div id="menu_user">
 		    			<div id="up_stream" class="item_user">
 				    		<?php echo $up_stream['maintainer']['title'] ?>

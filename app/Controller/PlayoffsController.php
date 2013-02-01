@@ -8,6 +8,7 @@ class PlayoffsController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
+        $this->loadModel('Tournament');
 		$tourney = $this->Tournament->info();
 
 		if($this->Auth->user('admin')

@@ -144,11 +144,15 @@ class Restore extends AppModel {
             return true;
         }
        
-        if ($month < 1 || $day < 1) {
+        if ($month < '1' && $month != '00') {
+            return false;
+        }
+       
+        if ($day < '1' && $day != '00') {
             return false;
         }
         
-        if ($month > 12 || $day > 31) {
+        if ($month > '12' || $day > '31') {
             return false;
         }
         

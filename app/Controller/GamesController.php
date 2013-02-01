@@ -81,6 +81,8 @@ class GamesController extends AppController {
 			$game['Playoff']['bets'] = $this->Game->Playoff->betStats($game['Playoff']['game_id']);
 		}
 
+        $this->loadModel('User');
+        
 		if($this->User->displayPhoto($game['winner']['username']) != '_nophoto.jpg') {
 			$game['winner']['photo'] = $this->User->displayPhoto($game['winner']['username']);
 		}

@@ -19,6 +19,10 @@ class Stream extends AppModel {
 				'Stream.maintainer_id' => AuthComponent::user('id')
 			)
 		));
+        
+        if (empty($maintainer)) {
+            return false;
+        }
 
 		$online = $this->find('first', array(
 			'conditions' => array(
@@ -27,8 +31,8 @@ class Stream extends AppModel {
 		));
 
 		return array(
-			'maintainer' => @$maintainer['Stream'],
-			'online' => @$online['Stream']['id']
+			'maintainer' => $maintainer['Stream'],
+			'online' => $online['Stream']['id']
 		);
 	}
 
