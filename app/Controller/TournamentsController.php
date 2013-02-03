@@ -76,6 +76,10 @@ class TournamentsController extends AppController {
 
 	public function download($download) {
 		$this->viewClass = 'Media';
+        
+        CakeLog::write('downloads',
+                $this->Tournament->prependUserInfo('downloaded ' . $download,
+                $this->Auth->loggedIn()));
 
 		switch($download) {
 			case 'replays':

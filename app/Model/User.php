@@ -100,7 +100,9 @@ class User extends AppModel {
         ),
 	);
 
-	// Get user's IP securely by dodgin proxy servers.
+	/**
+     * DEPRECATED - Use AppModel's getVisitorIp() instead.
+     */
 	public function realIP() {
 		// Test if it is a shared client.
 		if(!empty($_SERVER['HTTP_CLIENT_IP'])) {

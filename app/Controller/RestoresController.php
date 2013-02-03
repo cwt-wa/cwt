@@ -8,18 +8,18 @@ class RestoresController extends AppController {
         parent::beforeFilter();
 
         if (!$this->Auth->loggedIn()) {
-            $this->loadModel('User');
-            CakeLog::write('restore', $this->User->realIP() . ' Login halt.');
+            CakeLog::write('restores',
+                    $this->Restore->prependUserInfo('Login halt.',
+                    $this->Auth->loggedIn()));
             $this->Auth->flash($this->Auth->authError);
             $this->redirect('/users/login?referer=/restore');
         }
     }
 
     public function add() {
-        $logMsgBeginning = '#' . $this->Auth->user('id') . ' '
-                . $this->Auth->user('username')
-                . ' (' . $this->User->realIP() . '): ';
-        CakeLog::write('restore', $logMsgBeginning . 'Accessing the page.');
+        CakeLog::write('restores',
+                $this->Restore->prependUserInfo('Accessing the page.',
+                $this->Auth->loggedIn()));
 
         if ($this->request->is('post')) {
             $this->Restore->create();
@@ -30,8 +30,10 @@ class RestoresController extends AppController {
                     $this->request->data['Restore']['reported']);
 
             if ($this->Restore->save($this->request->data)) {
-                CakeLog::write('restore', $logMsgBeginning
-                        . 'Restored ' . json_encode($this->request->data));
+                CakeLog::write('restores',
+                        $this->Restore->prependUserInfo(
+                        'Restored ' . json_encode($this->request->data),
+                        $this->Auth->loggedIn()));
 
                 if ($this->request->is('ajax')) {
                     $this->set('response', 'Successfully added. Thank you!');
@@ -42,8 +44,10 @@ class RestoresController extends AppController {
                             of games to be restored. Thank you!');
                 }
             } else {
-                CakeLog::write('restore', $logMsgBeginning
-                        . 'Failure ' . json_encode($this->Restore->validationErrors));
+                CakeLog::write('restores',
+                        $this->Restore->prependUserInfo(
+                        'Failure ' . json_encode($this->Restore->validationErrors),
+                        $this->Auth->loggedIn()));
                 $errors = array_values($this->Restore->validationErrors);
 
                 if ($this->request->is('ajax')) {
@@ -59,7 +63,7 @@ class RestoresController extends AppController {
             'conditions' => array(
                 'Tournament.year <' => 2010
             )
-                ));
+        ));
         $orderNicknames = array('order' => 'username ASC');
         $homes = $this->Restore->Home->find('list', $orderNicknames);
         $aways = $this->Restore->Away->find('list', $orderNicknames);
@@ -68,10 +72,9 @@ class RestoresController extends AppController {
         $numberOfAddedGames = $this->Restore->numberOfAddedGames();
         $this->set('restores', $restores = $this->paginate());
         $this->set(compact(
-            'tournaments', 'homes', 'aways', 'stages', 'scores',
-            'numberOfAddedGames', 'restores'));
+                        'tournaments', 'homes', 'aways', 'stages', 'scores', 'numberOfAddedGames', 'restores'));
     }
-    
+
     public function index() {
         $this->set('restores', $restores = $this->paginate());
     }

@@ -206,7 +206,7 @@ class GamesController extends AppController {
 		else
 			$auth = 'false';
 
-		CakeLog::write('download',
+		CakeLog::write('replays',
 			'Game #'.$id
 			.': '.$this->User->realIP()
 			.' authorized: '.$auth
