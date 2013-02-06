@@ -17,6 +17,7 @@ $this->Paginator->options(array(
             <th><?php echo $this->Paginator->sort('score_h'); ?></th>
             <th><?php echo $this->Paginator->sort('score_a'); ?></th>
             <th><?php echo $this->Paginator->sort('away_id'); ?></th>
+            <th><?php echo $this->Paginator->sort('tech_win'); ?></th>
             <th><?php echo $this->Paginator->sort('stage'); ?></th>
             <th><?php echo $this->Paginator->sort('reported'); ?></th>
             <th><?php echo $this->Paginator->sort('created'); ?></th>
@@ -43,6 +44,15 @@ $this->Paginator->options(array(
                     <?php
                     echo $this->Html->link(
                             $restore['Away']['username'], '/users/view/' . $restore['Away']['id']);
+                    ?>
+                </td>
+                <td>
+                    <?php
+                    if ($restore['Restore']['tech_win']) {
+                        echo '<b>yes</b>';
+                    } else {
+                        echo 'no';
+                    }
                     ?>
                 </td>
                 <td><?php echo h($restore['Restore']['stage']); ?></td>

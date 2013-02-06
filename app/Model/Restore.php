@@ -118,7 +118,7 @@ class Restore extends AppModel {
                 'conditions' => array(
                     'Restore.tournament_id' => $tournament_id
                 )
-            ));
+                    ));
         }
 
         return $numberOfAddedGames;
@@ -135,27 +135,27 @@ class Restore extends AppModel {
         $this->data['Restore']['submitter_id'] = AuthComponent::user('id');
         return true;
     }
-    
+
     public function validateMonthDay($field) {
         $month = substr($field['reported'], 5, 2);
-        $day   = substr($field['reported'], 8);
-        
+        $day = substr($field['reported'], 8);
+
         if ($month == '00' && $day == '00') {
             return true;
         }
-       
+
         if ($month < '1' && $month != '00') {
             return false;
         }
-       
+
         if ($day < '1' && $day != '00') {
             return false;
         }
-        
+
         if ($month > '12' || $day > '31') {
             return false;
         }
-        
+
         return true;
     }
 
@@ -254,12 +254,19 @@ class Restore extends AppModel {
     }
 
     public function validateResult($field) {
+        if ($field['score_a'] == '0'
+                && $this->data['Restore']['score_h'] == '0') {
+            if ($this->data['Restore']['tech_win'] === '1') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         if (!in_array($field['score_a'], $this->validScores)
                 || !in_array($this->data['Restore']['score_h'], $this->validScores)) {
             return false;
         }
-
-
 
         if ($field['score_a'] == '4'
                 || $this->data['Restore']['score_h'] == '4') {

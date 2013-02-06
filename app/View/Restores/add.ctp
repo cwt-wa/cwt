@@ -6,7 +6,7 @@
          * Live Validation
          */
         
-        var RestoreAdd = {
+        RestoreAdd = {
             ReportedYear: new LiveValidation('RestoreReportedYear'),
             Stage: new LiveValidation('RestoreStage'),
             HomeId: new LiveValidation('RestoreHomeId'),
@@ -77,6 +77,22 @@
             },
             error: function() {
                 $('.TheIndexPage').html("Unable to laod the index page. :(");
+            }
+        });
+        
+        $('#RestoreTechWin').change(function() {
+            if ($('#RestoreTechWin').is(':checked')) {
+                $('#RestoreScoreH').attr('disabled','disabled');
+                $('#RestoreScoreA').attr('disabled','disabled');
+                
+                $('#RestoreScoreH').attr('value', '0');
+                $('#RestoreScoreA').attr('value', '0');
+                
+                RestoreAdd.ScoreH.removeMessageAndFieldClass();
+                RestoreAdd.ScoreA.removeMessageAndFieldClass();
+            } else {
+                $('#RestoreScoreH').removeAttr('disabled');
+                $('#RestoreScoreA').removeAttr('disabled');
             }
         });
     });
@@ -162,6 +178,14 @@
             </td>
             <td align="left">
                 <?php echo $this->Form->select('score_a', $scores, array('empty' => false)); ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <b>Tech. win:</b>
+            </td>
+            <td align="left">
+                <?php echo $this->Form->checkbox('tech_win') ?>
             </td>
         </tr>
         <tr>
