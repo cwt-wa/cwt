@@ -2,10 +2,6 @@
 <?php echo $this->Html->script('livevalidation', array('inline' => false)); ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        /*
-         * Live Validation
-         */
-        
         RestoreAdd = {
             ReportedYear: new LiveValidation('RestoreReportedYear'),
             Stage: new LiveValidation('RestoreStage'),
@@ -95,6 +91,55 @@
                 $('#RestoreScoreA').removeAttr('disabled');
             }
         });
+        
+        var addUserQuick = function() {
+            do {
+                var username = prompt("Enter the nickname of the user (please be fussy about the nickname's style of writing):");
+                        
+                if (username == null) {
+                    return;
+                }
+                
+                if (username == "") {
+                    alert("The nickname can't be empty")
+                    addUserQuick();
+                    return;
+                }
+                
+                if (username.length > 16) {
+                    alert("Nicknames can be no longer than 16 chars.");
+                    addUserQuick();
+                    return;
+                }
+                
+                if (username.length < 3) {
+                    alert("Nicknames can be no shorter than 3 chars.");
+                    addUserQuick();
+                    return;
+                }
+            } while (!confirm("Are you sure to add " + username + "?"));
+            
+            $.ajax({
+                url: "restores/add_user",
+                type: "POST",
+                data: {
+                    "username": username
+                },
+                success: function(id) {
+                    $("#RestoreHomeId").prepend("<option value=\"" + id + "\">" + username + "</option>");
+                    $("#RestoreAwayId").prepend("<option value=\"" + id + "\">" + username + "</option>");
+                    
+                    alert(username + " has been succesfully added to the list as the first item.");
+                },
+                error: function() {
+                    alert("Sorry, something went wrong. The webmaster has been informed.");
+                }
+            });
+        }
+        
+        $('#addUserQuick').click(function() {
+            addUserQuick();
+        });
     });
 </script>
 
@@ -162,6 +207,14 @@
             </td>
             <td align="left">
                 <?php echo $this->Form->input('away_id', array('empty' => true)); ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <b>User not in list:</b>
+            </td>
+            <td align="left">
+                <button type="button" id="addUserQuick">Add User</button>
             </td>
         </tr>
         <tr>

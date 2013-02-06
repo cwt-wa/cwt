@@ -78,5 +78,18 @@ class RestoresController extends AppController {
     public function index() {
         $this->set('restores', $restores = $this->paginate());
     }
+    
+    public function add_user() {
+        $this->loadModel('User');
+        
+        $this->User->save(array(
+            'username' => $this->request->data["username"],
+            'stage' => 'retired',
+            'participations' => '1'
+        ));
+        
+        $this->set('response', $this->User->id);
+        $this->render('/Pages/response_empty', 'ajax');
+    }
 
 }
