@@ -2,10 +2,6 @@
 <?php echo $this->Html->script('livevalidation', array('inline' => false)); ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        /*
-         * Live Validation
-         */
-        
         RestoreAdd = {
             ReportedYear: new LiveValidation('RestoreReportedYear'),
             Stage: new LiveValidation('RestoreStage'),
@@ -95,6 +91,55 @@
                 $('#RestoreScoreA').removeAttr('disabled');
             }
         });
+        
+        var addUserQuick = function() {
+            do {
+                var username = prompt("Enter the nickname of the user (please be fussy about the nickname's style of writing):");
+                        
+                if (username == null) {
+                    return;
+                }
+                
+                if (username == "") {
+                    alert("The nickname can't be empty")
+                    addUserQuick();
+                    return;
+                }
+                
+                if (username.length > 16) {
+                    alert("Nicknames can be no longer than 16 chars.");
+                    addUserQuick();
+                    return;
+                }
+                
+                if (username.length < 3) {
+                    alert("Nicknames can be no shorter than 3 chars.");
+                    addUserQuick();
+                    return;
+                }
+            } while (!confirm("Are you sure to add " + username + "?"));
+            
+            $.ajax({
+                url: "restores/add_user",
+                type: "POST",
+                data: {
+                    "username": username
+                },
+                success: function(id) {
+                    $("#RestoreHomeId").prepend("<option value=\"" + id + "\">" + username + "</option>");
+                    $("#RestoreAwayId").prepend("<option value=\"" + id + "\">" + username + "</option>");
+                    
+                    alert(username + " has been succesfully added to the list as the first item.");
+                },
+                error: function() {
+                    alert("Sorry, something went wrong. The webmaster has been informed.");
+                }
+            });
+        }
+        
+        $('#addUserQuick').click(function() {
+            addUserQuick();
+        });
     });
 </script>
 
@@ -110,7 +155,7 @@
         Download<br>the old site
     </a>
 </div>
-<div id="boxFloat" style="background-color:#887059; text-align:center; width:785px; margin-top:10px; height:270px;">
+<div id="boxFloat" style="background-color:#887059; text-align:center; width:785px; margin-top:10px; height:350px;">
     <?php
     echo $this->Form->create('Restore', array(
         'inputDefaults' => array(
@@ -166,6 +211,14 @@
         </tr>
         <tr>
             <td align="right">
+                <b>User not in list:</b>
+            </td>
+            <td align="left">
+                <button type="button" id="addUserQuick">Add User</button>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
                 <b>Score Home:</b>
             </td>
             <td align="left">
@@ -207,8 +260,10 @@
     </table>
     <?php echo $this->Form->end() ?>
 </div>
-<div id="box" style="background-color:#3E3328; text-align:center; margin-left:838px; white-space:nowrap; height:270px;">
+<div id="box" style="background-color:#3E3328; text-align:center; margin-left:838px; white-space:nowrap; height:350px;">
+    <br />
     <span style="font-size:12pt; font-weight:bold;">Number of<br>Added Games</span>
+    <br />
     <br>
     <table align="center">
         <?php foreach ($numberOfAddedGames as $key => $val): ?>
@@ -220,6 +275,7 @@
         <br>
     </table>
     <br>
+    <br />
     Thanks to the<br>submitters!
 </div>
 <div id="box" class="TheIndexPage" style="background-color:#3E3328; text-align:center;">
