@@ -9,8 +9,6 @@
     echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon'));
     echo $this->Html->meta('keywords', 'Crespo\'s Worms Tournament, Worms Armageddon, CWT, Normal No Noobs, NNN, Florian Zemke');
     echo $this->Html->meta('description', 'Crespo\'s Worms Tournament is a yearly hosted tournament of the strategy game "Worms Armageddon". It\'s considered the most prestigious of its kind and has money prizes involved.');
-    echo $this->Html->meta('author', 'Florian Zemke');
-    echo $this->Html->meta('robots', 'all');
 
     echo $this->Html->css('style');
 
