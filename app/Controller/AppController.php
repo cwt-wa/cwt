@@ -54,17 +54,13 @@ class AppController extends Controller {
         $this->Auth->allow('index', 'view');
 
         if ($this->Auth->loggedIn()) {
-            if (empty($this->Auth->user())) {
-                $this->Auth->logout();
-            } else {
-                $this->loadModel('User');
-                $current_user = $this->Auth->user();
-                $current_user['up_menu'] = $this->User->user_menu();
-                $this->set('current_user', $current_user);
+            $this->loadModel('User');
+            $current_user = $this->Auth->user();
+            $current_user['up_menu'] = $this->User->user_menu();
+            $this->set('current_user', $current_user);
 
-                $this->loadModel('Stream');
-                $this->set('up_stream', $this->Stream->checkings());
-            }
+            $this->loadModel('Stream');
+            $this->set('up_stream', $this->Stream->checkings());
         } else {
             $this->applyUserCookie();
             $this->set('up_stream', false);
