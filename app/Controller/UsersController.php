@@ -138,6 +138,11 @@ class UsersController extends AppController {
             			. '): '
             			. $this->User->realIP()
             		);
+                    
+                    // Setting the User Cookie for three months.
+                    $this->Cookie->write(
+                            'User', $this->Auth->user('id'),
+                            true, 60 * 60 * 24 * 30 * 3);
 	                
 	                $this->Session->setFlash('You have been logged in.');
 	                $this->redirect($_GET['referer']);   
@@ -161,6 +166,9 @@ class UsersController extends AppController {
     }
     
     public function logout() {
+        $this->Cookie->delete('User');
+        $this->Cookie->destroy();
+        
     	$this->Session->setFlash('You have been logged out.');
         if($this->Auth->loggedIn()) {
         	$this->redirect($this->Auth->logout());

@@ -7,6 +7,7 @@ class AppController extends Controller {
     public $components = array(
         'RequestHandler',
         'Session',
+        'Cookie',
         'Auth' => array(
             'loginRedirect' => array(
                 'controller' => 'users',
@@ -43,7 +44,7 @@ class AppController extends Controller {
         if ($this->action == 'delete') {
             return false;
         }
-        return true;  
+        return true;
     }
 
     public function beforeFilter() {
@@ -53,21 +54,45 @@ class AppController extends Controller {
         $this->Auth->allow('index', 'view');
 
         if ($this->Auth->loggedIn()) {
-            $this->loadModel('User');
-            $current_user = $this->Auth->user();
-            $current_user['up_menu'] = $this->User->user_menu();
-            $this->set('current_user', $current_user);
+            if (empty($this->Auth->user())) {
+                $this->Auth->logout();
+            } else {
+                $this->loadModel('User');
+                $current_user = $this->Auth->user();
+                $current_user['up_menu'] = $this->User->user_menu();
+                $this->set('current_user', $current_user);
 
-            $this->loadModel('Stream');
-            $this->set('up_stream', $this->Stream->checkings());
+                $this->loadModel('Stream');
+                $this->set('up_stream', $this->Stream->checkings());
+            }
         } else {
+            $this->applyUserCookie();
             $this->set('up_stream', false);
         }
 
         $this->set('logged_in', $this->Auth->loggedIn());
     }
 
-    // Will limit access to the page for non-admins.
+    /**
+     * If there is a User Cookie, its data will be used to log the user in.
+     */
+    public function applyUserCookie() {
+        $userCookie = $this->Cookie->read('User');
+
+        if ($userCookie == null) {
+            return;
+        }
+
+        $this->loadModel('User');
+        $this->User->id = $userCookie;
+        $this->Auth->login($this->User->read());
+    }
+
+    /**
+     * Will limit access to the page for non-admins.
+     * 
+     * @param boolean $bool Whether the mode should be applied or not.
+     */
     public function adminsOnlyMode($bool) {
         if ($bool == false)
             return;
@@ -83,7 +108,11 @@ class AppController extends Controller {
         }
     }
 
-    // Will limit access to the page for non-Zemkes.
+    /**
+     * Will limit access to the page for non-Zemkes.
+     * 
+     * @param boolean $bool Whether the mode should be applied or not. 
+     */
     public function maintenanceMode($bool) {
         if ($bool == false)
             return;
