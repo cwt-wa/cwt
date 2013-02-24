@@ -81,7 +81,8 @@ class AppController extends Controller {
 
         $this->loadModel('User');
         $this->User->id = $userCookie;
-        $this->Auth->login($this->User->read());
+        $user = $this->User->read();
+        $this->Auth->login($this->User->read($user['User']));
     }
 
     /**
