@@ -8,6 +8,7 @@ class AppController extends Controller {
         'RequestHandler',
         'Session',
         'Cookie',
+        'AutoLogin',
         'Auth' => array(
             'loginRedirect' => array(
                 'controller' => 'users',
@@ -16,6 +17,10 @@ class AppController extends Controller {
             'logoutRedirect' => array(
                 'controller' => 'users',
                 'action' => 'logout'
+            ),
+            'loginAction' => array(
+                'controller' => 'users',
+                'action' => 'login'
             ),
             'authError' => 'You don\'t have the required
                     rights to access that page.',
