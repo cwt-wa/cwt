@@ -34,7 +34,8 @@ class StreamsController extends AppController {
 				$stage = $this->Playoff->stepAssoc[$streaming[0]];
 			}
 
-			$home_id = $this->User->read(null, $streaming[1]);
+			$this->loadModel('User');
+            $home_id = $this->User->read(null, $streaming[1]);
 			$away_id = $this->User->read(null, $streaming[2]);			
 
 			$stream['Stream']['streaming'] = array(
