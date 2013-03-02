@@ -4,22 +4,6 @@
             var response = $("#status").load(
                 "/streams/view/<?php echo $stream['Stream']['id'] ?> #status"                                
             );
-                
-            console.log(response.html());
-            
-//            $.ajax({
-//                url: "/streams/view/<?php echo $stream['Stream']['id'] ?>?"+Math.floor((Math.random()*100)+1),
-//                type: "GET",
-//                cache: false,
-//                success: function(response) {
-//                    response = $("body").html();
-//                    var status = $(response).find("#box.status").html();
-//                    
-//                    console.log(status);
-//                    
-//                    $("#box.status").html(status);
-//                }
-//            });
         }
         
         setInterval(refreshStatus, 5000);
