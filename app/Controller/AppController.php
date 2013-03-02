@@ -62,7 +62,7 @@ class AppController extends Controller {
             $this->loadModel('Stream');
             $this->set('up_stream', $this->Stream->checkings());
         } else {
-            $this->applyUserCookie();
+//            $this->applyUserCookie();
             $this->set('up_stream', false);
         }
 
