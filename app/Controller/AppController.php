@@ -8,6 +8,7 @@ class AppController extends Controller {
         'RequestHandler',
         'Session',
         'Cookie',
+        'DebugKit.Toolbar',
         'AutoLogin',
         'Auth' => array(
             'loginRedirect' => array(
@@ -67,7 +68,7 @@ class AppController extends Controller {
             $this->loadModel('Stream');
             $this->set('up_stream', $this->Stream->checkings());
         } else {
-//            $this->applyUserCookie();
+            $this->applyUserCookie();
             $this->set('up_stream', false);
         }
 
@@ -78,21 +79,20 @@ class AppController extends Controller {
      * If there is a User Cookie, its data will be used to log the user in.
      */
     public function applyUserCookie() {
-        $userCookie = $this->Cookie->read('User');
+        $userIdFromCookie = $this->Cookie->read('User');
 
-        if ($userCookie == null) {
+        if ($userIdFromCookie == null) {
             return;
         }
 
         $this->loadModel('User');
-        $this->User->id = $userCookie;
-        $user = $this->User->read();
-        $this->Auth->login($this->User->read($user['User']));
+        $user = $this->User->findById($userIdFromCookie);
+        $this->Auth->login($user['User']);
     }
 
     /**
      * Will limit access to the page for non-admins.
-     * 
+     *
      * @param boolean $bool Whether the mode should be applied or not.
      */
     public function adminsOnlyMode($bool) {
@@ -112,8 +112,8 @@ class AppController extends Controller {
 
     /**
      * Will limit access to the page for non-Zemkes.
-     * 
-     * @param boolean $bool Whether the mode should be applied or not. 
+     *
+     * @param boolean $bool Whether the mode should be applied or not.
      */
     public function maintenanceMode($bool) {
         if ($bool == false)
