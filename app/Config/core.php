@@ -173,8 +173,7 @@
  *
  */
 	Configure::write('Session', array(
-		'defaults' => 'php',
-        'timeout' => 60 * 60 * 60 * 24 * 30 * 3 // 3 months
+		'defaults' => 'php'
 	));
 
 /**
