@@ -54,6 +54,7 @@ class AppController extends Controller {
     }
 
     public function beforeFilter() {
+        $this->Cookie->type('rijndael');
         $this->adminsOnlyMode(false);
         $this->maintenanceMode(false);
 
