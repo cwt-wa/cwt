@@ -55,40 +55,30 @@ class AppController extends Controller {
 
     public function beforeFilter() {
         $this->Cookie->type('rijndael');
+
         $this->adminsOnlyMode(false);
         $this->maintenanceMode(false);
 
+        $this->loadModel('User');
+        $this->loadModel('Stream');
+
         $this->Auth->allow('index', 'view');
 
-        if ($this->Auth->loggedIn()) {
-            $this->loadModel('User');
-            $current_user = $this->Auth->user();
-            $current_user['up_menu'] = $this->User->user_menu();
-            $this->set('current_user', $current_user);
+        if (!$this->Auth->loggedIn()) {
+            $userIdFromCookie = $this->Cookie->read('User');
 
-            $this->loadModel('Stream');
-            $this->set('up_stream', $this->Stream->checkings());
-        } else {
-            $this->applyUserCookie();
-            $this->set('up_stream', false);
+            if ($userIdFromCookie != null) {
+                $user = $this->User->findById($userIdFromCookie);
+                $this->Auth->login($user['User']);
+            }
         }
 
+        $current_user = $this->Auth->user();
+        $current_user['up_menu'] = $this->User->user_menu();
+        $this->set('current_user', $current_user);
+        // $this->set('up_stream', $this->Stream->checkings());
+        $this->set('up_stream', false);
         $this->set('logged_in', $this->Auth->loggedIn());
-    }
-
-    /**
-     * If there is a User Cookie, its data will be used to log the user in.
-     */
-    public function applyUserCookie() {
-        $userIdFromCookie = $this->Cookie->read('User');
-
-        if ($userIdFromCookie == null) {
-            return;
-        }
-
-        $this->loadModel('User');
-        $user = $this->User->findById($userIdFromCookie);
-        $this->Auth->login($user['User']);
     }
 
     /**
