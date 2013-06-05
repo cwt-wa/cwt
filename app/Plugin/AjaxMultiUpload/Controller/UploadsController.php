@@ -9,7 +9,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  *                and/or GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html)
  */
- 
+
 class UploadsController extends AjaxMultiUploadAppController {
 
 	public $name = "Upload";
@@ -36,7 +36,7 @@ class UploadsController extends AjaxMultiUploadAppController {
                 $this->layout = "ajax";
 	        Configure::write('debug', 0);
 		$directory = WWW_ROOT . DS . $relPath;
- 
+
 		if ($dir === null) {
 			$this->set("result", "{\"error\":\"Upload controller was passed a null value.\"}");
 			return;
@@ -47,7 +47,7 @@ class UploadsController extends AjaxMultiUploadAppController {
 		if (!file_exists($dir)) {
 			mkdir($dir, 0777, true);
 		}
-		$uploader = new qqFileUploader($this->allowedExtensions, 
+		$uploader = new qqFileUploader($this->allowedExtensions,
 			$sizeLimit);
 		$result = $uploader->handleUpload($dir);
 		$this->set("result", htmlspecialchars(json_encode($result), ENT_NOQUOTES));
@@ -68,18 +68,16 @@ class UploadsController extends AjaxMultiUploadAppController {
 		$file = base64_decode($file);
 		if(file_exists($file)) {
 			if(unlink($file)) {
-				$this->Session->setFlash(__('File deleted!'));				
+				$this->Session->setFlash(__('File deleted!'));
 			} else {
 				$this->Session->setFlash(__('Unable to delete File'),
-					'default', array('class' => 'error'));					
+					'default', array('class' => 'error'));
 			}
 		} else {
 			$this->Session->setFlash(__('File does not exist!'),
-				'default', array('class' => 'error'));					
+				'default', array('class' => 'error'));
 		}
-		
-		$this->redirect($this->referer());	
+
+		$this->redirect($this->referer());
 	}
 }
-
-?>

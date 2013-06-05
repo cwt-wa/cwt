@@ -12,4 +12,3 @@
 
  	Configure::write ('AMU.directory', 'files/fms');
 	Configure::write ('AMU.filesizeMB', '2');
-?>
