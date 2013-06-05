@@ -9,8 +9,8 @@ class UsersController extends AppController {
     	'limit' => 30,
     	'order' => 'User.participations DESC'
     );
- 
-    
+
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(
@@ -41,7 +41,7 @@ class UsersController extends AppController {
     		// Timeline update.
     		$timeline = $this->User->timeline($key);
     		$shortened = array_slice($timeline, 0, 10);
-    		$final = implode('', $shortened);		
+    		$final = implode('', $shortened);
     		debug($final);
 
     		// Participations update.
@@ -61,17 +61,17 @@ class UsersController extends AppController {
 
     	$this->layout = false;
     }
-    
+
 
     public function index() {
 		$this->User->recursive = 0;
-		
+
 		if($this->Auth->loggedIn()) {
-			$users = $this->paginate();	
+			$users = $this->paginate();
 		} else {
 			$users = $this->paginate(array(
 				'Profile.hideProfile' => false
-			));	
+			));
 		}
 
 		/*
@@ -111,6 +111,7 @@ class UsersController extends AppController {
     		'admin' => false
     	));
 
+
     	debug($this->Auth->user());
 
     	$user = $this->User->read();
@@ -123,7 +124,7 @@ class UsersController extends AppController {
         if (!isset($_GET['referer'])) {
             $_GET['referer'] = '/';
         }
-        
+
         if($this->request->is('post')) {
             unset($this->User->validate);
             $user = $this->User->update($this->request->data['User']);
@@ -138,20 +139,20 @@ class UsersController extends AppController {
             			. '): '
             			. $this->User->realIP()
             		);
-                    
+
                     // Setting the User Cookie for three months.
                     $this->Cookie->write(
                             'User', $this->Auth->user('id'),
                             true, 60 * 60 * 24 * 30 * 3);
-	                
+
 	                $this->Session->setFlash('You have been logged in.');
-	                $this->redirect($_GET['referer']);   
+	                $this->redirect($_GET['referer']);
 	            } else {
 	                $this->Session->setFlash(
-	                	'Login failed.', 
-	                	'default', 
+	                	'Login failed.',
+	                	'default',
 	                	array('class' => 'error')
-	                );                                
+	                );
 	            }
             } else {
             	$this->Session->setFlash(
@@ -161,14 +162,14 @@ class UsersController extends AppController {
             	);
             }
         }
-        
+
         $this->set('referer', $_GET['referer']);
     }
-    
+
     public function logout() {
         $this->Cookie->delete('User');
         $this->Cookie->destroy();
-        
+
     	$this->Session->setFlash('You have been logged out.');
         if($this->Auth->loggedIn()) {
         	$this->redirect($this->Auth->logout());
@@ -177,7 +178,7 @@ class UsersController extends AppController {
     }
 
 
-    public function timeline($id) {   	
+    public function timeline($id) {
 		$timeline = $this->User->timeline($id);
         if ($this->request->is('requested')) {
             return $timeline;
@@ -205,7 +206,7 @@ class UsersController extends AppController {
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
 		}
-		
+
 		$user = $this->User->read(null, $id);
 
 		if($user['Profile']['hideProfile'] && !$this->Auth->loggedIn()) {
@@ -229,7 +230,7 @@ class UsersController extends AppController {
 				$this->request->data['User']['captcha'],
 				$this->request->data['User']['result']
 			);
-			
+
 			if($this->Captcha->validate($captcha_validation)) {
 				$this->request->data['User']['timeline'] = '0000000000';
 
@@ -243,8 +244,8 @@ class UsersController extends AppController {
 			        $this->Auth->login($user);
 			        CakeLog::write('login',
 			        	$this->Auth->user('username')
-			        	. ' (#' . $this->Auth->user('id') 
-			        	. '): ' . $this->User->realIP() . "\r\n"); 
+			        	. ' (#' . $this->Auth->user('id')
+			        	. '): ' . $this->User->realIP() . "\r\n");
 
 					$this->Session->setFlash(
 						'Welcome to Crespo’s Worms Tournament, '
@@ -254,11 +255,11 @@ class UsersController extends AppController {
 					$errors = $this->User->invalidFields();
 					foreach($errors as $key => $val) {
 						$this->Session->setFlash(
-							$errors[$key][0], 
-							'default', 
+							$errors[$key][0],
+							'default',
 							array('class' => 'error'));
 						break;
-					}	
+					}
 				}
 			} else {
 				$this->Session->setFlash(
