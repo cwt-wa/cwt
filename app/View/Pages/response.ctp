@@ -4,7 +4,7 @@
  * This is a page used for AJAX responses on form submission.
  */
 
-if (isset($failed) && $failed != false) {
+if ($failed == true) {
     echo '<span class=" LV_validation_message LV_invalid">';
 } else {
     echo '<span class=" LV_validation_message LV_valid">';
