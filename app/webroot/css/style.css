@@ -141,6 +141,8 @@ html, body {
     text-align: right;
     white-space: nowrap;
     min-width: 120px;
+    position: relative;
+    z-index: 99;
 }
 
 .item_user {
