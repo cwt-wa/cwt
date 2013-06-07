@@ -1,5 +1,5 @@
 <div id="box" style="border:none; box-shadow:none; text-align:center; color:black; width:300px;">
-	<?php 
+	<?php
 		echo $this->Form->create('User', array(
 			'inputDefaults' => array(
 				'label' => false,
@@ -11,13 +11,18 @@
 	?>
 		<fieldset>
 	 		<legend>Login</legend>
-		
+
 		Username:<br>
 		<?php echo $this->Form->input('username'); ?><br><br>
-		
+
 		Password:<br>
 		<?php echo $this->Form->input('password'); ?><br>
 		</fieldset>
 		<br>
 	<?php echo $this->Form->end('Log in');?>
+    <br/><br/>
+
+    <?php
+    echo $this->Html->link('Password forgotten?', '/users/password_forgotten');
+    ?>
 </div>

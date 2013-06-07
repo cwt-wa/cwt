@@ -14,7 +14,7 @@ class UsersController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(
-                'add', 'logout', 'timeline', 'password', 'foreign', 'resetPW');
+                'add', 'logout', 'timeline', 'password', 'foreign', 'resetPW', 'password_forgotten');
     }
 
 
@@ -177,6 +177,53 @@ class UsersController extends AppController {
         $this->redirect('/');
     }
 
+    public function password_forgotten() {
+        if ($this->request->is('post')) {
+            $user = $this->User->findById($this->request->data['User']['userWhoForgot']);
+            $this->User->id = $user['User']['id'];
+
+            if (empty($user['Profile']['email'])) {
+                $response = 'You\'ve never provided an email address, '
+                    . 'hence we can\'t send you a new password. Please reach out to us. '
+                    . ' <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
+                $responsePositive = false;
+            } else {
+                $response ='A new password was sent to ' . $user['Profile']['email']
+                    . '. Not your email address? - Please reach out to us. '
+                    . '<a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
+                $responsePositive = true;
+
+                $newPassword = $this->User->randomPassword();
+
+                $this->User->save(array(
+                    'password' => $newPassword
+                ), false); // No validation needed.
+
+                App::uses('CakeEmail', 'Network/Email');
+
+                $Email = new CakeEmail();
+                $Email->from(array('support@cwtsite.com' => 'CWT Support'));
+                $Email->to($user['Profile']['email']);
+                $Email->subject('Password Recovery');
+
+                $emailMsg = "Hey " . $user['User']['username'] . ",\n\n"
+                        . "you have requested a new password and here it is:\n\n"
+                        . $newPassword . "\n\n"
+                        . "Please change the password right after your login.\n\n"
+                        . "Sincerely,\nThe CWT Admin Team";
+
+                $Email->send($emailMsg);
+            }
+
+            if ($responsePositive) {
+                $this->Session->setFlash($response);
+            } else {
+                $this->Session->setFlash($response, 'default', array('class' => 'error'));
+            }
+        }
+
+        $this->set('userWhoForgots', $this->User->find('list'));
+    }
 
     public function timeline($id) {
 		$timeline = $this->User->timeline($id);

@@ -6,7 +6,7 @@ html, body {
     height: 100%;
     padding: 0px;
     margin: 0px;
-    background: url('/img/background.jpg');  
+    background: url('/img/background.jpg');
     overflow-x: hidden;
 }
 
@@ -169,7 +169,7 @@ html, body {
     padding: 10px 0px;
     border: 1px solid #3F3429;
     border-top: none;
-    box-shadow: 4px 4px 3px #C4C4C4;    
+    box-shadow: 4px 4px 3px #C4C4C4;
 }
 
 .gu_item a {
@@ -217,25 +217,25 @@ html, body {
 
 #adminNews {
     text-align: center;
-    position: relative; 
+    position: relative;
     font-family: Arial;
-    font-size: 8pt; 
-    margin: -30px 0px 0px 770px; 
+    font-size: 8pt;
+    margin: -30px 0px 0px 770px;
     border: 1px solid #C4C4C4;
     background-color: #2E2E2E;
     padding: 2px;
 }
 
 #dblButton {
-    width: 30px; 
-    height: 20px; 
+    width: 30px;
+    height: 20px;
     text-align: center;
     margin: 0px auto;
     white-space: nowrap;
 }
 
 .dblButtonBasic, .dblButtonTrue {
-    display: inline-block; 
+    display: inline-block;
     padding: 0px;
     margin: 0px;
     width: 15px;
@@ -245,7 +245,7 @@ html, body {
 }
 
 .dblButtonFalse {
-    display: inline-block; 
+    display: inline-block;
     padding: 0px;
     margin: 0px;
     width: 15px;
@@ -350,7 +350,7 @@ a:active {
 
 ul {
     list-style: square;
-} 
+}
 
 /* Messages */
 
