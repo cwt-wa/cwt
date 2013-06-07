@@ -89,6 +89,10 @@ class UsersController extends AppController {
 			$year++;
 		}
 
+        if ($achievements == null) {
+            $achievements = array();
+        }
+
 		$this->set('achievements', $achievements);
 		$this->set('users', $users);
 	}
