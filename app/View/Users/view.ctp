@@ -5,13 +5,13 @@
 	});
 </script>
 
-<?php 
+<?php
 	$this->Html->css('profiles', null, array('inline'=>false));
 	echo $this->element('timeline', array('user' => $user['User']['id']));
 ?>
 
 <div id="boxFloat" style="width:500px; padding:0px; border:none; box-shadow:none; text-align:center;">
-	<?php 
+	<?php
 		echo $this->Html->image('users/' . $photo, array(
 			'style' => 'height:auto; max-width:500px; border:1px solid #C4C4C4; padding:0px; box-shadow:4px 4px 3px #C4C4C4;'
 		));
@@ -46,8 +46,8 @@
 			<p>Clan:<br><b><?php echo $user['Profile']['clan'] ?></b></p>
 		<?php endif; ?>
 
-		<?php if($user['Profile']['msn']): ?>
-			<p>MSN:<br><b><?php echo $user['Profile']['msn'] ?></b></p>
+		<?php if($user['Profile']['skype']): ?>
+			<p>Skype:<br><b><?php echo $user['Profile']['skype'] ?></b></p>
 		<?php endif; ?>
 
 		<?php if($user['Profile']['icq']): ?>
@@ -62,42 +62,54 @@
 		<?php if($user['Profile']['facebook'] || $user['Profile']['googlep'] || $user['Profile']['twitter']): ?>
 			<p>
 				Social:<br>
-				<?php if($user['Profile']['facebook']): ?>
-					<?php 
-						echo $this->Html->link($this->Html->image('contact/facebook.PNG'),
-							$user['Profile']['facebook'], array(
-							 	'alt' => $user['Profile']['facebook'],
-							 	'title' => $user['Profile']['facebook'],
-							 	'escape' => false,
-							 	'target' => '_blank'
-							)
-						)
-					?>
-				<?php endif; ?>
-				<?php if($user['Profile']['googlep']): ?>
-					<?php 
-						echo $this->Html->link($this->Html->image('contact/googlep.PNG'),
-							$user['Profile']['googlep'], array(
-							 	'alt' => $user['Profile']['googlep'],
-							 	'title' => $user['Profile']['googlep'],
-							 	'escape' => false,
-							 	'target' => '_blank'
-							)
-						)
-					?>
-				<?php endif; ?>
-				<?php if($user['Profile']['twitter']): ?>
-					<?php 
-						echo $this->Html->link($this->Html->image('contact/twitter.PNG'),
-							$user['Profile']['twitter'], array(
-							 	'alt' => $user['Profile']['twitter'],
-							 	'title' => $user['Profile']['twitter'],
-							 	'escape' => false,
-							 	'target' => '_blank'
-							)
-						)
-					?>
-				<?php endif; ?>
+                <?php if($user['Profile']['facebook']): ?>
+                    <?php
+                    echo $this->Html->link(
+                        $this->Html->image('contact/facebook.png', array(
+                            'height' => 14,
+                            'width' => 14
+                        )),
+                        $user['Profile']['facebook'], array(
+                            'alt' => $user['Profile']['facebook'],
+                            'title' => $user['Profile']['facebook'],
+                            'escape' => false,
+                            'target' => '_blank'
+                        )
+                    )
+                    ?>
+                <?php endif; ?>
+                <?php if($user['Profile']['googlep']): ?>
+                    <?php
+                    echo $this->Html->link(
+                        $this->Html->image('contact/googlep.png', array(
+                            'height' => 14,
+                            'width' => 14
+                        )),
+                        $user['Profile']['googlep'], array(
+                            'alt' => $user['Profile']['googlep'],
+                            'title' => $user['Profile']['googlep'],
+                            'escape' => false,
+                            'target' => '_blank'
+                        )
+                    )
+                    ?>
+                <?php endif; ?>
+                <?php if($user['Profile']['twitter']): ?>
+                    <?php
+                    echo $this->Html->link(
+                        $this->Html->image('contact/twitter.png', array(
+                            'height' => 14,
+                            'width' => 14
+                        )),
+                        $user['Profile']['twitter'], array(
+                            'alt' => $user['Profile']['twitter'],
+                            'title' => $user['Profile']['twitter'],
+                            'escape' => false,
+                            'target' => '_blank'
+                        )
+                    )
+                    ?>
+                <?php endif; ?>
 			</p>
 		<?php endif; ?>
 	</div>

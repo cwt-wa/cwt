@@ -29,7 +29,7 @@
 		<?php foreach($users as $user): ?>
 			<tr>
 		        <td style="border-bottom:1px solid #2E2E2E" align="center">
-		            <?php 
+		            <?php
                         echo $this->Html->image('flags/' . str_replace(' ', '_', strtolower($user['Profile']['country'])) . '.png', array(
                         	'alt' => $user['Profile']['country'],
                         	'title' => $user['Profile']['country']
@@ -40,20 +40,20 @@
 		            <?php echo $user['Profile']['clan'] ?>
 		        </td>
 		        <td style="border-bottom:1px solid #2E2E2E" align="left">
-		            <?php 
-                        echo $this->Html->link($user['User']['username'], 
+		            <?php
+                        echo $this->Html->link($user['User']['username'],
                             '/users/view/' . $user['User']['id'],
                             array(
                                 'style' => 'color:white;'
-                        )); 
+                        ));
                     ?>
 		        </td>
 		         <td style="border-bottom:1px solid #2E2E2E" align="center">
 		         	<?php echo $user['User']['participations']; ?>
 		         </td>
 		        <td style="border-bottom:1px solid #2E2E2E" align="center">
-		            <?php 
-		            	foreach($achievements as $key => $val) {		            	
+		            <?php
+		            	foreach($achievements as $key => $val) {
 		            		if($val['gold'] == $user['User']['id']) {
 		            			echo $this->Html->image('medals/' . array_search($val['gold'], $val) . '.gif', array(
 			            				'alt' => $key,
@@ -75,17 +75,21 @@
 			            				'style' => 'height:15px; width:auto;'
 			            			)
 			            		) . '&nbsp;';
-		            		} 	            	
+		            		}
 		        		}
 		        	?>
 		        </td>
 		        <td style="border-bottom:1px solid #2E2E2E" align="center">
-		            <?php if($user['Profile']['msn']): ?>
-		            	<?php 
-		            		echo $this->Html->link($this->Html->image('contact/msn.PNG'),
-		            			'http://members.msn.com/' . $user['Profile']['msn'], array(
-								 	'alt' => $user['Profile']['msn'],
-								 	'title' => $user['Profile']['msn'],
+		            <?php if($user['Profile']['skype']): ?>
+		            	<?php
+		            		echo $this->Html->link(
+                                $this->Html->image('contact/skype.jpg', array(
+                                    'height' => 14,
+                                    'width' => 14
+                                )),
+		            			'http://myskype.info/' . $user['Profile']['skype'], array(
+								 	'alt' => $user['Profile']['skype'],
+								 	'title' => $user['Profile']['skype'],
 								 	'escape' => false,
 								 	'target' => '_blank'
 		            			)
@@ -93,8 +97,12 @@
 		            	?>
 		            <?php endif; ?>
 		            <?php if($user['Profile']['icq']): ?>
-		            	<?php 
-		            		echo $this->Html->link($this->Html->image('contact/icq.PNG'),
+		            	<?php
+		            		echo $this->Html->link(
+                                $this->Html->image('contact/icq.png', array(
+                                    'height' => 14,
+                                    'width' => 14
+                                )),
 		            			'http://icq.com/people/' . $user['Profile']['icq'], array(
 								 	'alt' => $user['Profile']['icq'],
 								 	'title' => $user['Profile']['icq'],
@@ -105,8 +113,12 @@
 		            	?>
 		            <?php endif; ?>
 		            <?php if($user['Profile']['email']): ?>
-		            	<?php 
-		            		echo $this->Html->link($this->Html->image('contact/email.PNG'),
+		            	<?php
+		            		echo $this->Html->link(
+                                $this->Html->image('contact/email.png', array(
+                                    'height' => 14,
+                                    'width' => 14
+                                )),
 		            			'mailto:' . $user['Profile']['email'], array(
 								 	'alt' => $user['Profile']['email'],
 								 	'title' => $user['Profile']['email'],
@@ -116,8 +128,12 @@
 		            	?>
 		            <?php endif; ?>
 		            <?php if($user['Profile']['facebook']): ?>
-		            	<?php 
-		            		echo $this->Html->link($this->Html->image('contact/facebook.PNG'),
+		            	<?php
+		            		echo $this->Html->link(
+                                $this->Html->image('contact/facebook.png', array(
+                                    'height' => 14,
+                                    'width' => 14
+                                )),
 		            			$user['Profile']['facebook'], array(
 								 	'alt' => $user['Profile']['facebook'],
 								 	'title' => $user['Profile']['facebook'],
@@ -128,8 +144,12 @@
 		            	?>
 		            <?php endif; ?>
 		            <?php if($user['Profile']['googlep']): ?>
-		            	<?php 
-		            		echo $this->Html->link($this->Html->image('contact/googlep.PNG'),
+		            	<?php
+		            		echo $this->Html->link(
+                                $this->Html->image('contact/googlep.png', array(
+                                    'height' => 14,
+                                    'width' => 14
+                                )),
 		            			$user['Profile']['googlep'], array(
 								 	'alt' => $user['Profile']['googlep'],
 								 	'title' => $user['Profile']['googlep'],
@@ -140,8 +160,12 @@
 		            	?>
 		            <?php endif; ?>
 		            <?php if($user['Profile']['twitter']): ?>
-		            	<?php 
-		            		echo $this->Html->link($this->Html->image('contact/twitter.PNG'),
+		            	<?php
+		            		echo $this->Html->link(
+                                $this->Html->image('contact/twitter.png', array(
+                                    'height' => 14,
+                                    'width' => 14
+                                )),
 		            			$user['Profile']['twitter'], array(
 								 	'alt' => $user['Profile']['twitter'],
 								 	'title' => $user['Profile']['twitter'],

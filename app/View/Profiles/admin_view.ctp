@@ -31,9 +31,9 @@
 			<?php echo h($profile['Profile']['email']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Msn'); ?></dt>
+		<dt><?php echo __('skype'); ?></dt>
 		<dd>
-			<?php echo h($profile['Profile']['msn']); ?>
+			<?php echo h($profile['Profile']['skype']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Icq'); ?></dt>
