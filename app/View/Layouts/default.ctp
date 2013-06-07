@@ -42,16 +42,16 @@
 		text-align: center;
 	}
 </style>
-<body>    
-<div id="wrapper">    
-    <div id="topbar">        
+<body>
+<div id="wrapper">
+    <div id="topbar">
     </div>
-    <div id="container">        
+    <div id="container">
         <div id="time">
         	<script language="JavaScript">displayTime();</script> GMT
         </div>
         <div id="user">
-        	<?php if($logged_in): ?>            		            
+        	<?php if($logged_in): ?>
 		    <div id="userpanel">
 	        	<?php if($current_user['up_menu'] == 'apply'): // Ready to apply. ?>
 	        		<div id="menu_user">
@@ -60,21 +60,21 @@
 		        				'/rules/view/apply/',
 		        				array('escape' => false));
 		        		?>
-	        		</div>		
+	        		</div>
 	        	<?php elseif($current_user['up_menu'] == 'report'): // Ready to report a game. ?>
 					<div id="menu_user" style="width:120px !important;">
 						<div id="up_report" class="item_user">
-				    		Report a Game		    		
+				    		Report a Game
 				    	</div>
-				    	<div id="report" class="open_item_user" style="width:350px; margin-right:-120px;">			    		
+				    	<div id="report" class="open_item_user" style="width:350px; margin-right:-120px;">
 				    	</div>
-					</div>	
+					</div>
 	        	<?php endif; ?>
 	        	<?php if($up_stream != false): ?>
 		    		<div id="menu_user">
 		    			<div id="up_stream" class="item_user">
 				    		<?php echo $up_stream['maintainer']['title'] ?>
-				    	</div>		    	
+				    	</div>
 				    	<div id="stream" class="open_item_user">
 				    		<div class="gu_item">
 				    			<?php echo $this->Html->link('Schedule Stream',
@@ -101,7 +101,7 @@
 		    	<div id="menu_user">
 		    		<div id="up_user" class="item_user">
 			    		<?php echo $current_user['username'] ?>
-			    	</div>		    	
+			    	</div>
 			    	<div id="generaluser" class="open_item_user">
 			    		<div class="gu_item" id="editprofile">
 			    			<?php echo $this->Html->link('Edit profile',
@@ -149,12 +149,12 @@
 		            echo $this->Form->end(array('label'=>'Log in', 'div'=>false, 'style'=>'width:80px'));
 		            echo '&nbsp|&nbsp';
 		            echo $this->Html->link($this->Form->button('Register', array('style'=>'display:inline; width:80px')),
-		            	'/users/add', array('escape' => false));		         
-	        endif; ?> 
-        </div>  
+		            	'/users/add', array('escape' => false));
+	        endif; ?>
+        </div>
 
         <div id="banner">
-        	<?php 
+        	<?php
         		echo $this->Html->link($this->Html->image('logo.png'),
         			'/',
         			array('escape'=>false));
@@ -178,36 +178,36 @@
         	<?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape'=>false)); ?>
         	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', 'http://www.facebook.com/CresposWormsTournament', array('escape'=>false, 'target'=>'_blank')); ?>
         	<?php echo $this->Html->link('<div class="popcorn_item">' . $this->Html->image('popcorn.png') . '</div>', '/streams', array('escape'=>false)); ?>
-        </div>   
-            
+        </div>
+
         <div id="content">
 	        <?php echo $this->Session->flash(); ?>
 	        <?php echo $this->Session->flash('auth'); ?>
-	    
+
 	    	<?php echo $content_for_layout; ?>
         </div>
     </div>
-    <div id="push">   		
+    <div id="push">
    	</div>
 </div>
 	<div id="footer">
-		<div id="copyright"> 
+		<div id="copyright">
    			<b>Crespo’s Worms Tournament 2012</b> by Joschi, Kayz and Zemke
    		</div>
    		<div id="pages">
    			<?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>
    			&bull;
    			<?php echo $this->Html->link('Rules', '/rules/view', array('class' => 'plainer')) ?>
-   			&bull; 
+   			&bull;
    			<?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
-   			&bull; 
+   			&bull;
    			<?php echo $this->Html->link('Replays', '/tournaments/download/replays', array('class' => 'plainer')) ?>
-   			&bull;  
+   			&bull;
    			<?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
-   			&bull; 
+   			&bull;
    			<?php echo $this->Html->link('TUS', 'http://www.tus-wa.com', array('target' => '_blank', 'class' => 'plainer')) ?>
-   			&bull; 
-   			<?php echo $this->Html->link('Forum', 'http://www.cwt.boards.net', array('target' => '_blank', 'class' => 'plainer')) ?>
+   			&bull;
+   			<?php echo $this->Html->link('Forum', 'http://www.normalnonoobs.com/forum/viewforum.php?f=24', array('target' => '_blank', 'class' => 'plainer')) ?>
    		</div>
 	</div>
 <?php echo $this->Js->writeBuffer(); // Write cached scripts ?>
