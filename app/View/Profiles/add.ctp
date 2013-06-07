@@ -7,7 +7,7 @@
 		echo $this->Form->input('country');
 		echo $this->Form->input('clan');
 		echo $this->Form->input('email');
-		echo $this->Form->input('msn');
+		echo $this->Form->input('skype');
 		echo $this->Form->input('icq');
 		echo $this->Form->input('facebook');
 		echo $this->Form->input('twitter');

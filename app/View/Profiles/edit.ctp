@@ -10,7 +10,7 @@
 ?>
 	<fieldset>
 		<legend><b>General</b></legend>
-		
+
 		<table>
 			<tr>
 				<td style="padding:10px 180px 0px 40px">
@@ -28,11 +28,11 @@
 					<?php echo $this->Form->input('User.username'); ?>
 				</td>
 				<td style="padding-left:30px">
-					<?php 
+					<?php
 						echo $this->Form->select('country', $country, array(
 							'empty' => false,
 							'style' => 'width:167px; text-align:center; margin-left:-4px;'
-						)); 
+						));
 					?>
 				</td>
 				<td style="padding-left:30px">
@@ -44,14 +44,14 @@
 	<br>
 	<fieldset>
 		<legend><b>Contact</b></legend>
-	
+
 		<table>
 			<tr>
 				<td style="padding:10px 180px 0px 40px">
 					Email:
 				</td>
-				<td style="padding:10px 180px 0px 50px">
-					MSN:
+				<td style="padding:10px 180px 0px 55px">
+					Skype:
 				</td>
 				<td style="padding:10px 180px 0px 50px">
 					ICQ:
@@ -61,8 +61,8 @@
 				<td style="padding-left:40px">
 					<?php echo $this->Form->input('email'); ?>
 				</td>
-				<td style="padding-left:50px">
-					<?php echo $this->Form->input('msn'); ?>
+				<td style="padding-left:55px">
+					<?php echo $this->Form->input('skype'); ?>
 				</td>
 				<td style="padding-left:50px">
 					<?php echo $this->Form->input('icq'); ?>
@@ -73,7 +73,7 @@
 	<br>
 	<fieldset>
 		<legend><b>Social</b></legend>
-	
+
 		<table>
 			<tr>
 				<td style="padding:10px 180px 0px 40px">

@@ -8,7 +8,7 @@
 			<th><?php echo $this->Paginator->sort('country');?></th>
 			<th><?php echo $this->Paginator->sort('clan');?></th>
 			<th><?php echo $this->Paginator->sort('email');?></th>
-			<th><?php echo $this->Paginator->sort('msn');?></th>
+			<th><?php echo $this->Paginator->sort('skype');?></th>
 			<th><?php echo $this->Paginator->sort('icq');?></th>
 			<th><?php echo $this->Paginator->sort('facebook');?></th>
 			<th><?php echo $this->Paginator->sort('twitter');?></th>
@@ -28,7 +28,7 @@
 		<td><?php echo h($profile['Profile']['country']); ?>&nbsp;</td>
 		<td><?php echo h($profile['Profile']['clan']); ?>&nbsp;</td>
 		<td><?php echo h($profile['Profile']['email']); ?>&nbsp;</td>
-		<td><?php echo h($profile['Profile']['msn']); ?>&nbsp;</td>
+		<td><?php echo h($profile['Profile']['skype']); ?>&nbsp;</td>
 		<td><?php echo h($profile['Profile']['icq']); ?>&nbsp;</td>
 		<td><?php echo h($profile['Profile']['facebook']); ?>&nbsp;</td>
 		<td><?php echo h($profile['Profile']['twitter']); ?>&nbsp;</td>
