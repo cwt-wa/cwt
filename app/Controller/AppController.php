@@ -79,6 +79,7 @@ class AppController extends Controller {
         // $this->set('up_stream', $this->Stream->checkings());
         $this->set('up_stream', false);
         $this->set('logged_in', $this->Auth->loggedIn());
+        $this->set('copyrightString', $this->User->genCopyrightString());
     }
 
     /**

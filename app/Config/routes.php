@@ -30,15 +30,21 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-	
+
 /**
  * /restore leads to a page where games of past CWTs can be added to restore the archive.
  */
- 
+
 	Router::connect('/restore', array('controller' => 'restores', 'action' => 'add'));
 
 /**
- * Load all plugin routes.  See the CakePlugin documentation on 
+ * /archive Yes, it's CWT's awesome archive..
+ */
+
+Router::connect('/archive', array('controller' => 'tournaments', 'action' => 'index'));
+
+/**
+ * Load all plugin routes.  See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
 	CakePlugin::routes();
