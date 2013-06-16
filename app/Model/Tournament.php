@@ -11,10 +11,6 @@ class Tournament extends AppModel {
             'className' => 'User',
             'foreignKey' => 'host_id'
         ),
-        'Helpers' => array(
-            'className' => 'User',
-            'foreignKey' => 'helpers_id'
-        ),
         'Gold' => array(
             'className' => 'User',
             'foreignKey' => 'gold_id'
@@ -28,20 +24,54 @@ class Tournament extends AppModel {
             'foreignKey' => 'bronze_id'
         )
     );
-    public $hasMany = array(
-        'Restore' => array(
-            'className' => 'Restore',
-            'foreignKey' => 'tournament_id'
+    public $hasAndBelongsToMany = array(
+        'Moderators' => array(
+            'className' => 'User',
+            'joinTable' => 'tournaments_moderators',
+            'foreignKey' => 'tournament_id',
+            'associationForeignKey' => 'moderator_id',
+            'unique' => 'keepExisting'
         )
     );
 
-    // Returns whole row of the most recent tourney.
-    public function info() {
-        $row = $this->find('first', array(
-            'limit' => 1,
-            'order' => array('Tournament.id' => 'desc')
-                ));
-        return $row['Tournament'];
+    /**
+     * The tournament is open for people to apply for participation. That's the default status.
+     */
+    const PENDING = 1;
+    /**
+     * Applied people were seeded to groups and can start playing by now.
+     */
+    const GROUP = 2;
+    /**
+     * Group stage has finished and playoff begun.
+     */
+    const PLAYOFF = 3;
+    /**
+     * The tournament's three best (gold, silver, bronze) have been found or it was manually finished by an admin.
+     */
+    const FINISHED = 4;
+    /**
+     * The tournament has been moved to the archive.
+     */
+    const ARCHIVED = 5;
+
+
+    /**
+     * Return the current tournament in a CakePHP typical array.
+     *
+     * @return array|null The current tournament or null if there are only archived tournaments.
+     */
+    public function currentTournament() {
+        $currentTournament = $this->find('first', array(
+            'conditions' => array(
+                'status !=' => Tournament::ARCHIVED
+            )
+        ));
+
+        if (empty($currentTournament)) {
+            return null;
+        }
+        return $currentTournament;
     }
 
     // Start a whole new tournament.

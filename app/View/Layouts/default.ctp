@@ -176,7 +176,7 @@
         	</div>
         	<?php echo $this->Html->link('<div class="menu_item">Groups</div>', '/groups', array('escape'=>false)); ?>
         	<?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape'=>false)); ?>
-        	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', 'http://www.facebook.com/CresposWormsTournament', array('escape'=>false, 'target'=>'_blank')); ?>
+        	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', '/archive', array('escape'=>false, 'target'=>'_blank')); ?>
         	<?php echo $this->Html->link('<div class="popcorn_item">' . $this->Html->image('popcorn.png') . '</div>', '/streams', array('escape'=>false)); ?>
         </div>
 
@@ -192,17 +192,15 @@
 </div>
 	<div id="footer">
 		<div id="copyright">
-   			<b>Crespo’s Worms Tournament 2012</b> by Joschi, Kayz and Zemke
+   			<?php echo $copyrightString; ?>
    		</div>
    		<div id="pages">
    			<?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>
    			&bull;
-   			<?php echo $this->Html->link('Rules', '/rules/view', array('class' => 'plainer')) ?>
-   			&bull;
    			<?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
    			&bull;
-   			<?php echo $this->Html->link('Replays', '/tournaments/download/replays', array('class' => 'plainer')) ?>
-   			&bull;
+            <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('class' => 'plainer')) ?>
+            &bull;
    			<?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
    			&bull;
    			<?php echo $this->Html->link('TUS', 'http://www.tus-wa.com', array('target' => '_blank', 'class' => 'plainer')) ?>

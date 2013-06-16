@@ -4,7 +4,6 @@ App::uses('AppModel', 'Model');
 class User extends AppModel {
 	public $name = 'User';
 	public $displayField = 'username';
-
 	public $hasOne = array(
 		'Profile' => array(
 			'className' => 'Profile',
@@ -28,7 +27,15 @@ class User extends AppModel {
 			'foreignKey' => 'user_id'
 		)
 	);
-
+    public $hasAndBelongsToMany = array(
+        'Moderations' => array(
+            'className' => 'Tournament',
+            'joinTable' => 'tournaments_moderators',
+            'foreignKey' => 'moderator_id',
+            'associationForeignKey' => 'tournament_id',
+            'unique' => 'keepExisting'
+        ),
+    );
 	public $hasMany = array(
 		'Home' => array(
             'className'  => 'Game',
@@ -45,10 +52,6 @@ class User extends AppModel {
 		'User' => array(
 			'className'  => 'Tournament',
 			'foreignKey' => 'host_id'
-		),
-		'Helpers' => array(
-			'className'  => 'Tournament',
-			'foreignKey' => 'helpers_id'
 		),
 		'Gold' => array(
 			'className'  => 'Tournament',
@@ -99,6 +102,48 @@ class User extends AppModel {
             'foreignKey' => 'submitter_id'
         ),
 	);
+	public $validate = array(
+		'username' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message' => 'You definitely need a username.'
+			),
+			'between' => array(
+				'rule' => array('between', 3, 16),
+				'message' => 'Username must be between 3 and 16 characters long.'
+			),
+			'isUnique' => array(
+				'rule' => array('isUnique'),
+				'message' => 'This username has already been taken.'
+			),
+			'alphaNumeric' => array(
+				'rule' => array('alphaNumeric'),
+				'message' => 'Your username may only contain letters and numbers.'
+			),
+			'AdminPrivilege' => array(
+		        'rule'    => array('AdminPrivilege'),
+		        'message' => 'Your username can\'t be â€œadminsâ€�.'
+		    )
+		),
+		'password' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message' => 'Please protect your account with a password.'
+			),
+		    'compare_passwords' => array(
+				'rule' => array('compare_passwords'),
+				'message' => 'Your passwords do not match.'
+			)
+		),
+		'password_confirmation' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message' => 'Please repeat your password.'
+			),
+		)
+	);
+
+	// In order to maintain the old passwords we do our own login method.
 
 	/**
      * DEPRECATED - Use AppModel's getVisitorIp() instead.
@@ -115,7 +160,6 @@ class User extends AppModel {
 		}
 	}
 
-	// In order to maintain the old passwords we do our own login method.
 	public function update($data) {
 		$first = $this->find('first', array(
 			'conditions' => array(
@@ -155,6 +199,8 @@ class User extends AppModel {
 		return false;
 	}
 
+	// Change password.
+
     /**
      * Generate a random password.
      *
@@ -171,7 +217,8 @@ class User extends AppModel {
         return implode($pass);
     }
 
-	// Change password.
+	// This function reads the timeline of a user.
+
 	public function password($data) {
 		$this->id = AuthComponent::user('id');
 
@@ -185,7 +232,6 @@ class User extends AppModel {
 		return false;
 	}
 
-	// This function reads the timeline of a user.
 	public function timeline($userID) {
 		$user = $this->find('first', array(
 			'conditions' => array(
@@ -195,6 +241,8 @@ class User extends AppModel {
 
 		return str_split($user['User']['timeline']);
 	}
+
+	// Dispaly user's photo or random one.
 
 	public function games($id) {
 		$home = $this->find('all', array(
@@ -212,7 +260,8 @@ class User extends AppModel {
 		return array_merge($home, $away);
 	}
 
-	// Dispaly user's photo or random one.
+	// Checking status of user and set user menu according to that.
+
 	public function displayPhoto($user) {
 		$folder = new Folder('img/users');
 
@@ -225,9 +274,10 @@ class User extends AppModel {
 		return $photo[0];
 	}
 
-	// Checking status of user and set user menu according to that.
+	// Logs the user out and in again to update the session.
+
 	public function user_menu() {
-		$tourney = ClassRegistry::init('Tournament')->info();
+		$tourney = ClassRegistry::init('Tournament')->currentTournament();
 
         switch($tourney['status']) {
             case 'pending':
@@ -277,53 +327,11 @@ class User extends AppModel {
         }
 	}
 
-	// Logs the user out and in again to update the session.
 	public function re_login() {
 		$this->id = AuthComponent::user('id');
 		$user = $this->read();
 		return $user['User'];
 	}
-
-	public $validate = array(
-		'username' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				'message' => 'You definitely need a username.'
-			),
-			'between' => array(
-				'rule' => array('between', 3, 16),
-				'message' => 'Username must be between 3 and 16 characters long.'
-			),
-			'isUnique' => array(
-				'rule' => array('isUnique'),
-				'message' => 'This username has already been taken.'
-			),
-			'alphaNumeric' => array(
-				'rule' => array('alphaNumeric'),
-				'message' => 'Your username may only contain letters and numbers.'
-			),
-			'AdminPrivilege' => array(
-		        'rule'    => array('AdminPrivilege'),
-		        'message' => 'Your username can\'t be â€œadminsâ€�.'
-		    )
-		),
-		'password' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				'message' => 'Please protect your account with a password.'
-			),
-		    'compare_passwords' => array(
-				'rule' => array('compare_passwords'),
-				'message' => 'Your passwords do not match.'
-			)
-		),
-		'password_confirmation' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				'message' => 'Please repeat your password.'
-			),
-		)
-	);
 
 	public function AdminPrivilege($data) {
     	return (bool)strcasecmp($data['username'], 'admins');

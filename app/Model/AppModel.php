@@ -6,8 +6,8 @@ class AppModel extends Model {
 
     /**
      * Validate a Model's Id.
-     * 
-     * @param int $id Id to be validated.  
+     *
+     * @param int $id Id to be validated.
      * @param str $model The Model the Id belongs to.
      * @return boolean False, if the Id is less than one or doesn't exist
      * in the given Model's database table, true otherwise.
@@ -36,7 +36,7 @@ class AppModel extends Model {
      * return value should be assigned to the the corresponding
      * Controller::request->data array element that will go into
      * validation/database.
-     * 
+     *
      * @param array $dateArray array('year' => '', 'month' => '', 'day' => '')
      * @return string The formatted date YYYY-MM-DD
      */
@@ -63,7 +63,7 @@ class AppModel extends Model {
 
     /**
      * Prepends $message with user's IP address and (if logged in) username and Id.
-     * 
+     *
      * @param String $message The message that should be prepended with the user information.
      * @param Boolean $loggedIn Indicating whether the user is logged in or not.
      * @return String The final message prepended with user information.
@@ -81,7 +81,7 @@ class AppModel extends Model {
 
     /**
      * Get visitor's IP address securely by dodging proxy servers.
-     * 
+     *
      * @return String The visitor's IP address.
      */
     public function getVisitorIp() {
@@ -95,36 +95,28 @@ class AppModel extends Model {
     }
 
     /**
-     * DEPRECATED - Use the Tournament Model instead.
+     * Generates a string for the footer of the page with the patter "Crespo's Worms Tournament [year] by [mods]".
+     *
+     * @return String The string to be shown in the footer.
      */
-    public function tourneyStatus() {
-        $this->bindModel(array('hasMany' =>
-            array('Tournament' => array('className' => 'Tournament'))));
-        $status = $this->Tournament->field('status', null, 'year DESC');
-        return $status;
-    }
+    public function genCopyrightString() {
+        $string = '<b>Crespo\'s Worms Tournament</b>';
+        $Tournament = ClassRegistry::init('Tournament');
+        $currentTournament = $Tournament->currentTournament();
 
-    /**
-     * DEPRECATED - Use the Tournament Model instead.
-     */
-    public function tourneyStarted() {
-        if ($this->tourneyStatus() == 'pending'
-                || $this->tourneyStatus() == 'archived') {
-            return false;
-        } else {
-            return true;
+        if ($currentTournament == null) {
+            return $string;
         }
-    }
 
-    /**
-     * DEPRECATED - Use the Tournament Model instead.
-     */
-    public function tourneyInfo() {
-        $row = $this->find('first', array(
-            'limit' => 1,
-            'order' => array('Tournament.id' => 'desc')
-                ));
-        return $row['Tournament'];
-    }
+        $string .= ' <b>' . $currentTournament['Tournament']['year'] . '</b> by ';
 
+        $moderators = array();
+        foreach ($currentTournament['Moderators'] as $moderator) {
+            $moderators[] = $moderator['username'];
+        }
+
+        App::uses('String', 'Utility');
+        $string .= String::toList($moderators);
+        return $string;
+    }
 }
