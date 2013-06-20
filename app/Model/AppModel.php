@@ -100,7 +100,7 @@ class AppModel extends Model {
      * @return String The string to be shown in the footer.
      */
     public function genCopyrightString() {
-        $string = '<b>Crespo\'s Worms Tournament</b>';
+        $string = '<b>Crespo&apos;s Worms Tournament</b>';
         $Tournament = ClassRegistry::init('Tournament');
         $currentTournament = $Tournament->currentTournament();
 
