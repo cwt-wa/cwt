@@ -6,15 +6,17 @@ App::uses('File', 'Utility');
 class GamesController extends AppController {
 	public $name = 'Games';
 	public $scaffold = 'admin';
-	
+
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 	    // You can only look up games, in case the tournament has started.
-	   	if(!$this->Game->tourneyStarted()) {
-            $this->Session->setFlash('The tournament has not yet started.');
+	   	if(!$this->Game->gamesCanBeReported()) {
+            $this->Session->setFlash(
+                'The tournament has not yet started.',
+                'default', array('class' => 'error'));
             $this->redirect($this->referer());
-	    }	
+	    }
 
 	    $this->Auth->allow('download');
 	}
@@ -47,7 +49,7 @@ class GamesController extends AppController {
 		//$this->Game->Comment->query('ALTER TABLE `comments` DROP `id`;');
 		//$this->Game->Comment->query('ALTER TABLE `comments` AUTO_INCREMENT=1');
 		//$this->Game->Comment->query('ALTER TABLE `comments` ADD `id` int UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST');
-		
+
 		$game = $this->Game->read(null, $id);
 
 		$game['Comment'] = $this->Game->Comment->find('all', array(
@@ -58,12 +60,12 @@ class GamesController extends AppController {
 
 		// Handle group game.
 		if($game['Game']['group_id']) {
-			$game['stage'] = 'Group ' . $game['Group']['group'];	
+			$game['stage'] = 'Group ' . $game['Group']['group'];
 			$game['winner']['username'] = $game['Home']['username'];
 			$game['winner']['id'] = $game['Home']['id'];
 		} elseif($game['Game']['playoff_id']) { // Handle playoff game.
 			$game['stage'] =  $this->Game->Playoff->stepAssoc[$game['Playoff']['step']];
-			
+
 			if($game['Game']['score_h'] > $game['Game']['score_a']) {
 				$game['winner']['username'] = $game['Home']['username'];
 				$game['winner']['id'] = $game['Home']['id'];
@@ -82,7 +84,7 @@ class GamesController extends AppController {
 		}
 
         $this->loadModel('User');
-        
+
 		if($this->User->displayPhoto($game['winner']['username']) != '_nophoto.jpg') {
 			$game['winner']['photo'] = $this->User->displayPhoto($game['winner']['username']);
 		}
@@ -109,10 +111,10 @@ class GamesController extends AppController {
 				foreach($errors as $key => $value) {
 					$this->Session->setFlash($errors[$key][0], 'default', array('class' => 'error'));
 					break;
-				}	
+				}
 			}
 		}
-		
+
 		$allowedResults = array(
 			'0' => '0',
 			'1' => '1',
@@ -148,7 +150,7 @@ class GamesController extends AppController {
 
 	public function download($id) {
         $this->viewClass = 'Media';
-        
+
 		$this->Game->unbindModel(
 		    array('hasMany' => array('Tournament'))
 		);
@@ -159,9 +161,9 @@ class GamesController extends AppController {
 			'id' => $game['Game']['id'],
 			'downloads' => $game['Game']['downloads'] + 1
 		));
-		
+
 		if($game['Game']['group_id']) {
-			$filename = 
+			$filename =
 			'[' . $game['Game']['id'] . '] '
 			. $game['Home']['username'] . ' '
 			. $game['Game']['score_h'] . '-'
@@ -170,7 +172,7 @@ class GamesController extends AppController {
 
 			$path = 'files' . DS . 'replays' . DS . 'group' . DS . $game['Group']['group'] . DS;
 			$dir = new Folder('files/replays/group/' . $game['Group']['group']);
-			
+
 			$files = $dir->find();
 
 			foreach($files as $file) {
@@ -178,7 +180,7 @@ class GamesController extends AppController {
 					$replay = $file;
 					break;
 				}
-			}		
+			}
 		} elseif($game['Game']['playoff_id']) {
 			$filename = '[' . $game['Game']['id'] . ']';
 
@@ -190,9 +192,9 @@ class GamesController extends AppController {
 
 			$path = 'files' . DS . 'replays' . DS . 'playoff' . DS . $this->Game->Playoff->stepAssoc[$playoff['Playoff']['step']] . DS;
 			$dir = new Folder('files/replays/playoff/' . $this->Game->Playoff->stepAssoc[$playoff['Playoff']['step']]);
-			
+
 			$files = $dir->find();
-			
+
 			foreach($files as $file) {
 				if(substr($file, 0, 4) == $filename) {
 					$replay = $file;
@@ -274,22 +276,27 @@ class GamesController extends AppController {
 		$this->set('game', $this->Game->read(null, $id));
 	}
 
+    /**
+     * @param string $techwin Preset the checkbox as to whether the new game is a technically decided one.
+     */
+    public function admin_add($techwin = '1') {
+        if ($this->request->is('ajax')) {
+            // JSON
+        }
 
-	public function admin_add() {
 		if ($this->request->is('post')) {
-			$this->Game->create();
-			if ($this->Game->save($this->request->data)) {
+            $this->Game->create();
+
+            if ($this->Game->save($this->request->data)) {
 				$this->Session->setFlash(__('The game has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The game could not be saved. Please, try again.'));
 			}
 		}
-		$groups = $this->Game->Group->find('list');
-		$playoffs = $this->Game->Playoff->find('list');
-		$this->set(compact('groups', 'playoffs'));
-	}
 
+        $this->set('techwin', $techwin);
+	}
 
 	public function admin_edit($id = null) {
 		$this->Game->id = $id;
