@@ -12,8 +12,10 @@ class GroupsController extends AppController {
     	// Status: group, playoff, finished
     	if(in_array($this->action,
         array('edit', 'delete', 'add', 'index', 'view'))) {
-        	if(!$this->Group->tourneyStarted()) {
-            	$this->Session->setFlash('The tournament has not yet started.', 'default', array('class' => 'error'));
+        	if(!$this->Group->gamesCanBeReported()) {
+                $this->Session->setFlash(
+                    'The tournament has not yet started.',
+                    'default', array('class' => 'error'));
             	$this->redirect($this->referer());
 	        }
         }
@@ -103,14 +105,14 @@ class GroupsController extends AppController {
 	    				$this->Auth->logout();
 				    	$user = $this->Group->User->read(null, $group[$groupNum[$i]][$i2]);
 					    $this->Auth->login($user['User']);
-					    
+
 	    				$data[$groupNum[$i]][$cGame]['replays'] = $replays;
 	    				$this->Game->report($data[$groupNum[$i]][$cGame]);
 	    			}
 
 	    			$cGame++;
     			}
-    			unset($i3); 
+    			unset($i3);
     		}
     	}
 
@@ -254,7 +256,7 @@ class GroupsController extends AppController {
 		$users = $this->Group->User->find('list', array(
 			'conditions' => array(
 				'stage' => 'applied'
-			), 
+			),
 			'fields' => array(
 				'User.username'
 			),

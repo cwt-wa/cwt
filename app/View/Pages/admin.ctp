@@ -31,6 +31,15 @@
 				<?php elseif($tourney['status'] == 'finished'): ?>
 					<a href="/admin/tournaments/edit">Close the Tournament</a>
 				<?php endif; ?>
+
+                <?php if ($tourney['status'] == Tournament::GROUP || $tourney['status'] == Tournament::PLAYOFF): ?>
+                    <?php
+                    echo $this->Html->link(
+                        'Report tech. win',
+                        '/admin/games/add'
+                    );
+                    ?>
+                <?php endif; ?>
 			</li>
 			<li>
 				<a href="/admin/rules/edit">Edit Rules</a>

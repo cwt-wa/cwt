@@ -119,4 +119,23 @@ class AppModel extends Model {
         $string .= String::toList($moderators);
         return $string;
     }
+
+    /**
+     * Tells you if currently there's any user who can report games.
+     * Basically games can be reported in the group and playoffs stage and this method checks for these stages.
+     *
+     * @return bool True if the games can be reported, false otherwise.
+     */
+    public function gamesCanBeReported() {
+        $Tournament = ClassRegistry::init('Tournament');
+
+        $currentTournament = $Tournament->currentTournament();
+
+        if ($currentTournament['Tournament']['status'] == Tournament::GROUP
+                || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
+            return true;
+        }
+
+        return false;
+    }
 }
