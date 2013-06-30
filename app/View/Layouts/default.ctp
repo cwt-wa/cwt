@@ -181,7 +181,24 @@
 </div>
 	<div id="footer">
 		<div id="copyright">
-   			<?php echo $copyrightString; ?>
+            <?php
+            $string = '<b>Crespo&apos;s Worms Tournament</b>';
+
+            if ($currentTournament == null) {
+                echo $string;
+            } else {
+                $string .= ' <b>' . $currentTournament['Tournament']['year'] . '</b> by ';
+
+                $moderators = array();
+                foreach ($currentTournament['Moderator'] as $moderator) {
+                    $moderators[] = $moderator['username'];
+                }
+
+                $string .= $this->Text->toList($moderators);
+                echo $string;
+            }
+
+            ?>
    		</div>
    		<div id="pages">
    			<?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>

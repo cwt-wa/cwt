@@ -95,32 +95,6 @@ class AppModel extends Model {
     }
 
     /**
-     * Generates a string for the footer of the page with the patter "Crespo's Worms Tournament [year] by [mods]".
-     *
-     * @return String The string to be shown in the footer.
-     */
-    public function genCopyrightString() {
-        $string = '<b>Crespo&apos;s Worms Tournament</b>';
-        $Tournament = ClassRegistry::init('Tournament');
-        $currentTournament = $Tournament->currentTournament();
-
-        if ($currentTournament == null) {
-            return $string;
-        }
-
-        $string .= ' <b>' . $currentTournament['Tournament']['year'] . '</b> by ';
-
-        $moderators = array();
-        foreach ($currentTournament['Moderators'] as $moderator) {
-            $moderators[] = $moderator['username'];
-        }
-
-        App::uses('String', 'Utility');
-        $string .= String::toList($moderators);
-        return $string;
-    }
-
-    /**
      * Tells you if currently there's any user who can report games.
      * Basically games can be reported in the group and playoffs stage and this method checks for these stages.
      *

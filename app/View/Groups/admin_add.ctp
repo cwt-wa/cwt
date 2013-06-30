@@ -7,7 +7,7 @@
 
 		for($i = 1; $i <= 32; $i++) {
 			if(($i - 1) % 4 == 0) {
-				echo '<b>Group ' . $numGroup[$currGroup] . '</b>';	
+				echo '<b>Group ' . $numGroup[$currGroup] . '</b>';
 			}
 
 			echo $this->Form->input('player' . $i, array(
@@ -23,7 +23,11 @@
 			}
 		}
 
-		echo $this->Form->end('Submit');
+        echo $this->Form->submit('Submit', array(
+            'onclick' => 'return confirm(\'Are you sure? Have you checked the correctness of the group draw?\');'
+        ));
+
+		echo $this->Form->end();
 	?>
 </div>
 

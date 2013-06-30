@@ -4,7 +4,9 @@
 	</div>
 	<br>
 	<div id="boxFloat" style="background-color:#3F2828; width:475px;">
-		<ul>
+		<h2>Website related settings</h2>
+
+        <ul>
 			<li>
 				<a href="/admin/news/edit">Write Admin News</a>
 			</li>
@@ -20,19 +22,21 @@
 		</ul>
 	</div>
 	<div id="box" style="background-color:#3F2828; margin-left:530px; width:408px; margin-top:0px;">
+        <h2>Tournament related settings</h2>
+
 		<ul>
 			<li>
-				<?php if($tourney['status'] == 'archived'): ?>
+				<?php if($currentTournament['Tournament']['status'] === null): ?>
 					<a href="/admin/tournaments/add">Start a new Tournament</a>
-				<?php elseif($tourney['status'] == 'pending'): ?>
+				<?php elseif($currentTournament['Tournament']['status'] == Tournament::PENDING): ?>
 					<a href="/admin/tournaments/edit">Start Group Stage</a>
-				<?php elseif($tourney['status'] == 'group'): ?>
+				<?php elseif($currentTournament['Tournament']['status'] == Tournament::GROUP): ?>
 					<a href="/admin/tournaments/edit">Start the Playoff</a>
-				<?php elseif($tourney['status'] == 'finished'): ?>
+				<?php elseif($currentTournament['Tournament']['status'] == Tournament::FINISHED): ?>
 					<a href="/admin/tournaments/edit">Close the Tournament</a>
 				<?php endif; ?>
 
-                <?php if ($tourney['status'] == Tournament::GROUP || $tourney['status'] == Tournament::PLAYOFF): ?>
+                <?php if ($currentTournament['Tournament']['status'] == Tournament::GROUP || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF): ?>
                     <?php
                     echo $this->Html->link(
                         'Report tech. win',
@@ -44,7 +48,7 @@
 			<li>
 				<a href="/admin/rules/edit">Edit Rules</a>
 			</li>
-			<?php if($tourney['status'] == 'group'): ?>
+			<?php if($currentTournament['Tournament']['status'] == 'group'): ?>
 				<li>
 					<a href="/admin/groups/edit">Replace a Player</a>
 				</li>

@@ -28,12 +28,12 @@ class User extends AppModel {
 		)
 	);
     public $hasAndBelongsToMany = array(
-        'Moderations' => array(
+        'Moderator' => array(
             'className' => 'Tournament',
             'joinTable' => 'tournaments_moderators',
             'foreignKey' => 'moderator_id',
             'associationForeignKey' => 'tournament_id',
-            'unique' => 'keepExisting'
+            'unique' => false
         ),
     );
 	public $hasMany = array(
@@ -49,10 +49,6 @@ class User extends AppModel {
             'className'  => 'Game',
             'foreignKey' => 'reporter_id'
         ),
-		'User' => array(
-			'className'  => 'Tournament',
-			'foreignKey' => 'host_id'
-		),
 		'Gold' => array(
 			'className'  => 'Tournament',
 			'foreignKey' => 'gold_id'
@@ -143,9 +139,31 @@ class User extends AppModel {
 		)
 	);
 
-	// In order to maintain the old passwords we do our own login method.
+    /**
+     * The user is retired and by that is not part of the current tournament (anymore).
+     * This can be the case in all of the current tournament's stages.
+     */
+    const RETIRED = 0;
 
-	/**
+    /**
+     * The user is willing to play the next tournament and has applied for participation.
+     * This can be the case in the Tournament::PENDING stage of the tournament.
+     */
+    const APPLIED = 1;
+
+    /**
+     * The user is in the group stage.
+     * This can be the case in the Tournament::GROUP stage of the tournament.
+     */
+    const GROUP = 2;
+
+    /**
+     * The user is in the playoff stage.
+     * This can be the case in the Tournament::PLAYOFF stage of the tournament.
+     */
+    const PLAYOFF = 3;
+
+    /**
      * DEPRECATED - Use AppModel's getVisitorIp() instead.
      */
 	public function realIP() {
@@ -160,6 +178,7 @@ class User extends AppModel {
 		}
 	}
 
+    // In order to maintain the old passwords we do our own login method.
 	public function update($data) {
 		$first = $this->find('first', array(
 			'conditions' => array(
@@ -277,15 +296,15 @@ class User extends AppModel {
 	// Logs the user out and in again to update the session.
 
 	public function user_menu() {
-		$tourney = ClassRegistry::init('Tournament')->currentTournament();
+		$currentTorunament = ClassRegistry::init('Tournament')->currentTournament();
 
-        switch($tourney['status']) {
-            case 'pending':
+        switch($currentTorunament['Tournament']['status']) {
+            case Tournament::PENDING:
             	if(AuthComponent::user('stage') == 'retired') {
 		            return 'apply';
 		        }
             break;
-            case 'group':
+            case Tournament::GROUP:
                 $playedGames = ClassRegistry::init('Game')->find('count', array(
                     'conditions' => array(
                         'OR' => array(
@@ -302,7 +321,7 @@ class User extends AppModel {
                     return 'report';
                 }
             break;
-            case 'playoff':
+            case Tournament::PLAYOFF:
                 $hasOpp = ClassRegistry::init('Game')->find('count', array(
                     'conditions' => array(
                         'OR' => array(

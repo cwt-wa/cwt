@@ -61,6 +61,7 @@ class AppController extends Controller {
 
         $this->loadModel('User');
         $this->loadModel('Stream');
+        $this->loadModel('Tournament');
 
         $this->Auth->allow('index', 'view');
 
@@ -79,7 +80,7 @@ class AppController extends Controller {
         // $this->set('up_stream', $this->Stream->checkings());
         $this->set('up_stream', false);
         $this->set('logged_in', $this->Auth->loggedIn());
-        $this->set('copyrightString', $this->User->genCopyrightString());
+        $this->set('currentTournament', $this->Tournament->currentTournament());
     }
 
     /**
