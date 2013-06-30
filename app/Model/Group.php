@@ -15,7 +15,7 @@ class Group extends AppModel {
         'G' => array(25, 26, 27, 28),
         'H' => array(29, 30, 31, 32)
     );
-    
+
     public $hasMany = array(
         'Game' => array(
             'className'  => 'Game',
@@ -48,26 +48,30 @@ class Group extends AppModel {
             }
         }
 
+        $currentTournament = ClassRegistry::init('Tournament')->currentTournament();
+
         $groups = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
         $numGroup = 0;
         for($i = 1; $i <= 32; $i++) {
-            unset($this->id);
+            $this->create();
             $this->save(array(
                     'group' => $groups[$numGroup],
-                    'user_id' => $data['player' . $i]
+                    'user_id' => $data['player' . $i],
+                    'tournament_id' => $currentTournament['Tournament']['id']
             ));
             if($i % 4 == 0) {$numGroup++;}
         }
         return true;
     }
 
-    // Returns number of current applications.
-    public function applicants() {
-        $applicants = $this->User->find('count',
-            array('conditions' => array('stage' => 'applied')));
-
-        if($applicants >= 32) {return true;}
-        else {return false;}
+    /**
+     * How many users have applied for participation?
+     *
+     * @return integer number of users who applied.
+     */
+    public function numberOfApplicants() {
+        $applicants = $this->User->Application->find('count');
+        return $applicants;
     }
 
     // Get opponents the current user is allowed to play against.
@@ -77,7 +81,7 @@ class Group extends AppModel {
             if($groupmateID == AuthComponent::user('id')) {
                 unset($attendees[$groupmateID]);
             }
-            
+
             // Remove players you've already played against.
             $playedGame[1] = $this->Game->find('count', array(
                 'conditions' => array(
@@ -116,7 +120,7 @@ class Group extends AppModel {
             'conditions' => array('Group.group' => $group),
             'fields' => array('Group.user_id')
         ));
-        
+
         // Get users' names in the current group.
         $userName[0] = $this->User->find('list', array(
             'conditions' => array('User.id' => $userID[$playerIDs[0]])));
@@ -125,8 +129,8 @@ class Group extends AppModel {
         $userName[2] = $this->User->find('list', array(
             'conditions' => array('User.id' => $userID[$playerIDs[2]])));
         $userName[3] = $this->User->find('list', array(
-            'conditions' => array('User.id' => $userID[$playerIDs[3]])));
- 
+        'conditions' => array('User.id' => $userID[$playerIDs[3]])));
+
         return array(
             $userID[$playerIDs[0]] => $userName[0][$userID[$playerIDs[0]]],
             $userID[$playerIDs[1]] => $userName[1][$userID[$playerIDs[1]]],
@@ -154,7 +158,7 @@ class Group extends AppModel {
             } else {
                 $opponent['id'] = $game['Game']['home_id'];
                 $opponent['score'] = $game['Game']['score_h'];
-                
+
                 $inactive['id'] = $game['Game']['away_id'];
                 $inactive['score'] = $game['Game']['score_a'];
             }
@@ -184,12 +188,12 @@ class Group extends AppModel {
             $opponent['new']['points'] =
                 $opponent['new']['points']
                 + $opponent['current']['Group']['points'];
-            
+
             $opponent['new']['game_ratio'] =
                 $opponent['new']['game_ratio']
                 + $opponent['current']['Group']['game_ratio'];
 
-            $opponent['new']['games'] = 
+            $opponent['new']['games'] =
                 $opponent['current']['Group']['games'] - 1;
 
             $opponent['new']['round_ratio'] =
@@ -248,7 +252,7 @@ class Group extends AppModel {
             case '3-2':
                 $newWinnerPoints = $oldwinner['points'] + 3;
                 $newLoserPoints = $oldloser['points']  + 1;
-        } 
+        }
 
         // Arrays of new information.
         $newWinner = array(

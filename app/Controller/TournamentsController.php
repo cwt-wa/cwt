@@ -34,10 +34,10 @@ class TournamentsController extends AppController {
     }
 
     public function admin_add() {
-        $tourney = $this->Tournament->info();
-        $this->Tournament->id = $tourney['id'];
+        $currentTournament = $this->Tournament->currentTournament();
+        $this->Tournament->id = $currentTournament['id'];
 
-        if ($tourney['status'] != 'archived') {
+        if ($currentTournament['Tournament']['status'] != null) {
             $this->Session->setFlash('There is already a tournament running at the moment.');
             $this->redirect($this->referer());
         }
@@ -117,8 +117,8 @@ class TournamentsController extends AppController {
 
     public function admin_edit() {
         // It's always the msot recent tournament.
-        $tourney = $this->Tournament->info();
-        $this->Tournament->id = $tourney['id'];
+        $currentTournament = $this->Tournament->currentTournament();
+        $this->Tournament->id = $currentTournament['Tournament']['id'];
 
         /* Redirecting is a bit of a problem here.
          * Depending on the status we have different
@@ -126,9 +126,9 @@ class TournamentsController extends AppController {
          * (Do that step by step.)
          */
 
-        switch ($tourney['status']) { // Next status.
-            case 'pending':
-                $next = 'Enter the Group stage';
+        switch ($currentTournament['Tournament']['status']) { // Next status.
+            case Tournament::PENDING:
+                $next = 'Enter the Group Stage';
                 $Smsg = 'Players who were assigned to groups can now report their group stage games';
                 $Emsg = 'You have got to create the groups first.';
                 $redirect = '/groups';
@@ -142,7 +142,7 @@ class TournamentsController extends AppController {
                     $this->redirect('/admin/groups/add');
                 }
                 break;
-            case 'group':
+            case Tournament::GROUP:
                 $next = 'Start the Playoff';
                 $Smsg = 'Players who made it into the playoff can now report their playoff games.';
                 $redirect = '/playoffs';
@@ -153,7 +153,7 @@ class TournamentsController extends AppController {
                     $this->redirect('/admin/playoffs/add');
                 }
                 break;
-            case 'finished':
+            case Tournament::FINISHED:
                 $next = 'Archive the tournament';
                 $Smsg = 'The current tournament has now been made available in the Archive.';
                 $redirect = '/';
@@ -171,7 +171,7 @@ class TournamentsController extends AppController {
         }
 
         $this->set('next', $next);
-        $this->set('status', $tourney['status']);
+        $this->set('status', $currentTournament['Tournament']['status']);
     }
 
     public function admin_delete($id = null) {
