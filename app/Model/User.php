@@ -461,4 +461,15 @@ class User extends AppModel
 
         return $allowedOpponents;
     }
+
+    public function findAllUsersInGroupStage() {
+        $groups = $this->Group->find('all');
+        $usersInGroupStage = array();
+
+        foreach ($groups as $group) {
+            $usersInGroupStage[$group['User']['id']] = $group['User']['username'];
+        }
+
+        return $usersInGroupStage;
+    }
 }
