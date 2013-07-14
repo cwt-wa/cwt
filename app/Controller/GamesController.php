@@ -276,26 +276,27 @@ class GamesController extends AppController {
 		$this->set('game', $this->Game->read(null, $id));
 	}
 
-    /**
-     * @param string $techwin Preset the checkbox as to whether the new game is a technically decided one.
-     */
-    public function admin_add($techwin = '1') {
-        if ($this->request->is('ajax')) {
-            // JSON
-        }
-
+    public function admin_techwin() {
 		if ($this->request->is('post')) {
-            $this->Game->create();
+            if (isset($this->request->data['getAways'])) {
+                $allowedOpponents = $this->User->findAllowedOpponents($this->request->data['home_id']);
+                $this->set('aways', $allowedOpponents);
+                return;
+            }
 
-            if ($this->Game->save($this->request->data)) {
-				$this->Session->setFlash(__('The game has been saved'));
-				$this->redirect(array('action' => 'index'));
+            $this->Game->create();
+            if ($this->Game->reportTechwin($this->request->data['Game']['home_id'], $this->request->data['Game']['away_id'])) {
+				$this->Session->setFlash('The technically decided game has been reported successfully.');
 			} else {
-				$this->Session->setFlash(__('The game could not be saved. Please, try again.'));
+				$this->Session->setFlash(
+                    'Something went wrong. The game could not be submitted.',
+                    'default', array('class' => 'error'));
 			}
 		}
 
-        $this->set('techwin', $techwin);
+        $this->loadModel('User');
+        $allUsersStillInTournament = $this->User->getAllUsersStillInTournament();
+        $this->set('homes', $allUsersStillInTournament);
 	}
 
 	public function admin_edit($id = null) {

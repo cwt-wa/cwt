@@ -30,11 +30,25 @@ class Group extends AppModel {
         )
     );
 
-    // Return the group $user is in.
-    public function getGroup($user = false) {
-        $user = $user ? $user : AuthComponent::user('id');
+    /**
+     * Find the group the given user is or was in.
+     *
+     * @param null $userId The user's id to find the group of or the currently logged in user if the param wasn't given.
+     * @return String The capital letter of the group or null if th user was not found in any group.
+     */
+    public function findGroup($userId = null) {
+        $userId = $userId ? $userId : AuthComponent::user('id');
+
         $group = $this->find('first', array(
-            'conditions' => array('Group.user_id' => $user)));
+            'conditions' => array(
+                'Group.user_id' => $userId
+            )
+        ));
+
+        if (empty($group)) {
+            return null;
+        }
+
         return $group['Group']['group'];
     }
 
@@ -74,25 +88,33 @@ class Group extends AppModel {
         return $applicants;
     }
 
-    // Get opponents the current user is allowed to play against.
-    public function allowedOpponents($attendees) {
+    /**
+     * Get all the users the given user is allowed to report a game against.
+     *
+     * @param $attendees Provide it with this class's attendees() method. @TODO This method should do that itself.
+     * @param int $userId The user the opponents are to be found of. If not provided it's the currently logged in user.
+     * @return array What's left of $attendees after users $userId isn't allowed to play against are removed.
+     */
+    public function allowedOpponents($attendees, $userId = null) {
+        $userId = $userId ? $userId : AuthComponent::user('id');
+
         foreach($attendees as $groupmateID => $ID) {
             // Remove yourself from opponents.
-            if($groupmateID == AuthComponent::user('id')) {
+            if($groupmateID == $userId) {
                 unset($attendees[$groupmateID]);
             }
 
             // Remove players you've already played against.
             $playedGame[1] = $this->Game->find('count', array(
                 'conditions' => array(
-                    'home_id' => AuthComponent::user('id'),
+                    'home_id' => $userId,
                     'away_id' => $groupmateID
                 )
             ));
             $playedGame[2] = $this->Game->find('count', array(
                 'conditions' => array(
                     'home_id' => $groupmateID,
-                    'away_id' => AuthComponent::user('id')
+                    'away_id' => $userId
                 )
             ));
             if($playedGame[1] || $playedGame[2]) {
@@ -103,21 +125,25 @@ class Group extends AppModel {
         return $attendees;
     }
 
-    // Get id and name of users of a certain group.
-    public function attendees() {
-        $group = $this->getGroup();
-
+    /**
+     * Get the users of a group as CakePHP list.
+     * @TODO Misleading method name.
+     *
+     * @param $groupString
+     * @return array
+     */
+    public function attendees($groupString) {
         // Get the players' rows in groups table.
         $playerIDs = array(
-            $this->groupAssoc[$group][0],
-            $this->groupAssoc[$group][1],
-            $this->groupAssoc[$group][2],
-            $this->groupAssoc[$group][3],
+            $this->groupAssoc[$groupString][0],
+            $this->groupAssoc[$groupString][1],
+            $this->groupAssoc[$groupString][2],
+            $this->groupAssoc[$groupString][3],
         );
 
         // Get users' ids in the current group.
         $userID = $this->find('list', array(
-            'conditions' => array('Group.group' => $group),
+            'conditions' => array('Group.group' => $groupString),
             'fields' => array('Group.user_id')
         ));
 
