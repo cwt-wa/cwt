@@ -350,11 +350,7 @@ class Playoff extends AppModel {
 
 	// Return playoff attendees for drop-down.
 	public function attendees() {
-		return ClassRegistry::init('User')->find('list', array(
-			'conditions' => array(
-				'User.stage' => 'playoff'
-			)
-		));
+		return $this->User->findAllUsersInGroupStage();
 	}
 
     /**
