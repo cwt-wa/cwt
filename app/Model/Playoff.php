@@ -101,7 +101,7 @@ class Playoff extends AppModel {
 			'conditions' => array(
 				'Playoff.game_id' => $game_id
 			)
-		)); 
+		));
 
 		$bet_h = $bet['Playoff']['bet_h'];
 		$bet_a = $bet['Playoff']['bet_a'];
@@ -153,11 +153,11 @@ class Playoff extends AppModel {
 
 					$this->id 		= $newOpp['Playoff']['id'];
 					$this->Game->id = $newOpp['Game']['id'];
-				} else {			
+				} else {
 					$this->id 		= false;
 					$this->Game->id = false;
 
-					// Only create new playoff, if there is none.			
+					// Only create new playoff, if there is none.
 			        $this->save(array(
 			        	'step' 		 => $newStep,
 			        	'spot' 		 => $newSpot,
@@ -187,12 +187,12 @@ class Playoff extends AppModel {
 
 				$this->updTimeline($loser, $game['Playoff']['step'] + 1);
 			break;
-    		case '3': // Semifinal  			
+    		case '3': // Semifinal
     			$spot 	 = $game['Playoff']['spot'];
     			$newSpot = 1;
     			$player[4] = $loser; // Loser in SF(4)
 				$player[5] = $winner; // Winner in F(5)
-				
+
 				// Little formular on advancing the winner.
 		        $winnerHA = ($spot % 2 != 0) ? 'home_id' : 'away_id' ;
 
@@ -215,12 +215,12 @@ class Playoff extends AppModel {
 						$this->id 		= $newOpp['Playoff']['id'];
 						$this->Game->id = $newOpp['Game']['id'];
 						$winnerloser	= $player[$newStep];
-					} else {			
+					} else {
 						$this->id 		= false;
 						$this->Game->id = false;
 						$winnerloser	= $player[$newStep];
 
-						// Only create new playoff, if there is none.			
+						// Only create new playoff, if there is none.
 				        $this->save(array(
 				        	'step' 		 => $newStep,
 				        	'spot' 		 => $newSpot,
@@ -237,7 +237,7 @@ class Playoff extends AppModel {
 
 					// Now we also got to know the new game's id.
 					// If there's already a PO, it'll just overwrite it.
-					$this->save(array('game_id' => $this->Game->id));	
+					$this->save(array('game_id' => $this->Game->id));
 				}
     		break;
     		case '4'; // Third Place
@@ -272,10 +272,10 @@ class Playoff extends AppModel {
 					$this->Tournament->id = $tourney['id'];
 					$this->Tournament->save(array('status' => 'finished'));
 				}
-				
+
 				$this->bindModel(array('hasMany' => array(
 			        'User' => array('className' => 'User'))));
-						
+
 				$this->User->updateAll( // Set loser to retired.
 					array('User.stage' => "'retired'"),
 					array('User.id'    => $loser)
@@ -345,7 +345,7 @@ class Playoff extends AppModel {
         	unset($this->Game->id); unset($this->id);
         }
 
-        return true; 
+        return true;
 	}
 
 	// Return playoff attendees for drop-down.
@@ -357,10 +357,13 @@ class Playoff extends AppModel {
 		));
 	}
 
-	// Return the opponent the user is allowed to paly against. Drop-down.
-	public function allowedOpponents($attendees, $user = false) {
-		$user = $user ? $user : AuthComponent::user('id');
-
+    /**
+     * @param $attendees @TODO Apparently this parameter is not even needed.
+     * @param int $userId The user the opponents are to be found of. If not provided it's the currently logged in user.
+     * @return array What's left of $attendees after users $userId isn't allowed to play against are removed.
+     */
+    public function allowedOpponents($attendees, $userId = null) {
+		$userId = $userId === null ? AuthComponent::user('id') : $userId;
 		$Game = ClassRegistry::init('Game');
 
 		$Game->unbindModel(
@@ -370,23 +373,21 @@ class Playoff extends AppModel {
 		$nextGame = $Game->find('first', array(
 			'conditions' => array(
 				'OR' => array(
-					'Game.home_id' => $user,
-					'Game.away_id' => $user
+					'Game.home_id' => $userId,
+					'Game.away_id' => $userId
 				),
 				'Game.group_id' => 0,
 				'Game.reporter_id' => 0
 			)
 		));
 
-		if($nextGame['Game']['home_id'] == $user)
+		if($nextGame['Game']['home_id'] == $userId)
 			$oppId = $nextGame['Game']['away_id'];
 		else
 			$oppId = $nextGame['Game']['home_id'];
 
 		$oppName = ClassRegistry::init('User')->field(
 			'username', array('User.id' => $oppId));
-
-		debug(array($oppId => $oppName));
 
 		return array($oppId => $oppName);
 	}

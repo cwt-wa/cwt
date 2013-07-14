@@ -112,4 +112,40 @@ class AppModel extends Model {
 
         return false;
     }
+
+    /**
+     * Use the Tournament Model instead.
+     * @deprecated
+     */
+    public function tourneyStatus() {
+        $this->bindModel(array('hasMany' =>
+        array('Tournament' => array('className' => 'Tournament'))));
+        $status = $this->Tournament->field('status', null, 'year DESC');
+        return $status;
+    }
+
+    /**
+     * Use the Tournament Model instead.
+     * @deprecated
+     */
+    public function tourneyStarted() {
+        if ($this->tourneyStatus() == 'pending'
+            || $this->tourneyStatus() == 'archived') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Use the Tournament Model instead.
+     * @deprecated
+     */
+    public function tourneyInfo() {
+        $row = $this->find('first', array(
+            'limit' => 1,
+            'order' => array('Tournament.id' => 'desc')
+        ));
+        return $row['Tournament'];
+    }
 }
