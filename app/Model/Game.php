@@ -197,8 +197,10 @@ class Game extends AppModel {
 
         // Writes some nice Tournament News to the Infoboard.
         $id = $this->id;
-        $IBwinner = "<a href=\"/users/view/$winner\">$winner</a>";
-        $IBloser = "<a href=\"/users/view/$loser\">$loser</a>";
+        $winnerUsername = $this->User->field('username', array('id' => $winner));
+        $loserUsername = $this->User->field('username', array('id' => $loser));
+        $IBwinner = "<a href=\"/users/view/$winner\">$winnerUsername</a>";
+        $IBloser = "<a href=\"/users/view/$loser\">$loserUsername</a>";
         $IBresult = "<a href=\"/games/view/$id\">3-0</a>";
 
         $Infoboard = ClassRegistry::init('Infoboard');
