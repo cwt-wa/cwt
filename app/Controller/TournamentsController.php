@@ -15,8 +15,14 @@ class TournamentsController extends AppController {
     public function index() {
         $this->helpers[] = 'Text';
         $tournaments = $this->Tournament->find('all', array(
+            'conditions' => array(
+                'status' => Tournament::ARCHIVED
+            ),
             'order' => 'year DESC'
         ));
+
+        debug($tournaments);
+
         $this->set('tournaments', $tournaments);
     }
 

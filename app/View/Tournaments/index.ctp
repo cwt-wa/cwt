@@ -1,4 +1,8 @@
-<?php // debug($tournaments)               ?>
+<?php if (empty($tournament)): ?>
+    <div id="box" style="text-align: center; font-size: 12pt; font-weight: bold; background-color: #0A0E1C">
+        There are no archived tournaments.
+    </div>
+<?php endif; ?>
 
 <?php foreach ($tournaments as $tournament): ?>
     <?php
@@ -14,7 +18,7 @@
             <?php
             echo $tournament['Tournament']['year']
             ?>
-            - 
+            -
             <?php
             echo $this->Html->link('Results', '/archive/' . $tournament['Tournament']['year'])
             ?>
