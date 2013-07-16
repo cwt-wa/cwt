@@ -62,6 +62,15 @@ class AppModel extends Model {
     }
 
     /**
+     * Return the current tournament in a CakePHP typical array.
+     *
+     * @return array|null The current tournament or null if there are only archived tournaments.
+     */
+    public function currentTournament() {
+        return ClassRegistry::init('Tournament')->currentTournament();
+    }
+
+    /**
      * Prepends $message with user's IP address and (if logged in) username and Id.
      *
      * @param String $message The message that should be prepended with the user information.
@@ -117,17 +126,6 @@ class AppModel extends Model {
      * Use the Tournament Model instead.
      * @deprecated
      */
-    public function tourneyStatus() {
-        $this->bindModel(array('hasMany' =>
-        array('Tournament' => array('className' => 'Tournament'))));
-        $status = $this->Tournament->field('status', null, 'year DESC');
-        return $status;
-    }
-
-    /**
-     * Use the Tournament Model instead.
-     * @deprecated
-     */
     public function tourneyStarted() {
         if ($this->tourneyStatus() == 'pending'
             || $this->tourneyStatus() == 'archived') {
@@ -135,6 +133,17 @@ class AppModel extends Model {
         } else {
             return true;
         }
+    }
+
+    /**
+     * Use the Tournament Model instead.
+     * @deprecated
+     */
+    public function tourneyStatus() {
+        $this->bindModel(array('hasMany' =>
+        array('Tournament' => array('className' => 'Tournament'))));
+        $status = $this->Tournament->field('status', null, 'year DESC');
+        return $status;
     }
 
     /**

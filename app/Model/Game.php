@@ -41,10 +41,16 @@ class Game extends AppModel {
         )
 	);
 
-	// Game report.
-
-	public function report($data) {
+    /**
+     * A new game is being added and it should always be added using this method.
+     * @TODO Instead of calling this yourself this should work using one of the callbacks. Probably beforeSave().
+     *
+     * @param $data
+     * @return bool Whether or not adding succeeded.
+     */
+    public function report($data) {
 		$data['user'] = AuthComponent::user('id');
+        $currentTournament = $this->currentTournament();
 
 		// Custom validation.
 		$this->set($data);
@@ -76,14 +82,14 @@ class Game extends AppModel {
 
 			// Save the game to the database.
 			$this->save(array(
-				'group_id'    => $group_id,
-				'playoff_id'  => $playoff_id,
-				'home_id' 	  => $winner,
-				'away_id' 	  => $loser,
-				'score_h' 	  => $score_w,
-				'score_a' 	  => $score_l,
-				'reporter_id' => AuthComponent::user('id'),
-				'created'	  => gmdate('Y-m-d H:i:s')
+				'group_id'      => $group_id,
+				'playoff_id'    => $playoff_id,
+				'home_id' 	    => $winner,
+				'away_id' 	    => $loser,
+				'score_h' 	    => $score_w,
+				'score_a' 	    => $score_l,
+				'reporter_id'   => AuthComponent::user('id'),
+                'tournament_id' => $currentTournament['Tournament']['id']
 			));
 		} elseif($tourney['status'] == 'playoff') {
 			$upd 		= $this->Playoff->updateReport($winner, $loser);
@@ -100,11 +106,11 @@ class Game extends AppModel {
 
 			// Save the game to the database.
 			$this->save(array(
-				'playoff_id'  => $upd['reportedPO'],
-				'score_h' 	  => $score_h,
-				'score_a' 	  => $score_a,
-				'reporter_id' => AuthComponent::user('id'),
-				'created'	  => gmdate('Y-m-d H:i:s')
+				'playoff_id'    => $upd['reportedPO'],
+				'score_h' 	    => $score_h,
+				'score_a' 	    => $score_a,
+				'reporter_id'   => AuthComponent::user('id'),
+                'tournament_id' => $currentTournament['Tournament']['id']
 			),
 			false,
 			array(
@@ -183,10 +189,11 @@ class Game extends AppModel {
             }
 
             $this->save(array(
-                'playoff_id'  => $upd['reportedPO'],
-                'score_h' 	  => $score_h,
-                'score_a' 	  => $score_a,
-                'reporter_id' => AuthComponent::user('id'), // The admin.
+                'playoff_id'    => $upd['reportedPO'],
+                'score_h' 	    => $score_h,
+                'score_a' 	    => $score_a,
+                'reporter_id'   => AuthComponent::user('id'), // The admin.
+                'tournament_id' => $currentTournament['Tournament']['id']
                 ),
                 false,
                 array(
