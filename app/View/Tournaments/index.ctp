@@ -1,4 +1,4 @@
-<?php if (empty($tournament)): ?>
+<?php if (empty($tournaments)): ?>
     <div id="box" style="text-align: center; font-size: 12pt; font-weight: bold; background-color: #0A0E1C">
         There are no archived tournaments.
     </div>
@@ -14,18 +14,14 @@
     ?>
 
     <div id="box" style="background-color:<?php echo $backgroundColor ?>;">
-        <div style="text-align:center; font-size:15pt; font-weight:bold;">
+        <div id="year">
             <?php
             echo $tournament['Tournament']['year']
-            ?>
-            -
-            <?php
-            echo $this->Html->link('Results', '/archive/' . $tournament['Tournament']['year'])
             ?>
         </div><br />
         <table cellpadding="10">
             <tr>
-                <td align="left" style="white-space:nowrap;">
+                <td align="left" width="300" style="white-space: nowrap; font-size: 18pt;">
                     <?php
                     echo $this->Html->image('/img/medals/gold1.png', array(
                         'style' => 'height:20px;'
@@ -34,8 +30,7 @@
                     <?php
                     echo $this->Html->link(
                             $tournament['Gold']['username'], '/users/view/' . $tournament['Gold']['id'], array(
-                        'class' => 'plain',
-                        'style' => 'font-size:12pt;'
+                        'class' => 'plain'
                     ));
                     ?><br />
                     <?php
@@ -46,8 +41,7 @@
                     <?php
                     echo $this->Html->link(
                             $tournament['Silver']['username'], '/users/view/' . $tournament['Silver']['id'], array(
-                        'class' => 'plain',
-                        'style' => 'font-size:12pt;'
+                        'class' => 'plain'
                     ));
                     ?><br />
                     <?php
@@ -58,29 +52,21 @@
                     <?php
                     echo $this->Html->link(
                             $tournament['Bronze']['username'], '/users/view/' . $tournament['Bronze']['id'], array(
-                        'class' => 'plain',
-                        'style' => 'font-size:12pt;'
+                        'class' => 'plain'
                     ));
                     ?>
                 </td>
-                <td align="left" style="border-left:1px solid gray; white-space:nowrap;">
-            <u>Head Mod</u><br />
+                <td align="left" width="300" style="border-left:1px solid gray;">
+            Organized by<br />
             <?php
-            echo $this->Html->link($tournament['User']['username'], '/users/view/' . $tournament['User']['id'], array(
-                'class' => 'plain'
-            ));
-            ?><br />
-            <br />
-            <u>Helping Mods</u><br />
-            <?php
-            if (empty($tournament['Helper'])) {
+            if (empty($tournament['Moderator'])) {
                 echo '<i>none</i>';
             } else {
                 $helpers = array();
 
-                foreach ($tournament['Helper'] as $helper) {
+                foreach ($tournament['Moderator'] as $moderator) {
                     $helpers[] = $this->Html->link(
-                            $helper['username'], '/users/view/' . $helper['id'], array(
+                            $moderator['username'], '/users/view/' . $moderator['id'], array(
                         'class' => 'plain'
                             ));
                 }
@@ -90,19 +76,23 @@
             ?>
             </td>
             <td align="left" style="border-left:1px solid gray;">
-                <?php echo $tournament['Tournament']['review']; ?>
                 <?php
-                if (!empty($tournament['Tournament']['review'])) {
-                    echo ' - ' . $this->Html->link($tournament['User']['username'], '/users/view/' . $tournament['User']['id'], array(
-                        'class' => 'plain',
-                        'style' => 'font-style:italic;'
-                    ));
-                } else {
-                    echo '<i>Unfortunately the head mod has not written a review.</i>';
-                }
+                echo $this->Html->link(
+                    'Games, Standings<br/>and more',
+                    '/archive/' . $tournament['Tournament']['year'],
+                    array('escape' => false));
                 ?>
             </td>
             </tr>
         </table>
+        <br/>
+        <div style="text-align: center;">
+            <?php echo nl2br($this->Text->autoLinkUrls($tournament['Tournament']['review'])); ?>
+            <?php
+            if (empty($tournament['Tournament']['review'])) {
+                echo '<i>Unfortunately no review was written</i>';
+            }
+            ?>
+        </div>
     </div>
 <?php endforeach; ?>
