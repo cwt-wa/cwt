@@ -21,47 +21,10 @@ class GroupsController extends AppController {
         }
     }
 
-
-	public function index() {
-		$this->Group->unbindModel(array('hasMany' => array('Tournament')));
-		$this->loadModel('Rating');
-		$groupArray = array('*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-
-		$games = $this->Group->Game->find('all', array(
-			'order' => 'Game.created DESC'
-		));
-
-		for($i = 1; $i <= 8; $i++) {
-			$group[$i]['group'] = $groupArray[$i];
-
-			$groupAll = $this->Group->find('all', array(
-				'conditions' => array(
-					'Group.group' => $groupArray[$i]
-				),
-				'order' => 'Group.points DESC, Group.game_ratio DESC, Group.round_ratio DESC'
-			));
-
-			for($i2 = 0; $i2 <= 3; $i2++) {
-				$group[$i][$i2 + 1] = array(
-					'User' => $groupAll[$i2]['User'],
-					'Group' => $groupAll[$i2]['Group']
-				);
-				$group[$i][$i2 + 1]['User']['flag'] = 'flags/' . str_replace(' ', '_', strtolower($this->Group->User->Profile->field('country', array('user_id' => $groupAll[$i2]['User']['id'])))) . '.png';
-			}
-
-			$cGames = 1;
-			foreach($games as $game) {
-				if(in_array($game['Game']['group_id'], $this->Group->groupAssoc[$groupArray[$i]])) {
-					$group[$i]['Game'][$cGames] = $game;
-					$group[$i]['Game'][$cGames]['Rating'][0] = $this->Rating->ratingStats($game['Game']['id']);
-					$cGames++;
-				}
-			}
-		}
-
-		$this->set('group', $group); //debug($group);
+	public function index($tournamentId = null) {
+        $group = $this->Group->findForGroupsPage($tournamentId);
+		$this->set('group', $group);
 	}
-
 
 	public function view($id = null) {
 		$this->Group->id = $id;
@@ -70,7 +33,6 @@ class GroupsController extends AppController {
 		}
 		$this->set('group', $this->Group->read(null, $id));
 	}
-
 
 	public function add() {
 		if ($this->request->is('post')) {
@@ -85,7 +47,6 @@ class GroupsController extends AppController {
 		$users = $this->Group->User->find('list');
 		$this->set(compact('users'));
 	}
-
 
 	public function edit($id = null) {
 		$this->Group->id = $id;
@@ -104,7 +65,6 @@ class GroupsController extends AppController {
 		}
 	}
 
-
 	public function delete($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
@@ -121,12 +81,10 @@ class GroupsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-
 	public function admin_index() {
 		$this->Group->recursive = 0;
 		$this->set('groups', $this->paginate());
 	}
-
 
 	public function admin_view($id = null) {
 		$this->Group->id = $id;
@@ -135,7 +93,6 @@ class GroupsController extends AppController {
 		}
 		$this->set('group', $this->Group->read(null, $id));
 	}
-
 
  	public function admin_add() {
         if($this->Group->numberOfApplicants() < Tournament::PARTICIPANTS) {
@@ -168,6 +125,7 @@ class GroupsController extends AppController {
 
 
 	// Replacing a player from the group stage.
+
 	public function admin_edit() {
 		if($this->request->is('post')) {
 			$this->Group->replacePlayer($this->request->data);
@@ -194,7 +152,6 @@ class GroupsController extends AppController {
 		$this->set(compact('active'));
 		$this->set(compact('inactive'));
 	}
-
 
 	public function admin_delete($id = null) {
 		if (!$this->request->is('post')) {

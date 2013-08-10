@@ -302,4 +302,57 @@ class Group extends AppModel {
         $this->id = $winner_row; $this->save($newWinner);
         $this->id = $loser_row; $this->save($newLoser);
     }
+
+    /**
+     * Collects information and summarizes them for the groups page to display.
+     *
+     * @param $tournamentId The tournament to find the groups of.
+     * @return array The data needed for the view.
+     */
+    public function findForGroupsPage($tournamentId = null) {
+        if ($tournamentId == null) {
+            $currentTournament = $this->currentTournament();
+            $tournamentId = $currentTournament['Tournament']['id'];
+        }
+
+        $Rating = ClassRegistry::init('Rating');
+        $groupArray = array('*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+        $group = array();
+        $games = $this->Game->find('all', array(
+            'conditions' => array(
+                'Game.tournament_id' => $tournamentId
+            ),
+            'order' => 'Game.created DESC'
+        ));
+
+        for ($i = 1; $i <= 8; $i++) {
+            $group[$i]['group'] = $groupArray[$i];
+
+            $groupAll = $this->find('all', array(
+                'conditions' => array(
+                    'Group.tournament_id' => $tournamentId,
+                    'Group.group' => $groupArray[$i]
+                ),
+                'order' => 'Group.points DESC, Group.game_ratio DESC, Group.round_ratio DESC'
+            ));
+
+            for ($i2 = 0; $i2 <= 3; $i2++) {
+                $group[$i][$i2 + 1] = array(
+                    'User' => $groupAll[$i2]['User'],
+                    'Group' => $groupAll[$i2]['Group']
+                );
+                $group[$i][$i2 + 1]['User']['flag'] = $this->User->Profile->displayCountry($groupAll[$i2]['User']['id']);
+            }
+
+            $cGames = 1;
+            foreach ($games as $game) {
+                if (in_array($game['Game']['group_id'], $this->groupAssoc[$groupArray[$i]])) {
+                    $group[$i]['Game'][$cGames] = $game;
+                    $group[$i]['Game'][$cGames]['Rating'][0] = $Rating->ratingStats($game['Game']['id']);
+                    $cGames++;
+                }
+            }
+        }
+        return $group;
+    }
 }

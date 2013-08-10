@@ -5,7 +5,7 @@ App::uses('File', 'Utility');
 
 class Profile extends AppModel {
 	public $name = 'Profile';
-	public $displayField = 'user_id'; 
+	public $displayField = 'user_id';
 
 	public $belongsTo = array(
 		'User' => array(
@@ -84,9 +84,20 @@ class Profile extends AppModel {
 
 			return true;
 		}
-		
+
 		return false;
 	}
+
+    public function displayCountry($userId = null) {
+        $userId = $userId == null ? AuthComponent::user('id') : $userId;
+        $country = $this->field('country', array('user_id' => $userId));
+
+        if (empty($country)) {
+            return 'flags/unknown.png';
+        }
+
+        return 'flags/' . str_replace(' ', '_', strtolower($country)) . '.png';
+    }
 
 	public function displayPhoto($user) {
 		$folder = new Folder('img/users');

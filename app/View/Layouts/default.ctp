@@ -164,7 +164,7 @@
         	<?php echo $this->Html->link('<div class="menu_item">Players</div>', '/users', array('escape'=>false)); ?>
         	<?php echo $this->Html->link('<div class="menu_item">Groups</div>', '/groups', array('escape'=>false)); ?>
         	<?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape'=>false)); ?>
-        	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', '/archive', array('escape'=>false, 'target'=>'_blank')); ?>
+        	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', '/archive', array('escape'=>false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Forum</div>', 'http://www.normalnonoobs.com/forum/viewforum.php?f=24', array('target'=>'_blank', 'escape'=>false)); ?>
         	<?php echo $this->Html->link('<div class="popcorn_item">' . $this->Html->image('popcorn.png') . '</div>', '/streams', array('escape'=>false)); ?>
         </div>
@@ -205,7 +205,9 @@
    			&bull;
    			<?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
    			&bull;
-            <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('class' => 'plainer')) ?>
+            <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('target' => '_blank', 'class' => 'plainer')) ?>
+   			&bull;
+            <?php echo $this->Html->link('WKB', 'http://worms2d.info/Crespo\'s_Worms_Tournament', array('target' => '_blank', 'class' => 'plainer')) ?>
             &bull;
    			<?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
    			&bull;
