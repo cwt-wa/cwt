@@ -110,9 +110,7 @@ class AppModel extends Model {
      * @return bool True if the games can be reported, false otherwise.
      */
     public function gamesCanBeReported() {
-        $Tournament = ClassRegistry::init('Tournament');
-
-        $currentTournament = $Tournament->currentTournament();
+        $currentTournament = $this->currentTournament();
 
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP
                 || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {

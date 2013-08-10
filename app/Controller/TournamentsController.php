@@ -26,6 +26,26 @@ class TournamentsController extends AppController {
         $this->set('tournaments', $tournaments);
     }
 
+    public function view() {
+        $path = func_get_args();
+        $tournamentYear = $path[0];
+
+        $tournament = $this->Tournament->find('first', array(
+            'conditions' => array(
+                'Tournament.year' => $tournamentYear
+            )
+        ));
+
+        if (empty($tournament)) {
+            throw new NotFoundException('Tournament of the year ' . $tournamentYear . ' was not found in the archive.');
+        }
+
+        $this->loadModel('Group');
+        $this->set('group', $this->Group->findForGroupsPage($tournament['Tournament']['id']));
+        $this->set('title_for_layout', $tournamentYear);
+        $this->set('tournamentYear', $tournamentYear);
+    }
+
     public function admin_index() {
         $this->Tournament->recursive = 0;
         $this->set('tournaments', $this->paginate());
