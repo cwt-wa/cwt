@@ -31,8 +31,8 @@ class User extends AppModel
             'foreignKey' => 'user_id',
             'dependent' => true
         ),
-        'Group' => array(
-            'className' => 'Group',
+        'Standing' => array(
+            'className' => 'Standing',
             'foreignKey' => 'user_id'
         ),
         'Application' => array(
