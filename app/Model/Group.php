@@ -2,31 +2,18 @@
 App::uses('AppModel', 'Model');
 
 class Group extends AppModel {
+
     public $name = 'Group';
     public $displayField = 'group';
-
-    public $groupAssoc = array(
-        'A' => array(1, 2, 3, 4),
-        'B' => array(5, 6, 7, 8),
-        'C' => array(9, 10, 11, 12),
-        'D' => array(13, 14, 15, 16),
-        'E' => array(17, 18, 19, 20),
-        'F' => array(21, 22, 23, 24),
-        'G' => array(25, 26, 27, 28),
-        'H' => array(29, 30, 31, 32)
-    );
-
     public $hasMany = array(
         'Game' => array(
             'className'  => 'Game',
             'foreignKey' => 'group_id',
-            'conditions' => array('Game.playoff_id' => 0)
-        )
-    );
-    public $belongsTo = array(
-        'User' => array(
-            'className'  => 'User',
-            'foreignKey' => 'user_id'
+             'conditions' => array('Game.playoff_id' => 0)
+        ),
+        'Standing' => array(
+            'className'  => 'Standing',
+            'foreignKey' => 'group_id'
         )
     );
 
@@ -53,6 +40,7 @@ class Group extends AppModel {
     }
 
     // Assign players to the groups.
+
     public function start($data) {
         // Checking if a user has been assigned multiple times.
         $duplicates = array_count_values($data);
@@ -166,6 +154,7 @@ class Group extends AppModel {
     }
 
     // Replace a player.
+
     public function replacePlayer($data) {
         $Game = ClassRegistry::init('Game');
         $User = ClassRegistry::init('User');
@@ -256,6 +245,7 @@ class Group extends AppModel {
     }
 
     // A new group game has been reported. Call by GameModel.
+
     public function updateReport($winner, $loser, $score_w, $score_l) {
         $result = $score_w . '-' . $score_l;
 
@@ -316,6 +306,7 @@ class Group extends AppModel {
         }
 
         $Rating = ClassRegistry::init('Rating');
+        $this->recursive = -1; // Required for making joins work.
         $groupArray = array('*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
         $group = array();
         $games = $this->Game->find('all', array(
@@ -331,9 +322,19 @@ class Group extends AppModel {
             $groupAll = $this->find('all', array(
                 'conditions' => array(
                     'Group.tournament_id' => $tournamentId,
-                    'Group.group' => $groupArray[$i]
+                    'Group.label' => $groupArray[$i]
                 ),
-                'order' => 'Group.points DESC, Group.game_ratio DESC, Group.round_ratio DESC'
+                'joins' => array(
+                    array(
+                        'table' => 'standings',
+                        'alias' => 'Standing',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Standing.group_id = Group.id'
+                        ),
+                        'order' => 'Standing.points DESC, Standing.game_ratio DESC, Standing.round_ratio DESC'
+                    )
+                ),
             ));
 
             for ($i2 = 0; $i2 <= 3; $i2++) {
