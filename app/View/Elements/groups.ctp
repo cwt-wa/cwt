@@ -31,16 +31,16 @@
                         ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][1]['Group']['points'] ?>
+                        <?php echo $group[$i][1]['Standing']['points'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][1]['Group']['games'] ?>
+                        <?php echo $group[$i][1]['Standing']['games'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][1]['Group']['game_ratio'] ?>
+                        <?php echo $group[$i][1]['Standing']['game_ratio'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][1]['Group']['round_ratio'] ?>
+                        <?php echo $group[$i][1]['Standing']['round_ratio'] ?>
                     </td>
                 </tr>
                 <tr>
@@ -60,16 +60,16 @@
                         ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][2]['Group']['points'] ?>
+                        <?php echo $group[$i][2]['Standing']['points'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][2]['Group']['games'] ?>
+                        <?php echo $group[$i][2]['Standing']['games'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][2]['Group']['game_ratio'] ?>
+                        <?php echo $group[$i][2]['Standing']['game_ratio'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][2]['Group']['round_ratio'] ?>
+                        <?php echo $group[$i][2]['Standing']['round_ratio'] ?>
                     </td>
                 </tr>
                 <tr>
@@ -89,16 +89,16 @@
                         ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][3]['Group']['points'] ?>
+                        <?php echo $group[$i][3]['Standing']['points'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][3]['Group']['games'] ?>
+                        <?php echo $group[$i][3]['Standing']['games'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][3]['Group']['game_ratio'] ?>
+                        <?php echo $group[$i][3]['Standing']['game_ratio'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][3]['Group']['round_ratio'] ?>
+                        <?php echo $group[$i][3]['Standing']['round_ratio'] ?>
                     </td>
                 </tr>
                 <tr>
@@ -118,16 +118,16 @@
                         ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][4]['Group']['points'] ?>
+                        <?php echo $group[$i][4]['Standing']['points'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][4]['Group']['games'] ?>
+                        <?php echo $group[$i][4]['Standing']['games'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][4]['Group']['game_ratio'] ?>
+                        <?php echo $group[$i][4]['Standing']['game_ratio'] ?>
                     </td>
                     <td class="border" align="center">
-                        <?php echo $group[$i][4]['Group']['round_ratio'] ?>
+                        <?php echo $group[$i][4]['Standing']['round_ratio'] ?>
                     </td>
                 </tr>
             </table>

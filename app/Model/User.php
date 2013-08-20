@@ -31,10 +31,6 @@ class User extends AppModel
             'foreignKey' => 'user_id',
             'dependent' => true
         ),
-        'Standing' => array(
-            'className' => 'Standing',
-            'foreignKey' => 'user_id'
-        ),
         'Application' => array(
             'className' => 'Application',
             'foreignKey' => 'user_id'
@@ -58,6 +54,10 @@ class User extends AppModel
         ),
     );
     public $hasMany = array(
+        'Standing' => array(
+            'className' => 'Standing',
+            'foreignKey' => 'user_id'
+        ),
         'Home' => array(
             'className' => 'Game',
             'foreignKey' => 'home_id'

@@ -20,7 +20,7 @@
 		<?php echo $this->Form->input('password_confirmation', array('type'=>'password')); ?><br><br>
 		<?php echo $captcha ?><br>
 		<?php echo $this->Form->input('captcha'); ?>
-		<?php echo $this->Form->hidden('result', array('value' => $resultGames)); ?>
+		<?php echo $this->Form->hidden('result', array('value' => $resultRestores)); ?>
 		</fieldset>
 		<br>
 	<?php echo $this->Form->end('Submit');?>

@@ -306,48 +306,48 @@ class Group extends AppModel {
         }
 
         $Rating = ClassRegistry::init('Rating');
-        $this->recursive = -1; // Required for making joins work.
         $groupArray = array('*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+        $groups = $this->find('list', array(
+            'conditions' => array(
+                'tournament_id' => $tournamentId
+            ),
+            'fields' => array('Group.id')
+        ));
         $group = array();
         $games = $this->Game->find('all', array(
             'conditions' => array(
-                'Game.tournament_id' => $tournamentId
+                'Game.tournament_id' => $tournamentId,
+                'Game.playoff_id' => 0, // Why do I need to specify this, I've already done that on the model association?
+                'Game.group_id !=' => 0
             ),
             'order' => 'Game.created DESC'
         ));
 
         for ($i = 1; $i <= 8; $i++) {
+            $currentlyLoopedGroupId = array_slice($groups, $i - 1, $i);
+            $currentlyLoopedGroupId = $currentlyLoopedGroupId[0];
             $group[$i]['group'] = $groupArray[$i];
 
-            $groupAll = $this->find('all', array(
+            $groupAll = $this->Standing->find('all', array(
                 'conditions' => array(
                     'Group.tournament_id' => $tournamentId,
                     'Group.label' => $groupArray[$i]
                 ),
-                'joins' => array(
-                    array(
-                        'table' => 'standings',
-                        'alias' => 'Standing',
-                        'type' => 'LEFT',
-                        'conditions' => array(
-                            'Standing.group_id = Group.id'
-                        ),
-                        'order' => 'Standing.points DESC, Standing.game_ratio DESC, Standing.round_ratio DESC'
-                    )
-                ),
+                'order' => 'Standing.points DESC, Standing.game_ratio DESC, Standing.round_ratio DESC'
             ));
 
             for ($i2 = 0; $i2 <= 3; $i2++) {
                 $group[$i][$i2 + 1] = array(
                     'User' => $groupAll[$i2]['User'],
-                    'Group' => $groupAll[$i2]['Group']
+                    'Group' => $groupAll[$i2]['Group'],
+                    'Standing' => $groupAll[$i2]['Standing']
                 );
-                $group[$i][$i2 + 1]['User']['flag'] = $this->User->Profile->displayCountry($groupAll[$i2]['User']['id']);
+                $group[$i][$i2 + 1]['User']['flag'] = $this->Standing->User->Profile->displayCountry($groupAll[$i2]['User']['id']);
             }
 
             $cGames = 1;
             foreach ($games as $game) {
-                if (in_array($game['Game']['group_id'], $this->groupAssoc[$groupArray[$i]])) {
+                if ($currentlyLoopedGroupId == $game['Group']['id']) {
                     $group[$i]['Game'][$cGames] = $game;
                     $group[$i]['Game'][$cGames]['Rating'][0] = $Rating->ratingStats($game['Game']['id']);
                     $cGames++;
