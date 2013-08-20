@@ -5,42 +5,41 @@ if (mysqli_connect_errno($db)) {
     die('Failed to connect to database: ' . mysqli_connect_error());
 }
 
-$newStandingsCounter = 0;
-$tournamentId = 10;
+$tournamentId = 9;
 $sqlRestores = "SELECT * FROM `restores` WHERE `tournament_id`=$tournamentId AND `stage` LIKE 'Group%'";
 $resultRestores = mysqli_query($db, $sqlRestores);
 $groups = array(
     'Group A' => array(
         'label' => 'A',
-        'id' => 9
+        'id' => 17
     ),
     'Group B' => array(
         'label' => 'B',
-        'id' => 10
+        'id' => 18
     ),
     'Group C' => array(
         'label' => 'C',
-        'id' => 11
+        'id' => 19
     ),
     'Group D' => array(
         'label' => 'D',
-        'id' => 12
+        'id' => 20
     ),
     'Group E' => array(
         'label' => 'E',
-        'id' => 13
+        'id' => 21
     ),
     'Group F' => array(
         'label' => 'F',
-        'id' => 14
+        'id' => 22
     ),
     'Group G' => array(
         'label' => 'G',
-        'id' => 15
+        'id' => 23
     ),
     'Group H' => array(
         'label' => 'H',
-        'id' => 16
+        'id' => 24
     )
 );
 
@@ -89,21 +88,17 @@ while ($game = mysqli_fetch_array($resultRestores)) {
     $winnerPoints = 0;
     $loserPoints = 0;
     switch ($gameResult) {
-        case '3-0':
-            $winnerPoints = 4;
+        case '2-0':
+            $winnerPoints = 3;
             $loserPoints = 0;
             break;
-        case '3-1':
+        case '2-1':
             $winnerPoints = 3;
             $loserPoints = 1;
             break;
-        case '3-2':
-            $winnerPoints = 3;
-            $loserPoints = 2;
-            break;
         default:
             echo 'No matching result found for game #' . $game['id'] . '.';
-            continue;
+            continue 2;
     }
 
     $label = $groups[$game['stage']]['label'];
@@ -122,8 +117,6 @@ while ($game = mysqli_fetch_array($resultRestores)) {
             $sqlAddToStandings = "INSERT INTO `standings` (`group_id`, `user_id`) VALUES ('$newGroupId', '$loserId')";
             mysqli_query($db, $sqlAddToStandings);
         }
-
-        $newStandingsCounter++;
     }
 
     $winnerCurrentStandings = findCurrentStandings($db, $winnerId, $newGroupId);
