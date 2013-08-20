@@ -13,12 +13,10 @@ class Standing extends AppModel {
         'Group' => array(
             'className' => 'Group',
             'foreignKey' => 'group_id',
-        )
-    );
-    public $hasOne = array(
+        ),
         'User' => array(
             'className' => 'User',
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id',
         )
     );
     public $validate = array(
