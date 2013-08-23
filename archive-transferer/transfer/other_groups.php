@@ -5,41 +5,41 @@ if (mysqli_connect_errno($db)) {
     die('Failed to connect to database: ' . mysqli_connect_error());
 }
 
-$tournamentId = 8;
+$tournamentId = 7;
 $sqlRestores = "SELECT * FROM `restores` WHERE `tournament_id`=$tournamentId AND `stage` LIKE 'Group%'";
 $resultRestores = mysqli_query($db, $sqlRestores);
 $groups = array(
     'Group A' => array(
         'label' => 'A',
-        'id' => 25
+        'id' => 33
     ),
     'Group B' => array(
         'label' => 'B',
-        'id' => 26
+        'id' => 34
     ),
     'Group C' => array(
         'label' => 'C',
-        'id' => 27
+        'id' => 35
     ),
     'Group D' => array(
         'label' => 'D',
-        'id' => 28
+        'id' => 36
     ),
     'Group E' => array(
         'label' => 'E',
-        'id' => 29
+        'id' => 37
     ),
     'Group F' => array(
         'label' => 'F',
-        'id' => 30
+        'id' => 38
     ),
     'Group G' => array(
         'label' => 'G',
-        'id' => 31
+        'id' => 39
     ),
     'Group H' => array(
         'label' => 'H',
-        'id' => 32
+        'id' => 40
     )
 );
 
@@ -148,15 +148,14 @@ while ($game = mysqli_fetch_array($resultRestores)) {
 
     $sqlUpdateGame = "UPDATE `games`
         SET
-          `group_id`=$newGroupId,
-          `score_h`=$game[score_h],
-          `score_a`=$game[score_a]
+          `group_id`=$newGroupId
         WHERE
           `home_id`=$game[home_id] AND
           `away_id`=$game[away_id] AND
+          `score_h`=$game[score_h] AND
+          `score_a`=$game[score_a] AND
           `reporter_id`=$game[reporter_id] AND
           `tournament_id`=$game[tournament_id] AND
-          `techwin`=$game[tech_win] AND
           `created`='$game[reported]'";
     mysqli_query($db, $sqlUpdateGame);
 }
