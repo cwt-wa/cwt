@@ -5,41 +5,41 @@ if (mysqli_connect_errno($db)) {
     die('Failed to connect to database: ' . mysqli_connect_error());
 }
 
-$tournamentId = 6;
+$tournamentId = 5;
 $sqlRestores = "SELECT * FROM `restores` WHERE `tournament_id`=$tournamentId AND `stage` LIKE 'Group%'";
 $resultRestores = mysqli_query($db, $sqlRestores);
 $groups = array(
     'Group A' => array(
         'label' => 'A',
-        'id' => 41
+        'id' => 49
     ),
     'Group B' => array(
         'label' => 'B',
-        'id' => 42
+        'id' => 50
     ),
     'Group C' => array(
         'label' => 'C',
-        'id' => 43
+        'id' => 51
     ),
     'Group D' => array(
         'label' => 'D',
-        'id' => 44
+        'id' => 52
     ),
     'Group E' => array(
         'label' => 'E',
-        'id' => 45
+        'id' => 53
     ),
     'Group F' => array(
         'label' => 'F',
-        'id' => 46
+        'id' => 54
     ),
     'Group G' => array(
         'label' => 'G',
-        'id' => 47
+        'id' => 55
     ),
     'Group H' => array(
         'label' => 'H',
-        'id' => 48
+        'id' => 56
     )
 );
 
