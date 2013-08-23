@@ -5,41 +5,41 @@ if (mysqli_connect_errno($db)) {
     die('Failed to connect to database: ' . mysqli_connect_error());
 }
 
-$tournamentId = 9;
+$tournamentId = 8;
 $sqlRestores = "SELECT * FROM `restores` WHERE `tournament_id`=$tournamentId AND `stage` LIKE 'Group%'";
 $resultRestores = mysqli_query($db, $sqlRestores);
 $groups = array(
     'Group A' => array(
         'label' => 'A',
-        'id' => 17
+        'id' => 25
     ),
     'Group B' => array(
         'label' => 'B',
-        'id' => 18
+        'id' => 26
     ),
     'Group C' => array(
         'label' => 'C',
-        'id' => 19
+        'id' => 27
     ),
     'Group D' => array(
         'label' => 'D',
-        'id' => 20
+        'id' => 28
     ),
     'Group E' => array(
         'label' => 'E',
-        'id' => 21
+        'id' => 29
     ),
     'Group F' => array(
         'label' => 'F',
-        'id' => 22
+        'id' => 30
     ),
     'Group G' => array(
         'label' => 'G',
-        'id' => 23
+        'id' => 31
     ),
     'Group H' => array(
         'label' => 'H',
-        'id' => 24
+        'id' => 32
     )
 );
 
@@ -67,11 +67,6 @@ function findCurrentStandings($db, $userId, $newGroupId) {
 }
 
 while ($game = mysqli_fetch_array($resultRestores)) {
-    if ($game['tech_win']) {
-        echo 'Who won technically decided game #' . $game['id'] . '?';
-        continue;
-    }
-
     if ($game['score_h'] > $game['score_a']) {
         $winnerId = $game['home_id'];
         $loserId = $game['away_id'];
@@ -153,14 +148,15 @@ while ($game = mysqli_fetch_array($resultRestores)) {
 
     $sqlUpdateGame = "UPDATE `games`
         SET
-          `group_id`=$newGroupId
+          `group_id`=$newGroupId,
+          `score_h`=$game[score_h],
+          `score_a`=$game[score_a]
         WHERE
           `home_id`=$game[home_id] AND
           `away_id`=$game[away_id] AND
-          `score_h`=$game[score_h] AND
-          `score_a`=$game[score_a] AND
           `reporter_id`=$game[reporter_id] AND
           `tournament_id`=$game[tournament_id] AND
+          `techwin`=$game[tech_win] AND
           `created`='$game[reported]'";
     mysqli_query($db, $sqlUpdateGame);
 }
