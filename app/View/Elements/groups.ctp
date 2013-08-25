@@ -156,12 +156,16 @@
                             ?>
                         </td>
                         <td class="bottomBorder" width="55" align="center">
-                            <div title="<?php echo $game['Rating'][0]['likes'] ?> Likes, <?php echo $game['Rating'][0]['dislikes'] ?>  Dislikes" id="ratings">
-                                <div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['likes'] ?>%; background-color:green;"></div><div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['dislikes'] ?>%; background-color:red;"></div>
-                            </div>
-                            <div title="<?php echo $game['Rating'][0]['lightside'] ?> Lightside, <?php echo $game['Rating'][0]['darkside'] ?>  Darkside" id="ratings">
-                                <div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['lightside'] ?>%; background-color:white;"></div><div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['darkside'] ?>%; background-color:black;"></div>
-                            </div>
+                            <?php if (!$game['Game']['techwin']): ?>
+                                <div title="<?php echo $game['Rating'][0]['likes'] ?> Likes, <?php echo $game['Rating'][0]['dislikes'] ?>  Dislikes" id="ratings">
+                                    <div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['likes'] ?>%; background-color:green;"></div><div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['dislikes'] ?>%; background-color:red;"></div>
+                                </div>
+                                <div title="<?php echo $game['Rating'][0]['lightside'] ?> Lightside, <?php echo $game['Rating'][0]['darkside'] ?>  Darkside" id="ratings">
+                                    <div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['lightside'] ?>%; background-color:white;"></div><div class="ratingsBar" style="width:<?php echo $game['Rating'][0]['p']['darkside'] ?>%; background-color:black;"></div>
+                                </div>
+                            <?php else: ?>
+                                <span style="font-size: 8pt;">Tech. Win</span>
+                            <?php endif; ?>
                         </td>
                         <td class="bottomBorder" width="24" align="center" style="background:url('/img/comment.png') no-repeat center center;">
                             <?php echo count($game['Comment']) ?>

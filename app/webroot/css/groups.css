@@ -14,6 +14,7 @@
 
 .bottomBorder {
 	border-bottom: 1px solid #383838;
+    white-space: nowrap;
 }
 
 #ratings {
@@ -25,5 +26,5 @@
 
 .ratingsBar {
 	height: 5px;
-	display: inline-block; 
+	display: inline-block;
 }
