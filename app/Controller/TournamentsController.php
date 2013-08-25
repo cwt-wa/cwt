@@ -42,6 +42,8 @@ class TournamentsController extends AppController {
 
         $this->loadModel('Group');
         $this->set('group', $this->Group->findForGroupsPage($tournament['Tournament']['id']));
+        $this->loadModel('Playoff');
+        $this->set('playoff', $this->Playoff->findForPlayoffsPage($tournament['Tournament']['id']));
         $this->set('title_for_layout', $tournamentYear);
         $this->set('tournamentYear', $tournamentYear);
     }
