@@ -5,7 +5,7 @@ if (mysqli_connect_errno($db)) {
     die('Failed to connect to database: ' . mysqli_connect_error());
 }
 
-$tournamentId = 1; // id 10 = year 2011
+$tournamentId = 5; // id 10 = year 2011
 $sqlRestores = "SELECT * FROM `restores` WHERE `tournament_id`=$tournamentId AND `stage` NOT LIKE 'Group%'";
 $resultRestores = mysqli_query($db, $sqlRestores);
 
