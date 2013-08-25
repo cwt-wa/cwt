@@ -402,4 +402,54 @@ class Playoff extends AppModel {
 			)
 		));
 	}
+
+    /**
+     * Collects information and summarizes them for the groups page to display.
+     *
+     * @param $tournamentId The tournament to find the groups of.
+     * @internal param bool $bet True if user has triggered a bet on a game, false otherwise.
+     * @return array The data needed for the view.
+     */
+    public function findForPlayoffsPage($tournamentId = null) {
+        if ($tournamentId == null) {
+            $currentTournament = $this->currentTournament();
+            $tournamentId = $currentTournament['Tournament']['id'];
+        }
+
+        $this->unbindModel(array('hasMany' => array('Tournament')));
+
+        $playoff = $this->Game->find('all', array(
+            'conditions' => array(
+                'Game.playoff_id !=' => 0,
+                'Game.group_id' => 0,
+                'Game.tournament_id' => $tournamentId
+            ),
+            'order' => array(
+                'Playoff.step ASC, Playoff.spot ASC'
+            )
+        ));
+
+        $Rating = ClassRegistry::init('Rating');
+        $Trace = ClassRegistry::init('Trace');
+
+        foreach($playoff as $key => $val) {
+            $playoff[$key]['Rating'][0] = $Rating->ratingStats($playoff[$key]['Game']['id']);
+
+            $bet_h = $Trace->check('Bet', 'add', 'bet_h', $playoff[$key]['Playoff']['game_id'], 'read');
+            $bet_a = $Trace->check('Bet', 'add', 'bet_a', $playoff[$key]['Playoff']['game_id'], 'read');
+
+            $playoff[$key]['Playoff']['bet_h_traced'] = ($bet_h == null) ? false : true;
+            $playoff[$key]['Playoff']['bet_a_traced'] = ($bet_a == null) ? false : true;
+
+            $playoff[$key]['Playoff']['bets'] = $this->betStats($playoff[$key]['Playoff']['game_id']);
+        }
+
+        // If there was no third place match.
+        if (empty($playoff[15])) {
+            $playoff[15] = $playoff[14];
+            $playoff[14] = array();
+        }
+
+        return $playoff;
+    }
 }
