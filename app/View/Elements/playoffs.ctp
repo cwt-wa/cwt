@@ -253,7 +253,7 @@ endif; ?>
                             <div class="ratingsBar" style="width:<?php echo $playoff[$i]['Rating'][0]['p']['lightside'] ?>%; background-color: white;"></div><div class="ratingsBar" style="width:<?php echo $playoff[$i]['Rating'][0]['p']['darkside'] ?>%; background-color: black;"></div>
                         </div>
                     <?php else: ?>
-                        <span style="font-size: 9pt;">Tech. Win</span>
+                        <span style="font-size: 8pt;">Tech. Win</span>
                     <?php endif; ?>
                 </td>
             </tr>

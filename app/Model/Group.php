@@ -336,7 +336,7 @@ class Group extends AppModel {
                 'order' => 'Standing.points DESC, Standing.game_ratio DESC, Standing.round_ratio DESC'
             ));
 
-            for ($i2 = 0; $i2 <= 3; $i2++) {
+            for ($i2 = 0; $i2 < count($groupAll); $i2++) {
                 $group[$i][$i2 + 1] = array(
                     'User' => $groupAll[$i2]['User'],
                     'Group' => $groupAll[$i2]['Group'],
