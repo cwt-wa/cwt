@@ -130,6 +130,37 @@
                         <?php echo $group[$i][4]['Standing']['round_ratio'] ?>
                     </td>
                 </tr>
+                <?php if ($this->params['pass'][0] == 2006): // Only year with five group members. ?>
+                    <tr>
+                        <td class="border" bgcolor="red" align="center">5</td>
+                        <td class="border">
+                            <?php
+                            echo $this->Html->image($group[$i][5]['User']['flag'], array(
+                                'style' => 'height:10px; width:auto;'
+                            ));
+                            ?>
+                            <?php
+                            echo $this->Html->link($group[$i][5]['User']['username'],
+                                '/users/view/' . $group[$i][5]['User']['id'],
+                                array(
+                                    'style' => 'color:white;'
+                                ));
+                            ?>
+                        </td>
+                        <td class="border" align="center">
+                            <?php echo $group[$i][5]['Standing']['points'] ?>
+                        </td>
+                        <td class="border" align="center">
+                            <?php echo $group[$i][5]['Standing']['games'] ?>
+                        </td>
+                        <td class="border" align="center">
+                            <?php echo $group[$i][5]['Standing']['game_ratio'] ?>
+                        </td>
+                        <td class="border" align="center">
+                            <?php echo $group[$i][5]['Standing']['round_ratio'] ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
             </table>
         </div>
         <?php if(isset($group[$i]['Game'])): ?>
