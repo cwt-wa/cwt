@@ -6,8 +6,8 @@ class AppModel extends Model {
 
     /**
      * Validate a Model's Id.
-     * 
-     * @param int $id Id to be validated.  
+     *
+     * @param int $id Id to be validated.
      * @param str $model The Model the Id belongs to.
      * @return boolean False, if the Id is less than one or doesn't exist
      * in the given Model's database table, true otherwise.
@@ -36,7 +36,7 @@ class AppModel extends Model {
      * return value should be assigned to the the corresponding
      * Controller::request->data array element that will go into
      * validation/database.
-     * 
+     *
      * @param array $dateArray array('year' => '', 'month' => '', 'day' => '')
      * @return string The formatted date YYYY-MM-DD
      */
@@ -62,8 +62,17 @@ class AppModel extends Model {
     }
 
     /**
+     * Return the current tournament in a CakePHP typical array.
+     *
+     * @return array|null The current tournament or null if there are only archived tournaments.
+     */
+    public function currentTournament() {
+        return ClassRegistry::init('Tournament')->currentTournament();
+    }
+
+    /**
      * Prepends $message with user's IP address and (if logged in) username and Id.
-     * 
+     *
      * @param String $message The message that should be prepended with the user information.
      * @param Boolean $loggedIn Indicating whether the user is logged in or not.
      * @return String The final message prepended with user information.
@@ -81,7 +90,7 @@ class AppModel extends Model {
 
     /**
      * Get visitor's IP address securely by dodging proxy servers.
-     * 
+     *
      * @return String The visitor's IP address.
      */
     public function getVisitorIp() {
@@ -95,21 +104,29 @@ class AppModel extends Model {
     }
 
     /**
-     * DEPRECATED - Use the Tournament Model instead.
+     * Tells you if currently there's any user who can report games.
+     * Basically games can be reported in the group and playoffs stage and this method checks for these stages.
+     *
+     * @return bool True if the games can be reported, false otherwise.
      */
-    public function tourneyStatus() {
-        $this->bindModel(array('hasMany' =>
-            array('Tournament' => array('className' => 'Tournament'))));
-        $status = $this->Tournament->field('status', null, 'year DESC');
-        return $status;
+    public function gamesCanBeReported() {
+        $currentTournament = $this->currentTournament();
+
+        if ($currentTournament['Tournament']['status'] == Tournament::GROUP
+                || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * DEPRECATED - Use the Tournament Model instead.
+     * Use the Tournament Model instead.
+     * @deprecated
      */
     public function tourneyStarted() {
         if ($this->tourneyStatus() == 'pending'
-                || $this->tourneyStatus() == 'archived') {
+            || $this->tourneyStatus() == 'archived') {
             return false;
         } else {
             return true;
@@ -117,14 +134,25 @@ class AppModel extends Model {
     }
 
     /**
-     * DEPRECATED - Use the Tournament Model instead.
+     * Use the Tournament Model instead.
+     * @deprecated
+     */
+    public function tourneyStatus() {
+        $this->bindModel(array('hasMany' =>
+        array('Tournament' => array('className' => 'Tournament'))));
+        $status = $this->Tournament->field('status', null, 'year DESC');
+        return $status;
+    }
+
+    /**
+     * Use the Tournament Model instead.
+     * @deprecated
      */
     public function tourneyInfo() {
         $row = $this->find('first', array(
             'limit' => 1,
             'order' => array('Tournament.id' => 'desc')
-                ));
+        ));
         return $row['Tournament'];
     }
-
 }

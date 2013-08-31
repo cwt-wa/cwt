@@ -215,6 +215,19 @@ html, body {
     text-align: right;
 }
 
+/* Archive */
+
+div#year {
+    background-color: #57553D;
+    margin: -20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
+    letter-spacing: 20px;
+}
+
 /* Recurring */
 
 #adminNews {

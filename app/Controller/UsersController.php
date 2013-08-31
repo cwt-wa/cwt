@@ -14,54 +14,8 @@ class UsersController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(
-                'add', 'logout', 'timeline', 'password', 'foreign', 'resetPW', 'password_forgotten');
+                'add', 'logout', 'timeline', 'password', 'password_forgotten');
     }
-
-
-    public function resetPW($id) {
-    	if(!$this->Auth->user('admin')) {
-    		$this->Session->setFlash('Admins only!');
-    		$this->redirect('/users');
-    	} else {
-    		$this->User->save(array(
-	    		'id' => $id,
-	    		'password' => 'NeverForgetItAgain2012'
-	    	), false);
-
-	    	$this->Session->setFlash('Hey Joschi, ' . $this->User->field('username') . '\'s Passwort wurde geändert zu “NeverForgetItAgain2012”.');
-	    	$this->redirect('/users/view/' . $this->User->id);
-    	}
-    }
-
-
-    public function newRows() {
-    	$users = $this->User->find('list');
-
-    	foreach($users as $key => $val) {
-    		// Timeline update.
-    		$timeline = $this->User->timeline($key);
-    		$shortened = array_slice($timeline, 0, 10);
-    		$final = implode('', $shortened);
-    		debug($final);
-
-    		// Participations update.
-    		$participations = 0;
-    		foreach($shortened as $tournament) {
-    			if($tournament !== '0') $participations++;
-    		}
-    		debug($participations);
-
-    		// Saving all the stuff.
-    		$this->User->save(array(
-    			'id' => $key,
-    			'timeline' => $final,
-    			'participations' => $participations
-    		));
-    	}
-
-    	$this->layout = false;
-    }
-
 
     public function index() {
 		$this->User->recursive = 0;

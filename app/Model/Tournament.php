@@ -7,14 +7,6 @@ class Tournament extends AppModel {
     public $name = 'Tournament';
     public $displayField = 'year';
     public $belongsTo = array(
-        'User' => array(
-            'className' => 'User',
-            'foreignKey' => 'host_id'
-        ),
-        'Helpers' => array(
-            'className' => 'User',
-            'foreignKey' => 'helpers_id'
-        ),
         'Gold' => array(
             'className' => 'User',
             'foreignKey' => 'gold_id'
@@ -28,48 +20,98 @@ class Tournament extends AppModel {
             'foreignKey' => 'bronze_id'
         )
     );
-    public $hasMany = array(
-        'Restore' => array(
-            'className' => 'Restore',
-            'foreignKey' => 'tournament_id'
+    public $hasAndBelongsToMany = array(
+        'Moderator' => array(
+            'className' => 'User',
+            'joinTable' => 'tournaments_moderators',
+            'foreignKey' => 'tournament_id',
+            'associationForeignKey' => 'moderator_id',
+            'unique' => false
         )
     );
 
-    // Returns whole row of the most recent tourney.
-    public function info() {
-        $row = $this->find('first', array(
-            'limit' => 1,
-            'order' => array('Tournament.id' => 'desc')
-                ));
-        return $row['Tournament'];
+    /**
+     * The tournament is open for people to apply for participation. That's the default status.
+     */
+    const PENDING = 1;
+    /**
+     * Applied people were seeded to groups and can start playing by now.
+     */
+    const GROUP = 2;
+    /**
+     * Group stage has finished and playoff begun.
+     */
+    const PLAYOFF = 3;
+    /**
+     * The tournament's three best (gold, silver, bronze) have been found or it was manually finished by an admin.
+     */
+    const FINISHED = 4;
+    /**
+     * The tournament has been moved to the archive.
+     */
+    const ARCHIVED = 5;
+
+    /**
+     * The number of participants in a tournament.
+     */
+    const PARTICIPANTS = 32;
+
+
+    /**
+     * Return the current tournament in a CakePHP typical array.
+     *
+     * @return array|null The current tournament or null if there are only archived tournaments.
+     */
+    public function currentTournament() {
+        $currentTournament = $this->find('first', array(
+            'conditions' => array(
+                'status !=' => Tournament::ARCHIVED
+            )
+        ));
+
+        if (empty($currentTournament)) {
+            return null;
+        }
+        return $currentTournament;
     }
 
     // Start a whole new tournament.
     public function start($data) {
-        $helpers = array();
+        $this->save(array(
+            'Tournament' => array(
+                'year' => gmdate('Y'),
+                'status' => Tournament::PENDING,
+            )
+        ));
+
+        $this->save(array(
+            'Tournament' => array(
+                'id' => $this->id
+            ),
+            'Moderator' => array(
+                'id' => AuthComponent::user('id')
+            )
+        ));
+
+        $moderators = array();
+        $moderators[] = AuthComponent::user('id');
+
         for ($i = 1; $i <= $data['Number']; $i++) {
             if (!empty($data['Helper' . $i])) {
-                if (in_array($data['Helper' . $i], $helpers)) {
+                if (in_array($data['Helper' . $i], $moderators)) {
                     return false;
                 }
-                $helpers[] = $data['Helper' . $i];
+
+                $this->save(array(
+                    'Tournament' => array(
+                        'id' => $this->id
+                    ),
+                    'Moderator' => array(
+                        'id' => $data['Helper' . $i]
+                    )
+                ));
             }
         }
-
-        $helpers_id = '';
-        foreach ($helpers as $helper) {
-            $helpers_id .= $helper . ',';
-        }
-
-        $helpers_id = substr($helpers_id, 0, strlen($helpers_id) - 1);
-
-        unset($this->id);
-        $this->save(array(
-            'year' => gmdate('Y'),
-            'status' => 'pending',
-            'host_id' => AuthComponent::user('id'),
-            'helpers_id' => $helpers_id
-        ));
 
         return true;
     }
@@ -90,31 +132,31 @@ class Tournament extends AppModel {
 
     // Go to the next stage of the tournament.
     public function next() {
-        $tourney = $this->info();
+        $currentTournament = $this->currentTournament();
 
-        switch ($tourney['status']) {
-            case 'pending':
-                if ($this->afterPending()) {
+        switch ($currentTournament['Tournament']['status']) {
+            case Tournament::PENDING:
+                if ($this->afterPending($currentTournament)) {
                     return true;
                 } else {
                     return false;
                 }
                 break;
-            case 'group':
+            case Tournament::GROUP:
                 if ($this->afterGroup()) {
                     return true;
                 } else {
                     return false;
                 }
                 break;
-            case 'playoff':
+            case Tournament::PLAYOFF:
                 if ($this->afterPlayoff()) {
                     return true;
                 } else {
                     return false;
                 }
                 break;
-            case 'finished':
+            case Tournament::FINISHED:
                 if ($this->afterFinished()) {
                     return true;
                 } else {
@@ -123,7 +165,7 @@ class Tournament extends AppModel {
         }
     }
 
-    public function afterPending() {
+    public function afterPending($currentTournament) {
         $this->bindModel(array('hasMany' => array('Group' => array('className' => 'Group'))));
 
         // Checking if groups have already been created.
@@ -131,22 +173,10 @@ class Tournament extends AppModel {
             return false;
         }
 
-        // All the applicants who were moved to one group are now in group stage.
-        $assignedOnes = $this->Group->find('all');
-        foreach ($assignedOnes as $assignedOne) {
-            $this->User->updateAll(
-                    array('User.stage' => "'group'"), array('User.stage' => 'applied', 'User.id' => $assignedOne['Group']['user_id'])
-            );
-        }
-
-        // All the applicants who were not moved to one group are retired again.
-        $this->User->updateAll(
-                array('User.stage' => "'retired'"), array('User.stage' => 'applied')
-        );
-
-        // At last go to the next stage of the tournament.
-        $this->id = $this->field('id', null, 'year DESC');
-        $this->saveField('status', 'group', true);
+        $this->save(array(
+            'id' => $currentTournament['Tournament']['id'],
+            'status' => Tournament::GROUP
+        ));
 
         return true;
     }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 	echo $this->Html->script('rules', array('inline' => false));
 ?>
 
@@ -8,7 +8,7 @@
 
 <?php if(isset($apply)): ?>
 	<div id="box"v id="box" style="background-color:#29110D; text-align:center">
-		<h2>Before you apply for Crespo’s Worms Tournament <?php echo $tourney['year'] ?>, make sure you are acquainted with the guidelines.</h2>
+		<h2>Before you apply for Crespo’s Worms Tournament <?php echo $currentTournament['Tournament']['year'] ?>, make sure you are acquainted with the guidelines.</h2>
 	</div>
 	<div id="box" style="background-color:#29110D; text-align:center">
 		<h3>The organizers of this tournament may remind you again, that this is only an application and we reserve the decision on who to accept for the tournament.</h3>
