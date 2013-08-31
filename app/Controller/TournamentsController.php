@@ -21,8 +21,6 @@ class TournamentsController extends AppController {
             'order' => 'year DESC'
         ));
 
-        debug($tournaments);
-
         $this->set('tournaments', $tournaments);
     }
 

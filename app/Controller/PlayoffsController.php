@@ -22,7 +22,7 @@ class PlayoffsController extends AppController {
         }
 
         if ($currentTournament['Tournament']['id'] == $tournamentId
-                && $currentTournament['Tournament']['status'] != 'playoff') {
+                && $currentTournament['Tournament']['status'] != Tournament::PLAYOFF) {
             $this->Session->setFlash(
                 'The playoff stage has not yet started.',
                 'default', array('class' => 'error'));
