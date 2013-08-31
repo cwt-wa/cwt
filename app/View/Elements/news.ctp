@@ -5,8 +5,7 @@
 ?>
 
 <?php if($news['News']['text'] != ''): ?>
-	<!-- Don't forget that Admin News hint. -->
-	<div id="box" style="background-color:#3E283E">
+	<div id="box" style="background-color: #3E283E; margin-bottom: -60px;">
 		<div id="adminNews">
 			<?php
 				echo $this->Html->link(
@@ -23,10 +22,5 @@
 			?>
 		</div>
 		<?php echo nl2br($this->Bbcode->parse($news['News']['text'])); ?>
-		
-		<!-- <br><br>
-		<center>
-		<iframe width="640" height="480" src="http://www.youtube.com/embed/11bDkLFkFDo" frameborder="0" allowfullscreen></iframe>
-		</center> -->
 	</div>
 <?php endif; ?>

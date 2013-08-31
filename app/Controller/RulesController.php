@@ -16,11 +16,11 @@ class RulesController extends AppController {
 		$this->helpers[] = 'Bbcode';
 
 		$this->loadModel('Tournament');
-		$info = $this->Tournament->info();
+		$currentTournament = $this->Tournament->currentTournament();
 
 		if($apply && $this->Auth->loggedIn()
 		&& $this->Auth->user('stage') == 'retired'
-		&& $info['status'] == 'pending') {
+		&& $currentTournament['Tournament']['status'] == Tournament::PENDING) {
 			$this->set('apply', $apply);
 		}
 

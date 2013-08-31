@@ -6,14 +6,12 @@ App::uses('File', 'Utility');
 class Game extends AppModel {
 	public $name = 'Game';
 	public $displayField = 'id';
-
 	public $hasOne = array(
 		'Playoff' => array(
 			'className' => 'Playoff',
 			'foreignKey' => 'game_id'
 		)
 	);
-
 	public $hasMany = array(
 		'Comment' => array(
 			'className'  => 'Comment',
@@ -24,7 +22,6 @@ class Game extends AppModel {
 			'foreignKey' => 'game_id'
 		)
 	);
-
 	public $belongsTo = array(
 		'Group' => array(
 			'className'  => 'Group',
@@ -44,9 +41,16 @@ class Game extends AppModel {
         )
 	);
 
-	// Game report.
-	public function report($data) {
+    /**
+     * A new game is being added and it should always be added using this method.
+     * @TODO Instead of calling this yourself this should work using one of the callbacks. Probably beforeSave().
+     *
+     * @param $data
+     * @return bool Whether or not adding succeeded.
+     */
+    public function report($data) {
 		$data['user'] = AuthComponent::user('id');
+        $currentTournament = $this->currentTournament();
 
 		// Custom validation.
 		$this->set($data);
@@ -54,7 +58,7 @@ class Game extends AppModel {
 			return false;
 		}
 		unset($this->validate); // Validation has already been done.
-		
+
 		// Getting the tournament.
 		$Tournament = ClassRegistry::init('Tournament');
 		$tourney = $Tournament->info();
@@ -70,22 +74,22 @@ class Game extends AppModel {
 
 		// Update the group's table or playoff tree.
 		if($tourney['status'] == 'group') {
-			$this->Group->updateReport($winner, $loser, $score_w, $score_l);	
-			$dir 	  	= 'group/' . $this->Group->getGroup();
-			$group_id 	= $this->Group->groupAssoc[$this->Group->getGroup()][1];
+			$this->Group->updateReport($winner, $loser, $score_w, $score_l);
+			$dir 	  	= 'group/' . $this->Group->findGroup();
+			$group_id 	= $this->Group->groupAssoc[$this->Group->findGroup()][1];
 			$playoff_id = 0;
 			$this->id 	= false;
 
 			// Save the game to the database.
 			$this->save(array(
-				'group_id'    => $group_id,
-				'playoff_id'  => $playoff_id,
-				'home_id' 	  => $winner,
-				'away_id' 	  => $loser,
-				'score_h' 	  => $score_w,
-				'score_a' 	  => $score_l,
-				'reporter_id' => AuthComponent::user('id'),
-				'created'	  => gmdate('Y-m-d H:i:s')
+				'group_id'      => $group_id,
+				'playoff_id'    => $playoff_id,
+				'home_id' 	    => $winner,
+				'away_id' 	    => $loser,
+				'score_h' 	    => $score_w,
+				'score_a' 	    => $score_l,
+				'reporter_id'   => AuthComponent::user('id'),
+                'tournament_id' => $currentTournament['Tournament']['id']
 			));
 		} elseif($tourney['status'] == 'playoff') {
 			$upd 		= $this->Playoff->updateReport($winner, $loser);
@@ -102,11 +106,11 @@ class Game extends AppModel {
 
 			// Save the game to the database.
 			$this->save(array(
-				'playoff_id'  => $upd['reportedPO'],
-				'score_h' 	  => $score_h,
-				'score_a' 	  => $score_a,
-				'reporter_id' => AuthComponent::user('id'),
-				'created'	  => gmdate('Y-m-d H:i:s')
+				'playoff_id'    => $upd['reportedPO'],
+				'score_h' 	    => $score_h,
+				'score_a' 	    => $score_a,
+				'reporter_id'   => AuthComponent::user('id'),
+                'tournament_id' => $currentTournament['Tournament']['id']
 			),
 			false,
 			array(
@@ -140,7 +144,6 @@ class Game extends AppModel {
 		return true;
 	}
 
-	// Returns whether a certain user has been the home or away player.
 	public function HomeOrAway($gameId, $userId = false) {
 		$userId = $userId ? $userId : AuthComponent::user('id');
 
@@ -155,6 +158,69 @@ class Game extends AppModel {
 	}
 
 	// Return row of game according to who's winner and loser,
+
+    public function reportTechwin($winner, $loser) {
+        $currentTournament = ClassRegistry::init('Tournament')->currentTournament();
+
+        if ($currentTournament['Tournament']['status'] == Tournament::GROUP) {
+            $this->Group->updateReport($winner, $loser, 3, 0);
+
+            $group_id 	= $this->Group->groupAssoc[$this->Group->findGroup()][1];
+
+            $this->save(array(
+                'group_id'    => $group_id,
+                'playoff_id'  => 0,
+                'home_id' 	  => $winner,
+                'away_id' 	  => $loser,
+                'score_h' 	  => 3,
+                'score_a' 	  => 0,
+                'techwin'     => true,
+                'reporter_id' => AuthComponent::user('id'), // The admin.
+            ));
+        } elseif ($currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
+            $upd = $this->Playoff->updateReport($winner, $loser);
+
+            if ($this->HomeOrAway($this->id, $winner) == 'home') {
+                $score_h = 3;
+                $score_a = 0;
+            } else {
+                $score_h = 0;
+                $score_a = 3;
+            }
+
+            $this->save(array(
+                'playoff_id'    => $upd['reportedPO'],
+                'score_h' 	    => $score_h,
+                'score_a' 	    => $score_a,
+                'reporter_id'   => AuthComponent::user('id'), // The admin.
+                'tournament_id' => $currentTournament['Tournament']['id']
+                ),
+                false,
+                array(
+                    'playoff_id', 'score_h', 'score_a', 'reporter_id', 'created'
+                )
+            );
+        }
+
+        // Writes some nice Tournament News to the Infoboard.
+        $id = $this->id;
+        $winnerUsername = $this->User->field('username', array('id' => $winner));
+        $loserUsername = $this->User->field('username', array('id' => $loser));
+        $IBwinner = "<a href=\"/users/view/$winner\">$winnerUsername</a>";
+        $IBloser = "<a href=\"/users/view/$loser\">$loserUsername</a>";
+        $IBresult = "<a href=\"/games/view/$id\">3-0</a>";
+
+        $Infoboard = ClassRegistry::init('Infoboard');
+        $Infoboard->save(array(
+            'message' => "$IBwinner defeated $IBloser by $IBresult (tech. win)",
+            'category' => 3
+        ));
+
+        return true;
+    }
+
+	// Returns true/false according whether the game has alread been reported.
+
 	public function gameWL($winner, $loser) {
 		$this->unbindModel(
 			array('hasMany' => array('Tournament'))
@@ -181,7 +247,8 @@ class Game extends AppModel {
      	return $game;
 	}
 
-	// Returns true/false according whether the game has alread been reported.
+	// Returns all games a certain user has played.
+
 	public function isReported($p1, $p2, $status = false) {
 		$tourney = ClassRegistry::init('Tournament')->info();
 
@@ -217,7 +284,6 @@ class Game extends AppModel {
 		return (bool)$isReported;
 	}
 
-	// Returns all games a certain user has played.
 	public function playedby($userId = false) {
 		$userId = $userId ? $userId : AuthComponent::user('id');
 
@@ -231,26 +297,8 @@ class Game extends AppModel {
 		));
 	}
 
-	public $validate = array(
-		'replays' => array(
-			'rule' => 'replaySecurity',
-			'message' => 'You can only upload RAR or Zip archives.'
-		),
-		'userScore' => array(
-			'rule' => 'allowedResults',
-			'message' => 'You have entered an invalid result.'
-		),
-		'user' => array(
-			'rule' => 'isUser',
-			'message' => 'Please take part at your games. ;)'
-		),
-		'opponent' 	=> array(
-			'rule' => 'allowedOpponent',
-			'message' => 'You have already played against this opponent.'
-		)
-	);
-
 	// This is actually not secure as everything is checked client-side.
+
 	public function replaySecurity($data) {
 		$allowedMIMEsZip = array(
 			'application/zip', 'application/x-compressed', 'application/x-zip-compressed',
@@ -273,7 +321,7 @@ class Game extends AppModel {
 	}
 
 	public function allowedResults($data) {
-		return true;		
+		return true;
 
 		$Tournament = ClassRegistry::init('Tournament');
 		$tourney = $Tournament->info();
@@ -283,7 +331,7 @@ class Game extends AppModel {
 
 		if($tourney['status'] == 'playoff') {
 			$currentGame = $this->Playoff->currentGame();
-		
+
 			if($currentGame['Playoff']['step'] > 3) {
 				$allowedResults['4'] = '4';
 			}
@@ -308,7 +356,7 @@ class Game extends AppModel {
 			$allowedOpponents = $this->Group->allowedOpponents($this->Group->attendees());
 		} elseif(AuthComponent::user('stage') == 'playoff') {
 			$allowedOpponents = $this->Playoff->allowedOpponents($this->Playoff->attendees());
-		}	
+		}
 
 		if(!array_key_exists($data['opponent'], $allowedOpponents)) {
 			return false;

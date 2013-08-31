@@ -2,43 +2,45 @@
 App::uses('AppModel', 'Model');
 
 class Group extends AppModel {
+
     public $name = 'Group';
     public $displayField = 'group';
-
-    public $groupAssoc = array(
-        'A' => array(1, 2, 3, 4),
-        'B' => array(5, 6, 7, 8),
-        'C' => array(9, 10, 11, 12),
-        'D' => array(13, 14, 15, 16),
-        'E' => array(17, 18, 19, 20),
-        'F' => array(21, 22, 23, 24),
-        'G' => array(25, 26, 27, 28),
-        'H' => array(29, 30, 31, 32)
-    );
-    
     public $hasMany = array(
         'Game' => array(
             'className'  => 'Game',
             'foreignKey' => 'group_id',
-            'conditions' => array('Game.playoff_id' => 0)
-        )
-    );
-    public $belongsTo = array(
-        'User' => array(
-            'className'  => 'User',
-            'foreignKey' => 'user_id'
+             'conditions' => array('Game.playoff_id' => 0)
+        ),
+        'Standing' => array(
+            'className'  => 'Standing',
+            'foreignKey' => 'group_id'
         )
     );
 
-    // Return the group $user is in.
-    public function getGroup($user = false) {
-        $user = $user ? $user : AuthComponent::user('id');
+    /**
+     * Find the group the given user is or was in.
+     *
+     * @param null $userId The user's id to find the group of or the currently logged in user if the param wasn't given.
+     * @return String The capital letter of the group or null if th user was not found in any group.
+     */
+    public function findGroup($userId = null) {
+        $userId = $userId ? $userId : AuthComponent::user('id');
+
         $group = $this->find('first', array(
-            'conditions' => array('Group.user_id' => $user)));
+            'conditions' => array(
+                'Group.user_id' => $userId
+            )
+        ));
+
+        if (empty($group)) {
+            return null;
+        }
+
         return $group['Group']['group'];
     }
 
     // Assign players to the groups.
+
     public function start($data) {
         // Checking if a user has been assigned multiple times.
         $duplicates = array_count_values($data);
@@ -48,47 +50,59 @@ class Group extends AppModel {
             }
         }
 
+        $currentTournament = ClassRegistry::init('Tournament')->currentTournament();
+
         $groups = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
         $numGroup = 0;
         for($i = 1; $i <= 32; $i++) {
-            unset($this->id);
+            $this->create();
             $this->save(array(
                     'group' => $groups[$numGroup],
-                    'user_id' => $data['player' . $i]
+                    'user_id' => $data['player' . $i],
+                    'tournament_id' => $currentTournament['Tournament']['id']
             ));
             if($i % 4 == 0) {$numGroup++;}
         }
         return true;
     }
 
-    // Returns number of current applications.
-    public function applicants() {
-        $applicants = $this->User->find('count',
-            array('conditions' => array('stage' => 'applied')));
-
-        if($applicants >= 32) {return true;}
-        else {return false;}
+    /**
+     * How many users have applied for participation?
+     *
+     * @return integer number of users who applied.
+     */
+    public function numberOfApplicants() {
+        $applicants = $this->User->Application->find('count');
+        return $applicants;
     }
 
-    // Get opponents the current user is allowed to play against.
-    public function allowedOpponents($attendees) {
+    /**
+     * Get all the users the given user is allowed to report a game against.
+     *
+     * @param $attendees Provide it with this class's attendees() method. @TODO This method should do that itself.
+     * @param int $userId The user the opponents are to be found of. If not provided it's the currently logged in user.
+     * @return array What's left of $attendees after users $userId isn't allowed to play against are removed.
+     */
+    public function allowedOpponents($attendees, $userId = null) {
+        $userId = $userId ? $userId : AuthComponent::user('id');
+
         foreach($attendees as $groupmateID => $ID) {
             // Remove yourself from opponents.
-            if($groupmateID == AuthComponent::user('id')) {
+            if($groupmateID == $userId) {
                 unset($attendees[$groupmateID]);
             }
-            
+
             // Remove players you've already played against.
             $playedGame[1] = $this->Game->find('count', array(
                 'conditions' => array(
-                    'home_id' => AuthComponent::user('id'),
+                    'home_id' => $userId,
                     'away_id' => $groupmateID
                 )
             ));
             $playedGame[2] = $this->Game->find('count', array(
                 'conditions' => array(
                     'home_id' => $groupmateID,
-                    'away_id' => AuthComponent::user('id')
+                    'away_id' => $userId
                 )
             ));
             if($playedGame[1] || $playedGame[2]) {
@@ -99,24 +113,28 @@ class Group extends AppModel {
         return $attendees;
     }
 
-    // Get id and name of users of a certain group.
-    public function attendees() {
-        $group = $this->getGroup();
-
+    /**
+     * Get the users of a group as CakePHP list.
+     * @TODO Misleading method name.
+     *
+     * @param $groupString
+     * @return array
+     */
+    public function attendees($groupString) {
         // Get the players' rows in groups table.
         $playerIDs = array(
-            $this->groupAssoc[$group][0],
-            $this->groupAssoc[$group][1],
-            $this->groupAssoc[$group][2],
-            $this->groupAssoc[$group][3],
+            $this->groupAssoc[$groupString][0],
+            $this->groupAssoc[$groupString][1],
+            $this->groupAssoc[$groupString][2],
+            $this->groupAssoc[$groupString][3],
         );
 
         // Get users' ids in the current group.
         $userID = $this->find('list', array(
-            'conditions' => array('Group.group' => $group),
+            'conditions' => array('Group.group' => $groupString),
             'fields' => array('Group.user_id')
         ));
-        
+
         // Get users' names in the current group.
         $userName[0] = $this->User->find('list', array(
             'conditions' => array('User.id' => $userID[$playerIDs[0]])));
@@ -125,8 +143,8 @@ class Group extends AppModel {
         $userName[2] = $this->User->find('list', array(
             'conditions' => array('User.id' => $userID[$playerIDs[2]])));
         $userName[3] = $this->User->find('list', array(
-            'conditions' => array('User.id' => $userID[$playerIDs[3]])));
- 
+        'conditions' => array('User.id' => $userID[$playerIDs[3]])));
+
         return array(
             $userID[$playerIDs[0]] => $userName[0][$userID[$playerIDs[0]]],
             $userID[$playerIDs[1]] => $userName[1][$userID[$playerIDs[1]]],
@@ -136,6 +154,7 @@ class Group extends AppModel {
     }
 
     // Replace a player.
+
     public function replacePlayer($data) {
         $Game = ClassRegistry::init('Game');
         $User = ClassRegistry::init('User');
@@ -154,7 +173,7 @@ class Group extends AppModel {
             } else {
                 $opponent['id'] = $game['Game']['home_id'];
                 $opponent['score'] = $game['Game']['score_h'];
-                
+
                 $inactive['id'] = $game['Game']['away_id'];
                 $inactive['score'] = $game['Game']['score_a'];
             }
@@ -184,12 +203,12 @@ class Group extends AppModel {
             $opponent['new']['points'] =
                 $opponent['new']['points']
                 + $opponent['current']['Group']['points'];
-            
+
             $opponent['new']['game_ratio'] =
                 $opponent['new']['game_ratio']
                 + $opponent['current']['Group']['game_ratio'];
 
-            $opponent['new']['games'] = 
+            $opponent['new']['games'] =
                 $opponent['current']['Group']['games'] - 1;
 
             $opponent['new']['round_ratio'] =
@@ -226,6 +245,7 @@ class Group extends AppModel {
     }
 
     // A new group game has been reported. Call by GameModel.
+
     public function updateReport($winner, $loser, $score_w, $score_l) {
         $result = $score_w . '-' . $score_l;
 
@@ -248,7 +268,7 @@ class Group extends AppModel {
             case '3-2':
                 $newWinnerPoints = $oldwinner['points'] + 3;
                 $newLoserPoints = $oldloser['points']  + 1;
-        } 
+        }
 
         // Arrays of new information.
         $newWinner = array(
@@ -271,5 +291,69 @@ class Group extends AppModel {
         // Update the group's table.
         $this->id = $winner_row; $this->save($newWinner);
         $this->id = $loser_row; $this->save($newLoser);
+    }
+
+    /**
+     * Collects information and summarizes them for the groups page to display.
+     *
+     * @param $tournamentId The tournament to find the groups of.
+     * @return array The data needed for the view.
+     */
+    public function findForGroupsPage($tournamentId = null) {
+        if ($tournamentId == null) {
+            $currentTournament = $this->currentTournament();
+            $tournamentId = $currentTournament['Tournament']['id'];
+        }
+
+        $Rating = ClassRegistry::init('Rating');
+        $groupArray = array('*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+        $groups = $this->find('list', array(
+            'conditions' => array(
+                'tournament_id' => $tournamentId
+            ),
+            'fields' => array('Group.id')
+        ));
+        $group = array();
+        $games = $this->Game->find('all', array(
+            'conditions' => array(
+                'Game.tournament_id' => $tournamentId,
+                'Game.playoff_id' => 0, // Why do I need to specify this, I've already done that on the model association?
+                'Game.group_id !=' => 0
+            ),
+            'order' => 'Game.created DESC'
+        ));
+
+        for ($i = 1; $i <= 8; $i++) {
+            $currentlyLoopedGroupId = array_slice($groups, $i - 1, $i);
+            $currentlyLoopedGroupId = $currentlyLoopedGroupId[0];
+            $group[$i]['group'] = $groupArray[$i];
+
+            $groupAll = $this->Standing->find('all', array(
+                'conditions' => array(
+                    'Group.tournament_id' => $tournamentId,
+                    'Group.label' => $groupArray[$i]
+                ),
+                'order' => 'Standing.points DESC, Standing.game_ratio DESC, Standing.round_ratio DESC'
+            ));
+
+            for ($i2 = 0; $i2 < count($groupAll); $i2++) {
+                $group[$i][$i2 + 1] = array(
+                    'User' => $groupAll[$i2]['User'],
+                    'Group' => $groupAll[$i2]['Group'],
+                    'Standing' => $groupAll[$i2]['Standing']
+                );
+                $group[$i][$i2 + 1]['User']['flag'] = $this->Standing->User->Profile->displayCountry($groupAll[$i2]['User']['id']);
+            }
+
+            $cGames = 1;
+            foreach ($games as $game) {
+                if ($currentlyLoopedGroupId == $game['Group']['id']) {
+                    $group[$i]['Game'][$cGames] = $game;
+                    $group[$i]['Game'][$cGames]['Rating'][0] = $Rating->ratingStats($game['Game']['id']);
+                    $cGames++;
+                }
+            }
+        }
+        return $group;
     }
 }

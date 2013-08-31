@@ -162,21 +162,10 @@
         </div>
         <div id="menu">
         	<?php echo $this->Html->link('<div class="menu_item">Players</div>', '/users', array('escape'=>false)); ?>
-        	<div class="menu_item" onclick="donate()">
-        		<form style="display:none;" id="donate_form" target="_blank" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-					<input type="hidden" name="cmd" value="_donations">
-					<input type="hidden" name="business" value="donate@cwtsite.com">
-					<input type="hidden" name="lc" value="US">
-					<input type="hidden" name="item_name" value="Crespo's Worms Tournament">
-					<input type="hidden" name="no_note" value="0">
-					<input type="hidden" name="currency_code" value="USD">
-					<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
-					<input style="display:none;" id="donate" type="image" src="" border="0" name="submit" alt="Donate!">
-				</form>Donate
-        	</div>
         	<?php echo $this->Html->link('<div class="menu_item">Groups</div>', '/groups', array('escape'=>false)); ?>
         	<?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape'=>false)); ?>
-        	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', 'http://www.facebook.com/CresposWormsTournament', array('escape'=>false, 'target'=>'_blank')); ?>
+        	<?php echo $this->Html->link('<div class="menu_item">Archive</div>', '/archive', array('escape'=>false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Forum</div>', 'http://www.normalnonoobs.com/forum/viewforum.php?f=24', array('target'=>'_blank', 'escape'=>false)); ?>
         	<?php echo $this->Html->link('<div class="popcorn_item">' . $this->Html->image('popcorn.png') . '</div>', '/streams', array('escape'=>false)); ?>
         </div>
 
@@ -192,22 +181,39 @@
 </div>
 	<div id="footer">
 		<div id="copyright">
-   			<b>Crespo’s Worms Tournament 2012</b> by Joschi, Kayz and Zemke
+            <?php
+            $string = '<b>Crespo&apos;s Worms Tournament</b>';
+
+            if ($currentTournament == null) {
+                echo $string;
+            } else {
+                $string .= ' <b>' . $currentTournament['Tournament']['year'] . '</b> by ';
+
+                $moderators = array();
+                foreach ($currentTournament['Moderator'] as $moderator) {
+                    $moderators[] = $moderator['username'];
+                }
+
+                $string .= $this->Text->toList($moderators);
+                echo $string;
+            }
+
+            ?>
    		</div>
    		<div id="pages">
    			<?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>
    			&bull;
-   			<?php echo $this->Html->link('Rules', '/rules/view', array('class' => 'plainer')) ?>
-   			&bull;
    			<?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
    			&bull;
-   			<?php echo $this->Html->link('Replays', '/tournaments/download/replays', array('class' => 'plainer')) ?>
+            <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('target' => '_blank', 'class' => 'plainer')) ?>
    			&bull;
+            <?php echo $this->Html->link('WKB', 'http://worms2d.info/Crespo\'s_Worms_Tournament', array('target' => '_blank', 'class' => 'plainer')) ?>
+            &bull;
    			<?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
    			&bull;
    			<?php echo $this->Html->link('TUS', 'http://www.tus-wa.com', array('target' => '_blank', 'class' => 'plainer')) ?>
-   			&bull;
-   			<?php echo $this->Html->link('Forum', 'http://www.normalnonoobs.com/forum/viewforum.php?f=24', array('target' => '_blank', 'class' => 'plainer')) ?>
+            &bull;
+            <?php echo $this->Html->link('NTM', 'http://www.ntm.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
    		</div>
 	</div>
 <?php echo $this->Js->writeBuffer(); // Write cached scripts ?>

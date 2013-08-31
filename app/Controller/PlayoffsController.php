@@ -4,29 +4,32 @@ App::uses('AppController', 'Controller');
 class PlayoffsController extends AppController {
 	public $name = 'Playoffs';
     public $scaffold = 'admin';
-	
+
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-        $this->loadModel('Tournament');
-		$tourney = $this->Tournament->info();
-
-		if($this->Auth->user('admin')
-		&& $this->request->params['action'] == 'admin_add') {
+		if($this->Auth->user('admin') && $this->request->params['action'] == 'admin_add') {
 			$this->Session->setFlash(
   				'Please build the playoff tree.');
-		} else {
-			if($tourney['status'] != 'playoff') {
-	   			$this->Session->setFlash(
-	    			'The playoff stage has not yet started.',
-	     			'default', array('class' => 'error'));
-	     		$this->redirect($this->referer());
-	     	}
 		}
 	}
 
-	public function index($bet = false) {
-		$this->Playoff->unbindModel(array('hasMany' => array('Tournament')));
+    public function index($bet = false, $tournamentId = null) {
+        $currentTournament = $this->Playoff->currentTournament();
+
+        if ($tournamentId == null) {
+            $tournamentId = $currentTournament['Tournament']['id'];
+        }
+
+        if ($currentTournament['Tournament']['id'] == $tournamentId
+                && $currentTournament['Tournament']['status'] != Tournament::PLAYOFF) {
+            $this->Session->setFlash(
+                'The playoff stage has not yet started.',
+                'default', array('class' => 'error'));
+            $this->redirect($this->referer());
+        }
+
+        $this->Playoff->unbindModel(array('hasMany' => array('Tournament')));
 		$this->loadModel('Rating');
 		$this->loadModel('Trace');
 
@@ -55,40 +58,9 @@ class PlayoffsController extends AppController {
 
 			unset($game);
 		}
-		
-		$playoff = $this->Playoff->Game->find('all', array(
-			'conditions' => array(
-				'Game.playoff_id !=' => 0,
-				'Game.group_id' => 0
-			)
-		));
 
-		foreach($playoff as $key => $val) {
-			$needle = array(
-				'step' => $val['Playoff']['step'],
-				'spot' => $val['Playoff']['spot']
-			);
-
-			$newKey = array_search($needle, $this->Playoff->keyAssoc);
-			$game[$newKey] = $val;
-		}		
-
-		$playoff = $game;
-
-		foreach($playoff as $key => $val) {
-			$playoff[$key]['Rating'][0] = $this->Rating->ratingStats($playoff[$key]['Game']['id']);
-
-			$bet_h = $this->Trace->check('Bet', 'add', 'bet_h', $playoff[$key]['Playoff']['game_id'], 'read');
-			$bet_a = $this->Trace->check('Bet', 'add', 'bet_a', $playoff[$key]['Playoff']['game_id'], 'read');
-
-			$playoff[$key]['Playoff']['bet_h_traced'] = ($bet_h == null) ? false : true;
-			$playoff[$key]['Playoff']['bet_a_traced'] = ($bet_a == null) ? false : true;
-
-			$playoff[$key]['Playoff']['bets'] = $this->Playoff->betStats($playoff[$key]['Playoff']['game_id']);
-		}
-
+        $playoff = $this->Playoff->findForPlayoffsPage($tournamentId);
 		$this->set('playoff', $playoff);
-		//debug($playoff);
 	}
 
 
