@@ -113,8 +113,8 @@ class TournamentsController extends AppController {
         switch ($download) {
             case 'replays':
                 $this->set(array(
-                    'id' => 'CWT all replays.rar',
-                    'name' => 'CWT all replays',
+                    'id' => 'replays_2007_till_2011.rar',
+                    'name' => 'replays_2007_till_2011',
                     'download' => true,
                     'extension' => 'rar',
                     'path' => 'files' . DS . 'downloads' . DS
