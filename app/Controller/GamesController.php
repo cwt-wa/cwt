@@ -210,8 +210,6 @@ class GamesController extends AppController {
         );
 
         if (empty($replay)) {
-            $this->Session->setFlash(
-                'This replay is not (yet) available.', 'default', array('class' => 'error'));
             $this->redirect('/tournaments/download/replays');
             return;
         }
