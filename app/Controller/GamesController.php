@@ -209,15 +209,15 @@ class GamesController extends AppController {
             .' authorized: '.$auth
         );
 
-        if (empty($replay)) {
-            $this->redirect('/tournaments/download/replays');
-            return;
-        }
-
         $this->Game->save(array(
             'id' => $game['Game']['id'],
             'downloads' => $game['Game']['downloads'] + 1
         ));
+
+        if (empty($replay)) {
+            $this->redirect('/tournaments/download/replays');
+            return;
+        }
 
         $this->set(array(
             'id'        => $replay,
