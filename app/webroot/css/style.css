@@ -6,7 +6,7 @@ html, body {
     height: 100%;
     padding: 0px;
     margin: 0px;
-    background: url('/img/background.jpg');
+    background-color: #E9E9E9;
     overflow-x: hidden;
 }
 
