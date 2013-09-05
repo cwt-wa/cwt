@@ -217,5 +217,10 @@
    		</div>
 	</div>
 <?php echo $this->Js->writeBuffer(); // Write cached scripts ?>
+<script type="text/javascript">
+    var infolinks_pid = 1858339;
+    var infolinks_wsid = 0;
+</script>
+<script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
 </body>
 </html>
