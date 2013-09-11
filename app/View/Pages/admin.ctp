@@ -32,11 +32,12 @@
                     <a href="/admin/tournaments/edit">Start Group Stage</a>
                 <?php elseif ($currentTournament['Tournament']['status'] == Tournament::GROUP): ?>
                     <a href="/admin/tournaments/edit">Start the Playoff</a>
-                <?php elseif ($currentTournament['Tournament']['status'] == Tournament::FINISHED): ?>
-                    <a href="/admin/tournaments/edit">Close the Tournament</a>
+                <?php elseif ($currentTournament['Tournament']['status'] == Tournament::PLAYOFF): ?>
+                    <a href="/admin/tournaments/edit" onclick="return confirm('Are you sure?');">Archive the Tournament</a>
                 <?php endif; ?>
             </li>
-            <?php if ($currentTournament['Tournament']['status'] == Tournament::GROUP || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF): ?>
+            <?php if ($currentTournament['Tournament']['status'] == Tournament::GROUP
+                    || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF): ?>
                 <li>
                     <?php
                     echo $this->Html->link(
