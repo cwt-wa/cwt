@@ -18,7 +18,7 @@
 
     echo $scripts_for_layout;
     ?>
-	<?php if($_SERVER['REMOTE_ADDR'] != '127.0.0.1'): ?>
+	<?php if($_SERVER['HTTP_HOST'] != 'cwtsite.com'): ?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-33673621-1']);
