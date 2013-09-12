@@ -229,6 +229,7 @@ class Tournament extends AppModel {
         ));
 
         ClassRegistry::init('Application')->query('TRUNCATE TABLE `applications`');
+        return true;
     }
 
 }
