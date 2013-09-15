@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 App::uses('AppController', 'Controller');
 
@@ -100,7 +100,8 @@ class TournamentsController extends AppController {
         $this->helpers[] = 'AjaxMultiUpload.Upload';
         $this->components[] = 'AjaxMultiUpload.Upload';
 
-        $tourney = $this->Tournament->info();
+        $tourney = $this->Tournament->currentTournament();
+        $tourney = $tourney['Tournament'];
         $this->Tournament->id = $tourney['id'];
         $this->set('tournament', $this->Tournament->read());
     }
@@ -161,7 +162,13 @@ class TournamentsController extends AppController {
 
                 $this->loadModel('Group');
 
-                if (!$this->Group->find('count')) {
+                $groupsCreated = (bool) $this->Group->find('count', array(
+                    'conditions' => array(
+                        'Group.tournament_id' => $currentTournament['Tournament']['id']
+                    )
+                ));
+
+                if (!$groupsCreated) {
                     $this->Session->setFlash(
                             'You need to assign players to their groups
 						 before starting the group stage.', 'default', array('class' => 'error'));
@@ -179,10 +186,10 @@ class TournamentsController extends AppController {
                     $this->redirect('/admin/playoffs/add');
                 }
                 break;
-            case Tournament::FINISHED:
+            case Tournament::PLAYOFF:
                 $next = 'Archive the tournament';
                 $Smsg = 'The current tournament has now been made available in the Archive.';
-                $redirect = '/';
+                $redirect = '/archive';
         }
 
         if ($this->request->is('post')) {
