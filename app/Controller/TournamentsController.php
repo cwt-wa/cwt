@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 App::uses('AppController', 'Controller');
 
@@ -100,7 +100,8 @@ class TournamentsController extends AppController {
         $this->helpers[] = 'AjaxMultiUpload.Upload';
         $this->components[] = 'AjaxMultiUpload.Upload';
 
-        $tourney = $this->Tournament->info();
+        $tourney = $this->Tournament->currentTournament();
+        $tourney = $tourney['Tournament'];
         $this->Tournament->id = $tourney['id'];
         $this->set('tournament', $this->Tournament->read());
     }
