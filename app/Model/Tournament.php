@@ -150,18 +150,8 @@ class Tournament extends AppModel {
                 }
                 break;
             case Tournament::PLAYOFF:
-                if ($this->afterPlayoff()) {
-                    return true;
-                } else {
-                    return false;
-                }
+                $this->afterPlayoff($currentTournament);
                 break;
-            case Tournament::FINISHED:
-                if ($this->afterFinished()) {
-                    return true;
-                } else {
-                    return false;
-                }
         }
     }
 
@@ -228,6 +218,17 @@ class Tournament extends AppModel {
         $this->id = $this->field('id', null, 'year DESC');
         $this->saveField('status', 'playoff', true);
 
+        return true;
+    }
+
+    private function afterPlayoff($currentTournament) {
+        $this->id = $currentTournament['Tournament']['id'];
+
+        $this->save(array(
+            'status' => Tournament::ARCHIVED
+        ));
+
+        ClassRegistry::init('Application')->query('TRUNCATE TABLE `applications`');
         return true;
     }
 
