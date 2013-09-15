@@ -1,6 +1,6 @@
 <?php
 
-class PopulateShell extends AppShell {
+class ApplyShell extends AppShell {
 
     public $uses = array('User', 'Application');
 
