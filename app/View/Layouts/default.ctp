@@ -31,11 +31,6 @@
 		  })();
 		</script>
 	<?php endif; ?>
-	<script type="text/javascript">
-		function donate() {
-			$('#donate_form').submit();
-		}
-	</script>
 </head>
 <style type="text/css">
 	.userbutton {

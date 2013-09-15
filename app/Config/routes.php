@@ -35,6 +35,11 @@ Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 /**
+ * ...and connect the rest of 'Pages' controller's urls.
+ */
+Router::connect('/donate', array('controller' => 'pages', 'action' => 'display', 'donate'));
+
+/**
  * /restore leads to a page where games of past CWTs can be added to restore the archive.
  */
 Router::connect('/restore', array('controller' => 'restores', 'action' => 'add'));
