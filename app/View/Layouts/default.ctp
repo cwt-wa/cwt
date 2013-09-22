@@ -105,19 +105,19 @@
 			    	<div id="generaluser" class="open_item_user">
 			    		<div class="gu_item" id="editprofile">
 			    			<?php echo $this->Html->link('Edit profile',
-			    				array('controller'=>'profiles', 'action'=>'edit')); ?>
+			    				'/profiles/edit'); ?>
 			    		</div>
 			    		<div class="gu_item">
 			    			<?php echo $this->Html->link('View profile',
-			    				array('controller'=>'users', 'action'=>'view', $current_user['id'])); ?>
+			    				'/users/view/' . $current_user['id']); ?>
 			    		</div>
 			    		<div class="gu_item">
 			    			<?php echo $this->Html->link('Change photo',
-			    				array('controller'=>'profiles', 'action'=>'photo')); ?>
+			    				'/profiles/photo'); ?>
 			    		</div>
 			    		<div class="gu_item" id="changepw">
 			    			<?php echo $this->Html->link('Change password',
-			    				array('controller'=>'users', 'action'=>'password')); ?>
+			    				'/users/password'); ?>
 			    		</div>
 			    		<?php if($current_user['admin']): ?>
 				    		<div class="gu_item">
