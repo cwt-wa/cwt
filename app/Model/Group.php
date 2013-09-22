@@ -57,10 +57,16 @@ class Group extends AppModel {
         for($i = 1; $i <= 32; $i++) {
             $this->create();
             $this->save(array(
-                    'group' => $groups[$numGroup],
-                    'user_id' => $data['player' . $i],
-                    'tournament_id' => $currentTournament['Tournament']['id']
+                'tournament_id' => $currentTournament['Tournament']['id'],
+                'label' => $groups[$numGroup],
             ));
+
+            $this->Standing->create();
+            $this->Standing->save(array(
+                'group_id' => $this->id,
+                'user_id' => $data['player' . $i]
+            ));
+
             if($i % 4 == 0) {$numGroup++;}
         }
         return true;
@@ -72,7 +78,7 @@ class Group extends AppModel {
      * @return integer number of users who applied.
      */
     public function numberOfApplicants() {
-        $applicants = $this->User->Application->find('count');
+        $applicants = ClassRegistry::init('Application')->find('count');
         return $applicants;
     }
 
