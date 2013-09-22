@@ -159,7 +159,12 @@ class Tournament extends AppModel {
         $this->bindModel(array('hasMany' => array('Group' => array('className' => 'Group'))));
 
         // Checking if groups have already been created.
-        if (!$this->Group->find('count')) {
+        $groupsCreated = (bool) $this->Group->find('count', array(
+            'conditions' => array(
+                'tournament_id' => $currentTournament['Tournament']['id']
+            )
+        ));
+        if (!$groupsCreated) {
             return false;
         }
 
@@ -167,6 +172,31 @@ class Tournament extends AppModel {
             'id' => $currentTournament['Tournament']['id'],
             'status' => Tournament::GROUP
         ));
+
+        $User = ClassRegistry::init('User');
+
+        $usersWhoApplied = $User->Application->find('all');
+
+        foreach ($usersWhoApplied as $key => $val) {
+            $userAssignedToGroup = (bool) $User->Standing->find('count', array(
+                'conditions' => array(
+                    'tournament_id' => $currentTournament['Tournament']['id'],
+                    'user_id' => $val['User']['id']
+                )
+            ));
+
+            if ($userAssignedToGroup) {
+                $User->save(array(
+                    'id' => $val['User']['id'],
+                    'stage' => 'group'
+                ));
+            } else {
+                $User->save(array(
+                    'id' => $val['User']['id'],
+                    'stage' => 'retired'
+                ));
+            }
+        }
 
         return true;
     }
