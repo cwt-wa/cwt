@@ -150,58 +150,26 @@ class GamesController extends AppController {
 
     public function download($id) {
         $this->viewClass = 'Media';
+        $this->Game->id = $id;
+        $game = $this->Game->read();
 
-        $this->Game->unbindModel(
-            array('hasMany' => array('Tournament'))
-        );
+        $dir = new Folder('files/replays/');
 
-        $game = $this->Game->read(null, $id);
+        /*
+         * @TODO Debug what that is exactly returning. It should be the file name with extension.
+         */
+        $replay = $dir->find("\[[$id]*\].*\.(rar|zip)$");
 
-        if($game['Game']['group_id']) {
-            $filename =
-                '[' . $game['Game']['id'] . '] '
-                . $game['Home']['username'] . ' '
-                . $game['Game']['score_h'] . '-'
-                . $game['Game']['score_a'] . ' '
-                . $game['Away']['username'];
-
-            $path = 'files' . DS . 'replays' . DS . 'group' . DS . $game['Group']['group'] . DS;
-            $dir = new Folder('files/replays/group/' . $game['Group']['group']);
-
-            $files = $dir->find();
-
-            foreach($files as $file) {
-                if(substr($file, 0, -4) == $filename) {
-                    $replay = $file;
-                    break;
-                }
-            }
-        } elseif($game['Game']['playoff_id']) {
-            $filename = '[' . $game['Game']['id'] . ']';
-
-            $playoff = $this->Game->Playoff->find('first', array(
-                'conditions' => array(
-                    'Playoff.game_id' => $game['Game']['id']
-                )
-            ));
-
-            $path = 'files' . DS . 'replays' . DS . 'playoff' . DS . $this->Game->Playoff->stepAssoc[$playoff['Playoff']['step']] . DS;
-            $dir = new Folder('files/replays/playoff/' . $this->Game->Playoff->stepAssoc[$playoff['Playoff']['step']]);
-
-            $files = $dir->find();
-
-            foreach($files as $file) {
-                if(substr($file, 0, 4) == $filename) {
-                    $replay = $file;
-                    break;
-                }
-            }
+        if (empty($replay)) {
+            $this->redirect('/tournaments/download/replays');
+            return;
         }
 
-        if($this->Auth->loggedIn())
+        if($this->Auth->loggedIn()) {
             $auth = $this->Auth->user('username').' (#'.$this->Auth->user('id').')';
-        else
+        } else {
             $auth = 'false';
+        }
 
         CakeLog::write('replays',
             'Game #'.$id
@@ -214,17 +182,12 @@ class GamesController extends AppController {
             'downloads' => $game['Game']['downloads'] + 1
         ));
 
-        if (empty($replay)) {
-            $this->redirect('/tournaments/download/replays');
-            return;
-        }
-
         $this->set(array(
-            'id'        => $replay,
-            'name'      => substr($replay, 0, -4),
+            'id'        => $replay[0],
+            'name'      => substr($replay[0], 0, -4),
             'download'  => true,
-            'extension' => substr($replay, -3),
-            'path'      => 'webroot' . DS . $path
+            'extension' => substr($replay[0], -3),
+            'path'      => 'webroot' . DS . 'files' . DS . 'replays' . DS
         ));
     }
 
