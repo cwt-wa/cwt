@@ -60,7 +60,7 @@ class GamesController extends AppController {
 
         // Handle group game.
         if($game['Game']['group_id']) {
-            $game['stage'] = 'Group ' . $game['Group']['group'];
+            $game['stage'] = 'Group ' . $game['Group']['label'];
             $game['winner']['username'] = $game['Home']['username'];
             $game['winner']['id'] = $game['Home']['id'];
         } elseif($game['Game']['playoff_id']) { // Handle playoff game.
