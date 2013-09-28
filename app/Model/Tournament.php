@@ -151,6 +151,7 @@ class Tournament extends AppModel {
                 break;
             case Tournament::PLAYOFF:
                 $this->afterPlayoff($currentTournament);
+                return true;
                 break;
         }
     }

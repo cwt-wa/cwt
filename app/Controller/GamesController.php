@@ -11,7 +11,7 @@ class GamesController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         // You can only look up games, in case the tournament has started.
-        if(!$this->Game->gamesCanBeReported()) {
+        if(!$this->Game->gamesCanBeReported() && $this->request->params['action'] != 'download') {
             $this->Session->setFlash(
                 'The tournament has not yet started.',
                 'default', array('class' => 'error'));
@@ -95,7 +95,15 @@ class GamesController extends AppController {
 
 
     public function add() {
-        if($this->Auth->user('stage') != $this->Game->tourneyStatus()) {
+        $currentTournament = $this->Game->currentTournament();
+
+        if ($currentTournament['Tournament']['status'] == Tournament::GROUP
+                && $this->Auth->user('stage') != 'group') {
+            $this->Session->setFlash('You can\'t report any game.');
+            $this->redirect(array('action' => 'index'));
+        }
+        if ($currentTournament['Tournament']['status'] == Tournament::PLAYOFF
+                && $this->Auth->user('stage') != 'playoff') {
             $this->Session->setFlash('You can\'t report any game.');
             $this->redirect(array('action' => 'index'));
         }
@@ -106,6 +114,7 @@ class GamesController extends AppController {
                 $this->Auth->login($this->User->re_login());
                 $this->Session->setFlash('The game has been reported.');
                 $this->redirect('/games/view/' . $this->Game->id);
+                return;
             } else {
                 $errors = $this->Game->invalidFields();
                 foreach($errors as $key => $value) {
@@ -123,12 +132,20 @@ class GamesController extends AppController {
         );
 
         $this->loadModel('Tournament');
-        $tourney = $this->Tournament->info();
 
-        if($tourney['status'] == 'group') {
-            $opps = $this->Game->Group->attendees();
+        if($currentTournament['Tournament']['status'] == Tournament::GROUP) {
+            $group = $this->Game->Group->Standing->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Standing.user_id' => $this->Auth->user('id'),
+                        'Group.tournament_id' => $currentTournament['Tournament']['id']
+                    )
+                )
+            );
+            $opps = $this->Game->Group->attendees($group['Group']['label']);
             $opps = $this->Game->Group->allowedOpponents($opps);
-        } elseif($this->Game->tourneyStatus() == 'playoff') {
+        } elseif($currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
             $currentGame = $this->Game->Playoff->currentGame();
 
             if(!$currentGame) {
@@ -158,7 +175,7 @@ class GamesController extends AppController {
         /*
          * @TODO Debug what that is exactly returning. It should be the file name with extension.
          */
-        $replay = $dir->find("\[[$id]*\].*\.(rar|zip)$");
+        $replay = $dir->find("\[$id*\].*\.(rar|zip)$");
 
         if (empty($replay)) {
             $this->redirect('/tournaments/download/replays');
