@@ -43,7 +43,7 @@ class CommentsController extends AppController {
 				'conditions' => array(
 					'Comment.game_id' => $game_id,
 					'Comment.user_id' => $this->Auth->user('id'),
-					'Comment.message' => '' 
+					'Comment.message' => ''
 				)
 			));
 
@@ -53,7 +53,7 @@ class CommentsController extends AppController {
 				$preview = $this->Comment->field('preview', array(
 					'Comment.game_id' => $game_id,
 					'Comment.user_id' => $this->Auth->user('id'),
-					'Comment.message' => '' 
+					'Comment.message' => ''
 				));
 		        if($this->request->is('requested')) {
 		            return $preview;
@@ -62,7 +62,7 @@ class CommentsController extends AppController {
 		            $this->set('destination', '/comments/add/' . $game_id);
 		        }
 
-				
+
 				$this->Comment->save(array(
 					'game_id'  => $game_id,
 					'user_id'  => $this->Auth->user('id'),
@@ -91,7 +91,7 @@ class CommentsController extends AppController {
 		$comment = $this->Comment->Game->read(null, $game_id);
 
 		if($comment['Game']['group_id']) {
-			$comment['stage'] = 'Group ' . $comment['Group']['group'];
+			$comment['stage'] = 'Group ' . $comment['Group']['label'];
 		}
 
 		//debug($comment);
@@ -104,7 +104,7 @@ class CommentsController extends AppController {
 		if (!$this->Comment->exists()) {
 			throw new NotFoundException(__('Invalid comment'));
 		}
-		
+
 		$comment = $this->Comment->find('first', array(
 			'conditions' => array(
 				'Comment.id' => $id
@@ -128,7 +128,7 @@ class CommentsController extends AppController {
 		            $this->set('preview', $preview);
 		            $this->set('destination', '/comments/edit/' . $id);
 		        }
-				
+
 				$this->Comment->save(array(
 					'preview'  => $this->request->data['text'],
 					'modified' => '0000-00-00 00:00:00'
