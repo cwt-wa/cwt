@@ -50,19 +50,28 @@ class Group extends AppModel {
             }
         }
 
-        $currentTournament = ClassRegistry::init('Tournament')->currentTournament();
+        $currentTournament = $this->currentTournament();
 
         $groups = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-        $numGroup = 0;
-        for($i = 1; $i <= 32; $i++) {
+        $playerCounter = 1;
+
+        foreach ($groups as $group) {
             $this->create();
             $this->save(array(
-                    'group' => $groups[$numGroup],
-                    'user_id' => $data['player' . $i],
-                    'tournament_id' => $currentTournament['Tournament']['id']
+                'tournament_id' => $currentTournament['Tournament']['id'],
+                'label' => $group,
             ));
-            if($i % 4 == 0) {$numGroup++;}
+
+            for ($i = 0; $i < 4; $i++) {
+                $this->Standing->create();
+                $this->Standing->save(array(
+                    'group_id' => $this->id,
+                    'user_id' => $data['player' . $playerCounter]
+                ));
+                $playerCounter++;
+            }
         }
+
         return true;
     }
 
@@ -72,7 +81,7 @@ class Group extends AppModel {
      * @return integer number of users who applied.
      */
     public function numberOfApplicants() {
-        $applicants = $this->User->Application->find('count');
+        $applicants = ClassRegistry::init('Application')->find('count');
         return $applicants;
     }
 
@@ -121,36 +130,25 @@ class Group extends AppModel {
      * @return array
      */
     public function attendees($groupString) {
-        // Get the players' rows in groups table.
-        $playerIDs = array(
-            $this->groupAssoc[$groupString][0],
-            $this->groupAssoc[$groupString][1],
-            $this->groupAssoc[$groupString][2],
-            $this->groupAssoc[$groupString][3],
+        $currentTournament = $this->currentTournament();
+
+        $attendees = array();
+
+        $users = $this->Standing->find(
+            'all',
+            array(
+                'conditions' => array(
+                    'Group.tournament_id' => $currentTournament['Tournament']['id'],
+                    'Group.label' => $groupString
+                )
+            )
         );
 
-        // Get users' ids in the current group.
-        $userID = $this->find('list', array(
-            'conditions' => array('Group.group' => $groupString),
-            'fields' => array('Group.user_id')
-        ));
+        foreach ($users as $user) {
+            $attendees[$user['User']['id']] = $user['User']['username'];
+        }
 
-        // Get users' names in the current group.
-        $userName[0] = $this->User->find('list', array(
-            'conditions' => array('User.id' => $userID[$playerIDs[0]])));
-        $userName[1] = $this->User->find('list', array(
-            'conditions' => array('User.id' => $userID[$playerIDs[1]])));
-        $userName[2] = $this->User->find('list', array(
-            'conditions' => array('User.id' => $userID[$playerIDs[2]])));
-        $userName[3] = $this->User->find('list', array(
-        'conditions' => array('User.id' => $userID[$playerIDs[3]])));
-
-        return array(
-            $userID[$playerIDs[0]] => $userName[0][$userID[$playerIDs[0]]],
-            $userID[$playerIDs[1]] => $userName[1][$userID[$playerIDs[1]]],
-            $userID[$playerIDs[2]] => $userName[2][$userID[$playerIDs[2]]],
-            $userID[$playerIDs[3]] => $userName[3][$userID[$playerIDs[3]]]
-        );
+        return $attendees;
     }
 
     // Replace a player.
@@ -246,16 +244,9 @@ class Group extends AppModel {
 
     // A new group game has been reported. Call by GameModel.
 
-    public function updateReport($winner, $loser, $score_w, $score_l) {
+    public function updateReport($oldwinner, $oldloser, $score_w, $score_l) {
         $result = $score_w . '-' . $score_l;
 
-        // Getting the rows of winner an loser in groups table.
-        $winner_row = $this->field('id', array('user_id' => $winner));
-        $loser_row = $this->field('id', array('user_id' => $loser));
-        $oldwinner = $this->read(null, $winner_row); $oldwinner = $oldwinner['Group'];
-        $oldloser = $this->read(null, $loser_row); $oldloser = $oldloser['Group'];
-
-        // Calculating the new points.
         switch($result) {
             case '3-0':
                 $newWinnerPoints = $oldwinner['points'] + 3;
@@ -270,27 +261,25 @@ class Group extends AppModel {
                 $newLoserPoints = $oldloser['points']  + 1;
         }
 
-        // Arrays of new information.
         $newWinner = array(
-            'id' => $winner_row,
-            'user_id' => $winner,
+            'id' => $oldwinner['id'],
+            'user_id' => $oldwinner['user_id'],
             'points' => $newWinnerPoints,
             'games' => $oldwinner['games'] + 1,
             'game_ratio' => $oldwinner['game_ratio'] + 1,
             'round_ratio' => $oldwinner['round_ratio'] - $score_l + $score_w
         );
         $newLoser = array(
-            'id' => $loser_row,
-            'user_id' => $loser,
+            'id' => $oldloser['id'],
+            'user_id' => $oldloser['user_id'],
             'points' => $newLoserPoints,
             'games' => $oldloser['games'] + 1,
             'game_ratio' => $oldloser['game_ratio'] - 1,
             'round_ratio' => $oldloser['round_ratio']  - $score_w + $score_l
         );
 
-        // Update the group's table.
-        $this->id = $winner_row; $this->save($newWinner);
-        $this->id = $loser_row; $this->save($newLoser);
+        $this->Standing->save($newWinner);
+        $this->Standing->save($newLoser);
     }
 
     /**
