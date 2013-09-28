@@ -130,7 +130,7 @@
                         <?php echo $group[$i][4]['Standing']['round_ratio'] ?>
                     </td>
                 </tr>
-                <?php if ($this->params['pass'][0] == 2006): // Only year with five group members. ?>
+                <?php if (isset($this->params['pass'][0]) && $this->params['pass'][0] == 2006): // Only year with five group members. ?>
                     <tr>
                         <td class="border" bgcolor="red" align="center">5</td>
                         <td class="border">

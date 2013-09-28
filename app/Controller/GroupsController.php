@@ -112,7 +112,8 @@ class GroupsController extends AppController {
 			}
 		}
 
-		$users = $this->Group->User->Application->find('all');
+        $this->loadModel('Application');
+		$users = $this->Application->find('all');
         $applicants = array();
 
         foreach ($users as $user) {
