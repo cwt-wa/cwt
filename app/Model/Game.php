@@ -50,7 +50,6 @@ class Game extends AppModel {
      */
     public function report($data) {
 		$data['user'] = AuthComponent::user('id');
-        $currentTournament = $this->currentTournament();
 
 		// Custom validation.
 		$this->set($data);
@@ -59,9 +58,7 @@ class Game extends AppModel {
 		}
 		unset($this->validate); // Validation has already been done.
 
-		// Getting the tournament.
-		$Tournament = ClassRegistry::init('Tournament');
-		$tourney = $Tournament->info();
+		$tournament = $this->currentTournament();
 
 		// Determine winner.
 		if($data['userScore'] > $data['opponentScore']) {
@@ -73,11 +70,28 @@ class Game extends AppModel {
 		}
 
 		// Update the group's table or playoff tree.
-		if($tourney['status'] == 'group') {
-			$this->Group->updateReport($winner, $loser, $score_w, $score_l);
-			$dir 	  	= 'group/' . $this->Group->findGroup();
-			$group_id 	= $this->Group->groupAssoc[$this->Group->findGroup()][1];
-			$playoff_id = 0;
+		if($tournament['Tournament']['status'] == Tournament::GROUP) {
+            $standingWinner = $this->Group->Standing->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Standing.user_id' => $winner,
+                        'Group.tournament_id' => $tournament['Tournament']['id']
+                    )
+                )
+            );
+            $standingLoser = $this->Group->Standing->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Standing.user_id' => $loser,
+                        'Group.tournament_id' => $tournament['Tournament']['id']
+                    )
+                )
+            );
+            $group_id = $standingLoser['Group']['id'];
+            $this->Group->updateReport($standingWinner['Standing'], $standingLoser['Standing'], $score_w, $score_l);
+            $playoff_id = 0;
 			$this->id 	= false;
 
 			// Save the game to the database.
@@ -89,11 +103,10 @@ class Game extends AppModel {
 				'score_h' 	    => $score_w,
 				'score_a' 	    => $score_l,
 				'reporter_id'   => AuthComponent::user('id'),
-                'tournament_id' => $currentTournament['Tournament']['id']
+                'tournament_id' => $tournament['Tournament']['id']
 			));
-		} elseif($tourney['status'] == 'playoff') {
+		} elseif($tournament['Tournament']['status'] == 'playoff') {
 			$upd 		= $this->Playoff->updateReport($winner, $loser);
-			$dir 		= 'playoff/' . $upd['stepAssoc'];
 			$this->id 	= $upd['reportedGame'];
 
 			if ($this->HomeOrAway($this->id, $winner) == 'home') {
@@ -110,7 +123,7 @@ class Game extends AppModel {
 				'score_h' 	    => $score_h,
 				'score_a' 	    => $score_a,
 				'reporter_id'   => AuthComponent::user('id'),
-                'tournament_id' => $currentTournament['Tournament']['id']
+                'tournament_id' => $tournament['Tournament']['id']
 			),
 			false,
 			array(
@@ -123,7 +136,7 @@ class Game extends AppModel {
 		$winnerUN = $User->field('username', array('id' => $winner));
 		$loserUN = $User->field('username', array('id' => $loser));
 		$filename = "[$id] $winnerUN $result $loserUN";
-		$file 	  = new File("files/replays/$dir/$filename.rar", true);
+		$file 	  = new File("files/replays/$filename.rar", true);
 
 		// Transfer temporary file contents to the new file.
 		$tmp_file = new File($data['replays']['tmp_name']);
