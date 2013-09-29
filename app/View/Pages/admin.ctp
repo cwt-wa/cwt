@@ -42,7 +42,7 @@
                     <?php
                     echo $this->Html->link(
                         'Add a Game',
-                        '/admin/games/add'
+                        '/admin/games/techwin'
                     );
                     ?>
                 </li>
