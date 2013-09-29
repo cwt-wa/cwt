@@ -394,8 +394,7 @@ class User extends AppModel
     public function isStillInTournament($userId = null) {
         $userId = $userId === null ? AuthComponent::user('id') : $userId;
 
-        $Tournament = ClassRegistry::init('Tournament');
-        $currentTournament = $Tournament->currentTournament();
+        $currentTournament = $this->currentTournament();
 
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP) {
             $Group = ClassRegistry::init('Group');

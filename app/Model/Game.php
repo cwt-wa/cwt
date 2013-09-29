@@ -173,22 +173,43 @@ class Game extends AppModel {
 	// Return row of game according to who's winner and loser,
 
     public function reportTechwin($winner, $loser) {
-        $currentTournament = ClassRegistry::init('Tournament')->currentTournament();
+        $currentTournament = $this->currentTournament();
 
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP) {
-            $this->Group->updateReport($winner, $loser, 3, 0);
+            $winnerStanding = $this->Group->Standing->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Standing.user_id' => $winner,
+                        'Group.tournament_id' => $currentTournament['Tournament']['id']
+                    )
+                )
+            );
 
-            $group_id 	= $this->Group->groupAssoc[$this->Group->findGroup()][1];
+            $loserStanding = $this->Group->Standing->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Standing.user_id' => $loser,
+                        'Group.tournament_id' => $currentTournament['Tournament']['id']
+                    )
+                )
+            );
+
+            $this->Group->updateReport($winnerStanding['Standing'], $loserStanding['Standing'], 3, 0);
+
+            $groupId = $winnerStanding['Group']['id'];
 
             $this->save(array(
-                'group_id'    => $group_id,
-                'playoff_id'  => 0,
-                'home_id' 	  => $winner,
-                'away_id' 	  => $loser,
-                'score_h' 	  => 3,
-                'score_a' 	  => 0,
-                'techwin'     => true,
-                'reporter_id' => AuthComponent::user('id'), // The admin.
+                'tournament_id' => $currentTournament['Tournament']['id'],
+                'group_id'      => $groupId,
+                'playoff_id'    => 0,
+                'home_id' 	    => $winner,
+                'away_id' 	    => $loser,
+                'score_h' 	    => 3,
+                'score_a' 	    => 0,
+                'techwin'       => true,
+                'reporter_id'   => AuthComponent::user('id'), // The admin.
             ));
         } elseif ($currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
             $upd = $this->Playoff->updateReport($winner, $loser);
@@ -217,8 +238,9 @@ class Game extends AppModel {
 
         // Writes some nice Tournament News to the Infoboard.
         $id = $this->id;
-        $winnerUsername = $this->User->field('username', array('id' => $winner));
-        $loserUsername = $this->User->field('username', array('id' => $loser));
+        $User = ClassRegistry::init('User');
+        $winnerUsername = $User->field('username', array('id' => $winner));
+        $loserUsername = $User->field('username', array('id' => $loser));
         $IBwinner = "<a href=\"/users/view/$winner\">$winnerUsername</a>";
         $IBloser = "<a href=\"/users/view/$loser\">$loserUsername</a>";
         $IBresult = "<a href=\"/games/view/$id\">3-0</a>";
