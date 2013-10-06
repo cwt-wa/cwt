@@ -50,69 +50,39 @@
 		?>
 	</div>
 	<table border="0" cellpadding="2" cellspacing="0" align="center">
-		<?php if(@$schedules[0]): ?>	
+		<?php if(@$schedules[0]): ?>
 			<?php foreach($schedules as $schedule): ?>
 				<tr>
 					<td align="right">
-						<?php if($schedule['Stream'][0]['online']): ?>
-							<blink>
-						<?php endif; ?>
 						<?php if($current_user['id'] == $schedule['Scheduler']['id']): ?>
 							<span title="Remove Game" style="color:red; cursor:pointer;" onClick="removeGame(<?php echo $schedule['Schedule']['id'] ?>);">
 								x
 						<?php else: ?>
 							»
 						<?php endif; ?>
-						<?php if($schedule['Stream'][0]['online']): ?>
-							</blink>
-						<?php endif; ?>
 					</td>
 					<td align="right">
-						<?php if($schedule['Stream'][0]['online']): ?>
-							<blink>
-						<?php endif; ?>
-						<?php 
+						<?php
 							echo $this->Time->format(
-								'M j, H:i', $schedule['Schedule']['when']); 
+								'M j, H:i', $schedule['Schedule']['when']);
 						?>
-						<?php if($schedule['Stream'][0]['online']): ?>
-							</blink>
-						<?php endif; ?>
 					</td>
 					<td align="right">
-						<?php if($schedule['Stream'][0]['online']): ?>
-							<blink>
-						<?php endif; ?>
-						<?php 
+						<?php
 							echo $this->Html->link(
 								$schedule['Scheduler']['username'],
 								'/users/view/' . $schedule['Scheduler']['id'])
 						?>
-						<?php if($schedule['Stream'][0]['online']): ?>
-							</blink>
-						<?php endif; ?>
 					</td>
 					<td align="center">
-						<?php if($schedule['Stream'][0]['online']): ?>
-							<blink>
-						<?php endif; ?>
 						vs.
-						<?php if($schedule['Stream'][0]['online']): ?>
-							</blink>
-						<?php endif; ?>
 					</td>
 					<td align="left">
-						<?php if($schedule['Stream'][0]['online']): ?>
-							<blink>
-						<?php endif; ?>
-						<?php 
+						<?php
 							echo $this->Html->link(
 								$schedule['Scheduled']['username'],
 								'/users/view/' . $schedule['Scheduled']['id'])
 						?>
-						<?php if($schedule['Stream'][0]['online']): ?>
-							</blink>
-						<?php endif; ?>
 					</td>
 					<td align="left">
 						<?php foreach($schedule['Stream'] as $stream): ?>
@@ -129,6 +99,9 @@
 								);
 							?>
 						<?php endforeach; ?>
+                        <?php if($schedule['Stream'][0]['online']): ?>
+                            <span style="color: green; font-size: 8pt;">ONLiNE</span>
+                        <?php endif; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -142,7 +115,8 @@
 
 <div id="box" style="background-color:#3C3E28; margin-left:500px; padding-top:5px; width:438px; height:80px; text-align:center;">
 	<?php if($logged_in): ?>
-		<?php if($current_user['stage'] != $tourney['status']): ?>
+		<?php if (!($current_user['stage'] == 'group' && $currentTournament['Tournament']['status'] == Tournament::GROUP)
+            && !($current_user['stage'] == 'playoff' && $currentTournament['Tournament']['status'] == Tournament::PLAYOFF)): ?>
 			<div style="margin-left:30px; margin-top:27px; font-style:italic; text-align:left;">
 				Hello <?php echo $current_user['username'] ?>, CWT is currently running.
 				<br>I hope you will be taking part next year.
@@ -168,7 +142,7 @@
 						You
 					</td>
 					<td align="center">
-						
+
 					</td>
 					<td align="center">
 						Opponent

@@ -9,6 +9,11 @@ $this->Html->script('jCaret', array('inline' => false));
 $this->Html->css('infoboard', null, array('inline' => false));
 ?>
 
+<?php if ($currentTournament['Tournament']['status'] == Tournament::GROUP
+    || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF): ?>
+    <?php echo $this->element('scheduler'); ?>
+<?php endif; ?>
+
 <?php echo $this->element('news'); ?>
 
 <div id="box" style="background-color:white; color:rgb(46,46,46); margin-top:100px; height: 210px">
