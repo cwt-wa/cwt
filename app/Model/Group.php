@@ -26,9 +26,9 @@ class Group extends AppModel {
     public function findGroup($userId = null) {
         $userId = $userId ? $userId : AuthComponent::user('id');
 
-        $group = $this->find('first', array(
+        $group = $this->Standing->find('first', array(
             'conditions' => array(
-                'Group.user_id' => $userId
+                'Standing.user_id' => $userId
             )
         ));
 
@@ -36,7 +36,7 @@ class Group extends AppModel {
             return null;
         }
 
-        return $group['Group']['group'];
+        return $group['Group']['label'];
     }
 
     // Assign players to the groups.
