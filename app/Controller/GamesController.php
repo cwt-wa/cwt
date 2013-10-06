@@ -166,9 +166,19 @@ class GamesController extends AppController {
     }
 
     public function download($id) {
-        $this->viewClass = 'Media';
         $this->Game->id = $id;
         $game = $this->Game->read();
+
+        if ($game['Game']['techwin']) {
+            $this->Session->setFlash(
+                'This game was technically decided. There is no replay file.',
+                'default', array('class' => 'error')
+            );
+            $this->redirect($this->referer());
+            return;
+        }
+
+        $this->viewClass = 'Media';
 
         $dir = new Folder('files/replays/');
 
