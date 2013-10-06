@@ -282,16 +282,14 @@ class Game extends AppModel {
      	return $game;
 	}
 
-	// Returns all games a certain user has played.
-
 	public function isReported($p1, $p2, $status = false) {
-		$tourney = ClassRegistry::init('Tournament')->info();
+		$currentTournament = $this->currentTournament();
 
-		if($status == 'group' && $tourney['status'] == 'playoff') {
+		if ($status == Tournament::GROUP && $currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
 			return true;
 		}
 
-		if($tourney['status'] == 'group') {
+		if($currentTournament['Tournament']['status'] == Tournament::GROUP) {
 			$not_in = 'playoff_id';
 		} else {
 			$not_in = 'group_id';

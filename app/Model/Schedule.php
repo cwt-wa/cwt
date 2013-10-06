@@ -21,7 +21,7 @@ class Schedule extends AppModel {
 	// so they're currently going and maybe being streamed.
 	// It will also set Streams online and offline.
 	public function filterSchedule($schedules) {
-		foreach($schedules as $key => $val) {        	
+		foreach($schedules as $key => $val) {
     		$when = strtotime($val['Schedule']['when']);
         	$now = strtotime(gmdate('Y-m-d H:i:s'));
 
@@ -32,12 +32,21 @@ class Schedule extends AppModel {
         			$online = false;
         		} else {
         			$online = true;
-        			$tourney = ClassRegistry::init('Tournament')->info();
-        			
-        			if($tourney['status'] == 'group') {
-        				$stage = ClassRegistry::init('Group')->getGroup(
-        					$val['Schedule']['home_id']);
-        			} elseif($tourney['status'] == 'playoff') {
+        			$currentTournament = $this->currentTournament();
+        			$currentTournament = $currentTournament['Tournament'];
+
+        			if($currentTournament['status'] == Tournament::GROUP) {
+                        $group = ClassRegistry::init('Group')->Standing->find(
+                            'first',
+                            array(
+                                'conditions' => array(
+                                    'Group.tournament_id' => $currentTournament['id'],
+                                    'Standing.user_id' => $val['Schedule']['home_id']
+                                )
+                            )
+                        );
+                        $stage = $group['Group']['label'];
+        			} elseif($currentTournament['status'] == Tournament::PLAYOFF) {
         				$stage = ClassRegistry::init('Playoff')->currentGame(
         					$val['Schedule']['home_id']);
 
@@ -63,12 +72,12 @@ class Schedule extends AppModel {
 	        			));
 	        		}
         		}
-        	}        	
+        	}
         }
 
         $schedules = $this->find('all', array(
 			'order' => 'Schedule.when ASC'));
-		return $this->scheduledStreams($schedules);        
+		return $this->scheduledStreams($schedules);
 	}
 
 	// Returns the streams that scheduled a stream for a certain game.
@@ -101,7 +110,7 @@ class Schedule extends AppModel {
 			$daysLeft[gmdate('Y-m-d', strtotime("+$skipDays day"))] =
 				gmdate('M j', strtotime("+$skipDays day"));
 
-			if(gmdate('Y-m-d', strtotime("+$skipDays day")) == '2012-12-31') {
+			if(gmdate('Y-m-d', strtotime("+$skipDays day")) == '2013-12-31') {
 				return $daysLeft;
 			}
 
@@ -116,7 +125,7 @@ class Schedule extends AppModel {
 		$skipTime = 30;
 
 		while(true) {
-			$times[gmdate('H:i:s', strtotime("+$skipTime minute", $now))] = 
+			$times[gmdate('H:i:s', strtotime("+$skipTime minute", $now))] =
 				gmdate('H:i', strtotime("+$skipTime minute", $now));
 
 			if(gmdate('H:i', strtotime("+$skipTime minute", $now)) == '23:30') {

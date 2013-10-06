@@ -77,8 +77,8 @@ class AppController extends Controller {
         $current_user = $this->Auth->user();
         $current_user['up_menu'] = $this->User->user_menu();
         $this->set('current_user', $current_user);
-        // $this->set('up_stream', $this->Stream->checkings());
-        $this->set('up_stream', false);
+        $this->set('up_stream', $this->Stream->checkings());
+//        $this->set('up_stream', false);
         $this->set('logged_in', $this->Auth->loggedIn());
         $this->set('currentTournament', $this->Tournament->currentTournament());
     }

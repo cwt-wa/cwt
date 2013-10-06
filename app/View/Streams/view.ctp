@@ -2,11 +2,11 @@
     $(document).ready(function() {
         var refreshStatus = function() {
             var response = $("#status").load(
-                "/streams/view/<?php echo $stream['Stream']['id'] ?> #status"                                
+                "/streams/view/<?php echo $stream['Stream']['id'] ?> #status"
             );
         }
-        
-        setInterval(refreshStatus, 5000);
+
+        setInterval(refreshStatus, 15000);
     });
 </script>
 <div id="status">
@@ -26,25 +26,25 @@
     <?php if($stream['Stream']['online']): ?>
         <div id="box" style="background-color:#<?php echo $stream['Stream']['color'] ?>; text-align:center; font-size:16pt;">
             <font color="lightgray"><?php echo $stream['Stream']['streaming']['stage'] ?>:</font>
-            <?php 
+            <?php
                 echo $this->Html->link($stream['Stream']['streaming']['home_id']['username'],
                     '/users/view/' . $stream['Stream']['streaming']['home_id']['id'],
                     array('style' => 'color:white;')
-                ); 
+                );
             ?>
              vs.
-             <?php 
+             <?php
                 echo $this->Html->link($stream['Stream']['streaming']['away_id']['username'],
                     '/users/view/' . $stream['Stream']['streaming']['away_id']['id'],
                     array('style' => 'color:white;')
-                ); 
-             ?>	
+                );
+             ?>
         </div>
     <?php endif; ?>
 </div>
 <div style="white-space: nowrap">
     <div id="boxFloat" style="background-color:#<?php echo $stream['Stream']['color'] ?>; font-size:14pt; margin-top:10px; padding:5px 20px; width:300px; text-align:center;">
-	<?php 
+	<?php
 		echo $this->Html->link(
 			'Past Videos',
 			'http://twitch.tv/' . $stream['Stream']['provider'] . '/videos',

@@ -4,12 +4,10 @@ class SchedulesController extends AppController {
 	public $name = 'Schedules';
 	public $scaffold = 'admin';
 
-
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('delete');
 	}
-
 
 	public function index() {
 		$this->loadModel('Tournament');
@@ -17,7 +15,7 @@ class SchedulesController extends AppController {
         $this->loadModel('Group');
         $this->loadModel('Playoff');
         $this->loadModel('Stream');
-		
+
 		$schedules = $this->Schedule->find('all', array(
 			'order' => 'Schedule.when ASC'));
 
@@ -28,12 +26,22 @@ class SchedulesController extends AppController {
          * Getting the opponents the current user can play against.
          */
 
-		$tourney = $this->Tournament->info();
+		$currentTournament = $this->Schedule->currentTournament();
 
-		if($tourney['status'] == 'group') {
-			$opps = $this->Group->attendees();
+		if($currentTournament['Tournament']['status'] == Tournament::GROUP) {
+            $group = $this->Group->Standing->find(
+                'first',
+                array(
+                    'conditions' => array(
+                        'Group.tournament_id' => $currentTournament['Tournament']['id'],
+                        'Standing.user_id' => $this->Auth->user('id')
+                    )
+                )
+            );
+
+            $opps = $this->Group->attendees($group['Group']['label']);
 			$opps = $this->Group->allowedOpponents($opps);
-		} elseif($tourney['status'] == 'playoff') {
+		} elseif($currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
 			$currentGame = $this->Playoff->currentGame();
 
 			if(!$currentGame) {
@@ -61,7 +69,6 @@ class SchedulesController extends AppController {
         }
 	}
 
-
 	public function view($id = null) {
 		$this->Schedule->id = $id;
 		if (!$this->Schedule->exists()) {
@@ -69,7 +76,6 @@ class SchedulesController extends AppController {
 		}
 		$this->set('schedule', $this->Schedule->read(null, $id));
 	}
-
 
 	public function add() {
 		if ($this->request->isAjax()) {
@@ -97,7 +103,6 @@ class SchedulesController extends AppController {
 		$this->set(compact('users'));
 	}
 
-
 	public function delete($id = null) {
 		$game = $this->Schedule->read(null, $id);
 
@@ -108,12 +113,10 @@ class SchedulesController extends AppController {
 		$this->render('/Elements/scheduler');
 	}
 
-
 	public function admin_index() {
 		$this->Schedule->recursive = 0;
 		$this->set('schedules', $this->paginate());
 	}
-
 
 	public function admin_view($id = null) {
 		$this->Schedule->id = $id;
@@ -122,7 +125,6 @@ class SchedulesController extends AppController {
 		}
 		$this->set('schedule', $this->Schedule->read(null, $id));
 	}
-
 
 	public function admin_add() {
 		if ($this->request->is('post')) {
@@ -137,7 +139,6 @@ class SchedulesController extends AppController {
 		$users = $this->Schedule->User->find('list');
 		$this->set(compact('users'));
 	}
-
 
 	public function admin_edit($id = null) {
 		$this->Schedule->id = $id;
@@ -157,7 +158,6 @@ class SchedulesController extends AppController {
 		$users = $this->Schedule->User->find('list');
 		$this->set(compact('users'));
 	}
-
 
 	public function admin_delete($id = null) {
 		if (!$this->request->is('post')) {
