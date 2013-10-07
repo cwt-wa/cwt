@@ -305,9 +305,9 @@ class User extends AppModel
 
     public function user_menu()
     {
-        $currentTorunament = ClassRegistry::init('Tournament')->currentTournament();
+        $currentTournament = $this->currentTournament();
 
-        switch ($currentTorunament['Tournament']['status']) {
+        switch ($currentTournament['Tournament']['status']) {
             case Tournament::PENDING:
                 if (AuthComponent::user('stage') == 'retired') {
                     return 'apply';
@@ -321,7 +321,8 @@ class User extends AppModel
                             'Game.away_id' => AuthComponent::user('id')
                         ),
                         'Game.playoff_id' => 0,
-                        'Game.reporter_id !=' => 0
+                        'Game.reporter_id !=' => 0,
+                        'Game.tournament_id' => $currentTournament['Tournament']['id']
                     )
                 ));
 
