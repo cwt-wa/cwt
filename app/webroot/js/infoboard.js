@@ -3,7 +3,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/infoboards/show/' + category,
             beforeSend: function() {
-                $('#board').html('<div id="loading"><img src="/img/loading.gif"></div>');       
+                $('#board').html('<div style="text-align: center; margin: 30px auto;"><img src="/img/loading.gif"></div>');
             },
             success: function(result) {
                 $('#board').html(result);
@@ -31,7 +31,7 @@ $(document).ready(function() {
     }
 
     // New category clicked.
-    $('#all, #shoutbox, #pm, #tourney, #guest, #admin').click(function() {    
+    $('#all, #shoutbox, #pm, #tourney, #guest, #admin').click(function() {
         switch($(this).attr('id')) {
             case 'all':
                 category = 0;
@@ -89,22 +89,22 @@ $(document).ready(function() {
         keys['action']['return'] = 13; // keyCode, which
     */
 
-    counter = false; // False when there's no nick being typed. 
+    counter = false; // False when there's no nick being typed.
 
     // User is typing. Mainly this is for the nick suggestions.
     $('#message').keypress(function(e) {
         // User has already started typing a nick.
         if(counter !== false) {
             // User goes on typing a username
-            // Upper- and lowercase letters, numbers or hyphen. 
+            // Upper- and lowercase letters, numbers or hyphen.
             if((e.which >= 65 && e.which <= 90)
             || (e.which >= 97 && e.which <= 122)
             || (e.which >= 48 && e.which <= 57)
             || (e.which == 45)) {
                 counter++;
             } else if(e.which == 8) {
-                counter--; 
-    
+                counter--;
+
                 // When the user has backspaced more
                 // than the length of the nick.
                 if(counter <= 0) {
@@ -119,7 +119,7 @@ $(document).ready(function() {
 
         // Return alias message submitted.
         if(e.which == 13) {
-            if(category != 4) {                
+            if(category != 4) {
                 var guest = 'undefined';
             } else {
                 var guest = prompt('Your nickname:'); // Ask for nick.
@@ -148,7 +148,7 @@ $(document).ready(function() {
                 },
                 success: function(result) {
                     // That means it's a PM with an invalid recipient.
-                    if(result != '') { 
+                    if(result != '') {
                         $('#nick_suggest').html(result);
                         $('#nick_suggest').slideDown('fast');
                     } else {
@@ -169,7 +169,7 @@ $(document).ready(function() {
                 var str = $('#message').val();
             } else {
                 var str = $('#message').val().substring(0, $('#message').caret().start);
-            } 
+            }
 
             $.ajax({
                 url: '/infoboards/nick_suggest',
@@ -207,7 +207,7 @@ function inputNick(nick) {
     } else {
         var str = $('#message').val().substring(0, $('#message').caret().start);
         var end = $('#message').val().substring($('#message').caret().start);
-    } 
+    }
 
     var clength = str.length - counter;
     var reduced = str.substring(0, clength);
@@ -215,12 +215,12 @@ function inputNick(nick) {
 
     $('#message').val(completed);
     $('#nick_suggest').slideUp('fast');
-    $('#message').focus(); 
+    $('#message').focus();
 }
 
 /*
  *  AUTO REFRESH
- */   
+ */
 
 newpms(); // Don't only check for new PMs every five seconds but also once at the beginning.
 
@@ -248,7 +248,7 @@ function newpms() {
         success: function(result) {
             if(result != '' && counterPM < 1) {
                 $('#hidden').html(result);
-                
+
                 if($('#counterPM').html() == 1) {
                     read = 'A new private message from ' + $('#senderPM').html() + ' has arrived:\n“' + $('#messagePM').html() + '”\n\nDo you want to answer now?';
                     read = confirm(read);
