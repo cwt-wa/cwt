@@ -24,21 +24,20 @@ class Infoboard extends AppModel {
 	// Checks if user is recipient of message.
 	public function isRecipient($msg) {
 		$needle = AuthComponent::user('username');
+        $currentTournament = $this->currentTournament();
 
 		if(preg_match("/@\b$needle\b/i", $msg)) {
 		    return true;
 		}
 
 		if(AuthComponent::user('stage') == 'group') {
-			$this->bindModel(array('hasMany' =>
-            	array('Group' => array('className' => 'Group'))));
-
-			$group = $this->Group->find('first', array(
+			$group = ClassRegistry::init('Group')->Standing->find('first', array(
 				'conditions' => array(
-					'Group.user_id' => AuthComponent::user('id')
+					'Standing.user_id' => AuthComponent::user('id'),
+                    'Group.tournament_id' => $currentTournament['Tournament']['id']
 			)));
 
-			$needle = $group['Group']['group'];
+			$needle = $group['Group']['label'];
 
 			if(preg_match("/@\b$needle\b/i", $msg)) {
 			    return true;
@@ -97,7 +96,7 @@ class Infoboard extends AppModel {
 			} else {
 				$unfiltered = $this->find('all', array(
 					'conditions' => array(
-							'Infoboard.category' => $category					
+							'Infoboard.category' => $category
 					),
 					'order' => 'Infoboard.created DESC',
 					'limit' => 100
@@ -134,7 +133,7 @@ class Infoboard extends AppModel {
 		$users = $this->User->find('list');
 		sort($users);
 		$users[] = 'admins';
-		
+
 		if(AuthComponent::user('stage') == 'group') {
 			$this->bindModel(array('hasMany' =>
             	array('Group' => array('className' => 'Group'))));
@@ -176,8 +175,8 @@ class Infoboard extends AppModel {
 			$haystack = $message . ' ';
 
 			while(strpos($haystack, '@') !== false) {
-				$posAT = strpos($haystack, '@'); 
-				$posSP = strpos($haystack, ' ', $posAT); 
+				$posAT = strpos($haystack, '@');
+				$posSP = strpos($haystack, ' ', $posAT);
 
 				$recipient = substr($haystack, $posAT + 1, $posSP - $posAT);
 
@@ -255,7 +254,7 @@ class Infoboard extends AppModel {
 			}
 			$i++;
 		}
-		
+
 		if($counter == 1) {
 			return array(
 				'sender'  => $pm['User']['username'],
@@ -285,7 +284,7 @@ class Infoboard extends AppModel {
 		$msg .= $game['Game']['score_a'].'</a> ';
 		$msg .= '<a href="/users/view/'.$game['Away']['id'].'">'.$game['Away']['username'].'</a>';
 
-		
+
 		debug($user); debug($game); debug($msg);
 
 		$this->save(array(

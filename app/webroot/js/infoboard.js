@@ -144,7 +144,7 @@ $(document).ready(function() {
                     'guest': guest
                 },
                 beforeSend: function() {
-                    $('#board').html('<div id="loading"><img src="/img/loading.gif"></div>');
+                    $('#board').html('<div style="text-align: center; margin: 30px auto;"><img src="/img/loading.gif"></div>');
                 },
                 success: function(result) {
                     // That means it's a PM with an invalid recipient.
@@ -236,7 +236,7 @@ function refreshIB() {
     $.ajax({url: '/infoboards/newpms/trace'}); // Infoboard last seen.
 }
 
-refresh = setInterval('refreshIB()', 5000); // Every 5 seconds.
+refresh = setInterval('refreshIB()', 10000); // Every 5 seconds.
 
 
 // Function to check whether user's received new PMs.
