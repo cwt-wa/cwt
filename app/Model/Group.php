@@ -94,6 +94,7 @@ class Group extends AppModel {
      */
     public function allowedOpponents($attendees, $userId = null) {
         $userId = $userId ? $userId : AuthComponent::user('id');
+        $currentTournament = $this->currentTournament();
 
         foreach($attendees as $groupmateID => $ID) {
             // Remove yourself from opponents.
@@ -104,14 +105,16 @@ class Group extends AppModel {
             // Remove players you've already played against.
             $playedGame[1] = $this->Game->find('count', array(
                 'conditions' => array(
-                    'home_id' => $userId,
-                    'away_id' => $groupmateID
+                    'Game.home_id' => $userId,
+                    'Game.away_id' => $groupmateID,
+                    'Game.tournament_id' => $currentTournament['Tournament']['id']
                 )
             ));
             $playedGame[2] = $this->Game->find('count', array(
                 'conditions' => array(
-                    'home_id' => $groupmateID,
-                    'away_id' => $userId
+                    'Game.home_id' => $groupmateID,
+                    'Game.away_id' => $userId,
+                    'Game.tournament_id' => $currentTournament['Tournament']['id']
                 )
             ));
             if($playedGame[1] || $playedGame[2]) {
