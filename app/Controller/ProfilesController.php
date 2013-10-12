@@ -19,7 +19,7 @@ class ProfilesController extends AppController {
 				'country' => $this->request->data['country']
 			));
 		}
-		
+
 		$users = $this->Profile->find('all', array(
 			'conditions' => array(
 				'Profile.country' => 'unknown'
@@ -50,7 +50,7 @@ class ProfilesController extends AppController {
 				'hideProfile' => $hideProfile,
 				'hideEmail'	  => $hideEmail
 			));
-		} 
+		}
 
 		$user = $this->Profile->read(null, $this->Auth->user('id'));
 
@@ -121,10 +121,22 @@ class ProfilesController extends AppController {
 		}
 
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if($this->Profile->save($this->request->data)) {
+            $this->Profile->User->id = $this->Auth->user('id');
+
+			if($this->Profile->save($this->request->data)
+            && $this->Profile->User->save($this->request->data)) {
 				$this->Session->setFlash('Your profile has been updated');
+                $newUser = $this->Profile->User->find('first', array(
+                    'conditions' => array(
+                        'User.id' => $this->Auth->user('id')
+                    )
+                ));
+                $this->Auth->login($newUser['User']);
+                $this->redirect('/profiles/edit');
 			} else {
-				$this->Session->setFlash(__('The profile could not be saved. Please, try again.'));
+				$this->Session->setFlash(
+                    'The profile could not be saved. Please, try again.',
+                    'default', array('class' => 'error'));
 			}
 		} else {
 			$this->request->data = $this->Profile->read(null, $id);
