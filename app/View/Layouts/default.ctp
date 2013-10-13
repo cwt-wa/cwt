@@ -196,6 +196,8 @@
             ?>
    		</div>
    		<div id="pages">
+   			<?php echo $this->Html->link('Rules', 'http://cwtsite.com/rules/view/1', array('class' => 'plainer')) ?>
+   			&bull;
    			<?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>
    			&bull;
    			<?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
