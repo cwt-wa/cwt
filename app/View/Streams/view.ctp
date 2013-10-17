@@ -42,34 +42,30 @@
         </div>
     <?php endif; ?>
 </div>
-<div style="white-space: nowrap">
-    <div id="boxFloat" style="background-color:#<?php echo $stream['Stream']['color'] ?>; font-size:14pt; margin-top:10px; padding:5px 20px; width:300px; text-align:center;">
-	<?php
-		echo $this->Html->link(
-			'Past Videos',
-			'http://twitch.tv/' . $stream['Stream']['provider'] . '/videos',
-			array(
-				'target' => '_blank'
-			));
-	?>
-    </div>
-    <div id="boxFloat" style="background-color:#<?php echo $stream['Stream']['color'] ?>; font-size:14pt; width:350px; text-align:center; margin-top:10px; margin-left:10px; padding:5px 20px; width:585px;">
-        Streamed by <?php echo $this->Html->link($stream['User']['username'], '/users/view/' . $stream['User']['id']); ?>
-    </div>
+<div id="boxFloat" style="background-color:#<?php echo $stream['Stream']['color'] ?>; font-size:14pt; margin-top:10px; padding:5px 20px; width:300px; text-align:center;">
+<?php
+    echo $this->Html->link(
+        'Past Videos',
+        'http://twitch.tv/' . $stream['Stream']['provider'] . '/videos',
+        array(
+            'target' => '_blank'
+        ));
+?>
 </div>
-<div>
-	<div id="boxFloat" style="margin:10px auto; padding:0px; text-align:center; display:inline-block;">
-		<object type="application/x-shockwave-flash" height="500" width="620" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=<?php echo $stream['Stream']['provider'] ?>" bgcolor="#000000">
-			<param name="allowFullScreen" value="true" />
-			<param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" />
-			<param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" />
-			<param name="flashvars" value="hostname=www.twitch.tv&channel=<?php echo $stream['Stream']['provider'] ?>&auto_play=true&start_volume=25" />
-		</object>
-	</div>
-	<div id="box" style="margin:10px auto; padding:0px; text-align:left; display:inline-block; margin-left:5px;">
-		<iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=<?php echo $stream['Stream']['provider'] ?>&amp;popout_chat=true" height="500" width="350"></iframe>
-	</div>
-	<div id="box" style="background-color:#<?php echo $stream['Stream']['color'] ?>; text-align:left; display:inline-block; float:right; margin-top:0px; padding:5px; width:100px;">
-		&uarr; Click on <b>Chat</b>
-	</div>
+<div id="box" style="background-color:#<?php echo $stream['Stream']['color'] ?>; font-size:14pt; width:350px; text-align:center; margin-top:10px; margin-bottom:10px; margin-left:353px; padding:5px 20px; width:585px;">
+    Streamed by <?php echo $this->Html->link($stream['User']['username'], '/users/view/' . $stream['User']['id']); ?>
+</div>
+<div id="box" style="margin:10px auto; padding:0px;">
+    <object type="application/x-shockwave-flash" height="576" width="977" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=<?php echo $stream['Stream']['provider'] ?>" bgcolor="#000000">
+        <param name="allowFullScreen" value="true" />
+        <param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" />
+        <param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" />
+        <param name="flashvars" value="hostname=www.twitch.tv&channel=<?php echo $stream['Stream']['provider'] ?>&auto_play=true&start_volume=25" />
+    </object>
+</div>
+<div id="box" style="margin:10px auto; padding:0px;">
+    <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=<?php echo $stream['Stream']['provider'] ?>&amp;popout_chat=true" height="335" width="977"></iframe>
+</div>
+<div id="box" style="background-color:#<?php echo $stream['Stream']['color'] ?>; text-align:left; display:inline-block; float:right; margin-top:0px; padding:5px; width:100px;">
+    &uarr; Click on <b>Chat</b>
 </div>
