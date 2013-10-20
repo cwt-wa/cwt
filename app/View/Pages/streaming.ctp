@@ -2,7 +2,7 @@
     <h1>New Rules for Live Streaming games of CWT</h1>
 </div>
 <div id="box" style="background-color:#3F2828;">
-    <div style="text-align: right;"><i>October 21, 2012</i></div>
+    <div style="text-align: right;"><i>October 21, 2013</i></div>
     <b>In the wake of recent issues the moderators have agreed on a new rule regarding live streams of CWT
     games.<br/>
 
