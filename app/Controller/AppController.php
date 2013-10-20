@@ -132,6 +132,8 @@ class AppController extends Controller {
             return;
         }
 
-        Configure::write('debug', 2);
+        if ($this->Auth->user('id') === 1) {
+            Configure::write('debug', 2);
+        }
     }
 }
