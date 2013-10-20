@@ -212,7 +212,18 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 
-		$user = $this->User->read(null, $id);
+        $this->User->recursive = -1;
+		$user = $this->User->read();
+        $this->User->Profile->recursive = -1;
+        $profile = $this->User->Profile->find(
+            'first',
+            array(
+                'conditions' => array(
+                    'Profile.user_id' => $this->User->id
+                )
+            )
+        );
+        $user['Profile'] = $profile['Profile'];
 
 		if($user['Profile']['hideProfile'] && !$this->Auth->loggedIn()) {
 			$this->Session->setFlash($user['User']['username'] . ' has chosen not to display the profile for non-logged-in users.');
