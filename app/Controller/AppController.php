@@ -58,6 +58,7 @@ class AppController extends Controller {
 
         $this->adminsOnlyMode(false);
         $this->maintenanceMode(false);
+        $this->zemkeDebugMode(false);
 
         $this->loadModel('User');
         $this->loadModel('Stream');
@@ -125,4 +126,12 @@ class AppController extends Controller {
         }
     }
 
+
+    public function zemkeDebugMode($enabled) {
+        if ($enabled) {
+            return;
+        }
+
+        Configure::write('debug', 2);
+    }
 }
