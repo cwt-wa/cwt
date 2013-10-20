@@ -180,6 +180,7 @@ class User extends AppModel
 
     public function update($data)
     {
+        $this->recursive = -1;
         $first = $this->find('first', array(
             'conditions' => array(
                 'User.username' => $data['username']
