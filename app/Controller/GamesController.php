@@ -50,6 +50,7 @@ class GamesController extends AppController {
         //$this->Game->Comment->query('ALTER TABLE `comments` AUTO_INCREMENT=1');
         //$this->Game->Comment->query('ALTER TABLE `comments` ADD `id` int UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST');
 
+        $this->Game->recursive = 0;
         $game = $this->Game->read(null, $id);
 
         $game['Comment'] = $this->Game->Comment->find('all', array(
@@ -134,6 +135,7 @@ class GamesController extends AppController {
         $this->loadModel('Tournament');
 
         if($currentTournament['Tournament']['status'] == Tournament::GROUP) {
+            $this->Game->Group->Standing->recursive = 0;
             $group = $this->Game->Group->Standing->find(
                 'first',
                 array(

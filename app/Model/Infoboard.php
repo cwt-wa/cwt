@@ -31,7 +31,9 @@ class Infoboard extends AppModel {
 		}
 
 		if(AuthComponent::user('stage') == 'group') {
-			$group = ClassRegistry::init('Group')->Standing->find('first', array(
+            $Group = ClassRegistry::init('Group');
+            $Group->Standing->recursive = 0;
+            $group = $Group->Standing->find('first', array(
 				'conditions' => array(
 					'Standing.user_id' => AuthComponent::user('id'),
                     'Group.tournament_id' => $currentTournament['Tournament']['id']
@@ -72,7 +74,9 @@ class Infoboard extends AppModel {
 
 	// Return messages, the user should see according to the category.
 	public function messages($category = '1') {
-		if($category === '0') {
+		$this->recursive = 0;
+
+        if($category === '0') {
 			$unfiltered = $this->find('all', array(
 				'order' => 'Infoboard.created DESC',
 				'limit' => 100

@@ -2,23 +2,27 @@
 /**
  * Contains methods for Profiling memory usage.
  *
- * PHP versions 5
+ * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org
- * @package       debug_kit
- * @subpackage    debug_kit.Lib
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
  * @since         DebugKit 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('Debugger', 'Utility');
 
+/**
+ * Class DebugMemory
+ *
+ * @since         DebugKit 2.0
+ */
 class DebugMemory {
 
 /**
@@ -26,7 +30,7 @@ class DebugMemory {
  *
  * @var array
  */
-	private static $__points = array();
+	protected static $_points = array();
 
 /**
  * Get current memory usage
@@ -40,7 +44,7 @@ class DebugMemory {
 /**
  * Get peak memory use
  *
- * @return integer peak memory use (in bytes).  Returns 0 if memory_get_peak_usage() is not available
+ * @return integer peak memory use (in bytes). Returns 0 if memory_get_peak_usage() is not available
  */
 	public static function getPeak() {
 		return memory_get_peak_usage();
@@ -49,7 +53,7 @@ class DebugMemory {
 /**
  * Stores a memory point in the internal tracker.
  * Takes a optional message name which can be used to identify the memory point.
- * If no message is supplied a debug_backtrace will be done to identifty the memory point.
+ * If no message is supplied a debug_backtrace will be done to identify the memory point.
  *
  * @param string $message Message to identify this memory point.
  * @return boolean
@@ -61,15 +65,15 @@ class DebugMemory {
 			$trace = debug_backtrace();
 			$message = Debugger::trimpath($trace[0]['file']) . ' line ' . $trace[0]['line'];
 		}
-		if (isset(self::$__points[$message])) {
+		if (isset(self::$_points[$message])) {
 			$originalMessage = $message;
 			$i = 1;
-			while (isset(self::$__points[$message])) {
+			while (isset(self::$_points[$message])) {
 				$i++;
 				$message = $originalMessage . ' #' . $i;
 			}
 		}
-		self::$__points[$message] = $memoryUse;
+		self::$_points[$message] = $memoryUse;
 		return true;
 	}
 
@@ -80,19 +84,20 @@ class DebugMemory {
  * @return array Array of memory marks stored so far.
  */
 	public static function getAll($clear = false) {
-		$marks = self::$__points;
+		$marks = self::$_points;
 		if ($clear) {
-			self::$__points = array();
+			self::$_points = array();
 		}
 		return $marks;
 	}
+
 /**
  * Clear out any existing memory points
  *
  * @return void
  */
 	public static function clear() {
-		self::$__points = array();
+		self::$_points = array();
 	}
 
 }

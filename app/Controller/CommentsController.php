@@ -15,6 +15,7 @@ class CommentsController extends AppController {
 	public function view($game_id) {
 		$this->helpers[] = 'Time'; $this->helpers[] = 'Bbcode';
 
+		$this->Comment->recursive = 0;
 		$comments = $this->Comment->find('all', array(
 			'conditions' => array(
 				'Comment.game_id' => $game_id
@@ -88,6 +89,7 @@ class CommentsController extends AppController {
 			}
 		}
 
+		$this->Comment->Game->recursive = 0;
 		$comment = $this->Comment->Game->read(null, $game_id);
 
 		if($comment['Game']['group_id']) {

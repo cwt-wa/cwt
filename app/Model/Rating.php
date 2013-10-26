@@ -18,7 +18,7 @@ class Rating extends AppModel {
 			)
 		));
 		$rating = $rating['Rating'];
-		
+
 		if($rating == null) {
 			$rating['p']['likes'] = 50;
 			$rating['p']['dislikes'] = 50;
@@ -38,7 +38,7 @@ class Rating extends AppModel {
 			} else {
 				$likes = $rating['likes'];
 				$dislikes = $rating['dislikes'];
-				
+
 				@$rating['p']['likes'] = ($likes / ($likes + $dislikes)) * 100;
 				@$rating['p']['dislikes'] = ($dislikes / ($likes + $dislikes)) * 100;
 			}
@@ -49,10 +49,10 @@ class Rating extends AppModel {
 			} else {
 				$lightside = $rating['lightside'];
 				$darkside = $rating['darkside'];
-				
+
 				@$rating['p']['lightside'] = ($lightside / ($lightside + $darkside)) * 100;
 				@$rating['p']['darkside'] = ($darkside / ($lightside + $darkside)) * 100;
-			}	
+			}
 		}
 
 		return $rating;
@@ -63,7 +63,7 @@ class Rating extends AppModel {
 		$areThereRatings = $this->field('id', array(
 			'game_id' => $data['game_id']
 		));
-		
+
 		if($areThereRatings) { // Game's already been rated by somebody - just edit.
 			$oldData = $this->read(null, $id);
 			$newSum = $oldData['Rating']['sum'] + $data['rating'];
@@ -86,7 +86,7 @@ class Rating extends AppModel {
 					'sum' 	  => $data['rating']
 				)
 			));
-			
+
 			$this->trace('Ratings', 'add', $data['game_id']);
 			return true;
 		}
@@ -96,7 +96,7 @@ class Rating extends AppModel {
 	public function alreadyRated($gameID) {
 		$this->bindModel(
 		    array('hasMany' => array('Trace' => array('className' => 'Trace'))));
-		
+
 		$alreadyRated = $this->Trace->find('count',
 			array('conditions' => array(
 				'user_id' => AuthComponent::user('id'),

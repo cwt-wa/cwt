@@ -63,6 +63,7 @@ class Tournament extends AppModel {
      * @return array|null The current tournament or null if there are only archived tournaments.
      */
     public function currentTournament() {
+        $this->recursive = 1;
         $currentTournament = $this->find('first', array(
             'conditions' => array(
                 'status !=' => Tournament::ARCHIVED

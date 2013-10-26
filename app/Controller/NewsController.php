@@ -7,8 +7,9 @@ class NewsController extends AppController {
 
 	public function view() {
 		$this->News->id = 1;
+		$this->News->recursive = 0;
 		$news = $this->News->read();
-        
+
         if($this->request->is('requested')) {
             return $news;
         } else {

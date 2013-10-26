@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td style="padding-left:40px">
-					<?php echo $this->Form->input('User.username'); ?>
+					<?php echo $this->Form->input('User.username', array('value' => $username)); ?>
 				</td>
 				<td style="padding-left:30px">
 					<?php
