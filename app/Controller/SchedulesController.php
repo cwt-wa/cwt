@@ -16,7 +16,8 @@ class SchedulesController extends AppController {
         $this->loadModel('Playoff');
         $this->loadModel('Stream');
 
-		$schedules = $this->Schedule->find('all', array(
+        $this->Schedule->recursive = 1;
+        $schedules = $this->Schedule->find('all', array(
 			'order' => 'Schedule.when ASC'));
 
         $schedules = $this->Schedule->scheduledStreams($schedules);
@@ -29,6 +30,7 @@ class SchedulesController extends AppController {
 		$currentTournament = $this->Schedule->currentTournament();
 
 		if($currentTournament['Tournament']['status'] == Tournament::GROUP) {
+            $this->Group->Standing->recursive = 0;
             $group = $this->Group->Standing->find(
                 'first',
                 array(

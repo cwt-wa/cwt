@@ -31,7 +31,7 @@ class Trace extends AppModel {
 	                'Trace.on'		 => $on
 	            ), 'order' => 'Trace.id DESC'
 	        ));
-	    
+
 	        return $getTrace['Trace'];
 	    }
 	}

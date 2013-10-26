@@ -10,7 +10,7 @@ class StreamsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('delete');
 	}
-	
+
 
 	public function index() {
 		$this->set('streams', $this->paginate());
@@ -22,11 +22,12 @@ class StreamsController extends AppController {
 		if(!$this->Stream->exists()) {
 			throw new NotFoundException(__('Invalid Stream'));
 		}
+		$this->Stream->recursive = 0;
 		$stream = $this->Stream->read(null);
 
 		if($stream['Stream']['online']) {
 			$streaming = explode(',', $stream['Stream']['streaming']);
-			
+
 			if(!is_numeric($streaming[0])) { // Group
 				$stage = 'Group ' . $streaming[0];
 			} else { // Playoff
@@ -36,7 +37,7 @@ class StreamsController extends AppController {
 
 			$this->loadModel('User');
             $home_id = $this->User->read(null, $streaming[1]);
-			$away_id = $this->User->read(null, $streaming[2]);			
+			$away_id = $this->User->read(null, $streaming[2]);
 
 			$stream['Stream']['streaming'] = array(
 				'stage' => $stage,
@@ -92,9 +93,9 @@ class StreamsController extends AppController {
 
 		if($description) { // Editing the description.
 			$preview = $stream['Stream']['preview'];
-	        if($this->request->is('requested')) {	            
+	        if($this->request->is('requested')) {
 	            return $preview;
-	        } else {	
+	        } else {
 	            $this->set('preview', $preview);
 	            $this->set('destination', '/streams/edit/' . $id . '/description');
 	        }
@@ -117,14 +118,14 @@ class StreamsController extends AppController {
 					));
 				}
 			} else {
-				$this->request->data = $stream;	
+				$this->request->data = $stream;
 			}
 		} else { // Editing everything but the description.
 			if($this->request->is('post') || $this->request->is('put')) {
 				$this->request->data['Stream']['color'] =
 					$this->Stream->rgb2hex(
 						$this->request->data['Stream']['color']);
-				
+
 				if($this->Stream->save($this->request->data)) {
 					$this->Session->setFlash('Your stream has been updated.');
 					$this->redirect('/streams/view/' . $id);
@@ -143,7 +144,7 @@ class StreamsController extends AppController {
 	}
 
 
-	public function delete($id = null) {		
+	public function delete($id = null) {
 		$this->Stream->id = $id;
 
 		if(!$this->request->is('post')) {
@@ -164,7 +165,7 @@ class StreamsController extends AppController {
 				$this->Session->setFlash('Something went wrong while deleting your stream.', 'default', array('class' => 'error'));
 				$this->redirect('/streams/view/' . $id);
 			}
-		}	
+		}
 	}
 
 
@@ -213,7 +214,7 @@ class StreamsController extends AppController {
 					));
 				}
 			}
-			
+
 		}
 
 		$schedules = $this->Schedule->find('all', array(
@@ -227,7 +228,7 @@ class StreamsController extends AppController {
 				$scheduleds[] = $schedules[$key];
 				unset($schedules[$key]);
 			}
-		}		
+		}
 
 		$this->set('stream', $stream);
 		$this->set('schedules', $schedules);

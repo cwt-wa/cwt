@@ -4,6 +4,8 @@ App::uses('Model', 'Model');
 
 class AppModel extends Model {
 
+    public $recursive = -1;
+
     /**
      * Validate a Model's Id.
      *
@@ -62,15 +64,6 @@ class AppModel extends Model {
     }
 
     /**
-     * Return the current tournament in a CakePHP typical array.
-     *
-     * @return array|null The current tournament or null if there are only archived tournaments.
-     */
-    public function currentTournament() {
-        return ClassRegistry::init('Tournament')->currentTournament();
-    }
-
-    /**
      * Prepends $message with user's IP address and (if logged in) username and Id.
      *
      * @param String $message The message that should be prepended with the user information.
@@ -118,6 +111,15 @@ class AppModel extends Model {
         }
 
         return false;
+    }
+
+    /**
+     * Return the current tournament in a CakePHP typical array.
+     *
+     * @return array|null The current tournament or null if there are only archived tournaments.
+     */
+    public function currentTournament() {
+        return ClassRegistry::init('Tournament')->currentTournament();
     }
 
     /**

@@ -36,7 +36,9 @@ class Schedule extends AppModel {
         			$currentTournament = $currentTournament['Tournament'];
 
         			if($currentTournament['status'] == Tournament::GROUP) {
-                        $group = ClassRegistry::init('Group')->Standing->find(
+                        $Group = ClassRegistry::init('Group');
+                        $Group->Standing->recursive = 0;
+                        $group = $Group->Standing->find(
                             'first',
                             array(
                                 'conditions' => array(
@@ -47,7 +49,8 @@ class Schedule extends AppModel {
                         );
                         $stage = $group['Group']['label'];
         			} elseif($currentTournament['status'] == Tournament::PLAYOFF) {
-        				$stage = ClassRegistry::init('Playoff')->currentGame(
+                        $Playoff = ClassRegistry::init('Playoff');
+                        $stage = $Playoff->currentGame(
         					$val['Schedule']['home_id']);
 
         				$stage = $stage['Playoff']['step'];

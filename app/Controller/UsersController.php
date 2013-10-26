@@ -18,7 +18,7 @@ class UsersController extends AppController {
     }
 
     public function index() {
-		$this->User->recursive = 0;
+        $this->User->recursive = 0;
 
 		if($this->Auth->loggedIn()) {
 			$users = $this->paginate();
@@ -33,6 +33,7 @@ class UsersController extends AppController {
 		 */
 
 		$this->loadModel('Tournament');
+		$this->Tournament->recursive = 0;
 		$tournaments = $this->Tournament->find('all');
 		$year = 2002;
 

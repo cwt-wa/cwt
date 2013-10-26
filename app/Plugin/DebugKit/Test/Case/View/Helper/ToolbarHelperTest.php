@@ -2,31 +2,44 @@
 /**
  * Toolbar facade tests.
  *
- * PHP versions 5
+ * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org
- * @package       debug_kit
- * @subpackage    debug_kit.tests.views.helpers
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
  * @since         DebugKit 0.1
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  **/
+
 App::uses('View', 'View');
 App::uses('Controller', 'Controller');
 App::uses('Helper', 'View');
 App::uses('ToolbarHelper', 'DebugKit.View/Helper');
 
+/**
+ * Class MockBackendHelper
+ *
+ * @since         DebugKit 0.1
+ */
 class MockBackendHelper extends Helper {
 }
 
+/**
+ * Class ToolbarHelperTestCase
+ *
+ */
 class ToolbarHelperTestCase extends CakeTestCase {
 
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 	public $fixtures = array('core.post');
 
 /**
@@ -54,8 +67,8 @@ class ToolbarHelperTestCase extends CakeTestCase {
 		$this->_viewPaths = App::path('views');
 		App::build(array(
 			'View' => array(
-				CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'Test' . DS . 'test_app' . DS . 'View'. DS,
-				APP . 'Plugin' . DS . 'DebugKit' . DS . 'View'. DS,
+				CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'Test' . DS . 'test_app' . DS . 'View' . DS,
+				APP . 'Plugin' . DS . 'DebugKit' . DS . 'View' . DS,
 				CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'View' . DS
 		)), true);
 		$this->_debug = Configure::read('debug');
@@ -70,8 +83,9 @@ class ToolbarHelperTestCase extends CakeTestCase {
 		$result = $this->Toolbar->writeCache('test', array('stuff', 'to', 'cache'));
 		$this->assertTrue($result);
 	}
+
 /**
- * Ensure that the cache writing only affects the 
+ * Ensure that the cache writing only affects the
  * top most level of the history stack. As this is where the current request is stored.
  *
  * @return void
@@ -90,6 +104,7 @@ class ToolbarHelperTestCase extends CakeTestCase {
 		$result = $this->Toolbar->readCache('test', 1);
 		$this->assertEquals($result, array('second', 'values'));
 	}
+
 /**
  * test cache reading for views
  *
@@ -98,16 +113,17 @@ class ToolbarHelperTestCase extends CakeTestCase {
 	public function testCacheRead() {
 		$result = $this->Toolbar->writeCache('test', array('stuff', 'to', 'cache'));
 		$this->assertTrue($result, 'Cache write failed %s');
-		
+
 		$result = $this->Toolbar->readCache('test');
 		$this->assertEquals($result, array('stuff', 'to', 'cache'), 'Cache value is wrong %s');
-		
+
 		$result = $this->Toolbar->writeCache('test', array('new', 'stuff'));
 		$this->assertTrue($result, 'Cache write failed %s');
-		
+
 		$result = $this->Toolbar->readCache('test');
 		$this->assertEquals($result, array('new', 'stuff'), 'Cache value is wrong %s');
 	}
+
 /**
  * Test that reading/writing doesn't work with no cache config.
  *
@@ -122,8 +138,9 @@ class ToolbarHelperTestCase extends CakeTestCase {
 		$result = $this->Toolbar->readCache('test');
 		$this->assertFalse($result, 'Reading cache succeeded with no cache config %s');
 	}
+
 /**
- * ensure that getQueryLogs works and writes to the cache so the history panel will 
+ * ensure that getQueryLogs works and writes to the cache so the history panel will
  * work.
  *
  * @return void

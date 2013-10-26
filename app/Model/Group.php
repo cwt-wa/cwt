@@ -306,6 +306,7 @@ class Group extends AppModel {
             'fields' => array('Group.id')
         ));
         $group = array();
+        $games = $this->Game->recursive = 1;
         $games = $this->Game->find('all', array(
             'conditions' => array(
                 'Game.tournament_id' => $tournamentId,
@@ -320,6 +321,7 @@ class Group extends AppModel {
             $currentlyLoopedGroupId = $currentlyLoopedGroupId[0];
             $group[$i]['group'] = $groupArray[$i];
 
+            $this->Standing->recursive = 0;
             $groupAll = $this->Standing->find('all', array(
                 'conditions' => array(
                     'Group.tournament_id' => $tournamentId,

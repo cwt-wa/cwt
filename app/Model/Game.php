@@ -71,6 +71,7 @@ class Game extends AppModel {
 
 		// Update the group's table or playoff tree.
 		if($tournament['Tournament']['status'] == Tournament::GROUP) {
+            $this->Group->Standing->recursive = 0;
             $standingWinner = $this->Group->Standing->find(
                 'first',
                 array(

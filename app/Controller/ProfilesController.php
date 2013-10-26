@@ -142,8 +142,9 @@ class ProfilesController extends AppController {
 			$this->request->data = $this->Profile->read(null, $id);
 		}
 
-		$users = $this->Profile->User->find('list');
-		$this->set(compact('users'));
+		$this->Profile->User->id = $this->Auth->user('id');
+		$username = $this->Profile->User->field('username');
+		$this->set('username', $username);
 		$this->set('country', $this->Profile->flags($this->request->data['Profile']['country']));
 	}
 
