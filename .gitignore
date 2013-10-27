@@ -30,4 +30,5 @@ nbproject
 .idea
 
 # Project
-app/webroot/img/users
+app/webroot/img/users/*
+app/webroot/replays/*
