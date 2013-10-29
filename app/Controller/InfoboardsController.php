@@ -9,7 +9,7 @@ class InfoboardsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('show', 'submit');
 	}
-	
+
 
 	public function show($category = 1) {
 		// Non logged in users may only see the Guestbook.
@@ -40,6 +40,12 @@ class InfoboardsController extends AppController {
 
 	public function submit() {
 		if(@$this->request->data['guest'] !== 'undefined') {
+            $visitorIp = $this->Infoboard->getVisitorIp();
+            CakeLog::write(
+                'guestbook',
+                $visitorIp . ": "
+                . $this->request->data['message']
+            );
 			$check = $this->Infoboard->submit($this->request->data['message'], $this->request->data['guest']);
 		} else {
 			$check = $this->Infoboard->submit($this->request->data['message']);
