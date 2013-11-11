@@ -17,9 +17,8 @@ class Rating extends AppModel {
 				'Rating.game_id' => $game_id
 			)
 		));
-		$rating = $rating['Rating'];
 
-		if($rating == null) {
+		if(empty($rating)) {
 			$rating['p']['likes'] = 50;
 			$rating['p']['dislikes'] = 50;
 
@@ -32,6 +31,8 @@ class Rating extends AppModel {
 			$rating['lightside'] = 0;
 			$rating['darkside'] = 0;
 		} else {
+            $rating = $rating['Rating'];
+
 			if($rating['likes'] + $rating['dislikes'] == 0) {
 				$rating['p']['likes'] = 50;
 				$rating['p']['dislikes'] = 50;

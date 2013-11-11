@@ -9,7 +9,8 @@ class Game extends AppModel {
 	public $hasOne = array(
 		'Playoff' => array(
 			'className' => 'Playoff',
-			'foreignKey' => 'game_id'
+			'foreignKey' => 'game_id',
+            'conditions' => array('Game.playoff_id != 0')
 		)
 	);
 	public $hasMany = array(
@@ -106,7 +107,7 @@ class Game extends AppModel {
 				'reporter_id'   => AuthComponent::user('id'),
                 'tournament_id' => $tournament['Tournament']['id']
 			));
-		} elseif($tournament['Tournament']['status'] == 'playoff') {
+		} elseif($tournament['Tournament']['status'] == Tournament::PLAYOFF) {
 			$upd 		= $this->Playoff->updateReport($winner, $loser);
 			$this->id 	= $upd['reportedGame'];
 
@@ -124,11 +125,12 @@ class Game extends AppModel {
 				'score_h' 	    => $score_h,
 				'score_a' 	    => $score_a,
 				'reporter_id'   => AuthComponent::user('id'),
-                'tournament_id' => $tournament['Tournament']['id']
+                'tournament_id' => $tournament['Tournament']['id'],
+                'created'       => gmdate('Y-m-d H:i:s') // Necessary?
 			),
 			false,
 			array(
-				'playoff_id', 'score_h', 'score_a', 'reporter_id', 'created'
+				'playoff_id', 'score_h', 'score_a', 'reporter_id', 'tournament_id', 'created'
 			));
 		}
 
@@ -261,6 +263,8 @@ class Game extends AppModel {
 		$this->unbindModel(
 			array('hasMany' => array('Tournament'))
 	    );
+
+        $this->recursive = 1;
 
 		// The problematic thing about this is,
 		// figuring out whether home or away is winner.

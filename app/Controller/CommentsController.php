@@ -94,7 +94,9 @@ class CommentsController extends AppController {
 
 		if($comment['Game']['group_id']) {
 			$comment['stage'] = 'Group ' . $comment['Group']['label'];
-		}
+		} else if ($comment['Game']['playoff_id']) {
+            $comment['stage'] = $comment['Playoff']['stepAssoc'];
+        }
 
 		//debug($comment);
 		$this->set('comment', $comment);

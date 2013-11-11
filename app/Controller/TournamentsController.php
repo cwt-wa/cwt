@@ -183,7 +183,7 @@ class TournamentsController extends AppController {
 
                 $this->loadModel('Playoff');
 
-                if (!$this->Playoff->find('count')) {
+                if (!$this->Playoff->isPaired($currentTournament['Tournament']['id'])) {
                     $this->redirect('/admin/playoffs/add');
                 }
                 break;
