@@ -46,7 +46,7 @@
 <?php
     echo $this->Html->link(
         'Past Videos',
-        'http://twitch.tv/' . $stream['Stream']['provider'] . '/videos',
+        'http://twitch.tv/' . $stream['Stream']['provider'] . '/profile/pastBroadcasts',
         array(
             'target' => '_blank'
         ));
