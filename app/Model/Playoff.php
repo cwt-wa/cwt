@@ -122,6 +122,9 @@ class Playoff extends AppModel {
     // A new playoff game has been reported. Call by Game Model.
     public function updateReport($winner, $loser) {
     	$game = $this->Game->gameWL($winner, $loser);
+        $this->recursive = 1;
+        $this->Game->recursive = 1;
+        $currentTournament = $this->currentTournament();
 
     	switch($game['Playoff']['step']) {
     		case '1'; // Last Sixteen
@@ -140,11 +143,12 @@ class Playoff extends AppModel {
 
 		     	$newPlayoff = array('conditions' => array(
 					'Playoff.spot' => $newSpot,
-					'Playoff.step' => $newStep
+					'Playoff.step' => $newStep,
+                    'Game.tournament_id' => $currentTournament['Tournament']['id']
 				));
 
 				// Checking if there's already a new opponent.
-				$newOpp = $this->find('count', $newPlayoff);
+				$newOpp = $this->Game->find('count', $newPlayoff);
 
 				// If yes give IDs to update table in place of insert.
 				if($newOpp) {
@@ -169,7 +173,8 @@ class Playoff extends AppModel {
 				$this->Game->save(array(
 					'playoff_id' => $this->id,
 					$winnerHA 	 => $winner,
-					'created'	 => '0000-00-00 00:00:00'
+					'created'	 => '0000-00-00 00:00:00',
+                    'tournament_id' => $currentTournament['Tournament']['id']
 				));
 
 				// Now we also got to know the new game's id.
@@ -201,11 +206,12 @@ class Playoff extends AppModel {
 
 					$newPlayoff = array('conditions' => array(
 						'Playoff.spot' => $newSpot,
-						'Playoff.step' => $newStep
+						'Playoff.step' => $newStep,
+                        'Game.tournament_id' => $currentTournament['Tournament']['id']
 					));
 
 					// Checking if there's already a new opponent.
-					$newOpp = $this->find('count', $newPlayoff);
+					$newOpp = $this->Game->find('count', $newPlayoff);
 
 					// If yes give IDs to update table in place of insert.
 					if($newOpp) {
@@ -232,7 +238,8 @@ class Playoff extends AppModel {
 					$this->Game->save(array(
 						'playoff_id' => $this->id,
 						$winnerHA 	 => $winnerloser,
-						'created'	 => '0000-00-00 00:00:00'
+						'created'	 => '0000-00-00 00:00:00',
+                        'Game.tournament_id' => $currentTournament['Tournament']['id']
 					));
 
 					// Now we also got to know the new game's id.
@@ -324,25 +331,33 @@ class Playoff extends AppModel {
             }
         }
 
+        $currentTournament = $this->currentTournament();
+
         for($i = 1; $i <= 8; $i++) {
         	$p2 = $i * 2;
         	$p1 = $p2 - 1;
 
+            $this->Game->create();
         	$this->Game->save(array(
-        		'playoff_id' => $i,
         		'home_id' 	 => $data['player' . $p1],
         		'away_id' 	 => $data['player' . $p2],
-        		'created' 	 => '0000-00-00 00:00:00'
+        		'created' 	 => '0000-00-00 00:00:00',
+        		'tournament_id' => $currentTournament['Tournament']['id']
         	));
 
-        	$this->save(array(
-        		'stepAssoc' => $this->stepAssoc[1],
-        		'step' 	    => 1,
-        		'spot' 	    => $i,
-        		'game_id'   => $this->Game->id
-        	));
+            $this->create();
+            $this->save(array(
+                'stepAssoc' => $this->stepAssoc[1],
+                'step' 	    => 1,
+                'spot' 	    => $i,
+                'game_id'   => $this->Game->id
+            ));
 
-        	unset($this->Game->id); unset($this->id);
+            $this->Game->save(
+                array(
+                    'playoff_id' => $this->id,
+                )
+            );
         }
 
         return true;
@@ -350,7 +365,8 @@ class Playoff extends AppModel {
 
 	// Return playoff attendees for drop-down.
 	public function attendees() {
-		return $this->User->findAllUsersInGroupStage();
+
+        return ClassRegistry::init('User')->findAllUsersInGroupStage();
 	}
 
     /**
@@ -366,6 +382,8 @@ class Playoff extends AppModel {
 	        array('hasMany' => array('Tournament'))
 	    );
 
+        $currentTournament = $this->currentTournament();
+
 		$nextGame = $Game->find('first', array(
 			'conditions' => array(
 				'OR' => array(
@@ -373,7 +391,8 @@ class Playoff extends AppModel {
 					'Game.away_id' => $userId
 				),
 				'Game.group_id' => 0,
-				'Game.reporter_id' => 0
+				'Game.reporter_id' => 0,
+                'Game.tournament_id' => $currentTournament['Tournament']['id']
 			)
 		));
 
@@ -395,6 +414,7 @@ class Playoff extends AppModel {
 		$opps = $this->attendees();
 		$opps = $this->allowedOpponents($opps, $user);
 
+        $this->Game->Playoff->recursive = 1;
 		return $this->Game->Playoff->find('first', array(
 			'conditions' => array(
 				'Game.home_id' => array($user, key($opps)),
@@ -418,16 +438,27 @@ class Playoff extends AppModel {
 
         $this->unbindModel(array('hasMany' => array('Tournament')));
 
+        $this->Game->recursive = 1;
+
         $playoff = $this->Game->find('all', array(
             'conditions' => array(
                 'Game.playoff_id !=' => 0,
                 'Game.group_id' => 0,
                 'Game.tournament_id' => $tournamentId
-            ),
-            'order' => array(
-                'Playoff.step ASC, Playoff.spot ASC'
             )
         ));
+
+        foreach($playoff as $key => $val) {
+            $needle = array(
+                'step' => $val['Playoff']['step'],
+                'spot' => $val['Playoff']['spot']
+            );
+
+            $newKey = array_search($needle, $this->keyAssoc);
+            $game[$newKey] = $val;
+        }
+
+        $playoff = $game;
 
         $Rating = ClassRegistry::init('Rating');
         $Trace = ClassRegistry::init('Trace');
@@ -451,5 +482,24 @@ class Playoff extends AppModel {
         }
 
         return $playoff;
+    }
+
+    public function isPaired($tournamentId = false) {
+        if ($tournamentId === false) {
+            $currentTournament = $this->currentTournament();
+            $tournamentId = $currentTournament['Tournament']['id'];
+        }
+
+        $numberOfPlayoffGamesOfTournament = $this->Game->find(
+            'count',
+            array(
+                'conditions' => array(
+                    'Game.tournament_id' => $tournamentId,
+                    'Game.playoff_id !=' => 0
+                )
+            )
+        );
+
+        return (bool) $numberOfPlayoffGamesOfTournament;
     }
 }

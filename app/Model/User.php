@@ -464,12 +464,14 @@ class User extends AppModel
     }
 
     public function findAllUsersInGroupStage() {
-        $groups = $this->Group->find('all');
-        $usersInGroupStage = array();
-
-        foreach ($groups as $group) {
-            $usersInGroupStage[$group['User']['id']] = $group['User']['username'];
-        }
+        $usersInGroupStage = ClassRegistry::init('User')->find(
+            'list',
+            array(
+                'conditions' => array(
+                    'User.stage' => 'group'
+                )
+            )
+        );
 
         return $usersInGroupStage;
     }

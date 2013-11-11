@@ -204,34 +204,36 @@ class Tournament extends AppModel {
     }
 
     public function afterGroup() {
-        $this->bindModel(
-                array('hasMany' => array('Playoff' => array('className' => 'Playoff'))));
-        $this->bindModel(
-                array('hasMany' => array('Game' => array('className' => 'Game'))));
+        $Playoff = ClassRegistry::init('Playoff');
 
         // Playoff tree must've been built before.
-        if (!$this->Playoff->find('count')) {
+        if (!$Playoff->find('count')) {
             return false;
         }
 
+        $Game = ClassRegistry::init('Game');
+
         // Users who advance will be in playoff stage.
-        $assignedOnes = $this->Game->find('all', array(
+        $assignedOnes = $Game->find('all', array(
             'conditions' => array(
                 'Game.playoff_id !=' => 0,
                 'Game.group_id' => 0
             )
                 ));
+
+        $User = ClassRegistry::init('User');
+
         foreach ($assignedOnes as $assignedOne) {
-            $this->User->updateAll(
+            $User->updateAll(
                     array('User.stage' => "'playoff'"), array('User.id' => $assignedOne['Game']['home_id'])
             );
-            $this->User->updateAll(
+            $User->updateAll(
                     array('User.stage' => "'playoff'"), array('User.id' => $assignedOne['Game']['away_id'])
             );
         }
 
         // Getting the KO'd users of a user.
-        $ko = $this->User->find('all', array(
+        $ko = $User->find('all', array(
             'conditions' => array(
                 'User.stage' => 'group'
             )
@@ -239,7 +241,7 @@ class Tournament extends AppModel {
 
         // Updatind KO'd users' timelines and stages.
         foreach ($ko as $user) {
-            $this->User->save(array(
+            $User->save(array(
                 'id' => $user['User']['id'],
                 'timeline' => $user['User']['timeline'] . '1',
                 'stage' => 'retired'
@@ -247,8 +249,9 @@ class Tournament extends AppModel {
         }
 
         // At last go to the next stage of the tournament.
-        $this->id = $this->field('id', null, 'year DESC');
-        $this->saveField('status', 'playoff', true);
+        $currentTournament = $this->currentTournament();
+        $this->id = $currentTournament['Tournament']['id'];
+        $this->saveField('status', Tournament::PLAYOFF, true);
 
         return true;
     }
