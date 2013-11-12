@@ -279,7 +279,9 @@ class Infoboard extends AppModel {
 			$user = $user['User'];
 		}
 
-		$game = ClassRegistry::init('Game')->read(null, $gameId);
+        $Game = ClassRegistry::init('Game');
+        $Game->recursive = 1;
+        $game = $Game->read(null, $gameId);
 
 		$msg = '<a href="/users/view/'.$user['id'].'">'.$user['username'].'</a>';
 		$msg .= " $verb ";

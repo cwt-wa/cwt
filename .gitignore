@@ -32,3 +32,4 @@ nbproject
 # Project
 app/webroot/img/users/*
 app/webroot/replays/*
+app/webroot/files/replays
