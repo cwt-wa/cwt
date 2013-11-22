@@ -8,6 +8,7 @@ class ApplicationsController extends AppController {
 
 	public function index() {
 		$this->helpers[] = 'Time';
+		$this->Application->recursive = 1;
 		$applicants = $this->Application->find('all', array(
 			'order' => 'Application.created ASC'
 		));
