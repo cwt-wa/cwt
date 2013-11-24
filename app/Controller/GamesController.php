@@ -274,7 +274,9 @@ class GamesController extends AppController {
     }
 
     public function admin_techwin() {
-        if ($this->request->is('post')) {
+        $this->Game->recursive = 1;
+
+	if ($this->request->is('post')) {
             if (isset($this->request->data['getAways'])) {
                 $allowedOpponents = $this->User->findAllowedOpponents($this->request->data['home_id']);
                 $this->set('aways', $allowedOpponents);
