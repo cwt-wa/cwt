@@ -179,6 +179,8 @@ class Game extends AppModel {
         $currentTournament = $this->currentTournament();
 
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP) {
+            $this->Group->Standing->recursive = 1;
+
             $winnerStanding = $this->Group->Standing->find(
                 'first',
                 array(
