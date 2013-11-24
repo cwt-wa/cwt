@@ -425,7 +425,8 @@ class User extends AppModel
      * @return array
      */
     public function getAllUsersStillInTournament() {
-        $allUsers = $this->find('list');
+        $this->recursive = 1;
+	$allUsers = $this->find('list');
 
         foreach ($allUsers as $userId => $username) {
             if (!$this->isStillInTournament($userId)) {
