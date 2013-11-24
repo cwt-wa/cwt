@@ -26,6 +26,8 @@ class Group extends AppModel {
     public function findGroup($userId = null) {
         $userId = $userId ? $userId : AuthComponent::user('id');
 
+        $this->Standing->recursive = 1;
+
         $group = $this->Standing->find('first', array(
             'conditions' => array(
                 'Standing.user_id' => $userId
