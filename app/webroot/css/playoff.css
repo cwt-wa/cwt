@@ -74,6 +74,10 @@
 	margin-top: 3px;
 }
 
+td {
+    white-space: nowrap;
+}
+
 /* Displaying ratings bars */
 
 #ratings {
