@@ -32,6 +32,9 @@ class Trace extends AppModel {
 	            ), 'order' => 'Trace.id DESC'
 	        ));
 
+            if (empty($getTrace)) {
+                return null;
+            }
 	        return $getTrace['Trace'];
 	    }
 	}
