@@ -57,16 +57,6 @@ class InfoboardsController extends AppController {
 	}
 
 
-	public function newpms($trace = false) {
-		if($trace) {
-			$this->loadModel('Trace');
-			$this->Trace->check('infoboards', 'show', 'lastsight', 0, 'write');
-		}
-
-		$this->set('newpms', $this->Infoboard->newpms());
-	}
-
-
 	public function index() {
 		$this->Infoboard->recursive = 0;
 		$this->set('infoboard', $this->paginate());
