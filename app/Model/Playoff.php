@@ -239,7 +239,7 @@ class Playoff extends AppModel {
 						'playoff_id' => $this->id,
 						$winnerHA 	 => $winnerloser,
 						'created'	 => '0000-00-00 00:00:00',
-                        'Game.tournament_id' => $currentTournament['Tournament']['id']
+                        'tournament_id' => $currentTournament['Tournament']['id']
 					));
 
 					// Now we also got to know the new game's id.
