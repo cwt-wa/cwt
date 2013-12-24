@@ -9,7 +9,6 @@ class AppController extends Controller {
         'Session',
         'Cookie',
         'DebugKit.Toolbar',
-        'AutoLogin',
         'Auth' => array(
             'loginRedirect' => array(
                 'controller' => 'users',
