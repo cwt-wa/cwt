@@ -55,23 +55,6 @@ class Infoboard extends AppModel {
 		return false;
 	}
 
-	public function newpost($post) {
-		$trace = ClassRegistry::init('Trace')->check('infoboards', 'show', 'lastsight', 0, 'read');
-
-		//debug($post);
-		//debug($trace['created'] . ' ' . $trace['id']);
-
-		$post = strtotime($post);
-		$trace = strtotime($trace['created']);
-
-		if($post > $trace) {
-			//debug('newPost!');
-			return true;
-		}
-		//debug('oldPost');
-		return false;
-	}
-
 	// Return messages, the user should see according to the category.
 	public function messages($category = '1') {
 		$this->recursive = 0;
@@ -117,16 +100,6 @@ class Infoboard extends AppModel {
 				}
 				$i++;
 			}
-		}
-
-		$i = 0;
-		foreach($unfiltered as $msg) {
-			if($this->newpost($msg['Infoboard']['created'])) {
-				$unfiltered[$i]['newpost'] = '<hr />';
-				unset($unfiltered[$i-1]['newpost']);
-			}
-
-			$i++;
 		}
 
 		return $unfiltered; // Unfiltered is filtered, duh.
@@ -239,35 +212,6 @@ class Infoboard extends AppModel {
 		));
 
 		return true;
-	}
-
-	public function newpms() {
-		$pms = $this->find('all', array(
-			'conditions' => array(
-				'Infoboard.category' => 2
-			)
-		));
-
-		$i = 0; $counter = 0;
-		foreach($pms as $pm) {
-			if($this->newpost($pm['Infoboard']['created'])
-			&& $this->isRecipient($pm['Infoboard']['message'])) {
-				$counter++;
-			} else {
-				unset($pms[$i]);
-			}
-			$i++;
-		}
-
-		if($counter == 1) {
-			return array(
-				'sender'  => $pm['User']['username'],
-				'message' => $pm['Infoboard']['message']
- 			);
-		} elseif($counter > 1) {
-			return $counter;
-		}
-		return false;
 	}
 
 	// Writing Tournament News.

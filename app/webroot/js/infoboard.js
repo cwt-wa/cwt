@@ -222,8 +222,6 @@ function inputNick(nick) {
  *  AUTO REFRESH
  */
 
-newpms(); // Don't only check for new PMs every five seconds but also once at the beginning.
-
 function refreshIB() {
     $.ajax({
             url: '/infoboards/show/' + category,
@@ -231,46 +229,6 @@ function refreshIB() {
                 $('#board').html(result);
             }
         });
-
-    newpms(); // Also check for new PMs every five seconds.
-    $.ajax({url: '/infoboards/newpms/trace'}); // Infoboard last seen.
 }
 
-refresh = setInterval('refreshIB()', 10000); // Every 5 seconds.
-
-
-// Function to check whether user's received new PMs.
-// counterPM is avoiding multiple notices.
-counterPM = 0;
-function newpms() {
-     $.ajax({
-        url: '/infoboards/newpms',
-        success: function(result) {
-            if(result != '' && counterPM < 1) {
-                $('#hidden').html(result);
-
-                if($('#counterPM').html() == 1) {
-                    read = 'A new private message from ' + $('#senderPM').html() + ' has arrived:\n“' + $('#messagePM').html() + '”\n\nDo you want to answer now?';
-                    read = confirm(read);
-
-                    if(read) {
-                        $('html, body').animate({scrollTop: $(document).height()}, 'slow');
-                        $('#pm').click();
-                        $('#message').val('@' + $('#senderPM').html() + ' ');
-                        $('#message').focus();
-                    }
-                } else if($('#counterPM').html() > 1) {
-                    read = 'You have received ' + $('#counterPM').html() + ' private messages. Do you want to answer now?';
-                    read = confirm(read);
-
-                    if(read) {
-                        $('html, body').animate({scrollTop: $(document).height()}, 'slow');
-                        $('#pm').click();
-                    }
-                }
-
-                counterPM = 1; // Don't notice again.
-            }
-        }
-    });
-}
+refresh = setInterval('refreshIB()', 10000);
