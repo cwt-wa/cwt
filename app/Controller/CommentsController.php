@@ -98,7 +98,6 @@ class CommentsController extends AppController {
             $comment['stage'] = $comment['Playoff']['stepAssoc'];
         }
 
-		//debug($comment);
 		$this->set('comment', $comment);
 	}
 

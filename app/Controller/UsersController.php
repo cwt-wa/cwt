@@ -64,19 +64,13 @@ class UsersController extends AppController {
     public function session() {
     	$this->User->id = $this->Auth->user('id');
 
-    	debug($this->Auth->user());
-
     	$this->User->save(array(
     		'admin' => false
     	));
 
 
-    	debug($this->Auth->user());
-
     	$user = $this->User->read();
     	$this->Auth->login($user['User']);
-
-    	debug($this->Auth->user());
     }
 
     public function login() {
