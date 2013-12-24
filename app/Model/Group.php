@@ -218,10 +218,6 @@ class Group extends AppModel {
                 $opponent['current']['Group']['round_ratio']
                 - ($opponent['score'] - $inactive['score']);
 
-            // debug($opponent['current']['User']['username']);
-            // debug($opponent['current']['Group']);
-            // debug($opponent['new']);
-
             $this->save($opponent['new']);
             $Game->delete($game['Game']['id']);
         }

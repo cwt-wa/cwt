@@ -90,7 +90,6 @@ class GamesController extends AppController {
             $game['winner']['photo'] = $this->User->displayPhoto($game['winner']['username']);
         }
 
-        //debug($game);
         $this->set('game', $game);
     }
 
@@ -184,9 +183,6 @@ class GamesController extends AppController {
 
         $dir = new Folder('files/replays/');
 
-        /*
-         * @TODO Debug what that is exactly returning. It should be the file name with extension.
-         */
         $replay = $dir->find("\[$id*\].*\.(rar|zip)$");
 
         if (empty($replay)) {

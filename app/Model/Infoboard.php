@@ -235,8 +235,6 @@ class Infoboard extends AppModel {
 		$msg .= '<a href="/users/view/'.$game['Away']['id'].'">'.$game['Away']['username'].'</a>';
 
 
-		debug($user); debug($game); debug($msg);
-
 		$this->save(array(
 			'message' => $msg,
 			'category' => 3

@@ -13,8 +13,6 @@ class ApplicationsController extends AppController {
 			'order' => 'Application.created ASC'
 		));
 		$this->set('applicants', $applicants);
-
-		debug($applicants);
 	}
 
 
@@ -40,7 +38,7 @@ class ApplicationsController extends AppController {
 				));
 
 				$this->Auth->login($this->User->re_login());
-				
+
 				$this->Session->setFlash('The staff will now consider your application.');
 				$this->redirect('/applications');
 			} else {

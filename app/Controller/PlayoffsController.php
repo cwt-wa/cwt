@@ -60,7 +60,7 @@ class PlayoffsController extends AppController {
 		}
 
         $playoff = $this->Playoff->findForPlayoffsPage($tournamentId);
-		$this->set('playoff', $playoff); debug($playoff);
+		$this->set('playoff', $playoff);
 	}
 
 
