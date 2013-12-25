@@ -21,10 +21,12 @@
 				));
 			?>
 		</div>
-		<a href="https://twitter.com/cwtwa" class="twitter-follow-button" data-show-count="false" data-size="large" style="text-align: center;">
-				Follow Crespo’s Worms Tournament
+		<div style="text-align: center;">
+			<a href="https://twitter.com/cwtwa" class="twitter-follow-button" data-show-count="false" data-size="large">
+					Follow @cwtwa
 			</a>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><br/>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		</div><br/>
 		<?php echo nl2br($this->Bbcode->parse($news['News']['text'])); ?>
 	</div>
 <?php endif; ?>
