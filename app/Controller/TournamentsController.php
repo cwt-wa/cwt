@@ -14,7 +14,7 @@ class TournamentsController extends AppController {
 
     public function index() {
         $this->helpers[] = 'Text';
-        $this->Tournament->recursive = 0;
+        $this->Tournament->recursive = 1;
         $tournaments = $this->Tournament->find('all', array(
             'conditions' => array(
                 'status' => Tournament::ARCHIVED
