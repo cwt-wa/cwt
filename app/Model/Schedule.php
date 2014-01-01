@@ -113,7 +113,7 @@ class Schedule extends AppModel {
 			$daysLeft[gmdate('Y-m-d', strtotime("+$skipDays day"))] =
 				gmdate('M j', strtotime("+$skipDays day"));
 
-			if(gmdate('Y-m-d', strtotime("+$skipDays day")) == '2013-12-31') {
+			if(gmdate('Y-m-d', strtotime("+$skipDays day")) == gmdate('Y') . '-12-31') {
 				return $daysLeft;
 			}
 
