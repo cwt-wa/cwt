@@ -272,11 +272,10 @@ class Playoff extends AppModel {
 
 				// If both final games have been played, finish the whole tourney.
 				// Hopefully I can still use the bound Tournament model.
-				$tourney = $this->Tournament->info(); // Current tourney's row.
-				if($tourney['gold']	  != ''
-				&& $tourney['silver'] != ''
-				&& $tourney['bronze'] != '') {
-					$this->Tournament->id = $tourney['id'];
+				if($currentTournament['Gold']['id']	!= null
+				&& $currentTournament['Silver']['id']	!= null
+				&& $currentTournament['Bronze']['id']	!= null) {
+					$this->Tournament->id = $currentTournament['Tournament']['id'];
 					$this->Tournament->save(array('status' => 'finished'));
 				}
 
