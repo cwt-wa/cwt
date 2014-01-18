@@ -10,14 +10,6 @@ class GamesController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        // You can only look up games, in case the tournament has started.
-        if(!$this->Game->gamesCanBeReported() && $this->request->params['action'] != 'download') {
-            $this->Session->setFlash(
-                'The tournament has not yet started.',
-                'default', array('class' => 'error'));
-            $this->redirect($this->referer());
-        }
-
         $this->Auth->allow('download');
     }
 
