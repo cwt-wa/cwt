@@ -40,13 +40,8 @@ class InfoboardsController extends AppController {
 
 	public function submit() {
 		if(@$this->request->data['guest'] !== 'undefined') {
-            $visitorIp = $this->Infoboard->getVisitorIp();
-            CakeLog::write(
-                'guestbook',
-                $visitorIp . ": "
-                . $this->request->data['message']
-            );
-			$check = $this->Infoboard->submit($this->request->data['message'], $this->request->data['guest']);
+            // No guest book entries anymore.
+            return;
 		} else {
 			$check = $this->Infoboard->submit($this->request->data['message']);
 		}
