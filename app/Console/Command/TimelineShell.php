@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Updates User.timeline accurately.
+ */
 class TimelineShell extends AppShell
 {
 
@@ -114,14 +117,13 @@ class TimelineShell extends AppShell
                     }
                     break;
                 default:
-                    print_r('------------------- error with user #' . $userId . ' -------------------');
+                    $this->out('------------------- error with user #' . $userId . ' -------------------', 1, Shell::QUIET);
             }
         }
         return $reachedStep;
     }
 
-    private
-    function userWonGame($game, $userId)
+    private function userWonGame($game, $userId)
     {
         if ($game['home_id'] == $userId) {
             if ($game['score_h'] > $game['score_a']) {
@@ -134,11 +136,5 @@ class TimelineShell extends AppShell
             }
             return true;
         }
-    }
-
-    private function findDbTimelineOfCurrentUser($userId)
-    {
-        $user = $this->User->read('timeline', $userId);
-        return $user['User']['timeline'];
     }
 }
