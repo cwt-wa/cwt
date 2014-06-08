@@ -239,11 +239,10 @@ class Tournament extends AppModel {
             )
                 ));
 
-        // Updatind KO'd users' timelines and stages.
+        // Updatind KO'd users' stages.
         foreach ($ko as $user) {
             $User->save(array(
                 'id' => $user['User']['id'],
-                'timeline' => $user['User']['timeline'] . '1',
                 'stage' => 'retired'
             ));
         }

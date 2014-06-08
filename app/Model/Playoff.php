@@ -189,8 +189,6 @@ class Playoff extends AppModel {
 					array('User.stage' => "'retired'"),
 					array('User.id'    => $loser)
 				);
-
-				$this->updTimeline($loser, $game['Playoff']['step'] + 1);
 			break;
     		case '3': // Semifinal
     			$spot 	 = $game['Playoff']['spot'];
@@ -290,14 +288,6 @@ class Playoff extends AppModel {
 					array('User.stage' => "'retired'"),
 					array('User.id'    => $winner)
 				);
-
-				if($game['Playoff']['step'] == '4') { // Third Place
-					$this->updTimeline($winner, 5);
-					$this->updTimeline($loser, 4);
-				} else { // Final
-					$this->updTimeline($winner, 7);
-					$this->updTimeline($loser, 6);
-				}
     	}
 
     	return array(
@@ -306,19 +296,6 @@ class Playoff extends AppModel {
 			'stepAssoc'    => $this->stepAssoc[$game['Playoff']['step']]
 		);
     }
-
-    // Updates user's Timeline after Playoff games
-	public function updTimeline($user_id, $achievement) {
-		$User = ClassRegistry::init('User');
-		$User->id = $user_id;
-		$timeline = $User->field('timeline');
-
-		$User->save(array(
-			'timeline' => $timeline . $achievement
-		));
-
-		return true;
-	}
 
 	// Build the playoff tree. Yes, manually for now.
 	public function start($data) {
