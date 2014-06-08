@@ -262,6 +262,11 @@ class Tournament extends AppModel {
             'status' => Tournament::ARCHIVED
         ));
 
+        // Execute the shell that updates all users' timelines.
+        App::uses('TimelineShell', 'Console/Command');
+        $timelineShell = new TimelineShell();
+        $timelineShell->main();
+
         ClassRegistry::init('Application')->query('TRUNCATE TABLE `applications`');
         return true;
     }
