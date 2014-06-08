@@ -243,7 +243,16 @@ class UsersController extends AppController {
 			);
 
 			if($this->Captcha->validate($captcha_validation)) {
-				$this->request->data['User']['timeline'] = '0000000000';
+				$this->request->data['User']['timeline'] = '';
+                $this->loadModel('Tournament');
+                $numberOfArchivedTourmaments = $this->Tournament->find('count', array(
+                    'conditions' => array(
+                        'Tournament.status' => Tournament::ARCHIVED
+                    )
+                ));
+                for ($i = 0; $i < $numberOfArchivedTourmaments; $i++) {
+                    $this->request->data['User']['timeline'] .= '0';
+                }
 
 				if($this->User->save($this->request->data)) {
 					$this->User->Profile->save(array(
