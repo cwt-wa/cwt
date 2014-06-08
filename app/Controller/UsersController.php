@@ -245,12 +245,12 @@ class UsersController extends AppController {
 			if($this->Captcha->validate($captcha_validation)) {
 				$this->request->data['User']['timeline'] = '';
                 $this->loadModel('Tournament');
-                $numberOfArchivedTourmaments = $this->Tournament->find('count', array(
+                $numberOfArchivedTournaments = $this->Tournament->find('count', array(
                     'conditions' => array(
                         'Tournament.status' => Tournament::ARCHIVED
                     )
                 ));
-                for ($i = 0; $i < $numberOfArchivedTourmaments; $i++) {
+                for ($i = 0; $i < $numberOfArchivedTournaments; $i++) {
                     $this->request->data['User']['timeline'] .= '0';
                 }
 
