@@ -1,77 +1,78 @@
-#game {	
+#game {
     border: 1px solid white;
     box-shadow: 4px 4px 3px #C4C4C4;
 }
 
 #step {
-	border: none; /* 1px solid black */
-	width: 242.5px;
-	float:left;
+    border: none; /* 1px solid black */
+    width: 242.5px;
+    float: left;
 }
 
 #players {
-	background-color: #081619;
-	width: 140px;
-	height: 20px;
-	border: 1px solid white;
+    background-color: #081619;
+    width: 140px;
+    height: 20px;
+    border: 1px solid white;
 }
 
 #result {
-	background-color: #081619;
-	width: 13px;
-	border: 1px solid white;
-	border-left: none;	
+    background-color: #081619;
+    width: 13px;
+    border: 1px solid white;
+    border-left: none;
 }
 
-#rating { /* td */
-	background-color: #1E2B2E;
-	width: 60px;
-	border-top: 1px solid white;
-	border-right: 1px solid white;
+#rating {
+    /* td */
+    background-color: #1E2B2E;
+    width: 60px;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
 }
 
 #comments {
-	background:#1E2B2E url('/img/comment.png') no-repeat center center;
-	width: 15px;
-	border-bottom: 1px solid white;
+    background: #1E2B2E url('/img/comment.png') no-repeat center center;
+    width: 15px;
+    border-bottom: 1px solid white;
 }
 
 #replays {
-	background:#1E2B2E url('/img/wa.png') no-repeat center center;
-	width: 15px;
-	border-bottom: 1px solid white;
+    background: #1E2B2E url('/img/wa.png') no-repeat center center;
+    width: 15px;
+    border-bottom: 1px solid white;
 }
 
 #go {
-	background: #1E2B2E;
-	width: 10px;
-	border-bottom: 1px solid white;
-	border-right: 1px solid white;
+    background: #1E2B2E;
+    width: 10px;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
 }
 
 #empty {
-	background-color: #1E2B2E;
-	width: 60px;
-	border-top: 1px solid white;
-	border-bottom: 1px solid white;
-	border-right: 1px solid white;	
+    background-color: #1E2B2E;
+    width: 60px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
 }
 
 #bar {
-	background-color: #3F3429;
-	position: relative;
-	height: 26px;
-	z-index: 1;
-	margin-top: -3px;
-	margin-left: -3px;
-	margin-bottom: -3px;
+    background-color: #3F3429;
+    position: relative;
+    height: 26px;
+    z-index: 1;
+    margin-top: -3px;
+    margin-left: -3px;
+    margin-bottom: -3px;
 }
 
 #nick {
-	float: left;
-	z-index: 99;
-	position: relative;
-	margin-top: 3px;
+    float: left;
+    z-index: 99;
+    position: relative;
+    margin-top: 3px;
 }
 
 td {
@@ -81,14 +82,14 @@ td {
 /* Displaying ratings bars */
 
 #ratings {
-	width: 55px;
-	height: 5px;
-	white-space: nowrap;
-	margin-bottom: 5px
+    width: 55px;
+    height: 5px;
+    white-space: nowrap;
+    margin-bottom: 5px
 }
 
 .ratingsBar {
-	margin-top: 3px;
-	height: 5px;
-	display: inline-block; 
+    margin-top: 3px;
+    height: 5px;
+    display: inline-block;
 }

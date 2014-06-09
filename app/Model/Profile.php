@@ -3,92 +3,97 @@ App::uses('AppModel', 'Model');
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
 
-class Profile extends AppModel {
-	public $name = 'Profile';
-	public $displayField = 'user_id';
+class Profile extends AppModel
+{
+    public $name = 'Profile';
+    public $displayField = 'user_id';
 
-	public $belongsTo = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'dependent' => true
-		)
-	);
+    public $belongsTo = array(
+        'User' => array(
+            'className' => 'User',
+            'foreignKey' => 'user_id',
+            'dependent' => true
+        )
+    );
 
-	// Getting all flags and create select field out of it.
-	public function flags($current) {
-		$dir = new Folder(WWW_ROOT . 'img/flags');
+    // Getting all flags and create select field out of it.
+    public function flags($current)
+    {
+        $dir = new Folder(WWW_ROOT . 'img/flags');
 
-		$files = $dir->find('.*', true);
+        $files = $dir->find('.*', true);
 
-		if($current != 'unknown') $flag[$current] = $current;
+        if ($current != 'unknown') $flag[$current] = $current;
 
-		$flag[''] = '';
+        $flag[''] = '';
 
-		foreach ($files as $file) {
-		    $file = new File($dir->pwd() . DS . $file);
+        foreach ($files as $file) {
+            $file = new File($dir->pwd() . DS . $file);
 
-		    $flag[Inflector::humanize($file->name())] = Inflector::humanize($file->name());
+            $flag[Inflector::humanize($file->name())] = Inflector::humanize($file->name());
 
-		    $file->close(); // Be sure to close the file when you're done
-		}
+            $file->close(); // Be sure to close the file when you're done
+        }
 
-		return $flag;
-	}
+        return $flag;
+    }
 
-	public function deletePhoto() {
-		$folder = new Folder('img/users');
+    public function deletePhoto()
+    {
+        $folder = new Folder('img/users');
 
-		$user = AuthComponent::user('username');
+        $user = AuthComponent::user('username');
 
-		$photos = $folder->find("\b$user\b.*");
+        $photos = $folder->find("\b$user\b.*");
 
-		if(!empty($photos)) {
-			foreach($photos as $photo) {
-				$file = new File('img/users/' . $photo);
-				$file->delete();
-			}
-		}
+        if (!empty($photos)) {
+            foreach ($photos as $photo) {
+                $file = new File('img/users/' . $photo);
+                $file->delete();
+            }
+        }
 
-		$this->save(array(
-			'id' 	   => AuthComponent::user('id'),
-			'user_id'  => AuthComponent::user('id'),
-			'modified' => gmdate('Y-d-m H:i:s')
-		));
+        $this->save(array(
+            'id' => AuthComponent::user('id'),
+            'user_id' => AuthComponent::user('id'),
+            'modified' => gmdate('Y-d-m H:i:s')
+        ));
 
-		return true;
-	}
+        return true;
+    }
 
-	public function uploadPhoto($data) {
-		$validtypes = array('png', 'gif', 'jpg', 'jpeg', 'pjpeg', 'bmp');
-		$filetype = substr($data['photo']['type'], 6);
+    public function uploadPhoto($data)
+    {
+        $validtypes = array('png', 'gif', 'jpg', 'jpeg', 'pjpeg', 'bmp');
+        $filetype = substr($data['photo']['type'], 6);
 
-		if(in_array($filetype, $validtypes)) {
-			$this->deletePhoto(); // Delete previous photo.
+        if (in_array($filetype, $validtypes)) {
+            $this->deletePhoto(); // Delete previous photo.
 
-			$tmp_file = new File($data['photo']['tmp_name']);
+            $tmp_file = new File($data['photo']['tmp_name']);
 
-			if($filetype == 'jpeg' || $filetype == 'pjpeg') {
-				$filetype = 'jpg';
-			}
+            if ($filetype == 'jpeg' || $filetype == 'pjpeg') {
+                $filetype = 'jpg';
+            }
 
-			$filename = 'img/users/' . AuthComponent::user('username') . '.' . $filetype;
-			$file = new File($filename, true);
+            $filename = 'img/users/' . AuthComponent::user('username') . '.' . $filetype;
+            $file = new File($filename, true);
 
-			$file->write($tmp_file->read()); // Write new photo.
+            $file->write($tmp_file->read()); // Write new photo.
 
-			if($file->executable() || !in_array($file->ext(), $validtypes)) {
-				$file->delete();
-				return false;
-			}
+            if ($file->executable() || !in_array($file->ext(), $validtypes)) {
+                $file->delete();
+                return false;
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-    public function displayCountry($userId = null) {
+    public function displayCountry($userId = null)
+    {
         $userId = $userId == null ? AuthComponent::user('id') : $userId;
         $country = $this->field('country', array('user_id' => $userId));
 
@@ -99,15 +104,16 @@ class Profile extends AppModel {
         return 'flags/' . str_replace(' ', '_', strtolower($country)) . '.png';
     }
 
-	public function displayPhoto($user) {
-		$folder = new Folder('img/users');
+    public function displayPhoto($user)
+    {
+        $folder = new Folder('img/users');
 
-		$photo = $folder->find("\b$user\b.*");
+        $photo = $folder->find("\b$user\b.*");
 
-		if(empty($photo)) {
-			return false;
-		}
+        if (empty($photo)) {
+            return false;
+        }
 
-		return $photo[0];
-	}
+        return $photo[0];
+    }
 }

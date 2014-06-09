@@ -5,7 +5,8 @@ App::uses('AppModel', 'Model');
 /**
  * Standings for group tables.
  */
-class Standing extends AppModel {
+class Standing extends AppModel
+{
 
     public $name = 'Standing';
     public $displayField = 'id';

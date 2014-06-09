@@ -1,18 +1,19 @@
 <?php
 App::uses('AppModel', 'Model');
 
-class Group extends AppModel {
+class Group extends AppModel
+{
 
     public $name = 'Group';
     public $displayField = 'group';
     public $hasMany = array(
         'Game' => array(
-            'className'  => 'Game',
+            'className' => 'Game',
             'foreignKey' => 'group_id',
-             'conditions' => array('Game.playoff_id' => 0)
+            'conditions' => array('Game.playoff_id' => 0)
         ),
         'Standing' => array(
-            'className'  => 'Standing',
+            'className' => 'Standing',
             'foreignKey' => 'group_id'
         )
     );
@@ -23,7 +24,8 @@ class Group extends AppModel {
      * @param null $userId The user's id to find the group of or the currently logged in user if the param wasn't given.
      * @return String The capital letter of the group or null if th user was not found in any group.
      */
-    public function findGroup($userId = null) {
+    public function findGroup($userId = null)
+    {
         $userId = $userId ? $userId : AuthComponent::user('id');
 
         $this->Standing->recursive = 1;
@@ -43,11 +45,12 @@ class Group extends AppModel {
 
     // Assign players to the groups.
 
-    public function start($data) {
+    public function start($data)
+    {
         // Checking if a user has been assigned multiple times.
         $duplicates = array_count_values($data);
-        for($i = 1; $i <= 32; $i++) {
-            if($duplicates[$data['player' . $i]] > 1) {
+        for ($i = 1; $i <= 32; $i++) {
+            if ($duplicates[$data['player' . $i]] > 1) {
                 return false;
             }
         }
@@ -82,7 +85,8 @@ class Group extends AppModel {
      *
      * @return integer number of users who applied.
      */
-    public function numberOfApplicants() {
+    public function numberOfApplicants()
+    {
         $applicants = ClassRegistry::init('Application')->find('count');
         return $applicants;
     }
@@ -94,13 +98,14 @@ class Group extends AppModel {
      * @param int $userId The user the opponents are to be found of. If not provided it's the currently logged in user.
      * @return array What's left of $attendees after users $userId isn't allowed to play against are removed.
      */
-    public function allowedOpponents($attendees, $userId = null) {
+    public function allowedOpponents($attendees, $userId = null)
+    {
         $userId = $userId ? $userId : AuthComponent::user('id');
         $currentTournament = $this->currentTournament();
 
-        foreach($attendees as $groupmateID => $ID) {
+        foreach ($attendees as $groupmateID => $ID) {
             // Remove yourself from opponents.
-            if($groupmateID == $userId) {
+            if ($groupmateID == $userId) {
                 unset($attendees[$groupmateID]);
             }
 
@@ -119,7 +124,7 @@ class Group extends AppModel {
                     'Game.tournament_id' => $currentTournament['Tournament']['id']
                 )
             ));
-            if($playedGame[1] || $playedGame[2]) {
+            if ($playedGame[1] || $playedGame[2]) {
                 unset($attendees[$groupmateID]);
             }
         }
@@ -134,7 +139,8 @@ class Group extends AppModel {
      * @param $groupString
      * @return array
      */
-    public function attendees($groupString) {
+    public function attendees($groupString)
+    {
         $currentTournament = $this->currentTournament();
 
         $attendees = array();
@@ -158,16 +164,17 @@ class Group extends AppModel {
 
     // Replace a player.
 
-    public function replacePlayer($data) {
+    public function replacePlayer($data)
+    {
         $Game = ClassRegistry::init('Game');
         $User = ClassRegistry::init('User');
         $data['Inactive']['id'] = $data['Group']['Inactive'];
         $data['Active']['id'] = $data['Group']['Active'];
         $data['Inactive']['games'] = $Game->playedby($data['Inactive']['id']);
 
-        foreach($data['Inactive']['games'] as $game) {
+        foreach ($data['Inactive']['games'] as $game) {
             // Who's the opponent of Inactive?
-            if($game['Game']['home_id'] == $data['Inactive']['id']) {
+            if ($game['Game']['home_id'] == $data['Inactive']['id']) {
                 $opponent['id'] = $game['Game']['away_id'];
                 $opponent['score'] = $game['Game']['score_a'];
 
@@ -181,15 +188,15 @@ class Group extends AppModel {
                 $inactive['score'] = $game['Game']['score_a'];
             }
 
-            switch($opponent['score']) {
+            switch ($opponent['score']) {
                 case '3':
                     $opponent['new']['points'] = -3;
                     $opponent['new']['game_ratio'] = -1;
-                break;
+                    break;
                 case '2':
                     $opponent['new']['points'] = -1;
                     $opponent['new']['game_ratio'] = 1;
-                break;
+                    break;
                 case '1':
                 case '0':
                     $opponent['new']['game_ratio'] = 1;
@@ -245,21 +252,22 @@ class Group extends AppModel {
 
     // A new group game has been reported. Call by GameModel.
 
-    public function updateReport($oldwinner, $oldloser, $score_w, $score_l) {
+    public function updateReport($oldwinner, $oldloser, $score_w, $score_l)
+    {
         $result = $score_w . '-' . $score_l;
 
-        switch($result) {
+        switch ($result) {
             case '3-0':
                 $newWinnerPoints = $oldwinner['points'] + 3;
                 $newLoserPoints = $oldloser['points'];
-            break;
+                break;
             case '3-1':
                 $newWinnerPoints = $oldwinner['points'] + 3;
                 $newLoserPoints = $oldloser['points'];
-            break;
+                break;
             case '3-2':
                 $newWinnerPoints = $oldwinner['points'] + 3;
-                $newLoserPoints = $oldloser['points']  + 1;
+                $newLoserPoints = $oldloser['points'] + 1;
         }
 
         $newWinner = array(
@@ -276,7 +284,7 @@ class Group extends AppModel {
             'points' => $newLoserPoints,
             'games' => $oldloser['games'] + 1,
             'game_ratio' => $oldloser['game_ratio'] - 1,
-            'round_ratio' => $oldloser['round_ratio']  - $score_w + $score_l
+            'round_ratio' => $oldloser['round_ratio'] - $score_w + $score_l
         );
 
         $this->Standing->save($newWinner);
@@ -289,7 +297,8 @@ class Group extends AppModel {
      * @param $tournamentId The tournament to find the groups of.
      * @return array The data needed for the view.
      */
-    public function findForGroupsPage($tournamentId = null) {
+    public function findForGroupsPage($tournamentId = null)
+    {
         if ($tournamentId == null) {
             $currentTournament = $this->currentTournament();
             $tournamentId = $currentTournament['Tournament']['id'];

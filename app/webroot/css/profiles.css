@@ -15,10 +15,10 @@
 
 .timeline_item {
     position: relative;
-	display: inline-block;
-	text-align: center;
-	border-right: 1px solid #635240;
-	padding-right: 10px;
+    display: inline-block;
+    text-align: center;
+    border-right: 1px solid #635240;
+    padding-right: 10px;
 }
 
 #actions {

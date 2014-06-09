@@ -13,18 +13,18 @@
 }
 
 .bottomBorder {
-	border-bottom: 1px solid #383838;
+    border-bottom: 1px solid #383838;
     white-space: nowrap;
 }
 
 #ratings {
-	width: 50px;
-	height: 5px;
-	white-space: nowrap;
-	margin-bottom: 5px
+    width: 50px;
+    height: 5px;
+    white-space: nowrap;
+    margin-bottom: 5px
 }
 
 .ratingsBar {
-	height: 5px;
-	display: inline-block;
+    height: 5px;
+    display: inline-block;
 }

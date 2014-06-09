@@ -2,7 +2,8 @@
 
 App::uses('AppModel', 'Model');
 
-class Restore extends AppModel {
+class Restore extends AppModel
+{
 
     public $name = 'Restore';
     public $belongsTo = array(
@@ -109,7 +110,8 @@ class Restore extends AppModel {
         )
     );
 
-    public function numberOfAddedGames() {
+    public function numberOfAddedGames()
+    {
         $numberOfAddedGames = array();
         $year = 2001;
 
@@ -118,25 +120,28 @@ class Restore extends AppModel {
                 'conditions' => array(
                     'Restore.tournament_id' => $tournament_id
                 )
-                    ));
+            ));
         }
 
         return $numberOfAddedGames;
     }
 
-    public function beforeValidate($options = array()) {
+    public function beforeValidate($options = array())
+    {
         $this->data['Restore']['tournament_id'] =
-                substr($this->data['Restore']['reported'], 0, 4) - 2001;
+            substr($this->data['Restore']['reported'], 0, 4) - 2001;
 
         return true;
     }
 
-    public function beforeSave($options = array()) {
+    public function beforeSave($options = array())
+    {
         $this->data['Restore']['submitter_id'] = AuthComponent::user('id');
         return true;
     }
 
-    public function validateMonthDay($field) {
+    public function validateMonthDay($field)
+    {
         $month = substr($field['reported'], 5, 2);
         $day = substr($field['reported'], 8);
 
@@ -159,7 +164,8 @@ class Restore extends AppModel {
         return true;
     }
 
-    public function validateTournament($field) {
+    public function validateTournament($field)
+    {
         if (!$this->validateId($field['tournament_id'], 'Tournament')) {
             return false;
         }
@@ -174,7 +180,8 @@ class Restore extends AppModel {
         return true;
     }
 
-    public function validateStage($field) {
+    public function validateStage($field)
+    {
         if (!in_array($field['stage'], $this->validStages)) {
             return false;
         }
@@ -182,7 +189,8 @@ class Restore extends AppModel {
         return true;
     }
 
-    public function validatePlayers($field) {
+    public function validatePlayers($field)
+    {
         if (!$this->validateId($field['home_id'], 'User')) {
             return false;
         }
@@ -198,7 +206,8 @@ class Restore extends AppModel {
         return true;
     }
 
-    public function validateGame($field) {
+    public function validateGame($field)
+    {
         // This validation can't be done, when stage isn't provided.
         // Validation will generally fail because of this later on.
         if (empty($this->data['Restore']['stage'])) {
@@ -211,23 +220,23 @@ class Restore extends AppModel {
                     array(
                         'Restore.home_id' => $field['home_id'],
                         'Restore.away_id' =>
-                        $this->data['Restore']['away_id'],
+                            $this->data['Restore']['away_id'],
                     ),
                     array(
                         'Restore.away_id' => $field['home_id'],
                         'Restore.home_id' =>
-                        $this->data['Restore']['away_id'],
+                            $this->data['Restore']['away_id'],
                     )
                 ),
                 'Restore.tournament_id' =>
-                $this->data['Restore']['tournament_id']
+                    $this->data['Restore']['tournament_id']
             )
         );
 
         // If submitted game is in group stage.
         if (substr($this->data['Restore']['stage'], 0, 5) == 'Group') {
             $conditions['conditions']['Restore.stage'] =
-                    $this->data['Restore']['stage'];
+                $this->data['Restore']['stage'];
             $gamesPlayed = $this->find('count', $conditions);
 
             if ($gamesPlayed >= 2) {
@@ -253,9 +262,11 @@ class Restore extends AppModel {
         return true;
     }
 
-    public function validateResult($field) {
+    public function validateResult($field)
+    {
         if ($field['score_a'] == '0'
-                && $this->data['Restore']['score_h'] == '0') {
+            && $this->data['Restore']['score_h'] == '0'
+        ) {
             if ($this->data['Restore']['tech_win'] === '1') {
                 return true;
             } else {
@@ -264,14 +275,17 @@ class Restore extends AppModel {
         }
 
         if (!in_array($field['score_a'], $this->validScores)
-                || !in_array($this->data['Restore']['score_h'], $this->validScores)) {
+            || !in_array($this->data['Restore']['score_h'], $this->validScores)
+        ) {
             return false;
         }
 
         if ($field['score_a'] == '4'
-                || $this->data['Restore']['score_h'] == '4') {
+            || $this->data['Restore']['score_h'] == '4'
+        ) {
             if ($this->data['Restore']['stage'] != 'Third Place'
-                    && $this->data['Restore']['stage'] != 'Final') {
+                && $this->data['Restore']['stage'] != 'Final'
+            ) {
                 return false;
             }
         }

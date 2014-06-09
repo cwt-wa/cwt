@@ -18,7 +18,8 @@
             <?php
             echo $tournament['Tournament']['year']
             ?>
-        </div><br />
+        </div>
+        <br/>
         <table cellpadding="10">
             <tr>
                 <td align="left" width="300" style="white-space: nowrap; font-size: 18pt;">
@@ -29,10 +30,10 @@
                     ?>&nbsp;
                     <?php
                     echo $this->Html->link(
-                            $tournament['Gold']['username'], '/users/view/' . $tournament['Gold']['id'], array(
+                        $tournament['Gold']['username'], '/users/view/' . $tournament['Gold']['id'], array(
                         'class' => 'plain'
                     ));
-                    ?><br />
+                    ?><br/>
                     <?php
                     echo $this->Html->image('/img/medals/silver2.png', array(
                         'style' => 'height:20px;'
@@ -40,10 +41,10 @@
                     ?>&nbsp;
                     <?php
                     echo $this->Html->link(
-                            $tournament['Silver']['username'], '/users/view/' . $tournament['Silver']['id'], array(
+                        $tournament['Silver']['username'], '/users/view/' . $tournament['Silver']['id'], array(
                         'class' => 'plain'
                     ));
-                    ?><br />
+                    ?><br/>
                     <?php
                     echo $this->Html->image('/img/medals/bronze3.png', array(
                         'style' => 'height:20px;'
@@ -51,41 +52,42 @@
                     ?>&nbsp;
                     <?php
                     echo $this->Html->link(
-                            $tournament['Bronze']['username'], '/users/view/' . $tournament['Bronze']['id'], array(
+                        $tournament['Bronze']['username'], '/users/view/' . $tournament['Bronze']['id'], array(
                         'class' => 'plain'
                     ));
                     ?>
                 </td>
                 <td align="left" width="300" style="border-left:1px solid gray;">
-            Organized by<br />
-            <?php
-            if (empty($tournament['Moderator'])) {
-                echo '<i>none</i>';
-            } else {
-                $helpers = array();
+                    Organized by<br/>
+                    <?php
+                    if (empty($tournament['Moderator'])) {
+                        echo '<i>none</i>';
+                    } else {
+                        $helpers = array();
 
-                foreach ($tournament['Moderator'] as $moderator) {
-                    $helpers[] = $this->Html->link(
-                            $moderator['username'], '/users/view/' . $moderator['id'], array(
-                        'class' => 'plain'
+                        foreach ($tournament['Moderator'] as $moderator) {
+                            $helpers[] = $this->Html->link(
+                                $moderator['username'], '/users/view/' . $moderator['id'], array(
+                                'class' => 'plain'
                             ));
-                }
+                        }
 
-                echo $this->Text->toList($helpers);
-            }
-            ?>
-            </td>
-            <td align="left" style="border-left:1px solid gray;">
-                <?php
-                echo $this->Html->link(
-                    'Games, Standings<br/>and more',
-                    '/archive/' . $tournament['Tournament']['year'],
-                    array('escape' => false));
-                ?>
-            </td>
+                        echo $this->Text->toList($helpers);
+                    }
+                    ?>
+                </td>
+                <td align="left" style="border-left:1px solid gray;">
+                    <?php
+                    echo $this->Html->link(
+                        'Games, Standings<br/>and more',
+                        '/archive/' . $tournament['Tournament']['year'],
+                        array('escape' => false));
+                    ?>
+                </td>
             </tr>
         </table>
         <br/>
+
         <div style="text-align: center;">
             <?php echo nl2br($this->Text->autoLinkUrls($tournament['Tournament']['review'])); ?>
             <?php

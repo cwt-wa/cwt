@@ -2,17 +2,20 @@
 
 App::uses('AppController', 'Controller');
 
-class TournamentsController extends AppController {
+class TournamentsController extends AppController
+{
 
     public $name = 'Tournaments';
     public $scaffold = 'admin';
 
-    public function beforeFilter() {
+    public function beforeFilter()
+    {
         parent::beforeFilter();
         $this->Auth->allow('download');
     }
 
-    public function index() {
+    public function index()
+    {
         $this->helpers[] = 'Text';
         $this->Tournament->recursive = 1;
         $tournaments = $this->Tournament->find('all', array(
@@ -25,7 +28,8 @@ class TournamentsController extends AppController {
         $this->set('tournaments', $tournaments);
     }
 
-    public function view() {
+    public function view()
+    {
         $path = func_get_args();
         $tournamentYear = $path[0];
 
@@ -47,12 +51,14 @@ class TournamentsController extends AppController {
         $this->set('tournamentYear', $tournamentYear);
     }
 
-    public function admin_index() {
+    public function admin_index()
+    {
         $this->Tournament->recursive = 0;
         $this->set('tournaments', $this->paginate());
     }
 
-    public function admin_view($id = null) {
+    public function admin_view($id = null)
+    {
         $this->Tournament->id = $id;
         if (!$this->Tournament->exists()) {
             throw new NotFoundException(__('Invalid tournament'));
@@ -60,7 +66,8 @@ class TournamentsController extends AppController {
         $this->set('tournament', $this->Tournament->read(null, $id));
     }
 
-    public function admin_add() {
+    public function admin_add()
+    {
         $currentTournament = $this->Tournament->currentTournament();
         $this->Tournament->id = $currentTournament['id'];
 
@@ -73,13 +80,13 @@ class TournamentsController extends AppController {
             if ($this->Tournament->start($this->request->data['Start'])) {
                 $this->Auth->login($this->User->re_login());
                 $this->Session->setFlash(
-                        'The tournament has started and users are now able
-					to apply for participation.');
+                    'The tournament has started and users are now able
+                to apply for participation.');
                 $this->redirect('/pages/admin');
             } else {
                 $this->Session->setFlash(
-                        'A new tournament has not been started.
-					You have entered the same helper twice.', 'default', array('class' => 'error'));
+                    'A new tournament has not been started.
+                You have entered the same helper twice.', 'default', array('class' => 'error'));
             }
         }
 
@@ -97,7 +104,8 @@ class TournamentsController extends AppController {
         $this->set('users', $users);
     }
 
-    public function admin_upload() {
+    public function admin_upload()
+    {
         $this->helpers[] = 'AjaxMultiUpload.Upload';
         $this->components[] = 'AjaxMultiUpload.Upload';
 
@@ -107,7 +115,8 @@ class TournamentsController extends AppController {
         $this->set('tournament', $this->Tournament->read());
     }
 
-    public function download($download) {
+    public function download($download)
+    {
         $this->viewClass = 'Media';
 
         CakeLog::write('downloads', $this->Tournament->prependUserInfo('downloaded ' . $download, $this->Auth->loggedIn()));
@@ -143,7 +152,8 @@ class TournamentsController extends AppController {
         }
     }
 
-    public function admin_edit() {
+    public function admin_edit()
+    {
         // It's always the msot recent tournament.
         $currentTournament = $this->Tournament->currentTournament();
         $this->Tournament->id = $currentTournament['Tournament']['id'];
@@ -163,7 +173,7 @@ class TournamentsController extends AppController {
 
                 $this->loadModel('Group');
 
-                $groupsCreated = (bool) $this->Group->find('count', array(
+                $groupsCreated = (bool)$this->Group->find('count', array(
                     'conditions' => array(
                         'Group.tournament_id' => $currentTournament['Tournament']['id']
                     )
@@ -171,8 +181,8 @@ class TournamentsController extends AppController {
 
                 if (!$groupsCreated) {
                     $this->Session->setFlash(
-                            'You need to assign players to their groups
-						 before starting the group stage.', 'default', array('class' => 'error'));
+                        'You need to assign players to their groups
+                     before starting the group stage.', 'default', array('class' => 'error'));
                     $this->redirect('/admin/groups/add');
                 }
                 break;
@@ -200,7 +210,7 @@ class TournamentsController extends AppController {
                 $this->redirect($redirect);
             } else {
                 $this->Session->setFlash(
-                        $Emsg, 'default', array('class' => 'error')); //yes
+                    $Emsg, 'default', array('class' => 'error')); //yes
             }
         }
 
@@ -208,7 +218,8 @@ class TournamentsController extends AppController {
         $this->set('status', $currentTournament['Tournament']['status']);
     }
 
-    public function admin_delete($id = null) {
+    public function admin_delete($id = null)
+    {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }

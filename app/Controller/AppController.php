@@ -2,7 +2,8 @@
 
 App::uses('Controller', 'Controller');
 
-class AppController extends Controller {
+class AppController extends Controller
+{
 
     public $components = array(
         'RequestHandler',
@@ -36,7 +37,8 @@ class AppController extends Controller {
         'Text'
     );
 
-    public function isAuthorized($user) {
+    public function isAuthorized($user)
+    {
         if (@$this->request->params['admin']) {
             if (!$user['admin']) {
                 return false;
@@ -52,7 +54,8 @@ class AppController extends Controller {
         return true;
     }
 
-    public function beforeFilter() {
+    public function beforeFilter()
+    {
         $this->Cookie->type('rijndael');
 
         $this->adminsOnlyMode(false);
@@ -88,7 +91,8 @@ class AppController extends Controller {
      *
      * @param boolean $bool Whether the mode should be applied or not.
      */
-    public function adminsOnlyMode($bool) {
+    public function adminsOnlyMode($bool)
+    {
         if ($bool == false)
             return;
 
@@ -108,7 +112,8 @@ class AppController extends Controller {
      *
      * @param boolean $bool Whether the mode should be applied or not.
      */
-    public function maintenanceMode($bool) {
+    public function maintenanceMode($bool)
+    {
         if ($bool == false)
             return;
 
@@ -126,7 +131,8 @@ class AppController extends Controller {
     }
 
 
-    public function zemkeDebugMode($enabled) {
+    public function zemkeDebugMode($enabled)
+    {
         if ($enabled) {
             return;
         }

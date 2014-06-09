@@ -2,7 +2,8 @@
 
 App::uses('AppModel', 'Model');
 
-class Tournament extends AppModel {
+class Tournament extends AppModel
+{
 
     public $name = 'Tournament';
     public $displayField = 'year';
@@ -62,7 +63,8 @@ class Tournament extends AppModel {
      *
      * @return array|null The current tournament or null if there are only archived tournaments.
      */
-    public function currentTournament() {
+    public function currentTournament()
+    {
         $this->recursive = 1;
         $currentTournament = $this->find('first', array(
             'conditions' => array(
@@ -77,7 +79,8 @@ class Tournament extends AppModel {
     }
 
     // Start a whole new tournament.
-    public function start($data) {
+    public function start($data)
+    {
         $this->save(array(
             'Tournament' => array(
                 'year' => gmdate('Y'),
@@ -118,7 +121,8 @@ class Tournament extends AppModel {
     }
 
     // Listing the organizers team in the footer.
-    public function niceStaff() {
+    public function niceStaff()
+    {
         $tourney = $this->info();
 
         $helpers = explode(',', $tourney['host_id'] . ',' . $tourney['helpers_id']);
@@ -132,7 +136,8 @@ class Tournament extends AppModel {
     }
 
     // Go to the next stage of the tournament.
-    public function next() {
+    public function next()
+    {
         $currentTournament = $this->currentTournament();
 
         switch ($currentTournament['Tournament']['status']) {
@@ -157,11 +162,12 @@ class Tournament extends AppModel {
         }
     }
 
-    public function afterPending($currentTournament) {
+    public function afterPending($currentTournament)
+    {
         $this->bindModel(array('hasMany' => array('Group' => array('className' => 'Group'))));
 
         // Checking if groups have already been created.
-        $groupsCreated = (bool) $this->Group->find('count', array(
+        $groupsCreated = (bool)$this->Group->find('count', array(
             'conditions' => array(
                 'tournament_id' => $currentTournament['Tournament']['id']
             )
@@ -180,7 +186,7 @@ class Tournament extends AppModel {
         $usersWhoApplied = $User->Application->find('all');
 
         foreach ($usersWhoApplied as $key => $val) {
-            $userAssignedToGroup = (bool) $User->Standing->find('count', array(
+            $userAssignedToGroup = (bool)$User->Standing->find('count', array(
                 'conditions' => array(
                     'tournament_id' => $currentTournament['Tournament']['id'],
                     'user_id' => $val['User']['id']
@@ -203,7 +209,8 @@ class Tournament extends AppModel {
         return true;
     }
 
-    public function afterGroup() {
+    public function afterGroup()
+    {
         $Playoff = ClassRegistry::init('Playoff');
 
         // Playoff tree must've been built before.
@@ -219,16 +226,16 @@ class Tournament extends AppModel {
                 'Game.playoff_id !=' => 0,
                 'Game.group_id' => 0
             )
-                ));
+        ));
 
         $User = ClassRegistry::init('User');
 
         foreach ($assignedOnes as $assignedOne) {
             $User->updateAll(
-                    array('User.stage' => "'playoff'"), array('User.id' => $assignedOne['Game']['home_id'])
+                array('User.stage' => "'playoff'"), array('User.id' => $assignedOne['Game']['home_id'])
             );
             $User->updateAll(
-                    array('User.stage' => "'playoff'"), array('User.id' => $assignedOne['Game']['away_id'])
+                array('User.stage' => "'playoff'"), array('User.id' => $assignedOne['Game']['away_id'])
             );
         }
 
@@ -237,7 +244,7 @@ class Tournament extends AppModel {
             'conditions' => array(
                 'User.stage' => 'group'
             )
-                ));
+        ));
 
         // Updatind KO'd users' stages.
         foreach ($ko as $user) {
@@ -255,7 +262,8 @@ class Tournament extends AppModel {
         return true;
     }
 
-    private function afterPlayoff($currentTournament) {
+    private function afterPlayoff($currentTournament)
+    {
         $this->id = $currentTournament['Tournament']['id'];
 
         $this->save(array(

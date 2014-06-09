@@ -9,8 +9,11 @@
         <ul>
             <li>Participants are prohibited from watching or listening to streams of their own games while playing.</li>
             <li>Participants are prohibited from live streaming their own games.</li>
-            <li>Participants don’t have the power and are also not allowed to keep their games from being live streamed.</li>
-        </ul></b><br/>
+            <li>Participants don’t have the power and are also not allowed to keep their games from being live
+                streamed.
+            </li>
+        </ul>
+    </b><br/>
 
     <b>That’s it?</b><br/>
     Of course the rules are based on a healthy amount of trust. We think that we can rely on trust in a community like
@@ -26,5 +29,6 @@
     <br/>
     <br/>
     <i>CWT Moderators 2013<br/>
-        <a href="/users/view/10" target="_blank">Kayz</a>, <a href="/users/view/158" target="_blank">kukumber</a>, <a href="/users/view/1" target="_blank">Zemke</a></i>
+        <a href="/users/view/10" target="_blank">Kayz</a>, <a href="/users/view/158" target="_blank">kukumber</a>, <a
+            href="/users/view/1" target="_blank">Zemke</a></i>
 </div>

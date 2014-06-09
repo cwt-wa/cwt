@@ -102,7 +102,8 @@ html, body {
     overflow: visible;
 }
 
-#box { /* 980px - 20px - 20px = 940px */
+#box {
+    /* 980px - 20px - 20px = 940px */
     margin: 10px auto 0px auto;
     padding: 20px;
     border: 1px solid #C4C4C4;
@@ -413,12 +414,13 @@ ul {
 /* Paging */
 
 .paging {
-    background:transparent;
+    background: transparent;
     color: #ccc;
     margin-top: 1em;
-    clear:both;
-    text-align:center;
+    clear: both;
+    text-align: center;
 }
+
 .paging .current,
 .paging .disabled,
 .paging a {
@@ -426,36 +428,42 @@ ul {
     padding: 5px 8px;
     display: inline-block
 }
+
 .paging > span {
     display: inline-block;
     border: 1px solid #ccc;
     border-left: 0;
 }
+
 .paging > span:hover {
     background: #efefef;
 }
+
 .paging .prev {
     border-left: 1px solid #ccc;
     -moz-border-radius: 4px 0 0 4px;
     -webkit-border-radius: 4px 0 0 4px;
     border-radius: 4px 0 0 4px;
 }
+
 .paging .next {
     -moz-border-radius: 0 4px 4px 0;
     -webkit-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
 }
+
 .paging .disabled {
     color: #ddd;
 }
+
 .paging .disabled:hover {
     background: transparent;
 }
+
 .paging .current {
     background: #efefef;
     color: #c73e14;
 }
-
 
 /* Cake Generic - Development Mode */
 

@@ -8,7 +8,7 @@
                     'getAways': true,
                     'home_id': $('select#GameHomeId').val()
                 },
-                success: function(response) {
+                success: function (response) {
                     $('select#GameAwayId').html($(response).find('select#GameAwayId').html());
                 }
             });

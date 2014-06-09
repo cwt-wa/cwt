@@ -2,7 +2,8 @@
 
 App::uses('Model', 'Model');
 
-class AppModel extends Model {
+class AppModel extends Model
+{
 
     public $recursive = -1;
 
@@ -14,7 +15,8 @@ class AppModel extends Model {
      * @return boolean False, if the Id is less than one or doesn't exist
      * in the given Model's database table, true otherwise.
      */
-    public function validateId($id, $model) {
+    public function validateId($id, $model)
+    {
         $this->Model = ClassRegistry::init($model);
 
         if ($id < 1) {
@@ -25,9 +27,9 @@ class AppModel extends Model {
             'conditions' => array(
                 $model . '.id' => $id
             )
-                ));
+        ));
 
-        return (bool) $isExistentId;
+        return (bool)$isExistentId;
     }
 
     /**
@@ -42,7 +44,8 @@ class AppModel extends Model {
      * @param array $dateArray array('year' => '', 'month' => '', 'day' => '')
      * @return string The formatted date YYYY-MM-DD
      */
-    public function formatDate($dateArray) {
+    public function formatDate($dateArray)
+    {
         if (empty($dateArray['year'])) {
             $dateArray['year'] = '0000';
         }
@@ -56,9 +59,9 @@ class AppModel extends Model {
         }
 
         $formattedDate =
-                $dateArray['year'] . '-'
-                . $dateArray['month'] . '-'
-                . $dateArray['day'];
+            $dateArray['year'] . '-'
+            . $dateArray['month'] . '-'
+            . $dateArray['day'];
 
         return $formattedDate;
     }
@@ -70,10 +73,11 @@ class AppModel extends Model {
      * @param Boolean $loggedIn Indicating whether the user is logged in or not.
      * @return String The final message prepended with user information.
      */
-    public function prependUserInfo($message, $loggedIn) {
+    public function prependUserInfo($message, $loggedIn)
+    {
         if ($loggedIn) {
             $user = ' #' . AuthComponent::user('id')
-                    . ' ' . AuthComponent::user('username');
+                . ' ' . AuthComponent::user('username');
         } else {
             $user = '';
         }
@@ -86,7 +90,8 @@ class AppModel extends Model {
      *
      * @return String The visitor's IP address.
      */
-    public function getVisitorIp() {
+    public function getVisitorIp()
+    {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             return $_SERVER['HTTP_CLIENT_IP'];
         } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -102,11 +107,13 @@ class AppModel extends Model {
      *
      * @return bool True if the games can be reported, false otherwise.
      */
-    public function gamesCanBeReported() {
+    public function gamesCanBeReported()
+    {
         $currentTournament = $this->currentTournament();
 
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP
-                || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
+            || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF
+        ) {
             return true;
         }
 
@@ -118,7 +125,8 @@ class AppModel extends Model {
      *
      * @return array|null The current tournament or null if there are only archived tournaments.
      */
-    public function currentTournament() {
+    public function currentTournament()
+    {
         return ClassRegistry::init('Tournament')->currentTournament();
     }
 
@@ -126,9 +134,11 @@ class AppModel extends Model {
      * Use the Tournament Model instead.
      * @deprecated
      */
-    public function tourneyStarted() {
+    public function tourneyStarted()
+    {
         if ($this->tourneyStatus() == 'pending'
-            || $this->tourneyStatus() == 'archived') {
+            || $this->tourneyStatus() == 'archived'
+        ) {
             return false;
         } else {
             return true;
@@ -139,9 +149,10 @@ class AppModel extends Model {
      * Use the Tournament Model instead.
      * @deprecated
      */
-    public function tourneyStatus() {
+    public function tourneyStatus()
+    {
         $this->bindModel(array('hasMany' =>
-        array('Tournament' => array('className' => 'Tournament'))));
+            array('Tournament' => array('className' => 'Tournament'))));
         $status = $this->Tournament->field('status', null, 'year DESC');
         return $status;
     }
@@ -150,7 +161,8 @@ class AppModel extends Model {
      * Use the Tournament Model instead.
      * @deprecated
      */
-    public function tourneyInfo() {
+    public function tourneyInfo()
+    {
         $row = $this->find('first', array(
             'limit' => 1,
             'order' => array('Tournament.id' => 'desc')

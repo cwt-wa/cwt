@@ -393,7 +393,8 @@ class User extends AppModel
      * @param int|null $userId The user to check, if not supplied or null it is the logged in user.
      * @return True if yeah, false if nay.
      */
-    public function isStillInTournament($userId = null) {
+    public function isStillInTournament($userId = null)
+    {
         $userId = $userId === null ? AuthComponent::user('id') : $userId;
 
         $currentTournament = $this->currentTournament();
@@ -424,9 +425,10 @@ class User extends AppModel
      *
      * @return array
      */
-    public function getAllUsersStillInTournament() {
+    public function getAllUsersStillInTournament()
+    {
         $this->recursive = 1;
-	    $allUsers = $this->find('list');
+        $allUsers = $this->find('list');
 
         foreach ($allUsers as $userId => $username) {
             if (!$this->isStillInTournament($userId)) {
@@ -443,7 +445,8 @@ class User extends AppModel
      * @param null $userId
      * @return array
      */
-    public function findAllowedOpponents($userId = null) {
+    public function findAllowedOpponents($userId = null)
+    {
         $userId = $userId ? $userId : AuthComponent::user('id');
         $currentTournament = ClassRegistry::init('Tournament')->currentTournament();
 
@@ -464,7 +467,8 @@ class User extends AppModel
         return $allowedOpponents;
     }
 
-    public function findAllUsersInGroupStage() {
+    public function findAllUsersInGroupStage()
+    {
         $usersInGroupStage = ClassRegistry::init('User')->find(
             'list',
             array(

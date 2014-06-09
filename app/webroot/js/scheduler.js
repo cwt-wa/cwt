@@ -1,3 +1,3 @@
-$(document).ready(function() {
-	// Have fun in here
+$(document).ready(function () {
+  // Have fun in here
 });

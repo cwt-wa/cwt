@@ -1,7 +1,7 @@
 <?php echo $this->Html->css('livevalidation'); ?>
 <?php echo $this->Html->script('livevalidation', array('inline' => false)); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         RestoreAdd = {
             ReportedYear: new LiveValidation('RestoreReportedYear'),
             Stage: new LiveValidation('RestoreStage'),
@@ -10,35 +10,35 @@
             ScoreH: new LiveValidation('RestoreScoreH'),
             ScoreA: new LiveValidation('RestoreScoreA')
         };
-        
-        Validate.ResultEquality = function() {
+
+        Validate.ResultEquality = function () {
             if ($('#RestoreScoreH').val() == $('#RestoreScoreA').val()) {
                 Validate.fail("Game can't be drawn.");
             }
-            
+
             return true;
         }
-        
-        Validate.ResultHeight = function(value) {
+
+        Validate.ResultHeight = function (value) {
             var playoffStages = ["Third Place", "Final"];
-            
+
             if ($.inArray($('#RestoreStage').val(), playoffStages) == -1) {
                 if (value == 4) {
                     Validate.fail("Score too high.");
                 }
             }
-            
+
             return true;
         }
-        
-        Validate.PlayerEquality = function() {
+
+        Validate.PlayerEquality = function () {
             if ($('#RestoreHomeId').val() == $('#RestoreAwayId').val()) {
                 Validate.fail("Players are equal.");
             }
-            
+
             return true;
         }
-        
+
         RestoreAdd.ReportedYear.add(Validate.Presence);
 
         RestoreAdd.Stage.add(Validate.Presence);
@@ -56,34 +56,34 @@
         RestoreAdd.ScoreA.add(Validate.Presence);
         RestoreAdd.ScoreA.add(Validate.ResultEquality);
         RestoreAdd.ScoreA.add(Validate.ResultHeight);
-        
-        $('#RestoreAddForm').submit(function() {
+
+        $('#RestoreAddForm').submit(function () {
             console.log("Called!");
-            
-            $.each(RestoreAdd, function(key, val) {
+
+            $.each(RestoreAdd, function (key, val) {
                 console.log(key + ": " + val);
                 val.validate();
             });
         });
-        
+
         $.ajax({
             url: "/restores/index",
-            success: function(response) {
+            success: function (response) {
                 $('.TheIndexPage').html(response);
             },
-            error: function() {
+            error: function () {
                 $('.TheIndexPage').html("Unable to laod the index page. :(");
             }
         });
-        
-        $('#RestoreTechWin').change(function() {
+
+        $('#RestoreTechWin').change(function () {
             if ($('#RestoreTechWin').is(':checked')) {
-                $('#RestoreScoreH').attr('disabled','disabled');
-                $('#RestoreScoreA').attr('disabled','disabled');
-                
+                $('#RestoreScoreH').attr('disabled', 'disabled');
+                $('#RestoreScoreA').attr('disabled', 'disabled');
+
                 $('#RestoreScoreH').attr('value', '0');
                 $('#RestoreScoreA').attr('value', '0');
-                
+
                 RestoreAdd.ScoreH.removeMessageAndFieldClass();
                 RestoreAdd.ScoreA.removeMessageAndFieldClass();
             } else {
@@ -91,53 +91,53 @@
                 $('#RestoreScoreA').removeAttr('disabled');
             }
         });
-        
-        var addUserQuick = function() {
+
+        var addUserQuick = function () {
             do {
                 var username = prompt("Enter the nickname of the user (please be fussy about the nickname's style of writing):");
-                        
+
                 if (username == null) {
                     return;
                 }
-                
+
                 if (username == "") {
                     alert("The nickname can't be empty")
                     addUserQuick();
                     return;
                 }
-                
+
                 if (username.length > 16) {
                     alert("Nicknames can be no longer than 16 chars.");
                     addUserQuick();
                     return;
                 }
-                
+
                 if (username.length < 3) {
                     alert("Nicknames can be no shorter than 3 chars.");
                     addUserQuick();
                     return;
                 }
             } while (!confirm("Are you sure to add " + username + "?"));
-            
+
             $.ajax({
                 url: "restores/add_user",
                 type: "POST",
                 data: {
                     "username": username
                 },
-                success: function(id) {
+                success: function (id) {
                     $("#RestoreHomeId").prepend("<option value=\"" + id + "\">" + username + "</option>");
                     $("#RestoreAwayId").prepend("<option value=\"" + id + "\">" + username + "</option>");
-                    
+
                     alert(username + " has been succesfully added to the list as the first item.");
                 },
-                error: function() {
+                error: function () {
                     alert("Sorry, something went wrong. The webmaster has been informed.");
                 }
             });
         }
-        
-        $('#addUserQuick').click(function() {
+
+        $('#addUserQuick').click(function () {
             addUserQuick();
         });
     });
@@ -261,9 +261,9 @@
     <?php echo $this->Form->end() ?>
 </div>
 <div id="box" style="background-color:#3E3328; text-align:center; margin-left:838px; white-space:nowrap; height:350px;">
-    <br />
+    <br/>
     <span style="font-size:12pt; font-weight:bold;">Number of<br>Added Games</span>
-    <br />
+    <br/>
     <br>
     <table align="center">
         <?php foreach ($numberOfAddedGames as $key => $val): ?>
@@ -275,9 +275,9 @@
         <br>
     </table>
     <br>
-    <br />
+    <br/>
     Thanks to the<br>submitters!
 </div>
 <div id="box" class="TheIndexPage" style="background-color:#3E3328; text-align:center;">
-    <img src="/img/loading.gif" />
+    <img src="/img/loading.gif"/>
 </div>
