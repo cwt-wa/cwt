@@ -1,8 +1,6 @@
-<?php if ($tournamentYear < 2012): ?>
 <div id="box" style="background-color: rgba(63, 40, 40, 0.4); text-align: center;">
     No warranty for accuracy of data.
 </div>
-<?php endif; ?>
 
 <?php
 echo $this->element('groups', array(
