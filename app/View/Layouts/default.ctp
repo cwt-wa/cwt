@@ -209,8 +209,6 @@
    			<?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
    			&bull;
    			<?php echo $this->Html->link('TUS', 'http://www.tus-wa.com', array('target' => '_blank', 'class' => 'plainer')) ?>
-            &bull;
-            <?php echo $this->Html->link('NTM', 'http://www.ntm.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
    		</div>
 	</div>
 <?php echo $this->Js->writeBuffer(); // Write cached scripts ?>
