@@ -8,7 +8,7 @@
                     <td class="border" bgcolor="black" align="center" width="25">
                         <font color="yellow"><?php echo $group[$i]['group'] ?></font>
                     </td>
-                    <td class="border" bgcolor="black" width="200">Nickname</td>
+                    <td class="border" bgcolor="black" width="145">Nickname</td>
                     <td class="border" bgcolor="black" align="center" width="50">Points</td>
                     <td class="border" bgcolor="black" align="center" width="50">Games</td>
                     <td class="border" bgcolor="black" align="center" width="50">Game Ratio</td>
