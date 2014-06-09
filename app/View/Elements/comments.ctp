@@ -17,7 +17,7 @@
 				echo $this->Html->link($comment['User']['username'],
 					'/users/view/' . $comment['User']['id'],
 					array('target' => '_blank')) . '<br>';
-			
+
 				echo $this->Time->timeAgoInWords($comment['Comment']['created'], array(
 					'format' => 'M j, H:i',
 					'end' => '+1 day',
@@ -29,7 +29,7 @@
 			<?php echo nl2br($this->Bbcode->parse($comment['Comment']['message'])); ?><br><br>
 			<?php if($comment['Comment']['modified'] != '0000-00-00 00:00:00'): ?>
 				<div style="margin-top:5px; text-align:right; font-style:italic;">
-					Last modification: 
+					Last modification:
 					<?php
 						echo $this->Time->timeAgoInWords($comment['Comment']['modified'], array(
 							'format' => 'M j, H:i',

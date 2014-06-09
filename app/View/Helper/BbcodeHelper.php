@@ -21,7 +21,7 @@ class BbcodeHelper extends AppHelper {
         'li'     => '/(\[li\])(.+?)(\[\/li\])/s',
         'code'   => '/(\[code\])(.+?)(\[\/code\])/s'
     );
-    
+
     public $htmlcodes = array(
         'b'      => '<b>\\2</b>',
         'i'      => '<i>\\2</i>',
@@ -40,10 +40,10 @@ class BbcodeHelper extends AppHelper {
         'li'     => '<li>\\2</li>',
         'code'   => '<pre>\\2</pre>'
     );
-    
+
     public function parse($text) {
         $parsed = preg_replace($this->bbcodes, $this->htmlcodes, $text);
-        return $this->output($this->security($parsed));
+        return $this->output($parsed);
     }
 
     public $allowed = array(
@@ -56,7 +56,7 @@ class BbcodeHelper extends AppHelper {
         'center' => '/(&lt;center&gt;)(.+?)(&lt;\/center&gt;)/s',
                 'url2'   => '/(&lt;a href=&quot;)(.+?)(&quot; target=&quot;_blank&quot;&gt;)(.+?)(&lt;\/a&gt;)/s', // that's the same.
                 'url'    => '/(&lt;a href=&quot;)(.+?)(&quot; target=&quot;_blank&quot;&gt;)(.+?)(&lt;\/a&gt;)/s', // Uh yeah,
-        'img'    => '/(&lt;img src=&quot;)(.+?)(&quot;&gt;)/s', 
+        'img'    => '/(&lt;img src=&quot;)(.+?)(&quot;&gt;)/s',
         'img2'   => '/(\[img=)(.+?)([xX])(.+?)(\])(.+?)(\[\/img\])/s',
         'quote'  => '/(&lt;blockquote&gt;)(.+?)(&lt;\/blockquote&gt;)/s',
         'ul'     => '/(&lt;ul&gt;)(.+?)(&lt;\/ul&gt;)/s',
@@ -64,8 +64,4 @@ class BbcodeHelper extends AppHelper {
         'li'     => '/(&lt;li&gt;)(.+?)(&lt;\/li&gt;)/s',
         'code'   => '/(&lt;pre&gt;)(.+?)(&lt;\/pre&gt;)/s'
     );
-
-    public function security($text) {
-        return preg_replace($this->allowed, $this->htmlcodes, htmlentities($text));
-    }
-} 
+}
