@@ -254,18 +254,16 @@ class Playoff extends AppModel {
 
 				// Award these champions!
 				if($step == 4) {
-					$this->Tournament->updateAll(
-						array('Tournament.bronze_id' => $winner),
-						array('Tournament.status' 	 => 'playoff')
-					);
+                    $this->Tournament->save(array(
+                        'id' => $currentTournament['Tournament']['id'],
+                        'bronze_id' => $winner
+                    ));
 				} else {
-					$this->Tournament->updateAll(
-						array(
-							'Tournament.gold_id'   => $winner,
-							'Tournament.silver_id' => $loser
-						),
-						array('Tournament.status'  => 'playoff')
-					);
+                    $this->Tournament->save(array(
+                        'id' => $currentTournament['Tournament']['id'],
+                        'gold_id' => $winner,
+                        'silver_id' => $loser
+                    ));
 				}
 
 				// If both final games have been played, finish the whole tourney.
