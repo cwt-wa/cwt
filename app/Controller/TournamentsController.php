@@ -152,6 +152,33 @@ class TournamentsController extends AppController
         }
     }
 
+    /**
+     * Action to edit the review of a tournament which can only be done when the tournament has been archived.
+     *
+     * @param $tournamentId int The tournament whose review text should be edited.
+     * @throws NotFoundException When a tournament with the given id wasn't found.
+     */
+    public function admin_review($tournamentId)
+    {
+        $this->Tournament->id = $tournamentId;
+        if (!$this->Tournament->exists()) {
+            throw new NotFoundException(__('Invalid tournament'));
+        }
+
+        if ($this->request->is('post')) {
+            if ($this->Tournament->save($this->request->data, true, array('review'))) {
+                $this->Session->setFlash('Thanks for the review, it has been updated successfully.');
+            } else {
+                $this->Session->setFlash(
+                    'Eww, I couldn\'t update the review.',
+                    'default', array('class' => 'error'));
+            }
+        }
+
+        $tournament = $this->Tournament->read();
+        $this->set('tournament', $tournament);
+    }
+
     public function admin_edit()
     {
         // It's always the msot recent tournament.
