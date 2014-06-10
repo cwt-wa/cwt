@@ -7,7 +7,7 @@
 echo $this->Form->input('review', array(
     'value' => $tournament['Tournament']['review'],
     'label' => false,
-    'style' => 'width: 100%; height: 300px; paddi     ng: 15px;'
+    'style' => 'width: 100%; height: 300px; padding: 15px;'
 ));
 ?>
 <?php
