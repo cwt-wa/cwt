@@ -27,7 +27,10 @@ $comments = $this->requestAction('/comments/view/' . $gameId);
             ?>
         </div>
         <div style="padding:10px 10px 10px 10px; margin-left:150px; border-left:1px solid black;">
-            <?php echo nl2br($this->Bbcode->parse($comment['Comment']['message'])); ?><br><br>
+            <?php
+            $self = $this;
+            echo nl2br(preg_replace('#(?<!href\=[\'"])(https?|ftp|file)://[-A-Za-z0-9+&@\#/%()?=~_|$!:,.;]*[-A-Za-z0-9+&@\#/%()=~_|$]#', '<a href="$0" target="_blank">$0</a>', $this->Bbcode->parse($comment['Comment']['message'])));
+            ?><br><br>
             <?php if ($comment['Comment']['modified'] != '0000-00-00 00:00:00'): ?>
                 <div style="margin-top:5px; text-align:right; font-style:italic;">
                     Last modification:
