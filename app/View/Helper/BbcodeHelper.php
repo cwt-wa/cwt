@@ -44,7 +44,16 @@ class BbcodeHelper extends AppHelper
 
     public function parse($text)
     {
-        $parsed = preg_replace($this->bbcodes, $this->htmlcodes, $text);
+        $URLRegex = '/(?:(?<!(\[\/url\]|\[\/url=))(\s|^))'; // No [url]-tag in front and is start of string, or has whitespace in front
+        $URLRegex .= '('; // Start capturing URL
+        $URLRegex .= '(https?|ftps?|ircs?):\/\/'; // Protocol
+        $URLRegex .= '\S+'; // Any non-space character
+        $URLRegex .= ')'; // Stop capturing URL
+        $URLRegex .= '(?:(?<![[:punct:]])(\s|\.?$))/i'; // Doesn't end with punctuation and is end of string, or has whitespace after
+
+        $parsed = preg_replace($URLRegex, "$2[url]$3[/url]$5", $text);
+        $parsed = preg_replace($this->bbcodes, $this->htmlcodes, $parsed);
+
         return $this->output($parsed);
     }
 
