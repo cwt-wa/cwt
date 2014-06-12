@@ -35,7 +35,7 @@ class CommentsController extends AppController
     }
 
 
-    public function add($game_id)
+        public function add($game_id)
     {
         if (!$this->Auth->loggedIn()) {
             $this->Auth->flash($this->Auth->authError);

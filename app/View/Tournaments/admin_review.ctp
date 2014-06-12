@@ -1,7 +1,7 @@
 <script type="application/javascript">
     $(document).ready(function () {
         function changeYearSelected() {
-            var tournamentId = $('#TournamentYear').val();
+            var tournamentId = $('#TournamentId').val();
             $.ajax({
                 url: '/admin/tournaments/review/' + tournamentId,
                 success: function (response) {
@@ -18,11 +18,12 @@
 </script>
 
 <div id="box" style="text-align: center; background-color: #3F2828; margin-bottom: 20px;">
-    <h1>Review for CWT <?php echo $tournament['Tournament']['year'] ?></h1>
+    <h1>Edit a Tournament Review</h1>
 </div>
 
 <?php echo $this->Form->create('Tournament'); ?>
-<?php echo $this->Form->select('year', $tournamentList, array('empty' => false)); ?>
+<span style="font-size: 14pt; color: black;">Select the year of the tournament whose review you want to edit: </span>
+<?php echo $this->Form->select('id', $tournamentList, array('empty' => false, 'value' => $tournament['Tournament']['id'])); ?>
 <?php
 echo $this->Form->input('review', array(
     'value' => $tournament['Tournament']['review'],

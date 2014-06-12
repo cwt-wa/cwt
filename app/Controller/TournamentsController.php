@@ -162,10 +162,21 @@ class TournamentsController extends AppController
     {
         $this->Tournament->id = $tournamentId;
         if (!$this->Tournament->exists()) {
-            throw new NotFoundException(__('Invalid tournament'));
+            throw new NotFoundException('Invalid tournament');
         }
 
         if ($this->request->is('post')) {
+            debug($this->request->data); return;
+
+            $this->Tournament->id = $this->request->data['Tournament']['id'];
+            if (!$this->Tournament->exists()) {
+                throw new NotFoundException('Invalid tournament');
+                $this->Session->setFlash(
+                    'Eww, I couldn\'t update the review.',
+                    'default', array('class' => 'error'));
+                return;
+            }
+
             if ($this->Tournament->save($this->request->data, true, array('review'))) {
                 $this->Session->setFlash('Thanks for the review, it has been updated successfully.');
             } else {
