@@ -177,6 +177,7 @@ class TournamentsController extends AppController
 
         $tournament = $this->Tournament->read();
         $this->set('tournament', $tournament);
+        $this->set('tournamentList', $this->Tournament->find('list'));
     }
 
     public function admin_edit()
