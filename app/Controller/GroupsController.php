@@ -16,10 +16,10 @@ class GroupsController extends AppController
             array('edit', 'delete', 'add', 'index', 'view'))
         ) {
             if (!$this->Group->gamesCanBeReported()) {
-                $this->Session->setFlash(
-                    'The tournament has not yet started.',
-                    'default', array('class' => 'error'));
-                $this->redirect($this->referer());
+                $this->Session->setFlash('There is no tournament right now. Here is the most recent tournament from the archive.');
+                $this->loadModel('Tournament');
+                $mostRecentTournament = $this->Tournament->find('first', array('order' => 'Tournament.year DESC'));
+                $this->redirect('/archive/' . $mostRecentTournament['Tournament']['year']);
             }
         }
     }
