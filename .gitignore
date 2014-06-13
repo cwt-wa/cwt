@@ -31,5 +31,6 @@ nbproject
 
 # Project
 app/webroot/img/users/*
-app/webroot/replays/*
-app/webroot/files/replays
+!app/webroot/img/users/random
+app/webroot/files/fms/*
+app/webroot/files/replays/*
