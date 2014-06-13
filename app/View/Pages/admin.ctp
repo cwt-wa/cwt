@@ -59,6 +59,9 @@
                     <a href="/admin/groups/edit">Replace a Player</a>
                 </li>
             <?php endif; ?>
+            <li>
+                <a href="/admin/tournaments/review">Edit a Tournament Review</a>
+            </li>
         </ul>
     </div>
 <?php else: ?>

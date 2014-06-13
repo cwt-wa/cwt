@@ -153,24 +153,16 @@ class TournamentsController extends AppController
     }
 
     /**
-     * Action to edit the review of a tournament which can only be done when the tournament has been archived.
+     * Action to edit the review of a tournament.
      *
      * @param $tournamentId int The tournament whose review text should be edited.
      * @throws NotFoundException When a tournament with the given id wasn't found.
      */
     public function admin_review($tournamentId)
     {
-        $this->Tournament->id = $tournamentId;
-        if (!$this->Tournament->exists()) {
-            throw new NotFoundException('Invalid tournament');
-        }
-
         if ($this->request->is('post')) {
-            debug($this->request->data); return;
-
             $this->Tournament->id = $this->request->data['Tournament']['id'];
             if (!$this->Tournament->exists()) {
-                throw new NotFoundException('Invalid tournament');
                 $this->Session->setFlash(
                     'Eww, I couldn\'t update the review.',
                     'default', array('class' => 'error'));
@@ -186,7 +178,16 @@ class TournamentsController extends AppController
             }
         }
 
-        $tournament = $this->Tournament->read();
+        $this->Tournament->id = $tournamentId;
+
+        if (!$this->Tournament->exists()) {
+            $tournament = $this->Tournament->find('first', array(
+                'order' => 'Tournament.year DESC'
+            ));
+        } else {
+            $tournament = $this->Tournament->read();
+        }
+
         $this->set('tournament', $tournament);
         $this->set('tournamentList', $this->Tournament->find('list'));
     }

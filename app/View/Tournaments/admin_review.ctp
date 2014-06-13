@@ -11,7 +11,7 @@
             });
         }
 
-        $('#TournamentYear').change(function () {
+        $('#TournamentId').change(function () {
             changeYearSelected();
         });
     });
