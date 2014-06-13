@@ -35,7 +35,7 @@
         ?><br>
         <?php
         echo $this->Time->timeAgoInWords($game['Game']['created'], array(
-            'format' => 'M j, H:i',
+            'format' => 'M j, Y \a\t H:i',
             'end' => '+1 day',
             'accuracy' => array('hour' => 'hour')
         ));
