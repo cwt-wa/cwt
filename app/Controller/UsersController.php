@@ -213,7 +213,17 @@ class UsersController extends AppController
     {
         $this->helpers[] = 'Text';
 
-        $this->User->id = $id;
+        if (is_numeric($id)) {
+            $this->User->id = $id;
+        } else {
+            $userByUsername = $this->User->find('first', array(
+                'conditions' => array(
+                    'username' => $id
+                )
+            ));
+            $this->User->id = $userByUsername['User']['id'];
+        }
+
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
