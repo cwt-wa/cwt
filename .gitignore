@@ -20,8 +20,8 @@ thumbs.db
 Thumbs.db
 
 # Sublime Text 2 project files
-sublime.sublime-project
-sublime.sublime-workspace
+*.sublime-project
+*.sublime-workspace
 
 # NetBeans related folder
 nbproject
