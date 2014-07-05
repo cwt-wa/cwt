@@ -7,3 +7,8 @@ Website: www.cwtsite.com
 Facebook: www.facebook.com/CresposWormsTournament
 
 Worms Wiki: http://worms2d.info/Crespo%27s_Worms_Tournament
+
+-
+Supported by JetBrains.
+
+[![JetBrains PhpStorm](https://raw.githubusercontent.com/Zemke/cwt/master/app/webroot/img/phpstorm.png)](http://www.jetbrains.com/phpstorm/)
