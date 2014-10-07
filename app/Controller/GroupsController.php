@@ -124,6 +124,7 @@ class GroupsController extends AppController
         }
 
         $this->loadModel('Application');
+        $this->Application->recursive = 1;
         $users = $this->Application->find('all');
         $applicants = array();
 
