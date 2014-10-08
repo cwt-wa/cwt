@@ -5,7 +5,7 @@ App::uses('Model', 'Model');
 class AppModel extends Model
 {
 
-    public $recursive = -1;
+    public $recursive = 1;
 
     /**
      * Validate a Model's Id.
