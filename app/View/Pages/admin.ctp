@@ -54,7 +54,7 @@
             <li>
                 <a href="/admin/rules/edit">Edit Rules</a>
             </li>
-            <?php if ($currentTournament['Tournament']['status'] == 'group'): ?>
+            <?php if ($currentTournament['Tournament']['status'] == Tournament::GROUP): ?>
                 <li>
                     <a href="/admin/groups/edit">Replace a Player</a>
                 </li>
