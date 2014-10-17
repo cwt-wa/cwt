@@ -34,3 +34,4 @@ app/webroot/img/users/*
 !app/webroot/img/users/random
 app/webroot/files/fms/*
 app/webroot/files/replays/*
+app/Console/Command/HotfixShell.php
