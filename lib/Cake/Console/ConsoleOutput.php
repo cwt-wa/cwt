@@ -2,8 +2,6 @@
 /**
  * ConsoleOutput file.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -48,21 +46,29 @@ class ConsoleOutput {
 
 /**
  * Raw output constant - no modification of output text.
+ *
+ * @var int
  */
 	const RAW = 0;
 
 /**
  * Plain output - tags will be stripped.
+ *
+ * @var int
  */
 	const PLAIN = 1;
 
 /**
  * Color output - Convert known tags in to ANSI color escape codes.
+ *
+ * @var int
  */
 	const COLOR = 2;
 
 /**
  * Constant for a newline.
+ *
+ * @var string
  */
 	const LF = PHP_EOL;
 
@@ -76,7 +82,7 @@ class ConsoleOutput {
 /**
  * The current output type. Manipulated with ConsoleOutput::outputAs();
  *
- * @var integer
+ * @var int
  */
 	protected $_outputAs = self::COLOR;
 
@@ -155,7 +161,10 @@ class ConsoleOutput {
 	public function __construct($stream = 'php://stdout') {
 		$this->_output = fopen($stream, 'w');
 
-		if (DS === '\\' && !(bool)env('ANSICON')) {
+		if (
+			(DS === '\\' && !(bool)env('ANSICON')) ||
+			(function_exists('posix_isatty') && !posix_isatty($this->_output))
+		) {
 			$this->_outputAs = self::PLAIN;
 		}
 	}
@@ -164,9 +173,9 @@ class ConsoleOutput {
  * Outputs a single or multiple messages to stdout. If no parameters
  * are passed, outputs just a newline.
  *
- * @param string|array $message A string or a an array of strings to output
- * @param integer $newlines Number of newlines to append
- * @return integer Returns the number of bytes returned from writing to stdout.
+ * @param string|array $message A string or an array of strings to output
+ * @param int $newlines Number of newlines to append
+ * @return int Returns the number of bytes returned from writing to stdout.
  */
 	public function write($message, $newlines = 1) {
 		if (is_array($message)) {
@@ -197,7 +206,7 @@ class ConsoleOutput {
 /**
  * Replace tags with color codes.
  *
- * @param array $matches.
+ * @param array $matches An array of matches to replace.
  * @return string
  */
 	protected function _replaceTags($matches) {
@@ -226,7 +235,7 @@ class ConsoleOutput {
  * Writes a message to the output stream.
  *
  * @param string $message Message to write.
- * @return boolean success
+ * @return bool success
  */
 	protected function _write($message) {
 		return fwrite($this->_output, $message);
@@ -275,7 +284,7 @@ class ConsoleOutput {
 /**
  * Get/Set the output type to use. The output type how formatting tags are treated.
  *
- * @param integer $type The output type to use. Should be one of the class constants.
+ * @param int $type The output type to use. Should be one of the class constants.
  * @return mixed Either null or the value if getting.
  */
 	public function outputAs($type = null) {
@@ -286,11 +295,12 @@ class ConsoleOutput {
 	}
 
 /**
- * clean up and close handles
- *
+ * Clean up and close handles
  */
 	public function __destruct() {
-		fclose($this->_output);
+		if (is_resource($this->_output)) {
+			fclose($this->_output);
+		}
 	}
 
 }

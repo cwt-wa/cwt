@@ -4,15 +4,12 @@
  *
  * Use it to configure database for i18n
  *
- * PHP 5
- *
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       app.Config.Schema
  * @since         CakePHP(tm) v 0.2.9
  */
 
 /**
- *
  * Using the Schema command line utility
  *
  * Use it to configure database for i18n
@@ -21,15 +18,37 @@
  */
 class I18nSchema extends CakeSchema {
 
+/**
+ * The name property
+ *
+ * @var string
+ */
 	public $name = 'i18n';
 
+/**
+ * Before event.
+ *
+ * @param array $event The event data.
+ * @return bool success
+ */
 	public function before($event = array()) {
 		return true;
 	}
 
+/**
+ * After event.
+ *
+ * @param array $event The event data.
+ * @return void
+ */
 	public function after($event = array()) {
 	}
 
+/**
+ * The i18n table property
+ *
+ * @var array
+ */
 	public $i18n = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
 		'locale' => array('type' => 'string', 'null' => false, 'length' => 6, 'key' => 'index'),

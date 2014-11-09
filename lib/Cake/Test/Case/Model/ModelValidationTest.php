@@ -2,8 +2,6 @@
 /**
  * ModelValidationTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -610,6 +608,34 @@ class ModelValidationTest extends BaseModelTest {
 			'conditions' => array('JoinThing.something_id' => $data['Something']['id'])
 		));
 		$this->assertEquals(0, $joinRecords, 'Records were saved on the join table. %s');
+	}
+
+/**
+ * Test that if a behavior modifies the model's whitelist validation gets triggered
+ * properly for those fields.
+ *
+ * @return void
+ */
+	public function testValidateWithFieldListAndBehavior() {
+		$TestModel = new ValidationTest1();
+		$TestModel->validate = array(
+			'title' => array(
+				'rule' => 'notEmpty',
+			),
+			'name' => array(
+				'rule' => 'notEmpty',
+		));
+		$TestModel->Behaviors->attach('ValidationRule', array('fields' => array('name')));
+
+		$data = array(
+			'title' => '',
+			'name' => '',
+		);
+		$result = $TestModel->save($data, array('fieldList' => array('title')));
+		$this->assertFalse($result);
+
+		$expected = array('title' => array('This field cannot be left blank'), 'name' => array('This field cannot be left blank'));
+		$this->assertEquals($expected, $TestModel->validationErrors);
 	}
 
 /**
@@ -2052,7 +2078,7 @@ class ModelValidationTest extends BaseModelTest {
 /**
  * testValidateFirstWithDefaults method
  *
- * return @void
+ * @return void
  */
 	public function testFirstWithDefaults() {
 		$this->loadFixtures('Article', 'Tag', 'Comment', 'User', 'ArticlesTag');
@@ -2377,6 +2403,95 @@ class ModelValidationTest extends BaseModelTest {
 			),
 		);
 		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test the isUnique method when used as a validator for multiple fields.
+ *
+ * @return void
+ */
+	public function testIsUniqueValidator() {
+		$this->loadFixtures('Article');
+		$Article = ClassRegistry::init('Article');
+		$Article->validate = array(
+			'user_id' => array(
+				'duplicate' => array(
+					'rule' => array('isUnique', array('user_id', 'title'), false)
+				)
+			)
+		);
+		$data = array(
+			'user_id' => 1,
+			'title' => 'First Article',
+		);
+		$Article->create($data);
+		$this->assertFalse($Article->validates(), 'Contains a dupe');
+
+		$data = array(
+			'user_id' => 1,
+			'title' => 'Unique Article',
+		);
+		$Article->create($data);
+		$this->assertTrue($Article->validates(), 'Should pass');
+
+		$Article->validate = array(
+			'user_id' => array(
+				'duplicate' => array(
+					'rule' => array('isUnique', array('user_id', 'title'))
+				)
+			)
+		);
+		$data = array(
+			'user_id' => 1,
+			'title' => 'Unique Article',
+		);
+		$Article->create($data);
+		$this->assertFalse($Article->validates(), 'Should fail, conditions are combined with or');
+	}
+
+/**
+ * Test backward compatibility of the isUnique method when used as a validator for a single field.
+ *
+ * @return void
+ */
+	public function testBackwardCompatIsUniqueValidator() {
+		$this->loadFixtures('Article');
+		$Article = ClassRegistry::init('Article');
+		$Article->validate = array(
+			'title' => array(
+				'duplicate' => array(
+					'rule' => 'isUnique',
+					'message' => 'Title must be unique',
+				),
+				'minLength' => array(
+					'rule' => array('minLength', 1),
+					'message' => 'Title cannot be empty',
+				),
+			)
+		);
+		$data = array(
+			'title' => 'First Article',
+		);
+		$data = $Article->create($data);
+		$this->assertFalse($Article->validates(), 'Contains a dupe');
+	}
+
+}
+
+/**
+ * Behavior for testing validation rules.
+ */
+class ValidationRuleBehavior extends ModelBehavior {
+
+	public function setup(Model $Model, $config = array()) {
+		$this->settings[$Model->alias] = $config;
+	}
+
+	public function beforeValidate(Model $Model, $options = array()) {
+		$fields = $this->settings[$Model->alias]['fields'];
+		foreach ($fields as $field) {
+			$Model->whitelist[] = $field;
+		}
 	}
 
 }

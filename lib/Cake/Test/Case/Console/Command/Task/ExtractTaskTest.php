@@ -4,8 +4,6 @@
  *
  * Test Case for i18n extraction shell task
  *
- * PHP 5
- *
  * CakePHP :  Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -149,7 +147,7 @@ class ExtractTaskTest extends CakeTestCase {
 		$this->assertRegExp($pattern, $result);
 
 		$pattern = '/\#: (\\\\|\/)extract\.ctp:14\n';
-		$pattern .= '\#: (\\\\|\/)home\.ctp:83\n';
+		$pattern .= '\#: (\\\\|\/)home\.ctp:68\n';
 		$pattern .= 'msgid "Editing this Page"\nmsgstr ""/';
 		$this->assertRegExp($pattern, $result);
 
@@ -353,6 +351,9 @@ class ExtractTaskTest extends CakeTestCase {
 
 		$pattern = '#msgid "Post body is super required"#';
 		$this->assertRegExp($pattern, $result);
+
+		$this->assertContains('msgid "double \\"quoted\\" validation"', $result, 'Strings with quotes not handled correctly');
+		$this->assertContains("msgid \"single 'quoted' validation\"", $result, 'Strings with quotes not handled correctly');
 	}
 
 /**

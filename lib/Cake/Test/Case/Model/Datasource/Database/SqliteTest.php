@@ -2,8 +2,6 @@
 /**
  * DboSqliteTest file
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -70,7 +68,7 @@ class SqliteTest extends CakeTestCase {
 /**
  * Do not automatically load fixtures for each test, they will be loaded manually using CakeTestCase::loadFixtures
  *
- * @var boolean
+ * @var bool
  */
 	public $autoFixtures = false;
 
@@ -91,6 +89,7 @@ class SqliteTest extends CakeTestCase {
 /**
  * Sets up a Dbo class instance for testing
  *
+ * @return void
  */
 	public function setUp() {
 		parent::setUp();
@@ -104,6 +103,7 @@ class SqliteTest extends CakeTestCase {
 /**
  * Sets up a Dbo class instance for testing
  *
+ * @return void
  */
 	public function tearDown() {
 		parent::tearDown();
@@ -113,6 +113,7 @@ class SqliteTest extends CakeTestCase {
 /**
  * Tests that SELECT queries from DboSqlite::listSources() are not cached
  *
+ * @return void
  */
 	public function testTableListCacheDisabling() {
 		$this->assertFalse(in_array('foo_test', $this->Dbo->listSources()));
@@ -159,6 +160,7 @@ class SqliteTest extends CakeTestCase {
 /**
  * Tests that cached table descriptions are saved under the sanitized key name
  *
+ * @return void
  */
 	public function testCacheKeyName() {
 		Configure::write('Cache.disable', false);
@@ -362,6 +364,12 @@ class SqliteTest extends CakeTestCase {
 				'null' => false,
 				'default' => '',
 				'length' => '5,2',
+			),
+			'decimal_field' => array(
+				'type' => 'decimal',
+				'null' => true,
+				'default' => '0.000',
+				'length' => '6,3',
 			),
 			'huge_int' => array(
 				'type' => 'biginteger',

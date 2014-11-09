@@ -2,8 +2,6 @@
 /**
  * I18nTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -19,6 +17,7 @@
  */
 
 App::uses('I18n', 'I18n');
+App::uses('CakeSession', 'Model/Datasource');
 
 /**
  * I18nTest class
@@ -1519,7 +1518,7 @@ class I18nTest extends CakeTestCase {
  * @return void
  */
 	public function testSetLanguageWithSession() {
-		$_SESSION['Config']['language'] = 'po';
+		CakeSession::write('Config.language', 'po');
 		$singular = $this->_singular();
 		$this->assertEquals('Po (translated)', $singular);
 
@@ -1550,7 +1549,7 @@ class I18nTest extends CakeTestCase {
 		$this->assertTrue(in_array('23 everything else (po translated)', $plurals));
 		$this->assertTrue(in_array('24 everything else (po translated)', $plurals));
 		$this->assertTrue(in_array('25 everything else (po translated)', $plurals));
-		unset($_SESSION['Config']['language']);
+		CakeSession::delete('Config.language');
 	}
 
 /**
@@ -1761,7 +1760,11 @@ class I18nTest extends CakeTestCase {
  */
 	public function testCategory() {
 		Configure::write('Config.language', 'po');
+		// Test with default (I18n constant) category.
 		$category = $this->_category();
+		$this->assertEquals('Monetary Po (translated)', $category);
+		// Test with category number represenation.
+		$category = $this->_category(3);
 		$this->assertEquals('Monetary Po (translated)', $category);
 	}
 
@@ -1845,11 +1848,11 @@ class I18nTest extends CakeTestCase {
 	public function testTranslateLanguageParam() {
 		Configure::write('Config.language', 'rule_0_po');
 
-		$result = I18n::translate('Plural Rule 1', null, null, 6);
+		$result = I18n::translate('Plural Rule 1', null, null, I18n::LC_MESSAGES);
 		$expected = 'Plural Rule 0 (translated)';
 		$this->assertEquals($expected, $result);
 
-		$result = I18n::translate('Plural Rule 1', null, null, 6, null, 'rule_1_po');
+		$result = I18n::translate('Plural Rule 1', null, null, I18n::LC_MESSAGES, null, 'rule_1_po');
 		$expected = 'Plural Rule 1 (translated)';
 		$this->assertEquals($expected, $result);
 	}
@@ -1927,7 +1930,7 @@ class I18nTest extends CakeTestCase {
  *
  * @return void
  */
-	protected function _category($category = 3) {
+	protected function _category($category = I18n::LC_MONETARY) {
 		$singular = __c('Plural Rule 1', $category);
 		return $singular;
 	}

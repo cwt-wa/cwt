@@ -2,8 +2,6 @@
 /**
  * CakeTimeTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -598,6 +596,12 @@ class CakeTimeTest extends CakeTestCase {
 
 		$result = $this->Time->format('Y-m-d', null, 'never');
 		$this->assertEquals('never', $result);
+
+		$result = $this->Time->format('Y-m-d', '');
+		$this->assertSame('', $result);
+
+		$result = $this->Time->format('Y-m-d', false);
+		$this->assertSame('', $result);
 
 		$result = $this->Time->format('2012-01-13', '%d-%m-%Y', 'invalid');
 		$this->assertEquals('13-01-2012', $result);

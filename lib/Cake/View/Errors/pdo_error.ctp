@@ -1,8 +1,5 @@
 <?php
 /**
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -20,7 +17,7 @@
 <h2><?php echo __d('cake_dev', 'Database Error'); ?></h2>
 <p class="error">
 	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
-	<?php echo $name; ?>
+	<?php echo $message; ?>
 </p>
 <?php if (!empty($error->queryString)) : ?>
 	<p class="notice">

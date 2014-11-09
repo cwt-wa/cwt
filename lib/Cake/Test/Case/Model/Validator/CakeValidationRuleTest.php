@@ -2,8 +2,6 @@
 /**
  * CakeValidationRuleTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -30,7 +28,7 @@ class CakeValidationRuleTest extends CakeTestCase {
 /**
  * Auxiliary method to test custom validators
  *
- * @return boolean
+ * @return bool
  */
 	public function myTestRule() {
 		return false;
@@ -39,7 +37,7 @@ class CakeValidationRuleTest extends CakeTestCase {
 /**
  * Auxiliary method to test custom validators
  *
- * @return boolean
+ * @return bool
  */
 	public function myTestRule2() {
 		return true;

@@ -2,8 +2,6 @@
 /**
  * HttpResponseTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -41,7 +39,7 @@ class TestHttpResponse extends HttpResponse {
  * Convenience method for testing protected method
  *
  * @param string $body A string containing the body to decode
- * @param boolean|string $encoding Can be false in case no encoding is being used, or a string representing the encoding
+ * @param bool|string $encoding Can be false in case no encoding is being used, or a string representing the encoding
  * @return mixed Array or false
  */
 	public function decodeBody($body, $encoding = 'chunked') {
@@ -71,7 +69,7 @@ class TestHttpResponse extends HttpResponse {
 /**
  * Convenience method for testing protected method
  *
- * @param boolean $hex true to get them as HEX values, false otherwise
+ * @param bool $hex true to get them as HEX values, false otherwise
  * @return array Escape chars
  */
 	public function tokenEscapeChars($hex = true, $chars = null) {
@@ -357,7 +355,7 @@ class HttpResponseTest extends CakeTestCase {
  *
  * @dataProvider invalidParseResponseDataProvider
  * @expectedException SocketException
- * return void
+ * @return void
  */
 	public function testInvalidParseResponseData($value) {
 		$this->HttpResponse->parseResponse($value);
