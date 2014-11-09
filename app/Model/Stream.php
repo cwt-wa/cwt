@@ -32,9 +32,12 @@ class Stream extends AppModel
             )
         ));
 
+
+        $onlineStreamId = empty($online) ? $online : $online['Stream']['id'];
+
         return array(
             'maintainer' => $maintainer['Stream'],
-            'online' => $online['Stream']['id']
+            'online' => $onlineStreamId
         );
     }
 
