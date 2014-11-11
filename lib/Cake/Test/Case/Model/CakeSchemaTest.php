@@ -2,6 +2,9 @@
 /**
  * Test for Schema database management
  *
+ *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -171,7 +174,6 @@ class TestAppSchema extends CakeSchema {
 	public $datatypes = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => 0, 'key' => 'primary'),
 		'float_field' => array('type' => 'float', 'null' => false, 'length' => '5,2', 'default' => ''),
-		'decimal_field' => array('type' => 'decimal', 'length' => '6,3', 'default' => '0.000'),
 		'huge_int' => array('type' => 'biginteger'),
 		'bool' => array('type' => 'boolean', 'null' => false, 'default' => false),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => true)),
@@ -436,7 +438,25 @@ class CakeSchemaTest extends CakeTestCase {
  */
 	public function testSchemaName() {
 		$Schema = new CakeSchema();
-		$this->assertEquals('App', $Schema->name);
+		$this->assertEquals(Inflector::camelize(Inflector::slug(APP_DIR)), $Schema->name);
+
+		Configure::write('App.dir', 'Some.name.with.dots');
+		$Schema = new CakeSchema();
+		$this->assertEquals('SomeNameWithDots', $Schema->name);
+
+		Configure::write('App.dir', 'Some-name-with-dashes');
+		$Schema = new CakeSchema();
+		$this->assertEquals('SomeNameWithDashes', $Schema->name);
+
+		Configure::write('App.dir', 'Some name with spaces');
+		$Schema = new CakeSchema();
+		$this->assertEquals('SomeNameWithSpaces', $Schema->name);
+
+		Configure::write('App.dir', 'Some,name;with&weird=characters');
+		$Schema = new CakeSchema();
+		$this->assertEquals('SomeNameWithWeirdCharacters', $Schema->name);
+
+		Configure::write('App.dir', 'app');
 	}
 
 /**

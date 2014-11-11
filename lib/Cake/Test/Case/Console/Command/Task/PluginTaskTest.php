@@ -4,6 +4,8 @@
  *
  * Test Case for plugin generation shell task
  *
+ * PHP 5
+ *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -185,9 +187,7 @@ class PluginTaskTest extends CakeTestCase {
 	public function testFindPathNonExistant() {
 		$paths = App::path('plugins');
 		$last = count($paths);
-
-		array_unshift($paths, '/fake/path');
-		$paths[] = '/fake/path2';
+		$paths[] = '/fake/path';
 
 		$this->Task = $this->getMock('PluginTask',
 			array('in', 'out', 'err', 'createFile', '_stop'),

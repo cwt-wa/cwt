@@ -4,6 +4,8 @@
  *
  * Supports wincache 1.1.0 and higher.
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -40,7 +42,7 @@ class WincacheEngine extends CacheEngine {
  * To reinitialize the settings call Cache::engine('EngineName', [optional] settings = array());
  *
  * @param array $settings array of setting for the engine
- * @return bool True if the engine has been successfully initialized, false if not
+ * @return boolean True if the engine has been successfully initialized, false if not
  * @see CacheEngine::__defaults
  */
 	public function init($settings = array()) {
@@ -57,8 +59,8 @@ class WincacheEngine extends CacheEngine {
  *
  * @param string $key Identifier for the data
  * @param mixed $value Data to be cached
- * @param int $duration How long to cache the data, in seconds
- * @return bool True if the data was successfully cached, false on failure
+ * @param integer $duration How long to cache the data, in seconds
+ * @return boolean True if the data was successfully cached, false on failure
  */
 	public function write($key, $value, $duration) {
 		$expires = time() + $duration;
@@ -80,7 +82,7 @@ class WincacheEngine extends CacheEngine {
  */
 	public function read($key) {
 		$time = time();
-		$cachetime = (int)wincache_ucache_get($key . '_expires');
+		$cachetime = intval(wincache_ucache_get($key . '_expires'));
 		if ($cachetime < $time || ($time + $this->settings['duration']) < $cachetime) {
 			return false;
 		}
@@ -91,7 +93,7 @@ class WincacheEngine extends CacheEngine {
  * Increments the value of an integer cached key
  *
  * @param string $key Identifier for the data
- * @param int $offset How much to increment
+ * @param integer $offset How much to increment
  * @return New incremented value, false otherwise
  */
 	public function increment($key, $offset = 1) {
@@ -102,7 +104,7 @@ class WincacheEngine extends CacheEngine {
  * Decrements the value of an integer cached key
  *
  * @param string $key Identifier for the data
- * @param int $offset How much to subtract
+ * @param integer $offset How much to subtract
  * @return New decremented value, false otherwise
  */
 	public function decrement($key, $offset = 1) {
@@ -113,7 +115,7 @@ class WincacheEngine extends CacheEngine {
  * Delete a key from the cache
  *
  * @param string $key Identifier for the data
- * @return bool True if the value was successfully deleted, false if it didn't exist or couldn't be removed
+ * @return boolean True if the value was successfully deleted, false if it didn't exist or couldn't be removed
  */
 	public function delete($key) {
 		return wincache_ucache_delete($key);
@@ -123,9 +125,9 @@ class WincacheEngine extends CacheEngine {
  * Delete all keys from the cache. This will clear every
  * item in the cache matching the cache config prefix.
  *
- * @param bool $check If true, nothing will be cleared, as entries will
+ * @param boolean $check If true, nothing will be cleared, as entries will
  *   naturally expire in wincache..
- * @return bool True Returns true.
+ * @return boolean True Returns true.
  */
 	public function clear($check) {
 		if ($check) {
@@ -179,8 +181,7 @@ class WincacheEngine extends CacheEngine {
  * Increments the group value to simulate deletion of all keys under a group
  * old values will remain in storage until they expire.
  *
- * @param string $group The group to clear.
- * @return bool success
+ * @return boolean success
  */
 	public function clearGroup($group) {
 		$success = null;

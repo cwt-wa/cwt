@@ -2,6 +2,8 @@
 /**
  * ConsoleOptionParser file
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -136,7 +138,7 @@ class ConsoleOptionParser {
  * Construct an OptionParser so you can define its behavior
  *
  * @param string $command The command name this parser is for. The command name is used for generating help.
- * @param bool $defaultOptions Whether you want the verbose and quiet options set. Setting
+ * @param boolean $defaultOptions Whether you want the verbose and quiet options set. Setting
  *  this to false will prevent the addition of `--verbose` & `--quiet` options.
  */
 	public function __construct($command = null, $defaultOptions = true) {
@@ -165,7 +167,7 @@ class ConsoleOptionParser {
  * Static factory method for creating new OptionParsers so you can chain methods off of them.
  *
  * @param string $command The command name this parser is for. The command name is used for generating help.
- * @param bool $defaultOptions Whether you want the verbose and quiet options set.
+ * @param boolean $defaultOptions Whether you want the verbose and quiet options set.
  * @return ConsoleOptionParser
  */
 	public static function create($command, $defaultOptions = true) {
@@ -218,7 +220,7 @@ class ConsoleOptionParser {
  * Get or set the command name for shell/task.
  *
  * @param string $text The text to set, or null if you want to read
- * @return string|$this If reading, the value of the command. If setting $this will be returned.
+ * @return mixed If reading, the value of the command. If setting $this will be returned
  */
 	public function command($text = null) {
 		if ($text !== null) {
@@ -233,7 +235,7 @@ class ConsoleOptionParser {
  *
  * @param string|array $text The text to set, or null if you want to read. If an array the
  *   text will be imploded with "\n"
- * @return string|$this If reading, the value of the description. If setting $this will be returned.
+ * @return mixed If reading, the value of the description. If setting $this will be returned
  */
 	public function description($text = null) {
 		if ($text !== null) {
@@ -251,7 +253,7 @@ class ConsoleOptionParser {
  * the options and arguments listing when help is generated.
  *
  * @param string|array $text Text when setting or null when reading. If an array the text will be imploded with "\n"
- * @return string|$this If reading, the value of the epilog. If setting $this will be returned.
+ * @return mixed If reading, the value of the epilog. If setting $this will be returned.
  */
 	public function epilog($text = null) {
 		if ($text !== null) {
@@ -284,7 +286,7 @@ class ConsoleOptionParser {
  * @param ConsoleInputOption|string $name The long name you want to the value to be parsed out as when options are parsed.
  *   Will also accept an instance of ConsoleInputOption
  * @param array $options An array of parameters that define the behavior of the option
- * @return $this
+ * @return ConsoleOptionParser $this.
  */
 	public function addOption($name, $options = array()) {
 		if (is_object($name) && $name instanceof ConsoleInputOption) {
@@ -299,7 +301,7 @@ class ConsoleOptionParser {
 				'boolean' => false,
 				'choices' => array()
 			);
-			$options += $defaults;
+			$options = array_merge($defaults, $options);
 			$option = new ConsoleInputOption($options);
 		}
 		$this->_options[$name] = $option;
@@ -324,7 +326,7 @@ class ConsoleOptionParser {
  *
  * @param ConsoleInputArgument|string $name The name of the argument. Will also accept an instance of ConsoleInputArgument
  * @param array $params Parameters for the argument, see above.
- * @return $this
+ * @return ConsoleOptionParser $this.
  */
 	public function addArgument($name, $params = array()) {
 		if (is_object($name) && $name instanceof ConsoleInputArgument) {
@@ -338,7 +340,7 @@ class ConsoleOptionParser {
 				'required' => false,
 				'choices' => array()
 			);
-			$options = $params + $defaults;
+			$options = array_merge($defaults, $params);
 			$index = $options['index'];
 			unset($options['index']);
 			$arg = new ConsoleInputArgument($options);
@@ -354,7 +356,7 @@ class ConsoleOptionParser {
  *
  * @param array $args Array of arguments to add.
  * @see ConsoleOptionParser::addArgument()
- * @return $this
+ * @return ConsoleOptionParser $this
  */
 	public function addArguments(array $args) {
 		foreach ($args as $name => $params) {
@@ -369,7 +371,7 @@ class ConsoleOptionParser {
  *
  * @param array $options Array of options to add.
  * @see ConsoleOptionParser::addOption()
- * @return $this
+ * @return ConsoleOptionParser $this
  */
 	public function addOptions(array $options) {
 		foreach ($options as $name => $params) {
@@ -391,7 +393,7 @@ class ConsoleOptionParser {
  *
  * @param ConsoleInputSubcommand|string $name Name of the subcommand. Will also accept an instance of ConsoleInputSubcommand
  * @param array $options Array of params, see above.
- * @return $this
+ * @return ConsoleOptionParser $this.
  */
 	public function addSubcommand($name, $options = array()) {
 		if (is_object($name) && $name instanceof ConsoleInputSubcommand) {
@@ -403,7 +405,7 @@ class ConsoleOptionParser {
 				'help' => '',
 				'parser' => null
 			);
-			$options += $defaults;
+			$options = array_merge($defaults, $options);
 			$command = new ConsoleInputSubcommand($options);
 		}
 		$this->_subcommands[$name] = $command;
@@ -414,7 +416,7 @@ class ConsoleOptionParser {
  * Add multiple subcommands at once.
  *
  * @param array $commands Array of subcommands.
- * @return $this
+ * @return ConsoleOptionParser $this
  */
 	public function addSubcommands(array $commands) {
 		foreach ($commands as $name => $params) {
@@ -506,7 +508,7 @@ class ConsoleOptionParser {
  * @param string $subcommand If present and a valid subcommand that has a linked parser.
  *    That subcommands help will be shown instead.
  * @param string $format Define the output format, can be text or xml
- * @param int $width The width to format user content to. Defaults to 72
+ * @param integer $width The width to format user content to. Defaults to 72
  * @return string Generated help.
  */
 	public function help($subcommand = null, $format = 'text', $width = 72) {
@@ -597,14 +599,13 @@ class ConsoleOptionParser {
 			$params[$name] = $value;
 			return $params;
 		}
-		return array();
 	}
 
 /**
  * Check to see if $name has an option (short/long) defined for it.
  *
  * @param string $name The name of the option.
- * @return bool
+ * @return boolean
  */
 	protected function _optionExists($name) {
 		if (substr($name, 0, 2) === '--') {

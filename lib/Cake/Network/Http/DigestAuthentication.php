@@ -2,6 +2,8 @@
 /**
  * Digest authentication
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -26,8 +28,8 @@ class DigestAuthentication {
 /**
  * Authentication
  *
- * @param HttpSocket $http Http socket instance.
- * @param array &$authInfo Authentication info.
+ * @param HttpSocket $http
+ * @param array $authInfo
  * @return void
  * @link http://www.ietf.org/rfc/rfc2617.txt
  */
@@ -43,9 +45,9 @@ class DigestAuthentication {
 /**
  * Retrieve information about the authentication
  *
- * @param HttpSocket $http Http socket instance.
- * @param array &$authInfo Authentication info.
- * @return bool
+ * @param HttpSocket $http
+ * @param array $authInfo
+ * @return boolean
  */
 	protected static function _getServerInformation(HttpSocket $http, &$authInfo) {
 		$originalRequest = $http->request;
@@ -70,8 +72,8 @@ class DigestAuthentication {
 /**
  * Generate the header Authorization
  *
- * @param HttpSocket $http Http socket instance.
- * @param array &$authInfo Authentication info.
+ * @param HttpSocket $http
+ * @param array $authInfo
  * @return string
  */
 	protected static function _generateHeader(HttpSocket $http, &$authInfo) {

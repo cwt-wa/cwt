@@ -2,6 +2,8 @@
 /**
  * ClassRegistryTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -28,7 +30,7 @@ class ClassRegisterModel extends CakeTestModel {
 /**
  * useTable property
  *
- * @var bool
+ * @var boolean
  */
 	public $useTable = false;
 }
@@ -268,7 +270,6 @@ class ClassRegistryTest extends CakeTestCase {
 /**
  * Tests prefixed datasource names for test purposes
  *
- * @return void
  */
 	public function testPrefixedTestDatasource() {
 		ClassRegistry::config(array('testing' => true));
@@ -288,7 +289,6 @@ class ClassRegistryTest extends CakeTestCase {
 /**
  * Tests that passing the string parameter to init() will return false if the model does not exists
  *
- * @return void
  */
 	public function testInitStrict() {
 		$this->assertFalse(ClassRegistry::init('NonExistent', true));

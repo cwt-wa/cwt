@@ -2,6 +2,8 @@
 /**
  * Javascript Generator class file.
  *
+ * PHP 5
+ *
  * CakePHP :  Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -35,7 +37,7 @@ class JsHelper extends AppHelper {
 /**
  * Whether or not you want scripts to be buffered or output.
  *
- * @var bool
+ * @var boolean
  */
 	public $bufferScripts = true;
 
@@ -157,8 +159,7 @@ class JsHelper extends AppHelper {
  * See JsBaseEngineHelper::value() for more information on this method.
  *
  * @param mixed $val A PHP variable to be converted to JSON
- * @param bool $quoteString If false, leaves string values unquoted
- * @param string $key Key name.
+ * @param boolean $quoteString If false, leaves string values unquoted
  * @return string a JavaScript-safe/JSON representation of $val
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::value
  */
@@ -195,7 +196,7 @@ class JsHelper extends AppHelper {
 			'onDomReady' => $domReady, 'inline' => true,
 			'cache' => false, 'clear' => true, 'safe' => true
 		);
-		$options += $defaults;
+		$options = array_merge($defaults, $options);
 		$script = implode("\n", $this->getBuffer($options['clear']));
 
 		if (empty($script)) {
@@ -210,9 +211,8 @@ class JsHelper extends AppHelper {
 
 		if ($options['cache'] && $options['inline']) {
 			$filename = md5($script);
-			$path = WWW_ROOT . Configure::read('App.jsBaseUrl');
-			if (file_exists($path . $filename . '.js')
-				|| cache(str_replace(WWW_ROOT, '', $path) . $filename . '.js', $script, '+999 days', 'public')
+			if (file_exists(JS . $filename . '.js')
+				|| cache(str_replace(WWW_ROOT, '', JS) . $filename . '.js', $script, '+999 days', 'public')
 				) {
 				return $this->Html->script($filename);
 			}
@@ -229,7 +229,7 @@ class JsHelper extends AppHelper {
  * Write a script to the buffered scripts.
  *
  * @param string $script Script string to add to the buffer.
- * @param bool $top If true the script will be added to the top of the
+ * @param boolean $top If true the script will be added to the top of the
  *   buffered scripts array. If false the bottom.
  * @return void
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::buffer
@@ -245,7 +245,7 @@ class JsHelper extends AppHelper {
 /**
  * Get all the buffered scripts
  *
- * @param bool $clear Whether or not to clear the script caches (default true)
+ * @param boolean $clear Whether or not to clear the script caches (default true)
  * @return array Array of scripts added to the request.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::getBuffer
  */
@@ -292,7 +292,7 @@ class JsHelper extends AppHelper {
  */
 	public function link($title, $url = null, $options = array()) {
 		if (!isset($options['id'])) {
-			$options['id'] = 'link-' . (int)mt_rand();
+			$options['id'] = 'link-' . intval(mt_rand());
 		}
 		list($options, $htmlOptions) = $this->_getHtmlOptions($options);
 		$out = $this->Html->link($title, $url, $htmlOptions);
@@ -368,7 +368,7 @@ class JsHelper extends AppHelper {
  */
 	public function submit($caption = null, $options = array()) {
 		if (!isset($options['id'])) {
-			$options['id'] = 'submit-' . (int)mt_rand();
+			$options['id'] = 'submit-' . intval(mt_rand());
 		}
 		$formOptions = array('div');
 		list($options, $htmlOptions) = $this->_getHtmlOptions($options, $formOptions);

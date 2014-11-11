@@ -1,5 +1,8 @@
 <?php
 /**
+ *
+ * PHP 5
+ *
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       app.View.Layouts
  * @since         CakePHP(tm) v 0.10.0.1076
@@ -13,7 +16,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<?php echo $this->Html->charset(); ?>
 	<title>
 		<?php echo $cakeDescription ?>:
-		<?php echo $this->fetch('title'); ?>
+		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');

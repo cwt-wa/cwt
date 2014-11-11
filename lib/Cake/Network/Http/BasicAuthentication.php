@@ -2,6 +2,8 @@
 /**
  * Basic authentication
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -26,8 +28,8 @@ class BasicAuthentication {
 /**
  * Authentication
  *
- * @param HttpSocket $http Http socket instance.
- * @param array &$authInfo Authentication info.
+ * @param HttpSocket $http
+ * @param array $authInfo
  * @return void
  * @see http://www.ietf.org/rfc/rfc2617.txt
  */
@@ -40,8 +42,8 @@ class BasicAuthentication {
 /**
  * Proxy Authentication
  *
- * @param HttpSocket $http Http socket instance.
- * @param array &$proxyInfo Proxy info.
+ * @param HttpSocket $http
+ * @param array $proxyInfo
  * @return void
  * @see http://www.ietf.org/rfc/rfc2617.txt
  */
@@ -54,8 +56,8 @@ class BasicAuthentication {
 /**
  * Generate basic [proxy] authentication header
  *
- * @param string $user Username.
- * @param string $pass Password.
+ * @param string $user
+ * @param string $pass
  * @return string
  */
 	protected static function _generateHeader($user, $pass) {

@@ -4,6 +4,8 @@
  *
  * Series of tests for email component.
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -58,7 +60,7 @@ class DebugCompTransport extends AbstractTransport {
  * Send mail
  *
  * @params object $email CakeEmail
- * @return bool
+ * @return boolean
  */
 	public function send(CakeEmail $email) {
 		$email->addHeaders(array('Date' => EmailComponentTest::$sentDate));
@@ -94,7 +96,7 @@ class EmailTestController extends Controller {
 /**
  * uses property
  *
- * @var mixed
+ * @var mixed null
  */
 	public $uses = null;
 
@@ -191,14 +193,14 @@ This is the body of the message
 MSGBLOC;
 
 		$this->Controller->EmailTest->sendAs = 'text';
-		$expected = str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $message);
+		$expect = str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $message);
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
+		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
 
 		$this->Controller->EmailTest->sendAs = 'html';
-		$expected = str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $message);
+		$expect = str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $message);
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
+		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
 	}
 
 /**
@@ -262,34 +264,37 @@ TEXTBLOC;
 HTMLBLOC;
 
 		$this->Controller->EmailTest->sendAs = 'text';
-		$expected = '<pre>' . str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $header) . $text . "\n" . '</pre>';
+		$expect = '<pre>' . str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $header) . $text . "\n" . '</pre>';
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
+		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
 
 		$this->Controller->EmailTest->sendAs = 'html';
-		$expected = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . "\n" . '</pre>';
+		$expect = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . "\n" . '</pre>';
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
+		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
 
 		$this->Controller->EmailTest->sendAs = 'both';
-		$expected = str_replace('{CONTENTTYPE}', 'multipart/alternative; boundary="{boundary}"', $header);
-		$expected .= "--{boundary}\n" .
+		$expect = str_replace('{CONTENTTYPE}', 'multipart/mixed; boundary="{boundary}"', $header);
+		$expect .= "--{boundary}\n" .
+			'Content-Type: multipart/alternative; boundary="alt-{boundary}"' . "\n\n" .
+			'--alt-{boundary}' . "\n" .
 			'Content-Type: text/plain; charset=UTF-8' . "\n" .
 			'Content-Transfer-Encoding: 8bit' . "\n\n" .
 			$text .
 			"\n\n" .
-			'--{boundary}' . "\n" .
+			'--alt-{boundary}' . "\n" .
 			'Content-Type: text/html; charset=UTF-8' . "\n" .
 			'Content-Transfer-Encoding: 8bit' . "\n\n" .
 			$html .
-			"\n\n\n" .
+			"\n\n" .
+			'--alt-{boundary}--' . "\n\n\n" .
 			'--{boundary}--' . "\n";
 
-		$expected = '<pre>' . $expected . '</pre>';
+		$expect = '<pre>' . $expect . '</pre>';
 
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
 		$this->assertTextEquals(
-			$expected,
+			$expect,
 			preg_replace('/[a-z0-9]{32}/i', '{boundary}', DebugCompTransport::$lastEmail)
 		);
 
@@ -310,9 +315,9 @@ HTMLBLOC;
 HTMLBLOC;
 
 		$this->Controller->EmailTest->sendAs = 'html';
-		$expected = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . '</pre>';
+		$expect = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . '</pre>';
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message', 'default', 'thin'));
-		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
+		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
 	}
 
 /**
@@ -860,8 +865,6 @@ HTMLBLOC;
 
 /**
  * Make sure from/to are not double encoded when UTF-8 is present
- *
- * @return void
  */
 	public function testEncodingFrom() {
 		$this->Controller->EmailTest->to = 'Teßt <test@example.com>';

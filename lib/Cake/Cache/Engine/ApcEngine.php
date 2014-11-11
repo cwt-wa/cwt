@@ -2,6 +2,9 @@
 /**
  * APC storage engine for cache.
  *
+ *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -38,7 +41,7 @@ class ApcEngine extends CacheEngine {
  * To reinitialize the settings call Cache::engine('EngineName', [optional] settings = array());
  *
  * @param array $settings array of setting for the engine
- * @return bool True if the engine has been successfully initialized, false if not
+ * @return boolean True if the engine has been successfully initialized, false if not
  * @see CacheEngine::__defaults
  */
 	public function init($settings = array()) {
@@ -55,8 +58,8 @@ class ApcEngine extends CacheEngine {
  *
  * @param string $key Identifier for the data
  * @param mixed $value Data to be cached
- * @param int $duration How long to cache the data, in seconds
- * @return bool True if the data was successfully cached, false on failure
+ * @param integer $duration How long to cache the data, in seconds
+ * @return boolean True if the data was successfully cached, false on failure
  */
 	public function write($key, $value, $duration) {
 		$expires = 0;
@@ -75,7 +78,7 @@ class ApcEngine extends CacheEngine {
  */
 	public function read($key) {
 		$time = time();
-		$cachetime = (int)apc_fetch($key . '_expires');
+		$cachetime = intval(apc_fetch($key . '_expires'));
 		if ($cachetime !== 0 && ($cachetime < $time || ($time + $this->settings['duration']) < $cachetime)) {
 			return false;
 		}
@@ -86,7 +89,7 @@ class ApcEngine extends CacheEngine {
  * Increments the value of an integer cached key
  *
  * @param string $key Identifier for the data
- * @param int $offset How much to increment
+ * @param integer $offset How much to increment
  * @return New incremented value, false otherwise
  */
 	public function increment($key, $offset = 1) {
@@ -97,7 +100,7 @@ class ApcEngine extends CacheEngine {
  * Decrements the value of an integer cached key
  *
  * @param string $key Identifier for the data
- * @param int $offset How much to subtract
+ * @param integer $offset How much to subtract
  * @return New decremented value, false otherwise
  */
 	public function decrement($key, $offset = 1) {
@@ -108,7 +111,7 @@ class ApcEngine extends CacheEngine {
  * Delete a key from the cache
  *
  * @param string $key Identifier for the data
- * @return bool True if the value was successfully deleted, false if it didn't exist or couldn't be removed
+ * @return boolean True if the value was successfully deleted, false if it didn't exist or couldn't be removed
  */
 	public function delete($key) {
 		return apc_delete($key);
@@ -117,25 +120,18 @@ class ApcEngine extends CacheEngine {
 /**
  * Delete all keys from the cache. This will clear every cache config using APC.
  *
- * @param bool $check If true, nothing will be cleared, as entries are removed
+ * @param boolean $check If true, nothing will be cleared, as entries are removed
  *    from APC as they expired. This flag is really only used by FileEngine.
- * @return bool True Returns true.
+ * @return boolean True Returns true.
  */
 	public function clear($check) {
 		if ($check) {
 			return true;
 		}
-		if (class_exists('APCIterator', false)) {
-			$iterator = new APCIterator(
-				'user',
-				'/^' . preg_quote($this->settings['prefix'], '/') . '/',
-				APC_ITER_NONE
-			);
-			apc_delete($iterator);
-			return true;
-		}
-		$cache = apc_cache_info('user');
-		foreach ($cache['cache_list'] as $key) {
+		$info = apc_cache_info('user');
+		$cacheKeys = $info['cache_list'];
+		unset($info);
+		foreach ($cacheKeys as $key) {
 			if (strpos($key['info'], $this->settings['prefix']) === 0) {
 				apc_delete($key['info']);
 			}
@@ -180,8 +176,7 @@ class ApcEngine extends CacheEngine {
  * Increments the group value to simulate deletion of all keys under a group
  * old values will remain in storage until they expire.
  *
- * @param string $group The group to clear.
- * @return bool success
+ * @return boolean success
  */
 	public function clearGroup($group) {
 		apc_inc($this->settings['prefix'] . $group, 1, $success);

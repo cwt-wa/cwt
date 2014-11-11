@@ -2,13 +2,15 @@
 /**
  * DboPostgresTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Model.Datasource.Database
  * @since         CakePHP(tm) v 1.2.0
@@ -67,7 +69,7 @@ class PostgresTestModel extends Model {
 /**
  * useTable property
  *
- * @var bool
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -148,7 +150,7 @@ class PostgresClientTestModel extends Model {
 /**
  * useTable property
  *
- * @var bool
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -162,8 +164,8 @@ class PostgresClientTestModel extends Model {
 			'id' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => '8', 'key' => 'primary'),
 			'name' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
 			'email' => array('type' => 'string', 'null' => '1', 'default' => '', 'length' => '155'),
-			'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'length' => ''),
-			'updated' => array('type' => 'datetime', 'null' => true, 'default' => null, 'length' => null)
+			'created' => array('type' => 'datetime', 'null' => '1', 'default' => '', 'length' => ''),
+			'updated' => array('type' => 'datetime', 'null' => '1', 'default' => '', 'length' => null)
 		);
 	}
 
@@ -180,7 +182,7 @@ class PostgresTest extends CakeTestCase {
  * Do not automatically load fixtures for each test, they will be loaded manually
  * using CakeTestCase::loadFixtures
  *
- * @var bool
+ * @var boolean
  */
 	public $autoFixtures = false;
 
@@ -211,7 +213,6 @@ class PostgresTest extends CakeTestCase {
 /**
  * Sets up a Dbo class instance for testing
  *
- * @return void
  */
 	public function setUp() {
 		parent::setUp();
@@ -225,7 +226,6 @@ class PostgresTest extends CakeTestCase {
 /**
  * Sets up a Dbo class instance for testing
  *
- * @return void
  */
 	public function tearDown() {
 		parent::tearDown();
@@ -236,7 +236,6 @@ class PostgresTest extends CakeTestCase {
 /**
  * Test field quoting method
  *
- * @return void
  */
 	public function testFieldQuoting() {
 		$fields = array(
@@ -296,10 +295,6 @@ class PostgresTest extends CakeTestCase {
 		$this->assertEquals('string', $this->Dbo2->column('character varying'));
 		$this->assertEquals('time', $this->Dbo2->column('time without time zone'));
 		$this->assertEquals('datetime', $this->Dbo2->column('timestamp without time zone'));
-		$this->assertEquals('decimal', $this->Dbo2->column('decimal'));
-		$this->assertEquals('decimal', $this->Dbo2->column('numeric'));
-		$this->assertEquals('float', $this->Dbo2->column('float'));
-		$this->assertEquals('float', $this->Dbo2->column('double precision'));
 
 		$result = $this->Dbo2->column('bigint');
 		$expected = 'biginteger';
@@ -551,7 +546,6 @@ class PostgresTest extends CakeTestCase {
 			'connection' => 'test',
 			'models' => array('DatatypeTest')
 		));
-
 		$schema->tables = array(
 			'datatype_tests' => $result['tables']['missing']['datatype_tests']
 		);
@@ -574,38 +568,6 @@ class PostgresTest extends CakeTestCase {
 		$this->assertEquals($result, $result2);
 
 		$db1->query('DROP TABLE ' . $db1->fullTableName('datatype_tests'));
-	}
-
-/**
- * testCakeSchemaBegserial method
- *
- * Test that schema generated postgresql queries are valid.
- *
- * @return void
- */
-	public function testCakeSchemaBigserial() {
-		$db1 = ConnectionManager::getDataSource('test');
-		$db1->cacheSources = false;
-
-		$db1->rawQuery('CREATE TABLE ' . $db1->fullTableName('bigserial_tests') . ' (
-			"id" bigserial NOT NULL,
-			"varchar" character varying(40) NOT NULL,
-			PRIMARY KEY ("id")
-		)');
-
-		$schema = new CakeSchema(array('connection' => 'test'));
-		$result = $schema->read(array(
-			'connection' => 'test',
-			'models' => array('BigserialTest')
-		));
-		$schema->tables = array(
-			'bigserial_tests' => $result['tables']['missing']['bigserial_tests']
-		);
-		$result = $db1->createSchema($schema, 'bigserial_tests');
-
-		$this->assertContains('"id" bigserial NOT NULL,', $result);
-
-		$db1->query('DROP TABLE ' . $db1->fullTableName('bigserial_tests'));
 	}
 
 /**
@@ -701,34 +663,6 @@ class PostgresTest extends CakeTestCase {
 		));
 		$result = $this->Dbo->alterSchema($New->compare($Old), 'alter_posts');
 		$this->assertNotRegExp('/varchar\(36\) NOT NULL/i', $result);
-	}
-
-/**
- * Test the alterSchema changing boolean to integer
- *
- * @return void
- */
-	public function testAlterSchemaBooleanToIntegerField() {
-		$default = array(
-			'connection' => 'test',
-			'name' => 'BoolField',
-			'bool_fields' => array(
-				'id' => array('type' => 'integer', 'key' => 'primary'),
-				'name' => array('type' => 'string', 'length' => 50),
-				'active' => array('type' => 'boolean', 'null' => false),
-			)
-		);
-		$Old = new CakeSchema($default);
-		$result = $this->Dbo->query($this->Dbo->createSchema($Old));
-		$this->assertTrue($result);
-
-		$modified = $default;
-		$modified['bool_fields']['active'] = array('type' => 'integer', 'null' => true);
-
-		$New = new CakeSchema($modified);
-		$query = $this->Dbo->alterSchema($New->compare($Old));
-		$result = $this->Dbo->query($query);
-		$this->Dbo->query($this->Dbo->dropSchema($Old));
 	}
 
 /**
@@ -1097,71 +1031,6 @@ class PostgresTest extends CakeTestCase {
 		$result = $db->limit(10, 300000000000000000000000000000);
 		$scientificNotation = sprintf('%.1E', 300000000000000000000000000000);
 		$this->assertNotContains($scientificNotation, $result);
-	}
-
-/**
- * Test that postgres describes UUID columns correctly.
- *
- * @return void
- */
-	public function testDescribeUuid() {
-		$db = $this->Dbo;
-		$db->execute('CREATE TABLE test_uuid_describe (id UUID PRIMARY KEY, name VARCHAR(255))');
-		$data = $db->describe('test_uuid_describe');
-
-		$expected = array(
-			'type' => 'string',
-			'null' => false,
-			'default' => null,
-			'length' => 36,
-		);
-		$this->assertSame($expected, $data['id']);
-		$db->execute('DROP TABLE test_uuid_describe');
-	}
-
-/**
- * Test describe() behavior for timestamp columns.
- *
- * @return void
- */
-	public function testDescribeTimestamp() {
-		$this->loadFixtures('User');
-		$model = ClassRegistry::init('User');
-		$result = $this->Dbo->describe($model);
-		$expected = array(
-			'id' => array(
-				'type' => 'integer',
-				'null' => false,
-				'default' => null,
-				'length' => 11,
-				'key' => 'primary'
-			),
-			'user' => array(
-				'type' => 'string',
-				'null' => true,
-				'default' => null,
-				'length' => 255
-			),
-			'password' => array(
-				'type' => 'string',
-				'null' => true,
-				'default' => null,
-				'length' => 255
-			),
-			'created' => array(
-				'type' => 'datetime',
-				'null' => true,
-				'default' => null,
-				'length' => null
-			),
-			'updated' => array(
-				'type' => 'datetime',
-				'null' => true,
-				'default' => null,
-				'length' => null
-			)
-		);
-		$this->assertEquals($expected, $result);
 	}
 
 }

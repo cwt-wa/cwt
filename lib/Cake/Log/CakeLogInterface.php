@@ -2,6 +2,8 @@
 /**
  * CakeLogInterface
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -27,8 +29,8 @@ interface CakeLogInterface {
 /**
  * Write method to handle writes being made to the Logger
  *
- * @param string $type Message type.
- * @param string $message Message to write.
+ * @param string $type
+ * @param string $message
  * @return void
  */
 	public function write($type, $message);

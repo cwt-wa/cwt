@@ -4,6 +4,8 @@
  *
  * Provides an interface for loading and enumerating connections defined in app/Config/database.php
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -54,7 +56,7 @@ class ConnectionManager {
 /**
  * Indicates if the init code for this class has already been executed
  *
- * @var bool
+ * @var boolean
  */
 	protected static $_init = false;
 
@@ -126,7 +128,7 @@ class ConnectionManager {
  * Gets a DataSource name from an object reference.
  *
  * @param DataSource $source DataSource object
- * @return string|null Datasource name, or null if source is not present
+ * @return string Datasource name, or null if source is not present
  *    in the ConnectionManager.
  */
 	public static function getSourceName($source) {
@@ -145,9 +147,9 @@ class ConnectionManager {
  * Loads the DataSource class for the given connection name
  *
  * @param string|array $connName A string name of the connection, as defined in app/Config/database.php,
- *    or an array containing the filename (without extension) and class name of the object,
- *    to be found in app/Model/Datasource/ or lib/Cake/Model/Datasource/.
- * @return bool True on success, null on failure or false if the class is already loaded
+ *                        or an array containing the filename (without extension) and class name of the object,
+ *                        to be found in app/Model/Datasource/ or lib/Cake/Model/Datasource/.
+ * @return boolean True on success, null on failure or false if the class is already loaded
  * @throws MissingDatasourceException
  */
 	public static function loadDataSource($connName) {
@@ -184,10 +186,10 @@ class ConnectionManager {
 	}
 
 /**
- * Returns a list of connections
+ * Return a list of connections
  *
  * @return array An associative array of elements where the key is the connection name
- *    (as defined in Connections), and the value is an array with keys 'filename' and 'classname'.
+ *               (as defined in Connections), and the value is an array with keys 'filename' and 'classname'.
  */
 	public static function enumConnectionObjects() {
 		if (empty(self::$_init)) {
@@ -201,7 +203,7 @@ class ConnectionManager {
  *
  * @param string $name The DataSource name
  * @param array $config The DataSource configuration settings
- * @return DataSource|null A reference to the DataSource object, or null if creation failed
+ * @return DataSource A reference to the DataSource object, or null if creation failed
  */
 	public static function create($name = '', $config = array()) {
 		if (empty(self::$_init)) {
@@ -221,7 +223,7 @@ class ConnectionManager {
  * Removes a connection configuration at runtime given its name
  *
  * @param string $name the connection name as it was created
- * @return bool success if connection was removed, false if it does not exist
+ * @return boolean success if connection was removed, false if it does not exist
  */
 	public static function drop($name) {
 		if (empty(self::$_init)) {

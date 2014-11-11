@@ -1,5 +1,7 @@
 <?php
 /**
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -26,14 +28,14 @@ class ViewBlock {
 /**
  * Append content
  *
- * @var string
+ * @constant APPEND
  */
 	const APPEND = 'append';
 
 /**
  * Prepend content
  *
- * @var string
+ * @constant PREPEND
  */
 	const PREPEND = 'prepend';
 
@@ -54,7 +56,7 @@ class ViewBlock {
 /**
  * Should the currently captured content be discarded on ViewBlock::end()
  *
- * @var bool
+ * @var boolean
  * @see ViewBlock::end()
  * @see ViewBlock::startIfEmpty()
  */
@@ -70,13 +72,9 @@ class ViewBlock {
  * using View::get();
  *
  * @param string $name The name of the block to capture for.
- * @throws CakeException When starting a block twice
  * @return void
  */
 	public function start($name) {
-		if (in_array($name, $this->_active)) {
-			throw new CakeException(__("A view block with the name '%s' is already/still open.", $name));
-		}
 		$this->_active[] = $name;
 		ob_start();
 	}
@@ -164,7 +162,7 @@ class ViewBlock {
  * @param string $name Name of the block
  * @param string $value The content for the block.
  * @return void
- * @deprecated 3.0.0 As of 2.3 use ViewBlock::concat() instead.
+ * @deprecated As of 2.3 use ViewBlock::concat() instead.
  */
 	public function append($name, $value = null) {
 		$this->concat($name, $value);

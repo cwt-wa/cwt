@@ -4,6 +4,8 @@
  *
  * Holds several tests
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -436,7 +438,6 @@ class ConfigureTest extends CakeTestCase {
 
 /**
  * @expectedException ConfigureException
- * @return void
  */
 	public function testDumpNoAdapter() {
 		Configure::dump(TMP . 'test.php', 'does_not_exist');

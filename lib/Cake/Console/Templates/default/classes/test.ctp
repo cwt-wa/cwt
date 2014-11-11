@@ -2,6 +2,9 @@
 /**
  * Test Case bake template
  *
+ *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -75,7 +78,6 @@ class <?php echo $fullClassName; ?>Test extends CakeTestCase {
  * @return void
  */
 	public function test<?php echo Inflector::camelize($method); ?>() {
-		$this->markTestIncomplete('test<?php echo Inflector::camelize($method); ?> not implemented.');
 	}
 
 <?php endforeach; ?>

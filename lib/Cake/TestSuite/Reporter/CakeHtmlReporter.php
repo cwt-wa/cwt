@@ -2,6 +2,8 @@
 /**
  * CakeHtmlReporter
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -169,7 +171,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * Paints a code coverage report.
  *
- * @param array $coverage The coverage data
+ * @param array $coverage
  * @return void
  */
 	public function paintCoverage(array $coverage) {
@@ -243,7 +245,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  *
  * @param PHPUnit_Framework_AssertionFailedError $message Failure object displayed in
  *   the context of the other tests.
- * @param mixed $test The test case to paint a failure for.
+ * @param mixed $test
  * @return void
  */
 	public function paintFail($message, $test) {
@@ -264,7 +266,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		echo "<div class='msg'><pre>" . $this->_htmlEntities($message->toString());
 
 		if ((is_string($actualMsg) && is_string($expectedMsg)) || (is_array($actualMsg) && is_array($expectedMsg))) {
-			echo "<br />" . $this->_htmlEntities(PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg));
+			echo "<br />" . PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg);
 		}
 
 		echo "</pre></div>\n";
@@ -278,7 +280,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  * trail of the nesting test suites below the
  * top level test.
  *
- * @param PHPUnit_Framework_Test $test Test method that just passed
+ * @param PHPUnit_Framework_Test test method that just passed
  * @param float $time time spent to run the test method
  * @return void
  */
@@ -295,8 +297,8 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * Paints a PHP exception.
  *
- * @param Exception $message Exception to display.
- * @param mixed $test The test that failed.
+ * @param Exception $exception Exception to display.
+ * @param mixed $test
  * @return void
  */
 	public function paintException($message, $test) {
@@ -370,7 +372,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * A test suite started.
  *
- * @param PHPUnit_Framework_TestSuite $suite The test suite to start.
+ * @param PHPUnit_Framework_TestSuite $suite
  * @return void
  */
 	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {

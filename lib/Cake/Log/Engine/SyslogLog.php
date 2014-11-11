@@ -2,6 +2,8 @@
 /**
  * Syslog logger engine for CakePHP
  *
+ * PHP 5
+ *
  * CakePHP(tm) :  Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -13,7 +15,7 @@
  * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
  * @package       Cake.Log.Engine
  * @since         CakePHP(tm) v 2.4
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 App::uses('BaseLog', 'Log/Engine');
@@ -26,6 +28,7 @@ App::uses('BaseLog', 'Log/Engine');
 class SyslogLog extends BaseLog {
 
 /**
+ *
  * By default messages are formatted as:
  * 	type: message
  *
@@ -59,6 +62,7 @@ class SyslogLog extends BaseLog {
 	);
 
 /**
+ *
  * Used to map the string names back to their LOG_* constants
  *
  * @var array
@@ -77,7 +81,7 @@ class SyslogLog extends BaseLog {
 /**
  * Whether the logger connection is open or not
  *
- * @var bool
+ * @var boolean
  */
 	protected $_open = false;
 
@@ -85,7 +89,7 @@ class SyslogLog extends BaseLog {
  * Make sure the configuration contains the format parameter, by default it uses
  * the error number and the type as a prefix to the message
  *
- * @param array $config Options list.
+ * @param array $config
  */
 	public function __construct($config = array()) {
 		$config += $this->_defaults;
@@ -100,7 +104,7 @@ class SyslogLog extends BaseLog {
  *
  * @param string $type The type of log you are making.
  * @param string $message The message you want to log.
- * @return bool success of write.
+ * @return boolean success of write.
  */
 	public function write($type, $message) {
 		if (!$this->_open) {
@@ -128,8 +132,8 @@ class SyslogLog extends BaseLog {
  * will initialize the connection to the system logger
  *
  * @param string $ident the prefix to add to all messages logged
- * @param int $options the options flags to be used for logged messages
- * @param int $facility the stream or facility to log to
+ * @param integer $options the options flags to be used for logged messages
+ * @param integer $facility the stream or facility to log to
  * @return void
  */
 	protected function _open($ident, $options, $facility) {
@@ -140,9 +144,9 @@ class SyslogLog extends BaseLog {
  * Extracts the call to syslog() in order to run unit tests on it. This function
  * will perform the actual write in the system logger
  *
- * @param int $priority Message priority.
- * @param string $message Message to log.
- * @return bool
+ * @param integer $priority
+ * @param string $message
+ * @return boolean
  */
 	protected function _write($priority, $message) {
 		return syslog($priority, $message);

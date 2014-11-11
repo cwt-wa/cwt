@@ -2,6 +2,8 @@
 /**
  * SocketTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -118,7 +120,7 @@ class CakeSocketTest extends CakeTestCase {
  *
  * @dataProvider invalidConnections
  * @expectedException SocketException
- * @return void
+ * return void
  */
 	public function testInvalidConnection($data) {
 		$this->Socket->config = array_merge($this->Socket->config, $data);

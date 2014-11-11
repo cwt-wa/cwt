@@ -2,6 +2,8 @@
 /**
  * ScaffoldTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -63,45 +65,11 @@ class ScaffoldMockControllerWithFields extends Controller {
 /**
  * function beforeScaffold
  *
- * @param string $method Method name.
- * @return bool true
+ * @param string method
  */
 	public function beforeScaffold($method) {
 		$this->set('scaffoldFields', array('title'));
 		return true;
-	}
-
-}
-
-/**
- * ScaffoldMockControllerWithError class
- *
- * @package       Cake.Test.Case.Controller
- */
-class ScaffoldMockControllerWithError extends Controller {
-
-/**
- * name property
- *
- * @var string
- */
-	public $name = 'ScaffoldMock';
-
-/**
- * scaffold property
- *
- * @var mixed
- */
-	public $scaffold;
-
-/**
- * function beforeScaffold
- *
- * @param string $method Method name.
- * @return bool false
- */
-	public function beforeScaffold($method) {
-		return false;
 	}
 
 }
@@ -116,8 +84,7 @@ class TestScaffoldMock extends Scaffold {
 /**
  * Overload _scaffold
  *
- * @param CakeRequest $request Request object for scaffolding
- * @return void
+ * @param unknown_type $params
  */
 	protected function _scaffold(CakeRequest $request) {
 		$this->_params = $request;
@@ -377,40 +344,4 @@ class ScaffoldTest extends CakeTestCase {
 		$this->assertNotRegExp('/textarea name="data\[ScaffoldMock\]\[body\]" cols="30" rows="6" id="ScaffoldMockBody"/', $result);
 	}
 
-/**
- * test in case of scaffold error
- *
- * @return void
- */
-	public function testScaffoldError() {
-		$request = new CakeRequest(null, false);
-		$this->Controller = new ScaffoldMockControllerWithError($request);
-		$this->Controller->response = $this->getMock('CakeResponse', array('_sendHeader'));
-
-		$params = array(
-			'plugin' => null,
-			'pass' => array(1),
-			'form' => array(),
-			'named' => array(),
-			'url' => array('url' => 'scaffold_mock/edit'),
-			'controller' => 'scaffold_mock',
-			'action' => 'edit',
-		);
-		$this->Controller->request->base = '';
-		$this->Controller->request->webroot = '/';
-		$this->Controller->request->here = '/scaffold_mock/edit';
-		$this->Controller->request->addParams($params);
-
-		//set router.
-		Router::reload();
-		Router::setRequestInfo($this->Controller->request);
-
-		$this->Controller->constructClasses();
-		ob_start();
-		new Scaffold($this->Controller, $this->Controller->request);
-		$this->Controller->response->send();
-		$result = ob_get_clean();
-
-		$this->assertRegExp('/Scaffold Error/', $result);
-	}
 }

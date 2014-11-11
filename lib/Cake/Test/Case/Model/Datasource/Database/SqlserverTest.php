@@ -2,6 +2,8 @@
 /**
  * SqlserverTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -116,7 +118,7 @@ class SqlserverTestModel extends CakeTestModel {
 /**
  * useTable property
  *
- * @var bool
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -182,7 +184,7 @@ class SqlserverClientTestModel extends CakeTestModel {
 /**
  * useTable property
  *
- * @var bool
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -248,7 +250,7 @@ class SqlserverTest extends CakeTestCase {
 /**
  * autoFixtures property
  *
- * @var bool
+ * @var boolean
  */
 	public $autoFixtures = false;
 
@@ -262,7 +264,6 @@ class SqlserverTest extends CakeTestCase {
 /**
  * Sets up a Dbo class instance for testing
  *
- * @return void
  */
 	public function setUp() {
 		parent::setUp();

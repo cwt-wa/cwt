@@ -2,6 +2,8 @@
 /**
  * DataSource base class
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -29,7 +31,7 @@ class DataSource extends Object {
 /**
  * Are we connected to the DataSource?
  *
- * @var bool
+ * @var boolean
  */
 	public $connected = false;
 
@@ -64,7 +66,7 @@ class DataSource extends Object {
 /**
  * Whether or not this DataSource is in the middle of a transaction
  *
- * @var bool
+ * @var boolean
  */
 	protected $_transactionStarted = false;
 
@@ -72,7 +74,7 @@ class DataSource extends Object {
  * Whether or not source data like available tables and schema descriptions
  * should be cached
  *
- * @var bool
+ * @var boolean
  */
 	public $cacheSources = true;
 
@@ -89,8 +91,8 @@ class DataSource extends Object {
 /**
  * Caches/returns cached results for child instances
  *
- * @param mixed $data Unused in this class.
- * @return array|null Array of sources available in this datasource.
+ * @param mixed $data
+ * @return array Array of sources available in this datasource.
  */
 	public function listSources($data = null) {
 		if ($this->cacheSources === false) {
@@ -116,8 +118,8 @@ class DataSource extends Object {
 /**
  * Returns a Model description (metadata) or null if none found.
  *
- * @param Model|string $model The model to describe.
- * @return array|null Array of Metadata for the $model
+ * @param Model|string $model
+ * @return array Array of Metadata for the $model
  */
 	public function describe($model) {
 		if ($this->cacheSources === false) {
@@ -144,7 +146,7 @@ class DataSource extends Object {
 /**
  * Begin a transaction
  *
- * @return bool Returns true if a transaction is not in progress
+ * @return boolean Returns true if a transaction is not in progress
  */
 	public function begin() {
 		return !$this->_transactionStarted;
@@ -153,7 +155,7 @@ class DataSource extends Object {
 /**
  * Commit a transaction
  *
- * @return bool Returns true if a transaction is in progress
+ * @return boolean Returns true if a transaction is in progress
  */
 	public function commit() {
 		return $this->_transactionStarted;
@@ -162,7 +164,7 @@ class DataSource extends Object {
 /**
  * Rollback a transaction
  *
- * @return bool Returns true if a transaction is in progress
+ * @return boolean Returns true if a transaction is in progress
  */
 	public function rollback() {
 		return $this->_transactionStarted;
@@ -183,12 +185,12 @@ class DataSource extends Object {
  *
  * To-be-overridden in subclasses.
  *
- * @param Model $Model The Model to be created.
+ * @param Model $model The Model to be created.
  * @param array $fields An Array of fields to be saved.
  * @param array $values An Array of values to save.
- * @return bool success
+ * @return boolean success
  */
-	public function create(Model $Model, $fields = null, $values = null) {
+	public function create(Model $model, $fields = null, $values = null) {
 		return false;
 	}
 
@@ -197,12 +199,12 @@ class DataSource extends Object {
  *
  * To-be-overridden in subclasses.
  *
- * @param Model $Model The model being read.
+ * @param Model $model The model being read.
  * @param array $queryData An array of query data used to find the data you want
- * @param int $recursive Number of levels of association
+ * @param integer $recursive Number of levels of association
  * @return mixed
  */
-	public function read(Model $Model, $queryData = array(), $recursive = null) {
+	public function read(Model $model, $queryData = array(), $recursive = null) {
 		return false;
 	}
 
@@ -211,13 +213,13 @@ class DataSource extends Object {
  *
  * To-be-overridden in subclasses.
  *
- * @param Model $Model Instance of the model class being updated
+ * @param Model $model Instance of the model class being updated
  * @param array $fields Array of fields to be updated
  * @param array $values Array of values to be update $fields to.
- * @param mixed $conditions The array of conditions to use.
- * @return bool Success
+ * @param mixed $conditions
+ * @return boolean Success
  */
-	public function update(Model $Model, $fields = null, $values = null, $conditions = null) {
+	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
 		return false;
 	}
 
@@ -226,18 +228,18 @@ class DataSource extends Object {
  *
  * To-be-overridden in subclasses.
  *
- * @param Model $Model The model class having record(s) deleted
+ * @param Model $model The model class having record(s) deleted
  * @param mixed $conditions The conditions to use for deleting.
- * @return bool Success
+ * @return boolean Success
  */
-	public function delete(Model $Model, $conditions = null) {
+	public function delete(Model $model, $conditions = null) {
 		return false;
 	}
 
 /**
  * Returns the ID generated from the previous INSERT operation.
  *
- * @param mixed $source The source name.
+ * @param mixed $source
  * @return mixed Last ID key generated in previous INSERT
  */
 	public function lastInsertId($source = null) {
@@ -247,8 +249,8 @@ class DataSource extends Object {
 /**
  * Returns the number of rows returned by last operation.
  *
- * @param mixed $source The source name.
- * @return int Number of rows returned by last operation
+ * @param mixed $source
+ * @return integer Number of rows returned by last operation
  */
 	public function lastNumRows($source = null) {
 		return false;
@@ -257,8 +259,8 @@ class DataSource extends Object {
 /**
  * Returns the number of rows affected by last query.
  *
- * @param mixed $source The source name.
- * @return int Number of rows affected by last query.
+ * @param mixed $source
+ * @return integer Number of rows affected by last query.
  */
 	public function lastAffected($source = null) {
 		return false;
@@ -269,7 +271,7 @@ class DataSource extends Object {
  * are satisfied. Often used from connect() to check for support
  * before establishing a connection.
  *
- * @return bool Whether or not the Datasources conditions for use are met.
+ * @return boolean Whether or not the Datasources conditions for use are met.
  */
 	public function enabled() {
 		return true;
@@ -318,105 +320,110 @@ class DataSource extends Object {
  *
  * @param string $query Query string needing replacements done.
  * @param array $data Array of data with values that will be inserted in placeholders.
- * @param string $association Name of association model being replaced.
- * @param Model $Model Model instance.
- * @param array $stack The context stack.
- * @return mixed String of query data with placeholders replaced, or false on failure.
+ * @param string $association Name of association model being replaced
+ * @param array $assocData
+ * @param Model $model Instance of the model to replace $__cakeID__$
+ * @param Model $linkModel Instance of model to replace $__cakeForeignKey__$
+ * @param array $stack
+ * @return string String of query data with placeholders replaced.
  */
-	public function insertQueryData($query, $data, $association, Model $Model, $stack) {
+	public function insertQueryData($query, $data, $association, $assocData, Model $model, Model $linkModel, $stack) {
 		$keys = array('{$__cakeID__$}', '{$__cakeForeignKey__$}');
 
-		$modelAlias = $Model->alias;
-
 		foreach ($keys as $key) {
-			if (strpos($query, $key) === false) {
-				continue;
-			}
+			$val = null;
+			$type = null;
 
-			$insertKey = $InsertModel = null;
-			switch ($key) {
-				case '{$__cakeID__$}':
-					$InsertModel = $Model;
-					$insertKey = $Model->primaryKey;
-
-					break;
-				case '{$__cakeForeignKey__$}':
-					foreach ($Model->associations() as $type) {
-						foreach ($Model->{$type} as $assoc => $assocData) {
-							if ($assoc !== $association) {
-								continue;
+			if (strpos($query, $key) !== false) {
+				switch ($key) {
+					case '{$__cakeID__$}':
+						if (isset($data[$model->alias]) || isset($data[$association])) {
+							if (isset($data[$model->alias][$model->primaryKey])) {
+								$val = $data[$model->alias][$model->primaryKey];
+							} elseif (isset($data[$association][$model->primaryKey])) {
+								$val = $data[$association][$model->primaryKey];
 							}
-
-							if (isset($assocData['foreignKey'])) {
-								$InsertModel = $Model->{$assoc};
-								$insertKey = $assocData['foreignKey'];
+						} else {
+							$found = false;
+							foreach (array_reverse($stack) as $assoc) {
+								if (isset($data[$assoc]) && isset($data[$assoc][$model->primaryKey])) {
+									$val = $data[$assoc][$model->primaryKey];
+									$found = true;
+									break;
+								}
 							}
-
-							break 3;
+							if (!$found) {
+								$val = '';
+							}
 						}
-					}
+						$type = $model->getColumnType($model->primaryKey);
+						break;
+					case '{$__cakeForeignKey__$}':
+						foreach ($model->associations() as $name) {
+							foreach ($model->$name as $assocName => $assoc) {
+								if ($assocName === $association) {
+									if (isset($assoc['foreignKey'])) {
+										$foreignKey = $assoc['foreignKey'];
+										$assocModel = $model->$assocName;
+										$type = $assocModel->getColumnType($assocModel->primaryKey);
 
-					break;
-			}
-
-			$val = $dataType = null;
-			if (!empty($insertKey) && !empty($InsertModel)) {
-				if (isset($data[$modelAlias][$insertKey])) {
-					$val = $data[$modelAlias][$insertKey];
-				} elseif (isset($data[$association][$insertKey])) {
-					$val = $data[$association][$insertKey];
-				} else {
-					$found = false;
-					foreach (array_reverse($stack) as $assocData) {
-						if (isset($data[$assocData]) && isset($data[$assocData][$insertKey])) {
-							$val = $data[$assocData][$insertKey];
-							$found = true;
-							break;
+										if (isset($data[$model->alias][$foreignKey])) {
+											$val = $data[$model->alias][$foreignKey];
+										} elseif (isset($data[$association][$foreignKey])) {
+											$val = $data[$association][$foreignKey];
+										} else {
+											$found = false;
+											foreach (array_reverse($stack) as $assoc) {
+												if (isset($data[$assoc]) && isset($data[$assoc][$foreignKey])) {
+													$val = $data[$assoc][$foreignKey];
+													$found = true;
+													break;
+												}
+											}
+											if (!$found) {
+												$val = '';
+											}
+										}
+									}
+									break 3;
+								}
+							}
 						}
-					}
-
-					if (!$found) {
-						$val = '';
-					}
+						break;
 				}
-
-				$dataType = $InsertModel->getColumnType($InsertModel->primaryKey);
+				if (empty($val) && $val !== '0') {
+					return false;
+				}
+				$query = str_replace($key, $this->value($val, $type), $query);
 			}
-
-			if (empty($val) && $val !== '0') {
-				return false;
-			}
-
-			$query = str_replace($key, $this->value($val, $dataType), $query);
 		}
-
 		return $query;
 	}
 
 /**
  * To-be-overridden in subclasses.
  *
- * @param Model $Model Model instance
+ * @param Model $model Model instance
  * @param string $key Key name to make
  * @return string Key name for model.
  */
-	public function resolveKey(Model $Model, $key) {
-		return $Model->alias . $key;
+	public function resolveKey(Model $model, $key) {
+		return $model->alias . $key;
 	}
 
 /**
  * Returns the schema name. Override this in subclasses.
  *
- * @return string|null The schema name
+ * @return string schema name
  */
 	public function getSchemaName() {
 		return null;
 	}
 
 /**
- * Closes a connection. Override in subclasses.
+ * Closes a connection. Override in subclasses
  *
- * @return bool
+ * @return boolean
  */
 	public function close() {
 		return $this->connected = false;
@@ -424,6 +431,7 @@ class DataSource extends Object {
 
 /**
  * Closes the current datasource.
+ *
  */
 	public function __destruct() {
 		if ($this->_transactionStarted) {

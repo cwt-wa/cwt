@@ -1,5 +1,8 @@
 <?php
 /**
+ *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -26,7 +29,7 @@ class CakeEvent {
 /**
  * Name of the event
  *
- * @var string
+ * @var string $name
  */
 	protected $_name = null;
 
@@ -40,21 +43,21 @@ class CakeEvent {
 /**
  * Custom data for the method that receives the event
  *
- * @var mixed
+ * @var mixed $data
  */
 	public $data = null;
 
 /**
  * Property used to retain the result value of the event listeners
  *
- * @var mixed
+ * @var mixed $result
  */
 	public $result = null;
 
 /**
  * Flags an event as stopped or not, default is false
  *
- * @var bool
+ * @var boolean
  */
 	protected $_stopped = false;
 
@@ -82,7 +85,7 @@ class CakeEvent {
 /**
  * Dynamically returns the name and subject if accessed directly
  *
- * @param string $attribute Attribute name.
+ * @param string $attribute
  * @return mixed
  */
 	public function __get($attribute) {
@@ -121,7 +124,7 @@ class CakeEvent {
 /**
  * Check if the event is stopped
  *
- * @return bool True if the event is stopped
+ * @return boolean True if the event is stopped
  */
 	public function isStopped() {
 		return $this->_stopped;

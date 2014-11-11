@@ -4,6 +4,8 @@
  *
  * Isolated from the Controller and Component test as to not pollute their AppController class
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -243,6 +245,7 @@ class ControllerMergeVarsTest extends CakeTestCase {
 	public function testMergeVarsModelClass() {
 		$Controller = new MergeVariablescontroller();
 		$Controller->uses = array('Test', 'TestAlias');
+		$lastModel = end($Controller->uses);
 		$Controller->constructClasses();
 		$this->assertEquals($Controller->uses[0], $Controller->modelClass);
 	}

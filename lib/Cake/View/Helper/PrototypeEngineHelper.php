@@ -5,6 +5,8 @@
  * Provides Prototype specific JavaScript for JsHelper. Requires at least
  * Prototype 1.6
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -34,7 +36,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 /**
  * Is the current selection a multiple selection? or is it just a single element.
  *
- * @var bool
+ * @var boolean
  */
 	protected $_multiple = false;
 
@@ -114,7 +116,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
  * Create javascript selector for a CSS rule
  *
  * @param string $selector The selector that is targeted
- * @return $this
+ * @return PrototypeEngineHelper instance of $this. Allows chained methods.
  */
 	public function get($selector) {
 		$this->_multiple = false;
@@ -146,7 +148,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
  */
 	public function event($type, $callback, $options = array()) {
 		$defaults = array('wrap' => true, 'stop' => true);
-		$options += $defaults;
+		$options = array_merge($defaults, $options);
 
 		$function = 'function (event) {%s}';
 		if ($options['wrap'] && $options['stop']) {
@@ -228,8 +230,8 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 /**
  * Create an Ajax or Ajax.Updater call.
  *
- * @param string|array $url URL.
- * @param array $options Options list.
+ * @param string|array $url
+ * @param array $options
  * @return string The completed ajax call.
  */
 	public function request($url, $options = array()) {
@@ -354,7 +356,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
  * @see JsBaseEngineHelper::serializeForm()
  */
 	public function serializeForm($options = array()) {
-		$options += array('isForm' => false, 'inline' => false);
+		$options = array_merge(array('isForm' => false, 'inline' => false), $options);
 		$selection = $this->selection;
 		if (!$options['isForm']) {
 			$selection = '$(' . $this->selection . '.form)';

@@ -2,6 +2,8 @@
 /**
  * SessionTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -114,6 +116,7 @@ class CakeSessionTest extends CakeTestCase {
 			'cookieTimeout' => 120,
 			'ini' => array(),
 		));
+		TestCakeSession::init();
 	}
 
 /**
@@ -280,7 +283,7 @@ class CakeSessionTest extends CakeTestCase {
  * @return void
  */
 	public function testReadyEmpty() {
-		$this->assertNull(TestCakeSession::read(''));
+		$this->assertFalse(TestCakeSession::read(''));
 	}
 
 /**
@@ -440,10 +443,10 @@ class CakeSessionTest extends CakeTestCase {
 	public function testKeyExploit() {
 		$key = "a'] = 1; phpinfo(); \$_SESSION['a";
 		$result = TestCakeSession::write($key, 'haxored');
-		$this->assertFalse($result);
+		$this->assertTrue($result);
 
 		$result = TestCakeSession::read($key);
-		$this->assertNull($result);
+		$this->assertEquals('haxored', $result);
 	}
 
 /**
@@ -545,12 +548,8 @@ class CakeSessionTest extends CakeTestCase {
 				'engine' => 'TestAppLibSession'
 			)
 		));
-
-		TestCakeSession::start();
-		$this->assertTrue(TestCakeSession::started());
-
 		TestCakeSession::destroy();
-		$this->assertFalse(TestCakeSession::started());
+		$this->assertTrue(TestCakeSession::started());
 
 		App::build();
 	}
@@ -573,11 +572,8 @@ class CakeSessionTest extends CakeTestCase {
 			)
 		));
 
-		TestCakeSession::start();
-		$this->assertTrue(TestCakeSession::started());
-
 		TestCakeSession::destroy();
-		$this->assertFalse(TestCakeSession::started());
+		$this->assertTrue(TestCakeSession::started());
 
 		App::build();
 	}
@@ -663,7 +659,7 @@ class CakeSessionTest extends CakeTestCase {
 		$this->assertEquals($expected, TestCakeSession::id());
 
 		TestCakeSession::renew();
-		$this->assertFalse($expected === TestCakeSession::id());
+		$this->assertFalse($expected == TestCakeSession::id());
 
 		$expected = session_id();
 		$this->assertEquals($expected, TestCakeSession::id());
@@ -754,33 +750,6 @@ class CakeSessionTest extends CakeTestCase {
 		TestCakeSession::start();
 		$this->assertEquals(600, Configure::read('Session.cookieTimeout'));
 		$this->assertEquals(400, Configure::read('Session.timeout'));
-	}
-
-/**
- * Proves that invalid sessions will be destroyed and re-created
- * if invalid
- *
- * @return void
- */
-	public function testInvalidSessionRenew() {
-		TestCakeSession::start();
-		$this->assertNotEmpty($_SESSION['Config']);
-		$data = $_SESSION;
-
-		session_write_close();
-		$_SESSION = null;
-
-		TestCakeSession::start();
-		$this->assertEquals($data, $_SESSION);
-		TestCakeSession::write('Foo', 'Bar');
-
-		session_write_close();
-		$_SESSION = null;
-
-		TestCakeSession::userAgent('bogus!');
-		TestCakeSession::start();
-		$this->assertNotEquals($data, $_SESSION);
-		$this->assertEquals('bogus!', $_SESSION['Config']['userAgent']);
 	}
 
 }

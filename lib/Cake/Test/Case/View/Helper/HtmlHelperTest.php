@@ -2,6 +2,8 @@
 /**
  * HtmlHelperTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -23,7 +25,6 @@ App::uses('HtmlHelper', 'View/Helper');
 App::uses('FormHelper', 'View/Helper');
 App::uses('ClassRegistry', 'Utility');
 App::uses('Folder', 'Utility');
-App::uses('CakePlugin', 'Core');
 
 if (!defined('FULL_BASE_URL')) {
 	define('FULL_BASE_URL', 'http://cakephp.org');
@@ -46,7 +47,7 @@ class TheHtmlTestController extends Controller {
 /**
  * uses property
  *
- * @var mixed
+ * @var mixed null
  */
 	public $uses = null;
 }
@@ -415,32 +416,10 @@ class HtmlHelperTest extends CakeTestCase {
 
 		$result = $this->Html->image('/test/view/1.gif');
 		$this->assertTags($result, array('img' => array('src' => '/test/view/1.gif', 'alt' => '')));
-	}
 
-/**
- * Test image() with query strings.
- *
- * @return void
- */
-	public function testImageQueryString() {
 		$result = $this->Html->image('test.gif?one=two&three=four');
 		$this->assertTags($result, array('img' => array('src' => 'img/test.gif?one=two&amp;three=four', 'alt' => '')));
 
-		$result = $this->Html->image(array(
-			'controller' => 'images',
-			'action' => 'display',
-			'test',
-			'?' => array('one' => 'two', 'three' => 'four')
-		));
-		$this->assertTags($result, array('img' => array('src' => '/images/display/test?one=two&amp;three=four', 'alt' => '')));
-	}
-
-/**
- * Test that image works with pathPrefix.
- *
- * @return void
- */
-	public function testImagePathPrefix() {
 		$result = $this->Html->image('test.gif', array('pathPrefix' => '/my/custom/path/'));
 		$this->assertTags($result, array('img' => array('src' => '/my/custom/path/test.gif', 'alt' => '')));
 
@@ -907,7 +886,7 @@ class HtmlHelperTest extends CakeTestCase {
 	public function testPluginScriptTimestamping() {
 		CakePlugin::load('TestPlugin');
 
-		$pluginPath = CakePlugin::path('TestPlugin');
+		$pluginPath = App::pluginPath('TestPlugin');
 		$pluginJsPath = $pluginPath . 'webroot/js';
 		$this->skipIf(!is_writable($pluginJsPath), $pluginJsPath . ' is not Writable, timestamp testing has been skipped.');
 
@@ -1429,8 +1408,6 @@ class HtmlHelperTest extends CakeTestCase {
 
 /**
  * Test the array form of $startText
- *
- * @return void
  */
 	public function testGetCrumbFirstLink() {
 		$result = $this->Html->getCrumbList(null, 'Home');
@@ -1712,6 +1689,19 @@ class HtmlHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
+		$result = $this->Html->meta('icon', 'favicon.ico');
+		$expected = array(
+			'link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'icon'),
+			array('link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'shortcut icon'))
+		);
+		$this->assertTags($result, $expected);
+		$result = $this->Html->meta('icon');
+		$expected = array(
+			'link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'icon'),
+			array('link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'shortcut icon'))
+		);
+		$this->assertTags($result, $expected);
+
 		$result = $this->Html->meta('keywords', 'these, are, some, meta, keywords');
 		$this->assertTags($result, array('meta' => array('name' => 'keywords', 'content' => 'these, are, some, meta, keywords')));
 		$this->assertRegExp('/\s+\/>$/', $result);
@@ -1724,56 +1714,7 @@ class HtmlHelperTest extends CakeTestCase {
 	}
 
 /**
- * Test generating favicon's with meta()
- *
- * @return void
- */
-	public function testMetaIcon() {
-		$result = $this->Html->meta('icon', 'favicon.ico');
-		$expected = array(
-			'link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'icon'),
-			array('link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'shortcut icon'))
-		);
-		$this->assertTags($result, $expected);
-
-		$result = $this->Html->meta('icon');
-		$expected = array(
-			'link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'icon'),
-			array('link' => array('href' => 'preg:/.*favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'shortcut icon'))
-		);
-		$this->assertTags($result, $expected);
-
-		$result = $this->Html->meta('icon', '/favicon.png?one=two&three=four');
-		$url = '/favicon.png?one=two&amp;three=four';
-		$expected = array(
-			'link' => array(
-				'href' => $url,
-				'type' => 'image/x-icon',
-				'rel' => 'icon'
-			),
-			array(
-				'link' => array(
-					'href' => $url,
-					'type' => 'image/x-icon',
-					'rel' => 'shortcut icon'
-				)
-			)
-		);
-		$this->assertTags($result, $expected);
-
-		$this->Html->request->webroot = '/testing/';
-		$result = $this->Html->meta('icon');
-		$expected = array(
-			'link' => array('href' => '/testing/favicon.ico', 'type' => 'image/x-icon', 'rel' => 'icon'),
-			array('link' => array('href' => '/testing/favicon.ico', 'type' => 'image/x-icon', 'rel' => 'shortcut icon'))
-		);
-		$this->assertTags($result, $expected);
-	}
-
-/**
  * Test the inline and block options for meta()
- *
- * @return void
  */
 	public function testMetaWithBlocks() {
 		$this->View->expects($this->at(0))
@@ -2033,6 +1974,7 @@ class HtmlHelperTest extends CakeTestCase {
 /**
  * testCrumbList method
  *
+ *
  * @return void
  */
 	public function testCrumbList() {
@@ -2064,8 +2006,6 @@ class HtmlHelperTest extends CakeTestCase {
 
 /**
  * Test getCrumbList startText
- *
- * @return void
  */
 	public function testCrumbListFirstLink() {
 		$this->Html->addCrumb('First', '#first');

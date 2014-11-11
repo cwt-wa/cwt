@@ -2,6 +2,8 @@
 /**
  * StringTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -302,10 +304,6 @@ class StringTest extends CakeTestCase {
 
 		$result = String::tokenize('tagA "single tag" tagB', ' ', '"', '"');
 		$expected = array('tagA', '"single tag"', 'tagB');
-		$this->assertEquals($expected, $result);
-
-		$result = String::tokenize('');
-		$expected = array();
 		$this->assertEquals($expected, $result);
 	}
 
@@ -656,7 +654,7 @@ podeís adquirirla.</span></p>
 		$this->assertEquals($this->Text->highlight($text3, array('strong', 'what'), $options), $text3);
 
 		$expected = '<b>What</b> a <b>strong</b> mouse: <img src="what-a-strong-mouse.png" alt="What a strong mouse!" />';
-		$this->assertEquals($expected, $this->Text->highlight($text4, array('strong', 'what'), $options));
+		$this->assertEquals($this->Text->highlight($text4, array('strong', 'what'), $options), $expected);
 	}
 
 /**

@@ -2,6 +2,8 @@
 /**
  * FolderTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -168,22 +170,6 @@ class FolderTest extends CakeTestCase {
 
 		$Folder = new Folder(TMP . 'tests' . DS . 'trailing');
 		$this->assertTrue($Folder->delete());
-	}
-
-/**
- * Test that relative paths to create() are added to cwd.
- *
- * @return void
- */
-	public function testCreateRelative() {
-		$folder = new Folder(TMP);
-		$path = TMP . 'tests' . DS . 'relative-test';
-		$result = $folder->create('tests' . DS . 'relative-test');
-		$this->assertTrue($result, 'should create');
-
-		$this->assertTrue(is_dir($path), 'Folder was not made');
-		$folder = new Folder($path);
-		$folder->delete();
 	}
 
 /**
@@ -360,24 +346,11 @@ class FolderTest extends CakeTestCase {
  * @return void
  */
 	public function testAddPathElement() {
-		$expected = DS . 'some' . DS . 'dir' . DS . 'another_path';
-
 		$result = Folder::addPathElement(DS . 'some' . DS . 'dir', 'another_path');
-		$this->assertEquals($expected, $result);
+		$this->assertEquals(DS . 'some' . DS . 'dir' . DS . 'another_path', $result);
 
 		$result = Folder::addPathElement(DS . 'some' . DS . 'dir' . DS, 'another_path');
-		$this->assertEquals($expected, $result);
-
-		$result = Folder::addPathElement(DS . 'some' . DS . 'dir', array('another_path'));
-		$this->assertEquals($expected, $result);
-
-		$result = Folder::addPathElement(DS . 'some' . DS . 'dir' . DS, array('another_path'));
-		$this->assertEquals($expected, $result);
-
-		$expected = DS . 'some' . DS . 'dir' . DS . 'another_path' . DS . 'and' . DS . 'another';
-
-		$result = Folder::addPathElement(DS . 'some' . DS . 'dir', array('another_path', 'and', 'another'));
-		$this->assertEquals($expected, $result);
+		$this->assertEquals(DS . 'some' . DS . 'dir' . DS . 'another_path', $result);
 	}
 
 /**
@@ -987,28 +960,6 @@ class FolderTest extends CakeTestCase {
 
 		$Folder = new Folder($path);
 		$Folder->delete();
-	}
-
-/**
- * Test that SKIP mode skips files too.
- *
- * @return void
- */
-	public function testCopyWithSkipFileSkipped() {
-		$path = TMP . 'folder_test';
-		$folderOne = $path . DS . 'folder1';
-		$folderTwo = $path . DS . 'folder2';
-
-		new Folder($path, true);
-		new Folder($folderOne, true);
-		new Folder($folderTwo, true);
-		file_put_contents($folderOne . DS . 'fileA.txt', 'Folder One File');
-		file_put_contents($folderTwo . DS . 'fileA.txt', 'Folder Two File');
-
-		$Folder = new Folder($folderOne);
-		$result = $Folder->copy(array('to' => $folderTwo, 'scheme' => Folder::SKIP));
-		$this->assertTrue($result);
-		$this->assertEquals('Folder Two File', file_get_contents($folderTwo . DS . 'fileA.txt'));
 	}
 
 /**

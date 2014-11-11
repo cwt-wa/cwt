@@ -2,6 +2,8 @@
 /**
  * Console Logging
  *
+ * PHP 5
+ *
  * CakePHP(tm) :  Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -48,10 +50,7 @@ class ConsoleLog extends BaseLog {
  */
 	public function __construct($config = array()) {
 		parent::__construct($config);
-		if (
-			(DS === '\\' && !(bool)env('ANSICON')) ||
-			(function_exists('posix_isatty') && !posix_isatty($this->_output))
-		) {
+		if (DS === '\\' && !(bool)env('ANSICON')) {
 			$outputAs = ConsoleOutput::PLAIN;
 		} else {
 			$outputAs = ConsoleOutput::COLOR;
@@ -78,7 +77,7 @@ class ConsoleLog extends BaseLog {
  *
  * @param string $type The type of log you are making.
  * @param string $message The message you want to log.
- * @return bool success of write.
+ * @return boolean success of write.
  */
 	public function write($type, $message) {
 		$output = date('Y-m-d H:i:s') . ' ' . ucfirst($type) . ': ' . $message . "\n";

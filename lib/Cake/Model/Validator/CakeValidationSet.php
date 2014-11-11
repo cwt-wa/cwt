@@ -4,6 +4,8 @@
  *
  * Provides the Model validation logic.
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -53,7 +55,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Whether the validation is stopped
  *
- * @var bool
+ * @var boolean
  */
 	public $isStopped = false;
 
@@ -74,8 +76,8 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Constructor
  *
- * @param string $fieldName The fieldname.
- * @param array $ruleSet Rules set.
+ * @param string $fieldName The fieldname
+ * @param array $ruleset
  */
 	public function __construct($fieldName, $ruleSet) {
 		$this->field = $fieldName;
@@ -93,7 +95,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Sets the list of methods to use for validation
  *
- * @param array &$methods Methods list
+ * @param array $methods Methods list
  * @return void
  */
 	public function setMethods(&$methods) {
@@ -115,7 +117,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * validation errors
  *
  * @param array $data Data array
- * @param bool $isUpdate Is record being updated or created
+ * @param boolean $isUpdate Is record being updated or created
  * @return array list of validation errors for this field
  */
 	public function validate($data, $isUpdate = false) {
@@ -160,7 +162,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Gets a rule for a given name if exists
  *
- * @param string $name Field name.
+ * @param string $name
  * @return CakeValidationRule
  */
 	public function getRule($name) {
@@ -191,7 +193,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  *
  * @param string $name The name under which the rule should be set
  * @param CakeValidationRule|array $rule The validation rule to be set
- * @return $this
+ * @return CakeValidationSet this instance
  */
 	public function setRule($name, $rule) {
 		if (!($rule instanceof CakeValidationRule)) {
@@ -213,7 +215,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * }}}
  *
  * @param string $name The name under which the rule should be unset
- * @return $this
+ * @return CakeValidationSet this instance
  */
 	public function removeRule($name) {
 		unset($this->_rules[$name]);
@@ -233,8 +235,8 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * }}}
  *
  * @param array $rules The rules to be set
- * @param bool $mergeVars [optional] If true, merges vars instead of replace. Defaults to true.
- * @return $this
+ * @param boolean $mergeVars [optional] If true, merges vars instead of replace. Defaults to true.
+ * @return ModelField
  */
 	public function setRules($rules = array(), $mergeVars = true) {
 		if ($mergeVars === false) {
@@ -308,7 +310,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * Returns whether an index exists in the rule set
  *
  * @param string $index name of the rule
- * @return bool
+ * @return boolean
  */
 	public function offsetExists($index) {
 		return isset($this->_rules[$index]);
@@ -325,15 +327,11 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 	}
 
 /**
- * Sets or replace a validation rule.
+ * Sets or replace a validation rule
  *
- * This is a wrapper for ArrayAccess. Use setRule() directly for
- * chainable access.
- *
- * @param string $index Name of the rule.
- * @param CakeValidationRule|array $rule Rule to add to $index.
+ * @param string $index name of the rule
+ * @param CakeValidationRule|array rule to add to $index
  * @return void
- * @see http://www.php.net/manual/en/arrayobject.offsetset.php
  */
 	public function offsetSet($index, $rule) {
 		$this->setRule($index, $rule);
@@ -361,7 +359,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Returns the number of rules in this set
  *
- * @return int
+ * @return integer
  */
 	public function count() {
 		return count($this->_rules);

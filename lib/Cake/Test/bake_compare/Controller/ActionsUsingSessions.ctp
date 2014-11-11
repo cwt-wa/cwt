@@ -81,7 +81,7 @@
 		if (!$this->BakeArticle->exists()) {
 			throw new NotFoundException(__('Invalid bake article'));
 		}
-		$this->request->allowMethod('post', 'delete');
+		$this->request->onlyAllow('post', 'delete');
 		if ($this->BakeArticle->delete()) {
 			$this->Session->setFlash(__('The bake article has been deleted.'));
 		} else {

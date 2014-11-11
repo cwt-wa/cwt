@@ -2,6 +2,8 @@
 /**
  * HTTP Response from HttpSocket.
  *
+ * PHP 5
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -28,7 +30,7 @@ if (class_exists('HttpResponse')) {
  * HTTP Response from HttpSocket.
  *
  * @package       Cake.Network.Http
- * @deprecated 3.0.0 This class is deprecated as it has naming conflicts with pecl/http
+ * @deprecated This class is deprecated as it has naming conflicts with pecl/http
  */
 class HttpResponse extends HttpSocketResponse {
 

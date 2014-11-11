@@ -28,7 +28,7 @@ interface AclInterface {
  * @param string $aro ARO The requesting object identifier.
  * @param string $aco ACO The controlled object identifier.
  * @param string $action Action (defaults to *)
- * @return bool Success
+ * @return boolean Success
  */
 	public function check($aro, $aco, $action = "*");
 
@@ -38,7 +38,7 @@ interface AclInterface {
  * @param string $aro ARO The requesting object identifier.
  * @param string $aco ACO The controlled object identifier.
  * @param string $action Action (defaults to *)
- * @return bool Success
+ * @return boolean Success
  */
 	public function allow($aro, $aco, $action = "*");
 
@@ -48,7 +48,7 @@ interface AclInterface {
  * @param string $aro ARO The requesting object identifier.
  * @param string $aco ACO The controlled object identifier.
  * @param string $action Action (defaults to *)
- * @return bool Success
+ * @return boolean Success
  */
 	public function deny($aro, $aco, $action = "*");
 
@@ -58,14 +58,14 @@ interface AclInterface {
  * @param string $aro ARO The requesting object identifier.
  * @param string $aco ACO The controlled object identifier.
  * @param string $action Action (defaults to *)
- * @return bool Success
+ * @return boolean Success
  */
 	public function inherit($aro, $aco, $action = "*");
 
 /**
  * Initialization method for the Acl implementation
  *
- * @param Component $component The AclComponent instance.
+ * @param AclComponent $component
  * @return void
  */
 	public function initialize(Component $component);

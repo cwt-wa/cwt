@@ -2,6 +2,8 @@
 /**
  * TimeHelperTest file
  *
+ * PHP 5
+ *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -78,8 +80,6 @@ class TimeHelperTest extends CakeTestCase {
 
 /**
  * test CakeTime class methods are called correctly
- *
- * @return void
  */
 	public function testTimeHelperProxyMethodCalls() {
 		$methods = array(
@@ -106,8 +106,6 @@ class TimeHelperTest extends CakeTestCase {
 
 /**
  * test engine override
- *
- * @return void
  */
 	public function testEngineOverride() {
 		App::build(array(

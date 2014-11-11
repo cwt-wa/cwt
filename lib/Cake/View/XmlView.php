@@ -14,7 +14,6 @@
 
 App::uses('View', 'View');
 App::uses('Xml', 'Utility');
-App::uses('Hash', 'Utility');
 
 /**
  * A view class that is used for creating XML responses.
@@ -63,7 +62,7 @@ class XmlView extends View {
 /**
  * Constructor
  *
- * @param Controller $controller Controller instance.
+ * @param Controller $controller
  */
 	public function __construct(Controller $controller = null) {
 		parent::__construct($controller);
@@ -125,7 +124,7 @@ class XmlView extends View {
 			}
 		} else {
 			$data = isset($this->viewVars[$serialize]) ? $this->viewVars[$serialize] : null;
-			if (is_array($data) && Hash::numeric(array_keys($data))) {
+			if (is_array($data) && Set::numeric(array_keys($data))) {
 				$data = array($rootNode => array($serialize => $data));
 			}
 		}
