@@ -10,8 +10,7 @@ class Game extends AppModel
     public $hasOne = array(
         'Playoff' => array(
             'className' => 'Playoff',
-            'foreignKey' => 'game_id',
-            'conditions' => array('Game.playoff_id != 0')
+            'foreignKey' => 'game_id'
         )
     );
     public $hasMany = array(
