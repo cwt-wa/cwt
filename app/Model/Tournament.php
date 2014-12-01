@@ -182,31 +182,47 @@ class Tournament extends AppModel
         ));
 
         $User = ClassRegistry::init('User');
+            
+        $User->updateAll(array('stage' => 'retired'));
 
-        $usersWhoApplied = $User->Application->find('all');
+        $usersInCurrentGroupStage = $this->findUsersInCurrentGroupStage();
 
-        foreach ($usersWhoApplied as $key => $val) {
-            $userAssignedToGroup = (bool)$User->Standing->find('count', array(
-                'conditions' => array(
-                    'tournament_id' => $currentTournament['Tournament']['id'],
-                    'user_id' => $val['User']['id']
-                )
+        foreach ($usersInCurrentGroupStage as $userId => $username) {
+            $this->User->save(array(
+                'id' => $userId,
+                'stage' => 'group'
             ));
-
-            if ($userAssignedToGroup) {
-                $User->save(array(
-                    'id' => $val['User']['id'],
-                    'stage' => 'group'
-                ));
-            } else {
-                $User->save(array(
-                    'id' => $val['User']['id'],
-                    'stage' => 'retired'
-                ));
-            }
         }
 
         return true;
+    }
+
+    /**
+     * In the current tournament return all the user
+     * who are, will be or were in the group stage.
+     * 
+     * @return array(userId => username)
+     */
+    public function findUsersInCurrentGroupStage($currentTournament = false) {
+        $currentTournament = $currentTournament ? $currentTournament : $this->currentTournament(); 
+
+        $this->Standing->Group->recursive = 2;
+        $groups = ClassRegistry::init('Standing')->Group->find('all', array(
+            'conditions' => array(
+                'tournament_id' => $currentTournament['Tournament']['id']
+            )
+        ));
+
+        $usersInCurrentGroupStage = array();
+
+        foreach ($groups as $group) {
+            for ($i = 0; $i < 4; $i++) {
+                $usersInCurrentGroupStage[$group['Standing'][$i]['User']['id']] =
+                        $group['Standing'][$i]['User']['username'];
+            }
+        }
+
+        return $usersInCurrentGroupStage;
     }
 
     public function afterGroup()
