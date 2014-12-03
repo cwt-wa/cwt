@@ -21,61 +21,20 @@ class ApplicationFixture extends CakeTestFixture {
 	);
 
 /**
- * Records
- *
- * @var array
+ * Insert the first 35 users.
  */
-	public $records = array(
-		array(
-			'id' => 1,
-			'user_id' => 1,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 2,
-			'user_id' => 2,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 3,
-			'user_id' => 3,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 4,
-			'user_id' => 4,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 5,
-			'user_id' => 5,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 6,
-			'user_id' => 6,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 7,
-			'user_id' => 7,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 8,
-			'user_id' => 8,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 9,
-			'user_id' => 9,
-			'created' => '2014-12-02 15:39:37'
-		),
-		array(
-			'id' => 10,
-			'user_id' => 10,
-			'created' => '2014-12-02 15:39:37'
-		),
-	);
+	public function init() {
+		$this->records = array();
+
+		for ($i = 0; $i < 35; $i++) {
+			$this->records[] = array(
+				'id' => $i + 1,
+				'user_id' => $i + 1,
+				'created' => '2014-12-03 15:00:00',
+			);
+		}
+
+		parent::init();
+	}
 
 }

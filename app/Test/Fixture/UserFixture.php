@@ -16,6 +16,7 @@ class UserFixture extends CakeTestFixture {
 		'password' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 40, 'collate' => 'utf8_bin', 'charset' => 'utf8'),
 		'md5password' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_bin', 'charset' => 'utf8'),
 		'admin' => array('type' => 'boolean', 'null' => false, 'default' => null),
+		'stage' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 16, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'timeline' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_bin', 'charset' => 'utf8'),
 		'participations' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'achievements' => array('type' => 'integer', 'null' => false, 'default' => null),
@@ -27,121 +28,28 @@ class UserFixture extends CakeTestFixture {
 	);
 
 /**
- * Records
- *
- * @var array
+ * Inserting 50 users.
  */
-	public $records = array(
-		array(
-			'id' => 1,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 1,
-			'achievements' => 1,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 2,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 2,
-			'achievements' => 2,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 3,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 3,
-			'achievements' => 3,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 4,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 4,
-			'achievements' => 4,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 5,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 5,
-			'achievements' => 5,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 6,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 6,
-			'achievements' => 6,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 7,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 7,
-			'achievements' => 7,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 8,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 8,
-			'achievements' => 8,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 9,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 9,
-			'achievements' => 9,
-			'created' => '2014-12-02 15:39:38'
-		),
-		array(
-			'id' => 10,
-			'username' => 'Lorem ipsum do',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'md5password' => 'Lorem ipsum dolor sit amet',
-			'admin' => 1,
-			'timeline' => 'Lorem ipsum dolor sit amet',
-			'participations' => 10,
-			'achievements' => 10,
-			'created' => '2014-12-02 15:39:38'
-		),
-	);
+	public function init() {
+		$this->records = array();
 
+		for ($i = 0; $i < 50; $i++) {
+			$stage = ($i < 35) ? 'applied' : 'retired';
+
+			$this->records[] = array(
+				'id' => $i + 1,
+				'username' => 'Player' . $i + 1,
+				'password' => '',
+				'md5password' => 'e77989ed21758e78331b20e477fc5582',
+				'admin' => false,
+				'stage' => $stage,
+				'timeline' => '00000000000000',
+				'participations' => 0,
+				'achievements' => 0,
+				'created' => '2014-12-03 15:00:00',
+			);
+		}
+
+		parent::init();
+	}
 }

@@ -14,23 +14,10 @@ class TournamentTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'app.tournament',
-		'app.user',
-		'app.profile',
 		'app.application',
-		'app.stream',
-		'app.news',
-		'app.standing',
+		'app.user',
 		'app.group',
-		'app.game',
-		'app.playoff',
-		'app.comment',
-		'app.rating',
-		'app.infoboard',
-		'app.rule',
-		'app.trace',
-		'app.schedule',
-		'app.restore',
-		'app.tournaments_moderator'
+		'app.standing',
 	);
 
 /**
@@ -41,6 +28,10 @@ class TournamentTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->Tournament = ClassRegistry::init('Tournament');
+		$this->Application = ClassRegistry::init('Application');
+		$this->User = ClassRegistry::init('User');
+		$this->Group = ClassRegistry::init('Group');
+		$this->Standing = ClassRegistry::init('Standing');
 	}
 
 /**
@@ -50,6 +41,10 @@ class TournamentTest extends CakeTestCase {
  */
 	public function tearDown() {
 		unset($this->Tournament);
+		unset($this->Application);
+		unset($this->User);
+		unset($this->Group);
+		unset($this->Standing);
 
 		parent::tearDown();
 	}
@@ -84,6 +79,11 @@ class TournamentTest extends CakeTestCase {
  * @return void
  */
 	public function testAfterPending() {
+		debug($this->Tournament->find('all'));
+		debug($this->Application->find('all'));
+		debug($this->User->find('all'));
+		debug($this->Group->find('all'));
+		debug($this->Standing->find('all'));
 	}
 
 /**
