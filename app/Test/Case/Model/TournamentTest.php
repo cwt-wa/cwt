@@ -18,6 +18,11 @@ class TournamentTest extends CakeTestCase {
 		'app.user',
 		'app.group',
 		'app.standing',
+		'app.tournaments_moderator',
+		'app.profile',
+		'app.stream',
+		'app.news',
+		'app.game',
 	);
 
 /**
@@ -79,11 +84,19 @@ class TournamentTest extends CakeTestCase {
  * @return void
  */
 	public function testAfterPending() {
-		debug($this->Tournament->find('all'));
-		debug($this->Application->find('all'));
-		debug($this->User->find('all'));
-		debug($this->Group->find('all'));
-		debug($this->Standing->find('all'));
+		$this->Tournament->afterPending($this->Tournament->currentTournament());
+
+		$users = $this->User->find('all');
+
+		for ($i = 0; $i < count($users); $i++) {
+			if ($i < 32) {
+				$this->assertEqual($users[$i]['User']['stage'], 'group',
+					"User #$users[$i][User][id] should be in group.");
+			} else {
+				$this->assertEqual($users[$i]['User']['stage'], 'retired',
+					"User #$users[$i][User][id] should be retired.");
+			}
+		}
 	}
 
 /**

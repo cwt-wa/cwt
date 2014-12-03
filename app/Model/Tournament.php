@@ -183,12 +183,12 @@ class Tournament extends AppModel
 
         $User = ClassRegistry::init('User');
             
-        $User->updateAll(array('stage' => 'retired'));
+        $User->updateAll(array('stage' => "'retired'"));
 
-        $usersInCurrentGroupStage = $this->findUsersInCurrentGroupStage();
+        $usersInCurrentGroupStage = $this->findUsersInCurrentGroupStage($currentTournament);
 
         foreach ($usersInCurrentGroupStage as $userId => $username) {
-            $this->User->save(array(
+            $User->save(array(
                 'id' => $userId,
                 'stage' => 'group'
             ));
@@ -206,11 +206,12 @@ class Tournament extends AppModel
     public function findUsersInCurrentGroupStage($currentTournament = false) {
         $currentTournament = $currentTournament ? $currentTournament : $this->currentTournament(); 
 
-        $this->Standing->Group->recursive = 2;
+        // $this->Standing->Group->recursive = 2;
         $groups = ClassRegistry::init('Standing')->Group->find('all', array(
             'conditions' => array(
                 'tournament_id' => $currentTournament['Tournament']['id']
-            )
+            ),
+            'recursive' => 2
         ));
 
         $usersInCurrentGroupStage = array();
