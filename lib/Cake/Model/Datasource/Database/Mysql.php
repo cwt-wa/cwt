@@ -195,6 +195,17 @@ class Mysql extends DboSource {
 	}
 
 /**
+ * This is a hack by Zemke, because Fixtures have always complained about this missing method.
+ *
+ * @param string $table The name of the table to update.
+ * @param string $column The column to use when resetting the sequence value.
+ * @return void The method doesn't do anything.
+ */
+	public function resetSequence($table, $column) {
+		return;
+	}
+
+/**
  * Check whether the MySQL extension is installed/loaded
  *
  * @return boolean
