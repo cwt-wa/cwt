@@ -140,6 +140,7 @@ class UsersController extends AppController
     public function password_forgotten()
     {
         if ($this->request->is('post')) {
+            $this->User->recursive = 1;
             $user = $this->User->findById($this->request->data['User']['userWhoForgot']);
             $this->User->id = $user['User']['id'];
 
