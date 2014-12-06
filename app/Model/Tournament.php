@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppModel', 'Model');
+App::uses('AppShell', 'Shell');
 
 class Tournament extends AppModel
 {
@@ -279,7 +280,7 @@ class Tournament extends AppModel
         return true;
     }
 
-    private function afterPlayoff($currentTournament)
+    public function afterPlayoff($currentTournament)
     {
         $this->id = $currentTournament['Tournament']['id'];
 
@@ -287,13 +288,45 @@ class Tournament extends AppModel
             'status' => Tournament::ARCHIVED
         ));
 
+        $User = ClassRegistry::init('User');
+        $User->updateAll(array('stage' => "'retired'"));
+
         // Execute the shell that updates all users' timelines.
         App::uses('TimelineShell', 'Console/Command');
         $timelineShell = new TimelineShell();
         $timelineShell->main();
 
-        ClassRegistry::init('Application')->query('TRUNCATE TABLE `applications`');
+        $this->logApplicants($currentTournament);
+
+        $Application = ClassRegistry::init('Application');
+        $Application->query('TRUNCATE TABLE `applications`');
         return true;
+    }
+
+    public function logApplicants($currentTournament) {
+        $Application = ClassRegistry::init('Application');
+        $applications = $Application->find('all');
+        $logMessage = '';
+
+        if (empty($applications)) {
+            return;
+        }
+
+        $dataHeader = '';
+
+        foreach ($applications[0]['Application'] as $key => $val) {
+            $dataHeader .= $key . ',';
+        }        
+
+        CakeLog::write($currentTournament['Tournament']['year'] . '_applications', $dataHeader);        
+
+        foreach ($applications as $application) {
+            foreach ($application['Application'] as $data) {
+                $logMessage .= $data . ',';
+            }
+            CakeLog::write($currentTournament['Tournament']['year'] . '_applications', $logMessage);
+            $logMessage = '';
+        }
     }
 
 }

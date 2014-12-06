@@ -43,8 +43,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 1,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -56,8 +56,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 2,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -69,8 +69,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 3,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -82,8 +82,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 4,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -95,8 +95,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 5,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -108,8 +108,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 6,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -121,8 +121,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 7,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -134,8 +134,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 8,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -147,8 +147,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 9,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 		array(
@@ -160,8 +160,8 @@ class StreamFixture extends CakeTestFixture {
 			'preview' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'color' => 'Lore',
 			'maintainer_id' => 10,
-			'created' => '2014-12-02 15:39:38',
-			'modified' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
+			'modified' => '2014-12-06 16:34:48',
 			'online' => 1
 		),
 	);

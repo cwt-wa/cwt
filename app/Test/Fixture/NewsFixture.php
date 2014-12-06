@@ -34,80 +34,80 @@ class NewsFixture extends CakeTestFixture {
 			'user_id' => 1,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 2,
 			'user_id' => 2,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 3,
 			'user_id' => 3,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 4,
 			'user_id' => 4,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 5,
 			'user_id' => 5,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 6,
 			'user_id' => 6,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 7,
 			'user_id' => 7,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 8,
 			'user_id' => 8,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 9,
 			'user_id' => 9,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 10,
 			'user_id' => 10,
 			'text' => 'Lorem ipsum dolor sit amet',
 			'preview' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:37',
-			'modified' => '2014-12-02 15:39:37'
+			'created' => '2014-12-06 16:34:47',
+			'modified' => '2014-12-06 16:34:47'
 		),
 	);
 

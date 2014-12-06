@@ -25,28 +25,101 @@ class StandingFixture extends CakeTestFixture {
 	);
 
 /**
- * Standings for eight groups.
+ * Records
+ *
+ * @var array
  */
-	public function init() {
-		$this->records = array();
-		$id = 1;
+	public $records = array(
+		array(
+			'id' => 1,
+			'group_id' => 1,
+			'user_id' => 1,
+			'points' => 1,
+			'games' => 1,
+			'game_ratio' => 1,
+			'round_ratio' => 1
+		),
+		array(
+			'id' => 2,
+			'group_id' => 2,
+			'user_id' => 2,
+			'points' => 2,
+			'games' => 2,
+			'game_ratio' => 2,
+			'round_ratio' => 2
+		),
+		array(
+			'id' => 3,
+			'group_id' => 3,
+			'user_id' => 3,
+			'points' => 3,
+			'games' => 3,
+			'game_ratio' => 3,
+			'round_ratio' => 3
+		),
+		array(
+			'id' => 4,
+			'group_id' => 4,
+			'user_id' => 4,
+			'points' => 4,
+			'games' => 4,
+			'game_ratio' => 4,
+			'round_ratio' => 4
+		),
+		array(
+			'id' => 5,
+			'group_id' => 5,
+			'user_id' => 5,
+			'points' => 5,
+			'games' => 5,
+			'game_ratio' => 5,
+			'round_ratio' => 5
+		),
+		array(
+			'id' => 6,
+			'group_id' => 6,
+			'user_id' => 6,
+			'points' => 6,
+			'games' => 6,
+			'game_ratio' => 6,
+			'round_ratio' => 6
+		),
+		array(
+			'id' => 7,
+			'group_id' => 7,
+			'user_id' => 7,
+			'points' => 7,
+			'games' => 7,
+			'game_ratio' => 7,
+			'round_ratio' => 7
+		),
+		array(
+			'id' => 8,
+			'group_id' => 8,
+			'user_id' => 8,
+			'points' => 8,
+			'games' => 8,
+			'game_ratio' => 8,
+			'round_ratio' => 8
+		),
+		array(
+			'id' => 9,
+			'group_id' => 9,
+			'user_id' => 9,
+			'points' => 9,
+			'games' => 9,
+			'game_ratio' => 9,
+			'round_ratio' => 9
+		),
+		array(
+			'id' => 10,
+			'group_id' => 10,
+			'user_id' => 10,
+			'points' => 10,
+			'games' => 10,
+			'game_ratio' => 10,
+			'round_ratio' => 10
+		),
+	);
 
-		for ($i = 0; $i < 8; $i++) {
-			for ($k = 0; $k < 4; $k++) {
-				$this->records[] = array(
-					'id' => $id,
-					'group_id' => $i + 1,
-					'user_id' => $id,
-					'points' => 0,
-					'games' => 0,
-					'game_ratio' => 0,
-					'round_ratio' => 0
-				);
-
-				$id++;
-			}
-		}
-
-		parent::init();
-	}
 }

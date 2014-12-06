@@ -46,7 +46,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 1,
 			'techwin' => 1,
 			'downloads' => 1,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 1
 		),
 		array(
@@ -60,7 +60,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 2,
 			'techwin' => 1,
 			'downloads' => 2,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 2
 		),
 		array(
@@ -74,7 +74,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 3,
 			'techwin' => 1,
 			'downloads' => 3,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 3
 		),
 		array(
@@ -88,7 +88,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 4,
 			'techwin' => 1,
 			'downloads' => 4,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 4
 		),
 		array(
@@ -102,7 +102,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 5,
 			'techwin' => 1,
 			'downloads' => 5,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 5
 		),
 		array(
@@ -116,7 +116,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 6,
 			'techwin' => 1,
 			'downloads' => 6,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 6
 		),
 		array(
@@ -130,7 +130,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 7,
 			'techwin' => 1,
 			'downloads' => 7,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 7
 		),
 		array(
@@ -144,7 +144,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 8,
 			'techwin' => 1,
 			'downloads' => 8,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 8
 		),
 		array(
@@ -158,7 +158,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 9,
 			'techwin' => 1,
 			'downloads' => 9,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 9
 		),
 		array(
@@ -172,7 +172,7 @@ class GameFixture extends CakeTestFixture {
 			'score_a' => 10,
 			'techwin' => 1,
 			'downloads' => 10,
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'reporter_id' => 10
 		),
 	);

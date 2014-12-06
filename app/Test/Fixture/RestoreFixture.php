@@ -45,9 +45,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 1,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 1,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 2,
@@ -59,9 +59,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 2,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 2,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 3,
@@ -73,9 +73,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 3,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 3,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 4,
@@ -87,9 +87,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 4,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 4,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 5,
@@ -101,9 +101,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 5,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 5,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 6,
@@ -115,9 +115,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 6,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 6,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 7,
@@ -129,9 +129,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 7,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 7,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 8,
@@ -143,9 +143,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 8,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 8,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 9,
@@ -157,9 +157,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 9,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 9,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 		array(
 			'id' => 10,
@@ -171,9 +171,9 @@ class RestoreFixture extends CakeTestFixture {
 			'score_a' => 10,
 			'tech_win' => 1,
 			'stage' => 'Lorem ipsum dolor ',
-			'reported' => '2014-12-02 15:39:38',
+			'reported' => '2014-12-06 16:34:47',
 			'reporter_id' => 10,
-			'created' => '2014-12-02 15:39:38'
+			'created' => '2014-12-06 16:34:47'
 		),
 	);
 

@@ -16,13 +16,16 @@ class TournamentTest extends CakeTestCase {
 		'app.tournament',
 		'app.application',
 		'app.user',
-		'app.group',
-		'app.standing',
 		'app.tournaments_moderator',
 		'app.profile',
 		'app.stream',
 		'app.news',
+		'app.group',
+		'app.standing',
 		'app.game',
+		'app.playoff',
+		'app.comment',
+		'app.rating',
 	);
 
 /**
@@ -35,8 +38,6 @@ class TournamentTest extends CakeTestCase {
 		$this->Tournament = ClassRegistry::init('Tournament');
 		$this->Application = ClassRegistry::init('Application');
 		$this->User = ClassRegistry::init('User');
-		$this->Group = ClassRegistry::init('Group');
-		$this->Standing = ClassRegistry::init('Standing');
 	}
 
 /**
@@ -48,71 +49,31 @@ class TournamentTest extends CakeTestCase {
 		unset($this->Tournament);
 		unset($this->Application);
 		unset($this->User);
-		unset($this->Group);
-		unset($this->Standing);
-
 		parent::tearDown();
 	}
 
 /**
- * testStart method
+ * testAfterPlayoff method
  *
  * @return void
  */
-	public function testStart() {
-	}
+	public function testAfterPlayoff() {
+		$currentTournament = $this->Tournament->currentTournament();
+		$this->Tournament->afterPlayoff($currentTournament);
+		$this->Tournament->id = $currentTournament['Tournament']['id'];
+		$tournamentStatus = $this->Tournament->field('status');
 
-/**
- * testNiceStaff method
- *
- * @return void
- */
-	public function testNiceStaff() {
-	}
-
-/**
- * testNext method
- *
- * @return void
- */
-	public function testNext() {
-	}
-
-/**
- * testAfterPending method
- *
- * @return void
- */
-	public function testAfterPending() {
-		$this->Tournament->afterPending($this->Tournament->currentTournament());
+		$this->assertEqual($tournamentStatus, Tournament::ARCHIVED,
+				'Thet tournament status was not set to ARCHIVED (5).');
 
 		$users = $this->User->find('all');
 
-		for ($i = 0; $i < count($users); $i++) {
-			if ($i < 32) {
-				$this->assertEqual($users[$i]['User']['stage'], 'group',
-					"User #$users[$i][User][id] should be in group.");
-			} else {
-				$this->assertEqual($users[$i]['User']['stage'], 'retired',
-					"User #$users[$i][User][id] should be retired.");
-			}
+		foreach ($users as $user) {
+			$this->assertEqual($user['User']['stage'], 'retired',
+					"Stage for $user[User][username] #$user[User][id] should be retired."); 
 		}
-	}
 
-/**
- * testFindUsersInCurrentGroupStage method
- *
- * @return void
- */
-	public function testFindUsersInCurrentGroupStage() {
-	}
-
-/**
- * testAfterGroup method
- *
- * @return void
- */
-	public function testAfterGroup() {
+		debug('The TimelineSshell which is called by the method is not being tested.');
 	}
 
 }

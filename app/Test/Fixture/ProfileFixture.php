@@ -40,7 +40,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'user_id' => 1,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -56,7 +56,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 2,
 			'user_id' => 2,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -72,7 +72,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 3,
 			'user_id' => 3,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -88,7 +88,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 4,
 			'user_id' => 4,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -104,7 +104,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 5,
 			'user_id' => 5,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -120,7 +120,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 6,
 			'user_id' => 6,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -136,7 +136,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 7,
 			'user_id' => 7,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -152,7 +152,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 8,
 			'user_id' => 8,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -168,7 +168,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 9,
 			'user_id' => 9,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',
@@ -184,7 +184,7 @@ class ProfileFixture extends CakeTestFixture {
 		array(
 			'id' => 10,
 			'user_id' => 10,
-			'modified' => '2014-12-02 15:39:37',
+			'modified' => '2014-12-06 16:34:47',
 			'country' => 'Lorem ipsum dolor sit amet',
 			'clan' => 'Lo',
 			'email' => 'Lorem ipsum dolor sit amet',

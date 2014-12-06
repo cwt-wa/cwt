@@ -1,5 +1,7 @@
 <?php
 
+App::uses('AppShell', 'Console/Command');
+
 /**
  * Updates User.timeline accurately.
  */

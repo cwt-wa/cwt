@@ -33,7 +33,7 @@ class TournamentFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'year' => 2014,
-			'status' => 1,
+			'status' => 4,
 			'gold_id' => 0,
 			'silver_id' => 0,
 			'bronze_id' => 0,

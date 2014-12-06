@@ -36,7 +36,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 1
 		),
 		array(
@@ -45,7 +45,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 2
 		),
 		array(
@@ -54,7 +54,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 3
 		),
 		array(
@@ -63,7 +63,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 4
 		),
 		array(
@@ -72,7 +72,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 5
 		),
 		array(
@@ -81,7 +81,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 6
 		),
 		array(
@@ -90,7 +90,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 7
 		),
 		array(
@@ -99,7 +99,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 8
 		),
 		array(
@@ -108,7 +108,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 9
 		),
 		array(
@@ -117,7 +117,7 @@ class TraceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor ',
 			'additional' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-12-02 15:39:38',
+			'created' => '2014-12-06 16:34:48',
 			'on' => 10
 		),
 	);

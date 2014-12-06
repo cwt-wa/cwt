@@ -34,7 +34,13 @@ class UserFixture extends CakeTestFixture {
 		$this->records = array();
 
 		for ($i = 0; $i < 50; $i++) {
-			$stage = ($i < 35) ? 'applied' : 'retired';
+			if ($i < 16) {
+				$stage = 'group';
+			} else if ($i < 32) {
+				$stage = 'playoff';
+			} else {
+				$stage = 'retired';
+			}
 
 			$this->records[] = array(
 				'id' => $i + 1,

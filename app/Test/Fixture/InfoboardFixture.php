@@ -34,7 +34,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 1,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 1
 		),
 		array(
@@ -42,7 +42,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 2,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 2
 		),
 		array(
@@ -50,7 +50,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 3,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 3
 		),
 		array(
@@ -58,7 +58,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 4,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 4
 		),
 		array(
@@ -66,7 +66,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 5,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 5
 		),
 		array(
@@ -74,7 +74,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 6,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 6
 		),
 		array(
@@ -82,7 +82,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 7,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 7
 		),
 		array(
@@ -90,7 +90,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 8,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 8
 		),
 		array(
@@ -98,7 +98,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 9,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 9
 		),
 		array(
@@ -106,7 +106,7 @@ class InfoboardFixture extends CakeTestFixture {
 			'message' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 10,
 			'guest' => 'Lorem ipsum do',
-			'created' => '2014-12-02 15:39:37',
+			'created' => '2014-12-06 16:34:47',
 			'category' => 10
 		),
 	);
