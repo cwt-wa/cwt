@@ -238,7 +238,7 @@ class TournamentsController extends AppController
                 }
                 break;
             case Tournament::PLAYOFF:
-                $next = 'Archive the tournament';
+                $next = 'Archive the tournament (can be slow)';
                 $Smsg = 'The current tournament has now been made available in the Archive.';
                 $redirect = '/archive';
         }
