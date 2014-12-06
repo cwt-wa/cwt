@@ -397,13 +397,18 @@ class Playoff extends AppModel
         $opps = $this->attendees();
         $opps = $this->allowedOpponents($opps, $user);
 
+        $currentTournament = $this->currentTournament();
+
         $this->Game->Playoff->recursive = 1;
-        return $this->Game->Playoff->find('first', array(
+        $currentGame = $this->Game->Playoff->find('first', array(
             'conditions' => array(
                 'Game.home_id' => array($user, key($opps)),
                 'Game.away_id' => array($user, key($opps)),
+                'Game.tournament_id' => $currentTournament['Tournament']['id'],
             )
         ));
+
+        return $currentGame;
     }
 
     /**
