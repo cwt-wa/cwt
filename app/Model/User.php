@@ -347,7 +347,8 @@ class User extends AppModel
                             )
                         ),
                         'Game.group_id' => 0,
-                        'Game.reporter_id' => 0
+                        'Game.reporter_id' => 0,
+                        'Game.tournament_id' => $currentTournament['Tournament']['id']
                     )
                 ));
 
