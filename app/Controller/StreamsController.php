@@ -226,7 +226,8 @@ class StreamsController extends AppController
         }
 
         $schedules = $this->Schedule->find('all', array(
-            'order' => 'Schedule.when ASC'
+            'order' => 'Schedule.when ASC',
+            'recursive' => 1
         ));
         $stream = $this->Stream->read(null, $id);
         $schedules = $this->Schedule->scheduledStreams($schedules);
