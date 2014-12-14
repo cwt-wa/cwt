@@ -228,23 +228,33 @@ class Game extends AppModel
             $upd = $this->Playoff->updateReport($winner, $loser);
 
             if ($this->HomeOrAway($this->id, $winner) == 'home') {
-                $score_h = 3;
+                if ($upd['stepAssoc'] == 'Final' || $upd['stepAssoc'] == 'Third Place') {
+                    $score_h = 4;
+                } else {
+                    $score_h = 3;
+                }
                 $score_a = 0;
             } else {
                 $score_h = 0;
-                $score_a = 3;
+                if ($upd['stepAssoc'] == 'Final' || $upd['stepAssoc'] == 'Third Place') {
+                    $score_a = 4;
+                } else {
+                    $score_a = 3;
+                }
             }
 
             $this->save(array(
+                    'id' => $upd['reportedGame'],
                     'playoff_id' => $upd['reportedPO'],
                     'score_h' => $score_h,
                     'score_a' => $score_a,
                     'reporter_id' => AuthComponent::user('id'), // The admin.
-                    'tournament_id' => $currentTournament['Tournament']['id']
+                    'tournament_id' => $currentTournament['Tournament']['id'],
+                    'techwin' => true
                 ),
                 false,
                 array(
-                    'playoff_id', 'score_h', 'score_a', 'reporter_id', 'created'
+                    'playoff_id', 'score_h', 'score_a', 'reporter_id', 'created', 'techwin'
                 )
             );
         }
