@@ -192,16 +192,14 @@
                                 title="<?php echo $game['Rating'][0]['likes'] ?> Likes, <?php echo $game['Rating'][0]['dislikes'] ?>  Dislikes"
                                 id="ratings">
                                 <div class="ratingsBar"
-                                     style="width:<?php echo $game['Rating'][0]['p']['likes'] ?>%; background-color:green;"></div>
-                                <div class="ratingsBar"
+                                     style="width:<?php echo $game['Rating'][0]['p']['likes'] ?>%; background-color:green;"></div><div class="ratingsBar"
                                      style="width:<?php echo $game['Rating'][0]['p']['dislikes'] ?>%; background-color:red;"></div>
                             </div>
                             <div
                                 title="<?php echo $game['Rating'][0]['lightside'] ?> Lightside, <?php echo $game['Rating'][0]['darkside'] ?>  Darkside"
                                 id="ratings">
                                 <div class="ratingsBar"
-                                     style="width:<?php echo $game['Rating'][0]['p']['lightside'] ?>%; background-color:white;"></div>
-                                <div class="ratingsBar"
+                                     style="width:<?php echo $game['Rating'][0]['p']['lightside'] ?>%; background-color:white;"></div><div class="ratingsBar"
                                      style="width:<?php echo $game['Rating'][0]['p']['darkside'] ?>%; background-color:black;"></div>
                             </div>
                         <?php else: ?>
