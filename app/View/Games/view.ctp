@@ -2,7 +2,7 @@
 
 <?php
 if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
-    echo $this->element('archiveOf', array(
+    echo $this->element('archiveof', array(
         'tournamentYear' => $this->Time->format($game['Game']['created'], '%Y')
     ));
 }

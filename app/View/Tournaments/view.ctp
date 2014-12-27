@@ -1,5 +1,5 @@
 <?php
-echo $this->element('archiveOf', array(
+echo $this->element('archiveof', array(
     'tournamentYear' => $tournamentYear
 ));
 ?>
