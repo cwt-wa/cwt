@@ -1,3 +1,9 @@
+<?php
+echo $this->element('archiveOf', array(
+    'tournamentYear' => $tournamentYear
+));
+?>
+
 <div id="box" style="background-color: rgba(63, 40, 40, 0.4); text-align: center;">
     No warranty for accuracy of data.
 </div>

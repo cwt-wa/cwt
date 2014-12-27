@@ -1,6 +1,15 @@
 <?php echo $this->Html->script('game', array('inline' => false)); ?>
 
-<div id="boxFloat" style="border:none; box-shadow:none; width:240px; padding:0px;">
+<?php
+if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
+    echo $this->element('archiveOf', array(
+        'tournamentYear' => $this->Time->format($game['Game']['created'], '%Y')
+    ));
+}
+?>
+
+<div>
+    <div id="boxFloat" style="border:none; box-shadow:none; width:240px; padding:0px;">
     <?php if (isset($game['winner']['photo'])): ?>
         <?php
         echo $this->Html->image('users/' . $game['winner']['photo'], array(
@@ -147,4 +156,6 @@
     <div id="commentsList">
         <?php echo $this->element('comments', array('gameId' => $game['Game']['id'])); ?>
     </div>
+</div>
+
 </div>
