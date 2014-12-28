@@ -45,6 +45,11 @@ class Game extends AppModel
             'foreignKey' => 'tournament_id'
         )
     );
+    public $virtualFields = array(
+        'comments' => 'SELECT COUNT(*) FROM comments as Comment WHERE Comment.game_id = Game.id',
+        'stage' => 'SELECT `stepAssoc` FROM playoffs as Playoff WHERE Playoff.game_id = Game.id'
+    );
+
 
     /**
      * A new game is being added and it should always be added using this method.

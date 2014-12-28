@@ -7,7 +7,12 @@ class GamesController extends AppController
 {
     public $name = 'Games';
     public $scaffold = 'admin';
-
+    public $paginate = array(
+        'limit' => 20,
+        'order' => array(
+            'Game.created' => 'desc'
+        )
+    );
 
     public function beforeFilter()
     {
@@ -18,12 +23,13 @@ class GamesController extends AppController
 
     public function index()
     {
-        $this->Game->recursive = 0;
+        $this->Game->recursive = 1;
         $games = $this->paginate();
         $gamesLength = count($games);
 
         for ($i = 0; $i < $gamesLength; $i++)  {
             $games[$i]['Rating'] = $this->Game->Rating->ratingStats($games[$i]['Game']['id']);
+            // $games[$i]['Game']['comments'] = count($games[$i]['Comment']);
         }
 
         $this->set('games', $games);
