@@ -2,17 +2,17 @@
 
 <table border="0" align="center" cellpadding="5">
     <tr>
-        <th class="bottomBorder"><?php echo $this->Paginator->sort('id'); ?></th>
+        <th class="bottomBorder"><?php echo $this->Paginator->sort('id', null); ?></th>
         <th class="bottomBorder"><?php echo $this->Paginator->sort('created'); ?></th>
         <th class="bottomBorder" align="right"><?php echo $this->Paginator->sort('home_id'); ?></th>
         <th class="bottomBorder"></th>
         <th class="bottomBorder" align="left"><?php echo $this->Paginator->sort('away_id'); ?></th>
         <th class="bottomBorder"><?php echo $this->Paginator->sort('tournament_id', 'Year'); ?></th>
-        <th class="bottomBorder"><?php echo $this->Paginator->sort('stage', 'Stage'); ?></th>
-        <th class="bottomBorder"><?php echo $this->Paginator->sort('reporter_id'); ?></th>
-        <th class="bottomBorder"><?php echo $this->Paginator->sort('likes'); ?></th>
-        <th class="bottomBorder"><?php echo $this->Paginator->sort('comments', '&#9729;', array('escape' => false)); ?></th>
-        <th class="bottomBorder"><?php echo $this->Paginator->sort('downloads', '&darr;', array('escape' => false)); ?></th>
+        <th class="bottomBorder"><?php echo $this->Paginator->sort('stage', 'Stage', array('direction' => 'desc')); ?></th>
+        <th class="bottomBorder"><?php echo $this->Paginator->sort('reporter_id', null, array('direction' => 'desc')); ?></th>
+        <th class="bottomBorder"><?php echo $this->Paginator->sort('likes', null, array('direction' => 'desc')); ?></th>
+        <th class="bottomBorder"><?php echo $this->Paginator->sort('comments', '&#9729;', array('escape' => false, 'direction' => 'desc')); ?></th>
+        <th class="bottomBorder"><?php echo $this->Paginator->sort('downloads', '&darr;', array('escape' => false, 'direction' => 'desc')); ?></th>
         <th class="bottomBorder"></th>
     </tr>
     <?php foreach ($games as $game): ?>
