@@ -19,7 +19,14 @@ class GamesController extends AppController
     public function index()
     {
         $this->Game->recursive = 0;
-        $this->set('games', $this->paginate());
+        $games = $this->paginate();
+        $gamesLength = count($games);
+
+        for ($i = 0; $i < $gamesLength; $i++)  {
+            $games[$i]['Rating'] = $this->Game->Rating->ratingStats($games[$i]['Game']['id']);
+        }
+
+        $this->set('games', $games);
     }
 
 

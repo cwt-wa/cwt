@@ -39,6 +39,10 @@ class Game extends AppModel
         'Report' => array(
             'className' => 'User',
             'foreignKey' => 'reporter_id'
+        ),
+        'Tournament' => array(
+            'className' => 'Tournament',
+            'foreignKey' => 'tournament_id'
         )
     );
 

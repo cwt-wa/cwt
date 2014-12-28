@@ -87,7 +87,7 @@ class ToolbarComponent extends Component implements CakeEventListener {
  * @var array
  */
 	public $javascript = array(
-		'libs' => 'DebugKit.js_debug_toolbar'
+		'libs' => 'DebugKit./js/js_debug_toolbar'
 	);
 
 /**
@@ -95,7 +95,7 @@ class ToolbarComponent extends Component implements CakeEventListener {
  *
  * @var array
  */
-	public $css = array('DebugKit.debug_toolbar.css');
+	public $css = array('DebugKit./css/debug_toolbar.css');
 
 /**
  * CacheKey used for the cache file.
@@ -178,7 +178,7 @@ class ToolbarComponent extends Component implements CakeEventListener {
 	public function implementedEvents() {
 		$before = function ($name) {
 			return function () use ($name) {
-				DebugTimer::start($name, __d('debug_kit', $name));
+				DebugTimer::start($name, $name);
 			};
 		};
 		$after = function ($name) {

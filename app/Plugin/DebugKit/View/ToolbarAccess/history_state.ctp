@@ -14,11 +14,11 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         DebugKit 1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- **/
+ */
 
 $panels = array();
 foreach ($toolbarState as $panelName => $panel) {
-	if (!empty($panel)) {
+	if (!empty($panel) && !empty($panel['elementName'])) {
 		$panels[$panelName] = $this->element($panel['elementName'], array(
 			'content' => $panel['content']
 		), array(

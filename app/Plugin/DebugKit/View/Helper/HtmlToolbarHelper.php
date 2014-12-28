@@ -21,7 +21,6 @@ App::uses('Security', 'Utility');
  * Injects the toolbar elements into HTML layouts.
  * Contains helper methods for
  *
- *
  * @since         DebugKit 0.1
  */
 class HtmlToolbarHelper extends ToolbarHelper {
@@ -50,6 +49,10 @@ class HtmlToolbarHelper extends ToolbarHelper {
  * @return string
  */
 	public function makeNeatArray($values, $openDepth = 0, $currentDepth = 0, $doubleEncode = false) {
+		static $printedObjects = null;
+		if ($currentDepth === 0) {
+			$printedObjects = new SplObjectStorage();
+		}
 		$className = "neat-array depth-$currentDepth";
 		if ($openDepth > $currentDepth) {
 			$className .= ' expanded';
@@ -60,7 +63,7 @@ class HtmlToolbarHelper extends ToolbarHelper {
 			if (is_bool($values)) {
 				$values = array($values);
 			}
-			if (is_null($values)) {
+			if ($values === null) {
 				$values = array(null);
 			}
 		}
@@ -69,6 +72,11 @@ class HtmlToolbarHelper extends ToolbarHelper {
 		}
 		foreach ($values as $key => $value) {
 			$out .= '<li><strong>' . $key . '</strong>';
+			if (is_array($value) && count($value) > 0) {
+				$out .= '(array)';
+			} elseif (is_object($value)) {
+				$out .= '(object)';
+			}
 			if ($value === null) {
 				$value = '(null)';
 			}
@@ -85,7 +93,24 @@ class HtmlToolbarHelper extends ToolbarHelper {
 				$value = 'function';
 			}
 
-			if (($value instanceof ArrayAccess || $value instanceof Iterator || is_array($value)) && !empty($value)) {
+			$isObject = is_object($value);
+			if ($isObject && $printedObjects->contains($value)) {
+				$isObject = false;
+				$value = ' - recursion';
+			}
+
+			if ($isObject) {
+				$printedObjects->attach($value);
+			}
+
+			if (
+				(
+				$value instanceof ArrayAccess ||
+				$value instanceof Iterator ||
+				is_array($value) ||
+				$isObject
+				) && !empty($value)
+			) {
 				$out .= $this->makeNeatArray($value, $openDepth, $nextDepth, $doubleEncode);
 			} else {
 				$out .= h($value, $doubleEncode);
@@ -162,12 +187,16 @@ class HtmlToolbarHelper extends ToolbarHelper {
 				}
 			}
 		}
-		if (preg_match('#</head>#', $view->output)) {
-			$view->output = preg_replace('#</head>#', $head . "\n</head>", $view->output, 1);
+		$search = '</head>';
+		$pos = strpos($view->output, $search);
+		if ($pos !== false) {
+			$view->output = substr_replace($view->output, $head . "\n</head>", $pos, strlen($search));
 		}
 		$toolbar = $view->element('debug_toolbar', array('disableTimer' => true), array('plugin' => 'DebugKit'));
-		if (preg_match('#</body>#', $view->output)) {
-			$view->output = preg_replace('#</body>#', $toolbar . "\n</body>", $view->output, 1);
+		$search = '</body>';
+		$pos = strrpos($view->output, $search);
+		if ($pos !== false) {
+			$view->output = substr_replace($view->output, $toolbar . "\n</body>", $pos, strlen($search));
 		}
 	}
 
@@ -182,6 +211,7 @@ class HtmlToolbarHelper extends ToolbarHelper {
 		if (!preg_match('/^[\s()]*SELECT/i', $sql)) {
 			return '';
 		}
+		$sql = str_replace(array("\n", "\t"), ' ', $sql);
 		$hash = Security::hash($sql . $connection, 'sha1', true);
 		$url = array(
 			'plugin' => 'debug_kit',

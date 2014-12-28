@@ -22,6 +22,12 @@ class Tournament extends AppModel
             'foreignKey' => 'bronze_id'
         )
     );
+    public $hasMany = array(
+        'Game' => array(
+            'className' => 'Game',
+            'foreignKey' => 'tournament_id'
+        ),
+    );
     public $hasAndBelongsToMany = array(
         'Moderator' => array(
             'className' => 'User',
