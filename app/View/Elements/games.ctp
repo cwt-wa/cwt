@@ -10,7 +10,7 @@
         <th class="bottomBorder"><?php echo $this->Paginator->sort('tournament_id', 'Year'); ?></th>
         <th class="bottomBorder"><?php echo $this->Paginator->sort('stage', 'Stage'); ?></th>
         <th class="bottomBorder"><?php echo $this->Paginator->sort('reporter_id'); ?></th>
-        <th class="bottomBorder"></th>
+        <th class="bottomBorder"><?php echo $this->Paginator->sort('likes'); ?></th>
         <th class="bottomBorder"><?php echo $this->Paginator->sort('comments', '&#9729;', array('escape' => false)); ?></th>
         <th class="bottomBorder"><?php echo $this->Paginator->sort('downloads', '&darr;', array('escape' => false)); ?></th>
         <th class="bottomBorder"></th>
