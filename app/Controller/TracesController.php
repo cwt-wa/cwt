@@ -17,8 +17,16 @@ class TracesController extends AppController
      */
     public function index()
     {
-        $this->Trace->recursive = 0;
-        $this->set('traces', $this->paginate());
+        $this->Trace->recursive = 1;
+        $traces = $this->paginate();
+        $tracesCount = count($traces);
+
+        for ($i = 0; $i < $tracesCount; $i++) {
+            $traces[$i]['Game']['Home'] = $this->Trace->User->findById($traces[$i]['Game']['home_id']);
+            $traces[$i]['Game']['Away'] = $this->Trace->User->findById($traces[$i]['Game']['away_id']);
+        }
+
+        $this->set('traces', $traces);
     }
 
     /**

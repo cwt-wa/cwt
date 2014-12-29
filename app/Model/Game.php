@@ -21,6 +21,10 @@ class Game extends AppModel
         'Rating' => array(
             'className' => 'Rating',
             'foreignKey' => 'game_id'
+        ),
+        'Trace' => array(
+            'className' => 'Trace',
+            'foreignKey' => 'on'
         )
     );
     public $belongsTo = array(
