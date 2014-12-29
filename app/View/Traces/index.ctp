@@ -42,7 +42,11 @@
                 ?>
             </td>
             <td class="bottomBorder" width="30" align="center">
-                <?php echo $trace['Game']['score_h'] ?>-<?php echo $trace['Game']['score_a'] ?>
+                <?php if ($trace['Game']['score_h'] == 0 && $trace['Game']['score_a'] == 0): ?>
+                    vs
+                <?php else: ?>
+                    <?php echo $trace['Game']['score_h'] ?>-<?php echo $trace['Game']['score_a'] ?>
+                <?php endif; ?>
             </td>
             <td class="bottomBorder" width="140" align="left">
                 <?php
