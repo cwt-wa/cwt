@@ -8,7 +8,12 @@ App::uses('AppController', 'Controller');
  */
 class TracesController extends AppController
 {
-
+    public $paginate = array(
+        'limit' => 20,
+        'order' => array(
+            'Trace.created' => 'desc'
+        )
+    );
 
     /**
      * index method
