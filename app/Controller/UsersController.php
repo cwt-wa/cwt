@@ -19,9 +19,49 @@ class UsersController extends AppController
             'add', 'logout', 'timeline', 'password', 'password_forgotten');
     }
 
+    public function ranking() {
+        $this->User->recursive = 0;
+
+        $users = $this->User->find('all', array(
+            'conditions' => array(
+                    'User.achievements >' => 0,
+                    'User.participations >' => 1
+                ),
+                'order' => array('User.achievements' => 'desc', 'User.participations' => 'asc')
+        ));
+        $achievements = $this->User->gatherAchievements();
+        $usersLength = count($users);
+        $equalizer = 0;
+
+        for ($i = 0; $i < $usersLength; $i++) {
+            $users[$i]['position'] = $i + 1;
+
+            if ($i == 0) {
+                continue;
+            }
+
+            if ($users[$i - 1]['User']['achievements'] == $users[$i]['User']['achievements']
+                    && $users[$i - 1]['User']['participations'] == $users[$i]['User']['participations']) {
+                $users[$i]['position'] = $i - $equalizer;
+                $equalizer++;
+            } else {
+                $equalizer = 0;
+            }
+        }
+
+        $this->set('achievements', $achievements);
+        $this->set('users', $users);
+    }
+
     public function index()
     {
-        $this->User->recursive = 0;
+        $this->User->recursive = 0;        
+
+        $this->Paginator->settings = array(
+            'User' => array(
+                'order' => array('User.participations' => 'desc')
+            )
+        );
 
         if ($this->Auth->loggedIn()) {
             $users = $this->paginate();
@@ -31,25 +71,7 @@ class UsersController extends AppController
             ));
         }
 
-        /*
-         * Getting the Achievements. Good job, guys!
-         */
-
-        $this->loadModel('Tournament');
-        $this->Tournament->recursive = 0;
-        $tournaments = $this->Tournament->find('all');
-        $year = 2002;
-
-        foreach ($tournaments as $key => $val) {
-            $achievements[$year]['gold'] = $val['Gold']['id'];
-            $achievements[$year]['silver'] = $val['Silver']['id'];
-            $achievements[$year]['bronze'] = $val['Bronze']['id'];
-            $year++;
-        }
-
-        if ($achievements == null) {
-            $achievements = array();
-        }
+        $achievements = $this->User->gatherAchievements();
 
         $this->set('achievements', $achievements);
         $this->set('users', $users);
