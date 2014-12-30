@@ -1,6 +1,7 @@
 <?php echo $this->Html->css('groups', null, array('inline' => false)) ?>
 
 <div id="box" style="background-color:#2F2923">
+<div style="position: absolute; background-color: lightgray; padding: 10px; width: 140px; margin: -20px -20px -20px 798px;"><a href="#explanation">How is this being calculated?</a></div>
 <table border="0" cellspace="0" cellpadding="3" align="center">
 
     <?php foreach ($users as $key => $user): ?>
@@ -59,4 +60,14 @@
         </tr>
     <?php endforeach; ?>
 </table>
+</div>
+<div id="explanation"></div>
+<div id="box" style="background-color:#2F2923">
+    Stages a player can reach are numerated in ascending order from group stage one, to winner of the finale seven. Each stage is multiplied by two and the sum is divided by the number of participations.<br/>
+    <br/>
+    Example: Xaositect has won in 2002, became second in 2003 and reached the group stage in 2004. He has participated in three CWTs.<br/>
+    Calculation: (7 * 2 + 6 * 2 + 1 * 2) / 3 = 9.33<br/>
+    <br/>
+    Users only appear when they’ve participated in at least two CWTs.<br/>
+    If you want more information click on a user and see his CWT history timeline.
 </div>
