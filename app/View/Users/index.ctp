@@ -19,7 +19,7 @@
                 <?php echo $this->Paginator->sort('participations') ?>
             </td>
             <td style="border-bottom:1px solid #2E2E2E; font-size:12pt;" align="center">
-                <?php echo $this->Paginator->sort('achievements') ?>
+                <?php echo $this->Paginator->sort('trophies', null, array('direction' => 'desc')) ?>
             </td>
             <td style="border-bottom:1px solid #2E2E2E; font-size:12pt;" align="center" width="120">
                 <b>Contact</b>
