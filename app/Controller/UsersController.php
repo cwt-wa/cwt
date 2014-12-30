@@ -27,7 +27,7 @@ class UsersController extends AppController
                     'User.achievements >' => 0,
                     'User.participations >' => 1
                 ),
-                'order' => array('User.achievements' => 'desc', 'User.participations' => 'asc')
+                'order' => array('User.achievements' => 'desc')
         ));
         $achievements = $this->User->gatherAchievements();
         $usersLength = count($users);
@@ -40,8 +40,7 @@ class UsersController extends AppController
                 continue;
             }
 
-            if ($users[$i - 1]['User']['achievements'] == $users[$i]['User']['achievements']
-                    && $users[$i - 1]['User']['participations'] == $users[$i]['User']['participations']) {
+            if ($users[$i - 1]['User']['achievements'] == $users[$i]['User']['achievements']) {
                 $users[$i]['position'] = $i - $equalizer;
                 $equalizer++;
             } else {

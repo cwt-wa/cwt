@@ -28,9 +28,6 @@
             <td class="bottomBorder" align="right">
                 <b><?php echo $user['User']['achievements'] ?></b>
             </td>
-            <td class="bottomBorder" align="right">
-                <?php echo $user['User']['participations']; ?>
-            </td>
             <td class="bottomBorder" align="left">
                 <?php
                 foreach ($achievements as $key => $val) {
