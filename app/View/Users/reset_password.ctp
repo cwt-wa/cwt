@@ -8,11 +8,11 @@
     ?>
 
     <fieldset>
-        <legend><b>Your new password twice:</b></legend>
+        <legend><b>Enter your new password twice:</b></legend>
 
         <?php echo $this->Form->password('new1', array('style' => 'text-align:center; margin-bottom:3px')) ?>
         <?php echo $this->Form->password('new2', array('style' => 'text-align:center;')) ?>
     </fieldset>
     <br>
-    <?php echo $this->Form->end('Change Password'); ?>
+    <?php echo $this->Form->end('Reset Password'); ?>
 </div>

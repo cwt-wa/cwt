@@ -16,7 +16,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter();
         $this->Auth->allow(
-            'add', 'logout', 'timeline', 'password', 'password_forgotten');
+            'add', 'logout', 'timeline', 'password', 'password_forgotten', 'reset_password');
     }
 
     public function index()
@@ -157,10 +157,13 @@ class UsersController extends AppController
 
                 $resetKey = Security::hash($this->User->randomPassword());
 
+                debug($resetKey);
 
                 $this->User->save(array(
                     'reset_key' => $resetKey
                 ), false); // No validation needed.
+
+                debug($this->User->read());
 
                 App::uses('CakeEmail', 'Network/Email');
 
@@ -195,24 +198,33 @@ class UsersController extends AppController
             )
         ));
 
+        if (empty($user)) {
+            $this->Session->setFlash(
+                'Sorry, something went wrong. Please reach out to us <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>.',
+                'default', array('class' => 'error'));
+            $this->redirect('/users/password_forgotten');
+            return;
+        }
+
+        $this->User->id = $user['User']['id'];
+
         if ($this->request->is('post')) {
-            if ($this->User->password($this->request->data['Password'])) {
-                $this->Auth->login($user);
-                $this->Session->setFlash('Your password has been changed.');
+            if ($this->request->data['Password']['new1'] == $this->request->data['Password']['new2']) {
+                $this->User->save(array(
+                    'password' => $this->request->data['Password']['new1'],
+                    'md5password' => '',
+                    'reset_key' => ''
+                ), false);
+                $this->Auth->login($this->User->update(array(
+                    'username' => $user['User']['username'],
+                    'password' => $this->request->data['Password']['new1']
+                )));
+                $this->Session->setFlash('Your password has been and you are logged in.');
                 $this->redirect('/');
             } else {
                 $this->Session->setFlash(
-                    'The password could not be changed. Please try again.',
+                    'The passwords do not match. Please try again.',
                     'default', array('class' => 'error'));
-            }       
-        } else {
-            if (empty($user)) {
-                $this->Session->setFlash(
-                    'Sorry, something went wrong. Please reach out to us <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>.',
-                    'default', array('class' => 'error'));
-                $this->redirect('/users/password_forgotten');
-            } else {
-                $this->Session->setFlash('Enter your new password here.');
             }
         }
     }
