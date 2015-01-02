@@ -111,6 +111,10 @@ class Schedule extends AppModel
     // Returns all days left from today till end of year.
     public function daysLeft()
     {
+        if (gmdate('Y-m-d') == '2014-12-31') {
+            return 0;
+        }
+
         $daysLeft = array();
         $daysLeft[gmdate('Y-m-d')] = gmdate('M j');
         $skipDays = 1;
