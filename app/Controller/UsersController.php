@@ -150,31 +150,31 @@ class UsersController extends AppController
                     . ' <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
                 $responsePositive = false;
             } else {
-                $response = 'A new password was sent to ' . $user['Profile']['email']
-                    . '. Not your email address? - Please reach out to us. '
+                $response = 'An email was sent to ' . $user['Profile']['email']
+                    . '. Did not receive anything? - Please reach out to us. '
                     . '<a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
                 $responsePositive = true;
 
-                $newPassword = $this->User->randomPassword();
+                $resetKey = Security::hash($this->User->randomPassword());
+
 
                 $this->User->save(array(
-                    'password' => $newPassword
+                    'reset_key' => $resetKey
                 ), false); // No validation needed.
 
                 App::uses('CakeEmail', 'Network/Email');
 
                 $Email = new CakeEmail();
+                $Email->template('password_forgotten');
+                $Email->emailFormat('html');
+                $Email->viewVars(array(
+                    'resetKey' => $resetKey,
+                    'username' => $user['User']['username']
+                ));
                 $Email->from(array('support@cwtsite.com' => 'CWT Support'));
                 $Email->to($user['Profile']['email']);
                 $Email->subject('Password Recovery');
-
-                $emailMsg = "Hey " . $user['User']['username'] . ",\n\n"
-                    . "you have requested a new password and here it is:\n\n"
-                    . $newPassword . "\n\n"
-                    . "Please change the password right after your login.\n\n"
-                    . "Sincerely,\nThe CWT Admin Team";
-
-                $Email->send($emailMsg);
+                $Email->send();
             }
 
             if ($responsePositive) {
@@ -185,6 +185,36 @@ class UsersController extends AppController
         }
 
         $this->set('userWhoForgots', $this->User->find('list'));
+    }
+
+    public function reset_password($resetKey)
+    {
+        $user = $this->User->find('first', array(
+            'conditions' => array(
+                'reset_key' => $resetKey
+            )
+        ));
+
+        if ($this->request->is('post')) {
+            if ($this->User->password($this->request->data['Password'])) {
+                $this->Auth->login($user);
+                $this->Session->setFlash('Your password has been changed.');
+                $this->redirect('/');
+            } else {
+                $this->Session->setFlash(
+                    'The password could not be changed. Please try again.',
+                    'default', array('class' => 'error'));
+            }       
+        } else {
+            if (empty($user)) {
+                $this->Session->setFlash(
+                    'Sorry, something went wrong. Please reach out to us <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>.',
+                    'default', array('class' => 'error'));
+                $this->redirect('/users/password_forgotten');
+            } else {
+                $this->Session->setFlash('Enter your new password here.');
+            }
+        }
     }
 
     public function timeline($id)
