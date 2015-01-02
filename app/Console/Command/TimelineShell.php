@@ -15,17 +15,12 @@ class TimelineShell extends AppShell
         $users = $this->User->find('list');
         $tournaments = $this->Tournament->find('list');
         $timelineOfCurrentUser = '';
-        $participationsOfCurrentUser = 0;
-        $achievementsOfCurrentUser = 0;
-        $trophiesOfCurrentUser = 0;
         foreach ($users as $userId => $userUsername) {
             foreach ($tournaments as $tournamentId => $tournamentYear) {
                 if (!$this->userParticipatedInTournament($userId, $tournamentId)) {
                     $timelineOfCurrentUser .= 0;
                     continue;
                 }
-
-                $participationsOfCurrentUser++;
 
                 $timelineStepFromPlayoff = $this->timelineStepFromPlayoff($userId, $tournamentId);
 
@@ -34,30 +29,16 @@ class TimelineShell extends AppShell
                 } else {
                     $timelineOfCurrentUser .= $timelineStepFromPlayoff;
                 }
-
-                if (!empty($timelineOfCurrentUser)) {
-                    $achievementsOfCurrentUser += substr($timelineOfCurrentUser, -1) * 2;
-                }
-
-                if ($timelineStepFromPlayoff > 4) {
-                    $trophiesOfCurrentUser++;
-                }
             }
             $this->User->save(
                 array(
                     'id' => $userId,
-                    'timeline' => $timelineOfCurrentUser,
-                    'participations' => $participationsOfCurrentUser,
-                    'achievements' => @($achievementsOfCurrentUser / $participationsOfCurrentUser),
-                    'trophies' => $trophiesOfCurrentUser
+                    'timeline' => $timelineOfCurrentUser
                 ),
                 false,
-                array('timeline', 'participations', 'achievements', 'trophies')
+                array('timeline')
             );
             $timelineOfCurrentUser = '';
-            $participationsOfCurrentUser = 0;
-            $achievementsOfCurrentUser = 0;
-            $trophiesOfCurrentUser = 0;
         }
     }
 
