@@ -1,3 +1,6 @@
+<?php
+$news = $this->requestAction('/games/view' . $getParams);
+?>
 <?php echo $this->Html->css('groups', null, array('inline' => false)) ?>
 
 <table border="0" align="center" cellpadding="5">
