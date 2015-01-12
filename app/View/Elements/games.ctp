@@ -1,5 +1,5 @@
 <?php echo $this->Html->css('groups', null, array('inline' => false)) ?>
-<div id="box" style="background-color:#2F2923">
+
 <table border="0" align="center" cellpadding="5">
     <tr>
         <th class="bottomBorder"><?php echo $this->Paginator->sort('id', null); ?></th>
@@ -112,5 +112,4 @@
         echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
     ?>
     </div>
-</div>
 </div>
