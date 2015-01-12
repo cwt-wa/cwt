@@ -120,3 +120,9 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
     <?php endif; ?>
 </div>
 <div style="clear:both; height:10px"></div>
+<?php
+echo $this->element('games', array('games' => $games));
+?>
+<?php
+echo $this->element('traces', array('traces' => $traces));
+?>

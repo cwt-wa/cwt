@@ -180,6 +180,21 @@ class Game extends AppModel
         return true;
     }
 
+    /**
+     * @param $games
+     * @return mixed
+     */
+    public function addRatingsToGames($games)
+    {
+        $gamesLength = count($games);
+
+        for ($i = 0; $i < $gamesLength; $i++) {
+            $games[$i]['Rating'] = $this->Rating->ratingStats($games[$i]['Game']['id']);
+            // $games[$i]['Game']['comments'] = count($games[$i]['Comment']);
+        }
+        return $games;
+    }
+
     public function HomeOrAway($gameId, $userId = false)
     {
         $userId = $userId ? $userId : AuthComponent::user('id');

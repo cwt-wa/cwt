@@ -23,16 +23,6 @@ class GamesController extends AppController
 
     public function index()
     {
-        $conditions = array();
-        if ($_GET['user_id']) {
-            $conditions = array(
-                'OR' => array(
-                    'home_id' => $_GET['user_id'],
-                    'away_id' => $_GET['user_id']
-                )
-            );
-        }
-
         $this->Paginator->settings = array(
             'limit' => 20,
             'order' => array(
@@ -41,13 +31,8 @@ class GamesController extends AppController
         );
 
         $this->Game->recursive = 1;
-        $games = $this->Paginator->paginate(null, $conditions);
-        $gamesLength = count($games);
-
-        for ($i = 0; $i < $gamesLength; $i++) {
-            $games[$i]['Rating'] = $this->Game->Rating->ratingStats($games[$i]['Game']['id']);
-            // $games[$i]['Game']['comments'] = count($games[$i]['Comment']);
-        }
+        $games = $this->Paginator->paginate();
+        $games = $this->Game->addRatingsToGames($games);
 
         $this->set('games', $games);
     }

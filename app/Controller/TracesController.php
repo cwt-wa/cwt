@@ -22,8 +22,14 @@ class TracesController extends AppController
      */
     public function index()
     {
+        $this->Paginator->settings = array(
+            'order' => array(
+                'Trace.created' => 'desc'
+            )
+        );
+
         $this->Trace->recursive = 1;
-        $traces = $this->paginate();
+        $traces = $this->Paginator->paginate();
         $tracesCount = count($traces);
 
         for ($i = 0; $i < $tracesCount; $i++) {
