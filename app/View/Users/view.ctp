@@ -121,14 +121,14 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
 </div>
 <div style="clear:both; height:10px"></div>
 <div id="box" style="background-color:#2F2923; text-align:center;">
+    <h2>Ratings and Bets</h2>
+    <?php
+        echo $this->element('traces', array('traces' => $traces));
+    ?>
+</div>
+<div id="box" style="background-color:#2F2923; text-align:center;">
     <h2>Games</h2>
     <?php
         echo $this->element('games', array('games' => $games));
     ?>
-</div>
-<div id="box" style="background-color:#2F2923; text-align:center;">
-    <h2>Ratings and Bets</h2>
-<?php
-echo $this->element('traces', array('traces' => $traces));
-?>
 </div>

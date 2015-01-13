@@ -1,4 +1,10 @@
-<?php echo $this->Html->css('groups', null, array('inline' => false)) ?>
+<?php
+    $this->Paginator->options(array(
+        'update' => '#content',
+        'evalScripts' => true
+    ));
+    echo $this->Html->css('groups', null, array('inline' => false));
+?>
 
 <table border="0" align="center" cellpadding="5">
     <tr>
@@ -113,3 +119,4 @@
     ?>
     </div>
 </div>
+<?php echo $this->Js->writeBuffer(); // Write cached scripts ?>
