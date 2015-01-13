@@ -161,7 +161,7 @@ class UsersController extends AppController
     public function password_forgotten()
     {
         if ($this->request->is('post')) {
-            $this->User->recursive = 1;
+            $this->User->recursive = 0;
             $user = $this->User->findById($this->request->data['User']['userWhoForgot']);
             $this->User->id = $user['User']['id'];
 
@@ -178,13 +178,9 @@ class UsersController extends AppController
 
                 $resetKey = Security::hash($this->User->randomPassword());
 
-                debug($resetKey);
-
                 $this->User->save(array(
                     'reset_key' => $resetKey
                 ), false); // No validation needed.
-
-                debug($this->User->read());
 
                 App::uses('CakeEmail', 'Network/Email');
 
