@@ -50,6 +50,11 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
         ));
         ?>
     </div>
+    <div id="box" style="background-color:#3F2828; font-size:14pt; text-align:center;">
+        <?php
+            echo $this->Html->link('See Ratings and Bets for this Game!', '/traces?game_id=' . $game['Game']['id']);
+        ?>
+    </div>
 </div>
 <div id="box" style="box-shadow:none; border:none; margin-left:250px; padding:0px 0px 0px 0px">
     <div id="box" style="background-color:#3F2828; text-align:center; font-size:16pt; margin-top:0px">
