@@ -8,7 +8,12 @@ App::uses('AppController', 'Controller');
  */
 class TracesController extends AppController
 {
-
+    public $paginate = array(
+        'limit' => 20,
+        'order' => array(
+            'Trace.created' => 'desc'
+        )
+    );
 
     /**
      * index method
@@ -17,8 +22,22 @@ class TracesController extends AppController
      */
     public function index()
     {
-        $this->Trace->recursive = 0;
-        $this->set('traces', $this->paginate());
+        $this->Paginator->settings = array(
+            'order' => array(
+                'Trace.created' => 'desc'
+            )
+        );
+
+        $this->Trace->recursive = 1;
+        $traces = $this->Paginator->paginate();
+        $tracesCount = count($traces);
+
+        for ($i = 0; $i < $tracesCount; $i++) {
+            $traces[$i]['Game']['Home'] = $this->Trace->User->findById($traces[$i]['Game']['home_id']);
+            $traces[$i]['Game']['Away'] = $this->Trace->User->findById($traces[$i]['Game']['away_id']);
+        }
+
+        $this->set('traces', $traces);
     }
 
     /**

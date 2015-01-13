@@ -21,6 +21,10 @@ class Game extends AppModel
         'Rating' => array(
             'className' => 'Rating',
             'foreignKey' => 'game_id'
+        ),
+        'Trace' => array(
+            'className' => 'Trace',
+            'foreignKey' => 'on'
         )
     );
     public $belongsTo = array(
@@ -45,6 +49,12 @@ class Game extends AppModel
             'foreignKey' => 'tournament_id'
         )
     );
+    public $virtualFields = array(
+        'comments' => 'SELECT COUNT(*) FROM comments as Comment WHERE Comment.game_id = Game.id',
+        'stage' => 'SELECT `stepAssoc` FROM playoffs as Playoff WHERE Playoff.game_id = Game.id',
+        'likes' => 'SELECT `likes` FROM ratings as Rating WHERE Rating.game_id = Game.id'
+    );
+
 
     /**
      * A new game is being added and it should always be added using this method.
@@ -168,6 +178,21 @@ class Game extends AppModel
         ));
 
         return true;
+    }
+
+    /**
+     * @param $games
+     * @return mixed
+     */
+    public function addRatingsToGames($games)
+    {
+        $gamesLength = count($games);
+
+        for ($i = 0; $i < $gamesLength; $i++) {
+            $games[$i]['Rating'] = $this->Rating->ratingStats($games[$i]['Game']['id']);
+            // $games[$i]['Game']['comments'] = count($games[$i]['Comment']);
+        }
+        return $games;
     }
 
     public function HomeOrAway($gameId, $userId = false)

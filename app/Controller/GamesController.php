@@ -7,7 +7,12 @@ class GamesController extends AppController
 {
     public $name = 'Games';
     public $scaffold = 'admin';
-
+    public $paginate = array(
+        'limit' => 20,
+        'order' => array(
+            'Game.created' => 'desc'
+        )
+    );
 
     public function beforeFilter()
     {
@@ -18,13 +23,16 @@ class GamesController extends AppController
 
     public function index()
     {
-        $this->Game->recursive = 0;
-        $games = $this->paginate();
-        $gamesLength = count($games);
+        $this->Paginator->settings = array(
+            'limit' => 20,
+            'order' => array(
+                'Game.created' => 'desc'
+            )
+        );
 
-        for ($i = 0; $i < $gamesLength; $i++)  {
-            $games[$i]['Rating'] = $this->Game->Rating->ratingStats($games[$i]['Game']['id']);
-        }
+        $this->Game->recursive = 1;
+        $games = $this->Paginator->paginate();
+        $games = $this->Game->addRatingsToGames($games);
 
         $this->set('games', $games);
     }
@@ -45,8 +53,8 @@ class GamesController extends AppController
         // Deleting empty comments that were only saved, because the user
         // supplied a preview without actually posting the message.
         $this->Game->Comment->deleteAll(array(
-                'Comment.message' => ''
-            ), false
+            'Comment.message' => ''
+        ), false
         );
 
         // Resetting the table key. Not necessary?

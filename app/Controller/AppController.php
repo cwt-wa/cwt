@@ -26,7 +26,8 @@ class AppController extends Controller
             'authError' => 'You don\'t have the required
                     rights to access that page.',
             'authorize' => array('Controller')
-        )
+        ),
+        'Paginator'
     );
     public $helpers = array(
         'Js' => array('Jquery'),
