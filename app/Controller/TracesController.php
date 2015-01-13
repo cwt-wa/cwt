@@ -28,8 +28,18 @@ class TracesController extends AppController
             )
         );
 
+        $conditions = array();
+        if (isset($_GET['user_id'])) {
+            $conditions['user_id'] = $_GET['user_id'];
+            $this->Paginator->settings['user_id'] = $_GET['user_id'];
+        }
+        if (isset($_GET['game_id'])) {
+            $conditions['on'] = $_GET['game_id'];
+            $this->Paginator->settings['game_id'] = $_GET['game_id'];
+        }
+
         $this->Trace->recursive = 1;
-        $traces = $this->Paginator->paginate();
+        $traces = $this->Paginator->paginate(null, $conditions);
         $tracesCount = count($traces);
 
         for ($i = 0; $i < $tracesCount; $i++) {

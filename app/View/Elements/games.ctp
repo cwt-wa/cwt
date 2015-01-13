@@ -1,8 +1,9 @@
 <?php
-    $this->Paginator->options(array(
+    $options = array(
         'update' => '#content',
         'evalScripts' => true
-    ));
+    );
+    $this->Paginator->options($options);
     echo $this->Html->css('groups', null, array('inline' => false));
 ?>
 

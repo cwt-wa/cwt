@@ -30,8 +30,17 @@ class GamesController extends AppController
             )
         );
 
+        $conditions = array();
+        if (isset($_GET['user_id'])) {
+            $conditions['OR'] = array(
+                'home_id' => $_GET['user_id'],
+                'away_id' => $_GET['user_id']
+            );
+            $this->Paginator->settings['user_id'] = $_GET['user_id'];
+        }
+
         $this->Game->recursive = 1;
-        $games = $this->Paginator->paginate();
+        $games = $this->Paginator->paginate(null, $conditions);
         $games = $this->Game->addRatingsToGames($games);
 
         $this->set('games', $games);
