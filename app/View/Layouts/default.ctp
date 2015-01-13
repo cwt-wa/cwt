@@ -44,6 +44,8 @@
 <div id="wrapper">
     <div id="topbar">
     </div>
+    <div id="menubacker">
+    </div>
     <div id="container">
         <div id="time">
             <script language="JavaScript">displayTime();</script>
@@ -153,20 +155,17 @@
             endif; ?>
         </div>
 
-        <div id="banner">
-            <?php
-            echo $this->Html->link($this->Html->image('logo.png'),
-                '/',
-                array('escape' => false));
-            ?>
-        </div>
         <div id="menu">
-            <?php echo $this->Html->link('<div class="menu_item">Players</div>', '/users', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Games</div>', '/games', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Groups</div>', '/groups', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Streams</div>', '/streams', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Players</div>', '/users', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Archive</div>', '/archive', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Ratings/Bets</div>', '/traces', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Rules</div>', '/rules', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Forum</div>', 'http://www.normalnonoobs.com/forum/viewforum.php?f=24', array('target' => '_blank', 'escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="popcorn_item">' . $this->Html->image('popcorn.png') . '</div>', '/streams', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Donate</div>', '/donate', array('escape' => false)); ?>
         </div>
 
         <div id="content">
