@@ -306,43 +306,6 @@ class UsersController extends AppController
             $this->redirect($this->referer());
         }
 
-        $this->loadModel('Game');
-        $this->Game->recursive = 1;
-        $page = $this->pageForPagination('Game');
-        $this->Paginator->settings['Game'] = array(
-            'order' => array('Game.created' => 'asc'),
-            'conditions' => array(
-                'OR' => array(
-                    'Game.home_id' => $id,
-                    'Game.away_id' => $id
-                )
-            ),
-            'limit' => 10,
-            'page' => $page
-        );
-        $games = $this->Paginator->paginate('Game');
-        $games = $this->Game->addRatingsToGames($games);
-
-        $this->loadModel('Trace');
-        $this->Trace->recursive = 1;
-        $page = $this->pageForPagination('Trace');
-        $this->Paginator->settings['Trace'] = array(
-            'order' => array('Trace.created' => 'asc'),
-            'conditions' => array(
-                'Trace.user_id' => $id
-            ),
-            'limit' => 10,
-            'page' => $page
-        );
-        $traces = $this->Paginator->paginate('Trace');
-        $tracesCount = count($traces);
-        for ($i = 0; $i < $tracesCount; $i++) {
-            $traces[$i]['Game']['Home'] = $this->Trace->User->findById($traces[$i]['Game']['home_id']);
-            $traces[$i]['Game']['Away'] = $this->Trace->User->findById($traces[$i]['Game']['away_id']);
-        }
-
-        $this->set('games', $games);
-        $this->set('traces', $traces);
         $this->set('user', $user);
         $this->set('photo', $this->User->displayPhoto($user['User']['username']));
     }

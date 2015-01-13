@@ -32,10 +32,16 @@ class TracesController extends AppController
         if (isset($_GET['user_id'])) {
             $conditions['user_id'] = $_GET['user_id'];
             $this->Paginator->settings['user_id'] = $_GET['user_id'];
+            $this->loadModel('User');
+            $user = $this->User->findById($_GET['user_id']);
+            $this->set('user', $user);
         }
         if (isset($_GET['game_id'])) {
             $conditions['on'] = $_GET['game_id'];
             $this->Paginator->settings['game_id'] = $_GET['game_id'];
+            $this->loadModel('Game');
+            $game = $this->Game->findById($_GET['game_id']);
+            $this->set('game', $game);
         }
 
         $this->Trace->recursive = 1;

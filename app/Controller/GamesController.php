@@ -37,6 +37,9 @@ class GamesController extends AppController
                 'away_id' => $_GET['user_id']
             );
             $this->Paginator->settings['user_id'] = $_GET['user_id'];
+            $this->loadModel('User');
+            $user = $this->User->findById($_GET['user_id']);
+            $this->set('user', $user);
         }
 
         $this->Game->recursive = 1;
