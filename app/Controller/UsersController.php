@@ -11,7 +11,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter();
         $this->Auth->allow(
-            'add', 'logout', 'timeline', 'password', 'password_forgotten', 'reset_password');
+            'add', 'logout', 'timeline', 'password', 'password_forgotten', 'reset_password', 'ranking');
     }
 
     public function ranking() {
