@@ -1,3 +1,11 @@
+<?php
+$options = array(
+    'update' => '#content',
+    'evalScripts' => true
+);
+$this->Paginator->options($options);
+?>
+
 <div id="box" style="background-color:#161C1D; text-align:center;">
     <h1>
         Users
@@ -195,8 +203,10 @@
     <div class="paging">
         <?php
         echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-        echo $this->Paginator->numbers(array('separator' => ''));
+        echo $this->Paginator->numbers(array('separator' => '', 'modulus' => 24));
         echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
         ?>
     </div>
 </div>
+
+<?php echo $this->Js->writeBuffer(); // Write cached scripts ?>

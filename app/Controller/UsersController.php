@@ -6,11 +6,6 @@ class UsersController extends AppController
     public $name = 'Users';
     public $scaffold = 'admin';
 
-    public $paginate = array(
-        'limit' => 30,
-        'order' => 'User.participations DESC'
-    );
-
 
     public function beforeFilter()
     {
@@ -59,7 +54,8 @@ class UsersController extends AppController
 
         $this->Paginator->settings = array(
             'User' => array(
-                'order' => array('User.participations' => 'desc')
+                'order' => array('User.participations' => 'desc'),
+                'limit' => 15
             )
         );
 

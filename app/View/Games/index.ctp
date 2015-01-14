@@ -131,7 +131,7 @@ echo $this->Html->css('groups', null, array('inline' => false));
 <div class="paging">
 	<?php
 	echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-	echo $this->Paginator->numbers(array('separator' => ''));
+	echo $this->Paginator->numbers(array('separator' => '', 'modulus' => 24));
 	echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 </div>

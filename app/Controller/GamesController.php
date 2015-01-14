@@ -24,7 +24,7 @@ class GamesController extends AppController
     public function index()
     {
         $this->Paginator->settings = array(
-            'limit' => 20,
+            'limit' => 15,
             'order' => array(
                 'Game.created' => 'desc'
             )

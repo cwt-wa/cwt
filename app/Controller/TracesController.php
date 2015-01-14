@@ -23,6 +23,7 @@ class TracesController extends AppController
     public function index()
     {
         $this->Paginator->settings = array(
+            'limit' => 15,
             'order' => array(
                 'Trace.created' => 'desc'
             )
