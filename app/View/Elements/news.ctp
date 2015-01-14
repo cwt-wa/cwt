@@ -5,7 +5,7 @@ $this->Helpers->load('Time');
 ?>
 
 <?php if ($news['News']['text'] != ''): ?>
-    <div id="box" style="background-color: #3E283E; margin-bottom: -60px;">
+    <div id="box" style="background-color: #3E283E; margin-bottom: -60px; margin-top:45px">
         <div id="adminNews">
             <?php
             echo $this->Html->link(

@@ -1,4 +1,4 @@
-<div id="SchedulerWrapper">
+<div id="SchedulerWrapper" style="margin-bottom:-35px;">
 <?php
 $schedules = $this->requestAction('/schedules/index/');
 $this->Helpers->load('Time');
