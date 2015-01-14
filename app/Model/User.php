@@ -105,19 +105,7 @@ class User extends AppModel
         'Scheduled' => array( //  Scheduled against.
             'className' => 'Schedule',
             'foreignKey' => 'away_id'
-        ),
-        'HomeRestore' => array(
-            'className' => 'Restore',
-            'foreignKey' => 'home_id'
-        ),
-        'AwayRestore' => array(
-            'className' => 'Game',
-            'foreignKey' => 'away_id'
-        ),
-        'Restore' => array(
-            'className' => 'Restore',
-            'foreignKey' => 'submitter_id'
-        ),
+        )
     );
     public $validate = array(
         'username' => array(
@@ -159,6 +147,26 @@ class User extends AppModel
             ),
         )
     );
+
+    public function gatherAchievements() {
+        $Tournament = ClassRegistry::init('Tournament');
+        $Tournament->recursive = 0;
+        $tournaments = $Tournament->find('all');
+        $year = 2002;
+
+        foreach ($tournaments as $key => $val) {
+            $achievements[$year]['gold'] = $val['Gold']['id'];
+            $achievements[$year]['silver'] = $val['Silver']['id'];
+            $achievements[$year]['bronze'] = $val['Bronze']['id'];
+            $year++;
+        }
+
+        if ($achievements == null) {
+            $achievements = array();
+        }
+
+        return $achievements;
+    }
 
     /**
      * DEPRECATED - Use AppModel's getVisitorIp() instead.

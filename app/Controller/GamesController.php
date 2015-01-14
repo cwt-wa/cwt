@@ -7,7 +7,12 @@ class GamesController extends AppController
 {
     public $name = 'Games';
     public $scaffold = 'admin';
-
+    public $paginate = array(
+        'limit' => 20,
+        'order' => array(
+            'Game.created' => 'desc'
+        )
+    );
 
     public function beforeFilter()
     {
@@ -18,14 +23,32 @@ class GamesController extends AppController
 
     public function index()
     {
-        $this->Game->recursive = 0;
-        $games = $this->paginate();
-        $gamesLength = count($games);
+        $this->Paginator->settings = array(
+            'limit' => 15,
+            'order' => array(
+                'Game.created' => 'desc'
+            )
+        );
 
-        for ($i = 0; $i < $gamesLength; $i++)  {
-            $games[$i]['Rating'] = $this->Game->Rating->ratingStats($games[$i]['Game']['id']);
+        $title_for_layout = 'Games';
+        $conditions = array();
+        if (isset($_GET['user_id'])) {
+            $conditions['OR'] = array(
+                'home_id' => $_GET['user_id'],
+                'away_id' => $_GET['user_id']
+            );
+            $this->Paginator->settings['user_id'] = $_GET['user_id'];
+            $this->loadModel('User');
+            $user = $this->User->findById($_GET['user_id']);
+            $this->set('user', $user);
+            $title_for_layout .= ' of ' . $user['User']['username'];
         }
 
+        $this->Game->recursive = 1;
+        $games = $this->Paginator->paginate(null, $conditions);
+        $games = $this->Game->addRatingsToGames($games);
+
+        $this->set('title_for_layout', $title_for_layout);
         $this->set('games', $games);
     }
 
@@ -45,8 +68,8 @@ class GamesController extends AppController
         // Deleting empty comments that were only saved, because the user
         // supplied a preview without actually posting the message.
         $this->Game->Comment->deleteAll(array(
-                'Comment.message' => ''
-            ), false
+            'Comment.message' => ''
+        ), false
         );
 
         // Resetting the table key. Not necessary?
@@ -94,6 +117,7 @@ class GamesController extends AppController
             $game['winner']['photo'] = $this->User->displayPhoto($game['winner']['username']);
         }
 
+        $this->set('title_for_layout', 'Game #' . $game['Game']['id']);
         $this->set('game', $game);
     }
 

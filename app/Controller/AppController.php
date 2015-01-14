@@ -26,7 +26,8 @@ class AppController extends Controller
             'authError' => 'You don\'t have the required
                     rights to access that page.',
             'authorize' => array('Controller')
-        )
+        ),
+        'Paginator'
     );
     public $helpers = array(
         'Js' => array('Jquery'),
@@ -43,7 +44,7 @@ class AppController extends Controller
             if (!$user['admin']) {
                 return false;
             } else {
-                $this->set('title_for_layout', 'Admin!');
+                $this->set('title_for_layout', 'Admin Panel');
                 return true;
             }
         }

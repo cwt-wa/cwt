@@ -2,11 +2,24 @@
 <head>
     <?php echo $this->Html->charset(); ?>
     <title>
-        <?php echo('CWT - '); ?>
-        <?php echo $title_for_layout; ?>
+        <?php
+            if (!empty($title_for_layout)) {
+                echo $title_for_layout;
+            } else {
+                echo 'Crespo’s Worms Tournament';
+            }
+        ?>
     </title>
+    <link rel="shortcut icon" href="/img/favicons/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-touch-icon-152x152.png" />
     <?php
-    echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon'));
     echo $this->Html->meta('keywords', 'Crespo\'s Worms Tournament, Worms Armageddon, CWT, Normal No Noobs, NNN, Florian Zemke');
     echo $this->Html->meta('description', 'Crespo\'s Worms Tournament is a yearly hosted tournament of the strategy game "Worms Armageddon". It\'s considered the most prestigious of its kind and has money prizes involved.');
 
@@ -43,6 +56,8 @@
 <body>
 <div id="wrapper">
     <div id="topbar">
+    </div>
+    <div id="menubacker">
     </div>
     <div id="container">
         <div id="time">
@@ -153,20 +168,18 @@
             endif; ?>
         </div>
 
-        <div id="banner">
-            <?php
-            echo $this->Html->link($this->Html->image('logo.png'),
-                '/',
-                array('escape' => false));
-            ?>
-        </div>
         <div id="menu">
-            <?php echo $this->Html->link('<div class="menu_item">Players</div>', '/users', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<img class="icon" src="/img/icon.png" />', '/', array('escape' => false)); ?>
+            <?php //echo $this->Html->link('<div class="menu_item">Home</div>', '/', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Groups</div>', '/groups', array('escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Playoffs</div>', '/playoffs', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Streams</div>', '/streams', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Users</div>', '/users', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Games</div>', '/games', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Ratings/Bets</div>', '/ratingsbets', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Ranking</div>', '/ranking', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Archive</div>', '/archive', array('escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Forum</div>', 'http://www.normalnonoobs.com/forum/viewforum.php?f=24', array('target' => '_blank', 'escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="popcorn_item">' . $this->Html->image('popcorn.png') . '</div>', '/streams', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">More...</div>', '/more', array('escape' => false)); ?>
         </div>
 
         <div id="content">
@@ -182,7 +195,7 @@
 <div id="footer">
     <div id="copyright">
         <?php
-        $string = '<b>Crespo&apos;s Worms Tournament</b>';
+        $string = '<b>Crespo’s Worms Tournament</b>';
 
         if ($currentTournament == null) {
             echo $string;
@@ -201,13 +214,9 @@
         ?>
     </div>
     <div id="pages">
-        <?php echo $this->Html->link('Rules', 'http://cwtsite.com/rules/view/1', array('class' => 'plainer')) ?>
-        &bull;
-        <?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>
-        &bull;
-        <?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
-        &bull;
         <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('target' => '_blank', 'class' => 'plainer')) ?>
+        &bull;
+        <?php echo $this->Html->link('Twitter', 'http://twitter.com/cwtwa', array('target' => '_blank', 'class' => 'plainer')) ?>
         &bull;
         <?php echo $this->Html->link('WKB', 'http://worms2d.info/Crespo\'s_Worms_Tournament', array('target' => '_blank', 'class' => 'plainer')) ?>
         &bull;

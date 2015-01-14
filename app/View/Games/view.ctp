@@ -13,7 +13,7 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
     <?php if (isset($game['winner']['photo'])): ?>
         <?php
         echo $this->Html->image('users/' . $game['winner']['photo'], array(
-            'style' => 'height:auto; max-width:236px; border:2px solid #A88B3F; padding:0px; margin-top:0px; box-shadow:4px 4px 3px #C4C4C4; text-align:center;'
+            'style' => 'height:auto; max-width:238px; padding:0px; margin-top:0px; text-align:center;'
         ));
         ?>
     <?php endif; ?>
@@ -109,6 +109,11 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
     <div id="ratings" style="float:left;">
         <?php echo $this->element('ratings', array('gameId' => $game['Game']['id'])); ?>
     </div>
+    <div id="boxFloat" style="background-color:#3F3829; height:90px; margin-top:10px; margin-left:5px; text-align:center; width:70px;">
+        <?php
+            echo $this->Html->link('See Ratings and Bets for this Game!', '/traces?game_id=' . $game['Game']['id']);
+        ?>
+    </div>
     <div id="boxFloat"
          style="background-color:#3F3829; height:90px; margin-top:10px; margin-left:5px; text-align:center; width:70px;">
         <?php if ($game['Game']['techwin']): ?>
@@ -125,7 +130,7 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
         <?php endif; ?>
     </div>
     <?php if ($logged_in): ?>
-        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:352px">
+        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
             <br><?php
             echo $this->Form->button('Write Quick Comment', array(
                     'id' => 'commentQuick',
@@ -149,7 +154,7 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
             ?>
         </div>
     <?php else: ?>
-        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:235px">
+        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
             Log in to comment this game.
         </div>
     <?php endif; ?>

@@ -88,7 +88,7 @@
     </div>
 
     <div id="box"
-         style="background-color:#3C3E28; margin-left:500px; padding-top:5px; width:438px; height:80px; text-align:center;">
+         style="background-color:#3C3E28; margin-left:500px; padding-top:5px; width:440px; height:80px; text-align:center;">
         <?php if ($logged_in): ?>
             <?php if ($current_user['stage'] != $tourney['status']): ?>
                 <div style="margin-left:30px; margin-top:27px; font-style:italic; text-align:left;">

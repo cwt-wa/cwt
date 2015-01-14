@@ -85,6 +85,7 @@ class ProfilesController extends AppController
         }
 
         $this->set('photo', $this->Profile->displayPhoto($this->Auth->user('username')));
+        $this->set('title_for_layout', 'Change your Photo');
     }
 
 
@@ -154,6 +155,7 @@ class ProfilesController extends AppController
 
         $this->Profile->User->id = $this->Auth->user('id');
         $username = $this->Profile->User->field('username');
+        $this->set('title_for_layout', 'Edit your Profile');
         $this->set('username', $username);
         $this->set('country', $this->Profile->flags($this->request->data['Profile']['country']));
     }

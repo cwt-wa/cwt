@@ -14,16 +14,7 @@ function leadingZero(x) {
   return (x > 9) ? x : '0' + x;
 }
 function dateEnding(x) {
-  if (x == 1 || x == 21 || x == 31) {
-    return 'st';
-  }
-  if (x == 2 || x == 22) {
-    return 'nd';
-  }
-  if (x == 3 || x == 23) {
-    return 'rd';
-  }
-  return 'th';
+  return '';
 }
 function displayTime() {
   if (fr == 0) {
@@ -39,4 +30,4 @@ function fixYear4(x) {
 var dayNames = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
 var monthNames = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
 var fr = 0;
-var outputTime = "dayNames[timeSource().getDay()]+','+' '+monthNames[timeSource().getMonth()]+' '+timeSource().getDate()+dateEnding(timeSource().getDate())+','+' '+fixYear4(timeSource().getYear())+' '+'|'+' '+leadingZero(timeSource().getHours())+':'+leadingZero(timeSource().getMinutes())+':'+leadingZero(timeSource().getSeconds())+' '";
+var outputTime = "dayNames[timeSource().getDay()]+','+' '+monthNames[timeSource().getMonth()]+' '+timeSource().getDate()+dateEnding(timeSource().getDate())+','+' '+fixYear4(timeSource().getYear())+', '+leadingZero(timeSource().getHours())+':'+leadingZero(timeSource().getMinutes())+':'+leadingZero(timeSource().getSeconds())+' '";

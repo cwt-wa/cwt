@@ -6,22 +6,58 @@ class UsersController extends AppController
     public $name = 'Users';
     public $scaffold = 'admin';
 
-    public $paginate = array(
-        'limit' => 30,
-        'order' => 'User.participations DESC'
-    );
-
 
     public function beforeFilter()
     {
         parent::beforeFilter();
         $this->Auth->allow(
-            'add', 'logout', 'timeline', 'password', 'password_forgotten');
+            'add', 'logout', 'timeline', 'password', 'password_forgotten', 'reset_password', 'ranking');
+    }
+
+    public function ranking() {
+        $this->User->recursive = 0;
+
+        $users = $this->User->find('all', array(
+            'conditions' => array(
+                    'User.achievements >' => 0,
+                    'User.participations >' => 1
+                ),
+                'order' => array('User.achievements' => 'desc')
+        ));
+        $achievements = $this->User->gatherAchievements();
+        $usersLength = count($users);
+        $equalizer = 0;
+
+        for ($i = 0; $i < $usersLength; $i++) {
+            $users[$i]['position'] = $i + 1;
+
+            if ($i == 0) {
+                continue;
+            }
+
+            if ($users[$i - 1]['User']['achievements'] == $users[$i]['User']['achievements']) {
+                $users[$i]['position'] = $i - $equalizer;
+                $equalizer++;
+            } else {
+                $equalizer = 0;
+            }
+        }
+
+        $this->set('title_for_layout', 'All-Time Ranking');
+        $this->set('achievements', $achievements);
+        $this->set('users', $users);
     }
 
     public function index()
     {
         $this->User->recursive = 0;
+
+        $this->Paginator->settings = array(
+            'User' => array(
+                'order' => array('User.participations' => 'desc'),
+                'limit' => 15
+            )
+        );
 
         if ($this->Auth->loggedIn()) {
             $users = $this->paginate();
@@ -31,25 +67,7 @@ class UsersController extends AppController
             ));
         }
 
-        /*
-         * Getting the Achievements. Good job, guys!
-         */
-
-        $this->loadModel('Tournament');
-        $this->Tournament->recursive = 0;
-        $tournaments = $this->Tournament->find('all');
-        $year = 2002;
-
-        foreach ($tournaments as $key => $val) {
-            $achievements[$year]['gold'] = $val['Gold']['id'];
-            $achievements[$year]['silver'] = $val['Silver']['id'];
-            $achievements[$year]['bronze'] = $val['Bronze']['id'];
-            $year++;
-        }
-
-        if ($achievements == null) {
-            $achievements = array();
-        }
+        $achievements = $this->User->gatherAchievements();
 
         $this->set('achievements', $achievements);
         $this->set('users', $users);
@@ -140,7 +158,7 @@ class UsersController extends AppController
     public function password_forgotten()
     {
         if ($this->request->is('post')) {
-            $this->User->recursive = 1;
+            $this->User->recursive = 0;
             $user = $this->User->findById($this->request->data['User']['userWhoForgot']);
             $this->User->id = $user['User']['id'];
 
@@ -150,31 +168,30 @@ class UsersController extends AppController
                     . ' <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
                 $responsePositive = false;
             } else {
-                $response = 'A new password was sent to ' . $user['Profile']['email']
-                    . '. Not your email address? - Please reach out to us. '
+                $response = 'An email was sent to ' . $user['Profile']['email']
+                    . '. Did not receive anything? - Please reach out to us. '
                     . '<a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
                 $responsePositive = true;
 
-                $newPassword = $this->User->randomPassword();
+                $resetKey = Security::hash($this->User->randomPassword());
 
                 $this->User->save(array(
-                    'password' => $newPassword
+                    'reset_key' => $resetKey
                 ), false); // No validation needed.
 
                 App::uses('CakeEmail', 'Network/Email');
 
                 $Email = new CakeEmail();
+                $Email->template('password_forgotten');
+                $Email->emailFormat('html');
+                $Email->viewVars(array(
+                    'resetKey' => $resetKey,
+                    'username' => $user['User']['username']
+                ));
                 $Email->from(array('support@cwtsite.com' => 'CWT Support'));
                 $Email->to($user['Profile']['email']);
                 $Email->subject('Password Recovery');
-
-                $emailMsg = "Hey " . $user['User']['username'] . ",\n\n"
-                    . "you have requested a new password and here it is:\n\n"
-                    . $newPassword . "\n\n"
-                    . "Please change the password right after your login.\n\n"
-                    . "Sincerely,\nThe CWT Admin Team";
-
-                $Email->send($emailMsg);
+                $Email->send();
             }
 
             if ($responsePositive) {
@@ -185,6 +202,45 @@ class UsersController extends AppController
         }
 
         $this->set('userWhoForgots', $this->User->find('list'));
+    }
+
+    public function reset_password($resetKey)
+    {
+        $user = $this->User->find('first', array(
+            'conditions' => array(
+                'reset_key' => $resetKey
+            )
+        ));
+
+        if (empty($user)) {
+            $this->Session->setFlash(
+                'Sorry, something went wrong. Please reach out to us <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>.',
+                'default', array('class' => 'error'));
+            $this->redirect('/users/password_forgotten');
+            return;
+        }
+
+        $this->User->id = $user['User']['id'];
+
+        if ($this->request->is('post')) {
+            if ($this->request->data['Password']['new1'] == $this->request->data['Password']['new2']) {
+                $this->User->save(array(
+                    'password' => $this->request->data['Password']['new1'],
+                    'md5password' => '',
+                    'reset_key' => ''
+                ), false);
+                $this->Auth->login($this->User->update(array(
+                    'username' => $user['User']['username'],
+                    'password' => $this->request->data['Password']['new1']
+                )));
+                $this->Session->setFlash('Your password has been and you are logged in.');
+                $this->redirect('/');
+            } else {
+                $this->Session->setFlash(
+                    'The passwords do not match. Please try again.',
+                    'default', array('class' => 'error'));
+            }
+        }
     }
 
     public function timeline($id)
@@ -207,6 +263,8 @@ class UsersController extends AppController
                 $this->Session->setFlash('The password could not be changed. Please, try again.');
             }
         }
+
+        $this->set('title_for_layout', 'Change your Password');
     }
 
 
@@ -249,6 +307,7 @@ class UsersController extends AppController
 
         $this->set('user', $user);
         $this->set('photo', $this->User->displayPhoto($user['User']['username']));
+        $this->set('title_for_layout', $user['User']['username']);
     }
 
     public function add()

@@ -10,6 +10,10 @@ class Trace extends AppModel
         'User' => array(
             'className' => 'User',
             'foreignKey' => 'user_id'
+        ),
+        'Game' => array(
+            'className' => 'Game',
+            'foreignKey' => 'on'
         )
     );
 

@@ -1,4 +1,17 @@
-<?php if (!@$current_user['logged_in']): ?>
+<?php
+$options = array(
+    'update' => '#content',
+    'evalScripts' => true
+);
+$this->Paginator->options($options);
+?>
+
+<div id="box" style="background-color:#161C1D; text-align:center;">
+    <h1>
+        Users
+    </h1>
+</div>
+<?php if (!$logged_in): ?>
     <div id="box" style="background-color:#161C1D; text-align:center;">
         You may not see all players when you are not logged in as some have hidden their profiles from public.
     </div>
@@ -42,10 +55,7 @@
                 <td style="border-bottom:1px solid #2E2E2E" align="left">
                     <?php
                     echo $this->Html->link($user['User']['username'],
-                        '/users/view/' . $user['User']['id'],
-                        array(
-                            'style' => 'color:white;'
-                        ));
+                        '/users/view/' . $user['User']['id']);
                     ?>
                 </td>
                 <td style="border-bottom:1px solid #2E2E2E" align="center">
@@ -193,8 +203,10 @@
     <div class="paging">
         <?php
         echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-        echo $this->Paginator->numbers(array('separator' => ''));
+        echo $this->Paginator->numbers(array('separator' => '', 'modulus' => 24));
         echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
         ?>
     </div>
 </div>
+
+<?php echo $this->Js->writeBuffer(); // Write cached scripts ?>

@@ -1,15 +1,25 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#timeline').scrollLeft(165);
-
+        $('#timeline').scrollLeft($('#timeline').width());
     });
 </script>
-
 <?php
 $this->Html->css('profiles', null, array('inline' => false));
 echo $this->element('timeline', array('user' => $user['User']['id']));
 ?>
-
+<div id="boxFloat" class="action_item">
+    <?php
+    echo $this->Html->link('<span></span>', '/games?user_id=' . $user['User']['id'], array('escape' => false));
+    ?>
+    Games
+</div>
+<div id="box" class="action_item" style="margin-left:8px; margin-top:0;">
+    <?php
+    echo $this->Html->link('<span></span>', '/traces?user_id=' . $user['User']['id'], array('escape' => false));
+    ?>
+    Ratings and Bets
+</div>
+<div>
 <div id="boxFloat" style="width:500px; padding:0px; border:none; box-shadow:none; text-align:center;">
     <?php
     echo $this->Html->image('users/' . $photo, array(
@@ -17,24 +27,6 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
     ));
     ?>
 </div>
-
-<div id="trashbin">
-    <div id="actions" style="display:none;">
-        <div class="actions_item" onclick="action('games', '<?php echo $user['User']['id']; ?>')">
-            Games
-        </div>
-        <div class="actions_item" onclick="action('comments', '<?php echo $user['User']['id']; ?>')">
-            Comments
-        </div>
-        <div class="actions_item" onclick="action('groups', '<?php echo $user['User']['id']; ?>')">
-            Group
-        </div>
-
-        <div id="games"></div>
-        <div id="comments"></div>
-        <div id="groups"></div>
-    </div>
-
     <div id="box" style="margin-left:510px; background-color:#3E283E; font-size:larger; text-align:center;">
         <u><h1 style="font-size:30pt"><?php echo $user['User']['username'] ?></h1></u>
 
@@ -119,4 +111,3 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
         </div>
     <?php endif; ?>
 </div>
-<div style="clear:both; height:10px"></div>
