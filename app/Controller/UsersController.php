@@ -43,7 +43,7 @@ class UsersController extends AppController
             }
         }
 
-        $this->set('title_for_layout', 'Ranking');
+        $this->set('title_for_layout', 'All-Time Ranking');
         $this->set('achievements', $achievements);
         $this->set('users', $users);
     }

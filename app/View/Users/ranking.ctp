@@ -1,4 +1,7 @@
 <?php echo $this->Html->css('groups', null, array('inline' => false)) ?>
+<div id="box" style="background-color:#2F2923; text-align:center;">
+    <h1>All-Time Ranking</h1>
+</div>
 
 <div id="box" style="background-color:#2F2923">
 <div style="position: absolute; background-color: lightgray; padding: 10px; width: 140px; margin: -20px -20px -20px 800px;"><a href="#explanation">How is this being calculated?</a></div>
