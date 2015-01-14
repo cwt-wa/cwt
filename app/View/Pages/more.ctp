@@ -6,4 +6,4 @@
 <?php echo $this->Html->link('<div class="menu_item more_item">Contact</div>', 'mailto:support@cwtsite.com', array('escape' => false)); ?>
 <?php echo $this->Html->link('<div class="menu_item more_item">New Rules for Live Streaming games of CWT</div>', '/pages/streaming', array('escape' => false)); ?>
 <?php echo $this->Html->link('<div class="menu_item more_item">Download Scheme</div>', '/tournaments/download/scheme', array('escape' => false)); ?>
-<?php echo $this->Html->link('<div class="menu_item more_item">Crespo’s Worms Tournament <span id="release-tag"></span></div>', 'https://github.com/Zemke/cwt/releases/latest', array('escape' => false)); ?>
+<?php echo $this->Html->link('<div class="menu_item more_item">Crespo’s Worms Tournament <span id="release-tag"></span></div>', 'https://github.com/Zemke/cwt/releases', array('escape' => false)); ?>
