@@ -48,6 +48,7 @@ class UsersController extends AppController
             }
         }
 
+        $this->set('title_for_layout', 'Ranking');
         $this->set('achievements', $achievements);
         $this->set('users', $users);
     }
@@ -266,6 +267,8 @@ class UsersController extends AppController
                 $this->Session->setFlash('The password could not be changed. Please, try again.');
             }
         }
+
+        $this->set('title_for_layout', 'Change your Password');
     }
 
 
@@ -308,6 +311,7 @@ class UsersController extends AppController
 
         $this->set('user', $user);
         $this->set('photo', $this->User->displayPhoto($user['User']['username']));
+        $this->set('title_for_layout', $user['User']['username']);
     }
 
     public function add()

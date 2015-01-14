@@ -51,6 +51,7 @@ class StreamsController extends AppController
         }
 
         $this->helpers[] = 'Bbcode';
+        $this->set('title_for_layout', $stream['Stream']['title']);
         $this->set('stream', $stream);
     }
 

@@ -118,7 +118,7 @@ unset($schedules['datetimes'], $schedules['opponents']);
 </div>
 
 <div id="box"
-     style="background-color:#3C3E28; margin-left:500px; padding-top:5px; width:438px; height:80px; text-align:center;">
+     style="background-color:#3C3E28; margin-left:500px; padding-top:5px; width:440px; height:80px; text-align:center;">
     <?php if ($logged_in): ?>
         <?php if (!($current_user['stage'] == 'group' && $currentTournament['Tournament']['status'] == Tournament::GROUP)
             && !($current_user['stage'] == 'playoff' && $currentTournament['Tournament']['status'] == Tournament::PLAYOFF)

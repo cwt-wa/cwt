@@ -44,7 +44,7 @@ class AppController extends Controller
             if (!$user['admin']) {
                 return false;
             } else {
-                $this->set('title_for_layout', 'Admin!');
+                $this->set('title_for_layout', 'Admin Panel');
                 return true;
             }
         }

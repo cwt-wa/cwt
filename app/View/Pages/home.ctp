@@ -19,7 +19,7 @@ $this->Html->css('infoboard', null, array('inline' => false));
 
 
 <?php if ($logged_in): ?>
-    <div id="box" style="background-color:white; color:rgb(46,46,46); margin-top:100px; height: 210px">
+    <div id="box" class="infoboard">
         <div id="categories">
             <div class="category_item" id="all">All</div>
             <div class="category_item" id="shoutbox">Shoutbox</div>

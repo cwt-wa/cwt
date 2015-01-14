@@ -103,6 +103,7 @@ class CommentsController extends AppController
             $comment['stage'] = $comment['Playoff']['stepAssoc'];
         }
 
+        $this->set('title_for_layout', 'Comment Game #' . $game_id);
         $this->set('comment', $comment);
     }
 

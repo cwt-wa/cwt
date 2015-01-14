@@ -30,6 +30,7 @@ class GamesController extends AppController
             )
         );
 
+        $title_for_layout = 'Games';
         $conditions = array();
         if (isset($_GET['user_id'])) {
             $conditions['OR'] = array(
@@ -40,12 +41,14 @@ class GamesController extends AppController
             $this->loadModel('User');
             $user = $this->User->findById($_GET['user_id']);
             $this->set('user', $user);
+            $title_for_layout .= ' of ' . $user['User']['username'];
         }
 
         $this->Game->recursive = 1;
         $games = $this->Paginator->paginate(null, $conditions);
         $games = $this->Game->addRatingsToGames($games);
 
+        $this->set('title_for_layout', $title_for_layout);
         $this->set('games', $games);
     }
 
@@ -114,6 +117,7 @@ class GamesController extends AppController
             $game['winner']['photo'] = $this->User->displayPhoto($game['winner']['username']);
         }
 
+        $this->set('title_for_layout', 'Game #' . $game['Game']['id']);
         $this->set('game', $game);
     }
 

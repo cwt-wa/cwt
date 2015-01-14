@@ -28,6 +28,7 @@ class TracesController extends AppController
             )
         );
 
+        $title_for_layout = 'Ratings and Bets';
         $conditions = array();
         if (isset($_GET['user_id'])) {
             $conditions['user_id'] = $_GET['user_id'];
@@ -35,6 +36,7 @@ class TracesController extends AppController
             $this->loadModel('User');
             $user = $this->User->findById($_GET['user_id']);
             $this->set('user', $user);
+            $title_for_layout .= ' by ' . $user['User']['username'];
         }
         if (isset($_GET['game_id'])) {
             $conditions['on'] = $_GET['game_id'];
@@ -42,6 +44,7 @@ class TracesController extends AppController
             $this->loadModel('Game');
             $game = $this->Game->findById($_GET['game_id']);
             $this->set('game', $game);
+            $title_for_layout .= ' of Game';
         }
 
         $this->Trace->recursive = 1;
@@ -53,6 +56,7 @@ class TracesController extends AppController
             $traces[$i]['Game']['Away'] = $this->Trace->User->findById($traces[$i]['Game']['away_id']);
         }
 
+        $this->set('title_for_layout', $title_for_layout);
         $this->set('traces', $traces);
     }
 

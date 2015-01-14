@@ -2,8 +2,13 @@
 <head>
     <?php echo $this->Html->charset(); ?>
     <title>
-        <?php echo('CWT - '); ?>
-        <?php echo $title_for_layout; ?>
+        <?php
+            if (!empty($title_for_layout)) {
+                echo $title_for_layout;
+            } else {
+                echo 'Crespo’s Worms Tournament';
+            }
+        ?>
     </title>
     <?php
     echo $this->Html->meta('favicon.ico', '/favicon.ico', array('type' => 'icon'));
@@ -156,16 +161,17 @@
         </div>
 
         <div id="menu">
-            <?php echo $this->Html->link('<div class="menu_item">Games</div>', '/games', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<img class="icon" src="/img/icon.png" />', '/', array('escape' => false)); ?>
+            <?php //echo $this->Html->link('<div class="menu_item">Home</div>', '/', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Groups</div>', '/groups', array('escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Playoff</div>', '/playoffs', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Playoffs</div>', '/playoffs', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Streams</div>', '/streams', array('escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Players</div>', '/users', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Users</div>', '/users', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Games</div>', '/games', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Ratings/Bets</div>', '/ratingsbets', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">Ranking</div>', '/ranking', array('escape' => false)); ?>
             <?php echo $this->Html->link('<div class="menu_item">Archive</div>', '/archive', array('escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Ratings/Bets</div>', '/traces', array('escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Rules</div>', '/rules', array('escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Forum</div>', 'http://www.normalnonoobs.com/forum/viewforum.php?f=24', array('target' => '_blank', 'escape' => false)); ?>
-            <?php echo $this->Html->link('<div class="menu_item">Donate</div>', '/donate', array('escape' => false)); ?>
+            <?php echo $this->Html->link('<div class="menu_item">More...</div>', '/more', array('escape' => false)); ?>
         </div>
 
         <div id="content">
@@ -181,7 +187,7 @@
 <div id="footer">
     <div id="copyright">
         <?php
-        $string = '<b>Crespo&apos;s Worms Tournament</b>';
+        $string = '<b>Crespo’s Worms Tournament</b>';
 
         if ($currentTournament == null) {
             echo $string;
@@ -200,13 +206,9 @@
         ?>
     </div>
     <div id="pages">
-        <?php echo $this->Html->link('Rules', 'http://cwtsite.com/rules/view/1', array('class' => 'plainer')) ?>
-        &bull;
-        <?php echo $this->Html->link('Contact', 'mailto:support@cwtsite.com', array('class' => 'plainer')) ?>
-        &bull;
-        <?php echo $this->Html->link('Scheme', '/tournaments/download/scheme', array('class' => 'plainer')) ?>
-        &bull;
         <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('target' => '_blank', 'class' => 'plainer')) ?>
+        &bull;
+        <?php echo $this->Html->link('Twitter', 'http://twitter.com/cwtwa', array('target' => '_blank', 'class' => 'plainer')) ?>
         &bull;
         <?php echo $this->Html->link('WKB', 'http://worms2d.info/Crespo\'s_Worms_Tournament', array('target' => '_blank', 'class' => 'plainer')) ?>
         &bull;

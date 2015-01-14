@@ -1,7 +1,7 @@
 <?php echo $this->Html->css('groups', null, array('inline' => false)) ?>
 
 <div id="box" style="background-color:#2F2923">
-<div style="position: absolute; background-color: lightgray; padding: 10px; width: 140px; margin: -20px -20px -20px 798px;"><a href="#explanation">How is this being calculated?</a></div>
+<div style="position: absolute; background-color: lightgray; padding: 10px; width: 140px; margin: -20px -20px -20px 800px;"><a href="#explanation">How is this being calculated?</a></div>
 <table border="0" cellspace="0" cellpadding="3" align="center">
 
     <?php foreach ($users as $key => $user): ?>
