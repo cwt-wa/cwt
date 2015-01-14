@@ -524,3 +524,7 @@ pre {
     padding: 10px;
     border: 1px solid black;
 }
+
+.message {
+    border: none !important;
+}
