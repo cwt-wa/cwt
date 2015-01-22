@@ -1,8 +1,4 @@
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#timeline').scrollLeft($('#timeline').width());
-    });
-</script>
+<?php echo $this->Html->script('timeline', array('inline' => false)); ?>
 <?php
 $this->Html->css('profiles', null, array('inline' => false));
 echo $this->element('timeline', array('user' => $user['User']['id']));
