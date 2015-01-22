@@ -76,7 +76,4 @@
             src="http://twitch.tv/chat/embed?channel=<?php echo $stream['Stream']['provider'] ?>&amp;popout_chat=true"
             height="335" width="977"></iframe>
 </div>
-<div id="box"
-     style="background-color:#<?php echo $stream['Stream']['color'] ?>; text-align:left; display:inline-block; float:right; margin-top:0px; padding:5px; width:100px;">
-    &uarr; Click on <b>Chat</b>
 </div>
