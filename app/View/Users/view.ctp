@@ -19,13 +19,14 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
 <div id="boxFloat" style="width:500px; padding:0px; border:none; box-shadow:none; text-align:center;">
     <?php
     echo $this->Html->image('users/' . $photo, array(
-        'style' => 'height:auto; max-width:500px; border:1px solid #C4C4C4; padding:0px; box-shadow:4px 4px 3px #C4C4C4;'
+        'style' => 'height:auto; max-width:500px; padding:0px;'
     ));
     ?>
 </div>
+    <div id="box" style="margin-left:510px; background-color:#3E283E; text-align:center; padding:5px;">
+        <h1 style="font-size:30pt"><?php echo $user['User']['username'] ?></h1>
+    </div>
     <div id="box" style="margin-left:510px; background-color:#3E283E; font-size:larger; text-align:center;">
-        <u><h1 style="font-size:30pt"><?php echo $user['User']['username'] ?></h1></u>
-
         <?php if ($user['Profile']['country'] != 'unknown'): ?>
             <p>Country:<br><b><?php echo $user['Profile']['country'] ?></b></p>
         <?php endif; ?>

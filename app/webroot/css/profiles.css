@@ -1,10 +1,8 @@
 #timeline {
     position: relative;
     margin: 10px 0px;
-    border: 1px solid #C4C4C4;
     padding-top: 10px;
     padding-bottom: 30px;
-    box-shadow: 4px 4px 3px #C4C4C4;
     background-color: white;
     overflow-x: scroll;
     overflow-y: hidden;
@@ -28,14 +26,17 @@
     color: #FFF;
     background-color: #26323B !important;
     padding-top: 15px;
-    border: 1px outset #D3D3D3;
-    font-weight: bold;
-    width: 444px;
+    width: 446px;
     font-size: 14pt;
 }
 
 .action_item:hover {
     background-color: #303F4B !important;
+    cursor: pointer;
+}
+
+.action_item:active {
+    background-color: #1C252B !important;
     cursor: pointer;
 }
 
