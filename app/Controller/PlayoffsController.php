@@ -37,12 +37,12 @@ class PlayoffsController extends AppController
 
             if (empty($mostRecentTournament)) {
                 $this->Session->setFlash(
-                        'There is no tournament in playoff stage right now.');              
-                $this->redirect('/'); 
+                        'There is no tournament in playoff stage right now.');
+                $this->redirect('/');
             } else {
                 $this->Session->setFlash(
                         'There is no tournament in playoff stage right now. Here is the most recent tournament from the archive.');
-                $this->redirect('/archive/' . $mostRecentTournament['Tournament']['year']); 
+                $this->redirect('/archive/' . $mostRecentTournament['Tournament']['year']);
             }
         }
 
@@ -81,88 +81,6 @@ class PlayoffsController extends AppController
     }
 
 
-    public function view($id = null)
-    {
-        $this->Playoff->id = $id;
-        if (!$this->Playoff->exists()) {
-            throw new NotFoundException(__('Invalid playoff'));
-        }
-        $this->set('playoff', $this->Playoff->read(null, $id));
-    }
-
-
-    public function add()
-    {
-        if ($this->request->is('post')) {
-            $this->Playoff->create();
-            if ($this->Playoff->save($this->request->data)) {
-                $this->Session->setFlash(__('The playoff has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The playoff could not be saved. Please, try again.'));
-            }
-        }
-        $games = $this->Playoff->Game->find('list');
-        $this->set(compact('games'));
-    }
-
-
-    public function edit($id = null)
-    {
-        $this->Playoff->id = $id;
-        if (!$this->Playoff->exists()) {
-            throw new NotFoundException(__('Invalid playoff'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Playoff->save($this->request->data)) {
-                $this->Session->setFlash(__('The playoff has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The playoff could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Playoff->read(null, $id);
-        }
-        $games = $this->Playoff->Game->find('list');
-        $this->set(compact('games'));
-    }
-
-
-    public function delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Playoff->id = $id;
-        if (!$this->Playoff->exists()) {
-            throw new NotFoundException(__('Invalid playoff'));
-        }
-        if ($this->Playoff->delete()) {
-            $this->Session->setFlash(__('Playoff deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Playoff was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
-
-    public function admin_index()
-    {
-        $this->Playoff->recursive = 0;
-        $this->set('playoffs', $this->paginate());
-    }
-
-
-    public function admin_view($id = null)
-    {
-        $this->Playoff->id = $id;
-        if (!$this->Playoff->exists()) {
-            throw new NotFoundException(__('Invalid playoff'));
-        }
-        $this->set('playoff', $this->Playoff->read(null, $id));
-    }
-
-
     // Building the playoff tree.
     public function admin_add()
     {
@@ -179,44 +97,5 @@ class PlayoffsController extends AppController
 
         $players = $this->Playoff->attendees();
         $this->set('players', $players);
-    }
-
-
-    public function admin_edit($id = null)
-    {
-        $this->Playoff->id = $id;
-        if (!$this->Playoff->exists()) {
-            throw new NotFoundException(__('Invalid playoff'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Playoff->save($this->request->data)) {
-                $this->Session->setFlash(__('The playoff has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The playoff could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Playoff->read(null, $id);
-        }
-        $games = $this->Playoff->Game->find('list');
-        $this->set(compact('games'));
-    }
-
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Playoff->id = $id;
-        if (!$this->Playoff->exists()) {
-            throw new NotFoundException(__('Invalid playoff'));
-        }
-        if ($this->Playoff->delete()) {
-            $this->Session->setFlash(__('Playoff deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Playoff was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

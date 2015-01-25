@@ -248,63 +248,6 @@ class GamesController extends AppController
         ));
     }
 
-
-    public function edit($id = null)
-    {
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Game->save($this->request->data)) {
-                $this->Session->setFlash(__('The game has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Game->read(null, $id);
-        }
-        $groups = $this->Game->Group->find('list');
-        $playoffs = $this->Game->Playoff->find('list');
-        $this->set(compact('groups', 'playoffs'));
-    }
-
-
-    public function delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->Game->delete()) {
-            $this->Session->setFlash(__('Game deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Game was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
-
-    public function admin_index()
-    {
-        $this->Game->recursive = 0;
-        $this->set('games', $this->paginate());
-    }
-
-
-    public function admin_view($id = null)
-    {
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        $this->set('game', $this->Game->read(null, $id));
-    }
-
     public function admin_techwin()
     {
         if ($this->request->is('post')) {
@@ -327,44 +270,5 @@ class GamesController extends AppController
         $this->loadModel('User');
         $allUsersStillInTournament = $this->User->getAllUsersStillInTournament();
         $this->set('homes', $allUsersStillInTournament);
-    }
-
-    public function admin_edit($id = null)
-    {
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Game->save($this->request->data)) {
-                $this->Session->setFlash(__('The game has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Game->read(null, $id);
-        }
-        $groups = $this->Game->Group->find('list');
-        $playoffs = $this->Game->Playoff->find('list');
-        $this->set(compact('groups', 'playoffs'));
-    }
-
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->Game->delete()) {
-            $this->Session->setFlash(__('Game deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Game was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

@@ -52,21 +52,6 @@ class TournamentsController extends AppController
         $this->set('tournamentYear', $tournamentYear);
     }
 
-    public function admin_index()
-    {
-        $this->Tournament->recursive = 0;
-        $this->set('tournaments', $this->paginate());
-    }
-
-    public function admin_view($id = null)
-    {
-        $this->Tournament->id = $id;
-        if (!$this->Tournament->exists()) {
-            throw new NotFoundException(__('Invalid tournament'));
-        }
-        $this->set('tournament', $this->Tournament->read(null, $id));
-    }
-
     public function admin_add()
     {
         $currentTournament = $this->Tournament->currentTournament();
@@ -257,23 +242,6 @@ class TournamentsController extends AppController
 
         $this->set('next', $next);
         $this->set('status', $currentTournament['Tournament']['status']);
-    }
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Tournament->id = $id;
-        if (!$this->Tournament->exists()) {
-            throw new NotFoundException(__('Invalid tournament'));
-        }
-        if ($this->Tournament->delete()) {
-            $this->Session->setFlash(__('Tournament deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Tournament was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 
 }
