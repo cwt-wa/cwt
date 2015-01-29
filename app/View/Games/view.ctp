@@ -1,9 +1,9 @@
 <?php echo $this->Html->script('game', array('inline' => false)); ?>
 
 <?php
-if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
+if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
     echo $this->element('archiveof', array(
-        'tournamentYear' => $this->Time->format($game['Game']['created'], '%Y')
+        'tournamentYear' => $game['Tournament']['year']
     ));
 }
 ?>
