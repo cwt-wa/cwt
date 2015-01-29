@@ -144,7 +144,7 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
             ?>
         </div>
         <div id="commentBox" style="display:none;">
-            <?php echo $this->Form->textarea('Comment', array('style' => 'width:100%; height:100px')); ?>
+            <?php echo $this->Form->textarea('Comment', array('style' => 'width: 724px; height:100px; margin:5px auto; border:1px solid lightgray;')); ?>
             <?php
             echo $this->Form->submit('Submit Comment', array(
                 'style' => 'margin-left:599px; width:130px',
