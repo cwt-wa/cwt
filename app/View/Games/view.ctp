@@ -1,9 +1,9 @@
 <?php echo $this->Html->script('game', array('inline' => false)); ?>
 
 <?php
-if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
+if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
     echo $this->element('archiveof', array(
-        'tournamentYear' => $this->Time->format($game['Game']['created'], '%Y')
+        'tournamentYear' => $game['Tournament']['year']
     ));
 }
 ?>
@@ -18,7 +18,7 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
         ?>
     <?php endif; ?>
     <div id="box"
-         style="height:30px; width:223px; float:left; margin-top:10px; background-color:#93886F; font-size:18pt; padding:5px; padding-left:10px;">
+         style="height:30px; width:223px; float:left; margin-top:10px; background-color:#5A5344; font-size:18pt; padding:5px; padding-left:10px;">
         <?php
         echo $this->Html->image('awesome.png', array(
             'style' => 'height:25px; width:auto;'
@@ -28,15 +28,11 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
         <div style="margin-left:30px; margin-top:-27px;">
             <?php
             echo '&nbsp;' . $this->Html->link($game['winner']['username'],
-                    '/users/view/' . $game['winner']['id'],
-                    array(
-                        'class' => 'plain'
-                    )
-                );
+                    '/users/view/' . $game['winner']['id']);
             ?>
         </div>
     </div>
-    <div id="box" style="margin-top:60px; background-color:#93886F">
+    <div id="box" style="margin-top:60px; background-color:#5A5344">
         Reported by
         <?php
         echo $this->Html->link($game['Report']['username'],
@@ -56,20 +52,12 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
         <font color="lightgray"><?php echo $game['stage'] ?>:</font>
         <?php
         echo $this->Html->link($game['Home']['username'],
-            '/users/view/' . $game['Home']['id'],
-            array(
-                'class' => 'plain'
-            )
-        );
+            '/users/view/' . $game['Home']['id']);
         ?>
         <?php echo $game['Game']['score_h']; ?>-<?php echo $game['Game']['score_a']; ?>
         <?php
         echo $this->Html->link($game['Away']['username'],
-            '/users/view/' . $game['Away']['id'],
-            array(
-                'class' => 'plain'
-            )
-        );
+            '/users/view/' . $game['Away']['id']);
         ?>
     </div>
     <?php if (isset($game['Playoff']['bets'])): ?>
@@ -144,7 +132,7 @@ if ($game['Game']['tournament_id'] != $currentTournament['Tournament']['id']) {
             ?>
         </div>
         <div id="commentBox" style="display:none;">
-            <?php echo $this->Form->textarea('Comment', array('style' => 'width:100%; height:100px')); ?>
+            <?php echo $this->Form->textarea('Comment', array('style' => 'width: 724px; height:100px; margin:5px auto; border:1px solid lightgray;')); ?>
             <?php
             echo $this->Form->submit('Submit Comment', array(
                 'style' => 'margin-left:599px; width:130px',

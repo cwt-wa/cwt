@@ -46,7 +46,7 @@ img.icon {
 /* Menu */
 
 #menubacker {
-    font-family: Ubuntu, Tahoma, Verdana, sans-serif;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
     background-color: #4D4032;
     height: 80px;
     width: 100%;
@@ -221,7 +221,6 @@ div#year {
 #adminNews {
     text-align: center;
     position: relative;
-    font-family: Arial;
     font-size: 8pt;
     margin: -35px 0px 10px 770px;
     background-color: #2E2E2E;
@@ -311,12 +310,12 @@ h4 {
 }
 
 input, textarea, select {
-    font-family: Ubuntu, "Lucida Grande", Calibri, Tahoma, Verdana, Arial, sans-serif;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
     font-size: 10pt;
 }
 
 input[type=submit], button {
-    font-family: Ubuntu, "Lucida Grande", Calibri, Tahoma, Verdana, Arial, sans-serif;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
     border: 1px solid #C0C0C0;
     padding: 1px 10px;
 }
@@ -338,12 +337,6 @@ a {
     text-decoration: none;
     border: none;
     font-weight: normal;
-}
-
-.plain {
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
 }
 
 .plainer {

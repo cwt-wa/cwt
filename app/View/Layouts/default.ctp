@@ -222,6 +222,5 @@
     </div>
 </div>
 <?php echo $this->Js->writeBuffer(); // Write cached scripts ?>
-<script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
 </body>
 </html>
