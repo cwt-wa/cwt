@@ -191,12 +191,12 @@
 <div id="footer">
     <div id="copyright">
         <?php
-        $string = '<b>Crespo’s Worms Tournament</b>';
+        $string = 'Crespo’s Worms Tournament';
 
         if ($currentTournament == null) {
             echo $string;
         } else {
-            $string .= ' <b>' . $currentTournament['Tournament']['year'] . '</b> by ';
+            $string .= ' ' . $currentTournament['Tournament']['year'] . ' by ';
 
             $moderators = array();
             foreach ($currentTournament['Moderator'] as $moderator) {
