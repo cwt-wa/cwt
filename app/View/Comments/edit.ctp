@@ -15,20 +15,12 @@ echo $this->Html->css('bbcode', null, array('inline' => false));
         <font color="lightgray"><?php echo $game['stage'] ?>:</font>
         <?php
         echo $this->Html->link($game['Home']['username'],
-            '/users/view/' . $game['Home']['id'],
-            array(
-                'class' => 'plain'
-            )
-        );
+            '/users/view/' . $game['Home']['id']);
         ?>
         <?php echo $game['Game']['score_h']; ?>-<?php echo $game['Game']['score_a']; ?>
         <?php
         echo $this->Html->link($game['Away']['username'],
-            '/users/view/' . $game['Away']['id'],
-            array(
-                'class' => 'plain'
-            )
-        );
+            '/users/view/' . $game['Away']['id']);
         ?>
     </div>
 
