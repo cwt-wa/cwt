@@ -37,11 +37,13 @@ class PlayoffsController extends AppController
 
             if (empty($mostRecentTournament)) {
                 $this->Session->setFlash(
-                        'There is no tournament in playoff stage right now.');
+                        'There is no tournament in playoff stage right now.',
+                    'default', array('class' => 'error'));
                 $this->redirect('/');
             } else {
                 $this->Session->setFlash(
-                        'There is no tournament in playoff stage right now. Here is the most recent tournament from the archive.');
+                        'There is no tournament in playoff stage right now.<br/>Here is the most recent tournament from the archive.',
+                        'default', array('class' => 'error'));
                 $this->redirect('/archive/' . $mostRecentTournament['Tournament']['year']);
             }
         }

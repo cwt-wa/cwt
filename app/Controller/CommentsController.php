@@ -30,7 +30,7 @@ class CommentsController extends AppController
         public function add($game_id)
     {
         if (!$this->Auth->loggedIn()) {
-            $this->Auth->flash($this->Auth->authError);
+            $this->Session->setFlash($this->Auth->authError, 'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 
@@ -115,7 +115,7 @@ class CommentsController extends AppController
         ));
 
         if ($comment['Comment']['user_id'] != $this->Auth->user('id')) {
-            $this->Auth->flash('You can\'t edit someone else\'s comment.');
+            $this->Session->setFlash('You can’t edit someone else’s comment.', 'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 

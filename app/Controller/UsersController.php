@@ -123,7 +123,7 @@ class UsersController extends AppController
                         true, 60 * 60 * 24 * 30 * 3);
 
                     $this->Session->setFlash('You have been logged in.');
-                    $this->redirect($_GET['referer']);
+                    $this->redirect($this->referer());
                 } else {
                     $this->Session->setFlash(
                         'Login failed.',
@@ -163,8 +163,8 @@ class UsersController extends AppController
             $this->User->id = $user['User']['id'];
 
             if (empty($user['Profile']['email'])) {
-                $response = 'You\'ve never provided an email address, '
-                    . 'hence we can\'t send you a new password. Please reach out to us. '
+                $response = 'You’ve never provided an email address, '
+                    . 'hence we can’t send you a new password. Please reach out to us. '
                     . ' <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
                 $responsePositive = false;
             } else {
@@ -233,7 +233,7 @@ class UsersController extends AppController
                     'username' => $user['User']['username'],
                     'password' => $this->request->data['Password']['new1']
                 )));
-                $this->Session->setFlash('Your password has been and you are logged in.');
+                $this->Session->setFlash('Your password has been reset and you are logged in.');
                 $this->redirect('/');
             } else {
                 $this->Session->setFlash(
@@ -260,7 +260,8 @@ class UsersController extends AppController
             if ($this->User->password($this->request->data['Password'])) {
                 $this->Session->setFlash('Your password has been changed.');
             } else {
-                $this->Session->setFlash('The password could not be changed. Please, try again.');
+                $this->Session->setFlash('The password could not be changed. Please, try again.',
+                    'default', array('class' => 'error'));
             }
         }
 
@@ -301,7 +302,8 @@ class UsersController extends AppController
         $user['Profile'] = $profile['Profile'];
 
         if ($user['Profile']['hideProfile'] && !$this->Auth->loggedIn()) {
-            $this->Session->setFlash($user['User']['username'] . ' has chosen not to display the profile for non-logged-in users.');
+            $this->Session->setFlash($user['User']['username'] . ' has chosen not to display the profile for non-logged-in users.',
+                'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 

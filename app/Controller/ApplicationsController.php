@@ -46,7 +46,8 @@ class ApplicationsController extends AppController
                 $this->Session->setFlash('The staff will now consider your application.');
                 $this->redirect('/applications');
             } else {
-                $this->Session->setFlash('You have to agree on being acquainted with the rules.');
+                $this->Session->setFlash('You have to agree on being acquainted with the rules.',
+                    'default', array('class' => 'error'));
                 $this->redirect('/rules/view/apply');
             }
         } else {

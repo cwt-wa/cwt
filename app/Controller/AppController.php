@@ -23,7 +23,7 @@ class AppController extends Controller
                 'controller' => 'users',
                 'action' => 'login'
             ),
-            'authError' => 'You don\'t have the required
+            'authError' => 'You don’t have the required
                     rights to access that page.',
             'authorize' => array('Controller')
         ),

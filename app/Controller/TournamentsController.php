@@ -58,7 +58,8 @@ class TournamentsController extends AppController
         $this->Tournament->id = $currentTournament['id'];
 
         if ($currentTournament['Tournament']['status'] != null) {
-            $this->Session->setFlash('There is already a tournament running at the moment.');
+            $this->Session->setFlash('There is already a tournament running at the moment.',
+                'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 
@@ -150,7 +151,7 @@ class TournamentsController extends AppController
             $this->Tournament->id = $this->request->data['Tournament']['id'];
             if (!$this->Tournament->exists()) {
                 $this->Session->setFlash(
-                    'Eww, I couldn\'t update the review.',
+                    'Eww, I couldn’t update the review.',
                     'default', array('class' => 'error'));
                 return;
             }
@@ -159,7 +160,7 @@ class TournamentsController extends AppController
                 $this->Session->setFlash('Thanks for the review, it has been updated successfully.');
             } else {
                 $this->Session->setFlash(
-                    'Eww, I couldn\'t update the review.',
+                    'Eww, I couldn’t update the review.',
                     'default', array('class' => 'error'));
             }
         }

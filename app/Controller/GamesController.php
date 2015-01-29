@@ -129,13 +129,15 @@ class GamesController extends AppController
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP
             && $this->Auth->user('stage') != 'group'
         ) {
-            $this->Session->setFlash('You can\'t report any game.');
+            $this->Session->setFlash('You can’t report any game.',
+                'default', array('class' => 'error'));
             $this->redirect(array('action' => 'index'));
         }
         if ($currentTournament['Tournament']['status'] == Tournament::PLAYOFF
             && $this->Auth->user('stage') != 'playoff'
         ) {
-            $this->Session->setFlash('You can\'t report any game.');
+            $this->Session->setFlash('You can’t report any game.',
+                'default', array('class' => 'error'));
             $this->redirect(array('action' => 'index'));
         }
 
@@ -181,7 +183,7 @@ class GamesController extends AppController
             $currentGame = $this->Game->Playoff->currentGame();
 
             if (!$currentGame) {
-                $this->Session->setFlash('You can\'t report any game.', 'default', array('class' => 'error'));
+                $this->Session->setFlash('You can’t report any game.', 'default', array('class' => 'error'));
                 $this->redirect(array('action' => 'index'));
             }
 

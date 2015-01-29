@@ -386,10 +386,6 @@ ul {
     background-color: #004011;
 }
 
-.error {
-    background-color: #790000;
-}
-
 .warning {
     background-color: #494736;
 }
@@ -520,4 +516,20 @@ pre {
 
 .message {
     border: none !important;
+    background-color: #8B0000;
+}
+
+#flashMessage {
+    background-image: none;
+    border-radius: 0;
+    font-weight: normal !important;
+    border: none;
+}
+
+div#flashMessage.message {
+    background-color: #006400;
+}
+
+div#flashMessage.error {
+    background-color: #8B0000;
 }

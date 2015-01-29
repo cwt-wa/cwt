@@ -16,7 +16,8 @@ class GroupsController extends AppController
             array('edit', 'delete', 'add', 'index', 'view'))
         ) {
             if (!$this->Group->gamesCanBeReported()) {
-                $this->Session->setFlash('There is no tournament right now. Here is the most recent tournament from the archive.');
+                $this->Session->setFlash('There is no tournament right now. Here is the most recent tournament from the archive.',
+                    'default', array('class' => 'error'));
                 $this->loadModel('Tournament');
                 $mostRecentTournament = $this->Tournament->find('first', array('order' => 'Tournament.year DESC'));
                 $this->redirect('/archive/' . $mostRecentTournament['Tournament']['year']);
@@ -37,21 +38,6 @@ class GroupsController extends AppController
             throw new NotFoundException(__('Invalid group'));
         }
         $this->set('group', $this->Group->read(null, $id));
-    }
-
-    public function add()
-    {
-        if ($this->request->is('post')) {
-            $this->Group->create();
-            if ($this->Group->save($this->request->data)) {
-                $this->Session->setFlash(__('The group has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The group could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Group->User->find('list');
-        $this->set(compact('users'));
     }
 
     public function admin_add()
