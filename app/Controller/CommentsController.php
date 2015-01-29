@@ -115,6 +115,7 @@ class CommentsController extends AppController
             throw new NotFoundException(__('Invalid comment'));
         }
 
+        $this->Comment->recursive = 1;
         $comment = $this->Comment->find('first', array(
             'conditions' => array(
                 'Comment.id' => $id
@@ -159,10 +160,14 @@ class CommentsController extends AppController
             }
         }
 
+        $this->Comment->Game->recursive = 1;
         $game = $this->Comment->Game->read(null, $comment['Game']['id']);
 
         if ($game['Game']['group_id']) {
-            $game['stage'] = 'Group ' . $game['Group']['group'];
+            $game['stage'] = 'Group ' . $game['Group']['label'];
+        } elseif ($game['Game']['playoff_id']) { // Handle playoff game.
+            $this->loadModel('Playoff');
+            $game['stage'] = $this->Playoff->stepAssoc[$game['Playoff']['step']];
         }
 
         $this->set('comment', $comment);
