@@ -83,5 +83,7 @@ class RatingsController extends AppController
 
             $this->Trace->check('Rating', 'add', $do, $this->request->data['gameId'], 'write');
         }
+
+        $this->autoRender = false;
     }
 }
