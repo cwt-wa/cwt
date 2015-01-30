@@ -26,7 +26,7 @@ $comments = $this->requestAction('/comments/view/' . $gameId);
             ));
             ?>
         </div>
-        <div style="padding:10px 10px 10px 10px; margin-left:180px; border-left:1px solid black;">
+        <div style="padding:10px 10px 10px 10px; margin-left:180px; border-left:1px solid black; word-wrap:break-word;">
             <?php echo nl2br($this->Bbcode->parse($comment['Comment']['message'])); ?><br><br>
             <?php if ($comment['Comment']['modified'] != '0000-00-00 00:00:00'): ?>
                 <div style="margin-top:5px; text-align:right; font-style:italic;">
