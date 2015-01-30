@@ -13,6 +13,49 @@ class Stream extends AppModel
         )
     );
 
+    /**
+     * Queries the TwitchTV API.
+     *
+     * @param $method String GET or POST?
+     * @param $url String The URL to send to will be prepended with https://api.twitch.tv/kraken/
+     * @param bool $data Date to be sent with the request.
+     * @return Array The JSON response converted to an array.
+     */
+    public function callTwitchApi($method, $url, $data = false)
+    {
+        $url .= 'https://api.twitch.tv/kraken/';
+        $curl = curl_init();
+
+        switch ($method)
+        {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
+
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_PUT, 1);
+                break;
+            default:
+                if ($data)
+                    $url = sprintf("%s?%s", $url, http_build_query($data));
+        }
+
+        // Optional Authentication:
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($curl);
+
+        curl_close($curl);
+
+        return json_decode($result, true);
+    }
+
     // Current user is maintainer of a stream? Any stream online?
     public function checkings()
     {
