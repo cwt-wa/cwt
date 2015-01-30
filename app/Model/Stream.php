@@ -21,9 +21,9 @@ class Stream extends AppModel
      * @param bool $data Date to be sent with the request.
      * @return Array The JSON response converted to an array.
      */
-    public function callTwitchApi($method, $url, $data = false)
+    public function callTwitchApi($url, $method = 'GET', $data = false)
     {
-        $url .= 'https://api.twitch.tv/kraken/';
+        $url = 'https://api.twitch.tv/kraken/' . $url;
         $curl = curl_init();
 
         switch ($method)
@@ -49,6 +49,7 @@ class Stream extends AppModel
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec($curl);
 
         curl_close($curl);
