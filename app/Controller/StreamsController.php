@@ -13,6 +13,15 @@ class StreamsController extends AppController
         $this->Auth->allow('delete');
     }
 
+    public function tryit()
+    {
+        App::uses('TryShell', 'Console/Command');
+        $TryShell = new TryShell();
+        $res = $TryShell->main();
+        debug($res);
+    }
+
+
 
     public function index()
     {

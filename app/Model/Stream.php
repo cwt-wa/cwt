@@ -57,6 +57,33 @@ class Stream extends AppModel
         return json_decode($result, true);
     }
 
+    public function fetchPossibleStreamsForGame($game)
+    {
+        $streams = $this->find('all');
+        foreach ($streams as $streamKey => $stream) {
+            $res = $this->callTwitchApi('channels/' . 'khamski' . '/videos'); // @TODO replace with $stream['Stream']['provider']
+            return $this->findMatchingVideoForGame($res['videos'], $game);
+        }
+    }
+
+    /**
+     * @param $videos
+     */
+    public function findMatchingVideoForGame($videos, $game)
+    {
+        foreach ($videos as $videoKey => $video) {
+            if (strpos(strtolower($video['title']), strtolower($game['Home']['username'])) !== false
+                && strpos(strtolower($video['title']), strtolower($game['Away']['username'])) !== false) {
+                return $video;
+            }
+
+            if (($game['Playoff']['stepAssoc'] == 'Final' || $game['Playoff']['step'] == 5)
+                && strpos(strtolower($video['title']), strtolower($game['Playoff']['stepAssoc'])) !== false) {
+                return $video;
+            }
+        }
+    }
+
     // Current user is maintainer of a stream? Any stream online?
     public function checkings()
     {
