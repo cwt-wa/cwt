@@ -67,21 +67,56 @@ class Stream extends AppModel
     }
 
     /**
-     * @param $videos
+     * @return array All CWT live streamed videos
      */
-    public function findMatchingVideoForGame($videos, $game)
+    public function queryAllVideos()
     {
-        foreach ($videos as $videoKey => $video) {
-            if (strpos(strtolower($video['title']), strtolower($game['Home']['username'])) !== false
-                && strpos(strtolower($video['title']), strtolower($game['Away']['username'])) !== false) {
-                return $video;
+        $videos = array();
+        $streams = $this->find('all');
+        foreach ($streams as $stream) {
+            $videosOfStream = $this->queryVideosOfStream($stream);
+            if (empty($videosOfStream)) {
+                continue;
+            }
+            $videos = array_merge($videos, $videosOfStream);
+        }
+        return $videos;
+    }
+
+    public function queryVideosOfStream($stream)
+    {
+        $res = $this->callTwitchApi(
+            'channels/' . $stream['Stream']['provider'] . '/videos?limit=100');
+        $filteredVideos = $this->filterVideos($res['videos']);
+        if (!empty($filteredVideos)) {
+            foreach ($filteredVideos as $filteredVideoKey => $filteredVideo) {
+                $filteredVideos[$filteredVideoKey]['_channel'] = $stream['Stream']['title'];
             }
 
-            if (($game['Playoff']['stepAssoc'] == 'Final' || $game['Playoff']['step'] == 5)
-                && strpos(strtolower($video['title']), strtolower($game['Playoff']['stepAssoc'])) !== false) {
-                return $video;
+        }
+        return $filteredVideos;
+    }
+
+    /**
+     * Filters videos that don't contain "CWT" in their title (case-insensitive).
+     *
+     * @param array $videos Videos each with a "title" attribute like $videos[0]['title].
+     * @return array The videos without the filtered ones.
+     */
+    public function filterVideos($videos)
+    {
+        if (empty($videos)) {
+            return array();
+        }
+        $videosCopy = $videos;
+        foreach ($videos as $videoKey => $video) {
+            if (strpos(strtolower($video['title']), strtolower('CWT')) !== false) {
+                continue; // CWT is contained in the video's title.
+            } else {
+                unset($videosCopy[$videoKey]);
             }
         }
+        return $videosCopy;
     }
 
     // Current user is maintainer of a stream? Any stream online?

@@ -1,6 +1,9 @@
 <?php
 App::uses('AppController', 'Controller');
 
+/**
+ * @property Stream Stream
+ */
 class StreamsController extends AppController
 {
     public $name = 'Streams';
@@ -13,6 +16,7 @@ class StreamsController extends AppController
         $this->Auth->allow('delete');
     }
 
+
     public function tryit()
     {
         App::uses('TryShell', 'Console/Command');
@@ -22,10 +26,18 @@ class StreamsController extends AppController
     }
 
 
-
     public function index()
     {
         $this->set('streams', $this->paginate());
+    }
+
+
+    public function videos()
+    {
+        if ($this->request->is('ajax')) {
+            $this->set('videos', $this->Stream->queryAllVideos());
+            $this->layout = 'ajax';
+        }
     }
 
 
