@@ -8,7 +8,7 @@
     <param name="allowNetworking" value="all"/>
     <param name="allowFullScreen" value="true"/>
     <param name="flashvars"
-           value="channel=khamski&auto_play=false&start_volume=50&videoId=<?php echo $video['_id'] ?>&device_id=2666b6e72ebdd6f3"/>
+           value="channel=<?php echo $provider ?>&auto_play=false&start_volume=50&videoId=<?php echo $video['_id'] ?>&device_id=<?php echo $video['broadcast_id'] ?>"/>
 </object>
 <div id="box" style="background-color: #<?php echo $stream['Stream']['color'] ?>; text-align: center;">
     Recorded on <b><?php echo $this->Time->format($video['recorded_at'], '%A, %B %d, %Y, %H:%M:%S') ?></b> by <b><?php echo $stream['Stream']['title'] ?></b> and viewed by <b><?php echo $video['views'] ?></b> people. Thanks!

@@ -10,7 +10,7 @@ echo $this->Html->script('stream', array('inline' => false));
 
 <?php if (!$logged_in): ?>
     <div id="box" style="background-color:#29110D; text-align:center;">
-        Log in, if you want to start your own Stream.
+        Log in, if you want to start your own Live Stream Channel.
     </div>
 <?php endif; ?>
 <?php if ($logged_in && !$up_stream['maintainer']): ?>
@@ -44,7 +44,7 @@ echo $this->Html->script('stream', array('inline' => false));
             ));
             ?>
             <fieldset>
-                <legend><b>Start your own Live Stream!</b></legend>
+                <legend><b>Create your own Live Stream Channel!</b></legend>
                 <br>
 
                 <div id="box" style="border:none; box-shadow:none; padding:0px;">

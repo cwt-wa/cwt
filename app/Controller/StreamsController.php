@@ -13,7 +13,7 @@ class StreamsController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('delete');
+        $this->Auth->allow('delete', 'videos');
     }
 
 
@@ -55,6 +55,7 @@ class StreamsController extends AppController
                 'LOWER(provider)' => strtolower($provider)
             )
         ));
+        $this->set('provider', $provider);
         $this->set('stream', $stream);
         $this->set('video', $res);
     }
