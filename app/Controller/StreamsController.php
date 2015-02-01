@@ -33,39 +33,30 @@ class StreamsController extends AppController
     }
 
 
-    public function view($id = null)
+    public function view($twitchVideoId)
     {
-        $this->Stream->id = $id;
-        if (!$this->Stream->exists()) {
-            throw new NotFoundException(__('Invalid Stream'));
+        $res = $this->Stream->callTwitchApi('videos/' . $twitchVideoId);
+
+        if (!$res) {
+            $this->Session->setFlash('Couldn’t get this stream.', 'default', array('class' => 'error'));
+            $this->redirect($this->referer());
+            return;
         }
-        $this->Stream->recursive = 0;
-        $stream = $this->Stream->read(null);
-
-        if ($stream['Stream']['online']) {
-            $streaming = explode(',', $stream['Stream']['streaming']);
-
-            if (!is_numeric($streaming[0])) { // Group
-                $stage = 'Group ' . $streaming[0];
-            } else { // Playoff
-                $this->loadModel('Playoff');
-                $stage = $this->Playoff->stepAssoc[$streaming[0]];
-            }
-
-            $this->loadModel('User');
-            $home_id = $this->User->read(null, $streaming[1]);
-            $away_id = $this->User->read(null, $streaming[2]);
-
-            $stream['Stream']['streaming'] = array(
-                'stage' => $stage,
-                'home_id' => $home_id['User'],
-                'away_id' => $away_id['User']
-            );
-        }
-
-        $this->helpers[] = 'Bbcode';
-        $this->set('title_for_layout', $stream['Stream']['title']);
+//        if (isset($_GET['streamId'])) {
+//            $stream = $this->Stream->findById($_GET['streamId']);
+//            $color = $stream['Stream']['color'];
+//        } else {
+//            $color = '#3F2828';
+//        }
+        $explodeOwnerUrl = explode('/', $res['_links']['channel']);
+        $provider = $explodeOwnerUrl[count($explodeOwnerUrl) - 1];
+        $stream = $this->Stream->find('first', array(
+            'conditions' => array(
+                'LOWER(provider)' => strtolower($provider)
+            )
+        ));
         $this->set('stream', $stream);
+        $this->set('video', $res);
     }
 
 
