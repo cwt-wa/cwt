@@ -1,20 +1,27 @@
+<?php
+echo $this->Html->css('groups', null, array('inline' => false));
+echo $this->Html->script('tablesorter', array('inline' => false));
+echo $this->Html->script('stream', array('inline' => false));
+?>
+
+<div id="box" style="background-color:#3F2828; text-align:center;">
+    <h1>Streams</h1>
+</div>
+
 <?php if (!$logged_in): ?>
     <div id="box" style="background-color:#29110D; text-align:center;">
         Log in, if you want to start your own Stream.
     </div>
 <?php endif; ?>
-
 <?php if ($logged_in && !$up_stream['maintainer']): ?>
-    <?php echo $this->Html->script('stream', array('inline' => false)); ?>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#color1').css('border', '1px solid red');
         });
     </script>
-    <div id="box" style="background-color:#3F2828; text-align:center;">
-        <div id="willing"
-             style="font-size:12pt; test-align:right; padding-left:400px; cursor:pointer; font-weight:bold; color:#3170CE;">
-            Hey, willing to create your own live stream?
+    <div id="box" class="new" style="background-color:#3F2828; text-align:center;">
+        <div id="willing" style="text-align:right; cursor:pointer; color:#3170CE;">
+            Hey, willing to create your own Live Stream Channel?
         </div>
         <div id="addStream" style="text-align:center; width:500px; padding-left:200px; display:none;">
             You can only stream from
@@ -86,20 +93,10 @@
     </div>
 <?php endif; ?>
 
-<div style="text-align:center;">
-    <?php foreach ($streams as $key => $val): ?>
-        <div id="box"
-             style="background-color:#<?php echo $val['Stream']['color'] ?>; font-size:16pt; display:inline-block; margin:10px;">
-            <?php if ($val['Stream']['online']): ?>
-                <b><font color="green">Online:</font></b>
-            <?php else: ?>
-                <font color="red">Offline:</font>
-            <?php endif; ?>
-            <?php
-            echo $this->Html->link($val['Stream']['title'],
-                '/streams/view/' . $val['Stream']['id']
-            );
-            ?>
+<div id="box" style="background-color: #3F2828">
+    <div id="videos">
+        <div style="text-align: center; font-size: 14pt;">
+            <img src="/img/loading.gif" style="height: 20px; margin-bottom: -3px;"> Loading streams...
         </div>
-    <?php endforeach; ?>
+    </div>
 </div>

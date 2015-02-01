@@ -15,7 +15,15 @@ $(document).ready(function () {
     $('#color4').css('border', 'none');
     $('#color5').css('border', 'none');
     $(this).css('border', '1px solid red');
-    $('#box').css('background-color', $(this).css('background-color'));
+    $('#box.new').css('background-color', $(this).css('background-color'));
     $('#StreamColor').val($(this).css('background-color'));
+  });
+
+  $.ajax({
+    url: '/streams/videos',
+    success: function (res) {
+      $('#videos').html(res);
+      $('#streamsList').tablesorter({sortList: [[4, 1]]});
+    }
   });
 });

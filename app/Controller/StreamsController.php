@@ -17,15 +17,6 @@ class StreamsController extends AppController
     }
 
 
-    public function tryit()
-    {
-        App::uses('TryShell', 'Console/Command');
-        $TryShell = new TryShell();
-        $res = $TryShell->main();
-        debug($res);
-    }
-
-
     public function index()
     {
         $this->set('streams', $this->paginate());
@@ -34,8 +25,9 @@ class StreamsController extends AppController
 
     public function videos()
     {
-        if ($this->request->is('ajax')) {
-            $this->set('videos', $this->Stream->queryAllVideos());
+        if ($this->request->is('get')) { // @TODO Should be ajax.
+            $videos = $this->Stream->queryAllVideos();
+            $this->set('videos', $videos);
             $this->layout = 'ajax';
         }
     }

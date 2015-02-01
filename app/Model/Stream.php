@@ -16,12 +16,13 @@ class Stream extends AppModel
     /**
      * Queries the TwitchTV API.
      *
-     * @param $method String GET or POST?
      * @param $url String The URL to send to will be prepended with https://api.twitch.tv/kraken/
+     * @param $method String GET or POST?
      * @param bool $data Date to be sent with the request.
+     * @param bool $tryAgain If true, it will retry the request, if it failed.
      * @return Array The JSON response converted to an array.
      */
-    public function callTwitchApi($url, $method = 'GET', $data = false)
+    public function callTwitchApi($url, $method = 'GET', $data = false, $tryAgain = true)
     {
         $url = 'https://api.twitch.tv/kraken/' . $url;
         $curl = curl_init();
@@ -43,14 +44,32 @@ class Stream extends AppModel
         }
 
         // Optional Authentication:
-        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+//        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+//        curl_setopt($curl, CURLOPT_USERPWD, "username:password");
 
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => true,     // return web page
+            CURLOPT_HEADER         => false,    // don't return headers
+            CURLOPT_FOLLOWLOCATION => true,     // follow redirects
+            CURLOPT_AUTOREFERER    => true,     // set referer on redirect
+            CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
+            CURLOPT_TIMEOUT        => 120,      // timeout on response
+            CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false
+        ));
         $result = curl_exec($curl);
+
+        $curl_errno = curl_errno($curl);
+        $curl_error = curl_error($curl);
+        if ($curl_errno) {
+            CakeLog::write('twitch', '(' . curl_errno($curl) . ') ' . $curl_error);
+            curl_close($curl);
+            if ($tryAgain) {
+                return $this->callTwitchApi($url, $method, $data, false);
+            }
+        }
 
         curl_close($curl);
 
@@ -87,6 +106,9 @@ class Stream extends AppModel
     {
         $res = $this->callTwitchApi(
             'channels/' . $stream['Stream']['provider'] . '/videos?limit=100');
+        if (!$res || !array_key_exists('videos', $res)) {
+            return array();
+        }
         $filteredVideos = $this->filterVideos($res['videos']);
         if (!empty($filteredVideos)) {
             foreach ($filteredVideos as $filteredVideoKey => $filteredVideo) {
