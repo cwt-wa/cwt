@@ -58,6 +58,7 @@ class StreamsController extends AppController
         $this->set('provider', $provider);
         $this->set('stream', $stream);
         $this->set('video', $res);
+        $this->set('title_for_layout', $res['title']);
     }
 
 
