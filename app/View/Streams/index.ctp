@@ -1,4 +1,5 @@
 <?php
+echo $this->Html->css('streams', null, array('inline' => false));
 echo $this->Html->css('groups', null, array('inline' => false));
 echo $this->Html->script('tablesorter', array('inline' => false));
 echo $this->Html->script('stream', array('inline' => false));

@@ -2,9 +2,9 @@
     <thead>
     <tr style="cursor:pointer;">
         <th class="bottomBorder" align="center">Title</th>
-        <th class="bottomBorder" align="center">Views</th>
-        <th class="bottomBorder" align="center">Length</th>
-        <th class="bottomBorder" align="center">Channel</th>
+        <th class="bottomBorder" align="center" width="70">Views</th>
+        <th class="bottomBorder" align="center" width="70">Length</th>
+        <th class="bottomBorder" align="center" width="70">Channel</th>
         <th class="bottomBorder" align="center">Recorded at</th>
     </tr>
     </thead>
