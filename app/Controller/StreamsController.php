@@ -13,7 +13,7 @@ class StreamsController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('delete', 'videos');
+        $this->Auth->allow('videos');
     }
 
 
@@ -153,32 +153,6 @@ class StreamsController extends AppController
 
         $this->set('stream', $stream);
         $this->set('description', $description);
-    }
-
-
-    public function delete($id = null)
-    {
-        $this->Stream->id = $id;
-
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        if (!$this->Stream->exists()) {
-            throw new NotFoundException(__('Invalid stream'));
-        }
-
-        if ($this->Stream->field('maintainer_id') != $this->Auth->user('id')) {
-            $this->Session->setFlash('Log in or delete your own stream.', 'default', array('class' => 'error'));
-            $this->redirect('/streams');
-        } else {
-            if ($this->Stream->delete()) {
-                $this->Session->setFlash('Your stream has been deleted.');
-                $this->redirect('/streams');
-            } else {
-                $this->Session->setFlash('Something went wrong while deleting your stream.', 'default', array('class' => 'error'));
-                $this->redirect('/streams/view/' . $id);
-            }
-        }
     }
 
 

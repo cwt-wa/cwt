@@ -102,9 +102,6 @@
                                     <?php echo $this->Html->link('Edit Stream',
                                         '/streams/edit/' . $up_stream['maintainer']['id']); ?>
                                 </div>
-                                <div class="gu_item" id="changepw">
-                                    <?php echo $this->Form->postLink('Delete Stream :(', '/streams/delete/' . $up_stream['maintainer']['id'], null, __('Are you sure you want to delete %s?', $up_stream['maintainer']['title'])); ?>
-                                </div>
                             </div>
                         </div>
                     <?php endif; ?>
