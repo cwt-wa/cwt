@@ -3,6 +3,9 @@ App::uses('AppController', 'Controller');
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
 
+/**
+ * @property Game Game
+ */
 class GamesController extends AppController
 {
     public $name = 'Games';
@@ -45,6 +48,11 @@ class GamesController extends AppController
         }
 
         $this->Game->recursive = 1;
+        $this->Game->virtualFields = array(
+            'comments' => 'SELECT COUNT(*) FROM comments as Comment WHERE Comment.game_id = Game.id',
+            'stage' => 'SELECT `stepAssoc` FROM playoffs as Playoff WHERE Playoff.game_id = Game.id',
+            'likes' => 'SELECT `likes` FROM ratings as Rating WHERE Rating.game_id = Game.id'
+        );
         $games = $this->Paginator->paginate(null, $conditions);
         $games = $this->Game->addRatingsToGames($games);
 
