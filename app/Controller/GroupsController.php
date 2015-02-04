@@ -1,6 +1,9 @@
 <?php
 App::uses('AppController', 'Controller');
 
+/**
+ * @property Group Group
+ */
 class GroupsController extends AppController
 {
     public $name = 'Groups';
@@ -78,11 +81,17 @@ class GroupsController extends AppController
     public function admin_edit()
     {
         if ($this->request->is('post')) {
-            $this->Group->replacePlayer($this->request->data);
-            $this->Auth->login($this->User->re_login());
-            $this->Session->setFlash(
-                'The players have been exchanged successfully.');
-            $this->redirect('/groups');
+            if ($this->Group->replacePlayer($this->request->data['Group']['Inactive'], $this->request->data['Group']['Active'])) {
+                $this->Auth->login($this->User->re_login());
+                $this->Session->setFlash(
+                    'The players have been exchanged successfully.');
+                $this->redirect('/groups');
+            } else {
+                $this->Session->setFlash(
+                    'An error occurred executing the command. Please retry.',
+                    'default', array('class' => 'error'));
+                $this->redirect($this->referer());
+            }
         }
 
         // Waiting players:

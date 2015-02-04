@@ -47,4 +47,25 @@ class Standing extends AppModel
             ),
         ),
     );
+
+    /**
+     * Input many standings of a specific user and this method will return the one standing that is from the
+     * given tournament. Be careful! If multiple standings are from the same tournament, only the first found will be returned.
+     *
+     * @param $standings Array The standings to search in. Model['Standing']
+     * @param null $tournamentId The tournament to return the standing for.
+     * Defaults to current {@link AppModel#currentTournament}.
+     * @return mixed The standing of the tournament or false if none matching to the current tournament was found.
+     */
+    public function getStandingForTournament($standings, $tournamentId = null)
+    {
+        $currentTournament = $this->currentTournament();
+        $tournamentId = $tournamentId ? $tournamentId : $currentTournament['Tournament']['id'];
+        foreach ($standings as $standing) {
+            if ($standing['Group']['tournament_id'] == $tournamentId) {
+                return $standing;
+            }
+        }
+        return false;
+    }
 }
