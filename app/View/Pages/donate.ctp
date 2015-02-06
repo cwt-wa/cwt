@@ -1,6 +1,6 @@
 <div id="box" style="background-color:#3F2828; text-align:center;">
     <h1>Donate</h1>
-    Donate your amount of money that will then be used to award the winners of this year's tournament.
+    Donate your amount of money that will then be used to award the winners of this year’s tournament.
 </div>
 <div id="box" style="background-color:#3F2828; text-align: center;">
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
