@@ -37,12 +37,12 @@ class StreamsController extends AppController
     {
         $res = $this->Stream->callTwitchApi('videos/' . $twitchVideoId);
 
-        if (!$res) {
-            $this->Session->setFlash('Couldn’t get this stream.', 'default', array('class' => 'error'));
+        if ($res['error']) {
+            $this->Session->setFlash($res['message'] . '.', 'default', array('class' => 'error'));
             $this->redirect($this->referer());
             return;
         }
-        
+
         $explodeOwnerUrl = explode('/', $res['_links']['channel']);
         $provider = $explodeOwnerUrl[count($explodeOwnerUrl) - 1];
         $stream = $this->Stream->find('first', array(
