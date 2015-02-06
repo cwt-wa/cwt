@@ -42,12 +42,7 @@ class StreamsController extends AppController
             $this->redirect($this->referer());
             return;
         }
-//        if (isset($_GET['streamId'])) {
-//            $stream = $this->Stream->findById($_GET['streamId']);
-//            $color = $stream['Stream']['color'];
-//        } else {
-//            $color = '#3F2828';
-//        }
+        
         $explodeOwnerUrl = explode('/', $res['_links']['channel']);
         $provider = $explodeOwnerUrl[count($explodeOwnerUrl) - 1];
         $stream = $this->Stream->find('first', array(
