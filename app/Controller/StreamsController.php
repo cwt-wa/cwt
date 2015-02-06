@@ -37,7 +37,7 @@ class StreamsController extends AppController
     {
         $res = $this->Stream->callTwitchApi('videos/' . $twitchVideoId);
 
-        if ($res['error']) {
+        if (array_key_exists('error', $res)) {
             $this->Session->setFlash($res['message'] . '.', 'default', array('class' => 'error'));
             $this->redirect($this->referer());
             return;
@@ -60,6 +60,13 @@ class StreamsController extends AppController
     public function add()
     {
         if ($this->request->is('post')) {
+            $res = $this->Stream->callTwitchApi('channels/' . $this->request->data['Stream']['provider']);
+            if (array_key_exists('error', $res)) {
+                $this->Session->setFlash($res['message'] . '.', 'default', array('class' => 'error'));
+                $this->redirect('/streams/add');
+                return;
+            }
+
             $this->request->data['Stream']['color'] =
                 $this->Stream->rgb2hex(
                     $this->request->data['Stream']['color']);
@@ -71,12 +78,12 @@ class StreamsController extends AppController
                 $this->Session->setFlash(
                     'Congratulations, you have successfully
                      set your stream up.');
-
-                $this->redirect('/streams/view/' . $this->Stream->id);
+                $this->redirect('/streams/edit/' . $this->Stream->id . '/description');
             } else {
                 $this->Session->setFlash(
                     'That stream is nothing you want to put online this way.',
                     'default', array('class' => 'error'));
+                $this->redirect('/streams/add');
             }
         }
 
