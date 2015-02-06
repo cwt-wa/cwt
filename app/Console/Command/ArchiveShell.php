@@ -3,7 +3,10 @@
 App::uses('AppShell', 'Console/Command');
 
 /**
- * Generate Standings from Games. Updates, overwrites, doesn't generate new records.
+ * Generate Standings from Games. Updates, overwrites, doesn't generate new records. Important one.
+ *
+ * @property Standing Standing
+ * @property Group Group
  */
 class ArchiveShell extends AppShell
 {
@@ -121,42 +124,5 @@ class ArchiveShell extends AppShell
                 return $freshlyFetchedStanding['Standing'];
             }
         }
-    }
-
-    public function updateReport($oldwinner, $oldloser, $score)
-    {
-        switch ($score) {
-            case '3-0':
-                $newWinnerPoints = $oldwinner['points'] + 3;
-                $newLoserPoints = $oldloser['points'];
-                break;
-            case '3-1':
-                $newWinnerPoints = $oldwinner['points'] + 3;
-                $newLoserPoints = $oldloser['points'];
-                break;
-            case '3-2':
-                $newWinnerPoints = $oldwinner['points'] + 3;
-                $newLoserPoints = $oldloser['points'] + 1;
-        }
-
-        $newWinner = array(
-            'id' => $oldwinner['id'],
-            'user_id' => $oldwinner['user_id'],
-            'points' => $newWinnerPoints,
-            'games' => $oldwinner['games'] + 1,
-            'game_ratio' => $oldwinner['game_ratio'] + 1,
-            'round_ratio' => $oldwinner['round_ratio'] - $score_l + $score_w
-        );
-        $newLoser = array(
-            'id' => $oldloser['id'],
-            'user_id' => $oldloser['user_id'],
-            'points' => $newLoserPoints,
-            'games' => $oldloser['games'] + 1,
-            'game_ratio' => $oldloser['game_ratio'] - 1,
-            'round_ratio' => $oldloser['round_ratio'] - $score_w + $score_l
-        );
-
-//        $this->Standing->save($newWinner);
-//        $this->Standing->save($newLoser);
     }
 }
