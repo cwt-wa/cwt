@@ -201,13 +201,25 @@ class Group extends AppModel
             )
         ));
 
+        if (!$gamesToVoid) {
+            return false;
+        }
+
         foreach ($gamesToVoid as $gameToVoid) {
             $this->Game->delete($gameToVoid);
         }
 
         App::uses('ArchiveShell', 'Console/Command');
         $ArchiveShell = new ArchiveShell();
-        $ArchiveShell->main();
+
+        $nullifyStandings = $ArchiveShell->nullifyStandings($currentTournamentStanding['group_id']);
+        if (!$nullifyStandings) {
+            return false;
+        }
+
+        $this->recursive = 1;
+        $group = $this->findById($currentTournamentStanding['group_id']);
+        $ArchiveShell->reportGames($group['Game'], $group['Standing']);
 
         $stageUpdate = $User->saveMany(array(
             array(

@@ -23,12 +23,33 @@ class ArchiveShell extends AppShell
         }
     }
 
-    private function nullifyStandings()
+    public function nullifyStandings($groupId = null)
     {
-        return $this->Standing->query('UPDATE `standings` SET `points`=0, `games`=0, `game_ratio`=0, `round_ratio`=0');
+        if ($groupId === null) {
+            return $this->Standing->query('UPDATE `standings` SET `points`=0, `games`=0, `game_ratio`=0, `round_ratio`=0');
+        }
+
+        $standings = $this->Standing->find('all', array(
+            'conditions' => array(
+                'group_id' => $groupId
+            )
+        ));
+        $updatedStandings = array();
+
+        foreach ($standings as $standingsKey => $standing) {
+            $updatedStandings[] = array(
+                'id' => $standing['Standing']['id'],
+                'points' => 0,
+                'games' => 0,
+                'game_ratio' => 0,
+                'round_ratio' => 0
+            );
+        }
+
+        return $this->Standing->saveMany($updatedStandings);
     }
 
-    private function reportGames($games, $standings)
+    public function reportGames($games, $standings)
     {
         foreach ($games as $key => $game) {
             $winnerAndLoser = $this->winnerAndLoser($game, $standings);
@@ -70,9 +91,7 @@ class ArchiveShell extends AppShell
                             break;
                     }
                     break;
-                case 11: // tournament of 2012
-                case 12: // tournament of 2013
-                case 13: // tournament of 2014
+                default: // tournament of 2012, 2013, 2014 and later
                     switch ($winnerAndLoser['score']) {
                         case '3-0':
                         case '3-1':
