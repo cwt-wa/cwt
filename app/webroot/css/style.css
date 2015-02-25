@@ -285,7 +285,9 @@ div#year {
     margin-top: 100px !important;
     height: 210px;
     padding-bottom: 4px !important;
-    background-color: white !important;;
+    background-color: white !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 img {
