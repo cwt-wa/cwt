@@ -6,17 +6,12 @@ class UsersController extends AppController
     public $name = 'Users';
     public $scaffold = 'admin';
 
-    public $paginate = array(
-        'limit' => 30,
-        'order' => 'User.participations DESC'
-    );
-
 
     public function beforeFilter()
     {
         parent::beforeFilter();
         $this->Auth->allow(
-            'add', 'logout', 'timeline', 'password', 'password_forgotten', 'reset_password');
+            'add', 'logout', 'timeline', 'password', 'password_forgotten', 'reset_password', 'ranking');
     }
 
     public function ranking() {
@@ -48,6 +43,7 @@ class UsersController extends AppController
             }
         }
 
+        $this->set('title_for_layout', 'All-Time Ranking');
         $this->set('achievements', $achievements);
         $this->set('users', $users);
     }
@@ -58,7 +54,8 @@ class UsersController extends AppController
 
         $this->Paginator->settings = array(
             'User' => array(
-                'order' => array('User.participations' => 'desc')
+                'order' => array('User.participations' => 'desc'),
+                'limit' => 15
             )
         );
 
@@ -126,7 +123,7 @@ class UsersController extends AppController
                         true, 60 * 60 * 24 * 30 * 3);
 
                     $this->Session->setFlash('You have been logged in.');
-                    $this->redirect($_GET['referer']);
+                    $this->redirect($this->referer());
                 } else {
                     $this->Session->setFlash(
                         'Login failed.',
@@ -166,8 +163,8 @@ class UsersController extends AppController
             $this->User->id = $user['User']['id'];
 
             if (empty($user['Profile']['email'])) {
-                $response = 'You\'ve never provided an email address, '
-                    . 'hence we can\'t send you a new password. Please reach out to us. '
+                $response = 'You’ve never provided an email address, '
+                    . 'hence we can’t send you a new password. Please reach out to us. '
                     . ' <a href="mailto:support@cwtsite.com">support@cwtsite.com</a>';
                 $responsePositive = false;
             } else {
@@ -236,7 +233,7 @@ class UsersController extends AppController
                     'username' => $user['User']['username'],
                     'password' => $this->request->data['Password']['new1']
                 )));
-                $this->Session->setFlash('Your password has been and you are logged in.');
+                $this->Session->setFlash('Your password has been reset and you are logged in.');
                 $this->redirect('/');
             } else {
                 $this->Session->setFlash(
@@ -263,9 +260,12 @@ class UsersController extends AppController
             if ($this->User->password($this->request->data['Password'])) {
                 $this->Session->setFlash('Your password has been changed.');
             } else {
-                $this->Session->setFlash('The password could not be changed. Please, try again.');
+                $this->Session->setFlash('The password could not be changed. Please, try again.',
+                    'default', array('class' => 'error'));
             }
         }
+
+        $this->set('title_for_layout', 'Change your Password');
     }
 
 
@@ -302,43 +302,14 @@ class UsersController extends AppController
         $user['Profile'] = $profile['Profile'];
 
         if ($user['Profile']['hideProfile'] && !$this->Auth->loggedIn()) {
-            $this->Session->setFlash($user['User']['username'] . ' has chosen not to display the profile for non-logged-in users.');
+            $this->Session->setFlash($user['User']['username'] . ' has chosen not to display the profile for non-logged-in users.',
+                'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 
-        $this->Paginator->settings = array(
-            'limit' => 10,
-            'order' => array(
-                'Game.created' => 'desc'
-            )
-        );
-
-        $this->loadModel('Game');
-        $this->Game->recursive = 1;
-        $games = $this->Paginator->paginate($this->Game, array(
-            'OR' => array(
-                'Game.home_id' => $id,
-                'Game.away_id' => $id
-            )
-        ));
-        $games = $this->Game->addRatingsToGames($games);
-
-        $this->loadModel('Trace');
-        $this->Trace->recursive = 1;
-        $traces = $this->Paginator->paginate($this->Trace, array(
-            'Trace.user_id' => $id
-        ));
-        $tracesCount = count($traces);
-
-        for ($i = 0; $i < $tracesCount; $i++) {
-            $traces[$i]['Game']['Home'] = $this->Trace->User->findById($traces[$i]['Game']['home_id']);
-            $traces[$i]['Game']['Away'] = $this->Trace->User->findById($traces[$i]['Game']['away_id']);
-        }
-
-        $this->set('games', $games);
-        $this->set('traces', $traces);
         $this->set('user', $user);
         $this->set('photo', $this->User->displayPhoto($user['User']['username']));
+        $this->set('title_for_layout', $user['User']['username']);
     }
 
     public function add()
@@ -404,92 +375,5 @@ class UsersController extends AppController
 
         $this->set('captcha', $captcha);
         $this->set('result', $result);
-    }
-
-
-    public function edit($id = null)
-    {
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->User->read(null, $id);
-        }
-    }
-
-
-    public function admin_index()
-    {
-        $this->User->recursive = 0;
-        $this->set('users', $this->paginate());
-    }
-
-
-    public function admin_view($id = null)
-    {
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        $this->set('user', $this->User->read(null, $id));
-    }
-
-
-    public function admin_add()
-    {
-        if ($this->request->is('post')) {
-            $this->User->create();
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
-        }
-    }
-
-
-    public function admin_edit($id = null)
-    {
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->User->read(null, $id);
-        }
-    }
-
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->User->delete()) {
-            $this->Session->setFlash(__('User deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('User was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

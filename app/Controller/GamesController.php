@@ -3,6 +3,9 @@ App::uses('AppController', 'Controller');
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
 
+/**
+ * @property Game Game
+ */
 class GamesController extends AppController
 {
     public $name = 'Games';
@@ -24,16 +27,36 @@ class GamesController extends AppController
     public function index()
     {
         $this->Paginator->settings = array(
-            'limit' => 20,
+            'limit' => 15,
             'order' => array(
                 'Game.created' => 'desc'
             )
         );
 
+        $title_for_layout = 'Games';
+        $conditions = array();
+        if (isset($_GET['user_id'])) {
+            $conditions['OR'] = array(
+                'home_id' => $_GET['user_id'],
+                'away_id' => $_GET['user_id']
+            );
+            $this->Paginator->settings['user_id'] = $_GET['user_id'];
+            $this->loadModel('User');
+            $user = $this->User->findById($_GET['user_id']);
+            $this->set('user', $user);
+            $title_for_layout .= ' of ' . $user['User']['username'];
+        }
+
         $this->Game->recursive = 1;
-        $games = $this->Paginator->paginate();
+        $this->Game->virtualFields = array(
+            'comments' => 'SELECT COUNT(*) FROM comments as Comment WHERE Comment.game_id = Game.id',
+            'stage' => 'SELECT `stepAssoc` FROM playoffs as Playoff WHERE Playoff.game_id = Game.id',
+            'likes' => 'SELECT `likes` FROM ratings as Rating WHERE Rating.game_id = Game.id'
+        );
+        $games = $this->Paginator->paginate(null, $conditions);
         $games = $this->Game->addRatingsToGames($games);
 
+        $this->set('title_for_layout', $title_for_layout);
         $this->set('games', $games);
     }
 
@@ -102,6 +125,7 @@ class GamesController extends AppController
             $game['winner']['photo'] = $this->User->displayPhoto($game['winner']['username']);
         }
 
+        $this->set('title_for_layout', 'Game #' . $game['Game']['id']);
         $this->set('game', $game);
     }
 
@@ -113,13 +137,15 @@ class GamesController extends AppController
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP
             && $this->Auth->user('stage') != 'group'
         ) {
-            $this->Session->setFlash('You can\'t report any game.');
+            $this->Session->setFlash('You can’t report any game.',
+                'default', array('class' => 'error'));
             $this->redirect(array('action' => 'index'));
         }
         if ($currentTournament['Tournament']['status'] == Tournament::PLAYOFF
             && $this->Auth->user('stage') != 'playoff'
         ) {
-            $this->Session->setFlash('You can\'t report any game.');
+            $this->Session->setFlash('You can’t report any game.',
+                'default', array('class' => 'error'));
             $this->redirect(array('action' => 'index'));
         }
 
@@ -165,7 +191,7 @@ class GamesController extends AppController
             $currentGame = $this->Game->Playoff->currentGame();
 
             if (!$currentGame) {
-                $this->Session->setFlash('You can\'t report any game.', 'default', array('class' => 'error'));
+                $this->Session->setFlash('You can’t report any game.', 'default', array('class' => 'error'));
                 $this->redirect(array('action' => 'index'));
             }
 
@@ -232,63 +258,6 @@ class GamesController extends AppController
         ));
     }
 
-
-    public function edit($id = null)
-    {
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Game->save($this->request->data)) {
-                $this->Session->setFlash(__('The game has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Game->read(null, $id);
-        }
-        $groups = $this->Game->Group->find('list');
-        $playoffs = $this->Game->Playoff->find('list');
-        $this->set(compact('groups', 'playoffs'));
-    }
-
-
-    public function delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->Game->delete()) {
-            $this->Session->setFlash(__('Game deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Game was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
-
-    public function admin_index()
-    {
-        $this->Game->recursive = 0;
-        $this->set('games', $this->paginate());
-    }
-
-
-    public function admin_view($id = null)
-    {
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        $this->set('game', $this->Game->read(null, $id));
-    }
-
     public function admin_techwin()
     {
         if ($this->request->is('post')) {
@@ -311,44 +280,5 @@ class GamesController extends AppController
         $this->loadModel('User');
         $allUsersStillInTournament = $this->User->getAllUsersStillInTournament();
         $this->set('homes', $allUsersStillInTournament);
-    }
-
-    public function admin_edit($id = null)
-    {
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Game->save($this->request->data)) {
-                $this->Session->setFlash(__('The game has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Game->read(null, $id);
-        }
-        $groups = $this->Game->Group->find('list');
-        $playoffs = $this->Game->Playoff->find('list');
-        $this->set(compact('groups', 'playoffs'));
-    }
-
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Game->id = $id;
-        if (!$this->Game->exists()) {
-            throw new NotFoundException(__('Invalid game'));
-        }
-        if ($this->Game->delete()) {
-            $this->Session->setFlash(__('Game deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Game was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

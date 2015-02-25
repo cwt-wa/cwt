@@ -105,19 +105,7 @@ class User extends AppModel
         'Scheduled' => array( //  Scheduled against.
             'className' => 'Schedule',
             'foreignKey' => 'away_id'
-        ),
-        'HomeRestore' => array(
-            'className' => 'Restore',
-            'foreignKey' => 'home_id'
-        ),
-        'AwayRestore' => array(
-            'className' => 'Game',
-            'foreignKey' => 'away_id'
-        ),
-        'Restore' => array(
-            'className' => 'Restore',
-            'foreignKey' => 'submitter_id'
-        ),
+        )
     );
     public $validate = array(
         'username' => array(

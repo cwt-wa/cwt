@@ -1,15 +1,11 @@
-<?php if ($tournamentYear != $currentTournament['Tournament']['year']): ?>
-	<?php
-	echo $this->element('archiveof', array(
-	    'tournamentYear' => $tournamentYear
-	));
-	?>
-
-	<div id="box" style="background-color: rgba(63, 40, 40, 0.4); text-align: center;">
-	    No warranty for accuracy of data.
-	</div>
-<?php endif; ?>
-
+<?php
+if ($tournamentYear != $currentTournament['Tournament']['year']) {
+    echo $this->element('archiveof', array(
+        'tournamentYear' => $tournamentYear,
+        'link' => false
+    ));
+}
+?>
 <?php
 echo $this->element('groups', array(
     'group' => $group

@@ -6,14 +6,6 @@ class CommentsController extends AppController
     public $name = 'Comments';
     public $scaffold = 'admin';
 
-
-    public function index()
-    {
-        $this->Comment->recursive = 0;
-        $this->set('comments', $this->paginate());
-    }
-
-
     public function view($game_id)
     {
         $this->helpers[] = 'Time';
@@ -38,7 +30,7 @@ class CommentsController extends AppController
         public function add($game_id)
     {
         if (!$this->Auth->loggedIn()) {
-            $this->Auth->flash($this->Auth->authError);
+            $this->Session->setFlash($this->Auth->authError, 'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 
@@ -103,6 +95,7 @@ class CommentsController extends AppController
             $comment['stage'] = $comment['Playoff']['stepAssoc'];
         }
 
+        $this->set('title_for_layout', 'Comment Game #' . $game_id);
         $this->set('comment', $comment);
     }
 
@@ -114,6 +107,7 @@ class CommentsController extends AppController
             throw new NotFoundException(__('Invalid comment'));
         }
 
+        $this->Comment->recursive = 1;
         $comment = $this->Comment->find('first', array(
             'conditions' => array(
                 'Comment.id' => $id
@@ -121,7 +115,7 @@ class CommentsController extends AppController
         ));
 
         if ($comment['Comment']['user_id'] != $this->Auth->user('id')) {
-            $this->Auth->flash('You can\'t edit someone else\'s comment.');
+            $this->Session->setFlash('You can’t edit someone else’s comment.', 'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 
@@ -158,105 +152,17 @@ class CommentsController extends AppController
             }
         }
 
+        $this->Comment->Game->recursive = 1;
         $game = $this->Comment->Game->read(null, $comment['Game']['id']);
 
         if ($game['Game']['group_id']) {
-            $game['stage'] = 'Group ' . $game['Group']['group'];
+            $game['stage'] = 'Group ' . $game['Group']['label'];
+        } elseif ($game['Game']['playoff_id']) { // Handle playoff game.
+            $this->loadModel('Playoff');
+            $game['stage'] = $this->Playoff->stepAssoc[$game['Playoff']['step']];
         }
 
         $this->set('comment', $comment);
         $this->set('game', $game);
-    }
-
-
-    public function delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Comment->id = $id;
-        if (!$this->Comment->exists()) {
-            throw new NotFoundException(__('Invalid comment'));
-        }
-        if ($this->Comment->delete()) {
-            $this->Session->setFlash(__('Comment deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Comment was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
-
-    public function admin_index()
-    {
-        $this->Comment->recursive = 0;
-        $this->set('comments', $this->paginate());
-    }
-
-
-    public function admin_view($id = null)
-    {
-        $this->Comment->id = $id;
-        if (!$this->Comment->exists()) {
-            throw new NotFoundException(__('Invalid comment'));
-        }
-        $this->set('comment', $this->Comment->read(null, $id));
-    }
-
-
-    public function admin_add()
-    {
-        if ($this->request->is('post')) {
-            $this->Comment->create();
-            if ($this->Comment->save($this->request->data)) {
-                $this->Session->setFlash(__('The comment has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The comment could not be saved. Please, try again.'));
-            }
-        }
-        $games = $this->Comment->Game->find('list');
-        $users = $this->Comment->User->find('list');
-        $this->set(compact('games', 'users'));
-    }
-
-
-    public function admin_edit($id = null)
-    {
-        $this->Comment->id = $id;
-        if (!$this->Comment->exists()) {
-            throw new NotFoundException(__('Invalid comment'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Comment->save($this->request->data)) {
-                $this->Session->setFlash(__('The comment has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The comment could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Comment->read(null, $id);
-        }
-        $games = $this->Comment->Game->find('list');
-        $users = $this->Comment->User->find('list');
-        $this->set(compact('games', 'users'));
-    }
-
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Comment->id = $id;
-        if (!$this->Comment->exists()) {
-            throw new NotFoundException(__('Invalid comment'));
-        }
-        if ($this->Comment->delete()) {
-            $this->Session->setFlash(__('Comment deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Comment was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

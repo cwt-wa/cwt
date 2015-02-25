@@ -5,7 +5,7 @@
     ?>
 
     <div id="box" style="background-color:#3F2828">
-        <center><h1>Edit your stream's description:</h1></center>
+        <center><h1>Edit your stream’s description:</h1></center>
     </div>
 
     <?php

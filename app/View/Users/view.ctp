@@ -1,43 +1,32 @@
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#timeline').scrollLeft(165);
-
-    });
-</script>
-
+<?php echo $this->Html->script('timeline', array('inline' => false)); ?>
 <?php
 $this->Html->css('profiles', null, array('inline' => false));
 echo $this->element('timeline', array('user' => $user['User']['id']));
 ?>
-
+<div id="boxFloat" class="action_item">
+    <?php
+    echo $this->Html->link('<span></span>', '/games?user_id=' . $user['User']['id'], array('escape' => false));
+    ?>
+    Games
+</div>
+<div id="box" class="action_item" style="margin-left:8px; margin-top:0;">
+    <?php
+    echo $this->Html->link('<span></span>', '/traces?user_id=' . $user['User']['id'], array('escape' => false));
+    ?>
+    Ratings and Bets
+</div>
+<div>
 <div id="boxFloat" style="width:500px; padding:0px; border:none; box-shadow:none; text-align:center;">
     <?php
     echo $this->Html->image('users/' . $photo, array(
-        'style' => 'height:auto; max-width:500px; border:1px solid #C4C4C4; padding:0px; box-shadow:4px 4px 3px #C4C4C4;'
+        'style' => 'height:auto; max-width:500px; padding:0px;'
     ));
     ?>
 </div>
-
-<div id="trashbin">
-    <div id="actions" style="display:none;">
-        <div class="actions_item" onclick="action('games', '<?php echo $user['User']['id']; ?>')">
-            Games
-        </div>
-        <div class="actions_item" onclick="action('comments', '<?php echo $user['User']['id']; ?>')">
-            Comments
-        </div>
-        <div class="actions_item" onclick="action('groups', '<?php echo $user['User']['id']; ?>')">
-            Group
-        </div>
-
-        <div id="games"></div>
-        <div id="comments"></div>
-        <div id="groups"></div>
+    <div id="box" style="margin-left:510px; background-color:#3E283E; text-align:center; padding:5px;">
+        <h1 style="font-size:30pt"><?php echo $user['User']['username'] ?></h1>
     </div>
-
     <div id="box" style="margin-left:510px; background-color:#3E283E; font-size:larger; text-align:center;">
-        <u><h1 style="font-size:30pt"><?php echo $user['User']['username'] ?></h1></u>
-
         <?php if ($user['Profile']['country'] != 'unknown'): ?>
             <p>Country:<br><b><?php echo $user['Profile']['country'] ?></b></p>
         <?php endif; ?>
@@ -118,17 +107,4 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
             “<?php echo nl2br($user['Profile']['about']) ?>”
         </div>
     <?php endif; ?>
-</div>
-<div style="clear:both; height:10px"></div>
-<div id="box" style="background-color:#2F2923; text-align:center;">
-    <h2>Games</h2>
-    <?php
-        echo $this->element('games', array('games' => $games));
-    ?>
-</div>
-<div id="box" style="background-color:#2F2923; text-align:center;">
-    <h2>Ratings and Bets</h2>
-<?php
-echo $this->element('traces', array('traces' => $traces));
-?>
 </div>

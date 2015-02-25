@@ -28,25 +28,14 @@
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
 Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-
-/**
- * ...and connect the rest of 'Pages' controller's urls.
- */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
-/**
- * ...and connect the rest of 'Pages' controller's urls.
- */
 Router::connect('/donate', array('controller' => 'pages', 'action' => 'display', 'donate'));
-
-/**
- * /restore leads to a page where games of past CWTs can be added to restore the archive.
- */
 Router::connect('/restore', array('controller' => 'restores', 'action' => 'add'));
-
-/**
- * /archive Yes, it's CWT's awesome archive..
- */
+Router::connect('/ranking', array('controller' => 'users', 'action' => 'ranking'));
+Router::connect('/ratingsbets', array('controller' => 'traces', 'action' => 'index'));
+Router::connect('/more', array('controller' => 'pages', 'action' => 'display', 'more'));
+Router::connect('/applicants', array('controller' => 'applications', 'action' => 'index'));
+Router::connect('/rules', array('controller' => 'rules', 'action' => 'view', 1));
 Router::connect('/archive', array('controller' => 'tournaments', 'action' => 'index'));
 Router::connect('/archive/*', array('controller' => 'tournaments', 'action' => 'view'));
 

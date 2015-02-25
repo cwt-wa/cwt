@@ -23,7 +23,7 @@ class AppController extends Controller
                 'controller' => 'users',
                 'action' => 'login'
             ),
-            'authError' => 'You don\'t have the required
+            'authError' => 'You don’t have the required
                     rights to access that page.',
             'authorize' => array('Controller')
         ),
@@ -44,7 +44,7 @@ class AppController extends Controller
             if (!$user['admin']) {
                 return false;
             } else {
-                $this->set('title_for_layout', 'Admin!');
+                $this->set('title_for_layout', 'Admin Panel');
                 return true;
             }
         }

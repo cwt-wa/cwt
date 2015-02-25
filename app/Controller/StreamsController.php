@@ -1,6 +1,9 @@
 <?php
 App::uses('AppController', 'Controller');
 
+/**
+ * @property Stream Stream
+ */
 class StreamsController extends AppController
 {
     public $name = 'Streams';
@@ -10,7 +13,7 @@ class StreamsController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('delete');
+        $this->Auth->allow('videos');
     }
 
 
@@ -20,44 +23,50 @@ class StreamsController extends AppController
     }
 
 
-    public function view($id = null)
+    public function videos()
     {
-        $this->Stream->id = $id;
-        if (!$this->Stream->exists()) {
-            throw new NotFoundException(__('Invalid Stream'));
+        if ($this->request->is('get')) { // @TODO Should be ajax.
+            $videos = $this->Stream->queryAllVideos();
+            $this->set('videos', $videos);
+            $this->layout = 'ajax';
         }
-        $this->Stream->recursive = 0;
-        $stream = $this->Stream->read(null);
+    }
 
-        if ($stream['Stream']['online']) {
-            $streaming = explode(',', $stream['Stream']['streaming']);
 
-            if (!is_numeric($streaming[0])) { // Group
-                $stage = 'Group ' . $streaming[0];
-            } else { // Playoff
-                $this->loadModel('Playoff');
-                $stage = $this->Playoff->stepAssoc[$streaming[0]];
-            }
+    public function view($twitchVideoId)
+    {
+        $res = $this->Stream->callTwitchApi('videos/' . $twitchVideoId);
 
-            $this->loadModel('User');
-            $home_id = $this->User->read(null, $streaming[1]);
-            $away_id = $this->User->read(null, $streaming[2]);
-
-            $stream['Stream']['streaming'] = array(
-                'stage' => $stage,
-                'home_id' => $home_id['User'],
-                'away_id' => $away_id['User']
-            );
+        if (array_key_exists('error', $res)) {
+            $this->Session->setFlash($res['message'] . '.', 'default', array('class' => 'error'));
+            $this->redirect($this->referer());
+            return;
         }
 
-        $this->helpers[] = 'Bbcode';
+        $explodeOwnerUrl = explode('/', $res['_links']['channel']);
+        $provider = $explodeOwnerUrl[count($explodeOwnerUrl) - 1];
+        $stream = $this->Stream->find('first', array(
+            'conditions' => array(
+                'LOWER(provider)' => strtolower($provider)
+            )
+        ));
+        $this->set('provider', $provider);
         $this->set('stream', $stream);
+        $this->set('video', $res);
+        $this->set('title_for_layout', $res['title']);
     }
 
 
     public function add()
     {
         if ($this->request->is('post')) {
+            $res = $this->Stream->callTwitchApi('channels/' . $this->request->data['Stream']['provider']);
+            if (array_key_exists('error', $res)) {
+                $this->Session->setFlash($res['message'] . '.', 'default', array('class' => 'error'));
+                $this->redirect('/streams/add');
+                return;
+            }
+
             $this->request->data['Stream']['color'] =
                 $this->Stream->rgb2hex(
                     $this->request->data['Stream']['color']);
@@ -69,12 +78,12 @@ class StreamsController extends AppController
                 $this->Session->setFlash(
                     'Congratulations, you have successfully
                      set your stream up.');
-
-                $this->redirect('/streams/view/' . $this->Stream->id);
+                $this->redirect('/streams/edit/' . $this->Stream->id . '/description');
             } else {
                 $this->Session->setFlash(
                     'That stream is nothing you want to put online this way.',
                     'default', array('class' => 'error'));
+                $this->redirect('/streams/add');
             }
         }
 
@@ -150,32 +159,6 @@ class StreamsController extends AppController
     }
 
 
-    public function delete($id = null)
-    {
-        $this->Stream->id = $id;
-
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        if (!$this->Stream->exists()) {
-            throw new NotFoundException(__('Invalid stream'));
-        }
-
-        if ($this->Stream->field('maintainer_id') != $this->Auth->user('id')) {
-            $this->Session->setFlash('Log in or delete your own stream.', 'default', array('class' => 'error'));
-            $this->redirect('/streams');
-        } else {
-            if ($this->Stream->delete()) {
-                $this->Session->setFlash('Your stream has been deleted.');
-                $this->redirect('/streams');
-            } else {
-                $this->Session->setFlash('Something went wrong while deleting your stream.', 'default', array('class' => 'error'));
-                $this->redirect('/streams/view/' . $id);
-            }
-        }
-    }
-
-
     public function schedule($id)
     {
         $this->loadModel('Schedule');
@@ -242,77 +225,5 @@ class StreamsController extends AppController
         $this->set('stream', $stream);
         $this->set('schedules', $schedules);
         $this->set('scheduleds', $scheduleds);
-    }
-
-
-    public function admin_index()
-    {
-        $this->Stream->recursive = 0;
-        $this->set('streams', $this->paginate());
-    }
-
-
-    public function admin_view($id = null)
-    {
-        $this->Stream->id = $id;
-        if (!$this->Stream->exists()) {
-            throw new NotFoundException(__('Invalid stream'));
-        }
-        $this->set('stream', $this->Stream->read(null, $id));
-    }
-
-
-    public function admin_add()
-    {
-        if ($this->request->is('post')) {
-            $this->Stream->create();
-            if ($this->Stream->save($this->request->data)) {
-                $this->Session->setFlash(__('The stream has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The stream could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Stream->User->find('list');
-        $this->set(compact('users'));
-    }
-
-
-    public function admin_edit($id = null)
-    {
-        $this->Stream->id = $id;
-        if (!$this->Stream->exists()) {
-            throw new NotFoundException(__('Invalid stream'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Stream->save($this->request->data)) {
-                $this->Session->setFlash(__('The stream has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The stream could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Stream->read(null, $id);
-        }
-        $users = $this->Stream->User->find('list');
-        $this->set(compact('users'));
-    }
-
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Stream->id = $id;
-        if (!$this->Stream->exists()) {
-            throw new NotFoundException(__('Invalid stream'));
-        }
-        if ($this->Stream->delete()) {
-            $this->Session->setFlash(__('Stream deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Stream was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

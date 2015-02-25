@@ -1,6 +1,9 @@
 <?php
 App::uses('AppController', 'Controller');
 
+/**
+ * @property Group Group
+ */
 class GroupsController extends AppController
 {
     public $name = 'Groups';
@@ -16,7 +19,8 @@ class GroupsController extends AppController
             array('edit', 'delete', 'add', 'index', 'view'))
         ) {
             if (!$this->Group->gamesCanBeReported()) {
-                $this->Session->setFlash('There is no tournament right now. Here is the most recent tournament from the archive.');
+                $this->Session->setFlash('There is no tournament right now. Here is the most recent tournament from the archive.',
+                    'default', array('class' => 'error'));
                 $this->loadModel('Tournament');
                 $mostRecentTournament = $this->Tournament->find('first', array('order' => 'Tournament.year DESC'));
                 $this->redirect('/archive/' . $mostRecentTournament['Tournament']['year']);
@@ -31,71 +35,6 @@ class GroupsController extends AppController
     }
 
     public function view($id = null)
-    {
-        $this->Group->id = $id;
-        if (!$this->Group->exists()) {
-            throw new NotFoundException(__('Invalid group'));
-        }
-        $this->set('group', $this->Group->read(null, $id));
-    }
-
-    public function add()
-    {
-        if ($this->request->is('post')) {
-            $this->Group->create();
-            if ($this->Group->save($this->request->data)) {
-                $this->Session->setFlash(__('The group has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The group could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Group->User->find('list');
-        $this->set(compact('users'));
-    }
-
-    public function edit($id = null)
-    {
-        $this->Group->id = $id;
-        if (!$this->Group->exists()) {
-            throw new NotFoundException(__('Invalid group'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Group->save($this->request->data)) {
-                $this->Session->setFlash(__('The group has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The group could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Group->read(null, $id);
-        }
-    }
-
-    public function delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Group->id = $id;
-        if (!$this->Group->exists()) {
-            throw new NotFoundException(__('Invalid group'));
-        }
-        if ($this->Group->delete()) {
-            $this->Session->setFlash(__('Group deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Group was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
-    public function admin_index()
-    {
-        $this->Group->recursive = 0;
-        $this->set('groups', $this->paginate());
-    }
-
-    public function admin_view($id = null)
     {
         $this->Group->id = $id;
         if (!$this->Group->exists()) {
@@ -142,11 +81,17 @@ class GroupsController extends AppController
     public function admin_edit()
     {
         if ($this->request->is('post')) {
-            $this->Group->replacePlayer($this->request->data);
-            $this->Auth->login($this->User->re_login());
-            $this->Session->setFlash(
-                'The players have been exchanged successfully.');
-            $this->redirect('/groups');
+            if ($this->Group->replacePlayer($this->request->data['Group']['Inactive'], $this->request->data['Group']['Active'])) {
+                $this->Auth->login($this->User->re_login());
+                $this->Session->setFlash(
+                    'The players have been exchanged successfully.');
+                $this->redirect('/groups');
+            } else {
+                $this->Session->setFlash(
+                    'An error occurred executing the command. Please retry.',
+                    'default', array('class' => 'error'));
+                $this->redirect($this->referer());
+            }
         }
 
         // Waiting players:
@@ -165,22 +110,5 @@ class GroupsController extends AppController
 
         $this->set(compact('active'));
         $this->set(compact('inactive'));
-    }
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Group->id = $id;
-        if (!$this->Group->exists()) {
-            throw new NotFoundException(__('Invalid group'));
-        }
-        if ($this->Group->delete()) {
-            $this->Session->setFlash(__('Group deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Group was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

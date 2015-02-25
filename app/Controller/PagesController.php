@@ -34,8 +34,21 @@ class PagesController extends AppController
             $subpage = $path[1];
         }
         if (!empty($path[$count - 1])) {
-            $title_for_layout = Inflector::humanize($path[$count - 1]);
+            switch ($path[0]) {
+                case 'admin':
+                    $title_for_layout = 'Admin Panel';
+                    break;
+                case 'logs':
+                    $title_for_layout = 'Log Files';
+                    break;
+                case 'more':
+                    $title_for_layout = 'More...';
+                    break;
+                default:
+                    $title_for_layout = 'Crespo’s Worms Tournament';
+            }
         }
+
         $this->set(compact('page', 'subpage', 'title_for_layout'));
         $this->render(implode('/', $path));
     }

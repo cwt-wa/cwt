@@ -1,6 +1,13 @@
 <?php
 App::uses('AppModel', 'Model');
 
+/**
+ * Class Group
+ *
+ * @property User User
+ * @property Standing Standing
+ * @property Game Game
+ */
 class Group extends AppModel
 {
 
@@ -162,92 +169,77 @@ class Group extends AppModel
         return $attendees;
     }
 
-    // Replace a player.
-
-    public function replacePlayer($data)
+    /**
+     * Replaces an inactive player by an active player.
+     * Games of the inactive player will be voided and the table refreshed accordingly.
+     *
+     * @param $inactiveUserId
+     * @param $activeUserId
+     * @return bool True on success, false otherwise.
+     */
+    public function replacePlayer($inactiveUserId, $activeUserId)
     {
-        $Game = ClassRegistry::init('Game');
         $User = ClassRegistry::init('User');
-        $data['Inactive']['id'] = $data['Group']['Inactive'];
-        $data['Active']['id'] = $data['Group']['Active'];
-        $data['Inactive']['games'] = $Game->playedby($data['Inactive']['id']);
+        $User->recursive = 2;
+        $inactiveUser = $User->findById($inactiveUserId);
+        $currentTournamentStanding = $this->Standing->getStandingForTournament($inactiveUser['Standing']);
 
-        foreach ($data['Inactive']['games'] as $game) {
-            // Who's the opponent of Inactive?
-            if ($game['Game']['home_id'] == $data['Inactive']['id']) {
-                $opponent['id'] = $game['Game']['away_id'];
-                $opponent['score'] = $game['Game']['score_a'];
-
-                $inactive['id'] = $game['Game']['home_id'];
-                $inactive['score'] = $game['Game']['score_h'];
-            } else {
-                $opponent['id'] = $game['Game']['home_id'];
-                $opponent['score'] = $game['Game']['score_h'];
-
-                $inactive['id'] = $game['Game']['away_id'];
-                $inactive['score'] = $game['Game']['score_a'];
-            }
-
-            switch ($opponent['score']) {
-                case '3':
-                    $opponent['new']['points'] = -3;
-                    $opponent['new']['game_ratio'] = -1;
-                    break;
-                case '2':
-                    $opponent['new']['points'] = -1;
-                    $opponent['new']['game_ratio'] = 1;
-                    break;
-                case '1':
-                case '0':
-                    $opponent['new']['game_ratio'] = 1;
-            }
-
-            $opponent['current'] = $this->find('first', array(
-                'conditions' => array(
-                    'Group.user_id' => $opponent['id']
-                )
-            ));
-
-            $opponent['new']['id'] = $opponent['current']['Group']['id'];
-
-            $opponent['new']['points'] =
-                $opponent['new']['points']
-                + $opponent['current']['Group']['points'];
-
-            $opponent['new']['game_ratio'] =
-                $opponent['new']['game_ratio']
-                + $opponent['current']['Group']['game_ratio'];
-
-            $opponent['new']['games'] =
-                $opponent['current']['Group']['games'] - 1;
-
-            $opponent['new']['round_ratio'] =
-                $opponent['current']['Group']['round_ratio']
-                - ($opponent['score'] - $inactive['score']);
-
-            $this->save($opponent['new']);
-            $Game->delete($game['Game']['id']);
+        if (!$currentTournamentStanding) {
+            return false;
         }
 
-        $this->updateAll(array(
-            'Group.user_id' => $data['Active']['id'],
-            'Group.points' => 0,
-            'Group.games' => 0,
-            'Group.game_ratio' => 0,
-            'Group.round_ratio' => 0
-        ), array(
-            'Group.user_id' => $data['Inactive']['id']
+        $currentTournament = $this->currentTournament();
+        $gamesToVoid = $this->Game->find('list', array(
+            'conditions' => array(
+                'tournament_id' => $currentTournament['Tournament']['id'],
+                'group_id !=' => 0,
+                'playoff_id' => 0,
+                'OR' => array(
+                    'Game.home_id' => $inactiveUserId,
+                    'Game.away_id' => $inactiveUserId
+                )
+            )
         ));
 
-        $User->save(array(
-            'id' => $data['Inactive']['id'],
-            'stage' => 'retired'
+        if (!$gamesToVoid) {
+            return false;
+        }
+
+        foreach ($gamesToVoid as $gameToVoid) {
+            $this->Game->delete($gameToVoid);
+        }
+
+        App::uses('ArchiveShell', 'Console/Command');
+        $ArchiveShell = new ArchiveShell();
+
+        $nullifyStandings = $ArchiveShell->nullifyStandings($currentTournamentStanding['group_id']);
+        if (!$nullifyStandings) {
+            return false;
+        }
+
+        $this->recursive = 1;
+        $group = $this->findById($currentTournamentStanding['group_id']);
+        $ArchiveShell->reportGames($group['Game'], $group['Standing']);
+
+        $stageUpdate = $User->saveMany(array(
+            array(
+                'id' => $inactiveUserId,
+                'stage' => 'retired'
+            ),
+            array(
+                'id' => $activeUserId,
+                'stage' => 'group'
+            )
         ));
 
-        $User->save(array(
-            'id' => $data['Active']['id'],
-            'stage' => 'group'
-        ));
+        if ($stageUpdate) {
+            return $this->Standing->save(array(
+                'id' => $currentTournamentStanding['id'],
+                'user_id' => $activeUserId
+            ));
+        } else {
+            return false;
+        }
     }
 
     // A new group game has been reported. Call by GameModel.

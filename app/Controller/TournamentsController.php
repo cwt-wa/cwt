@@ -25,6 +25,7 @@ class TournamentsController extends AppController
             'order' => 'year DESC'
         ));
 
+        $this->set('title_for_layout', 'Archive');
         $this->set('tournaments', $tournaments);
     }
 
@@ -51,28 +52,14 @@ class TournamentsController extends AppController
         $this->set('tournamentYear', $tournamentYear);
     }
 
-    public function admin_index()
-    {
-        $this->Tournament->recursive = 0;
-        $this->set('tournaments', $this->paginate());
-    }
-
-    public function admin_view($id = null)
-    {
-        $this->Tournament->id = $id;
-        if (!$this->Tournament->exists()) {
-            throw new NotFoundException(__('Invalid tournament'));
-        }
-        $this->set('tournament', $this->Tournament->read(null, $id));
-    }
-
     public function admin_add()
     {
         $currentTournament = $this->Tournament->currentTournament();
         $this->Tournament->id = $currentTournament['id'];
 
         if ($currentTournament['Tournament']['status'] != null) {
-            $this->Session->setFlash('There is already a tournament running at the moment.');
+            $this->Session->setFlash('There is already a tournament running at the moment.',
+                'default', array('class' => 'error'));
             $this->redirect($this->referer());
         }
 
@@ -164,7 +151,7 @@ class TournamentsController extends AppController
             $this->Tournament->id = $this->request->data['Tournament']['id'];
             if (!$this->Tournament->exists()) {
                 $this->Session->setFlash(
-                    'Eww, I couldn\'t update the review.',
+                    'Eww, I couldn’t update the review.',
                     'default', array('class' => 'error'));
                 return;
             }
@@ -173,7 +160,7 @@ class TournamentsController extends AppController
                 $this->Session->setFlash('Thanks for the review, it has been updated successfully.');
             } else {
                 $this->Session->setFlash(
-                    'Eww, I couldn\'t update the review.',
+                    'Eww, I couldn’t update the review.',
                     'default', array('class' => 'error'));
             }
         }
@@ -256,23 +243,6 @@ class TournamentsController extends AppController
 
         $this->set('next', $next);
         $this->set('status', $currentTournament['Tournament']['status']);
-    }
-
-    public function admin_delete($id = null)
-    {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Tournament->id = $id;
-        if (!$this->Tournament->exists()) {
-            throw new NotFoundException(__('Invalid tournament'));
-        }
-        if ($this->Tournament->delete()) {
-            $this->Session->setFlash(__('Tournament deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Tournament was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 
 }

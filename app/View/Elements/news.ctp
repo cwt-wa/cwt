@@ -5,7 +5,7 @@ $this->Helpers->load('Time');
 ?>
 
 <?php if ($news['News']['text'] != ''): ?>
-    <div id="box" style="background-color: #3E283E; margin-bottom: -60px;">
+    <div id="box" style="background-color: #3E283E; margin-bottom: -60px; margin-top:45px">
         <div id="adminNews">
             <?php
             echo $this->Html->link(
@@ -21,21 +21,6 @@ $this->Helpers->load('Time');
             ));
             ?>
         </div>
-        <div style="text-align: center;">
-            <a href="https://twitter.com/cwtwa" class="twitter-follow-button" data-show-count="false" data-size="large">
-                Follow @cwtwa
-            </a>
-            <script>!function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-                    if (!d.getElementById(id)) {
-                        js = d.createElement(s);
-                        js.id = id;
-                        js.src = p + '://platform.twitter.com/widgets.js';
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }
-                }(document, 'script', 'twitter-wjs');</script>
-        </div>
-        <br/>
         <?php echo nl2br($this->Bbcode->parse($news['News']['text'])); ?>
     </div>
 <?php endif; ?>

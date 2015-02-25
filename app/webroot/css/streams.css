@@ -1,0 +1,6 @@
+th.headerSortUp {
+    background: url(/img/tablesorter/asc.gif) no-repeat right;
+}
+th.headerSortDown {
+    background: url(/img/tablesorter/desc.gif) no-repeat right;
+}

@@ -1,4 +1,14 @@
 $(document).ready(function () {
+  var adjustInfoboardHeight = function () {
+    $('#board').height($('#wrapper').height() - $('#content').height());
+  };
+
+  window.onresize = function (e) {
+    adjustInfoboardHeight();
+  };
+
+  adjustInfoboardHeight();
+
   var update = function (category) {
     $.ajax({
       url: '/infoboards/show/' + category,

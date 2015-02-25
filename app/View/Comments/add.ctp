@@ -11,20 +11,12 @@ echo $this->Html->css('bbcode', null, array('inline' => false));
         <font color="lightgray"><?php echo $comment['stage'] ?>:</font>
         <?php
         echo $this->Html->link($comment['Home']['username'],
-            '/users/view/' . $comment['Home']['id'],
-            array(
-                'class' => 'plain'
-            )
-        );
+            '/users/view/' . $comment['Home']['id']);
         ?>
         <?php echo $comment['Game']['score_h']; ?>-<?php echo $comment['Game']['score_a']; ?>
         <?php
         echo $this->Html->link($comment['Away']['username'],
-            '/users/view/' . $comment['Away']['id'],
-            array(
-                'class' => 'plain'
-            )
-        );
+            '/users/view/' . $comment['Away']['id']);
         ?>
     </div>
 

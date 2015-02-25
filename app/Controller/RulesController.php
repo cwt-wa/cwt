@@ -32,23 +32,6 @@ class RulesController extends AppController
     }
 
 
-    public function admin_index()
-    {
-        $this->Rule->recursive = 0;
-        $this->set('rules', $this->paginate());
-    }
-
-
-    public function admin_view($id = null)
-    {
-        $this->Rule->id = $id;
-        if (!$this->Rule->exists()) {
-            throw new NotFoundException(__('Invalid rule'));
-        }
-        $this->set('rule', $this->Rule->read(null, $id));
-    }
-
-
     public function admin_edit()
     {
         $preview = $this->Rule->field('preview', 1);
@@ -77,25 +60,6 @@ class RulesController extends AppController
                     'preview' => ''
                 ));
             }
-        }
-    }
-
-
-    public function admin_add($id = null)
-    {
-        $this->Rule->id = $id;
-        if (!$this->Rule->exists()) {
-            throw new NotFoundException(__('Invalid rule'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Rule->save($this->request->data)) {
-                $this->Session->setFlash(__('The rule has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
-            }
-        } else {
-            $this->request->data = $this->Rule->read(null, $id);
         }
     }
 }
