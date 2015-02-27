@@ -6,7 +6,7 @@ if ($logged_in) {
 }
 
 $this->Html->script('jCaret', array('inline' => false));
-$this->Html->css('infoboard', null, array('inline' => false));
+$this->Html->css('infoboard-v9p3g', null, array('inline' => false));
 ?>
 
 <?php if ($currentTournament['Tournament']['status'] == Tournament::GROUP
