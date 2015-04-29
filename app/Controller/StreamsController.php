@@ -226,4 +226,11 @@ class StreamsController extends AppController
         $this->set('schedules', $schedules);
         $this->set('scheduleds', $scheduleds);
     }
+
+    public function live_stream_notification()
+    {
+        $liveStreams = $this->Stream->getAllLiveStreams();
+        $this->layout = 'ajax';
+        $this->set('liveStreams', $liveStreams);
+    }
 }
