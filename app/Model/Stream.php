@@ -88,6 +88,9 @@ class Stream extends AppModel
         foreach ($streams as $streamKey => $stream) {
             $res = $this->callTwitchApi('streams/' . $stream['Stream']['provider']);
             if (array_key_exists('stream', $res) && $res['stream'] != null) {
+                if (!(strpos(strtolower($res['stream']['channel']['status']), strtolower('CWT')) !== false)) {
+                    continue; // CWT is NOT contained in the video's title.
+                }
                 $res['_title'] = $stream['Stream']['title'];
                 $liveStreams[] = $res;
             }
