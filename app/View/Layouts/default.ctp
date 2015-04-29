@@ -179,6 +179,77 @@
             <?php echo $this->Session->flash(); ?>
             <?php echo $this->Session->flash('auth'); ?>
 
+            <?php
+            $liveStreams = array(array(
+                '_title' => 'KhamsTV',
+                '_links' => array(
+                    'self' => 'https://api.twitch.tv/kraken/streams/sp4zie',
+                    'channel' => 'https://api.twitch.tv/kraken/channels/sp4zie'
+                ),
+                'stream' => array(
+                    '_id' => (int) 14197013456,
+                    'game' => 'League of Legends',
+                    'viewers' => (int) 15638,
+                    'created_at' => '2015-04-28T13:45:38Z',
+                    'video_height' => (int) 720,
+                    'average_fps' => (float) 59.9690618762,
+                    '_links' => array(
+                        'self' => 'http://api.twitch.tv/kraken/streams/sp4zie'
+                    ),
+                    'preview' => array(
+                        'small' => 'http://static-cdn.jtvnw.net/previews-ttv/live_user_sp4zie-80x45.jpg',
+                        'medium' => 'http://static-cdn.jtvnw.net/previews-ttv/live_user_sp4zie-320x180.jpg',
+                        'large' => 'http://static-cdn.jtvnw.net/previews-ttv/live_user_sp4zie-640x360.jpg',
+                        'template' => 'http://static-cdn.jtvnw.net/previews-ttv/live_user_sp4zie-{width}x{height}.jpg'
+                    ),
+                    'channel' => array(
+                        '_links' => array(
+                            'self' => 'https://api.twitch.tv/kraken/channels/sp4zie',
+                            'follows' => 'https://api.twitch.tv/kraken/channels/sp4zie/follows',
+                            'commercial' => 'https://api.twitch.tv/kraken/channels/sp4zie/commercial',
+                            'stream_key' => 'https://api.twitch.tv/kraken/channels/sp4zie/stream_key',
+                            'chat' => 'https://api.twitch.tv/kraken/chat/sp4zie',
+                            'features' => 'https://api.twitch.tv/kraken/channels/sp4zie/features',
+                            'subscriptions' => 'https://api.twitch.tv/kraken/channels/sp4zie/subscriptions',
+                            'editors' => 'https://api.twitch.tv/kraken/channels/sp4zie/editors',
+                            'videos' => 'https://api.twitch.tv/kraken/channels/sp4zie/videos',
+                            'teams' => 'https://api.twitch.tv/kraken/channels/sp4zie/teams'
+                        ),
+                        'background' => null,
+                        'banner' => 'http://static-cdn.jtvnw.net/jtv_user_pictures/sp4zie-channel_header_image-26e6e281bf3cab1e-640x125.jpeg',
+                        'broadcaster_language' => 'en',
+                        'display_name' => 'Sp4zie',
+                        'game' => 'League of Legends',
+                        'logo' => 'http://static-cdn.jtvnw.net/jtv_user_pictures/sp4zie-profile_image-94c7d70156561e7a-300x300.png',
+                        'mature' => false,
+                        'status' => '♥ Sp4zie ~ Stream-Cream - Bugged but beautiful <>',
+                        'partner' => true,
+                        'url' => 'http://www.twitch.tv/sp4zie',
+                        'video_banner' => 'http://static-cdn.jtvnw.net/jtv_user_pictures/sp4zie-channel_offline_image-fa14f5814accf9c5-640x360.png',
+                        '_id' => (int) 28565473,
+                        'name' => 'sp4zie',
+                        'created_at' => '2012-02-27T12:26:41Z',
+                        'updated_at' => '2015-04-28T14:15:47Z',
+                        'delay' => (int) 0,
+                        'followers' => (int) 342772,
+                        'profile_banner' => 'http://static-cdn.jtvnw.net/jtv_user_pictures/sp4zie-profile_banner-44884bde791809a4-480.png',
+                        'profile_banner_background_color' => '#0c395e',
+                        'views' => (int) 14505853,
+                        'language' => 'en'
+                    )
+                )
+            ));
+
+            ?>
+
+            <?php if (!empty($liveStreams)): ?>
+                <?php foreach ($liveStreams as $liveStream): ?>
+                    <div id="box" style="background: #303F4B url('/img/popcorn.png') no-repeat 15px center; padding-left: 60px;">
+                        Live Stream: <?php echo $liveStream['_title'] ?> is live streaming <?php echo $this->Html->link($liveStream['stream']['channel']['status'], $liveStream['stream']['channel']['url'], array('target' => '_blank')) ?> right now! Tune in!
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
             <?php echo $content_for_layout; ?>
         </div>
     </div>

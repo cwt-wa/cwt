@@ -76,13 +76,23 @@ class Stream extends AppModel
         return json_decode($result, true);
     }
 
-    public function fetchPossibleStreamsForGame($game)
-    {
+    /**
+     * List the current live streams of the channels on CWT.
+     *
+     * @return array An array of live streams as they are returned from the API.
+     *  If the array is empty, then there are no live streams.
+     */
+    public function getAllLiveStreams() {
         $streams = $this->find('all');
+        $liveStreams = array();
         foreach ($streams as $streamKey => $stream) {
-            $res = $this->callTwitchApi('channels/' . 'khamski' . '/videos'); // @TODO replace with $stream['Stream']['provider']
-            return $this->findMatchingVideoForGame($res['videos'], $game);
+            $res = $this->callTwitchApi('streams/' . $stream['Stream']['provider']);
+            if (array_key_exists('stream', $res) && $res['stream'] != null) {
+                $res['_title'] = $stream['Stream']['title'];
+                $liveStreams[] = $res;
+            }
         }
+        return $liveStreams;
     }
 
     /**
