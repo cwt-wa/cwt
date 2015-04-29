@@ -28,7 +28,11 @@
     echo $this->Html->script('jquery');
     echo $this->Html->script('gmt');
     echo $this->Html->script('user');
-    echo $this->Html->script('live-streams');
+
+    if ($currentTournament['Tournament']['status'] == Tournament::GROUP
+        || $currentTournament['Tournament']['status'] == Tournament::PLAYOFF) {
+        echo $this->Html->script('live-streams');
+    }
 
     echo $scripts_for_layout;
     ?>
