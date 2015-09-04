@@ -131,13 +131,18 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
             ));
             ?>
         </div>
-        <div id="commentBox" style="display:none;">
+        <div id="commentBox">
             <?php echo $this->Form->textarea('Comment', array('style' => 'width: 724px; height:100px; margin:5px auto; border:1px solid lightgray;')); ?>
             <?php
+            echo $this->Form->button('Write Advanced Comment', array(
+                'id' => 'commentAdvanced',
+                'onClick' => 'writeAdvancedComment(' . $game['Game']['id'] . ')'
+            ));
             echo $this->Form->submit('Submit Comment', array(
-                'style' => 'margin-left:599px; width:130px',
+                'style' => 'float: right;',
                 'id' => 'submitComment',
-                'onClick' => 'submitComment(' . $game['Game']['id'] . ', this.value)'
+                'onClick' => 'submitComment(' . $game['Game']['id'] . ', this.value)',
+                'div' => false
             ));
             ?>
         </div>
