@@ -117,20 +117,10 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
             <b><?php echo $game['Game']['downloads']; ?></b>
         <?php endif; ?>
     </div>
+    <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
+        TODO: Stream search here
+    </div>
     <?php if ($logged_in): ?>
-        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
-            <br><?php
-            echo $this->Form->button('Write Quick Comment', array(
-                    'id' => 'commentQuick',
-                    'style' => 'width:190px; margin:0px 15px'
-                )) . '<br><br>';
-            echo $this->Form->button('Write Advanced Comment', array(
-                'id' => 'commentAdvanced',
-                'style' => 'width:190px; margin:0px 15px',
-                'onClick' => 'window.location.href=\'/comments/add/' . $game['Game']['id'] . '\''
-            ));
-            ?>
-        </div>
         <div id="commentBox">
             <?php echo $this->Form->textarea('Comment', array('style' => 'width: 724px; height:100px; margin:5px auto; border:1px solid lightgray;')); ?>
             <?php
@@ -145,10 +135,6 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
                 'div' => false
             ));
             ?>
-        </div>
-    <?php else: ?>
-        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
-            Log in to comment this game.
         </div>
     <?php endif; ?>
     <div id="commentsList">
