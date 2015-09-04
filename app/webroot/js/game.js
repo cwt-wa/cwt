@@ -1,13 +1,3 @@
-$(document).ready(function () {
-  $('#commentQuick').toggle(function () {
-    $('#commentBox').slideDown('fast');
-    $(this).html('Close Quick Comment');
-  }, function () {
-    $('#commentBox').slideUp('fast');
-    $(this).html('Write Quick Comment');
-  });
-});
-
 function rate(rating, gameId) {
   $.ajax({
     url: '/ratings/add/',
@@ -62,6 +52,12 @@ function submitComment(gameId) {
       });
     }
   });
+}
+
+function writeAdvancedComment(gameId) {
+  var currentCommentValue = $('#Comment').val();
+  window.sessionStorage.setItem('currentCommentValue', currentCommentValue);
+  window.location.href = '/comments/add/' + gameId;
 }
 
 function editComment(commentId) {
