@@ -118,7 +118,14 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
         <?php endif; ?>
     </div>
     <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
-        TODO: Stream search here
+        <div id="find-streams">
+            <img src="/img/loading.gif"><br/>
+            <br/>
+            <i>Searching for recorded live stream...</i>
+        </div>
+        <script>
+            findStreams(<?php echo $game['Game']['id'] ?>);
+        </script>
     </div>
     <?php if ($logged_in): ?>
         <div id="commentBox">

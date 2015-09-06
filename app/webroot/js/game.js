@@ -1,3 +1,26 @@
+function findStreams(gameId) {
+  $.ajax({
+    //url: '/games/findStreams/' + gameId,
+    url: 'http://localhost:8080/json.json',
+    type: 'GET',
+    success: function (res) {
+      if (!res.length) {
+        $('#find-streams').html('<div style="margin-top: 30px;">No recorded live stream found.</div>');
+        return;
+      }
+
+      $('#find-streams').html('<ul>');
+
+      var i;
+      for (i = 0; i < res.length; i++) {
+        $('#find-streams').html($('#find-streams').html() + '<li><a href="/streams/view/' + res[i]._id + '" target="_blank">' + res[i].title + '</a></li>');
+      }
+
+      $('#find-streams').html($('#find-streams').html() + '</ul>');
+    }
+  });
+}
+
 function rate(rating, gameId) {
   $.ajax({
     url: '/ratings/add/',
