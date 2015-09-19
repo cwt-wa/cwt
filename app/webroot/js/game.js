@@ -4,12 +4,12 @@ function findStreams(gameId) {
     //url: 'http://localhost:8080/json.json',
     type: 'GET',
     success: function (res) {
+      res = JSON.parse(res);
+
       if (!res.length) {
-        $('#find-streams').html('<div style="margin-top: 30px;">No recorded live stream found.</div>');
+        $('#find-streams').html('Sorry, I couldn\'t find any recorded live streams.<br/> That doesn\'t necessarily mean that there are none, I just wasn\'t able to find one.');
         return;
       }
-
-      res = JSON.parse(res);
 
       if (res.length === 1) {
         $('#find-streams').html('Okay, I\'ve found just one stream. This should hopefully be the one stream you were looking for...');
