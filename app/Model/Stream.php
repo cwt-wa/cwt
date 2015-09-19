@@ -172,10 +172,10 @@ class Stream extends AppModel
         $tmpMatchesOfCurrentVideo = 0;
 
         foreach ($filteredVideos as $filteredVideo) {
-            if (!(strpos(strtolower($filteredVideo['title']), strtolower($game['Home']['username'])) !== false)) {
+            if (strpos(strtolower($filteredVideo['title']), strtolower($game['Home']['username'])) !== false) {
                 $tmpMatchesOfCurrentVideo++;
             }
-            if (!(strpos(strtolower($filteredVideo['title']), strtolower($game['Away']['username'])) !== false)) {
+            if (strpos(strtolower($filteredVideo['title']), strtolower($game['Away']['username'])) !== false) {
                 $tmpMatchesOfCurrentVideo++;
             }
 
