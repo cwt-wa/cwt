@@ -163,13 +163,34 @@ class Stream extends AppModel
 
         $filteredVideos = $this->filterStreamsWithinDayRange($allVideos, $game['Game']['created'], 1);
 
-//        if ($game['Playoff']['step'] === 5) {
-//            foreach ($allVideos as $video) {
-//
-//            }
-//        }
+        if ($filteredVideos < 2) {
+            return $filteredVideos;
+        }
 
-        return $filteredVideos;
+        $numberOfMatchesForMostMatchedVideos = 0;
+        $videosWithMostUsernameMatches = array(); // lol
+        $tmpMatchesOfCurrentVideo = 0;
+
+        foreach ($filteredVideos as $filteredVideo) {
+            if (!(strpos(strtolower($filteredVideo['title']), strtolower($game['Home']['username'])) !== false)) {
+                $tmpMatchesOfCurrentVideo++;
+            }
+            if (!(strpos(strtolower($filteredVideo['title']), strtolower($game['Away']['username'])) !== false)) {
+                $tmpMatchesOfCurrentVideo++;
+            }
+
+            if ($tmpMatchesOfCurrentVideo > $numberOfMatchesForMostMatchedVideos) {
+                $videosWithMostUsernameMatches = array();
+                $videosWithMostUsernameMatches[] = $filteredVideo;
+                $numberOfMatchesForMostMatchedVideos = $tmpMatchesOfCurrentVideo;
+            } else if ($tmpMatchesOfCurrentVideo === $numberOfMatchesForMostMatchedVideos) {
+                $videosWithMostUsernameMatches[] = $filteredVideo;
+            }
+
+            $tmpMatchesOfCurrentVideo = 0;
+        }
+
+        return $videosWithMostUsernameMatches;
     }
 
     /**

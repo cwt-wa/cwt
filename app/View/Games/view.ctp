@@ -117,11 +117,11 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
             <b><?php echo $game['Game']['downloads']; ?></b>
         <?php endif; ?>
     </div>
-    <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
+    <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px; overflow-y: scroll;">
         <div id="find-streams">
             <img src="/img/loading.gif"><br/>
             <br/>
-            <i>Searching for recorded live stream...</i>
+            <i>Your personal live stream assistant is looking for recorded live streams...</i>
         </div>
         <script>
             findStreams(<?php echo $game['Game']['id'] ?>);

@@ -11,7 +11,15 @@ function findStreams(gameId) {
 
       res = JSON.parse(res);
 
-      $('#find-streams').html('<ul>');
+      if (res.length === 1) {
+        $('#find-streams').html('Okay, I\'ve found just one stream. This should hopefully be the one stream you were looking for...');
+      } else if (res.length > 1) {
+        $('#find-streams').html('Hmm... I\'ve found several streams that could potentially be streams of this game. You need to find out yourself...');
+      }
+
+
+      $('#find-streams').html($('#find-streams').html() + '<br/>');
+      $('#find-streams').html($('#find-streams').html() + '<ul>');
 
       var i;
       for (i = 0; i < res.length; i++) {
