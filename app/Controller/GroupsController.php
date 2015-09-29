@@ -22,7 +22,12 @@ class GroupsController extends AppController
                 $this->Session->setFlash('There is no tournament right now. Here is the most recent tournament from the archive.',
                     'default', array('class' => 'error'));
                 $this->loadModel('Tournament');
-                $mostRecentTournament = $this->Tournament->find('first', array('order' => 'Tournament.year DESC'));
+                $mostRecentTournament = $this->Tournament->find('first', array(
+                    'conditions' => array(
+                        'status' => Tournament::ARCHIVED
+                    ),
+                    'order' => 'Tournament.year DESC'
+                ));
                 $this->redirect('/archive/' . $mostRecentTournament['Tournament']['year']);
             }
         }
