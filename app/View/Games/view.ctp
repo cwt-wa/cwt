@@ -117,33 +117,31 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
             <b><?php echo $game['Game']['downloads']; ?></b>
         <?php endif; ?>
     </div>
-    <?php if ($logged_in): ?>
-        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
-            <br><?php
-            echo $this->Form->button('Write Quick Comment', array(
-                    'id' => 'commentQuick',
-                    'style' => 'width:190px; margin:0px 15px'
-                )) . '<br><br>';
-            echo $this->Form->button('Write Advanced Comment', array(
-                'id' => 'commentAdvanced',
-                'style' => 'width:190px; margin:0px 15px',
-                'onClick' => 'window.location.href=\'/comments/add/' . $game['Game']['id'] . '\''
-            ));
-            ?>
+    <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px; overflow-y: scroll;">
+        <div id="find-streams">
+            <img src="/img/loading.gif"><br/>
+            <br/>
+            <i>Your personal live stream assistant is looking for recorded live streams...</i>
         </div>
-        <div id="commentBox" style="display:none;">
+        <script>
+            findStreams(<?php echo $game['Game']['id'] ?>);
+        </script>
+    </div>
+    <?php if ($logged_in): ?>
+        <div id="commentBox">
             <?php echo $this->Form->textarea('Comment', array('style' => 'width: 724px; height:100px; margin:5px auto; border:1px solid lightgray;')); ?>
             <?php
+            echo $this->Form->button('Write Advanced Comment', array(
+                'id' => 'commentAdvanced',
+                'onClick' => 'writeAdvancedComment(' . $game['Game']['id'] . ')'
+            ));
             echo $this->Form->submit('Submit Comment', array(
-                'style' => 'margin-left:599px; width:130px',
+                'style' => 'float: right;',
                 'id' => 'submitComment',
-                'onClick' => 'submitComment(' . $game['Game']['id'] . ', this.value)'
+                'onClick' => 'submitComment(' . $game['Game']['id'] . ', this.value)',
+                'div' => false
             ));
             ?>
-        </div>
-    <?php else: ?>
-        <div id="box" style="height:90px; text-align:center; background-color:#2F2B23; margin-left:460px">
-            Log in to comment this game.
         </div>
     <?php endif; ?>
     <div id="commentsList">

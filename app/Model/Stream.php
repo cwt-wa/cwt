@@ -154,6 +154,72 @@ class Stream extends AppModel
         return $videosCopy;
     }
 
+    public function findStreamForGame($gameId)
+    {
+        $allVideos = $this->queryAllVideos();
+        $Game = ClassRegistry::init('Game');
+        $Game->recursive = 1;
+        $game = $Game->findById($gameId);
+
+        $filteredVideos = $this->filterStreamsWithinDayRange($allVideos, $game['Game']['created'], 1);
+
+        if ($filteredVideos < 2) {
+            return $filteredVideos;
+        }
+
+        $numberOfMatchesForMostMatchedVideos = 0;
+        $videosWithMostUsernameMatches = array(); // lol
+        $tmpMatchesOfCurrentVideo = 0;
+
+        foreach ($filteredVideos as $filteredVideo) {
+            if (strpos(strtolower($filteredVideo['title']), strtolower($game['Home']['username'])) !== false) {
+                $tmpMatchesOfCurrentVideo++;
+            }
+            if (strpos(strtolower($filteredVideo['title']), strtolower($game['Away']['username'])) !== false) {
+                $tmpMatchesOfCurrentVideo++;
+            }
+
+            if ($tmpMatchesOfCurrentVideo > $numberOfMatchesForMostMatchedVideos) {
+                $videosWithMostUsernameMatches = array();
+                $videosWithMostUsernameMatches[] = $filteredVideo;
+                $numberOfMatchesForMostMatchedVideos = $tmpMatchesOfCurrentVideo;
+            } else if ($tmpMatchesOfCurrentVideo === $numberOfMatchesForMostMatchedVideos) {
+                $videosWithMostUsernameMatches[] = $filteredVideo;
+            }
+
+            $tmpMatchesOfCurrentVideo = 0;
+        }
+
+        return $videosWithMostUsernameMatches;
+    }
+
+    /**
+     * Filter videos not within a range of days.
+     * By day what is actually meant is 24 hours.
+     *
+     * @param $streams array The streams to go through.
+     * @param $dateOfFilter int Current unix timestamp like i.e. <tt>time()</tt>.
+     * @param $dayRanges int The number of days streams will be filtered after.
+     * @return array The streams within the range.
+     */
+    public function filterStreamsWithinDayRange($streams, $dateOfFilter, $dayRanges)
+    {
+        $filteredStreams = array();
+        $tmpDateDifference = null;
+
+        foreach ($streams as $stream) {
+            $tmpDateDifference = (strtotime($stream['recorded_at']) - strtotime($dateOfFilter)) / 60 / 60 / 24;
+
+            if ($tmpDateDifference > $dayRanges || $tmpDateDifference < -$dayRanges) {
+                continue;
+            }
+
+            $filteredStreams[] = $stream;
+        }
+
+        return $filteredStreams;
+    }
+
     // Current user is maintainer of a stream? Any stream online?
     public function checkings()
     {

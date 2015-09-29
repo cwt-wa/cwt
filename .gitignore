@@ -8,6 +8,7 @@
 /dist
 /tags
 /app/Config/core.php
+/node_modules/
 
 # OS generated files
 .DS_Store

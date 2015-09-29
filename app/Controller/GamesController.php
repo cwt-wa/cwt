@@ -281,4 +281,14 @@ class GamesController extends AppController
         $allUsersStillInTournament = $this->User->getAllUsersStillInTournament();
         $this->set('homes', $allUsersStillInTournament);
     }
+
+    public function findStreams($gameId)
+    {
+        $this->loadModel('Stream');
+//        $allVideos = $this->Stream->queryAllVideos();
+        $allVideos = $this->Stream->findStreamForGame($gameId);
+        $this->layout = null;
+        $this->set('json', $allVideos);
+        $this->render('/pages/json', 'ajax');
+    }
 }
