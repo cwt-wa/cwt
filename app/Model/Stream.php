@@ -163,7 +163,7 @@ class Stream extends AppModel
 
         $filteredVideos = $this->filterStreamsWithinDayRange($allVideos, $game['Game']['created'], 1);
 
-        if ($filteredVideos < 2) {
+        if (count($filteredVideos) < 2) {
             return $filteredVideos;
         }
 
@@ -218,6 +218,55 @@ class Stream extends AppModel
         }
 
         return $filteredStreams;
+    }
+
+    public function findGameForStream($twitchApiRes)
+    {
+        $streamRecordingDateTime = strtotime($twitchApiRes['recorded_at']);
+        $gameDateRange = array(
+            'start' => $streamRecordingDateTime - (60 * 60 * 24),
+            'end' => $streamRecordingDateTime + (60 * 60 * 24),
+        );
+
+        $Game = ClassRegistry::init('Game');
+        $Game->recursive = 1;
+        $gamesWithinDateRange = $Game->find('all', array(
+            'conditions' => array(
+                'Game.created >=' => date('Y-m-d H:i:s', $gameDateRange['start']),
+                'Game.created <=' => date('Y-m-d H:i:s', $gameDateRange['end'])
+            )
+        ));
+
+        if (count($gamesWithinDateRange) < 2) {
+            return $gamesWithinDateRange;
+        }
+
+        $streamTitle = $twitchApiRes['title'];
+        $tmpMatchesOfCurrentGame = 0;
+        $numberOfMatchesForMostMatchedVideos = 0;
+        $gamesWithMostUsernameMatches = array();
+
+        foreach ($gamesWithinDateRange as $gameWithinDateRange) {
+            if (strpos(strtolower($streamTitle), strtolower($gameWithinDateRange['Home']['username'])) !== false) {
+                $tmpMatchesOfCurrentGame++;
+            }
+            if (strpos(strtolower($streamTitle), strtolower($gameWithinDateRange['Away']['username'])) !== false) {
+                $tmpMatchesOfCurrentGame++;
+            }
+
+            if ($tmpMatchesOfCurrentGame > $numberOfMatchesForMostMatchedVideos) {
+                $gamesWithMostUsernameMatches = array();
+                $gamesWithMostUsernameMatches[] = $gameWithinDateRange;
+                $numberOfMatchesForMostMatchedVideos = $tmpMatchesOfCurrentGame;
+            } else if ($tmpMatchesOfCurrentGame === $numberOfMatchesForMostMatchedVideos) {
+                $gamesWithMostUsernameMatches[] = $gameWithinDateRange;
+            }
+
+            $tmpMatchesOfCurrentGame = 0;
+        }
+
+
+        return $gamesWithMostUsernameMatches;
     }
 
     // Current user is maintainer of a stream? Any stream online?

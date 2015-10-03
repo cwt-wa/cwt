@@ -43,6 +43,8 @@ class StreamsController extends AppController
             return;
         }
 
+        $gameForStream = $this->Stream->findGameForStream($res);
+
         $explodeOwnerUrl = explode('/', $res['_links']['channel']);
         $provider = $explodeOwnerUrl[count($explodeOwnerUrl) - 1];
         $stream = $this->Stream->find('first', array(
@@ -50,6 +52,7 @@ class StreamsController extends AppController
                 'LOWER(provider)' => strtolower($provider)
             )
         ));
+        $this->set('gameForStream', $gameForStream);
         $this->set('provider', $provider);
         $this->set('stream', $stream);
         $this->set('video', $res);
