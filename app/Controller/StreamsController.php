@@ -43,7 +43,15 @@ class StreamsController extends AppController
             return;
         }
 
-        $gameForStream = $this->Stream->findGameForStream($res);
+        $gamesForStream = $this->Stream->findGameForStream($res);
+
+        if (!empty($gamesForStream)) {
+            $this->loadModel('Rating');
+
+            foreach ($gamesForStream as $key => $val) {
+                $gamesForStream[$key]['Rating'][0] = $this->Rating->ratingStats($val['Game']['id']);
+            }
+        }
 
         $explodeOwnerUrl = explode('/', $res['_links']['channel']);
         $provider = $explodeOwnerUrl[count($explodeOwnerUrl) - 1];
@@ -52,7 +60,7 @@ class StreamsController extends AppController
                 'LOWER(provider)' => strtolower($provider)
             )
         ));
-        $this->set('gameForStream', $gameForStream);
+        $this->set('gamesForStream', $gamesForStream);
         $this->set('provider', $provider);
         $this->set('stream', $stream);
         $this->set('video', $res);
