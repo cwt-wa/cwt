@@ -166,6 +166,12 @@ class Stream extends AppModel
 
     public function findStreamForGame($gameId)
     {
+        $cacheKey = 'findStreamForGame' . $gameId;
+        $streamForGame = Cache::read($cacheKey);
+        if ($streamForGame) {
+            return $streamForGame;
+        }
+
         $allVideos = $this->queryAllVideos();
         $Game = ClassRegistry::init('Game');
         $Game->recursive = 1;
@@ -174,6 +180,7 @@ class Stream extends AppModel
         $filteredVideos = $this->filterStreamsWithinDayRange($allVideos, $game['Game']['created'], 1);
 
         if (count($filteredVideos) < 2) {
+            Cache::write($cacheKey, $filteredVideos);
             return $filteredVideos;
         }
 
@@ -200,6 +207,7 @@ class Stream extends AppModel
             $tmpMatchesOfCurrentVideo = 0;
         }
 
+        Cache::write($cacheKey, $videosWithMostUsernameMatches);
         return $videosWithMostUsernameMatches;
     }
 
