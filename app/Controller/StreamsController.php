@@ -25,7 +25,7 @@ class StreamsController extends AppController
 
     public function videos()
     {
-        if ($this->request->is('get')) { // @TODO Should be ajax.
+        if ($this->request->is('ajax')) {
             $videos = $this->Stream->queryAllVideos();
             $this->set('videos', $videos);
             $this->layout = 'ajax';

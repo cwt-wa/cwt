@@ -85,6 +85,7 @@ class Stream extends AppModel
     public function getAllLiveStreams() {
         $streams = $this->find('all');
         $liveStreams = array();
+
         foreach ($streams as $streamKey => $stream) {
             $res = $this->callTwitchApi('streams/' . $stream['Stream']['provider']);
             if (array_key_exists('stream', $res) && $res['stream'] != null) {
@@ -105,6 +106,13 @@ class Stream extends AppModel
     {
         $videos = array();
         $streams = $this->find('all');
+
+        $cacheKey = 'queryAllVideos';
+        $allVideosFromCache = $this->getFromCacheIfRelevant($cacheKey);
+        if ($allVideosFromCache) {
+            return $allVideosFromCache;
+        }
+
         foreach ($streams as $stream) {
             $videosOfStream = $this->queryVideosOfStream($stream);
             if (empty($videosOfStream)) {
@@ -112,6 +120,8 @@ class Stream extends AppModel
             }
             $videos = array_merge($videos, $videosOfStream);
         }
+
+        $this->writeToCache($cacheKey, $videos);
         return $videos;
     }
 
@@ -360,5 +370,39 @@ class Stream extends AppModel
         }
 
         return true;
+    }
+
+    public function getFromCacheIfRelevant($cacheKey)
+    {
+        $Game = ClassRegistry::init('Game');
+
+        $lastReportedGame = $Game->find('first', array(
+            'order' => 'created DESC'
+        ));
+
+        $cacheContent = Cache::read($cacheKey);
+
+        if (!$cacheContent) {
+            return false;
+        }
+
+        if ($cacheContent['cachedAt'] > date_create($lastReportedGame['Game']['created'])) {
+            return $cacheContent['data'];
+        }
+        return false;
+    }
+
+    /**
+     * @param $cacheKey
+     * @param $cacheData
+     * @return mixed
+     */
+    public function writeToCache($cacheKey, $cacheData)
+    {
+        $cacheContent = array(
+            'cachedAt' => date_create(),
+            'data' => $cacheData
+        );
+        Cache::write($cacheKey, $cacheContent);
     }
 }
