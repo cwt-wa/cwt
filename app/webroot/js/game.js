@@ -23,7 +23,7 @@ function findStreams(gameId) {
 
       var i;
       for (i = 0; i < res.length; i++) {
-        $('#find-streams').html($('#find-streams').html() + '<li><a href="/streams/view/' + res[i]._id + '" target="_blank">' + res[i].title + '</a></li>');
+        $('#find-streams').html($('#find-streams').html() + '<li><a href="/streams/view/' + res[i]._id + '">' + res[i].title + '</a></li>');
       }
 
       $('#find-streams').html($('#find-streams').html() + '</ul>');
