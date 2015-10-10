@@ -25,7 +25,7 @@ class StreamsController extends AppController
 
     public function videos()
     {
-        if ($this->request->is('get')) { // @TODO Should be ajax.
+        if ($this->request->is('ajax')) {
             $videos = $this->Stream->queryAllVideos();
             $this->set('videos', $videos);
             $this->layout = 'ajax';
@@ -43,6 +43,16 @@ class StreamsController extends AppController
             return;
         }
 
+        $gamesForStream = $this->Stream->findGameForStream($res);
+
+        if (!empty($gamesForStream)) {
+            $this->loadModel('Rating');
+
+            foreach ($gamesForStream as $key => $val) {
+                $gamesForStream[$key]['Rating'][0] = $this->Rating->ratingStats($val['Game']['id']);
+            }
+        }
+
         $explodeOwnerUrl = explode('/', $res['_links']['channel']);
         $provider = $explodeOwnerUrl[count($explodeOwnerUrl) - 1];
         $stream = $this->Stream->find('first', array(
@@ -50,6 +60,7 @@ class StreamsController extends AppController
                 'LOWER(provider)' => strtolower($provider)
             )
         ));
+        $this->set('gamesForStream', $gamesForStream);
         $this->set('provider', $provider);
         $this->set('stream', $stream);
         $this->set('video', $res);

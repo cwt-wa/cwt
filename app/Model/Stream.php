@@ -85,6 +85,7 @@ class Stream extends AppModel
     public function getAllLiveStreams() {
         $streams = $this->find('all');
         $liveStreams = array();
+
         foreach ($streams as $streamKey => $stream) {
             $res = $this->callTwitchApi('streams/' . $stream['Stream']['provider']);
             if (array_key_exists('stream', $res) && $res['stream'] != null) {
@@ -105,6 +106,13 @@ class Stream extends AppModel
     {
         $videos = array();
         $streams = $this->find('all');
+
+        $cacheKey = 'queryAllVideos';
+        $allVideosFromCache = $this->getFromCacheIfRelevant($cacheKey);
+        if ($allVideosFromCache) {
+            return $allVideosFromCache;
+        }
+
         foreach ($streams as $stream) {
             $videosOfStream = $this->queryVideosOfStream($stream);
             if (empty($videosOfStream)) {
@@ -112,6 +120,8 @@ class Stream extends AppModel
             }
             $videos = array_merge($videos, $videosOfStream);
         }
+
+        $this->writeToCache($cacheKey, $videos);
         return $videos;
     }
 
@@ -156,6 +166,12 @@ class Stream extends AppModel
 
     public function findStreamForGame($gameId)
     {
+        $cacheKey = 'findStreamForGame' . $gameId;
+        $streamForGame = Cache::read($cacheKey);
+        if ($streamForGame) {
+            return $streamForGame;
+        }
+
         $allVideos = $this->queryAllVideos();
         $Game = ClassRegistry::init('Game');
         $Game->recursive = 1;
@@ -163,7 +179,8 @@ class Stream extends AppModel
 
         $filteredVideos = $this->filterStreamsWithinDayRange($allVideos, $game['Game']['created'], 1);
 
-        if ($filteredVideos < 2) {
+        if (count($filteredVideos) < 2) {
+            Cache::write($cacheKey, $filteredVideos);
             return $filteredVideos;
         }
 
@@ -190,6 +207,7 @@ class Stream extends AppModel
             $tmpMatchesOfCurrentVideo = 0;
         }
 
+        Cache::write($cacheKey, $videosWithMostUsernameMatches);
         return $videosWithMostUsernameMatches;
     }
 
@@ -218,6 +236,55 @@ class Stream extends AppModel
         }
 
         return $filteredStreams;
+    }
+
+    public function findGameForStream($twitchApiRes)
+    {
+        $streamRecordingDateTime = strtotime($twitchApiRes['recorded_at']);
+        $gameDateRange = array(
+            'start' => $streamRecordingDateTime - (60 * 60 * 24),
+            'end' => $streamRecordingDateTime + (60 * 60 * 24),
+        );
+
+        $Game = ClassRegistry::init('Game');
+        $Game->recursive = 1;
+        $gamesWithinDateRange = $Game->find('all', array(
+            'conditions' => array(
+                'Game.created >=' => date('Y-m-d H:i:s', $gameDateRange['start']),
+                'Game.created <=' => date('Y-m-d H:i:s', $gameDateRange['end'])
+            )
+        ));
+
+        if (count($gamesWithinDateRange) < 2) {
+            return $gamesWithinDateRange;
+        }
+
+        $streamTitle = $twitchApiRes['title'];
+        $tmpMatchesOfCurrentGame = 0;
+        $numberOfMatchesForMostMatchedVideos = 0;
+        $gamesWithMostUsernameMatches = array();
+
+        foreach ($gamesWithinDateRange as $gameWithinDateRange) {
+            if (strpos(strtolower($streamTitle), strtolower($gameWithinDateRange['Home']['username'])) !== false) {
+                $tmpMatchesOfCurrentGame++;
+            }
+            if (strpos(strtolower($streamTitle), strtolower($gameWithinDateRange['Away']['username'])) !== false) {
+                $tmpMatchesOfCurrentGame++;
+            }
+
+            if ($tmpMatchesOfCurrentGame > $numberOfMatchesForMostMatchedVideos) {
+                $gamesWithMostUsernameMatches = array();
+                $gamesWithMostUsernameMatches[] = $gameWithinDateRange;
+                $numberOfMatchesForMostMatchedVideos = $tmpMatchesOfCurrentGame;
+            } else if ($tmpMatchesOfCurrentGame === $numberOfMatchesForMostMatchedVideos) {
+                $gamesWithMostUsernameMatches[] = $gameWithinDateRange;
+            }
+
+            $tmpMatchesOfCurrentGame = 0;
+        }
+
+
+        return $gamesWithMostUsernameMatches;
     }
 
     // Current user is maintainer of a stream? Any stream online?
@@ -311,5 +378,39 @@ class Stream extends AppModel
         }
 
         return true;
+    }
+
+    public function getFromCacheIfRelevant($cacheKey)
+    {
+        $Game = ClassRegistry::init('Game');
+
+        $lastReportedGame = $Game->find('first', array(
+            'order' => 'created DESC'
+        ));
+
+        $cacheContent = Cache::read($cacheKey);
+
+        if (!$cacheContent) {
+            return false;
+        }
+
+        if ($cacheContent['cachedAt'] > date_create($lastReportedGame['Game']['created'])) {
+            return $cacheContent['data'];
+        }
+        return false;
+    }
+
+    /**
+     * @param $cacheKey
+     * @param $cacheData
+     * @return mixed
+     */
+    public function writeToCache($cacheKey, $cacheData)
+    {
+        $cacheContent = array(
+            'cachedAt' => date_create(),
+            'data' => $cacheData
+        );
+        Cache::write($cacheKey, $cacheContent);
     }
 }
