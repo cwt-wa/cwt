@@ -100,8 +100,7 @@ $this->Paginator->options($options);
                             'http://myskype.info/' . $user['Profile']['skype'], array(
                                 'alt' => $user['Profile']['skype'],
                                 'title' => $user['Profile']['skype'],
-                                'escape' => false,
-                                'target' => '_blank'
+                                'escape' => false
                             )
                         )
                         ?>
@@ -116,8 +115,7 @@ $this->Paginator->options($options);
                             'http://icq.com/people/' . $user['Profile']['icq'], array(
                                 'alt' => $user['Profile']['icq'],
                                 'title' => $user['Profile']['icq'],
-                                'escape' => false,
-                                'target' => '_blank'
+                                'escape' => false
                             )
                         )
                         ?>
@@ -147,8 +145,7 @@ $this->Paginator->options($options);
                             $user['Profile']['facebook'], array(
                                 'alt' => $user['Profile']['facebook'],
                                 'title' => $user['Profile']['facebook'],
-                                'escape' => false,
-                                'target' => '_blank'
+                                'escape' => false
                             )
                         )
                         ?>
@@ -163,8 +160,7 @@ $this->Paginator->options($options);
                             $user['Profile']['googlep'], array(
                                 'alt' => $user['Profile']['googlep'],
                                 'title' => $user['Profile']['googlep'],
-                                'escape' => false,
-                                'target' => '_blank'
+                                'escape' => false
                             )
                         )
                         ?>
@@ -179,8 +175,7 @@ $this->Paginator->options($options);
                             $user['Profile']['twitter'], array(
                                 'alt' => $user['Profile']['twitter'],
                                 'title' => $user['Profile']['twitter'],
-                                'escape' => false,
-                                'target' => '_blank'
+                                'escape' => false
                             )
                         )
                         ?>

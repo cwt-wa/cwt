@@ -19,12 +19,12 @@
 
         <?php if ($msg['Infoboard']['category'] == 2): ?>
             <font
-                color="red"><?php echo $this->Text->autoLink($msg['Infoboard']['message'], array('target' => '_blank')); ?></font>
+                color="red"><?php echo $this->Text->autoLink($msg['Infoboard']['message']); ?></font>
         <?php elseif ($msg['Infoboard']['category'] == 3): ?>
             <i><?php echo html_entity_decode($msg['Infoboard']['message']); ?></i>
         <?php
         else: ?>
-            <?php echo $this->Text->autoLink($msg['Infoboard']['message'], array('target' => '_blank')); ?>
+            <?php echo $this->Text->autoLink($msg['Infoboard']['message']); ?>
         <?php endif; ?>
     </div>
 <?php endforeach; ?>

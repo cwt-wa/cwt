@@ -29,6 +29,6 @@
     <br/>
     <br/>
     <i>CWT Moderators 2013<br/>
-        <a href="/users/view/10" target="_blank">Kayz</a>, <a href="/users/view/158" target="_blank">kukumber</a>, <a
-            href="/users/view/1" target="_blank">Zemke</a></i>
+        <a href="/users/view/10">Kayz</a>, <a href="/users/view/158">kukumber</a>, <a
+            href="/users/view/1">Zemke</a></i>
 </div>

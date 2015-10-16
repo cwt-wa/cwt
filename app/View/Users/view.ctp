@@ -61,8 +61,7 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
                         $user['Profile']['facebook'], array(
                             'alt' => $user['Profile']['facebook'],
                             'title' => $user['Profile']['facebook'],
-                            'escape' => false,
-                            'target' => '_blank'
+                            'escape' => false
                         )
                     )
                     ?>
@@ -77,8 +76,7 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
                         $user['Profile']['googlep'], array(
                             'alt' => $user['Profile']['googlep'],
                             'title' => $user['Profile']['googlep'],
-                            'escape' => false,
-                            'target' => '_blank'
+                            'escape' => false
                         )
                     )
                     ?>
@@ -93,8 +91,7 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
                         $user['Profile']['twitter'], array(
                             'alt' => $user['Profile']['twitter'],
                             'title' => $user['Profile']['twitter'],
-                            'escape' => false,
-                            'target' => '_blank'
+                            'escape' => false
                         )
                     )
                     ?>

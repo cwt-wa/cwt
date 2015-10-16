@@ -69,10 +69,7 @@
             <?php
             echo $this->Html->link(
                 'TwitchTV',
-                'http://twitch.tv',
-                array(
-                    'target' => '_blank'
-                ));
+                'http://twitch.tv');
             ?>.<br><br>
             <?php
             echo $this->Form->create('Stream', array(

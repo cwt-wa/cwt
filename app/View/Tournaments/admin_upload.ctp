@@ -4,7 +4,7 @@
 
         if (filename != null) {
             var link =
-                '<a href="/files/fms/' + filename + '" target="_blank">' + filename + '</a>';
+                '<a href="/files/fms/' + filename + '">' + filename + '</a>';
             var filesize = $('.qq-upload-size').html();
 
             $('#linkableList').append('<li>' + link + ' ' + filesize + '</li>');

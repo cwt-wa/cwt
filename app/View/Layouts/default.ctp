@@ -215,15 +215,15 @@
         ?>
     </div>
     <div id="pages">
-        <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('target' => '_blank', 'class' => 'plainer')) ?>
+        <?php echo $this->Html->link('Facebook', 'http://facebook.com/CresposWormsTournament', array('class' => 'plainer')) ?>
         &bull;
-        <?php echo $this->Html->link('Twitter', 'http://twitter.com/cwtwa', array('target' => '_blank', 'class' => 'plainer')) ?>
+        <?php echo $this->Html->link('Twitter', 'http://twitter.com/cwtwa', array('class' => 'plainer')) ?>
         &bull;
-        <?php echo $this->Html->link('WKB', 'http://worms2d.info/Crespo\'s_Worms_Tournament', array('target' => '_blank', 'class' => 'plainer')) ?>
+        <?php echo $this->Html->link('WKB', 'http://worms2d.info/Crespo\'s_Worms_Tournament', array('class' => 'plainer')) ?>
         &bull;
-        <?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('target' => '_blank', 'class' => 'plainer')) ?>
+        <?php echo $this->Html->link('NNN', 'http://www.normalnonoobs.com', array('class' => 'plainer')) ?>
         &bull;
-        <?php echo $this->Html->link('TUS', 'http://www.tus-wa.com', array('target' => '_blank', 'class' => 'plainer')) ?>
+        <?php echo $this->Html->link('TUS', 'http://www.tus-wa.com', array('class' => 'plainer')) ?>
     </div>
 </div>
 <?php echo $this->Js->writeBuffer(); // Write cached scripts ?>

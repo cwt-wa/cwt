@@ -16,8 +16,7 @@ $comments = $this->requestAction('/comments/view/' . $gameId);
             <?php endif; ?>
             <?php
             echo $this->Html->link($comment['User']['username'],
-                    '/users/view/' . $comment['User']['id'],
-                    array('target' => '_blank')) . '<br>';
+                    '/users/view/' . $comment['User']['id']) . '<br>';
 
             echo $this->Time->timeAgoInWords($comment['Comment']['created'], array(
                 'format' => 'M j, Y \a\t H:i',
