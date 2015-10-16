@@ -35,6 +35,7 @@ Router::connect('/ranking', array('controller' => 'users', 'action' => 'ranking'
 Router::connect('/ratingsbets', array('controller' => 'traces', 'action' => 'index'));
 Router::connect('/more', array('controller' => 'pages', 'action' => 'display', 'more'));
 Router::connect('/applicants', array('controller' => 'applications', 'action' => 'index'));
+Router::connect('/qualifiers', array('controller' => 'pages', 'action' => 'display', 'qualifiers'));
 Router::connect('/rules', array('controller' => 'rules', 'action' => 'view', 1));
 Router::connect('/archive', array('controller' => 'tournaments', 'action' => 'index'));
 Router::connect('/archive/*', array('controller' => 'tournaments', 'action' => 'view'));
