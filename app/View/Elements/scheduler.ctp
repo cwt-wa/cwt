@@ -97,7 +97,7 @@ unset($schedules['datetimes'], $schedules['opponents']);
                                     'alt' => $stream['title'],
                                     'title' => $stream['title']
                                 )),
-                                '/streams/view/' . $stream['id'], array(
+                                'http://www.twitch.tv/' . $stream['provider'], array(
                                     'escape' => false
                                 )
                             );
