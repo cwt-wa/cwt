@@ -201,10 +201,6 @@ class Group extends AppModel
             )
         ));
 
-        if (!$gamesToVoid) {
-            return false;
-        }
-
         foreach ($gamesToVoid as $gameToVoid) {
             $this->Game->delete($gameToVoid);
         }
