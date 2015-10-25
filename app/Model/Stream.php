@@ -180,7 +180,7 @@ class Stream extends AppModel
         $filteredVideos = $this->filterStreamsWithinDayRange($allVideos, $game['Game']['created'], 1);
 
         if (count($filteredVideos) < 2) {
-            Cache::write($cacheKey, $filteredVideos);
+            $this->writeToCache($cacheKey, $filteredVideos);
             return $filteredVideos;
         }
 
@@ -207,7 +207,7 @@ class Stream extends AppModel
             $tmpMatchesOfCurrentVideo = 0;
         }
 
-        Cache::write($cacheKey, $videosWithMostUsernameMatches);
+        $this->writeToCache($cacheKey, $videosWithMostUsernameMatches);
         return $videosWithMostUsernameMatches;
     }
 
