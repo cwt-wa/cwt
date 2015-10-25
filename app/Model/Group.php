@@ -282,7 +282,7 @@ class Group extends AppModel
     /**
      * Collects information and summarizes them for the groups page to display.
      *
-     * @param $tournamentId The tournament to find the groups of.
+     * @param int $tournamentId The tournament to find the groups of.
      * @return array The data needed for the view.
      */
     public function findForGroupsPage($tournamentId = null)
@@ -325,13 +325,15 @@ class Group extends AppModel
                 'order' => 'Standing.points DESC, Standing.game_ratio DESC, Standing.round_ratio DESC'
             ));
 
-            for ($i2 = 0; $i2 < count($groupAll); $i2++) {
+            $orderedStanding = $this->orderByHeadToHeadRecord($groupAll);
+
+            for ($i2 = 0; $i2 < count($orderedStanding); $i2++) {
                 $group[$i][$i2 + 1] = array(
-                    'User' => $groupAll[$i2]['User'],
-                    'Group' => $groupAll[$i2]['Group'],
-                    'Standing' => $groupAll[$i2]['Standing']
+                    'User' => $orderedStanding[$i2]['User'],
+                    'Group' => $orderedStanding[$i2]['Group'],
+                    'Standing' => $orderedStanding[$i2]['Standing']
                 );
-                $group[$i][$i2 + 1]['User']['flag'] = $this->Standing->User->Profile->displayCountry($groupAll[$i2]['User']['id']);
+                $group[$i][$i2 + 1]['User']['flag'] = $this->Standing->User->Profile->displayCountry($orderedStanding[$i2]['User']['id']);
             }
 
             $cGames = 1;
@@ -344,5 +346,47 @@ class Group extends AppModel
             }
         }
         return $group;
+    }
+
+    public function orderByHeadToHeadRecord($standing)
+    {
+        $currentTournament = $this->currentTournament();
+        $newStanding = $standing;
+
+        $standingCount = count($standing);
+        for ($i = 0; $i < $standingCount; $i++) {
+            if (!array_key_exists($i + 1, $standing)) {
+                continue;
+            }
+
+            $nextStanding = $standing[$i + 1];
+
+            if (!($standing[$i]['Standing']['points'] === $nextStanding['Standing']['points'] &&
+                $standing[$i]['Standing']['game_ratio'] === $nextStanding['Standing']['game_ratio'] &&
+                $standing[$i]['Standing']['round_ratio'] === $nextStanding['Standing']['round_ratio'])) {
+                continue;
+            }
+
+            if ($standing[$i]['Standing']['games'] === '0' && $nextStanding['Standing']['games'] === '0') {
+                continue;
+            }
+
+            $groupStageGameOfUsers = $this->Game->findGroupStageGameOfUsers(
+                $standing[$i]['User']['id'], $nextStanding['User']['id'], $currentTournament['Tournament']['id']);
+
+            if (!$groupStageGameOfUsers) {
+                break;
+            }
+
+            $winnerId = $this->Game->getWinnerIdOfGame($groupStageGameOfUsers);
+
+            if ($winnerId !== $standing[$i]['User']['id']) {
+                $newStanding[$i] = $standing[$i + 1];
+                $newStanding[$i + 1] = $standing[$i];
+                return $this->orderByHeadToHeadRecord($newStanding);
+            }
+        }
+
+        return $standing;
     }
 }

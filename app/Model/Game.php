@@ -452,4 +452,32 @@ class Game extends AppModel
         }
         return true;
     }
+
+    public function findGroupStageGameOfUsers($user1Id, $user2Id, $tournamentId)
+    {
+        return $this->find('first', array(
+            'conditions' => array(
+                'OR' => array(
+                    array(
+                        'home_id' => $user1Id,
+                        'away_id' => $user2Id,
+                    ),
+                    array(
+                        'home_id' => $user2Id,
+                        'away_id' => $user1Id,
+                    ),
+                ),
+                'Game.tournament_id' => $tournamentId,
+                'playoff_id' => 0
+            )
+        ));
+    }
+
+    public function getWinnerIdOfGame($game)
+    {
+        if ($game['Game']['score_h'] > $game['Game']['score_a']) {
+            return $game['Game']['home_id'];
+        }
+        return $game['Game']['away_id'];
+    }
 }
