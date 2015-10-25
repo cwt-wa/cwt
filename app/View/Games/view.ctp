@@ -38,13 +38,15 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
         echo $this->Html->link($game['Report']['username'],
             '/users/view/' . $game['Report']['id']);
         ?><br>
-        <?php
-        echo $this->Time->timeAgoInWords($game['Game']['created'], array(
-            'format' => 'M j, Y \a\t H:i',
-            'end' => '+12 hour',
-            'accuracy' => array('hour' => 'hour')
-        ));
-        ?>
+        <span title="<?php echo $this->Time->format('M j, Y \a\t H:i', $game['Game']['created']); ?>">
+            <?php
+            echo $this->Time->timeAgoInWords($game['Game']['created'], array(
+                'format' => 'M j, Y \a\t H:i',
+                'end' => '+12 hour',
+                'accuracy' => array('hour' => 'hour')
+            ));
+            ?>
+        </span>
     </div>
 </div>
 <div id="box" style="box-shadow:none; border:none; margin-left:250px; padding:0px 0px 0px 0px">

@@ -14,13 +14,15 @@ $this->Helpers->load('Time');
                 '/users/view/' . $news['User']['id']
             );
             ?>
-            <?php
-            echo $this->Time->timeAgoInWords($news['News']['modified'], array(
-                'format' => 'M j, Y \a\t H:i',
-                'end' => '+12 hour',
-                'accuracy' => array('hour' => 'hour')
-            ));
-            ?>
+            <span title="<?php echo $this->Time->format('M j, Y \a\t H:i', $news['News']['modified']); ?>">
+                <?php
+                echo $this->Time->timeAgoInWords($news['News']['modified'], array(
+                    'format' => 'M j, Y \a\t H:i',
+                    'end' => '+12 hour',
+                    'accuracy' => array('hour' => 'hour')
+                ));
+                ?>
+            </span>
         </div>
         <?php echo nl2br($this->Bbcode->parse($news['News']['text'])); ?>
     <?php else: ?>
