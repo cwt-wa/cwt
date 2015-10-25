@@ -41,7 +41,7 @@ if ($game['Tournament']['id'] != $currentTournament['Tournament']['id']) {
         <?php
         echo $this->Time->timeAgoInWords($game['Game']['created'], array(
             'format' => 'M j, Y \a\t H:i',
-            'end' => '+1 day',
+            'end' => '+12 hour',
             'accuracy' => array('hour' => 'hour')
         ));
         ?>

@@ -20,7 +20,7 @@ $comments = $this->requestAction('/comments/view/' . $gameId);
 
             echo $this->Time->timeAgoInWords($comment['Comment']['created'], array(
                 'format' => 'M j, Y \a\t H:i',
-                'end' => '+1 day',
+                'end' => '+12 hour',
                 'accuracy' => array('hour' => 'hour')
             ));
             ?>
@@ -33,7 +33,7 @@ $comments = $this->requestAction('/comments/view/' . $gameId);
                     <?php
                     echo $this->Time->timeAgoInWords($comment['Comment']['modified'], array(
                         'format' => 'M j, Y \a\t H:i',
-                        'end' => '+1 day',
+                        'end' => '+12 hour',
                         'accuracy' => array('hour' => 'hour')
                     ));
                     ?>

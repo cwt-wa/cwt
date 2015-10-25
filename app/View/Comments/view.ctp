@@ -17,7 +17,7 @@
 
             echo $this->Time->timeAgoInWords($comment['Comment']['created'], array(
                 'format' => 'M j, Y \a\t H:i',
-                'end' => '+1 day',
+                'end' => '+12 hour',
                 'accuracy' => array('hour' => 'hour')
             ));
             ?>
@@ -30,7 +30,7 @@
                     <?php
                     echo $this->Time->timeAgoInWords($comment['Comment']['modified'], array(
                         'format' => 'M j, Y \a\t H:i',
-                        'end' => '+1 day',
+                        'end' => '+12 hour',
                         'accuracy' => array('hour' => 'hour')
                     ));
                     ?>

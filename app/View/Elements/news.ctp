@@ -17,7 +17,7 @@ $this->Helpers->load('Time');
             <?php
             echo $this->Time->timeAgoInWords($news['News']['modified'], array(
                 'format' => 'M j, Y \a\t H:i',
-                'end' => '+1 day',
+                'end' => '+12 hour',
                 'accuracy' => array('hour' => 'hour')
             ));
             ?>
