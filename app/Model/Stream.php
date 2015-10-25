@@ -179,11 +179,6 @@ class Stream extends AppModel
 
         $filteredVideos = $this->filterStreamsWithinDayRange($allVideos, $game['Game']['created'], 1);
 
-        if (count($filteredVideos) < 2) {
-            $this->writeToCache($cacheKey, $filteredVideos);
-            return $filteredVideos;
-        }
-
         $numberOfMatchesForMostMatchedVideos = 0;
         $videosWithMostUsernameMatches = array(); // lol
         $tmpMatchesOfCurrentVideo = 0;
@@ -200,7 +195,8 @@ class Stream extends AppModel
                 $videosWithMostUsernameMatches = array();
                 $videosWithMostUsernameMatches[] = $filteredVideo;
                 $numberOfMatchesForMostMatchedVideos = $tmpMatchesOfCurrentVideo;
-            } else if ($tmpMatchesOfCurrentVideo === $numberOfMatchesForMostMatchedVideos) {
+            } else if ($tmpMatchesOfCurrentVideo === $numberOfMatchesForMostMatchedVideos &&
+                $tmpMatchesOfCurrentVideo > 1) {
                 $videosWithMostUsernameMatches[] = $filteredVideo;
             }
 
