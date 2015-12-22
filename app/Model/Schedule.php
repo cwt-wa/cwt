@@ -111,7 +111,7 @@ class Schedule extends AppModel
     // Returns all days left from today till end of year.
     public function daysLeft()
     {
-        if (gmdate('Y-m-d') == '2014-12-31') {
+        if (gmdate('m-d') == '12-31') {
             return 0;
         }
 
