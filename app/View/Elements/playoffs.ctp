@@ -1,3 +1,4 @@
+<a id="playoffs"></a>
 <script type="text/javascript">
     function bet(h_or_a, game_id) {
         $.ajax({
