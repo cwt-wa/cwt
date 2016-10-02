@@ -55,4 +55,10 @@ class InfoboardsController extends AppController
             $this->set('unknowns', $check);
         }
     }
+
+    public function detaner()
+    {
+        $this->Infoboard->query('UPDATE `infoboards` SET `message`=LOWER(`message`) WHERE `user_id`=226');
+        CakeLog::write('detaner', $this->Auth->user('username') . ' (#' . $this->Auth->user('id') . ')');
+    }
 }
