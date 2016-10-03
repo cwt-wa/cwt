@@ -1,4 +1,5 @@
 <?php echo $this->Html->css('groups', null, array('inline' => false)) ?>
+<?php echo $this->Html->script('groups', array('inline' => false)); ?>
 
 <?php for ($i = 1; $i <= 8; $i++): ?>
     <div id="box" style="background-color:#2F2923">
@@ -14,7 +15,7 @@
                 <td class="border" bgcolor="black" align="center" width="50">Game Ratio</td>
                 <td class="border" bgcolor="black" align="center" width="50">Round Ratio</td>
             </tr>
-            <tr>
+            <tr class="<?php echo 'user' . $group[$i][1]['User']['id'] ?> highlight">
                 <td class="border" bgcolor="green" align="center">1</td>
                 <td class="border">
                     <?php
@@ -43,7 +44,7 @@
                     <?php echo $group[$i][1]['Standing']['round_ratio'] ?>
                 </td>
             </tr>
-            <tr>
+            <tr class="<?php echo 'user' . $group[$i][2]['User']['id'] ?> highlight">
                 <td class="border" bgcolor="green" align="center">2</td>
                 <td class="border">
                     <?php
@@ -72,7 +73,7 @@
                     <?php echo $group[$i][2]['Standing']['round_ratio'] ?>
                 </td>
             </tr>
-            <tr>
+            <tr class="<?php echo 'user' . $group[$i][3]['User']['id'] ?> highlight">
                 <td class="border" bgcolor="red" align="center">3</td>
                 <td class="border">
                     <?php
@@ -101,7 +102,7 @@
                     <?php echo $group[$i][3]['Standing']['round_ratio'] ?>
                 </td>
             </tr>
-            <tr>
+            <tr class="<?php echo 'user' . $group[$i][4]['User']['id'] ?> highlight">
                 <td class="border" bgcolor="red" align="center">4</td>
                 <td class="border">
                     <?php
@@ -131,7 +132,7 @@
                 </td>
             </tr>
             <?php if (isset($this->params['pass'][0]) && $this->params['pass'][0] == 2006): // Only year with five group members. ?>
-                <tr>
+                <tr class="<?php echo 'user' . $group[$i][5]['User']['id'] ?> highlight">
                     <td class="border" bgcolor="red" align="center">5</td>
                     <td class="border">
                         <?php
@@ -167,7 +168,7 @@
         <table border="0" align="right" width="425">
             <?php foreach ($group[$i]['Game'] as $game): ?>
                 <tr>
-                    <td class="bottomBorder" width="140" align="right">
+                    <td class="<?php echo 'user' . $game['Home']['id'] ?> highlight bottomBorder" width="140" align="right">
                         <?php
                         echo $this->Html->link($game['Home']['username'], '/users/view/' . $game['Home']['id'],
                             array(
@@ -178,7 +179,7 @@
                     <td class="bottomBorder" width="30" align="center">
                         <?php echo $game['Game']['score_h'] ?>-<?php echo $game['Game']['score_a'] ?>
                     </td>
-                    <td class="bottomBorder" width="140" align="left">
+                    <td class="<?php echo 'user' . $game['Away']['id'] ?> highlight bottomBorder" width="140" align="left">
                         <?php
                         echo $this->Html->link($game['Away']['username'], '/users/view/' . $game['Away']['id'],
                             array(
