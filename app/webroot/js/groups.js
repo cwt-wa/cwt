@@ -31,7 +31,7 @@ $(document).ready(function () {
     function highlightAllTargetsOfUser(elems, enable) {
         var j = 0;
         for (; j < elems.length; j++) {
-            elems[j].style.backgroundColor = !!enable ? '#0A0E1C' : '';
+            elems[j].style.backgroundColor = !!enable ? '#887059' : '';
         }
     }
 });
