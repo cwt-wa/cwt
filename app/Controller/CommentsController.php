@@ -6,6 +6,32 @@ class CommentsController extends AppController
     public $name = 'Comments';
     public $scaffold = 'admin';
 
+    public function index() {
+        $this->Paginator->settings = array(
+            'limit' => 10,
+            'order' => array(
+                'Comment.created' => 'DESC'
+            )
+        );
+
+        $title_for_layout = 'Comments';
+        $conditions = array();
+
+        if (isset($_GET['user_id'])) {
+            $this->Paginator->settings['user_id'] = $_GET['user_id'];
+            $conditions['user_id'] = $_GET['user_id'];
+
+            $this->loadModel('User');
+            $user = $this->User->findById($_GET['user_id']);
+            $this->set('user', $user);
+            $title_for_layout .= ' by ' . $user['User']['username'];
+        }
+
+        $this->Comment->recursive = 2;
+        $this->set('title_for_layout', $title_for_layout);
+        $this->set('comments', $this->Paginator->paginate(null, $conditions));
+    }
+
     public function view($game_id)
     {
         $this->helpers[] = 'Time';

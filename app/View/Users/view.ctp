@@ -9,7 +9,13 @@ echo $this->element('timeline', array('user' => $user['User']['id']));
     ?>
     Games
 </div>
-<div id="box" class="action_item" style="margin-left:8px; margin-top:0;">
+<div id="boxFloat" class="action_item" style="margin-left:10px; margin-top:0;">
+    <?php
+    echo $this->Html->link('<span></span>', '/comments?user_id=' . $user['User']['id'], array('escape' => false));
+    ?>
+    Comments
+</div>
+<div id="box" class="action_item" style="margin-left:10px; margin-top:0;">
     <?php
     echo $this->Html->link('<span></span>', '/traces?user_id=' . $user['User']['id'], array('escape' => false));
     ?>
