@@ -3,7 +3,7 @@
 <?php if (isset($user)): ?>
     <div id="box" style="background-color:#2F2923; text-align:center;">
         <h1>
-            <span style="font-weight:normal;">Comments of</span>
+            <span style="font-weight:normal;">Comments by</span>
             <?php
             echo $this->Html->link($user['User']['username'], '/users/view/' . $user['User']['id']);
             ?>
