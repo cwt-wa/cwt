@@ -40,6 +40,31 @@ class GamesController extends AppController
                 'home_id' => $_GET['user_id'],
                 'away_id' => $_GET['user_id']
             );
+
+            $allGames = $this->Game->find('all', array(
+                'recursive' => -1,
+                'conditions' => $conditions
+            ));
+
+            $stats = array(
+                'games' => array('won' => 0, 'lost' => 0),
+                'rounds' => array('won' => 0, 'lost' => 0)
+            );
+
+            foreach ($allGames as $key => $allGame) {
+                $winnerId = $this->Game->getWinnerIdOfGame($allGame);
+                $scores = $this->Game->getScoreOfUserAndOpponent($allGame, $_GET['user_id']);
+                if ($winnerId == $_GET['user_id']) {
+                    $stats['games']['won']++;
+                } else {
+                    $stats['games']['lost']++;
+                }
+                $stats['rounds']['won'] += $scores['user'];
+                $stats['rounds']['lost'] += $scores['opponent'];
+            }
+
+            $this->set('stats', $stats);
+
             $this->Paginator->settings['user_id'] = $_GET['user_id'];
             $this->loadModel('User');
             $user = $this->User->findById($_GET['user_id']);

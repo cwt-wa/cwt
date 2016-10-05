@@ -7,6 +7,12 @@
 			?>
 		</h1>
 	</div>
+	<div id="box" style="background-color:#2F2923; text-align:right;">
+		<?php echo $stats['games']['won'] ?> games won,
+		<?php echo $stats['games']['lost'] ?> games lost;
+		<?php echo $stats['rounds']['won'] ?> rounds won,
+		<?php echo $stats['rounds']['lost'] ?> rounds lost
+	</div>
 <?php else: ?>
 	<div id="box" style="background-color:#2F2923; text-align:center;">
 		<h1>Games</h1>

@@ -480,4 +480,22 @@ class Game extends AppModel
         }
         return $game['Game']['away_id'];
     }
+
+
+    public function getScoreOfUserAndOpponent($game, $userId)
+    {
+        $userId = $userId === null ? AuthComponent::user('id') : $userId;
+
+        $result = array('user' => null, 'opponent');
+
+        if ($game['Game']['home_id'] === $userId) {
+            $result['user'] = $game['Game']['score_h'];
+            $result['opponent'] = $game['Game']['score_a'];
+        } else {
+            $result['user'] = $game['Game']['score_a'];
+            $result['opponent'] = $game['Game']['score_h'];
+        }
+
+        return $result;
+    }
 }
