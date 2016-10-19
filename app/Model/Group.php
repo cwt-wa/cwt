@@ -31,16 +31,23 @@ class Group extends AppModel
      * @param null $userId The user's id to find the group of or the currently logged in user if the param wasn't given.
      * @return String The capital letter of the group or null if th user was not found in any group.
      */
-    public function findGroup($userId = null)
+    public function findGroup($userId = null, $tournamentId = null)
     {
         $userId = $userId ? $userId : AuthComponent::user('id');
 
         $this->Standing->recursive = 1;
 
+        $conditions = array(
+            'Standing.user_id' => $userId
+        );
+
+        if ($tournamentId !== null) {
+            $conditions['Group.tournament_id'] = $tournamentId;
+        }
+
+
         $group = $this->Standing->find('first', array(
-            'conditions' => array(
-                'Standing.user_id' => $userId
-            )
+            'conditions' => $conditions
         ));
 
         if (empty($group)) {

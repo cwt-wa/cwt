@@ -410,7 +410,7 @@ class User extends AppModel
 
         if ($currentTournament['Tournament']['status'] == Tournament::GROUP) {
             $Group = ClassRegistry::init('Group');
-            $userGroup = $Group->findGroup($userId);
+            $userGroup = $Group->findGroup($userId, $currentTournament['Tournament']['id']);
 
             if ($userGroup === null) {
                 return false;
