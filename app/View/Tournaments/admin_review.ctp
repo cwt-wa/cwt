@@ -18,7 +18,7 @@
 </script>
 
 <div id="box" style="text-align: center; background-color: #3F2828; margin-bottom: 20px;">
-    <h1>Edit a Tournament Review</h1>
+    <h1>Edit a tournament review</h1>
 </div>
 
 <?php echo $this->Form->create('Tournament'); ?>

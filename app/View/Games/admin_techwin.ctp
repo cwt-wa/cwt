@@ -17,9 +17,9 @@
 </script>
 
 <div id="box" style="background-color:#3F2828; text-align:center;">
-    <h1 style="margin-top:0px;">Add a Game</h1>
+    <h1>Add a tech. win</h1>
 </div>
-<div id="box" style="background-color:#887059;">
+<div id="box" style="background-color:#3F2828;">
     <?php
     echo $this->Form->create('Game', array(
         'inputDefaults' => array(

@@ -17,7 +17,7 @@
 </script>
 
 <div id="box" style="background-color:#3F2828; text-align:center;">
-    <h1>Replace a Player</h1>
+    <h1>Replace a player</h1>
 </div>
 <div id="box" style="background-color:#3F2828; text-align:center;">
     <?php
