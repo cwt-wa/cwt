@@ -13,6 +13,9 @@
             <li>
                 <a href="/admin/tournaments/upload">Admin files</a>
             </li>
+            <li>
+                <a href="/admin/users/merge_duplicating_users">Merge duplicating users</a>
+            </li>
         </ul>
 
         <h3>Logs</h3>

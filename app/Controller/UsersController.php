@@ -376,4 +376,15 @@ class UsersController extends AppController
         $this->set('captcha', $captcha);
         $this->set('result', $result);
     }
+
+    public function admin_merge_duplicating_users()
+    {
+        if ($this->request->is('post')) {
+            sort($this->request->data['Merge']['Legacy'], SORT_NUMERIC);
+            debug($this->request->data);
+        }
+
+        $this->set('users', $this->User->find('list', array('order' => 'username ASC')));
+    }
+
 }
