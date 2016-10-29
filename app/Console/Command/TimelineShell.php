@@ -10,10 +10,15 @@ class TimelineShell extends AppShell
 
     public $uses = array('User', 'Tournament', 'Group', 'Standing', 'Game', 'Playoff');
 
-    public function main()
+    public function main($users = null, $tournaments = null)
     {
-        $users = $this->User->find('list');
-        $tournaments = $this->Tournament->find('list');
+        if ($users === null) {
+            $users = $this->User->find('list');
+        }
+        if ($tournaments === null) {
+            $tournaments = $this->Tournament->find('list');
+        }
+
         $timelineOfCurrentUser = '';
         $participationsOfCurrentUser = 0;
         $achievementsOfCurrentUser = 0;

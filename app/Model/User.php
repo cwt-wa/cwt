@@ -489,4 +489,60 @@ class User extends AppModel
 
         return $usersInGroupStage;
     }
+
+    public function replaceUsers($legacyUserIds, $newUserId) {
+        $relationships = array_merge($this->hasOne, $this->hasMany);
+
+        foreach ($this->hasAndBelongsToMany as $hasAndBelongsToManyRelationship) {
+            $relationships[$hasAndBelongsToManyRelationship['joinTable']] = array(
+                'className' => $hasAndBelongsToManyRelationship['joinTable'],
+                'foreignKey' => $hasAndBelongsToManyRelationship['foreignKey']
+            );
+        }
+
+        $queries = array();
+
+        foreach ($relationships as $relationship) {
+            $table = Inflector::tableize($relationship['className']);
+            $sql = "UPDATE `$table` SET `{$relationship['foreignKey']}`=$newUserId WHERE `{$relationship['foreignKey']}`={$legacyUserIds[0]}";
+
+            for ($i = 1; $i < count($legacyUserIds); $i++) {
+                    $sql .= " OR `{$relationship['foreignKey']}`={$legacyUserIds[$i]}";
+            }
+
+            $queries[] = $sql;
+        }
+
+        debug($relationships);
+        debug($queries);
+        debug(implode('; ', $queries));
+
+        $this->query(implode('; ', $queries));
+
+        App::uses('TimelineShell', 'Console/Command');
+        $timelineShell = new TimelineShell();
+        $userToUpdateAsListRequest = $this->find('list',
+            array('conditions' => array('id' => $newUserId)));
+        $tournamentToUpdateAsListRequest = ClassRegistry::init('Tournament')->find('list',
+            array('conditions' => array('status' => Tournament::ARCHIVED)));
+        $timelineShell->main($userToUpdateAsListRequest, $tournamentToUpdateAsListRequest);
+
+        foreach ($legacyUserIds as $legacyUserId) {
+            $this->delete($legacyUserId);
+        }
+
+        return $queries;
+
+    }
+
+    /**
+     * @see http://book.cakephp.org/2.0/en/models/callback-methods.html#beforedelete
+     * @param bool $cascade
+     * @return bool
+     */
+    public function beforeDelete($cascade = true) {
+        CakeLog::write('user_deletion',
+            'A user is going to be deleted! ' . print_r($this->findById($this->id), true));
+        return true;
+    }
 }

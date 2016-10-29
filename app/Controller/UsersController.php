@@ -382,7 +382,14 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             sort($this->request->data['Merge']['Legacy'], SORT_NUMERIC);
             debug($this->request->data);
+
+            $this->User->replaceUsers(
+                $this->request->data['Merge']['Legacy'],
+                $this->request->data['Merge']['User']);
+
+            $this->Session->setFlash('This seems like a success, but I’ve not tested it.');
         }
+
 
         $this->set('users', $this->User->find('list', array('order' => 'username ASC')));
     }
