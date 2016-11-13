@@ -83,7 +83,7 @@ class Infoboard extends AppModel
             if ($category == 6) {
                 $unfiltered = $this->find('all', array(
                     'order' => 'Infoboard.created DESC',
-                    'limit' => 100
+                    'limit' => 2000
                 ));
             } else {
                 $unfiltered = $this->find('all', array(
