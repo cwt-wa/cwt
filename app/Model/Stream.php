@@ -59,6 +59,12 @@ class Stream extends AppModel
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => false
         ));
+
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array('Client-ID: ' . Configure::read('twitch-client-id'))
+        );
         $result = curl_exec($curl);
 
         $curl_errno = curl_errno($curl);
