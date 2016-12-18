@@ -20,4 +20,41 @@
         <module>cwt-angular</module>
     </modules>
 
+    <name>CWT</name>
+    <description>
+        Crespo’s Worms Tournament (CWT) is an annual highly prestigious competition of the strategy game Worms Armageddon.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Florian Zemke</name>
+            <email>flzemke@gmail.com</email>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/Zemke/cwt/issues</url>
+    </issueManagement>
+
+    <inceptionYear>2002</inceptionYear>
+
+    <url>http://cwtsite.com</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/Zemke/cwt</url>
+        <connection>scm:git:git://github.com/Zemke/cwt.git</connection>
+        <developerConnection>scm:git:git@github.com:Zemke/cwt.git</developerConnection>
+    </scm>
+
+    <!-- TODO Distribution management -->
+
 </project>
