@@ -1,0 +1,9 @@
+{
+  "name": "cwt-angular",
+  "version": "SNAPSHOT",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^1.3.3",
+    "webpack": "beta"
+  }
+}
