@@ -2,12 +2,17 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
+    "moduleResolution": "node",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "emitDecoratorMetadata": true,
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "alwaysStrict": true,
-    "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitUseStrict": true,
