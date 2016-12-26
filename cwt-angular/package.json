@@ -16,13 +16,15 @@
     "@angular/platform-browser": "~2.4.0",
     "@angular/platform-browser-dynamic": "~2.4.0",
     "@angular/router": "~3.4.0",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.15",
+    "bootstrap": "4.0.0-alpha.5",
     "core-js": "^2.4.1",
     "rxjs": "5.0.1",
     "zone.js": "^0.7.4"
   },
   "devDependencies": {
-    "@types/node": "^6.0.45",
     "@types/jasmine": "^2.5.35",
+    "@types/node": "^6.0.45",
     "angular2-template-loader": "^0.4.0",
     "awesome-typescript-loader": "^2.2.4",
     "css-loader": "^0.23.1",
