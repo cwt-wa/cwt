@@ -7,7 +7,7 @@
 .cwt-top-bar {
     background-color: #3F3429;
     color: white;
-    font-size: 10px;
+    font-size: 12px;
     height: 30px;
     margin: 0;
 }
@@ -26,5 +26,40 @@
 }
 
 .cwt-navbar {
+    margin-left: -4px;
     background-color: #6E6052;
+}
+
+.cwt-navbar .nav-item {
+    background-color: #1A2427;
+    color: white !important;
+    margin: 0 2px;
+    /*width: 100px;*/
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.cwt-navbar .nav-item.cwt-icon img {
+    height: 41px;
+}
+
+.cwt-navbar .nav-item.cwt-icon {
+    padding: 0;
+    width: auto;
+}
+
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .cwt-navbar .nav-item {
+        width: 94.8px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .cwt-navbar .nav-item {
+        width: 114.8px;
+    }
 }
