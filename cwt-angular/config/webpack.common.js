@@ -45,9 +45,12 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
         }),
-
         new HtmlWebpackPlugin({
             template: './src/main/webapp/app/index.html'
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery", jQuery: "jquery", "window.jQuery": "jquery",
+            Tether: "tether", "window.Tether": "tether"
         })
     ]
 };
