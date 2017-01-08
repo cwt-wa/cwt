@@ -1,0 +1,30 @@
+/* #3F3429 is the base color */
+
+* {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.cwt-top-bar {
+    background-color: #3F3429;
+    color: white;
+    font-size: 10px;
+    height: 30px;
+    margin: 0;
+}
+
+.cwt-top-bar .cwt-gmt {
+    padding-top: 7px;
+}
+
+.cwt-top-bar button {
+    height: 30px;
+    width: 80px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-color: #1A2427;
+}
+
+.cwt-navbar {
+    background-color: #6E6052;
+}
