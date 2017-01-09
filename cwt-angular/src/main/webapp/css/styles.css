@@ -63,3 +63,33 @@
         width: 114.8px;
     }
 }
+
+@media (max-width: 991px) {
+    .cwt-navbar, .cwt-top-bar {
+        display: none;
+    }
+
+    .cwt-navbar-mobile {
+        display: block;
+    }
+}
+
+@media (min-width: 992px) {
+    .cwt-navbar, .cwt-top-bar {
+        display: block;
+    }
+
+    .cwt-navbar-mobile {
+        display: none;
+    }
+}
+
+.cwt-navbar-mobile nav.navbar {
+    background-color: #3F3429 !important;
+}
+
+.cwt-navbar-mobile .navbar-toggler {
+    border: none;
+    margin-left: -5px;
+    padding: 0;
+}
