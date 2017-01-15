@@ -1,6 +1,6 @@
 /* #3F3429 is the base color */
 
-* {
+html, body {
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
 }
 
@@ -80,7 +80,7 @@ my-app .loading {
     }
 
     .navbar {
-        padding: 0;
+        padding: 10px 0;
     }
 
     .nav-item {
