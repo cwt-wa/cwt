@@ -38,11 +38,11 @@ my-app .loading {
     margin: 0 2px;
     text-align: center;
     font-size: 14px;
-    padding: 5px 20px;
 }
 
 .cwt-navbar .nav-item a {
     color: white !important;
+    padding: 12px;
 }
 
 .cwt-navbar .nav-item.cwt-icon img {
@@ -109,12 +109,12 @@ my-app .loading {
 
 @media (min-width: 992px) and (max-width: 1199px) {
     .cwt-navbar .nav-item {
-        width: 94.4px;
+        width: 94.1px;
     }
 }
 
 @media (min-width: 1200px) {
     .cwt-navbar .nav-item {
-        width: 114.4px;
+        width: 114.1px;
     }
 }
