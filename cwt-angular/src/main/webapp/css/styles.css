@@ -36,64 +36,87 @@ my-app .loading {
 
 .cwt-navbar .nav-item {
     background-color: #1A2427;
-    color: white !important;
     margin: 0 2px;
     /*width: 100px;*/
     text-align: center;
     font-size: 14px;
-    padding: 10px;
+    padding: 5px 20px;
+}
+
+.cwt-navbar .nav-item a {
+    color: white !important;
 }
 
 .cwt-navbar .nav-item.cwt-icon img {
-    height: 41px;
+    height: 45px;
 }
 
 .cwt-navbar .nav-item.cwt-icon {
-    padding: 0;
+    padding: 0 !important;
     width: auto;
+}
+
+.cwt-navbar .nav-item.cwt-icon a {
+    padding: 0 !important;
+    width: auto;
+}
+
+.navbar-toggler {
+    border: none;
+    margin-left: -10px
+}
+
+@media (max-width: 991px) {
+    .cwt-top-bar {
+        display: none;
+    }
+
+    .cwt-navbar {
+        background-color: #3F3429;
+    }
 }
 
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199px) {
     .cwt-navbar .nav-item {
-        width: 94.8px;
+        width: 94.4px;
     }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
     .cwt-navbar .nav-item {
-        width: 114.8px;
+        width: 114.4px;
     }
 }
 
-@media (max-width: 991px) {
-    .cwt-navbar, .cwt-top-bar {
-        display: none;
-    }
+/*@media (max-width: 991px) {*/
+/*.cwt-navbar, .cwt-top-bar {*/
+/*display: none;*/
+/*}*/
 
-    .cwt-navbar-mobile {
-        display: block;
-    }
-}
+/*.cwt-navbar-mobile {*/
+/*display: block;*/
+/*}*/
+/*}*/
 
-@media (min-width: 992px) {
-    .cwt-navbar, .cwt-top-bar {
-        display: block;
-    }
+/*@media (min-width: 992px) {*/
+/*.cwt-navbar, .cwt-top-bar {*/
+/*display: block;*/
+/*}*/
 
-    .cwt-navbar-mobile {
-        display: none;
-    }
-}
+/*.cwt-navbar-mobile {*/
+/*display: none;*/
+/*}*/
+/*}*/
 
-.cwt-navbar-mobile nav.navbar {
-    background-color: #3F3429 !important;
-}
+/*.cwt-navbar-mobile nav.navbar {*/
+/*background-color: #3F3429 !important;*/
+/*}*/
 
-.cwt-navbar-mobile .navbar-toggler {
-    border: none;
-    margin-left: -5px;
-    padding: 0;
-}
+/*.cwt-navbar-mobile .navbar-toggler {*/
+/*border: none;*/
+/*margin-left: -5px;*/
+/*padding: 0;*/
+/*}*/
