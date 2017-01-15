@@ -63,7 +63,7 @@ my-app .loading {
 
 .navbar-toggler {
     border: none;
-    margin-left: -10px
+    /*     margin-left: -10px */
 }
 
 @media (max-width: 991px) {
@@ -73,6 +73,25 @@ my-app .loading {
 
     .cwt-navbar {
         background-color: #3F3429;
+    }
+
+    .nav-item.cwt-icon {
+        display: none;
+    }
+
+    .navbar {
+        padding: 0;
+    }
+
+    .nav-item {
+        background-color: #6E6052 !important;
+        border-top: 1px solid #3F3429;
+        margin: 0 !important;
+    }
+
+    .navbar .container {
+        margin: 0;
+        width: auto;
     }
 }
 
