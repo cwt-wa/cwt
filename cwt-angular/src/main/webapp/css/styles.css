@@ -4,6 +4,10 @@
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
 }
 
+my-app .loading {
+    margin: 10px;
+}
+
 .cwt-top-bar {
     background-color: #3F3429;
     color: white;
