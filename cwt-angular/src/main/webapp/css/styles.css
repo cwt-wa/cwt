@@ -30,7 +30,7 @@ my-app .loading {
 }
 
 .cwt-navbar {
-    margin-left: -4px;
+    /*     margin-left: -4px; */
     background-color: #6E6052;
 }
 
@@ -63,7 +63,18 @@ my-app .loading {
 
 .navbar-toggler {
     border: none;
-    /*     margin-left: -10px */
+    padding: 0;
+    /* margin-left: -10px; */
+}
+
+.cwt-mobile-nav img {
+    height: 27px;
+    /* padding: 0; */
+    /* margin: 0; */
+}
+
+.cwt-mobile-nav {
+    padding: 16px;
 }
 
 @media (max-width: 991px) {
@@ -80,7 +91,7 @@ my-app .loading {
     }
 
     .navbar {
-        padding: 10px 0;
+        padding: 0;
     }
 
     .nav-item {
@@ -92,6 +103,12 @@ my-app .loading {
     .navbar .container {
         margin: 0;
         width: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .cwt-mobile-nav {
+        display: none;
     }
 }
 
