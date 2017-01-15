@@ -60,6 +60,7 @@ my-app .loading {
 }
 
 .navbar-toggler {
+    color: #4D5F63 !important;
     border: none;
     padding: 0;
 }
@@ -70,6 +71,10 @@ my-app .loading {
 
 .cwt-mobile-nav {
     padding: 16px;
+}
+
+.navbar .fa-user {
+    color: #4D5F63 !important;
 }
 
 @media (max-width: 991px) {
