@@ -94,15 +94,34 @@ my-app .loading {
         padding: 0;
     }
 
+    ul.navbar-nav {
+        height: 100%;
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+
     .nav-item {
         background-color: #6E6052 !important;
-        border-top: 1px solid #3F3429;
+        /* border-top: 1px solid #3F3429; */
         margin: 0 !important;
+        display: table-row;
+    }
+
+    .nav-link {
+        display: table-cell;
+        vertical-align: middle;
+        border-top: 1px solid #3F3429;
+    }
+
+    .nav-item:first-child .nav-link {
+        border: none;
     }
 
     .navbar .container {
         margin: 0;
         width: auto;
+        /* height: calc(100% - 59px); */
     }
 }
 
@@ -122,4 +141,8 @@ my-app .loading {
     .cwt-navbar .nav-item {
         width: 114.1px;
     }
+}
+
+.collapse.show{
+    height: calc(100vh - 59px);
 }
