@@ -11,22 +11,35 @@ my-app .loading {
 .cwt-top-bar {
     background-color: #3F3429;
     color: white;
-    font-size: 12px;
+    font-size: 14px;
     height: 30px;
     margin: 0;
 }
 
 .cwt-top-bar .cwt-gmt {
-    padding-top: 7px;
+    padding-top: 4px;
 }
 
-.cwt-top-bar button {
+.cwt-top-bar a {
     height: 30px;
     width: 80px;
     color: white;
     border: none;
     cursor: pointer;
     background-color: #1A2427;
+    padding-top: 6px;
+    font-size: 14px;
+}
+
+.cwt-top-bar a:hover,
+.cwt-top-bar a:focus {
+    background-color: #334144;
+    outline: none;
+}
+
+.cwt-top-bar a:active {
+    background-color: #4D5F63;
+    outline: none;
 }
 
 .cwt-navbar {
@@ -37,16 +50,35 @@ my-app .loading {
     background-color: #1A2427;
     margin: 0 2px;
     text-align: center;
-    font-size: 14px;
+}
+
+.cwt-navbar .nav-item .nav-link:hover,
+.cwt-navbar .nav-item .nav-link:focus {
+    background-color: #334144;
+    outline: none;
+}
+
+.cwt-navbar .nav-item .nav-link:active {
+    background-color: #4D5F63;
+    outline: none;
+}
+
+.cwt-navbar .nav-item.cwt-icon .nav-link:hover,
+.cwt-navbar .nav-item.cwt-icon .nav-link:focus {
+    outline: auto;
+}
+
+.cwt-navbar .nav-item.cwt-icon .nav-link:active {
+    outline: auto;
 }
 
 .cwt-navbar .nav-item a {
     color: white !important;
-    padding: 12px;
+    padding: 10px;
 }
 
 .cwt-navbar .nav-item.cwt-icon img {
-    height: 45px;
+    height: 44px;
 }
 
 .cwt-navbar .nav-item.cwt-icon {
@@ -121,7 +153,10 @@ my-app .loading {
     .navbar .container {
         margin: 0;
         width: auto;
-        /* height: calc(100% - 59px); */
+    }
+
+    .collapse.show {
+        height: calc(100vh - 59px);
     }
 }
 
@@ -143,6 +178,6 @@ my-app .loading {
     }
 }
 
-.collapse.show{
-    height: calc(100vh - 59px);
+.collapsing {
+    transition: height 0.1s;
 }
