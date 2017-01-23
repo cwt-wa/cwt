@@ -52,26 +52,6 @@ my-app .loading {
     text-align: center;
 }
 
-.cwt-navbar .nav-item .nav-link:hover,
-.cwt-navbar .nav-item .nav-link:focus {
-    background-color: #334144;
-    outline: none;
-}
-
-.cwt-navbar .nav-item .nav-link:active {
-    background-color: #4D5F63;
-    outline: none;
-}
-
-.cwt-navbar .nav-item.cwt-icon .nav-link:hover,
-.cwt-navbar .nav-item.cwt-icon .nav-link:focus {
-    outline: auto;
-}
-
-.cwt-navbar .nav-item.cwt-icon .nav-link:active {
-    outline: auto;
-}
-
 .cwt-navbar .nav-item a {
     color: white !important;
     padding: 10px;
@@ -163,6 +143,26 @@ my-app .loading {
 @media (min-width: 992px) {
     .cwt-mobile-nav {
         display: none;
+    }
+
+    .cwt-navbar .nav-item .nav-link:hover,
+    .cwt-navbar .nav-item .nav-link:focus {
+        background-color: #334144;
+        outline: none;
+    }
+
+    .cwt-navbar .nav-item .nav-link:active {
+        background-color: #4D5F63;
+        outline: none;
+    }
+
+    .cwt-navbar .nav-item.cwt-icon .nav-link:hover,
+    .cwt-navbar .nav-item.cwt-icon .nav-link:active {
+        outline: none;
+    }
+
+    .cwt-navbar .nav-item.cwt-icon .nav-link:focus {
+        outline: auto;
     }
 }
 
