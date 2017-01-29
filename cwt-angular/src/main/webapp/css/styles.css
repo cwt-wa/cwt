@@ -181,3 +181,11 @@ my-app .loading {
 .collapsing {
     transition: height 0.1s;
 }
+
+nav.cwt-navbar.apple-standalone {
+    padding-top: 10px;
+}
+
+ul.navbar-nav.apple-standalone {
+    height: calc(100% - 10px);
+}

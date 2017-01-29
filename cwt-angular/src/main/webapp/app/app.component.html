@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<nav class="navbar navbar-toggleable-md navbar-inverse cwt-navbar" cwt-apple-fullscreen>
+<nav class="navbar navbar-toggleable-md navbar-inverse cwt-navbar" [ngClass]="{'apple-standalone': isAppleStandalone}">
     <div class="row no-gutters cwt-mobile-nav">
         <div class="col">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
     </div>
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <ul class="navbar-nav mr-auto mt-lg-0">
+            <ul class="navbar-nav" [ngClass]="{'apple-standalone': isAppleStandalone}">
                 <li class="nav-item cwt-icon">
                     <a class="nav-link" href="#">
                         <img src="../img/icon.png">
