@@ -34,9 +34,9 @@
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-3.4.1.tgz#079c8580943547a710f292026ac86a08d336a49d"
 
-"@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.15":
-  version "1.0.0-alpha.15"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-1.0.0-alpha.15.tgz#c0f6be6831395ec76693cf1d47a6a91918a1634b"
+"@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.19":
+  version "1.0.0-alpha.19"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-1.0.0-alpha.19.tgz#42792956be72c16d69a8d9ff57ef225b96af070a"
 
 "@types/jasmine@^2.5.35":
   version "2.5.38"

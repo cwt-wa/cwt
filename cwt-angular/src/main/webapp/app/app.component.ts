@@ -8,6 +8,7 @@ import {AppleStandaloneService} from "./_services/apple-standalone.service";
 })
 export class AppComponent {
 
+    public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
 
     constructor(private appleStandaloneService: AppleStandaloneService) {
