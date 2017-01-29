@@ -121,8 +121,7 @@ my-app .loading {
     }
 
     .nav-item {
-        background-color: #6E6052 !important;
-        /* border-top: 1px solid #3F3429; */
+        background-color: #3f3429 !important;
         margin: 0 !important;
         display: table-row;
     }
@@ -130,7 +129,7 @@ my-app .loading {
     .nav-link {
         display: table-cell;
         vertical-align: middle;
-        border-top: 1px solid #3F3429;
+        border-top: 1px solid #39291A;
     }
 
     .nav-item:first-child .nav-link {
