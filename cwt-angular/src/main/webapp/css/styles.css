@@ -182,10 +182,12 @@ my-app .loading {
     transition: height 0.1s;
 }
 
-nav.cwt-navbar.apple-standalone {
-    padding-top: 10px;
-}
+@media (orientation: portrait) {
+    nav.cwt-navbar.apple-standalone {
+        padding-top: 10px;
+    }
 
-ul.navbar-nav.apple-standalone {
-    height: calc(100% - 10px);
+    ul.navbar-nav.apple-standalone {
+        height: calc(100% - 10px);
+    }
 }
