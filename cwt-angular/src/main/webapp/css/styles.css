@@ -151,6 +151,10 @@ my-app .loading {
         display: none;
     }
 
+    .collapse {
+        display: block;
+    }
+
     .cwt-navbar .nav-item .nav-link:hover,
     .cwt-navbar .nav-item .nav-link:focus {
         background-color: #334144;
