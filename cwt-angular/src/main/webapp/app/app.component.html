@@ -16,7 +16,8 @@
     </div>
 </div>
 
-<nav [ngClass]="{'apple-standalone': isAppleStandalone}" class="navbar navbar-toggleable-md navbar-inverse cwt-navbar">
+<nav [ngClass]="{'apple-standalone': isAppleStandalone, 'fixed-top': isStandalone}"
+     class="navbar navbar-toggleable-md navbar-inverse cwt-navbar">
     <div class="row no-gutters cwt-mobile-nav">
         <div class="col">
             <button (click)="isNavCollapsed = !isNavCollapsed" [ngClass]="{'is-active': !isNavCollapsed}"
@@ -91,13 +92,27 @@
     </div>
 </nav>
 
-<div class="container" [hidden]="!isNavCollapsed">
-    <div class="row">
+<div [hidden]="!isNavCollapsed"
+     [ngClass]="{'standalone-container': isStandalone && !isAppleStandalone, 'apple-standalone-container': isAppleStandalone}"
+     class="container">
+    <div class="row" *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
         <div class="col-md-6">
-            Hello, World!
+            Hello, World! {{x}}.1
         </div>
         <div class="col-md-6">
-            Hello, World! 2
+            Hello, World! {{x}}.2
+        </div>
+        <div class="col-md-6">
+            Hello, World! {{x}}.3
+        </div>
+        <div class="col-md-6">
+            Hello, World! {{x}}.4
+        </div>
+        <div class="col-md-6">
+            Hello, World! {{x}}.5
+        </div>
+        <div class="col-md-6">
+            Hello, World! {{x}}.6
         </div>
     </div>
 </div>

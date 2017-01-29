@@ -3,7 +3,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {AppComponent} from "./app.component";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserWindowRef} from "./_utils/browser-window-ref";
-import {AppleStandaloneService} from "./_services/apple-standalone.service";
+import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
 
 @NgModule({
     imports: [
@@ -15,7 +15,7 @@ import {AppleStandaloneService} from "./_services/apple-standalone.service";
     ],
     providers: [
         BrowserWindowRef,
-        AppleStandaloneService
+        StandaloneWebAppService
     ],
     bootstrap: [AppComponent]
 })

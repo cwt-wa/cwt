@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import "../css/styles.css";
-import {AppleStandaloneService} from "./_services/apple-standalone.service";
+import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
 
 @Component({
     selector: 'my-app',
@@ -10,8 +10,10 @@ export class AppComponent {
 
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
+    public isStandalone: boolean;
 
-    constructor(private appleStandaloneService: AppleStandaloneService) {
-        this.isAppleStandalone = this.appleStandaloneService.isAppleStandalone;
+    constructor(private standaloneWebAppService: StandaloneWebAppService) {
+        this.isAppleStandalone = this.standaloneWebAppService.isAppleStandalone;
+        this.isStandalone = this.standaloneWebAppService.isStandalone;
     }
 }

@@ -144,6 +144,14 @@ my-app .loading {
     .collapse.show {
         height: calc(100vh - 59px);
     }
+
+    .container.standalone-container {
+        margin-top: 59px;
+    }
+
+    .container.apple-standalone-container {
+        margin-top: 69px;
+    }
 }
 
 @media (min-width: 992px) {
