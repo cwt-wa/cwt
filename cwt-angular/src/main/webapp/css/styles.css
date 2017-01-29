@@ -187,7 +187,7 @@ my-app .loading {
         padding-top: 10px;
     }
 
-    ul.navbar-nav.apple-standalone {
-        height: calc(100% - 10px);
+    .collapse.show.apple-standalone {
+        height: calc(100vh - 59px - 10px);
     }
 }
