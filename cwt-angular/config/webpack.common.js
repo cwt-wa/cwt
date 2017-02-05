@@ -19,7 +19,7 @@ module.exports = {
         rules: [
             {
                 test: /\.ts$/,
-                use: ['awesome-typescript-loader', 'angular2-template-loader']
+                use: ['ts-loader', 'angular2-template-loader']
             },
             {
                 test: /\.html$/,
@@ -32,9 +32,9 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'main', 'webapp', 'app'),
-                loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader?sourceMap",
+                use: ExtractTextPlugin.extract({
+                    use: "css-loader",
+                    fallback: "style-loader"
                 })
             },
             {
