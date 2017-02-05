@@ -12,32 +12,35 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.ts', '.js']
+        extensions: ['*', '.ts', '.js']
     },
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.ts$/,
-                loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+                use: ['awesome-typescript-loader', 'angular2-template-loader']
             },
             {
                 test: /\.html$/,
-                loader: 'html'
+                use: ['html-loader']
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'file?name=assets/[name].[hash].[ext]'
+                use: ['file-loader?name=assets/[name].[hash].[ext]']
             },
             {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'main', 'webapp', 'app'),
-                loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader?sourceMap",
+                })
             },
             {
                 test: /\.css$/,
                 include: helpers.root('src', 'main', 'webapp', 'app'),
-                loader: 'raw'
+                use: ['raw-loader']
             }
         ]
     },

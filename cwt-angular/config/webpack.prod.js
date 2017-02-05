@@ -24,11 +24,17 @@ module.exports = webpackMerge(commonConfig, {
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
+            sourceMap: true,
             mangle: {
                 keep_fnames: true
             }
         }),
-        new ExtractTextPlugin('[name].[hash].css'),
+        new ExtractTextPlugin({
+            filename: "[name].[hash].css",
+            disable: false,
+            allChunks: true
+        })
+        ,
         new webpack.DefinePlugin({
             'process.env': {
                 'ENV': JSON.stringify(ENV)
