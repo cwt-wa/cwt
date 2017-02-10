@@ -1,10 +1,9 @@
-import {Component} from "@angular/core";
-import "../css/styles.css";
+import {Component, Inject} from "@angular/core";
 import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
 
 @Component({
     selector: 'my-app',
-    templateUrl: './app.component.html'
+    template: require('./app.component.html')
 })
 export class AppComponent {
 
@@ -12,7 +11,7 @@ export class AppComponent {
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
 
-    constructor(private standaloneWebAppService: StandaloneWebAppService) {
+    constructor(@Inject(StandaloneWebAppService) private standaloneWebAppService: StandaloneWebAppService) {
         this.isAppleStandalone = this.standaloneWebAppService.isAppleStandalone;
         this.isStandalone = this.standaloneWebAppService.isStandalone;
     }
