@@ -94,7 +94,7 @@ my-app .loading {
 .fa-user.cwt-user-panel-icon.vanish {
     transform: translateX(200%);
     transition: transform 0.55s 0.25s ease-out;
-    display: none;
+    /*display: none;*/
 }
 
 @media (max-width: 991px) {
@@ -213,7 +213,7 @@ my-app .loading {
     }
 
     .collapse.show.apple-standalone {
-        height: calc(100vh - 59px - 10px);
+        height: calc(100vh - 49px - 10px);
     }
 }
 
