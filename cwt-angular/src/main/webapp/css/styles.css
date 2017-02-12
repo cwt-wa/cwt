@@ -94,6 +94,7 @@ my-app .loading {
 .fa-user.cwt-user-panel-icon.vanish {
     transform: translateX(200%);
     transition: transform 0.55s 0.25s ease-out;
+    display: none;
 }
 
 @media (max-width: 991px) {
