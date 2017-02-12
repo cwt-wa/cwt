@@ -16,5 +16,5 @@ const fuseBox = fsbx.FuseBox.init({
 });
 
 fuseBox.devServer('>app/main.ts', {
-    port: 4445,
+    port: 8080,
 });
