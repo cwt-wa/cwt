@@ -46,27 +46,27 @@ my-app .loading {
     background-color: #6E6052;
 }
 
-.cwt-navbar .nav-item {
+.nav-item {
     background-color: #1A2427;
     margin: 0 2px;
     text-align: center;
 }
 
-.cwt-navbar .nav-item a {
+.nav-item a {
     color: white !important;
     padding: 10px;
 }
 
-.cwt-navbar .nav-item.cwt-icon img {
+.nav-item.cwt-icon img {
     height: 44px;
 }
 
-.cwt-navbar .nav-item.cwt-icon {
+.nav-item.cwt-icon {
     padding: 0 !important;
     width: auto;
 }
 
-.cwt-navbar .nav-item.cwt-icon a {
+.nav-item.cwt-icon a {
     padding: 0 !important;
     width: auto;
 }
@@ -106,6 +106,15 @@ my-app .loading {
         background-color: #3F3429;
     }
 
+    .cwt-fixed-top {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+        border-bottom: 1px solid #39291A;
+    }
+
     .nav-item.cwt-icon {
         display: none;
     }
@@ -137,13 +146,14 @@ my-app .loading {
         border: none;
     }
 
-    .navbar .container {
+    .navbar.container {
         margin: 0;
         width: auto;
     }
 
     .collapse.show {
         height: calc(100vh - 59px);
+        margin-top: 59px;
     }
 
     .container.standalone-container {
@@ -164,35 +174,35 @@ my-app .loading {
         display: block;
     }
 
-    .cwt-navbar .nav-item .nav-link:hover,
-    .cwt-navbar .nav-item .nav-link:focus {
+    .nav-item .nav-link:hover,
+    .nav-item .nav-link:focus {
         background-color: #334144;
         outline: none;
     }
 
-    .cwt-navbar .nav-item .nav-link:active {
+    .nav-item .nav-link:active {
         background-color: #4D5F63;
         outline: none;
     }
 
-    .cwt-navbar .nav-item.cwt-icon .nav-link:hover,
-    .cwt-navbar .nav-item.cwt-icon .nav-link:active {
+    .nav-item.cwt-icon .nav-link:hover,
+    .nav-item.cwt-icon .nav-link:active {
         outline: none;
     }
 
-    .cwt-navbar .nav-item.cwt-icon .nav-link:focus {
+    .nav-item.cwt-icon .nav-link:focus {
         outline: auto;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-    .cwt-navbar .nav-item {
+    .nav-item {
         width: 94.1px;
     }
 }
 
 @media (min-width: 1200px) {
-    .cwt-navbar .nav-item {
+    .nav-item {
         width: 114.1px;
     }
 }
