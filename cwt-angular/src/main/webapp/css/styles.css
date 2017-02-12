@@ -149,6 +149,7 @@ my-app .loading {
     .navbar.container {
         margin: 0;
         width: auto;
+        overflow-y: scroll;
     }
 
     .collapse.show {
