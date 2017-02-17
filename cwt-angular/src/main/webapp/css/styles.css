@@ -1,9 +1,5 @@
 /* #3F3429 is the base color */
 
-my-app .loading {
-    margin: 10px;
-}
-
 .cwt-top-bar {
     background-color: #3F3429;
     color: white;
@@ -21,6 +17,7 @@ my-app .loading {
     width: 80px;
     color: white;
     border: none;
+    border-radius: 0;
     cursor: pointer;
     background-color: #1A2427;
     padding-top: 6px;
@@ -58,8 +55,7 @@ my-app .loading {
 }
 
 .nav-item.cwt-icon {
-    padding: 0 !important;
-    width: auto;
+    width: 44px;
 }
 
 .nav-item.cwt-icon a {
@@ -169,6 +165,15 @@ my-app .loading {
 
     .collapse {
         display: block;
+        margin-top: -75px;
+    }
+
+    .cwt-navbar {
+        height: 59px;
+    }
+
+    ul.navbar-nav {
+        margin: auto -2px !important;
     }
 
     .nav-item .nav-link:hover,
@@ -194,13 +199,13 @@ my-app .loading {
 
 @media (min-width: 992px) and (max-width: 1199px) {
     .nav-item {
-        width: 94.1px;
+        width: 94.3px;
     }
 }
 
 @media (min-width: 1200px) {
     .nav-item {
-        width: 114.1px;
+        width: 114.3px;
     }
 }
 
