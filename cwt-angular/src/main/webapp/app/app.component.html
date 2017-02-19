@@ -30,11 +30,28 @@
         <div class="col text-center">
             <img src="../img/icon.png">
         </div>
-        <div class="col text-right">
-            <i class="fa fa-lg fa-user cwt-user-panel-icon" [ngClass]="{'vanish': !isNavCollapsed}"></i>
+        <div class="col text-right user-panel">
+            <i class="fa fa-lg fa-user cwt-user-panel-icon" [ngClass]="{'vanish': !isNavCollapsed}"
+               placement="bottom" [ngbPopover]="userPanel">
+            </i>
         </div>
     </div>
 </nav>
+
+<template #userPanel>
+    <ul>
+        <li>
+            <a href="#">
+                Login
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                Register
+            </a>
+        </li>
+    </ul>
+</template>
 
 <div class="navbar navbar-toggleable-md container">
     <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">

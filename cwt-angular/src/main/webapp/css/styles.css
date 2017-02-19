@@ -89,6 +89,67 @@
     /*display: none;*/
 }
 
+a {
+    color: #4D5F63;
+}
+
+.user-panel ngb-popover-window {
+    float: right !important;
+    margin-left: -45px !important;
+    top: 37px !important;
+    width: 130px !important;
+    padding: 0 !important;
+}
+
+.user-panel ngb-popover-window {
+    float: right !important;
+    margin-left: -45px !important;
+    top: 39px !important;
+    width: 130px !important;
+    padding: 0 !important;
+}
+
+.user-panel ngb-popover-window .popover-content {
+    padding: 0;
+}
+
+.user-panel ngb-popover-window .popover-content ul {
+    padding: 0;
+    margin: 0;
+}
+
+.user-panel ngb-popover-window .popover-content ul li {
+    padding: 15px;
+    list-style: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.user-panel ngb-popover-window .popover-content ul li:nth-child(1) {
+    border-top: none;
+}
+
+.user-panel ngb-popover-window .popover-content ul li a {
+    display: block;
+}
+
+.user-panel ngb-popover-window .popover-content hr {
+    margin-left: -14px;
+    margin-right: -14px;
+}
+
+.user-panel ngb-popover-window.popover.popover-bottom::after,
+.user-panel ngb-popover-window.popover.bs-tether-element-attached-top::after {
+    margin-left: 34px !important;
+    border-bottom-color: white !important;
+    top: -10px !important;
+}
+
+.user-panel ngb-popover-window.popover.popover-bottom::before,
+.user-panel ngb-popover-window.popover.bs-tether-element-attached-top::before {
+    margin-left: 33px !important;
+    top: -12px !important;
+}
+
 @media (max-width: 991px) {
     .cwt-top-bar {
         display: none;
