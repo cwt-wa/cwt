@@ -32,7 +32,9 @@
         </div>
         <div class="col text-right user-panel">
             <i class="fa fa-lg fa-user cwt-user-panel-icon" [ngClass]="{'vanish': !isNavCollapsed}"
-               placement="bottom" [ngbPopover]="userPanel" #userPanelIcon="ngbPopover">
+               placement="bottom" [ngbPopover]="userPanel" #userPanelIcon="ngbPopover"
+               (document:touchstart)="userPanelIcon.close()" (document:click)="userPanelIcon.close()"
+               (click)="$event.stopPropagation()">
             </i>
         </div>
     </div>
