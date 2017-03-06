@@ -4,6 +4,7 @@ import {AppComponent} from "./app.component";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserWindowRef} from "./_utils/browser-window-ref";
 import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
+import {GmtClockComponent} from "./gmt-clock.component";
 
 @NgModule({
     imports: [
@@ -12,6 +13,7 @@ import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
     ],
     declarations: [
         AppComponent,
+        GmtClockComponent
     ],
     providers: [
         BrowserWindowRef,

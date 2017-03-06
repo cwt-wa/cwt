@@ -2,10 +2,12 @@ import {Component, Inject, ViewChild, AfterViewInit} from "@angular/core";
 import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
 import {BrowserWindowRef} from "./_utils/browser-window-ref";
 import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
+import {GmtClockComponent} from "./gmt-clock.component";
 
 @Component({
     selector: 'my-app',
-    template: require('./app.component.html')
+    template: require('./app.component.html'),
+    providers: [GmtClockComponent]
 })
 export class AppComponent implements AfterViewInit {
     @ViewChild("userPanelIcon")
