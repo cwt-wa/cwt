@@ -1,6 +1,5 @@
 import {Component, Inject, ViewChild, AfterViewInit} from "@angular/core";
 import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
-import {BrowserWindowRef} from "./_utils/browser-window-ref";
 import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
 import {GmtClockComponent} from "./gmt-clock.component";
 
@@ -17,14 +16,13 @@ export class AppComponent implements AfterViewInit {
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
 
-    constructor(@Inject(StandaloneWebAppService) private standaloneWebAppService: StandaloneWebAppService,
-                @Inject(BrowserWindowRef) private browserWindowRef: BrowserWindowRef) {
+    constructor(@Inject(StandaloneWebAppService) private standaloneWebAppService: StandaloneWebAppService) {
         this.isAppleStandalone = this.standaloneWebAppService.isAppleStandalone;
         this.isStandalone = this.standaloneWebAppService.isStandalone;
     }
 
     ngAfterViewInit(): void {
-        this.browserWindowRef.window.addEventListener("orientationchange", () => {
+        window.addEventListener("orientationchange", () => {
             this.userPanelIcon.close();
         });
     }

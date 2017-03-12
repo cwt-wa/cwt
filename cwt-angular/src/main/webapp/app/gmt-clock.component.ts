@@ -22,7 +22,7 @@ export class GmtClockComponent {
     public timePart: {hours: string, minutes: string, seconds: string};
 
     constructor() {
-        setInterval(() => {
+        window.setInterval(() => {
             const nowLocal = new Date(); // TODO Is it costly to instantiate Date every second?
 
             this.displayDate =

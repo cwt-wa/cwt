@@ -1,5 +1,4 @@
-import {Injectable, Inject} from "@angular/core";
-import {BrowserWindowRef} from "../_utils/browser-window-ref";
+import {Injectable} from "@angular/core";
 
 @Injectable()
 export class StandaloneWebAppService {
@@ -7,10 +6,8 @@ export class StandaloneWebAppService {
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
 
-    constructor(@Inject(BrowserWindowRef) private browserWindowRef: BrowserWindowRef) {
-        this.isAppleStandalone =
-            !!(this.browserWindowRef.window.navigator && (this.browserWindowRef.window.navigator as any).standalone);
-        this.isStandalone =
-            this.isAppleStandalone || this.browserWindowRef.window.matchMedia('(display-mode: standalone)').matches;
+    constructor() {
+        this.isAppleStandalone = !!(window.navigator && (window.navigator as any).standalone);
+        this.isStandalone = this.isAppleStandalone || window.matchMedia('(display-mode: standalone)').matches;
     }
 }
