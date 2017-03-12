@@ -115,24 +115,5 @@
 <div [hidden]="!isNavCollapsed"
      [ngClass]="{'standalone-container': isStandalone && !isAppleStandalone, 'apple-standalone-container': isAppleStandalone}"
      class="container">
-    <div class="row" *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-        <div class="col-md-6">
-            Hello, World! {{x}}.1
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.2
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.3
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.4
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.5
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.6
-        </div>
-    </div>
+    <router-outlet></router-outlet>
 </div>
