@@ -1,19 +1,27 @@
-import {Component} from "@angular/core";
-import "../css/styles.css";
-import {StandaloneWebAppService} from "./_services/standalone-web-app.service";
+import {AfterViewInit, Component, ViewChild} from "@angular/core";
+import {WebAppViewService} from "./_services/web-app-view.service";
+import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
+import {GmtClockComponent} from "./gmt-clock.component";
 
 @Component({
     selector: 'my-app',
-    templateUrl: './app.component.html'
+    template: require('./app.component.html'),
+    providers: [GmtClockComponent]
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
+    @ViewChild("userPanelIcon")
+    private userPanelIcon: NgbPopover;
 
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
 
-    constructor(private standaloneWebAppService: StandaloneWebAppService) {
-        this.isAppleStandalone = this.standaloneWebAppService.isAppleStandalone;
-        this.isStandalone = this.standaloneWebAppService.isStandalone;
+    constructor(private webAppViewService: WebAppViewService) {
+        this.isAppleStandalone = this.webAppViewService.isAppleStandalone;
+        this.isStandalone = this.webAppViewService.isStandalone;
+    }
+
+    ngAfterViewInit(): void {
+        this.webAppViewService.closeUserPanelOnOrientationChange(this.userPanelIcon);
     }
 }

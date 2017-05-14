@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 cwt-gmt">
-                Wednesday, December 28, 2016, 21:02:14 GMT
+                <cwt-gmt-clock></cwt-gmt-clock>
             </div>
             <div class="col-md-6 text-md-right">
                 <a href="#" class="btn">
@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<nav [ngClass]="{'apple-standalone': isAppleStandalone, 'fixed-top': isStandalone}"
+<nav [ngClass]="{'apple-standalone': isAppleStandalone, 'cwt-fixed-top': isStandalone || !isNavCollapsed}"
      class="navbar navbar-toggleable-md navbar-inverse cwt-navbar">
     <div class="row no-gutters cwt-mobile-nav">
         <div class="col">
@@ -30,89 +30,90 @@
         <div class="col text-center">
             <img src="../img/icon.png">
         </div>
-        <div class="col text-right">
-            <i class="fa fa-lg fa-user cwt-user-panel-icon" [ngClass]="{'vanish': !isNavCollapsed}"></i>
-        </div>
-    </div>
-    <div class="container">
-        <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
-            <ul class="navbar-nav">
-                <li class="nav-item cwt-icon">
-                    <a class="nav-link" href="#">
-                        <img src="../img/icon.png">
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Groups
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Playoffs
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Ratings
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Bets
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Games
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Users
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Streams
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Archive
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        More&hellip;
-                    </a>
-                </li>
-            </ul>
+        <div class="col text-right user-panel">
+            <i class="fa fa-lg fa-user cwt-user-panel-icon" [ngClass]="{'vanish': !isNavCollapsed}"
+               placement="bottom" [ngbPopover]="userPanel" #userPanelIcon="ngbPopover"
+               (document:touchstart)="userPanelIcon.close()" (document:click)="userPanelIcon.close()"
+               (click)="$event.stopPropagation()">
+            </i>
         </div>
     </div>
 </nav>
 
+<template #userPanel>
+    <ul>
+        <li>
+            <a href="#">
+                Login
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                Register
+            </a>
+        </li>
+    </ul>
+</template>
+
+<div class="navbar navbar-toggleable-md container">
+    <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
+        <ul class="navbar-nav">
+            <li class="nav-item cwt-icon">
+                <a class="nav-link" href="#">
+                    <img src="../img/icon.png">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Groups
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Playoffs
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Ratings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Bets
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Games
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Streams
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    Archive
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    More&hellip;
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <div [hidden]="!isNavCollapsed"
      [ngClass]="{'standalone-container': isStandalone && !isAppleStandalone, 'apple-standalone-container': isAppleStandalone}"
      class="container">
-    <div class="row" *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-        <div class="col-md-6">
-            Hello, World! {{x}}.1
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.2
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.3
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.4
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.5
-        </div>
-        <div class="col-md-6">
-            Hello, World! {{x}}.6
-        </div>
-    </div>
+    <router-outlet></router-outlet>
 </div>
