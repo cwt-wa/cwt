@@ -150,6 +150,12 @@ a {
     top: -12px !important;
 }
 
+.collapse {
+    display: block;
+    height: 0;
+    transition: height ease-out 150ms;
+}
+
 @media (max-width: 991px) {
     .cwt-top-bar {
         display: none;
@@ -210,6 +216,62 @@ a {
         margin-top: 59px;
     }
 
+    .collapse.show {
+        height: calc(100vh - 59px);
+        margin-top: 59px;
+    }
+
+    .collapse > ul.navbar-nav > li.nav-item > a.nav-link {
+        opacity: 0.1;
+        /*transition: opacity 3s linear;*/
+
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(2) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 0ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(3) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 50ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(4) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 100ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(5) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 150ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(6) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 200ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(7) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 250ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(8) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 300ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(9) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 350ms;
+    }
+
+    .collapse.show > ul.navbar-nav > li.nav-item:nth-child(10) > a.nav-link {
+        opacity: 1;
+        transition: all 0.3s linear 400ms;
+    }
+
     .container.standalone-container {
         margin-top: 59px;
     }
@@ -225,7 +287,7 @@ a {
     }
 
     .collapse {
-        display: block;
+        height: auto;
         margin-top: -75px;
     }
 
