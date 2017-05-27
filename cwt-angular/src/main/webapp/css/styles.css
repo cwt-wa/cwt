@@ -318,6 +318,11 @@ a {
     .nav-item.cwt-icon .nav-link:focus {
         outline: auto;
     }
+
+    .cwt-top-bar.apple-standalone {
+        padding-top: 20px;
+        height: 50px;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
