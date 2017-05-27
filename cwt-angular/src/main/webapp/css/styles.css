@@ -64,11 +64,12 @@
 }
 
 .cwt-mobile-nav img {
-    height: 30px;
+    height: 35px;
+    margin-top: -4px;
 }
 
 .cwt-mobile-nav {
-    padding: 16px 16px 13px;
+    padding: 16px 16px 10px;
 }
 
 .navbar .fa-user {
@@ -212,13 +213,13 @@ a {
     }
 
     .collapse.show {
-        height: calc(100vh - 59px);
-        margin-top: 59px;
+        height: calc(100vh - 58px);
+        margin-top: 58px;
     }
 
     .collapse.show {
-        height: calc(100vh - 59px);
-        margin-top: 59px;
+        height: calc(100vh - 58px);
+        margin-top: 58px;
     }
 
     .collapse > ul.navbar-nav > li.nav-item > a.nav-link {
@@ -273,7 +274,7 @@ a {
     }
 
     .container.standalone-container {
-        margin-top: 59px;
+        margin-top: 58px;
     }
 
     .container.apple-standalone-container {
@@ -292,7 +293,7 @@ a {
     }
 
     .cwt-navbar {
-        height: 59px;
+        height: 58px;
     }
 
     ul.navbar-nav {
@@ -339,11 +340,11 @@ a {
 
 @media (orientation: portrait) {
     nav.cwt-navbar.apple-standalone {
-        padding-top: 10px;
+        padding-top: 15px;
     }
 
     .collapse.show.apple-standalone {
-        height: calc(100vh - 49px - 10px);
+        height: calc(100vh - 48px - 10px);
     }
 }
 
