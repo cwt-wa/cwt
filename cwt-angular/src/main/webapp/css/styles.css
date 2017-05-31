@@ -217,11 +217,6 @@ a {
         margin-top: 58px;
     }
 
-    .collapse.show {
-        height: calc(100vh - 58px);
-        margin-top: 58px;
-    }
-
     .collapse > ul.navbar-nav > li.nav-item > a.nav-link {
         opacity: 0;
         /*transition: opacity 3s linear;*/
@@ -273,12 +268,12 @@ a {
         transition: all 0.3s linear 600ms;
     }
 
-    .container.standalone-container {
-        margin-top: 58px;
+    .container.content.standalone-container {
+        margin-top: 68px;
     }
 
-    .container.apple-standalone-container {
-        margin-top: 69px;
+    .container.content.apple-standalone-container {
+        margin-top: 82px;
     }
 }
 
@@ -344,7 +339,8 @@ a {
     }
 
     .collapse.show.apple-standalone {
-        height: calc(100vh - 48px - 10px);
+        height: calc(100vh - 72px);
+        margin-top: 72px;
     }
 }
 
