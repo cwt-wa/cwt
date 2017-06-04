@@ -8,7 +8,7 @@
                 <a href="#" class="btn">
                     Log in
                 </a>
-                <a href="#" class="btn">
+                <a routerLink="/register" class="btn">
                     Register
                 </a>
             </div>
@@ -28,7 +28,9 @@
             </button>
         </div>
         <div class="col text-center">
-            <img src="../img/icon.png" class="rounded-circle">
+            <a routerLink="/">
+                <img src="../img/icon.png" class="rounded-circle">
+            </a>
         </div>
         <div class="col text-right user-panel">
             <i class="fa fa-lg fa-user cwt-user-panel-icon" [ngClass]="{'vanish': !isNavCollapsed}"
@@ -48,7 +50,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a routerLink="/register">
                 Register
             </a>
         </li>
@@ -59,7 +61,7 @@
     <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
         <ul class="navbar-nav">
             <li class="nav-item cwt-icon">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/">
                     <img src="../img/icon.png">
                 </a>
             </li>
