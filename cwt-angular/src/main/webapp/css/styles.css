@@ -268,12 +268,16 @@ a {
         transition: all 0.3s linear 600ms;
     }
 
+    .container.content {
+        padding-top: 15px;
+    }
+
     .container.content.standalone-container {
-        margin-top: 68px;
+        margin-top: 53px;
     }
 
     .container.content.apple-standalone-container {
-        margin-top: 82px;
+        margin-top: 67px;
     }
 }
 
