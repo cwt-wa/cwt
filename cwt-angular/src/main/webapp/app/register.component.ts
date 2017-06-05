@@ -13,6 +13,6 @@ export class RegisterComponent {
     onSubmit() { this.submitted = true; }
 
     // TODO: Remove this when we're done
-    get diagnostic() { return JSON.stringify(this.user); }
+    get diagnostic() { return this.user; }
 
 }
