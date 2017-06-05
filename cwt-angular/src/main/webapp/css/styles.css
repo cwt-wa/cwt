@@ -158,6 +158,10 @@ a {
 }
 
 @media (max-width: 991px) {
+    .content.container {
+        width: auto;
+    }
+
     .cwt-top-bar {
         display: none;
     }
