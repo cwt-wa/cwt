@@ -6,7 +6,7 @@ import {User} from "./user";
     template: require('./register.component.html')
 })
 export class RegisterComponent {
-    user = new User(18, 'Zemke', 'flzemke@gmail.com', 'testpw');
+    user = new User(1, '', '', '');
 
     submitted = false;
 
