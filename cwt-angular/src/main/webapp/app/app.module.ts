@@ -9,6 +9,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./home.component";
 import {PageNotFoundComponent} from "./page-not-found.component";
 import {RegisterComponent} from "./register.component";
+import {LoginComponent} from "./login.component";
 
 const appRoutes: Routes = [
     {
@@ -22,6 +23,10 @@ const appRoutes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'login',
+        component: LoginComponent
     },
     {
         path: '**',
@@ -42,7 +47,8 @@ const appRoutes: Routes = [
         HomeComponent,
         PageNotFoundComponent,
         GmtClockComponent,
-        RegisterComponent
+        RegisterComponent,
+        LoginComponent
     ],
     providers: [
         WebAppViewService
