@@ -28,7 +28,7 @@
             </button>
         </div>
         <div class="col text-center">
-            <a routerLink="/">
+            <a routerLink="/" (click)="isNavCollapsed = true">
                 <img src="../img/icon.png" class="rounded-circle">
             </a>
         </div>
@@ -59,54 +59,54 @@
 
 <div class="navbar navbar-toggleable-md container">
     <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" (click)="isNavCollapsed = true">
             <li class="nav-item cwt-icon">
                 <a class="nav-link" routerLink="/">
                     <img src="../img/icon.png">
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/groups">
                     Groups
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/playoffs">
                     Playoffs
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/ratings">
                     Ratings
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/bets">
                     Bets
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/games">
                     Games
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/users">
                     Users
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/streams">
                     Streams
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/archive">
                     Archive
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/more">
                     More&hellip;
                 </a>
             </li>
