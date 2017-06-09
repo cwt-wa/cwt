@@ -32,30 +32,18 @@
                 <img src="../img/icon.png" class="rounded-circle">
             </a>
         </div>
-        <div class="col text-right user-panel">
-            <i class="fa fa-lg fa-user cwt-user-panel-icon" [ngClass]="{'vanish': !isNavCollapsed}"
-               placement="bottom" [ngbPopover]="userPanel" #userPanelIcon="ngbPopover"
-               (document:touchstart)="userPanelIcon.close()" (document:click)="userPanelIcon.close()"
-               (click)="$event.stopPropagation()">
+        <div class="col text-right user-panel" ngbDropdown>
+            <i class="fa fa-lg fa-user cwt-user-panel-icon no-caret"
+               [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
             </i>
+            <div class="dropdown-menu">
+                <a routerLink="/login" class="dropdown-item">Log in</a>
+                <div class="dropdown-divider"></div>
+                <a routerLink="/register" class="dropdown-item">Register</a>
+            </div>
         </div>
     </div>
 </nav>
-
-<ng-template #userPanel>
-    <ul>
-        <li>
-            <a href="#">
-                Login
-            </a>
-        </li>
-        <li>
-            <a routerLink="/register">
-                Register
-            </a>
-        </li>
-    </ul>
-</ng-template>
 
 <div class="navbar navbar-toggleable-md container">
     <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">

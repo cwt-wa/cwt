@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, ViewChild} from "@angular/core";
+import {AfterViewInit, Component} from "@angular/core";
 import {WebAppViewService} from "./_services/web-app-view.service";
-import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
 import {GmtClockComponent} from "./gmt-clock.component";
 import {Router} from "@angular/router";
 
@@ -10,9 +9,6 @@ import {Router} from "@angular/router";
     providers: [GmtClockComponent]
 })
 export class AppComponent implements AfterViewInit {
-    @ViewChild("userPanelIcon")
-    private userPanelIcon: NgbPopover;
-
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
@@ -23,8 +19,6 @@ export class AppComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.webAppViewService.closeUserPanelOnOrientationChange(this.userPanelIcon);
-
         this.router.setUpLocationChangeListener();
     }
 }

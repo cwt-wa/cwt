@@ -352,6 +352,15 @@ a {
     }
 }
 
+.dropdown-toggle.no-caret:after {
+    display: none;
+}
+
+.user-panel > .dropdown-menu {
+    left: auto;
+    right: -10px;
+}
+
 .hamburger {
     padding: 0;
     display: inline-block;
