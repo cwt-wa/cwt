@@ -7,12 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.Locale;
+import java.util.Date;
+import java.util.List;
 
-/**
- * A user.
- */
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
@@ -23,37 +20,25 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
-    private String login;
-
     @JsonIgnore
     @NotNull
     @Size(min = 60, max = 60)
     @Column(name = "password_hash", length = 60)
     private String password;
 
-    @Size(max = 50)
-    @Column(name = "first_name", length = 50)
-    private String firstName;
-
-    @Size(max = 50)
-    @Column(name = "last_name", length = 50)
-    private String lastName;
+    @NotNull
+    @Size(max = 16, min = 3)
+    @Column(length = 16, unique = true, nullable = false)
+    private String username;
 
     @Email
     @Size(max = 100)
-    @Column(length = 100, unique = true)
+    @Column(length = 100, unique = true, nullable = false)
     private String email;
 
     @NotNull
     @Column(nullable = false)
     private boolean activated = false;
-
-    @Size(min = 2, max = 5)
-    @Column(name = "lang_key", length = 5)
-    private String langKey;
 
     @Size(max = 20)
     @Column(name = "activation_key", length = 20)
@@ -65,7 +50,14 @@ public class User implements Serializable {
     private String resetKey;
 
     @Column(name = "reset_date", nullable = true)
-    private ZonedDateTime resetDate = null;
+    private Date resetDate;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+    private List<Authority> authorities;
 
     protected User() {
     }
@@ -78,15 +70,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    //Lowercase the login before saving it in database
-    public void setLogin(String login) {
-        this.login = login.toLowerCase(Locale.ENGLISH);
-    }
-
     public String getPassword() {
         return password;
     }
@@ -95,20 +78,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -119,7 +94,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean getActivated() {
+    public boolean isActivated() {
         return activated;
     }
 
@@ -143,20 +118,20 @@ public class User implements Serializable {
         this.resetKey = resetKey;
     }
 
-    public ZonedDateTime getResetDate() {
+    public Date getResetDate() {
         return resetDate;
     }
 
-    public void setResetDate(ZonedDateTime resetDate) {
+    public void setResetDate(Date resetDate) {
         this.resetDate = resetDate;
     }
 
-    public String getLangKey() {
-        return langKey;
+    public List<Authority> getAuthorities() {
+        return authorities;
     }
 
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
@@ -170,27 +145,24 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        if (!login.equals(user.login)) {
-            return false;
-        }
-
-        return true;
+        return username.equals(user.username);
     }
 
     @Override
     public int hashCode() {
-        return login.hashCode();
+        return username.hashCode();
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "login='" + login + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", authorities='" + authorities.toString() + '\'' +
+                ", resetDate='" + resetDate + '\'' +
+                ", resetKey='" + resetKey + '\'' +
                 ", activated='" + activated + '\'' +
-                ", langKey='" + langKey + '\'' +
                 ", activationKey='" + activationKey + '\'' +
                 "}";
     }

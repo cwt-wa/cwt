@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -11,33 +12,26 @@ public class JwtUser implements UserDetails {
 
     private final Long id;
     private final String username;
-    private final String firstname;
-    private final String lastname;
     private final String password;
     private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
-    private final boolean enabled;
-    private final Date lastPasswordResetDate;
+    private final boolean activated;
+    private final Date resetDate;
 
-    public JwtUser(
-            Long id,
+    JwtUser(Long id,
             String username,
-            String firstname,
-            String lastname,
             String email,
-            String password, Collection<? extends GrantedAuthority> authorities,
-            boolean enabled,
-            Date lastPasswordResetDate
-    ) {
+            String password,
+            Collection<? extends GrantedAuthority> authorities,
+            boolean activated,
+            Date resetDate) {
         this.id = id;
         this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
-        this.enabled = enabled;
-        this.lastPasswordResetDate = lastPasswordResetDate;
+        this.activated = activated;
+        this.resetDate = resetDate;
     }
 
     @JsonIgnore
@@ -68,14 +62,6 @@ public class JwtUser implements UserDetails {
         return true;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -93,11 +79,11 @@ public class JwtUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return activated;
     }
 
     @JsonIgnore
-    public Date getLastPasswordResetDate() {
-        return lastPasswordResetDate;
+    public Date getResetDate() {
+        return resetDate;
     }
 }
