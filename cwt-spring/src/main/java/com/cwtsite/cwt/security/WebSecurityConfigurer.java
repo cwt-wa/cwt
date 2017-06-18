@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -43,6 +44,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         return new JwtAuthenticationTokenFilter();
     }
 
+    @Bean
+    public CorsFilter corsFilterBean() throws Exception {
+        return new CorsFilter();
+    }
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -68,11 +74,14 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter
         httpSecurity
-                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilterBean(), ChannelProcessingFilter.class);
+
 
         // disable page caching
         httpSecurity.headers().cacheControl();
