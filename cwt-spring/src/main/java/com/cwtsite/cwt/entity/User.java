@@ -59,7 +59,7 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
     private List<Authority> authorities;
 
-    protected User() {
+    public User() {
     }
 
     public Long getId() {

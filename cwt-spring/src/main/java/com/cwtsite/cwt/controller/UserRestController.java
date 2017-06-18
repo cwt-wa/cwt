@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.controller;
 
+import com.cwtsite.cwt.entity.User;
 import com.cwtsite.cwt.security.JwtTokenUtil;
 import com.cwtsite.cwt.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,13 @@ public class UserRestController {
         String token = request.getHeader(tokenHeader);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
+        return user;
+    }
+
+    @RequestMapping(value = "user/test", method = RequestMethod.GET)
+    public User getUserTest(HttpServletRequest request) {
+        User user = new User();
+        user.setUsername("Zemke");
         return user;
     }
 
