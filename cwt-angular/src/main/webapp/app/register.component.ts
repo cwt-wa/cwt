@@ -1,30 +1,23 @@
-import {Component, OnInit} from "@angular/core";
-import {User} from "./user";
-import {UserService} from "./_services/user.service";
+import {Component} from "@angular/core";
+import {RequestService} from "./_services/request.service";
+import {UserRegistration} from "./user-registration";
 
 @Component({
     selector: 'cwt-register',
     template: require('./register.component.html')
 })
-export class RegisterComponent implements OnInit {
-    user: User = new User(1, '', '', '');
+export class RegisterComponent {
+    userRegistration: UserRegistration = new UserRegistration('', '', '');
 
     submitted = false;
 
-    constructor(private userService: UserService) {
+    constructor(private requestService: RequestService) {
     }
 
-    ngOnInit(): void {
-        this.userService.getUsers()
-            .subscribe(
-                user => {
-                    console.log(user);
-                    return this.user = user;
-                },
-                err => console.log(err)
-            );
+    onSubmit() {
+        // http://codeseven.github.io/toastr/demo.html
+        this.requestService.post('auth/register', this.userRegistration)
+            .subscribe();
     }
-
-    onSubmit() { this.submitted = true; }
 
 }

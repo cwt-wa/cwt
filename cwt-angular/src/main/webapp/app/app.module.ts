@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
-import { HttpModule } from '@angular/http';
+import {HttpModule} from "@angular/http";
 import {BrowserModule} from "@angular/platform-browser";
-import {FormsModule}   from '@angular/forms';
+import {FormsModule} from "@angular/forms";
 import {AppComponent} from "./app.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {WebAppViewService} from "./_services/web-app-view.service";
@@ -11,7 +11,8 @@ import {HomeComponent} from "./home.component";
 import {PageNotFoundComponent} from "./page-not-found.component";
 import {RegisterComponent} from "./register.component";
 import {LoginComponent} from "./login.component";
-import {UserService} from "./_services/user.service";
+import {APP_CONFIG, appConfig} from "./app.config";
+import {RequestService} from "./_services/request.service";
 
 const appRoutes: Routes = [
     {
@@ -55,7 +56,8 @@ const appRoutes: Routes = [
     ],
     providers: [
         WebAppViewService,
-        UserService
+        RequestService,
+        {provide: APP_CONFIG, useValue: appConfig}
     ],
     bootstrap: [AppComponent]
 })
