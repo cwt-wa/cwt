@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.security;
+package com.cwtsite.cwt.user.view.model;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
-package com.cwtsite.cwt.security;
+package com.cwtsite.cwt.user.service;
 
-import com.cwtsite.cwt.entity.User;
-import com.cwtsite.cwt.repository.UserRepository;
+import com.cwtsite.cwt.user.repository.UserRepository;
+import com.cwtsite.cwt.user.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

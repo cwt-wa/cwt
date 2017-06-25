@@ -1,7 +1,8 @@
-package com.cwtsite.cwt.security;
+package com.cwtsite.cwt.user.service;
 
-import com.cwtsite.cwt.entity.Authority;
-import com.cwtsite.cwt.entity.User;
+import com.cwtsite.cwt.user.repository.entity.enumeration.Authority;
+import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.user.view.model.JwtUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

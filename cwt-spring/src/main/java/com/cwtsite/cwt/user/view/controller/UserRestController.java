@@ -1,10 +1,10 @@
-package com.cwtsite.cwt.controller;
+package com.cwtsite.cwt.user.view.controller;
 
-import com.cwtsite.cwt.entity.User;
-import com.cwtsite.cwt.security.JwtTokenUtil;
-import com.cwtsite.cwt.security.JwtUser;
+import com.cwtsite.cwt.user.service.JwtTokenUtil;
+import com.cwtsite.cwt.user.view.model.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import com.cwtsite.cwt.user.repository.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.user.repository.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

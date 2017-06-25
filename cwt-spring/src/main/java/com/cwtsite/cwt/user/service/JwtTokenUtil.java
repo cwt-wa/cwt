@@ -1,5 +1,6 @@
-package com.cwtsite.cwt.security;
+package com.cwtsite.cwt.user.service;
 
+import com.cwtsite.cwt.user.view.model.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

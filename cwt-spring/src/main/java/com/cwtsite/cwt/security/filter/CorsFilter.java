@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.security;
+package com.cwtsite.cwt.security.filter;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;

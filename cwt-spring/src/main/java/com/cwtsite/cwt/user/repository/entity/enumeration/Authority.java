@@ -1,6 +1,7 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.user.repository.entity.enumeration;
 
-import com.cwtsite.cwt.entity.enumeration.AuthorityName;
+import com.cwtsite.cwt.user.repository.entity.AuthorityName;
+import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

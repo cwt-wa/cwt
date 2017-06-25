@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.security;
+package com.cwtsite.cwt.user.view.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,13 +18,13 @@ public class JwtUser implements UserDetails {
     private final boolean activated;
     private final Date resetDate;
 
-    JwtUser(Long id,
-            String username,
-            String email,
-            String password,
-            Collection<? extends GrantedAuthority> authorities,
-            boolean activated,
-            Date resetDate) {
+    public JwtUser(Long id,
+                   String username,
+                   String email,
+                   String password,
+                   Collection<? extends GrantedAuthority> authorities,
+                   boolean activated,
+                   Date resetDate) {
         this.id = id;
         this.username = username;
         this.email = email;

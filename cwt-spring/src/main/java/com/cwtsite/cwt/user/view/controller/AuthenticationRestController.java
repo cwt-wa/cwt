@@ -1,9 +1,9 @@
-package com.cwtsite.cwt.controller;
+package com.cwtsite.cwt.user.view.controller;
 
-import com.cwtsite.cwt.security.JwtAuthenticationRequest;
-import com.cwtsite.cwt.security.JwtAuthenticationResponse;
-import com.cwtsite.cwt.security.JwtTokenUtil;
-import com.cwtsite.cwt.security.JwtUser;
+import com.cwtsite.cwt.user.view.model.JwtAuthenticationRequest;
+import com.cwtsite.cwt.user.view.model.JwtAuthenticationResponse;
+import com.cwtsite.cwt.user.service.JwtTokenUtil;
+import com.cwtsite.cwt.user.view.model.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

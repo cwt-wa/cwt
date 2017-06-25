@@ -1,5 +1,6 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.user.repository.entity;
 
+import com.cwtsite.cwt.user.repository.entity.enumeration.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
