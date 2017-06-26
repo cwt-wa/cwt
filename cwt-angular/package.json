@@ -23,6 +23,7 @@
     "jquery": "latest",
     "rxjs": "latest",
     "tether": "latest",
+    "toastr": "^2.1.2",
     "zone.js": "latest"
   },
   "devDependencies": {
