@@ -7,7 +7,7 @@ export interface AppConfig {
 }
 
 export const appConfig: AppConfig = {
-    apiEndpoint: 'http://localhost:9090/'
+    apiEndpoint: 'http://localhost:9000/'
 };
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
