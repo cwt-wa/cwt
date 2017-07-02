@@ -15,9 +15,12 @@ export class RegisterComponent {
     constructor(private requestService: RequestService) {
     }
 
-    onSubmit() {
+    submit() {
         this.requestService.post('auth/register', this.userRegistration)
-            .subscribe();
+            .subscribe(
+                () => toastr.success('You have been registered successfully.'),
+                () => toastr.error('Meh.')
+            );
     }
 
 }
