@@ -1,9 +1,12 @@
 package com.cwtsite.cwt.user.view.controller;
 
+import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.user.service.JwtTokenUtil;
+import com.cwtsite.cwt.user.service.UserService;
 import com.cwtsite.cwt.user.view.model.JwtAuthenticationRequest;
 import com.cwtsite.cwt.user.view.model.JwtAuthenticationResponse;
-import com.cwtsite.cwt.user.service.JwtTokenUtil;
 import com.cwtsite.cwt.user.view.model.JwtUser;
+import com.cwtsite.cwt.user.view.model.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 public class AuthenticationRestController {
@@ -28,14 +32,18 @@ public class AuthenticationRestController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService, UserService userService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
@@ -71,5 +79,9 @@ public class AuthenticationRestController {
         }
     }
 
+    @RequestMapping(path = "/auth/register", method = RequestMethod.POST)
+    public ResponseEntity<?> register(@RequestBody @Valid UserRegistrationDto userRegistrationDto) {
+        return ResponseEntity.ok(userService.registerUser(userRegistrationDto));
+    }
 }
 

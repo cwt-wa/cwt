@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
