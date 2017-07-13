@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.user.repository.entity;
 
 import com.cwtsite.cwt.user.repository.entity.enumeration.Authority;
-import com.cwtsite.cwt.user.utils.HashUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
@@ -24,9 +23,15 @@ public class User implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 40, max = 40)
+    @Size(min = 60, max = 60)
     @Column(name = "password_hash", length = 60)
     private String password;
+
+    @JsonIgnore
+    @NotNull
+    @Size(min = 40, max = 40)
+    @Column(name = "password_legacy_hash", length = 40)
+    private String password_legacy;
 
     @NotNull
     @Size(max = 16, min = 3)
@@ -64,11 +69,6 @@ public class User implements Serializable {
     public User() {
     }
 
-    @PrePersist
-    public void hashPassword() {
-        password = HashUtils.createHash(password);
-    }
-
     public Long getId() {
         return id;
     }
@@ -83,6 +83,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPassword_legacy() {
+        return password_legacy;
+    }
+
+    public void setPassword_legacy(String password_legacy) {
+        this.password_legacy = password_legacy;
     }
 
     public String getUsername() {
