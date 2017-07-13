@@ -28,12 +28,10 @@ public class User implements Serializable {
     private String password;
 
     @JsonIgnore
-    @NotNull
     @Size(min = 40, max = 40)
     @Column(name = "password_legacy_hash", length = 40)
     private String password_legacy;
 
-    @NotNull
     @Size(max = 16, min = 3)
     @Column(length = 16, unique = true, nullable = false)
     private String username;
