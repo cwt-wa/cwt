@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.user.repository.entity;
 
 import com.cwtsite.cwt.user.repository.entity.enumeration.Authority;
+import com.cwtsite.cwt.user.utils.HashUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
@@ -23,7 +24,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 60, max = 60)
+    @Size(min = 40, max = 40)
     @Column(name = "password_hash", length = 60)
     private String password;
 
@@ -61,6 +62,11 @@ public class User implements Serializable {
     private List<Authority> authorities;
 
     public User() {
+    }
+
+    @PrePersist
+    public void hashPassword() {
+        password = HashUtils.createHash(password);
     }
 
     public Long getId() {
