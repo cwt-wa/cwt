@@ -14,7 +14,7 @@ public class UserSetting implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "hide_profile")
@@ -27,7 +27,7 @@ public class UserSetting implements Serializable {
     @JoinColumn(unique = true)
     private User user;
 
-    protected UserSetting() {
+    public UserSetting() {
     }
 
     public Long getId() {

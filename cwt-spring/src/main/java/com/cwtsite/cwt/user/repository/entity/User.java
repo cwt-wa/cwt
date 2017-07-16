@@ -18,7 +18,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @JsonIgnore
@@ -57,14 +57,27 @@ public class User implements Serializable {
     @Column(name = "reset_date", nullable = true)
     private Date resetDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
     private List<Authority> authorities;
 
-    public User() {
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false, fetch = FetchType.EAGER, mappedBy = "user")
+    @JoinColumn(unique = true)
+    private UserProfile userProfile;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false, fetch = FetchType.EAGER, mappedBy = "user")
+    @JoinColumn(unique = true)
+    private UserSetting userSetting;
+
+    protected User() {
+    }
+
+    public User(UserProfile userProfile, UserSetting userSetting) {
+        this.userProfile = userProfile;
+        this.userSetting = userSetting;
     }
 
     public Long getId() {
@@ -145,6 +158,22 @@ public class User implements Serializable {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public UserSetting getUserSetting() {
+        return userSetting;
+    }
+
+    public void setUserSetting(UserSetting userSetting) {
+        this.userSetting = userSetting;
     }
 
     @Override

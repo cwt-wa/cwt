@@ -31,12 +31,4 @@ public class UserRestController {
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
         return user;
     }
-
-    @RequestMapping(value = "user/test", method = RequestMethod.GET)
-    public User getUserTest(HttpServletRequest request) {
-        User user = new User();
-        user.setUsername("Zemke");
-        return user;
-    }
-
 }

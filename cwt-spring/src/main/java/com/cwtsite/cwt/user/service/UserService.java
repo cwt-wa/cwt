@@ -2,6 +2,8 @@ package com.cwtsite.cwt.user.service;
 
 import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.user.repository.entity.UserProfile;
+import com.cwtsite.cwt.user.repository.entity.UserSetting;
 import com.cwtsite.cwt.user.view.model.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +32,7 @@ public class UserService {
     }
 
     private User map(UserRegistrationDto dto) {
-        User user = new User();
+        User user = new User(new UserProfile(), new UserSetting());
 
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
