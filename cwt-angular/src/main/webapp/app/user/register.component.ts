@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {RequestService} from "./_services/request.service";
-import {UserRegistration} from "./user-registration";
+import {RequestService} from "../_services/request.service";
+import {UserRegistration} from "./model/user-registration";
 const toastr = require('toastr/toastr.js');
 
 @Component({

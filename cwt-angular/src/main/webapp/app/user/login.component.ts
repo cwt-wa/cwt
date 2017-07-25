@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {User} from "./user";
+import {User} from "./model/user";
 
 @Component({
     selector: 'cwt-login',

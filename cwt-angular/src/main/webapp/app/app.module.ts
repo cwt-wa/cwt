@@ -5,12 +5,12 @@ import {FormsModule} from "@angular/forms";
 import {AppComponent} from "./app.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {WebAppViewService} from "./_services/web-app-view.service";
-import {GmtClockComponent} from "./gmt-clock.component";
+import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {RouterModule, Routes} from "@angular/router";
-import {HomeComponent} from "./home.component";
-import {PageNotFoundComponent} from "./page-not-found.component";
-import {RegisterComponent} from "./register.component";
-import {LoginComponent} from "./login.component";
+import {HomeComponent} from "./home/home.component";
+import {PageNotFoundComponent} from "./_util/page-not-found.component";
+import {RegisterComponent} from "./user/register.component";
+import {LoginComponent} from "./user/login.component";
 import {APP_CONFIG, appConfig} from "./app.config";
 import {RequestService} from "./_services/request.service";
 

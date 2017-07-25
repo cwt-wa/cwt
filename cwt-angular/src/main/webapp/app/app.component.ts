@@ -1,6 +1,6 @@
 import {AfterViewInit, Component} from "@angular/core";
 import {WebAppViewService} from "./_services/web-app-view.service";
-import {GmtClockComponent} from "./gmt-clock.component";
+import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
 
 @Component({
