@@ -7,6 +7,7 @@ import com.cwtsite.cwt.user.repository.entity.UserSetting;
 import com.cwtsite.cwt.user.view.model.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,12 @@ public class UserService {
     private String salt;
 
     private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,  AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
     }
 
     @Transactional
@@ -37,6 +40,7 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
         user.setPassword(createHash(dto.getPassword()));
+        user.setActivated(true);
 
         return user;
     }

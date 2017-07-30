@@ -2,17 +2,17 @@
     <div class="col-xs-6 col-sm-6 col-md-5">
         <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" aria-describedby="username" placeholder="Username"
-                       [(ngModel)]="user.name" name="name" #name="ngModel" required>
-                <div class="text-danger" *ngIf="name.errors && name.dirty">
-                    <div [hidden]="!name.errors.required">
-                        Your name is mandatory.
+                <input type="text" class="form-control" id="username" aria-describedby="username" placeholder="Username"
+                       [(ngModel)]="userLogin.username" name="username" #username="ngModel" required>
+                <div class="text-danger" *ngIf="username.errors && username.dirty">
+                    <div [hidden]="!username.errors.required">
+                        Your username is mandatory.
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" id="password" aria-describedby="password" placeholder="Password"
-                       [(ngModel)]="user.password" name="password" required #password="ngModel">
+                       [(ngModel)]="userLogin.password" name="password" required #password="ngModel">
                 <div class="text-danger" *ngIf="password.errors && password.dirty">
                     <div [hidden]="!password.errors.required">
                         Please enter a password.

@@ -13,6 +13,7 @@ import {RegisterComponent} from "./user/register.component";
 import {LoginComponent} from "./user/login.component";
 import {APP_CONFIG, appConfig} from "./app.config";
 import {RequestService} from "./_services/request.service";
+import {AuthService} from "./_services/auth.service";
 
 const appRoutes: Routes = [
     {
@@ -56,6 +57,7 @@ const appRoutes: Routes = [
     ],
     providers: [
         WebAppViewService,
+        AuthService,
         RequestService,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
