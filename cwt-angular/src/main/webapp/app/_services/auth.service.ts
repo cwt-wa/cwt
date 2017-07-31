@@ -8,7 +8,11 @@ export class AuthService {
     constructor() {
     }
 
-    storeToken(token: string): void {
+    public storeToken(token: string): void {
         return localStorage.setItem(AuthService.AUTH_TOKEN_STORAGE_KEY, token);
+    }
+
+    public getToken(): string {
+        return localStorage.getItem(AuthService.AUTH_TOKEN_STORAGE_KEY);
     }
 }

@@ -1,16 +1,17 @@
 import {Inject, Injectable} from "@angular/core";
-import {Http, RequestMethod, RequestOptionsArgs, Response, URLSearchParams} from "@angular/http";
+import {Headers, Http, RequestMethod, RequestOptionsArgs, Response, URLSearchParams} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {APP_CONFIG, AppConfig} from "../app.config";
+import {AuthService} from "./auth.service";
 
 export type QueryParams = string | URLSearchParams | { [key: string]: any | any[]; } | null;
 
 @Injectable()
 export class RequestService {
 
-    constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig) {
+    constructor(private http: Http, private authService: AuthService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     public get<T>(relativePath: string, params?: QueryParams): Observable<T> {
@@ -25,7 +26,10 @@ export class RequestService {
         return this.request(relativePath, {params, method: RequestMethod.Delete});
     }
 
-    private request<T>(relativePath: string, options: RequestOptionsArgs): Observable<T> {
+    private request<T>(relativePath: string, options: RequestOptionsArgs = {}): Observable<T> {
+        options.headers = options.headers || new Headers();
+        options.headers.append('Authorization', this.authService.getToken());
+
         return this.http.request(this.appConfig.apiEndpoint + relativePath, options)
             .map(this.extractData)
             .catch(this.handleError);
@@ -36,7 +40,6 @@ export class RequestService {
     }
 
     private handleError(error: Response | any) {
-        // In a real world app, you might use a remote logging infrastructure
         let errMsg: string;
         if (error instanceof Response) {
             const body = error.json() || '';
