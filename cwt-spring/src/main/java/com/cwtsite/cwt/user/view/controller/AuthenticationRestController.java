@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.user.view.controller;
 
-import com.cwtsite.cwt.user.repository.entity.User;
 import com.cwtsite.cwt.user.service.JwtTokenUtil;
 import com.cwtsite.cwt.user.service.UserService;
 import com.cwtsite.cwt.user.view.model.JwtAuthenticationRequest;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping(value = "api/auth")
 public class AuthenticationRestController {
 
     @Value("${jwt.header}")
@@ -38,34 +38,38 @@ public class AuthenticationRestController {
     private final UserService userService;
 
     @Autowired
-    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService, UserService userService) {
+    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
+                                        UserDetailsService userDetailsService, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
     }
 
-    @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+    @RequestMapping(path = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> register(@RequestBody @Valid UserRegistrationDto userRegistrationDto) {
+        return ResponseEntity.ok(userService.registerUser(userRegistrationDto));
+    }
 
-        // Perform the security
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
+                                                       Device device) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()
                 )
         );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Reload password post-security so we can generate token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
 
-        // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
 
-    @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
+    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -77,11 +81,6 @@ public class AuthenticationRestController {
         } else {
             return ResponseEntity.badRequest().body(null);
         }
-    }
-
-    @RequestMapping(path = "/auth/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody @Valid UserRegistrationDto userRegistrationDto) {
-        return ResponseEntity.ok(userService.registerUser(userRegistrationDto));
     }
 }
 

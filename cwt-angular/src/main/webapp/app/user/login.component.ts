@@ -15,7 +15,7 @@ export class LoginComponent {
     }
 
     onSubmit() {
-        this.requestService.post<{token: string}>('auth', this.userLogin)
+        this.requestService.post<{token: string}>('auth/login', this.userLogin)
             .subscribe(
                 (wrappedToken) => {
                     toastr.success('You have been logged in successfully.');
