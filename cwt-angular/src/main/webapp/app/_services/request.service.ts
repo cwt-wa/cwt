@@ -28,7 +28,9 @@ export class RequestService {
 
     private request<T>(relativePath: string, options: RequestOptionsArgs = {}): Observable<T> {
         options.headers = options.headers || new Headers();
-        options.headers.append('Authorization', this.authService.getToken());
+
+        const token = this.authService.getToken();
+        token && options.headers.append('Authorization', token);
 
         return this.http.request(this.appConfig.apiEndpoint + relativePath, options)
             .map(this.extractData)

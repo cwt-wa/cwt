@@ -4,12 +4,17 @@
             <div class="col-md-6 cwt-gmt">
                 <cwt-gmt-clock></cwt-gmt-clock>
             </div>
-            <div class="col-md-6 text-md-right">
+            <div class="col-md-6 text-md-right" *ngIf="!username">
                 <a routerLink="/login" class="btn">
                     Log in
                 </a>
                 <a routerLink="/register" class="btn">
                     Register
+                </a>
+            </div>
+            <div class="col-md-6 text-md-right" *ngIf="username">
+                <a routerLink="/" class="btn" style="overflow: hidden;">
+                    {{username}}
                 </a>
             </div>
         </div>

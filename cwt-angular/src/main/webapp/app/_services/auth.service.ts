@@ -15,4 +15,12 @@ export class AuthService {
     public getToken(): string {
         return localStorage.getItem(AuthService.AUTH_TOKEN_STORAGE_KEY);
     }
+
+    public voidToken(): void {
+        return localStorage.removeItem(AuthService.AUTH_TOKEN_STORAGE_KEY);
+    }
+
+    public getTokenPayload(): {sub: string, audience: string, created: number, exp: number} {
+        return JSON.parse(atob(this.getToken().split('.')[1]));
+    }
 }
