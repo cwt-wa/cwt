@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.user.service;
 
 import com.cwtsite.cwt.user.repository.UserRepository;
+import com.cwtsite.cwt.user.repository.entity.AuthorityName;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.cwtsite.cwt.user.repository.entity.UserProfile;
 import com.cwtsite.cwt.user.repository.entity.UserSetting;
@@ -35,7 +36,7 @@ public class UserService {
     }
 
     private User map(UserRegistrationDto dto) {
-        User user = new User(new UserProfile(), new UserSetting());
+        User user = new User(new UserProfile(), new UserSetting(), AuthorityName.ROLE_USER);
 
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());

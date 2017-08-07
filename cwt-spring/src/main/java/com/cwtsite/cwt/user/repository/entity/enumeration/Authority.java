@@ -1,11 +1,9 @@
 package com.cwtsite.cwt.user.repository.entity.enumeration;
 
 import com.cwtsite.cwt.user.repository.entity.AuthorityName;
-import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 @Table
@@ -20,8 +18,12 @@ public class Authority {
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
-    private List<User> users;
+    public Authority() {
+    }
+
+    public Authority(AuthorityName name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -39,16 +41,12 @@ public class Authority {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     @Override
     public String toString() {
         return name.toString();
+    }
+
+    public static Authority fromName(AuthorityName authorityName) {
+        return new Authority(authorityName);
     }
 }

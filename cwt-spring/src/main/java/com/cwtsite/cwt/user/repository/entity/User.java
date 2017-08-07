@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -75,9 +76,10 @@ public class User implements Serializable {
     protected User() {
     }
 
-    public User(UserProfile userProfile, UserSetting userSetting) {
+    public User(UserProfile userProfile, UserSetting userSetting, AuthorityName initialRole) {
         this.userProfile = userProfile;
         this.userSetting = userSetting;
+        authorities = Collections.singletonList(Authority.fromName(initialRole));
     }
 
     public Long getId() {
