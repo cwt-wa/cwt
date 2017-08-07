@@ -13,6 +13,9 @@
                 </a>
             </div>
             <div class="col-md-6 text-md-right" *ngIf="username">
+                <a routerLink="/admin" class="btn" style="overflow: hidden;">
+                    Admin
+                </a>
                 <a routerLink="/" class="btn" style="overflow: hidden;">
                     {{username}} <!-- TODO Care for longer usernames -->
                 </a>

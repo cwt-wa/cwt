@@ -14,14 +14,11 @@ import {LoginComponent} from "./user/login.component";
 import {APP_CONFIG, appConfig} from "./app.config";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
+import {AdminComponent} from "./admin.component";
 
 const appRoutes: Routes = [
     {
         path: '',
-        component: HomeComponent
-    },
-    {
-        path: 'dulli',
         component: HomeComponent
     },
     {
@@ -31,6 +28,10 @@ const appRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'admin',
+        component: AdminComponent
     },
     {
         path: '**',
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
         PageNotFoundComponent,
         GmtClockComponent,
         RegisterComponent,
-        LoginComponent
+        LoginComponent,
+        AdminComponent
     ],
     providers: [
         WebAppViewService,
