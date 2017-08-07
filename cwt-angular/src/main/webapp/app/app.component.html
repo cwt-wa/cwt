@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6 text-md-right" *ngIf="username">
                 <a routerLink="/" class="btn" style="overflow: hidden;">
-                    {{username}}
+                    {{username}} <!-- TODO Care for longer usernames -->
                 </a>
             </div>
         </div>
@@ -41,10 +41,13 @@
             <i class="fa fa-lg fa-user cwt-user-panel-icon no-caret"
                [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
             </i>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" *ngIf="!username">
                 <a routerLink="/login" class="dropdown-item">Log in</a>
                 <div class="dropdown-divider"></div>
                 <a routerLink="/register" class="dropdown-item">Register</a>
+            </div>
+            <div class="dropdown-menu" *ngIf="username">
+                <a routerLink="/" class="dropdown-item">{{username}}</a>
             </div>
         </div>
     </div>
