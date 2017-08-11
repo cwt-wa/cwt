@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-    selector: 'cwt-admin-component',
+    selector: 'cwt-admin',
     template: require('./admin-component.component.html')
 })
 

@@ -15,6 +15,7 @@ import {APP_CONFIG, appConfig} from "./app.config";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
 import {AdminComponent} from "./admin.component";
+import {AdminTournamentStartComponent} from "./admin-tournament-start.component";
 
 const appRoutes: Routes = [
     {
@@ -32,6 +33,10 @@ const appRoutes: Routes = [
     {
         path: 'admin',
         component: AdminComponent
+    },
+    {
+        path: 'admin/tournament/start',
+        component: AdminTournamentStartComponent
     },
     {
         path: '**',
@@ -55,7 +60,8 @@ const appRoutes: Routes = [
         GmtClockComponent,
         RegisterComponent,
         LoginComponent,
-        AdminComponent
+        AdminComponent,
+        AdminTournamentStartComponent
     ],
     providers: [
         WebAppViewService,
