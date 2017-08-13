@@ -8,9 +8,12 @@ import com.cwtsite.cwt.user.repository.entity.UserSetting;
 import com.cwtsite.cwt.user.view.model.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 public class UserService {
@@ -40,5 +43,9 @@ public class UserService {
         user.setActivated(true);
 
         return user;
+    }
+
+    public List<User> getAllOrderedByUsername() {
+        return userRepository.findAll(new Sort("username"));
     }
 }

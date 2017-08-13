@@ -1,9 +1,8 @@
 package com.cwtsite.cwt.user.view.controller;
 
-import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,15 +14,15 @@ import java.util.List;
 @RequestMapping(value = "api/user")
 public class UserRestController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserRestController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserRestController(UserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
     public ResponseEntity<List<User>> register() {
-        return ResponseEntity.ok(this.userRepository.findAll(new Sort("username")));
+        return ResponseEntity.ok(userService.getAllOrderedByUsername());
     }
 }
