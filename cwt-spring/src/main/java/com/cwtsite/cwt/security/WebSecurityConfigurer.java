@@ -66,7 +66,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // allow anonymous resource requests
                 .antMatchers(
@@ -78,9 +78,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/user/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll(); // TODO
 
         // Custom JWT based security filter
         httpSecurity
