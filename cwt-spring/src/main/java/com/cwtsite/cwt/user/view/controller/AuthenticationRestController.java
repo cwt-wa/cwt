@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.user.view.controller;
 
+import com.cwtsite.cwt.user.service.AuthService;
 import com.cwtsite.cwt.user.service.JwtTokenUtil;
 import com.cwtsite.cwt.user.service.UserService;
 import com.cwtsite.cwt.user.view.model.JwtAuthenticationRequest;
@@ -29,21 +30,21 @@ import javax.validation.Valid;
 @RequestMapping(value = "api/auth")
 public class AuthenticationRestController {
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
     private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
     public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                                        UserDetailsService userDetailsService, UserService userService) {
+                                        UserDetailsService userDetailsService, UserService userService,
+                                        AuthService authService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
+        this.authService = authService;
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
@@ -71,7 +72,7 @@ public class AuthenticationRestController {
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public ResponseEntity<JwtAuthenticationResponse> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-        String token = request.getHeader(tokenHeader);
+        String token = request.getHeader(authService.getTokenHeaderName());
         if (token == null) {
             return ResponseEntity.ok(null);
         }

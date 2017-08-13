@@ -57,7 +57,7 @@ public class Tournament implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "moderators_id", referencedColumnName = "ID"))
     private Set<User> moderators = new HashSet<>();
 
-    protected Tournament() {
+    public Tournament() {
     }
 
     public Long getId() {

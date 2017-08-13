@@ -34,6 +34,9 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.expiration}")
     private Long expiration;
 
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
     public String getUsernameFromToken(String token) {
         String username;
         try {
