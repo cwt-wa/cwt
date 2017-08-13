@@ -5,6 +5,7 @@ import com.cwtsite.cwt.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -42,5 +43,13 @@ public class TournamentService {
         tournament.setStatus(TournamentStatus.OPEN);
 
         return tournamentRepository.save(tournament);
+    }
+
+    public Tournament getTournament(final long id) {
+        return tournamentRepository.findOne(id);
+    }
+
+    public Tournament getCurrentTournament() {
+        tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED);
     }
 }
