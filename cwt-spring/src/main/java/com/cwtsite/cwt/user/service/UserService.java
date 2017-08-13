@@ -1,5 +1,9 @@
 package com.cwtsite.cwt.user.service;
 
+import com.cwtsite.cwt.application.service.ApplicationRepository;
+import com.cwtsite.cwt.entity.Tournament;
+import com.cwtsite.cwt.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.tournament.service.TournamentService;
 import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.AuthorityName;
 import com.cwtsite.cwt.user.repository.entity.User;
@@ -7,9 +11,7 @@ import com.cwtsite.cwt.user.repository.entity.UserProfile;
 import com.cwtsite.cwt.user.repository.entity.UserSetting;
 import com.cwtsite.cwt.user.view.model.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +22,15 @@ public class UserService {
 
     private final AuthService authService;
     private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
+    private final TournamentService tournamentService;
+    private final ApplicationRepository applicationRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, AuthService authService) {
+    public UserService(UserRepository userRepository, AuthService authService, TournamentService tournamentService, ApplicationRepository applicationRepository) {
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
         this.authService = authService;
+        this.tournamentService = tournamentService;
+        this.applicationRepository = applicationRepository;
     }
 
     @Transactional
@@ -45,7 +49,18 @@ public class UserService {
         return user;
     }
 
+    public Boolean userCanApplyForCurrentTournament(User user) {
+        Tournament currentTournament = tournamentService.getCurrentTournament();
+
+        return currentTournament != null && TournamentStatus.OPEN == currentTournament.getStatus()
+                && applicationRepository.findByApplicantAndTournament(user, currentTournament) != null;
+    }
+
     public List<User> getAllOrderedByUsername() {
         return userRepository.findAll(new Sort("username"));
+    }
+
+    public User getById(long id) {
+        return userRepository.findOne(id);
     }
 }
