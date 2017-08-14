@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import {JwtTokenPayload} from "../user/model/jwt-token-payload";
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
         return localStorage.removeItem(AuthService.AUTH_TOKEN_STORAGE_KEY);
     }
 
-    public getTokenPayload(): {sub: string, audience: string, created: number, exp: number} {
+    public getTokenPayload(): JwtTokenPayload {
         return JSON.parse(atob(this.getToken().split('.')[1]));
     }
 }
