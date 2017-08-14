@@ -34,7 +34,6 @@ public class JwtUser implements UserDetails {
         this.resetDate = resetDate;
     }
 
-    @JsonIgnore
     public Long getId() {
         return id;
     }
