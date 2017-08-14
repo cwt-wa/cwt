@@ -50,6 +50,6 @@ public class TournamentService {
     }
 
     public Tournament getCurrentTournament() {
-        tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED);
+        return tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED);
     }
 }
