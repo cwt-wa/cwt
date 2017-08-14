@@ -1,9 +1,11 @@
 package com.cwtsite.cwt.user.service;
 
+import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.view.model.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +21,10 @@ public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -3301605591108950415L;
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_AUDIENCE = "audience";
-    static final String CLAIM_KEY_CREATED = "created";
+    private static final String CLAIM_KEY_USERNAME = "sub";
+    private static final String CLAIM_KEY_AUDIENCE = "audience";
+    private static final String CLAIM_KEY_CREATED = "created";
+    private static final String PUBLIC_CLAIM_KEY_CONTEXT = "context";
 
     private static final String AUDIENCE_UNKNOWN = "unknown";
     private static final String AUDIENCE_WEB = "web";
@@ -36,6 +39,14 @@ public class JwtTokenUtil implements Serializable {
 
     @Value("${jwt.header}")
     private String tokenHeader;
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public JwtTokenUtil(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
 
     public String getUsernameFromToken(String token) {
         String username;
@@ -129,6 +140,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
         claims.put(CLAIM_KEY_CREATED, new Date());
+        claims.put(PUBLIC_CLAIM_KEY_CONTEXT, new JwtTokenContext((JwtUser) userDetails));
         return generateToken(claims);
     }
 
