@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.tournament.service;
 
+import com.cwtsite.cwt.application.service.ApplicationRepository;
+import com.cwtsite.cwt.entity.Application;
 import com.cwtsite.cwt.entity.Tournament;
 import com.cwtsite.cwt.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.user.repository.UserRepository;
@@ -18,11 +20,14 @@ public class TournamentService {
 
     private final UserRepository userRepository;
     private final TournamentRepository tournamentRepository;
+    private final ApplicationRepository applicationRepository;
 
     @Autowired
-    public TournamentService(UserRepository userRepository, TournamentRepository tournamentRepository) {
+    public TournamentService(UserRepository userRepository, TournamentRepository tournamentRepository,
+                             ApplicationRepository applicationRepository) {
         this.userRepository = userRepository;
         this.tournamentRepository = tournamentRepository;
+        this.applicationRepository = applicationRepository;
     }
 
     public Tournament startNewTournament(final User host, final List<Long> moderatorIds) throws IllegalStateException {
@@ -51,5 +56,9 @@ public class TournamentService {
 
     public Tournament getCurrentTournament() {
         return tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED);
+    }
+
+    public List<Application> getApplicants(Tournament tournament) {
+        return this.applicationRepository.findByTournament(tournament);
     }
 }

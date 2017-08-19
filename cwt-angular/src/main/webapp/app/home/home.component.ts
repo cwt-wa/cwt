@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {AuthService} from "../_services/auth.service";
-import {JwtUser} from "../user/model/jwt-token-payload";
+import {JwtUser} from "../custom";
 
 @Component({
     selector: 'cwt-home',

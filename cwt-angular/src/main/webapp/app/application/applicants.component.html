@@ -1,0 +1,17 @@
+<h1>Applicants</h1>
+
+<div *ngIf="applications">
+    <p class="lead mb-4">
+        Current
+        {{applications.length}}
+        applicant{{applications.length === 1 ? '' : 's'}}
+        of the upcoming edition of
+        <span class="cwt-label"></span>.
+    </p>
+
+    <p>
+        <span *ngFor="let application of applications; let last = last">
+            <a [routerLink]="['/user', application.applicant.id]">{{application.applicant.username}}</a>{{last ? '' : ', '}}
+        </span>
+    </p>
+</div>

@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.tournament.view.controller;
 
+import com.cwtsite.cwt.entity.Application;
 import com.cwtsite.cwt.entity.Tournament;
 import com.cwtsite.cwt.tournament.service.TournamentService;
 import com.cwtsite.cwt.tournament.view.model.StartNewTournamentDto;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/tournament")
@@ -47,5 +49,11 @@ public class TournamentRestController {
         return tournament == null
                 ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
                 : ResponseEntity.ok(tournament);
+    }
+
+    @RequestMapping(path = "/current/applications", method = RequestMethod.GET)
+    public ResponseEntity<List<Application>> getApplicantsOfCurrentTournament() {
+        Tournament tournament = tournamentService.getCurrentTournament();
+        return ResponseEntity.ok(tournamentService.getApplicants(tournament));
     }
 }

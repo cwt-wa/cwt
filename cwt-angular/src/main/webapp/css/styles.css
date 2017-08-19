@@ -452,3 +452,8 @@ a {
     transform: rotate(-90deg);
     transition: top 0.12s 0.18s cubic-bezier(0.33333, 0, 0.66667, 0.33333), transform 0.15s 0.42s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
+
+.cwt-label:before {
+    content: 'Crespo’s Worms Tournament';
+    white-space: nowrap;
+}

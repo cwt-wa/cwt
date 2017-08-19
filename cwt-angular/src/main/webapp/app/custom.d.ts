@@ -15,3 +15,12 @@ export interface JwtTokenPayload {
     };
     exp: number;
 }
+
+
+interface Application {
+    id: number;
+    created: Date;
+    revoked: boolean;
+    tournament: any;
+    applicant: any;
+}

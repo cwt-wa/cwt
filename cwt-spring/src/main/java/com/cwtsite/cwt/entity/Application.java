@@ -35,6 +35,11 @@ public class Application implements Serializable {
     protected Application() {
     }
 
+    public Application(Tournament tournament, User applicant) {
+        this.tournament = tournament;
+        this.applicant = applicant;
+    }
+
     public Long getId() {
         return id;
     }

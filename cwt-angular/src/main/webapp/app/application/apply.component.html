@@ -1,28 +1,22 @@
-<h1 class="mb-4">Apply</h1>
+<h1>Apply</h1>
 
-<p>
-    Your application will be considered under the aspects of credibility, activity, skill and awareness. Please keep
-    yourself up to date.
+<p class="lead mb-4">
+    Apply for playing in the next edition of <span class="cwt-label"></span>.
 </p>
-
-<p>
-    The organizers of this tournament may remind you again, that this is only an application and we reserve the
-    decision on who to accept for the tournament.
-</p>
-
-<p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac mauris non nisi iaculis commodo. Sed convallis bibendum
-    dui nec posuere. Phasellus quis ante ut orci vulputate semper vitae lobortis odio. Mauris vel orci et nulla euismod eleifend.
-    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla faucibus nisl sit amet ex
-    ultricies eleifend. Suspendisse a leo fringilla ipsum venenatis posuere. Fusce placerat nunc sed fermentum pulvinar. Mauris eu
-    quam ut urna laoreet varius sit amet non ex. Duis felis lacus, auctor accumsan cursus non, volutpat et nisl. Sed in turpis
-    interdum augue ultricies luctus. Donec ac mattis arcu, eget lobortis massa.
-</p>
-
 <p>
     {{rules}}
 </p>
 
-<form>
-
-</form>
+<div class="row">
+    <div class="col-10 offset-2">
+        <form #applyForm="ngForm" (ngSubmit)="submit()">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" required [(ngModel)]="agreeToRules" name="agreeToRules">
+                    I have read and agree to the rules
+                </label>
+            </div>
+            <button class="btn btn-primary" [disabled]="!applyForm.form.valid">Apply</button>
+        </form>
+    </div>
+</div>
