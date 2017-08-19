@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.user.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -43,6 +45,7 @@ public class UserProfile implements Serializable {
     @Column(name = "about")
     private String about;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(unique = true)
     private User user;

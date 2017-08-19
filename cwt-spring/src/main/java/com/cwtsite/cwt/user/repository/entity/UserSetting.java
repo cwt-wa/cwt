@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.user.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -23,6 +25,7 @@ public class UserSetting implements Serializable {
     @Column(name = "hide_email")
     private Boolean hideEmail;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(unique = true)
     private User user;
