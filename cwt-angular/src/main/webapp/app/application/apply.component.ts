@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {RequestService} from "../_services/request.service";
 
 @Component({
     selector: 'cwt-apply',
@@ -6,9 +7,14 @@ import {Component, OnInit} from '@angular/core';
 })
 
 export class ApplyComponent implements OnInit {
-    constructor() {
+
+    private rules: string;
+
+    constructor(private requestService: RequestService) {
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
+        this.requestService.get<string[]>('rules/current')
+            .subscribe(res => this.rules = res[0]);
     }
 }
