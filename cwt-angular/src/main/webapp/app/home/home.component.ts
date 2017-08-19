@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.authenticatedUser = this.authService.getTokenPayload().context.user;
+        this.authenticatedUser = this.authService.getUserFromTokenPayload();
     }
 
 }

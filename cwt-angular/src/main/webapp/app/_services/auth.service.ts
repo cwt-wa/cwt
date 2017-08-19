@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {JwtTokenPayload} from "../user/model/jwt-token-payload";
+import {JwtTokenPayload, JwtUser} from "../user/model/jwt-token-payload";
 
 @Injectable()
 export class AuthService {
@@ -22,6 +22,15 @@ export class AuthService {
     }
 
     public getTokenPayload(): JwtTokenPayload {
-        return JSON.parse(atob(this.getToken().split('.')[1]));
+        const token: string = this.getToken();
+        return token ? JSON.parse(atob(token.split('.')[1])) : null;
+    }
+
+    public getUserFromTokenPayload(): JwtUser {
+        const tokenPayload: JwtTokenPayload = this.getTokenPayload();
+
+        return tokenPayload && tokenPayload.context
+            ? tokenPayload.context.user
+            : null;
     }
 }
