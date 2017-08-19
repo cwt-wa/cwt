@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class JwtUser implements UserDetails {
+public class JwtUser<T extends GrantedAuthority> implements UserDetails {
 
     private final Long id;
     private final String username;
@@ -17,12 +18,13 @@ public class JwtUser implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean activated;
     private final Date resetDate;
+    private final List<String> roles;
 
     public JwtUser(Long id,
                    String username,
                    String email,
                    String password,
-                   Collection<? extends GrantedAuthority> authorities,
+                   Collection<T> authorities,
                    boolean activated,
                    Date resetDate) {
         this.id = id;
@@ -30,6 +32,10 @@ public class JwtUser implements UserDetails {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.roles = authorities.stream()
+                .map(a -> (T) a)
+                .map(T::getAuthority)
+                .collect(Collectors.toList());
         this.activated = activated;
         this.resetDate = resetDate;
     }
@@ -71,6 +77,11 @@ public class JwtUser implements UserDetails {
         return password;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

@@ -2,7 +2,7 @@ export interface JwtUser {
     id: number;
     username: string;
     email: string;
-    authorities: ("ROLE_USER" | "ROLE_ADMIN")[];
+    roles: ("ROLE_USER" | "ROLE_ADMIN")[];
     enabled: boolean;
 }
 

@@ -4,7 +4,7 @@
             <div class="col-md-6 cwt-gmt">
                 <cwt-gmt-clock></cwt-gmt-clock>
             </div>
-            <div class="col-md-6 text-md-right" *ngIf="!username">
+            <div class="col-md-6 text-md-right" *ngIf="!authenticatedUser">
                 <a routerLink="/login" class="btn">
                     Log in
                 </a>
@@ -12,15 +12,15 @@
                     Register
                 </a>
             </div>
-            <div class="col-md-6 text-md-right" *ngIf="username">
-                <a routerLink="/admin" class="btn" style="overflow: hidden;">
+            <div class="col-md-6 text-md-right" *ngIf="authenticatedUser">
+                <a routerLink="/admin" class="btn" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                     Admin
                 </a>
                 <button class="btn" (click)="logOut()">
                     Log out
                 </button>
                 <a routerLink="/" class="btn" style="overflow: hidden;">
-                    {{username}} <!-- TODO Care for longer usernames -->
+                    {{authenticatedUser.username}} <!-- TODO Care for longer usernames -->
                 </a>
             </div>
         </div>
@@ -47,13 +47,18 @@
             <i class="fa fa-lg fa-user cwt-user-panel-icon no-caret"
                [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
             </i>
-            <div class="dropdown-menu" *ngIf="!username">
+            <div class="dropdown-menu" *ngIf="!authenticatedUser">
                 <a routerLink="/login" class="dropdown-item">Log in</a>
                 <div class="dropdown-divider"></div>
                 <a routerLink="/register" class="dropdown-item">Register</a>
             </div>
-            <div class="dropdown-menu" *ngIf="username">
-                <a routerLink="/" class="dropdown-item">{{username}}</a>
+            <div class="dropdown-menu" *ngIf="authenticatedUser">
+                <a routerLink="/" class="dropdown-item">
+                    {{authenticatedUser.username}}
+                </a>
+                <a routerLink="/" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
+                    Admin
+                </a>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
+import {JwtUser} from "./custom";
 
 @Component({
     selector: 'my-app',
@@ -15,7 +16,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
-    private username: string;
+    private authenticatedUser: JwtUser;
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
                 private router: Router, private authService: AuthService) {
@@ -27,7 +28,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         this.requestService.get<{ token: string }>('auth/refresh').subscribe(
             res => {
                 this.authService.storeToken(res.token);
-                this.username = this.authService.getTokenPayload().sub;
+                this.authenticatedUser = this.authService.getUserFromTokenPayload();
             },
             () => this.authService.voidToken()
         );
@@ -39,6 +40,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     public logOut(): void {
         this.authService.voidToken();
-        this.username = null;
+        this.authenticatedUser = null;
     }
 }

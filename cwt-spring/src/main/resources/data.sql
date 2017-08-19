@@ -2,6 +2,7 @@ INSERT INTO authority (id, name) VALUES (40, 'ROLE_USER');
 INSERT INTO authority (id, name) VALUES (41, 'ROLE_ADMIN');
 INSERT INTO public.user_ (id, activated, activation_key, email, password_hash, password_legacy_hash, reset_date, reset_key, username) VALUES (1, true, null, '1@1', '$2a$10$bjMYWhe0CdANS4aD0k0r8OUMLDv2wrCg3M2WLsjwU.VwYHzyCLcH2', null, null, null, 'Bytor');
 INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 41);
+INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 40);
 INSERT INTO public.user_profile (id, about, clan, country, email, facebook, modified, skype, twitter, user_id) VALUES (1, null, null, null, null, null, null, null, null, 1);
 INSERT INTO public.user_ (id, activated, activation_key, email, password_hash, password_legacy_hash, reset_date, reset_key, username) VALUES (2, true, null, '2@2', '$2a$10$bjMYWhe0CdANS4aD0k0r8OUMLDv2wrCg3M2WLsjwU.VwYHzyCLcH2', null, null, null, 'khamski');
 INSERT INTO public.user_authority (user_id, authority_id) VALUES (2, 40);
