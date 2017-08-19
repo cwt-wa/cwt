@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.configuration.entity;
 
 
 import com.cwtsite.cwt.user.repository.entity.User;
@@ -20,7 +20,7 @@ public class Configuration implements Serializable {
     @Column(name = "key")
     private String key;
 
-    @Column(name = "value")
+    @Column(name = "value", columnDefinition = "text")
     private String value;
 
     @Column(name = "created")
