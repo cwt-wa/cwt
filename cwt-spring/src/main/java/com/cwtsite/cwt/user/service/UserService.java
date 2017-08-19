@@ -53,7 +53,7 @@ public class UserService {
         Tournament currentTournament = tournamentService.getCurrentTournament();
 
         return currentTournament != null && TournamentStatus.OPEN == currentTournament.getStatus()
-                && applicationRepository.findByApplicantAndTournament(user, currentTournament) != null;
+                && applicationRepository.findByApplicantAndTournament(user, currentTournament) == null;
     }
 
     public List<User> getAllOrderedByUsername() {
