@@ -36,4 +36,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     public ngAfterViewInit(): void {
         this.router.setUpLocationChangeListener();
     }
+
+    public logOut(): void {
+        this.authService.voidToken();
+        this.username = null;
+    }
 }

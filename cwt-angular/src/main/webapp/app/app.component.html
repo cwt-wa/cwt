@@ -16,6 +16,9 @@
                 <a routerLink="/admin" class="btn" style="overflow: hidden;">
                     Admin
                 </a>
+                <button class="btn" (click)="logOut()">
+                    Log out
+                </button>
                 <a routerLink="/" class="btn" style="overflow: hidden;">
                     {{username}} <!-- TODO Care for longer usernames -->
                 </a>
