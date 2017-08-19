@@ -2,10 +2,11 @@
 
 <div *ngIf="applications">
     <p class="lead mb-4">
-        Current
+        There currently
+        {{applications.length === 1 ? 'is' : 'are'}}
         {{applications.length}}
         applicant{{applications.length === 1 ? '' : 's'}}
-        of the upcoming edition of
+        for the upcoming edition of
         <span class="cwt-label"></span>.
     </p>
 
