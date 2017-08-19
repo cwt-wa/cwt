@@ -17,6 +17,7 @@ import {AuthService} from "./_services/auth.service";
 import {AdminComponent} from "./admin.component";
 import {AdminTournamentStartComponent} from "./admin-tournament-start.component";
 import {ApplyBannerComponent} from "./application/apply-banner.component";
+import {ApplyComponent} from "./application/apply.component";
 
 const appRoutes: Routes = [
     {
@@ -38,6 +39,10 @@ const appRoutes: Routes = [
     {
         path: 'admin/tournament/start',
         component: AdminTournamentStartComponent
+    },
+    {
+        path: 'apply',
+        component: ApplyComponent
     },
     {
         path: '**',
@@ -63,7 +68,8 @@ const appRoutes: Routes = [
         LoginComponent,
         AdminComponent,
         AdminTournamentStartComponent,
-        ApplyBannerComponent
+        ApplyBannerComponent,
+        ApplyComponent
     ],
     providers: [
         WebAppViewService,
