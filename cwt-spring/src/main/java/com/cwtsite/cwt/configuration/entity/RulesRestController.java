@@ -2,11 +2,10 @@ package com.cwtsite.cwt.configuration.entity;
 
 
 import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
-import com.cwtsite.cwt.configuration.entity.service.ConfigurationService;
+import com.cwtsite.cwt.configuration.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

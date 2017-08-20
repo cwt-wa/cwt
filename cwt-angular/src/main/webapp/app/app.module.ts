@@ -19,6 +19,7 @@ import {AdminTournamentStartComponent} from "./admin-tournament-start.component"
 import {ApplyBannerComponent} from "./application/apply-banner.component";
 import {ApplyComponent} from "./application/apply.component";
 import {ApplicantsComponent} from "./application/applicants.component";
+import {AdminGroupsStartComponent} from "./group/admin-groups-start.component";
 
 const appRoutes: Routes = [
     {
@@ -40,6 +41,10 @@ const appRoutes: Routes = [
     {
         path: 'admin/tournaments/start',
         component: AdminTournamentStartComponent
+    },
+    {
+        path: 'admin/groups/start',
+        component: AdminGroupsStartComponent
     },
     {
         path: 'apply',
@@ -76,6 +81,7 @@ const appRoutes: Routes = [
         ApplyBannerComponent,
         ApplyComponent,
         ApplicantsComponent,
+        AdminGroupsStartComponent,
     ],
     providers: [
         WebAppViewService,
