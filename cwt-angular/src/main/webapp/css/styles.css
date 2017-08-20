@@ -70,6 +70,7 @@
 
 .cwt-mobile-nav {
     padding: 16px 16px 10px;
+    width: 100%;
 }
 
 .navbar .fa-user {
@@ -162,6 +163,11 @@ a {
         width: auto;
     }
 
+    .navbar.container {
+        overflow-y: scroll;
+        max-width: none;
+    }
+
     .cwt-top-bar {
         display: none;
     }
@@ -213,7 +219,6 @@ a {
     .navbar.container {
         margin: 0;
         width: auto;
-        overflow-y: scroll;
     }
 
     .collapse.show {
