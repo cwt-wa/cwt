@@ -19,18 +19,15 @@ public class ConfigurationService {
         this.configurationRepository = configurationRepository;
     }
 
-    public Object getValue(ConfigurationKey configurationKey) {
-        return configurationRepository.findByKey(configurationKey.getKey()).getValue();
+    public Configuration getOne(ConfigurationKey configurationKey) {
+        return configurationRepository.findOne(configurationKey);
     }
 
-    public List<Configuration> getValues(List<ConfigurationKey> configurationKeys) {
-        List<String> configurationKeysAsStrings = configurationKeys.stream()
-                .map(ConfigurationKey::getKey)
-                .collect(Collectors.toList());
-        return configurationRepository.findByKeys(configurationKeysAsStrings);
+    public List<Configuration> getAll(List<ConfigurationKey> configurationKeys) {
+        return configurationRepository.findAll(configurationKeys);
     }
 
-    public List<Configuration> getValues() {
+    public List<Configuration> getAll() {
         return configurationRepository.findAll();
     }
 }

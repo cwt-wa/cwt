@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ConfigurationRepository extends JpaRepository<Configuration, Long> {
+public interface ConfigurationRepository extends JpaRepository<Configuration, ConfigurationKey> {
 
     Configuration findByKey(String key);
-
-    List<Configuration> findByKeys(List<String> keys);
 }

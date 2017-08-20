@@ -21,7 +21,7 @@ public class RulesRestController {
 
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     public String[] getCurrentRules() {
-        ConfigurationKey configurationKey = ConfigurationKey.RULES;
-        return new String[] {(String) configurationService.getValue(configurationKey)};
+        Configuration configuration = configurationService.getOne(ConfigurationKey.RULES);
+        return new String[]{configuration.getValue()};
     }
 }

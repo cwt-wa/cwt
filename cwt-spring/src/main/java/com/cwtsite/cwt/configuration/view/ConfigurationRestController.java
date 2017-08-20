@@ -24,9 +24,9 @@ public class ConfigurationRestController {
 
     public List<Configuration> query(@RequestParam(value = "keys", required = false) List<ConfigurationKey> configurationKeys) {
         if (configurationKeys == null) {
-            return configurationKeys.getValues();
+            return configurationService.getAll();
         }
 
-        return configurationService.getValues(configurationKeys);
+        return configurationService.getAll(configurationKeys);
     }
 }

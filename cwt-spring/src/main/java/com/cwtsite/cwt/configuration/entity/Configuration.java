@@ -14,9 +14,6 @@ public class Configuration implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
     @Column(name = "key")
     private String key;
 
@@ -28,14 +25,6 @@ public class Configuration implements Serializable {
 
     @ManyToOne
     private User author;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getKey() {
         return key;
