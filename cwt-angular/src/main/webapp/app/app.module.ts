@@ -38,7 +38,7 @@ const appRoutes: Routes = [
         component: AdminComponent
     },
     {
-        path: 'admin/tournament/start',
+        path: 'admin/tournaments/start',
         component: AdminTournamentStartComponent
     },
     {
