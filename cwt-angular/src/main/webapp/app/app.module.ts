@@ -20,6 +20,7 @@ import {ApplyBannerComponent} from "./application/apply-banner.component";
 import {ApplyComponent} from "./application/apply.component";
 import {ApplicantsComponent} from "./application/applicants.component";
 import {AdminGroupsStartComponent} from "./group/admin-groups-start.component";
+import {ConfigurationService} from "./_services/configuration.service";
 
 const appRoutes: Routes = [
     {
@@ -87,6 +88,7 @@ const appRoutes: Routes = [
         WebAppViewService,
         AuthService,
         RequestService,
+        ConfigurationService,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     bootstrap: [AppComponent]

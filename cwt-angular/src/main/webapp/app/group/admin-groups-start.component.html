@@ -1,1 +1,45 @@
-Hello, World!
+<h1>Group Draw</h1>
+
+<p class="lead mb-4">
+    Here you have the possibility to draw the participants into groups. Below follows a list of the users who applied for
+    participation. The ones you do not draw, won’t participate in the tournament.
+</p>
+
+<h6>Drawn applicants</h6>
+<p>
+    <span *ngFor="let application of applications; let last = last">
+        <a [routerLink]="['/user', application.applicant.id]">{{application.applicant.username}}</a>{{last ? '' : ', '}}
+    </span>
+</p>
+
+<h6>Undrawn applicants</h6>
+<p>
+    <span *ngFor="let application of applications; let last = last">
+        <a [routerLink]="['/user', application.applicant.id]">{{application.applicant.username}}</a>{{last ? '' : ', '}}
+    </span>
+</p>
+
+<form>
+    <div class="row mt-4">
+        <div class="col-md-6 col-lg-4 mb-4" *ngFor="let group of groups;">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <span class="text-muted">Group</span>
+                        {{group.label}}
+                    </h4>
+                    <input *ngFor="let standing of group.standings; let standingIndex = index" class="form-control w-100 mb-1"
+                           [(ngModel)]="standing.user" placeholder="Enter name of group member"
+                           [ngbTypeahead]="typeAheadForGroupMember" [inputFormatter]="typeAheadInputFormatter" [resultFormatter]="typeAheadResultFormatter"
+                           name="{{'user.'+ group.label + '.' + standingIndex}}"
+                           [attr.name]="'user.'+ group.label + '.' + standingIndex"
+                           [attr.id]="'user.'+ group.label + '.' + standingIndex">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<pre>{{groups | json}}</pre>
