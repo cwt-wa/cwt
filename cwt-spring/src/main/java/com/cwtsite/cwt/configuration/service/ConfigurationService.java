@@ -1,6 +1,5 @@
-package com.cwtsite.cwt.configuration.entity.service;
+package com.cwtsite.cwt.configuration.service;
 
-import com.cwtsite.cwt.configuration.entity.Configuration;
 import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
