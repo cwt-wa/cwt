@@ -5,6 +5,7 @@ import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.configuration.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ public class ConfigurationRestController {
         this.configurationService = configurationService;
     }
 
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public List<Configuration> query(@RequestParam(value = "keys", required = false) List<ConfigurationKey> configurationKeys) {
         if (configurationKeys == null) {
             return configurationService.getAll();

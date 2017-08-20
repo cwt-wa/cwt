@@ -5,18 +5,22 @@ public enum ConfigurationKey {
     /**
      * Behold! The tournament rules!
      */
-    RULES("rules", String.class);
+    RULES(String.class),
 
-    private final String key;
+    /**
+     * Number of participants in the group stage that play in the same group.
+     */
+    USERS_PER_GROUP(Integer.class),
+
+    /**
+     * Number of groups in the group stage.
+     */
+    NUMBER_OF_GROUPS(Integer.class);
+
     private final Class type;
 
-    ConfigurationKey(final String key, final Class type) {
-        this.key = key;
+    ConfigurationKey(final Class type) {
         this.type = type;
-    }
-
-    public String getKey() {
-        return key;
     }
 
     public Class getType() {

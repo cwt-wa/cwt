@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.configuration.entity;
 
 
+import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;
@@ -15,7 +16,8 @@ public class Configuration implements Serializable {
 
     @Id
     @Column(name = "key")
-    private String key;
+    @Enumerated(EnumType.STRING)
+    private ConfigurationKey key;
 
     @Column(name = "value", columnDefinition = "text")
     private String value;
@@ -26,11 +28,11 @@ public class Configuration implements Serializable {
     @ManyToOne
     private User author;
 
-    public String getKey() {
+    public ConfigurationKey getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(ConfigurationKey key) {
         this.key = key;
     }
 
