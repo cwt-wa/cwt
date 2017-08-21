@@ -13,21 +13,21 @@ export class AdminGroupsStartComponent implements OnInit {
 
     private groups: Group[];
     private applications: Application[];
-    private typeAheadForGroupMember: (text$: Observable<string>) => Observable<any>;
+    private typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
     private typeAheadInputFormatter: (value: User) => string;
     private typeAheadResultFormatter: (value: User) => string;
 
     constructor(private configurationService: ConfigurationService, private requestService: RequestService) {
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
-                .debounceTime(200)
                 .distinctUntilChanged()
                 .map(term =>
                     this.applications
                         .map(a => a.applicant)
+                        .filter(u => !this.userIsDrawn(u))
                         .filter(a => a.username.toLowerCase().indexOf(term.toLowerCase()) !== -1));
         this.typeAheadInputFormatter = (value: User) => value.username;
-        this.typeAheadResultFormatter = (value: User) => value.username + ''; // TODO Warning that alrady drawn.
+        this.typeAheadResultFormatter = (value: User) => value.username;
     }
 
     get drawnApplicants(): User[] {
@@ -66,6 +66,11 @@ export class AdminGroupsStartComponent implements OnInit {
                     }
                 }
             });
+    }
+
+    public submit(): void {
+        this.requestService.post('group/many')
+            .subscribe();
     }
 
     private userIsDrawn(user: User): boolean {

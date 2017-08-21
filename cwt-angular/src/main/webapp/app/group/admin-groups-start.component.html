@@ -23,7 +23,7 @@
     </p>
 </div>
 
-<form>
+<form #groupDrawForm="ngForm" (submit)="submit()" *ngIf="applications">
     <div class="row mt-4">
         <div class="col-md-6 col-lg-4 mb-4" *ngFor="let group of groups;">
             <div class="card">
@@ -33,18 +33,29 @@
                         {{group.label}}
                     </h4>
                     <input *ngFor="let standing of group.standings; let standingIndex = index" class="form-control w-100 mb-1"
-                           [(ngModel)]="standing.user" placeholder="Enter name of group member"
+                           [ngClass]="{'is-invalid': groupDrawForm.control.controls['user.' + group.label + '.' + standingIndex]?.invalid && groupDrawForm.control.controls['user.' + group.label + '.' + standingIndex]?.touched}"
+                           [(ngModel)]="standing.user" placeholder="Enter name of group member" [editable]="false"
                            [ngbTypeahead]="typeAheadForGroupMember" [inputFormatter]="typeAheadInputFormatter"
-                           [resultFormatter]="typeAheadResultFormatter"
+                           required [resultFormatter]="typeAheadResultFormatter"
                            name="{{'user.'+ group.label + '.' + standingIndex}}"
                            [attr.name]="'user.'+ group.label + '.' + standingIndex"
                            [attr.id]="'user.'+ group.label + '.' + standingIndex">
-
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" required [(ngModel)]="confirm" name="agreeToRuleconfirms">
+                    I have reviewed the draw.
+                </label>
+            </div>
+            <button class="btn btn-primary"
+                    [disabled]="!groupDrawForm.form.valid">
+                Draw Groups
+            </button>
+        </div>
+    </div>
 </form>
-
-
-<pre>{{groups | json}}</pre>
