@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigurationService} from "../_services/configuration.service";
-import {Application, Configuration, Group, GroupStanding, User} from "../custom";
+import {Application, Configuration, Group, GroupDto, GroupStanding, User} from "../custom";
 import {GroupService} from "../_services/group.service";
 import {Observable} from "rxjs/Observable";
 import {RequestService} from "../_services/request.service";
@@ -69,7 +69,10 @@ export class AdminGroupsStartComponent implements OnInit {
     }
 
     public submit(): void {
-        this.requestService.post('group/many')
+        const body: GroupDto[] = this.groups
+            .map(g => <GroupDto> {label: g.label, users: g.standings.map(s => s.user.id)});
+
+        this.requestService.post('tournament/current/group/many', body)
             .subscribe();
     }
 

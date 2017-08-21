@@ -66,3 +66,8 @@ export interface Group {
     tournament: any;
     standings: GroupStanding[]
 }
+
+export interface GroupDto {
+    label: GroupLabel;
+    users: number[]
+}

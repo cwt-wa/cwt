@@ -29,7 +29,7 @@ public class Group implements Serializable {
     @ManyToOne
     private Tournament tournament;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "group")
     private List<GroupStanding> standings;
 
     public Group() {

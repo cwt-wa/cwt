@@ -165,4 +165,18 @@ INSERT INTO public.application (id, created, revoked, applicant_id, tournament_i
 
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'RULES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac mauris non nisi iaculis commodo. Sed convallis bibendum dui nec posuere. Phasellus quis ante ut orci vulputate semper vitae lobortis odio. Mauris vel orci et nulla euismod eleifend. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla faucibus nisl sit amet ex ultricies eleifend. Suspendisse a leo fringilla ipsum venenatis posuere. Fusce placerat nunc sed fermentum pulvinar. Mauris eu quam ut urna laoreet varius sit amet non ex. Duis felis lacus, auctor accumsan cursus non, volutpat et nisl. Sed in turpis interdum augue ultricies luctus. Donec ac mattis arcu, eget lobortis massa.', 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'USERS_PER_GROUP', 4, 1);
-INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'NUMBER_OF_GROUPS', 8, 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'NUMBER_OF_GROUPS', 2, 1);
+
+INSERT INTO public."group" (id, label, tournament_id) VALUES (10, 'A', 1);
+INSERT INTO public."group" (id, label, tournament_id) VALUES (11, 'B', 1);
+
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (20, 0, 0, 0, 0, 10, 2);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (21, 0, 0, 0, 0, 10, 3);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (22, 0, 0, 0, 0, 10, 4);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (23, 0, 0, 0, 0, 10, 7);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (24, 0, 0, 0, 0, 10, 9);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (25, 0, 0, 0, 0, 11, 10);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (26, 0, 0, 0, 0, 11, 13);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (27, 0, 0, 0, 0, 11, 14);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (28, 0, 0, 0, 0, 11, 16);
+INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (29, 0, 0, 0, 0, 11, 22);

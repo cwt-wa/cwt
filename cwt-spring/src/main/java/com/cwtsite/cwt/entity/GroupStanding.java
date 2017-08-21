@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.entity;
 
+import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,25 +22,31 @@ public class GroupStanding implements Serializable {
     private Long id;
 
     @Column(name = "points")
-    private Integer points;
+    private Integer points = 0;
 
     @Column(name = "games")
-    private Integer games;
+    private Integer games = 0;
 
     @Column(name = "game_ratio")
-    private Integer gameRatio;
+    private Integer gameRatio = 0;
 
     @Column(name = "round_ratio")
-    private Integer roundRatio;
+    private Integer roundRatio = 0;
 
     @JsonIgnore
     @ManyToOne
+    @JoinColumn
     private Group group;
 
     @ManyToOne
     private User user;
 
     protected GroupStanding() {
+    }
+
+    public GroupStanding(Group group, User user) {
+        this.group = group;
+        this.user = user;
     }
 
     public Long getId() {
