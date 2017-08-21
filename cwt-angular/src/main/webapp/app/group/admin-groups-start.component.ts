@@ -30,6 +30,18 @@ export class AdminGroupsStartComponent implements OnInit {
         this.typeAheadResultFormatter = (value: User) => value.username + ''; // TODO Warning that alrady drawn.
     }
 
+    get drawnApplicants(): User[] {
+        return this.applications
+            .map(a => a.applicant)
+            .filter(u => this.userIsDrawn(u));
+    }
+
+    get undrawnApplicants(): User[] {
+        return this.applications
+            .map(a => a.applicant)
+            .filter(u => !this.userIsDrawn(u));
+    }
+
     public ngOnInit(): void {
         this.requestService.get<Application[]>('tournament/current/applications')
             .subscribe(res => this.applications = res);
@@ -54,5 +66,13 @@ export class AdminGroupsStartComponent implements OnInit {
                     }
                 }
             });
+    }
+
+    private userIsDrawn(user: User): boolean {
+        return !!this.groups
+            .map(g => g.standings)
+            .reduce((previousValue, currentValue) => previousValue.concat(currentValue))
+            .map(s => s.user)
+            .find(u => u && u.id === user.id);
     }
 }
