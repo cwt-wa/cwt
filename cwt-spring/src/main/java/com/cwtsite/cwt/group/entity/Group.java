@@ -1,4 +1,8 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.group.entity;
+
+import com.cwtsite.cwt.entity.GroupStanding;
+import com.cwtsite.cwt.entity.Tournament;
+import com.cwtsite.cwt.group.entity.enumeration.GroupLabel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,8 +22,9 @@ public class Group implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "label")
-    private String label;
+    private GroupLabel label;
 
     @ManyToOne
     private Tournament tournament;
@@ -27,7 +32,7 @@ public class Group implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
     private List<GroupStanding> standings;
 
-    protected Group() {
+    public Group() {
     }
 
     public Long getId() {
@@ -38,15 +43,15 @@ public class Group implements Serializable {
         this.id = id;
     }
 
-    public String getLabel() {
+    public GroupLabel getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public void setLabel(GroupLabel label) {
         this.label = label;
     }
 
-    public Group label(String label) {
+    public Group label(GroupLabel label) {
         this.label = label;
         return this;
     }
