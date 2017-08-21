@@ -158,6 +158,10 @@ a {
     transition: height ease-out 400ms;
 }
 
+.container.content {
+    padding-bottom: 15px;
+}
+
 @media (max-width: 991px) {
     .content.container {
         width: auto;
