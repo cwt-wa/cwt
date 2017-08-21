@@ -2,6 +2,7 @@ INSERT INTO authority (id, name) VALUES (40, 'ROLE_USER');
 INSERT INTO authority (id, name) VALUES (41, 'ROLE_ADMIN');
 INSERT INTO public.user_ (id, activated, activation_key, email, password_hash, password_legacy_hash, reset_date, reset_key, username) VALUES (1, true, null, '1@1', '$2a$10$bjMYWhe0CdANS4aD0k0r8OUMLDv2wrCg3M2WLsjwU.VwYHzyCLcH2', null, null, null, 'Bytor');
 INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 40);
+INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 41);
 INSERT INTO public.user_profile (id, about, clan, country, email, facebook, modified, skype, twitter, user_id) VALUES (1, null, null, null, null, null, null, null, null, 1);
 INSERT INTO user_setting (id, hide_email, hide_profile, user_id) VALUES (1, false, false, 1);
 INSERT INTO public.tournament (id, created, open, review, status, bronze_winner_id, gold_winner_id, host_id, silver_winner_id) VALUES (1, NULL, NULL, NULL, 'OPEN', NULL, NULL, 1, NULL);
