@@ -2,6 +2,8 @@ package com.cwtsite.cwt.user.repository.entity;
 
 import com.cwtsite.cwt.user.repository.entity.enumeration.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -58,7 +60,8 @@ public class User implements Serializable {
     @Column(name = "reset_date", nullable = true)
     private Date resetDate;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},

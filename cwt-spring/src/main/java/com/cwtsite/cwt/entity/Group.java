@@ -2,6 +2,7 @@ package com.cwtsite.cwt.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +23,9 @@ public class Group implements Serializable {
 
     @ManyToOne
     private Tournament tournament;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
+    private List<GroupStanding> standings;
 
     protected Group() {
     }
@@ -73,6 +77,14 @@ public class Group implements Serializable {
             return false;
         }
         return Objects.equals(id, group.id);
+    }
+
+    public List<GroupStanding> getStandings() {
+        return standings;
+    }
+
+    public void setStandings(List<GroupStanding> standings) {
+        this.standings = standings;
     }
 
     @Override

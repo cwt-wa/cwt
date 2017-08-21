@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.entity;
 
 import com.cwtsite.cwt.user.repository.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,6 +32,7 @@ public class GroupStanding implements Serializable {
     @Column(name = "round_ratio")
     private Integer roundRatio;
 
+    @JsonIgnore
     @ManyToOne
     private Group group;
 
