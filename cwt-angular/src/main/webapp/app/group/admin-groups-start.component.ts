@@ -57,7 +57,7 @@ export class AdminGroupsStartComponent implements OnInit {
                 for (i = 0; i < numberOfGroups.value; i++) {
                     this.groups.push(<Group> {
                         label: GroupService.labels[i],
-                        standings: [{}],
+                        standings: [],
                     });
 
                     let j;
