@@ -21,6 +21,8 @@ import {ApplyComponent} from "./application/apply.component";
 import {ApplicantsComponent} from "./application/applicants.component";
 import {AdminGroupsStartComponent} from "./group/admin-groups-start.component";
 import {ConfigurationService} from "./_services/configuration.service";
+import {GroupsOverviewComponent} from "./group/groups-overview.acomponent";
+import {GroupTableComponent} from "./group/group-table.component";
 
 const appRoutes: Routes = [
     {
@@ -56,6 +58,10 @@ const appRoutes: Routes = [
         component: ApplicantsComponent
     },
     {
+        path: 'groups',
+        component: GroupsOverviewComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -83,6 +89,8 @@ const appRoutes: Routes = [
         ApplyComponent,
         ApplicantsComponent,
         AdminGroupsStartComponent,
+        GroupsOverviewComponent,
+        GroupTableComponent,
     ],
     providers: [
         WebAppViewService,

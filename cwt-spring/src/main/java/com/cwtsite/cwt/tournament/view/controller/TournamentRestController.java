@@ -97,4 +97,16 @@ public class TournamentRestController {
         Tournament tournament = tournamentService.getCurrentTournament();
         return addManyGroups(tournament.getId(), groupDtos);
     }
+
+    @RequestMapping(value = "{id}/group", method = RequestMethod.GET)
+    public ResponseEntity<List<?>> getGroupsForTournament(@PathVariable("id") long id) {
+        Tournament tournament = tournamentService.getTournament(id);
+        return ResponseEntity.ok(groupService.getGroupsForTournament(tournament));
+    }
+
+    @RequestMapping(value = "current/group", method = RequestMethod.GET)
+    public ResponseEntity<List<?>> getGroupsForCurrentTournament() {
+        Tournament currentTournament = tournamentService.getCurrentTournament();
+        return getGroupsForTournament(currentTournament.getId());
+    }
 }

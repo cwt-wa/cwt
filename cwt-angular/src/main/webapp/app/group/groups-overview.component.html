@@ -1,0 +1,19 @@
+<div class="btn-group float-right" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
+    <label ngbButtonLabel class="btn-light">
+        <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
+        <i class="fa fa-th-list"></i>
+    </label>
+    <label ngbButtonLabel class="btn-light">
+        <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
+        <i class="fa fa-th-large"></i>
+    </label>
+</div>
+
+<h1 class="mb-4">Groups</h1>
+
+<div class="row" *ngIf="viewMode === 'square' && groups">
+    <cwt-group-table class="col-md-12 col-lg-6"
+                     *ngFor="let group of groups" [group]="group"
+                     [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
+    </cwt-group-table>
+</div>
