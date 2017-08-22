@@ -15,7 +15,12 @@ public enum ConfigurationKey {
     /**
      * Number of groups in the group stage.
      */
-    NUMBER_OF_GROUPS(Integer.class);
+    NUMBER_OF_GROUPS(Integer.class),
+
+    /**
+     * Number of group members advancing into the playoffs.
+     */
+    NUMBER_OF_GROUP_MEMBERS_ADVANCING(Integer.class);
 
     private final Class type;
 

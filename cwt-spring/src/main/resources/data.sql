@@ -166,6 +166,7 @@ INSERT INTO public.application (id, created, revoked, applicant_id, tournament_i
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'RULES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac mauris non nisi iaculis commodo. Sed convallis bibendum dui nec posuere. Phasellus quis ante ut orci vulputate semper vitae lobortis odio. Mauris vel orci et nulla euismod eleifend. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla faucibus nisl sit amet ex ultricies eleifend. Suspendisse a leo fringilla ipsum venenatis posuere. Fusce placerat nunc sed fermentum pulvinar. Mauris eu quam ut urna laoreet varius sit amet non ex. Duis felis lacus, auctor accumsan cursus non, volutpat et nisl. Sed in turpis interdum augue ultricies luctus. Donec ac mattis arcu, eget lobortis massa.', 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'USERS_PER_GROUP', 4, 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'NUMBER_OF_GROUPS', 2, 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'NUMBER_OF_GROUP_MEMBERS_ADVANCING', 2, 1);
 
 INSERT INTO public."group" (id, label, tournament_id) VALUES (10, 'A', 1);
 INSERT INTO public."group" (id, label, tournament_id) VALUES (11, 'B', 1);

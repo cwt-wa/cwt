@@ -27,7 +27,7 @@ interface Application {
     applicant: User;
 }
 
-export type ConfigurationKey = "RULES" | "USERS_PER_GROUP" | "NUMBER_OF_GROUPS"
+export type ConfigurationKey = "RULES" | "USERS_PER_GROUP" | "NUMBER_OF_GROUPS" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING"
 
 export interface Configuration<T> {
     key: ConfigurationKey;
