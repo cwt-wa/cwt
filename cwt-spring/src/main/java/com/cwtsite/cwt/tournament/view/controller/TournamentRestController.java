@@ -94,6 +94,7 @@ public class TournamentRestController {
 
     @RequestMapping(value = "current/group/many", method = RequestMethod.POST)
     public ResponseEntity<?> addManyGroups(@RequestBody List<GroupDto> groupDtos) {
+        // TODO Change tournament status
         Tournament tournament = tournamentService.getCurrentTournament();
         return addManyGroups(tournament.getId(), groupDtos);
     }
