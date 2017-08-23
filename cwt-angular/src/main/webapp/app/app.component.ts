@@ -16,6 +16,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
+    public canReport: boolean;
     private authenticatedUser: JwtUser;
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
@@ -29,6 +30,9 @@ export class AppComponent implements AfterViewInit, OnInit {
             res => {
                 this.authService.storeToken(res.token);
                 this.authenticatedUser = this.authService.getUserFromTokenPayload();
+
+                this.requestService.get<boolean>(`user/${this.authenticatedUser.id}/can-report`)
+                    .subscribe(res => this.canReport = res);
             },
             () => this.authService.voidToken()
         );

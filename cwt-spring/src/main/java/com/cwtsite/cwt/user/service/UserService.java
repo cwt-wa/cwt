@@ -3,6 +3,8 @@ package com.cwtsite.cwt.user.service;
 import com.cwtsite.cwt.application.service.ApplicationRepository;
 import com.cwtsite.cwt.entity.Tournament;
 import com.cwtsite.cwt.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.group.entity.Group;
+import com.cwtsite.cwt.group.service.GroupRepository;
 import com.cwtsite.cwt.tournament.service.TournamentService;
 import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.AuthorityName;
@@ -24,13 +26,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final TournamentService tournamentService;
     private final ApplicationRepository applicationRepository;
+    private final GroupRepository groupRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, AuthService authService, TournamentService tournamentService, ApplicationRepository applicationRepository) {
+    public UserService(UserRepository userRepository, AuthService authService, TournamentService tournamentService,
+                       ApplicationRepository applicationRepository, GroupRepository groupRepository) {
         this.userRepository = userRepository;
         this.authService = authService;
         this.tournamentService = tournamentService;
         this.applicationRepository = applicationRepository;
+        this.groupRepository = groupRepository;
     }
 
     @Transactional
@@ -66,5 +71,27 @@ public class UserService {
 
     public List<User> getByIds(List<Long> ids) {
         return userRepository.findAll(ids);
+    }
+
+    public boolean userCanReportForCurrentTournament(final User user) {
+        boolean userCanReportForCurrentTournament;
+        final Tournament currentTournament = tournamentService.getCurrentTournament();
+
+        if (currentTournament.getStatus() == TournamentStatus.GROUP) {
+            final Group group = this.groupRepository.findByTournamentAndUser(currentTournament, user);
+
+            Integer numberOfGamesAlreadyPlayed = group.getStandings().stream()
+                    .filter(s -> s.getUser().equals(user))
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new).getGames();
+            int numberOfTotalGamesToPlay = group.getStandings().size() - 1;
+            userCanReportForCurrentTournament = numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed;
+        } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
+            userCanReportForCurrentTournament = false;
+        } else {
+            userCanReportForCurrentTournament = false;
+        }
+
+        return userCanReportForCurrentTournament;
     }
 }

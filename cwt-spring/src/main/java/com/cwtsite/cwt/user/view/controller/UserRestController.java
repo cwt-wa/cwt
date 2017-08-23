@@ -37,6 +37,11 @@ public class UserRestController {
         return ResponseEntity.ok(this.userService.userCanApplyForCurrentTournament(assertUser(id)));
     }
 
+    @RequestMapping(path = "/{id}/can-report", method = RequestMethod.GET)
+    public ResponseEntity<Boolean> userCanReportForCurrentTournament(@PathVariable("id") long id) {
+        return ResponseEntity.ok(this.userService.userCanReportForCurrentTournament(assertUser(id)));
+    }
+
     @RequestMapping(path = "/{id}/application", method = RequestMethod.POST)
     public ResponseEntity<Application> applyForTournament(@PathVariable("id") long id) {
         return ResponseEntity.ok(this.applicationService.apply(assertUser(id)));

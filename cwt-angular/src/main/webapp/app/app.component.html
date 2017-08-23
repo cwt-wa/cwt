@@ -13,6 +13,9 @@
                 </a>
             </div>
             <div class="col-md-6 text-md-right" *ngIf="authenticatedUser">
+                <a routerLink="/report" class="btn" *ngIf="canReport">
+                    Report
+                </a>
                 <a routerLink="/admin" class="btn" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                     Admin
                 </a>
