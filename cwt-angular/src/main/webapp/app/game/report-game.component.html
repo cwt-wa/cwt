@@ -1,0 +1,24 @@
+<h1>Report</h1>
+
+<form class="form-inline">
+    <div class="form-group">
+        <label for="authenticatedUser" class="sr-only">Your username</label>
+        <input readonly class="form-control-plaintext" id="authenticatedUser" [value]="authenticatedUser.username">
+    </div>
+    <div class="form-group">
+        <label for="your-score" class="sr-only">Your Score</label>
+        <select id="your-score" class="form-control">
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="opponent-score" class="sr-only">Opponent Score</label>
+        <select id="opponent-score" class="form-control">
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="opponent" class="sr-only">Opponent</label>
+        <select id="opponent" class="form-control">
+        </select>
+    </div>
+    <button class="btn btn-primary">Report this Game</button>
+</form>

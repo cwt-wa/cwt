@@ -23,6 +23,7 @@ import {AdminGroupsStartComponent} from "./group/admin-groups-start.component";
 import {ConfigurationService} from "./_services/configuration.service";
 import {GroupsOverviewComponent} from "./group/groups-overview.acomponent";
 import {GroupTableComponent} from "./group/group-table.component";
+import {ReportGameComponent} from "./game/report-game.component";
 
 const appRoutes: Routes = [
     {
@@ -62,6 +63,10 @@ const appRoutes: Routes = [
         component: GroupsOverviewComponent
     },
     {
+        path: 'report',
+        component: ReportGameComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -91,6 +96,7 @@ const appRoutes: Routes = [
         AdminGroupsStartComponent,
         GroupsOverviewComponent,
         GroupTableComponent,
+        ReportGameComponent,
     ],
     providers: [
         WebAppViewService,
