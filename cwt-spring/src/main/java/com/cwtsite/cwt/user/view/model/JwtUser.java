@@ -32,6 +32,7 @@ public class JwtUser<T extends GrantedAuthority> implements UserDetails {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        // TODO Have a GrantedAuthority deserializer instead of mapping here.
         this.roles = authorities.stream()
                 .map(a -> (T) a)
                 .map(T::getAuthority)

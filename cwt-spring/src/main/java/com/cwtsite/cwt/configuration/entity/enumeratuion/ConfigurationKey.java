@@ -2,6 +2,8 @@ package com.cwtsite.cwt.configuration.entity.enumeratuion;
 
 public enum ConfigurationKey {
 
+    // TODO Some settings should be specific to a tournament.
+
     /**
      * Behold! The tournament rules!
      */
