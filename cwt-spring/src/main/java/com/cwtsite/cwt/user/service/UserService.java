@@ -1,8 +1,8 @@
 package com.cwtsite.cwt.user.service;
 
 import com.cwtsite.cwt.application.service.ApplicationRepository;
-import com.cwtsite.cwt.entity.Tournament;
-import com.cwtsite.cwt.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.tournament.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.group.service.GroupRepository;
 import com.cwtsite.cwt.tournament.service.TournamentService;

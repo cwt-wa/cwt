@@ -1,6 +1,6 @@
 package com.cwtsite.cwt.group.service;
 
-import com.cwtsite.cwt.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.group.entity.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

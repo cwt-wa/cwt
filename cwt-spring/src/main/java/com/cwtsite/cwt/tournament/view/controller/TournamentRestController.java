@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.tournament.view.controller;
 
 import com.cwtsite.cwt.entity.Application;
-import com.cwtsite.cwt.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.group.service.GroupService;
 import com.cwtsite.cwt.group.view.model.GroupDto;

@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.entity.enumeration;
+package com.cwtsite.cwt.tournament.entity.enumeration;
 
 /**
  * The TournamentStatus enumeration.

@@ -1,6 +1,6 @@
 package com.cwtsite.cwt.group.service;
 
-import com.cwtsite.cwt.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.user.repository.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.tournament.entity;
 
-import com.cwtsite.cwt.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;

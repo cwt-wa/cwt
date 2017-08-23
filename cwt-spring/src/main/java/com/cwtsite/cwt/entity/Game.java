@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.entity;
 
 import com.cwtsite.cwt.group.entity.Group;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;

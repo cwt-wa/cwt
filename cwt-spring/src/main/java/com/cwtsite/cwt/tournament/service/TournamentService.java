@@ -2,12 +2,11 @@ package com.cwtsite.cwt.tournament.service;
 
 import com.cwtsite.cwt.application.service.ApplicationRepository;
 import com.cwtsite.cwt.entity.Application;
-import com.cwtsite.cwt.entity.Tournament;
-import com.cwtsite.cwt.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.tournament.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

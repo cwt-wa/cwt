@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.group.entity;
 
 import com.cwtsite.cwt.entity.GroupStanding;
-import com.cwtsite.cwt.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.group.entity.enumeration.GroupLabel;
 
 import javax.persistence.*;
