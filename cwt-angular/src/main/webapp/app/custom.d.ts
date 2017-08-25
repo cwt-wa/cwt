@@ -73,6 +73,7 @@ export interface GroupDto {
 }
 
 export interface ReportDto {
+    user: number;
     opponent: number;
     scoreOfUser: number;
     scoreOfOpponent: number;

@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.entity;
 
+import com.cwtsite.cwt.game.entity.Game;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;

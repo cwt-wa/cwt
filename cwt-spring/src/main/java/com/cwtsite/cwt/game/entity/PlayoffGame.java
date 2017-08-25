@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.game.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

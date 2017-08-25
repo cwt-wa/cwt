@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
 import {Configuration, JwtUser, ReportDto, User} from "../custom";
 import {RequestService} from "../_services/request.service";
-import {ConfigurationService} from "../_services/configuration.service";
 
 @Component({
     selector: 'cwt-report-game',
@@ -15,12 +14,12 @@ export class ReportGameComponent implements OnInit {
     private authenticatedUser: JwtUser;
     private possibleScores: number[];
 
-    public constructor(private authService: AuthService, private requestService: RequestService,
-                       private configurationService: ConfigurationService) {
+    public constructor(private authService: AuthService, private requestService: RequestService) {
     }
 
     public ngOnInit(): void {
         this.authenticatedUser = this.authService.getUserFromTokenPayload();
+        this.report.user = this.authenticatedUser.id;
 
         this.requestService.get<User[]>(`user/${this.authenticatedUser.id}/group/remaining-opponents`)
             .subscribe(res => this.remainingOpponents = res);

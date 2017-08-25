@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.game.entity;
 
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.tournament.entity.Tournament;
@@ -29,7 +29,7 @@ public class Game implements Serializable {
     private Integer scoreAway;
 
     @Column(name = "tech_win")
-    private Boolean techWin;
+    private Boolean techWin = false;
 
     @Column(name = "downloads")
     private Integer downloads;
