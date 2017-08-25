@@ -80,12 +80,16 @@ public class UserService {
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
             final Group group = this.groupRepository.findByTournamentAndUser(currentTournament, user);
 
-            Integer numberOfGamesAlreadyPlayed = group.getStandings().stream()
-                    .filter(s -> s.getUser().equals(user))
-                    .findFirst()
-                    .orElseThrow(IllegalArgumentException::new).getGames();
-            int numberOfTotalGamesToPlay = group.getStandings().size() - 1;
-            userCanReportForCurrentTournament = numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed;
+            if (group == null) {
+                userCanReportForCurrentTournament = false;
+            } else {
+                Integer numberOfGamesAlreadyPlayed = group.getStandings().stream()
+                        .filter(s -> s.getUser().equals(user))
+                        .findFirst()
+                        .orElseThrow(IllegalArgumentException::new).getGames();
+                int numberOfTotalGamesToPlay = group.getStandings().size() - 1;
+                userCanReportForCurrentTournament = numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed;
+            }
         } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
             userCanReportForCurrentTournament = false;
         } else {
