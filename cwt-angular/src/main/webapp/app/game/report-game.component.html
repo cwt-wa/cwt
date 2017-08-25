@@ -1,24 +1,57 @@
-<h1>Report</h1>
+<h1 class="mb-4">Report</h1>
 
-<form class="form-inline">
-    <div class="form-group">
-        <label for="authenticatedUser" class="sr-only">Your username</label>
-        <input readonly class="form-control-plaintext" id="authenticatedUser" [value]="authenticatedUser.username">
+<div class="row">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+        <form #reportForm="ngForm" (submit)="submit()">
+            <div class="form-row">
+                <div class="col-12 col-sm-4">
+                    <label for="authenticatedUser" class="sr-only">Your username</label>
+                    <input readonly class="form-control mr-1" id="authenticatedUser" [value]="authenticatedUser.username">
+                </div>
+                <div class="col-6 col-sm-2">
+                    <label for="your-score" class="sr-only">Your Score</label>
+                    <select id="your-score" class="form-control mr-1" [(ngModel)]="report.scoreOfUser" name="userScore" required>
+                        <option *ngFor="let score of possibleScores" [value]="score">
+                            {{score}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-2">
+                    <label for="opponent-score" class="sr-only">Opponent Score</label>
+                    <select id="opponent-score" class="form-control mr-1" [(ngModel)]="report.scoreOfOpponent"
+                            name="opponentScore" required>
+                        <option *ngFor="let score of possibleScores" [value]="score">
+                            {{score}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <label for="opponent" class="sr-only">Opponent</label>
+                    <select id="opponent" [(ngModel)]="report.opponent" name="opponent" class="form-control mr-1" required>
+                        <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
+                            {{opponent.username}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="col">
+                    <label for="replayFile" class="sr-only">Replay File</label>
+                    <input type="file" class="form-control-file" id="replayFile">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <button class="btn btn-primary float-right"
+                            [disabled]="reportForm.invalid || report.scoreOfOpponent === report.scoreOfUser">
+                        Report this Game
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="your-score" class="sr-only">Your Score</label>
-        <select id="your-score" class="form-control">
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="opponent-score" class="sr-only">Opponent Score</label>
-        <select id="opponent-score" class="form-control">
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="opponent" class="sr-only">Opponent</label>
-        <select id="opponent" class="form-control">
-        </select>
-    </div>
-    <button class="btn btn-primary">Report this Game</button>
-</form>
+</div>
+
+
+<pre class="mt-5">{{report | json}}</pre>
+<pre>{{remainingOpponents | json}}</pre>

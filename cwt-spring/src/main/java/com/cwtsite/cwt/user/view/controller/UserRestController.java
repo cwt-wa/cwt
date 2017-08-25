@@ -47,6 +47,12 @@ public class UserRestController {
         return ResponseEntity.ok(this.applicationService.apply(assertUser(id)));
     }
 
+    @RequestMapping(path = "/{id}/group/remaining-opponents", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getRemainingOpponents(@PathVariable("id") long id) {
+        final User user = assertUser(id);
+        return ResponseEntity.ok(userService.getRemainingOpponents(user));
+    }
+
     private User assertUser(final long id) {
         User user = userService.getById(id);
 

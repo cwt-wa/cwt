@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.user.service;
 
 import com.cwtsite.cwt.application.service.ApplicationRepository;
+import com.cwtsite.cwt.entity.GroupStanding;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.group.entity.Group;
@@ -17,7 +18,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserService {
@@ -97,5 +100,21 @@ public class UserService {
         }
 
         return userCanReportForCurrentTournament;
+    }
+
+    public List<User> getRemainingOpponents(final User user) {
+        final Tournament currentTournament = tournamentService.getCurrentTournament();
+        final Group group = groupRepository.findByTournamentAndUser(currentTournament, user);
+
+        // TODO Reduce/filter group members by those already played against.
+
+        if (currentTournament.getStatus() == TournamentStatus.GROUP) {
+            return group.getStandings().stream()
+                    .filter(groupStanding -> !groupStanding.getUser().equals(user))
+                    .map(GroupStanding::getUser)
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
     }
 }

@@ -71,3 +71,9 @@ export interface GroupDto {
     label: GroupLabel;
     users: number[]
 }
+
+export interface ReportDto {
+    opponent: number;
+    scoreOfUser: number;
+    scoreOfOpponent: number;
+}
