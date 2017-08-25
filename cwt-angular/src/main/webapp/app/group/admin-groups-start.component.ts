@@ -46,6 +46,7 @@ export class AdminGroupsStartComponent implements OnInit {
         this.requestService.get<Application[]>('tournament/current/applications')
             .subscribe(res => this.applications = res);
 
+        // TODO Don't rely on static settings here. Just set up the groups dynamically and whatever number of users the admin puts into a group and how many groups is the setting then.
         this.configurationService.requestByKeys<number>(["NUMBER_OF_GROUPS", "USERS_PER_GROUP"])
             .subscribe(configs => {
                 const numberOfGroups: Configuration<number> = configs.find(c => c.key === "NUMBER_OF_GROUPS");
