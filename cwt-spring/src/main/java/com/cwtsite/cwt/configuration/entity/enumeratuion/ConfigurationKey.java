@@ -10,7 +10,29 @@ public enum ConfigurationKey {
     /**
      * Number of group members advancing into the playoffs.
      */
-    NUMBER_OF_GROUP_MEMBERS_ADVANCING(Integer.class);
+    NUMBER_OF_GROUP_MEMBERS_ADVANCING(Integer.class),
+
+    /**
+     * What group stage games are played in.
+     * I.e. 3 for possbile results of 2–1 and 2–0.
+     */
+    GROUP_GAMES_BEST_OF(Integer.class),
+
+    /**
+     * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the playoffs.
+     */
+    PLAYOFF_GAMES_BEST_OF(Integer.class),
+
+    /**
+     * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the game for the third place.
+     */
+    LITTLE_FINALE_GAME_BEST_OF(Integer.class),
+
+    /**
+     * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the finale.
+     */
+    FINALE_GAME_BEST_OF(Integer.class);
+
 
     private final Class type;
 

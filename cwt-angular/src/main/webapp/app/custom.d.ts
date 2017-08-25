@@ -27,7 +27,7 @@ interface Application {
     applicant: User;
 }
 
-export type ConfigurationKey = "RULES" | "USERS_PER_GROUP" | "NUMBER_OF_GROUPS" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING"
+export type ConfigurationKey = "RULES" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING" | "GROUP_GAMES_BEST_OF" | "PLAYOFF_GAMES_BEST_OF" | "LITTLE_FINALE_GAME_BEST_OF" | "FINALE_GAME_BEST_OF";
 
 export interface Configuration<T> {
     key: ConfigurationKey;
