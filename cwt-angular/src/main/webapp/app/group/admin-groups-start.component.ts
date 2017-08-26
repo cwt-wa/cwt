@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ConfigurationService} from "../_services/configuration.service";
-import {Application, Configuration, Group, GroupDto, GroupStanding, User} from "../custom";
+import {Application, Group, GroupDto, GroupStanding, User} from "../custom";
 import {GroupService} from "../_services/group.service";
 import {Observable} from "rxjs/Observable";
 import {RequestService} from "../_services/request.service";
@@ -11,13 +10,16 @@ import {RequestService} from "../_services/request.service";
 })
 export class AdminGroupsStartComponent implements OnInit {
 
+    // TODO Maybe allow num of groups and users per group to be dynamic?
+    private static readonly NUMBER_OF_GROUPS: number = 8;
+    private static readonly USERS_PER_GROUP: number = 4;
     private groups: Group[];
     private applications: Application[];
     private typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
     private typeAheadInputFormatter: (value: User) => string;
     private typeAheadResultFormatter: (value: User) => string;
 
-    constructor(private configurationService: ConfigurationService, private requestService: RequestService) {
+    public constructor(private requestService: RequestService) {
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
                 .distinctUntilChanged()
@@ -30,13 +32,13 @@ export class AdminGroupsStartComponent implements OnInit {
         this.typeAheadResultFormatter = (value: User) => value.username;
     }
 
-    get drawnApplicants(): User[] {
+    public get drawnApplicants(): User[] {
         return this.applications
             .map(a => a.applicant)
             .filter(u => this.userIsDrawn(u));
     }
 
-    get undrawnApplicants(): User[] {
+    public get undrawnApplicants(): User[] {
         return this.applications
             .map(a => a.applicant)
             .filter(u => !this.userIsDrawn(u));
@@ -46,27 +48,20 @@ export class AdminGroupsStartComponent implements OnInit {
         this.requestService.get<Application[]>('tournament/current/applications')
             .subscribe(res => this.applications = res);
 
-        // TODO Don't rely on static settings here. Just set up the groups dynamically and whatever number of users the admin puts into a group and how many groups is the setting then.
-        this.configurationService.requestByKeys<number>(["NUMBER_OF_GROUPS", "USERS_PER_GROUP"])
-            .subscribe(configs => {
-                const numberOfGroups: Configuration<number> = configs.find(c => c.key === "NUMBER_OF_GROUPS");
-                const usersPerGroup: Configuration<number> = configs.find(c => c.key === "USERS_PER_GROUP");
+        this.groups = [];
 
-                this.groups = [];
-
-                let i;
-                for (i = 0; i < numberOfGroups.value; i++) {
-                    this.groups.push(<Group> {
-                        label: GroupService.labels[i],
-                        standings: [],
-                    });
-
-                    let j;
-                    for (j = 0; j < usersPerGroup.value; j++) {
-                        this.groups[this.groups.length - 1].standings.push(<GroupStanding> {});
-                    }
-                }
+        let i;
+        for (i = 0; i < AdminGroupsStartComponent.NUMBER_OF_GROUPS; i++) {
+            this.groups.push(<Group> {
+                label: GroupService.labels[i],
+                standings: [],
             });
+
+            let j;
+            for (j = 0; j < AdminGroupsStartComponent.USERS_PER_GROUP; j++) {
+                this.groups[this.groups.length - 1].standings.push(<GroupStanding> {});
+            }
+        }
     }
 
     public submit(): void {
