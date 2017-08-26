@@ -78,3 +78,12 @@ export interface ReportDto {
     scoreOfUser: number;
     scoreOfOpponent: number;
 }
+
+export interface GameDto {
+    homeUser: number;
+    awayUser: number;
+    playoff: {
+        round: number;
+        spot: number;
+    }
+}

@@ -24,6 +24,8 @@ import {ConfigurationService} from "./_services/configuration.service";
 import {GroupsOverviewComponent} from "./group/groups-overview.acomponent";
 import {GroupTableComponent} from "./group/group-table.component";
 import {ReportGameComponent} from "./game/report-game.component";
+import {AdminPlayoffsStartComponent} from "./playoffs/admin-playoffs-start.component";
+import {StandingsOrderPipe} from "./_util/standings-order.pipe";
 
 const appRoutes: Routes = [
     {
@@ -51,6 +53,10 @@ const appRoutes: Routes = [
         component: AdminGroupsStartComponent
     },
     {
+        path: 'admin/playoffs/start',
+        component: AdminPlayoffsStartComponent
+    },
+    {
         path: 'apply',
         component: ApplyComponent
     },
@@ -71,7 +77,6 @@ const appRoutes: Routes = [
         component: PageNotFoundComponent
     }
 ];
-
 
 @NgModule({
     imports: [
@@ -97,15 +102,19 @@ const appRoutes: Routes = [
         GroupsOverviewComponent,
         GroupTableComponent,
         ReportGameComponent,
+        AdminPlayoffsStartComponent,
+        StandingsOrderPipe,
     ],
     providers: [
         WebAppViewService,
         AuthService,
         RequestService,
         ConfigurationService,
+        StandingsOrderPipe,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }
