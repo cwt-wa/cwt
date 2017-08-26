@@ -1,7 +1,7 @@
 <table class="table table-sm table-bordered table-hover" *ngIf="group">
     <thead>
     <tr>
-        <th class="text-center">
+        <th class="text-center bg-light">
             {{group.label}}
         </th>
         <th>
@@ -22,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let standing of group.standings; let index = index;">
+    <tr *ngFor="let standing of group.standings | cwtStandingsOrder; let index = index;">
         <td class="text-center" [ngClass]="index + 1 <= numberOfGroupMembersAdvancing ? 'bg-success' : 'bg-danger'">
             {{index + 1}}
         </td>
