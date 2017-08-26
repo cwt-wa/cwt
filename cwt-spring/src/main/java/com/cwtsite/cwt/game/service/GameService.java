@@ -11,6 +11,7 @@ import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class GameService {
@@ -31,9 +32,10 @@ public class GameService {
         this.groupService = groupService;
     }
 
-    public Game reportGame(ReportDto reportDto) {
+    @Transactional
+    public Game reportGame(final ReportDto reportDto) {
         final Game game = map(reportDto);
-        groupService.calcTableByGame(game);
+        groupService.calcTableByGame(game, homeUserHasWon(game));
         return gameRepository.save(game);
     }
 
@@ -55,5 +57,9 @@ public class GameService {
         game.setReporter(reportingUser);
 
         return game;
+    }
+
+    public boolean homeUserHasWon(final Game game) {
+        return game.getScoreHome() > game.getScoreAway();
     }
 }
