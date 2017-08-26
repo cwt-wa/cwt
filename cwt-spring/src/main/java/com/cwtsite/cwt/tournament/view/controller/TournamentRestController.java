@@ -100,13 +100,13 @@ public class TournamentRestController {
     }
 
     @RequestMapping(value = "{id}/group", method = RequestMethod.GET)
-    public ResponseEntity<List<?>> getGroupsForTournament(@PathVariable("id") long id) {
+    public ResponseEntity<List<Group>> getGroupsForTournament(@PathVariable("id") long id) {
         Tournament tournament = tournamentService.getTournament(id);
         return ResponseEntity.ok(groupService.getGroupsForTournament(tournament));
     }
 
     @RequestMapping(value = "current/group", method = RequestMethod.GET)
-    public ResponseEntity<List<?>> getGroupsForCurrentTournament() {
+    public ResponseEntity<List<Group>> getGroupsForCurrentTournament() {
         Tournament currentTournament = tournamentService.getCurrentTournament();
         return getGroupsForTournament(currentTournament.getId());
     }
