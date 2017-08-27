@@ -62,7 +62,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
                     this.groups = res[0];
                     this.numberOfGroupMembersAdvancing = res[1][0].value;
 
-                    const numberOfPlayoffSpots: number = this.numberOfGroupMembersAdvancing * this.groups.length;
+                    const numberOfPlayoffSpots: number = this.numberOfGroupMembersAdvancing * this.groups.length / 2;
                     this.games = [];
 
                     let i;
