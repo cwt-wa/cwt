@@ -12,9 +12,9 @@ import {GroupStanding} from "../custom";
 export class StandingsOrderPipe implements PipeTransform {
 
     transform(standings: GroupStanding[]): GroupStanding[] {
-        return standings
-            .sort((a, b) => a.roundRatio > b.roundRatio ? -1 : +1)
-            .sort((a, b) => a.gameRatio > b.gameRatio ? -1 : +1)
-            .sort((a, b) => a.points > b.points ? -1 : +1);
+        return standings.sort();
+            // .sort((a, b) => a.roundRatio > b.roundRatio ? -1 : +1)
+            // .sort((a, b) => a.gameRatio > b.gameRatio ? -1 : +1)
+            // .sort((a, b) => a.points > b.points ? -1 : +1);
     }
 }

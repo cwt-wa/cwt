@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Configuration, Game, Group, User} from "../custom";
+import {Configuration, Game, GameDto, Group, User} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {Observable} from "rxjs/Observable";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
@@ -76,5 +76,17 @@ export class AdminPlayoffsStartComponent implements OnInit {
                     }
                 }
             );
+    }
+
+    public submit(): void {
+        const body: GameDto[] = this.games
+            .map(g => <GameDto> {
+                homeUser: g.homeUser.id,
+                awayUser: g.awayUser.id,
+                playoff: g.playoff
+            });
+
+        this.requestService.post('game/many', body)
+            .subscribe();
     }
 }
