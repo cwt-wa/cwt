@@ -1,6 +1,8 @@
 package com.cwtsite.cwt.tournament.view.controller;
 
 import com.cwtsite.cwt.entity.Application;
+import com.cwtsite.cwt.game.entity.Game;
+import com.cwtsite.cwt.playoffs.service.PlayoffService;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.group.service.GroupService;
@@ -27,14 +29,17 @@ public class TournamentRestController {
     private final TournamentService tournamentService;
     private final AuthService authService;
     private final UserService userService;
-    private GroupService groupService;
+    private final GroupService groupService;
+    private final PlayoffService playoffService;
 
     @Autowired
-    public TournamentRestController(TournamentService tournamentService, AuthService authService, UserService userService, GroupService groupService) {
+    public TournamentRestController(TournamentService tournamentService, AuthService authService, UserService userService,
+                                    GroupService groupService, PlayoffService playoffService) {
         this.tournamentService = tournamentService;
         this.authService = authService;
         this.userService = userService;
         this.groupService = groupService;
+        this.playoffService = playoffService;
     }
 
     @RequestMapping(path = "", method = RequestMethod.POST)
@@ -109,5 +114,17 @@ public class TournamentRestController {
     public ResponseEntity<List<Group>> getGroupsForCurrentTournament() {
         Tournament currentTournament = tournamentService.getCurrentTournament();
         return getGroupsForTournament(currentTournament.getId());
+    }
+
+    @RequestMapping(value = "{id}/game/playoff", method = RequestMethod.GET)
+    public ResponseEntity<List<Game>> getPlayoffGames(@PathVariable("id") long id) {
+        final Tournament tournament = tournamentService.getTournament(id);
+        return ResponseEntity.ok(playoffService.getGamesOfTournament(tournament));
+    }
+
+    @RequestMapping(value = "current/game/playoff", method = RequestMethod.GET)
+    public ResponseEntity<List<Game>> getPlayoffGamesOfCurrentTournament() {
+        final Tournament currentTournament = tournamentService.getCurrentTournament();
+        return getPlayoffGames(currentTournament.getId());
     }
 }
