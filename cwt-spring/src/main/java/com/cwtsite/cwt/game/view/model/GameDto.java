@@ -2,6 +2,7 @@ package com.cwtsite.cwt.game.view.model;
 
 import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.game.entity.PlayoffGame;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;
 
 public class GameDto {
@@ -34,11 +35,13 @@ public class GameDto {
         this.playoff = playoff;
     }
 
-    public static Game map(final GameDto dto, final User home, final User away) {
+    public static Game map(final GameDto dto, final User home, final User away,
+                           final Tournament tournament) {
         final Game game = new Game();
 
         game.setHomeUser(home);
         game.setAwayUser(away);
+        game.setTournament(tournament);
 
         final PlayoffGame playoffGame = new PlayoffGame();
         playoffGame.setRound(dto.getPlayoff().getRound());

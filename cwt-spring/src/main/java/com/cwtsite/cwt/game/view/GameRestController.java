@@ -5,6 +5,8 @@ import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.game.service.GameService;
 import com.cwtsite.cwt.game.view.model.GameDto;
 import com.cwtsite.cwt.game.view.model.ReportDto;
+import com.cwtsite.cwt.tournament.entity.Tournament;
+import com.cwtsite.cwt.tournament.service.TournamentService;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.cwtsite.cwt.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +25,13 @@ public class GameRestController {
 
     private final UserService userService;
     private final GameService gameService;
+    private final TournamentService tournamentService;
 
     @Autowired
-    public GameRestController(GameService gameService, UserService userService) {
+    public GameRestController(GameService gameService, UserService userService, TournamentService tournamentService) {
         this.gameService = gameService;
         this.userService = userService;
+        this.tournamentService = tournamentService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -46,6 +50,7 @@ public class GameRestController {
                 })
                 .orElseGet(Collections::emptyList);
 
+        final Tournament currentTournament = tournamentService.getCurrentTournament();
         final List<User> users = userService.getByIds(userIds);
 
         final List<Game> games = gameDtos.stream()
@@ -56,7 +61,9 @@ public class GameRestController {
                                 .findFirst().orElseThrow(ResourceNotFoundException::new),
                         users.stream()
                                 .filter(u -> Objects.equals(u.getId(), dto.getAwayUser()))
-                                .findFirst().orElseThrow(ResourceNotFoundException::new)))
+                                .findFirst().orElseThrow(ResourceNotFoundException::new),
+                        currentTournament
+                ))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(gameService.saveAll(games));
