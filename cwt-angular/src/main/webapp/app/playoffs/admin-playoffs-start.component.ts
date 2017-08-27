@@ -27,11 +27,22 @@ export class AdminPlayoffsStartComponent implements OnInit {
     }
 
     public get firstBranchGames(): GameDto[] {
-        return this.games.filter((value, index) => index < this.games.length / 2);
+        return this.games.filter((value, index) => value && index < this.games.length / 2);
     }
 
     public get secondBranchGames(): GameDto[] {
-        return this.games.filter((value, index) => index >= this.games.length / 2);
+        return this.games.filter((value, index) => value && index >= this.games.length / 2);
+    }
+
+    public get numberOfGroupMembersAdvancingIterable(): number[] {
+        const numberOfGroupMembersAdvancingIterable: number[] = [];
+
+        let i;
+        for (i = 0; i < this.numberOfGroupMembersAdvancing; i++) {
+            numberOfGroupMembersAdvancingIterable.push(i);
+        }
+
+        return numberOfGroupMembersAdvancingIterable;
     }
 
     public ngOnInit(): void {

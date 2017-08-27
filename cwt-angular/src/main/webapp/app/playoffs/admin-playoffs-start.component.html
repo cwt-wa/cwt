@@ -3,31 +3,29 @@
     Participants from the first branch can only clash with those of the second branch in the finale at the earliest. For instance,
     you might want to put the last year’s finalists into separate branches.<br>
     Other than that, subsequent games would be matched sequentially. That means by way of example, in the first branch the winner
-    of the first game will play against the winner of the second game in that same branch and so on.
+    of the first game will play against the winner of the second game in that same branch and so on.<br>
+    For your orientation when doing the draw, follow the pots of the users advancing from the group stage by their position they
+    ended up with in the group stage.
 </p>
 
-<!--<div *ngIf="groups" class="ml-5">-->
-    <!--<p>-->
-        <!--First in their group:-->
-        <!--<span *ngFor="let group of groups; let last = last">-->
-            <!--<span *ngFor="let standing of group.standings | cwtStandingsOrder; let index = index">-->
-                <!--<span *ngIf="index === 0">-->
-                    <!--<a [routerLink]="['/user', standing.user.id]">{{standing.user.username}}</a>{{last ? '' : ', '}}-->
-                <!--</span>-->
-            <!--</span>-->
-        <!--</span>-->
-    <!--</p>-->
-    <!--<p>-->
-        <!--Second in their group:-->
-        <!--<span *ngFor="let group of groups; let last = last">-->
-            <!--<span *ngFor="let standing of group.standings | cwtStandingsOrder; let index = index">-->
-                <!--<span *ngIf="index === 1">-->
-                    <!--<a [routerLink]="['/user', standing.user.id]">{{standing.user.username}}</a>{{last ? '' : ', '}}-->
-                <!--</span>-->
-            <!--</span>-->
-        <!--</span>-->
-    <!--</p>-->
-<!--</div>-->
+<div class="card-deck">
+    <div *ngFor="let pot of numberOfGroupMembersAdvancingIterable" class="card my-1 my-sm-0">
+        <div class="card-body">
+            <h4 class="card-title">Place {{pot + 1}}</h4>
+            <p class="card-text">
+                <span *ngFor="let group of groups; let last = last;">
+                    <span *ngFor="let standing of group.standings | cwtStandingsOrder; let index = index">
+                        <span *ngIf="index === pot">
+                            <a [routerLink]="['/user', standing.user.id]">{{standing.user.username}}</a>{{last ? '' : ', '}}
+                        </span>
+                    </span>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr>
 
 <form #playoffsDraw="ngForm" class="mt-4">
     <div class="row" *ngIf="games">
