@@ -31,12 +31,19 @@
     <div class="row" *ngIf="games">
         <div *ngFor="let branchNum of [0, 1];" class="col-lg-6">
             <h2>{{branchNum === 0 ? 'First' : 'Second'}} Branch</h2>
-            <div class="form-row py-2" [ngClass]="{'bg-light': even}" *ngFor="let game of firstBranchGames; let index = index; let even = even;">
+            <div class="form-row py-2" [ngClass]="{'bg-light': even}"
+                 *ngFor="let game of (branchNum === 0 ? firstBranchGames : secondBranchGames); let index = index; let even = even;">
                 <div class="col-12 col-sm-6">
-                    <input class="form-control" required placeholder="Home">
+                    <input class="form-control" required placeholder="Home" [(ngModel)]="game.homeUser"
+                           name="{{'gameHomeUserRound1Spot' + game.playoff.spot}}" [editable]="false"
+                           [ngbTypeahead]="typeAheadForPlayoffsUser" [inputFormatter]="typeAheadInputFormatter"
+                           [resultFormatter]="typeAheadResultFormatter">
                 </div>
                 <div class="col-12 col-sm-6 mt-1 mt-sm-0">
-                    <input class="form-control" required placeholder="Away">
+                    <input class="form-control" required placeholder="Away" [(ngModel)]="game.awayUser"
+                           name="{{'gameAwayUserRound1Spot' + game.playoff.spot}}" [editable]="false"
+                           [ngbTypeahead]="typeAheadForPlayoffsUser" [inputFormatter]="typeAheadInputFormatter"
+                           [resultFormatter]="typeAheadResultFormatter">
                 </div>
             </div>
         </div>
@@ -56,3 +63,5 @@
         </div>
     </div>
 </form>
+
+<pre>{{games | json}}</pre>
