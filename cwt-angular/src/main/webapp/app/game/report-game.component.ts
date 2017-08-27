@@ -29,8 +29,8 @@ export class ReportGameComponent implements OnInit {
                 this.possibleScores = [];
 
                 let i;
-                for (i = 0; i < Math.ceil(res.value / 2); i++) {
-                    this.possibleScores.push(i + 1);
+                for (i = 0; i <= Math.ceil(res.value / 2); i++) {
+                    this.possibleScores.push(i);
                 }
             });
     }
