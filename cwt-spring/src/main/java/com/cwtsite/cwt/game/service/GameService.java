@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class GameService {
 
@@ -61,5 +63,9 @@ public class GameService {
 
     public boolean homeUserHasWon(final Game game) {
         return game.getScoreHome() > game.getScoreAway();
+    }
+
+    public List<Game> saveAll(final List<Game> games) {
+        return gameRepository.save(games);
     }
 }

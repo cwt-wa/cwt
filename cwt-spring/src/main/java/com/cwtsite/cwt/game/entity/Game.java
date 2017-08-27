@@ -40,7 +40,7 @@ public class Game implements Serializable {
     @Column(name = "modified")
     private LocalDate modified;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private PlayoffGame playoff;
 

@@ -23,7 +23,7 @@ public class PlayoffGame implements Serializable {
     @Column(name = "spot")
     private Integer spot;
 
-    protected PlayoffGame() {
+    public PlayoffGame() {
     }
 
     public Long getId() {
