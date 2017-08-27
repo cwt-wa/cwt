@@ -11,10 +11,7 @@ import com.cwtsite.cwt.user.repository.entity.User;
 import com.cwtsite.cwt.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +29,11 @@ public class GameRestController {
         this.gameService = gameService;
         this.userService = userService;
         this.tournamentService = tournamentService;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Game> reportGame(@PathVariable("id") long id) {
+        return ResponseEntity.ok(gameService.get(id));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

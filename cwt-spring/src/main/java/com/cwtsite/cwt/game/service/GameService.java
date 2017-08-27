@@ -68,4 +68,8 @@ public class GameService {
     public List<Game> saveAll(final List<Game> games) {
         return gameRepository.save(games);
     }
+
+    public Game get(long id) {
+        return gameRepository.findOne(id);
+    }
 }

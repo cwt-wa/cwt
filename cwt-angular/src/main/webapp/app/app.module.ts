@@ -27,6 +27,7 @@ import {ReportGameComponent} from "./game/report-game.component";
 import {AdminPlayoffsStartComponent} from "./playoffs/admin-playoffs-start.component";
 import {StandingsOrderPipe} from "./_util/standings-order.pipe";
 import {PlayoffsTreeComponent} from "./playoffs/playoffs-tree.component";
+import {GameDetailComponent} from "./game/game-detail.component";
 
 const appRoutes: Routes = [
     {
@@ -78,6 +79,14 @@ const appRoutes: Routes = [
         component: ReportGameComponent
     },
     {
+        path: 'game/',
+        component: ReportGameComponent
+    },
+    {
+        path: 'game/:id',
+        component: GameDetailComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -110,6 +119,7 @@ const appRoutes: Routes = [
         AdminPlayoffsStartComponent,
         StandingsOrderPipe,
         PlayoffsTreeComponent,
+        GameDetailComponent,
     ],
     providers: [
         WebAppViewService,
