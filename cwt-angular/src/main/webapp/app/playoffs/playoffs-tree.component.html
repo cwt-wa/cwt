@@ -1,4 +1,31 @@
 Hello, World!
 
+<div class="playoff-tree">
+    <div *ngFor="let round of numberOfRoundsIterable;" class="playoff-round">
+        <table *ngFor="let game of gamesInRound(round)" class="playoff-spot">
+            <tbody>
+            <tr>
+                <td>
+                    {{game.homeUser.username}}
+                </td>
+                <td>
+                    {{game.scoreHome}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{game.awayUser.username}}
+                </td>
+                <td>
+                    {{game.scoreAway}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--TODO Halted here beause ratings, comments, downloads need to be implemented before as they're shown here.-->
+
 
 <pre class="mt-5">{{games | json}}</pre>

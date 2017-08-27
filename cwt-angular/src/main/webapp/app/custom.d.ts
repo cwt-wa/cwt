@@ -85,7 +85,9 @@ export interface Game {
     playoff: {
         round: number;
         spot: number;
-    }
+    },
+    scoreHome?: number;
+    scoreAway?: number;
 }
 
 export interface GameDto {

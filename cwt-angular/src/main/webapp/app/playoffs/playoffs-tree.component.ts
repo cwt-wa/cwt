@@ -9,12 +9,36 @@ import {Game} from "../custom";
 export class PlayoffsTreeComponent implements OnInit {
 
     public games: Game[];
+    private numberOfRounds: number;
 
-    constructor(private requestService: RequestService) {
+    public constructor(private requestService: RequestService) {
+    }
+
+    public get numberOfRoundsIterable(): number[] {
+        const numberOfRoundsIterable: number[] = [];
+
+        let i;
+        for (i = 0; i < this.numberOfRounds; i++) {
+            numberOfRoundsIterable.push(i);
+        }
+
+        return numberOfRoundsIterable;
     }
 
     public ngOnInit(): void {
         this.requestService.get<Game[]>('tournament/current/game/playoff')
-            .subscribe(res => this.games = res);
+            .subscribe(res => {
+                this.games = res;
+
+                this.numberOfRounds = Math.log2(this.games
+                    .filter(g => g.playoff.round === 1)
+                    .length) + 1
+                ;
+            });
+    }
+
+    public gamesInRound(round: number): Game[] {
+        return this.games
+            .filter(g => g.playoff.round === round);
     }
 }
