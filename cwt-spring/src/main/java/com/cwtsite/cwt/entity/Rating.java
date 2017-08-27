@@ -2,6 +2,7 @@ package com.cwtsite.cwt.entity;
 
 import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.user.repository.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,7 +36,9 @@ public class Rating implements Serializable {
     @ManyToOne
     private User user;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn
     private Game game;
 
     protected Rating() {

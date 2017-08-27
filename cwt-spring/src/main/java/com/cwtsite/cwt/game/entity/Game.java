@@ -1,12 +1,17 @@
 package com.cwtsite.cwt.game.entity;
 
+import com.cwtsite.cwt.entity.Comment;
+import com.cwtsite.cwt.entity.Rating;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -58,6 +63,14 @@ public class Game implements Serializable {
 
     @ManyToOne
     private User reporter;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Rating> ratings;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Comment> comments;
 
     public Long getId() {
         return id;
@@ -221,6 +234,22 @@ public class Game implements Serializable {
     public Game reporter(User user) {
         this.reporter = user;
         return this;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override
