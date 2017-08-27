@@ -211,3 +211,21 @@ INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, g
 INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (49, 0, 0, 0, 0, 17, 12);
 INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (50, 0, 0, 0, 0, 17, 17);
 INSERT INTO public.group_standing (id, game_ratio, games, points, round_ratio, group_id, user_id) VALUES (51, 0, 0, 0, 0, 17, 21);
+
+INSERT INTO public.playoff_game (id, round, spot) VALUES (20, 1, 1);
+INSERT INTO public.playoff_game (id, round, spot) VALUES (21, 1, 2);
+INSERT INTO public.playoff_game (id, round, spot) VALUES (22, 1, 3);
+INSERT INTO public.playoff_game (id, round, spot) VALUES (23, 1, 4);
+INSERT INTO public.playoff_game (id, round, spot) VALUES (24, 1, 5);
+INSERT INTO public.playoff_game (id, round, spot) VALUES (25, 1, 6);
+INSERT INTO public.playoff_game (id, round, spot) VALUES (26, 1, 7);
+INSERT INTO public.playoff_game (id, round, spot) VALUES (27, 1, 8);
+
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (10, null, null, null, null, null, false, 3, null, 2, 20, null, null);
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (11, null, null, null, null, null, false, 10, null, 9, 21, null, null);
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (12, null, null, null, null, null, false, 22, null, 16, 22, null, null);
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (13, null, null, null, null, null, false, 8, null, 6, 23, null, null);
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (14, null, null, null, null, null, false, 26, null, 15, 24, null, null);
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (15, null, null, null, null, null, false, 24, null, 18, 25, null, null);
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (16, null, null, null, null, null, false, 25, null, 1, 26, null, null);
+INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (17, null, null, null, null, null, false, 12, null, 5, 27, null, null);
