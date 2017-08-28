@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.game.entity;
 
+import com.cwtsite.cwt.game.entity.enumeration.RatingType;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,17 +18,9 @@ public class Rating implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "likes")
-    private Boolean likes;
-
-    @Column(name = "dislikes")
-    private Boolean dislikes;
-
-    @Column(name = "lightside")
-    private Boolean lightside;
-
-    @Column(name = "darkside")
-    private Boolean darkside;
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private RatingType type;
 
     @ManyToOne
     private User user;
@@ -48,56 +41,12 @@ public class Rating implements Serializable {
         this.id = id;
     }
 
-    public Boolean isLikes() {
-        return likes;
+    public RatingType getType() {
+        return type;
     }
 
-    public Rating likes(Boolean likes) {
-        this.likes = likes;
-        return this;
-    }
-
-    public void setLikes(Boolean likes) {
-        this.likes = likes;
-    }
-
-    public Boolean isDislikes() {
-        return dislikes;
-    }
-
-    public Rating dislikes(Boolean dislikes) {
-        this.dislikes = dislikes;
-        return this;
-    }
-
-    public void setDislikes(Boolean dislikes) {
-        this.dislikes = dislikes;
-    }
-
-    public Boolean isLightside() {
-        return lightside;
-    }
-
-    public Rating lightside(Boolean lightside) {
-        this.lightside = lightside;
-        return this;
-    }
-
-    public void setLightside(Boolean lightside) {
-        this.lightside = lightside;
-    }
-
-    public Boolean isDarkside() {
-        return darkside;
-    }
-
-    public Rating darkside(Boolean darkside) {
-        this.darkside = darkside;
-        return this;
-    }
-
-    public void setDarkside(Boolean darkside) {
-        this.darkside = darkside;
+    public void setType(RatingType type) {
+        this.type = type;
     }
 
     public User getUser() {
@@ -150,10 +99,6 @@ public class Rating implements Serializable {
     public String toString() {
         return "Rating{" +
                 "id=" + id +
-                ", likes='" + likes + "'" +
-                ", dislikes='" + dislikes + "'" +
-                ", lightside='" + lightside + "'" +
-                ", darkside='" + darkside + "'" +
-                '}';
+                ", type='" + type.name() + "'}";
     }
 }

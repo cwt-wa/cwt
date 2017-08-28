@@ -88,6 +88,13 @@ export interface Comment {
     author: User;
 }
 
+export type RatingType = "DARKSIDE" | "LIGHTSIDE" | "LIKE" | "DISLIKE";
+
+export interface Rating {
+    type: RatingType
+    user: User;
+}
+
 export interface Game {
     homeUser: User;
     awayUser: User;
@@ -100,6 +107,7 @@ export interface Game {
     group?: Group;
     comments?: Comment[];
     reporter?: User;
+    rating?: Rating;
 }
 
 export interface GameDto {
