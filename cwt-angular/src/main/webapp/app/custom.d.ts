@@ -79,6 +79,15 @@ export interface ReportDto {
     scoreOfOpponent: number;
 }
 
+export interface Comment {
+    id: number;
+    body: string;
+    deleted: boolean;
+    created: Date;
+    modified: Date;
+    author: User;
+}
+
 export interface Game {
     homeUser: User;
     awayUser: User;
@@ -88,6 +97,9 @@ export interface Game {
     },
     scoreHome?: number;
     scoreAway?: number;
+    group?: Group;
+    comments?: Comment[];
+    reporter?: User;
 }
 
 export interface GameDto {

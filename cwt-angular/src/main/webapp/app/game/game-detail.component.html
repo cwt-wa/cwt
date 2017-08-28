@@ -1,1 +1,84 @@
-<pre>{{game | json}}</pre>
+<div *ngIf="game">
+    <span class="float-right">
+        Reported by {{game.reporter.username}} on <br>
+        <!--TODO {{game.created}}-->
+        December 19, 2016 at 00:06
+    </span>
+
+    <h1>
+        {{game.homeUser.username}}
+        {{game.scoreHome}}–{{game.scoreAway}}
+        {{game.awayUser.username}}
+    </h1>
+    <p class="lead">
+        Group
+        {{game.group.label}}
+    </p>
+
+
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card">
+                <img class="card-img-top" src="../../img/icon.png" alt="Card image">
+                <div class="card-body bg-light">
+                    <h4 class="card-title">
+                        <i class="fa fa-star"></i>
+                        {{winningUser.username}}
+                    </h4>
+                </div>
+            </div>
+
+            <div class="rating-container mt-3">
+                <div class="bg-success rounded-left"></div><div class="bg-danger rounded-right"></div>
+            </div>
+
+            <div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
+                <label ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
+                    <i class="fa fa-thumbs-up"></i>
+                    Like
+                </label>
+                <label ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
+                    <i class="fa fa-thumbs-down"></i>
+                    Dislike
+                </label>
+            </div>
+
+            <div class="rating-container mt-3">
+                <div class="bg-light rounded-left"></div><div class="bg-dark rounded-right">
+            </div>
+            </div>
+
+            <div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
+                <label ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
+                    <i class="fa fa-rocket"></i>
+                    Lightside
+                </label>
+                <label ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
+                    <i class="fa fa-lightbulb-o"></i>
+                    Darkside
+                </label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <form>
+                <textarea rows="3" class="form-control" placeholder="Write a comment…"></textarea>
+                <button class="btn btn-primary float-right mt-1">Submit Comment</button>
+            </form>
+            <div *ngFor="let comment of game.comments">
+                {{comment}}
+            </div>
+            <div class="clearfix"></div>
+            <div *ngIf="!game.comments.length" class="text-center text-muted mt-3">
+                There are no comments yet.
+            </div>
+        </div>
+    </div>
+
+
+    <pre style="margin-top: 500px;">{{game | json}}</pre>
+
+</div>
