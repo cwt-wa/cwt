@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.game.entity;
 
 import com.cwtsite.cwt.entity.Comment;
-import com.cwtsite.cwt.entity.Rating;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;

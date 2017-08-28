@@ -1,6 +1,5 @@
-package com.cwtsite.cwt.entity;
+package com.cwtsite.cwt.game.entity;
 
-import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -8,9 +7,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * A Rating.
- */
 @Entity
 @Table(name = "rating")
 public class Rating implements Serializable {
