@@ -1,23 +1,36 @@
-Hello, World!
+{{numberOfRounds}}
 
 <div class="playoff-tree">
     <div *ngFor="let round of numberOfRoundsIterable;" class="playoff-round">
-        <table *ngFor="let game of gamesInRound(round)" class="playoff-spot">
+        <hr>
+        <table *ngFor="let game of gamesInRound(round + 1)" class="playoff-spot">
             <tbody>
             <tr>
-                <td>
+                <td class="playoff-user">
                     {{game.homeUser.username}}
                 </td>
-                <td>
+                <td class="playoff-score">
                     {{game.scoreHome}}
+                </td>
+                <td colspan="3">
+                    Rating
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="playoff-user">
                     {{game.awayUser.username}}
                 </td>
-                <td>
+                <td class="playoff-score">
                     {{game.scoreAway}}
+                </td>
+                <td>
+                    C
+                </td>
+                <td>
+                    D
+                </td>
+                <td>
+                    GO
                 </td>
             </tr>
             </tbody>
@@ -25,7 +38,7 @@ Hello, World!
     </div>
 </div>
 
-<!--TODO Halted here beause ratings, comments, downloads need to be implemented before as they're shown here.-->
-
+<div class="clearfix"></div>
 
 <pre class="mt-5">{{games | json}}</pre>
+

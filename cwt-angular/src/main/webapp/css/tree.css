@@ -3,9 +3,25 @@
 }
 
 .playoff-round {
+    float: left;
+}
+
+.playoff-spot table,
+.playoff-spot th,
+.playoff-spot td {
+    border: 1px solid black;
+}
+
+.playoff-spot table {
+    height: 55px;
 
 }
 
-.playoff-spot {
+.playoff-spot .playoff-user {
+    width: 150px;
+
+}
+
+.playoff-score {
 
 }
