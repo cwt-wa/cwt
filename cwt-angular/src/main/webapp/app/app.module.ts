@@ -28,6 +28,7 @@ import {AdminPlayoffsStartComponent} from "./playoffs/admin-playoffs-start.compo
 import {StandingsOrderPipe} from "./_util/standings-order.pipe";
 import {PlayoffsTreeComponent} from "./playoffs/playoffs-tree.component";
 import {GameDetailComponent} from "./game/game-detail.component";
+import {RatingComponent} from "./game/rating.component";
 
 const appRoutes: Routes = [
     {
@@ -120,6 +121,7 @@ const appRoutes: Routes = [
         StandingsOrderPipe,
         PlayoffsTreeComponent,
         GameDetailComponent,
+        RatingComponent,
     ],
     providers: [
         WebAppViewService,

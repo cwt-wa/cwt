@@ -1,0 +1,9 @@
+<div class="rating-container mt-3">
+    <div
+            class="rounded-left" [ngStyle]="{'width': aPercent + '%', 'background-color': typeColorAssignment[typeA]}">
+        {{numOfRatingsForA}}
+    </div><div
+            class="rounded-right text-right" [ngStyle]="{'width': bPercent + '%', 'background-color': typeColorAssignment[typeB]}">
+        {{numOfRatingsForB}}
+    </div>
+</div>

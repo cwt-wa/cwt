@@ -107,7 +107,7 @@ export interface Game {
     group?: Group;
     comments?: Comment[];
     reporter?: User;
-    rating?: Rating;
+    ratings?: Rating[];
 }
 
 export interface GameDto {

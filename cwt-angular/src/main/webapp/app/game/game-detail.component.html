@@ -28,11 +28,9 @@
                 </div>
             </div>
 
-            <div class="rating-container mt-3">
-                <div class="bg-success rounded-left"></div><div class="bg-danger rounded-right"></div>
-            </div>
+            <cwt-rating [ratings]="game.ratings" typeA="LIKE" typeB="DISLIKE"></cwt-rating>
 
-            <div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
+            <div class="btn-group btn-group-justified mt-1 mb-3" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
                 <label ngbButtonLabel class="btn-primary">
                     <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
                     <i class="fa fa-thumbs-up"></i>
@@ -45,10 +43,7 @@
                 </label>
             </div>
 
-            <div class="rating-container mt-3">
-                <div class="bg-light rounded-left"></div><div class="bg-dark rounded-right">
-            </div>
-            </div>
+            <cwt-rating [ratings]="game.ratings" typeA="LIGHTSIDE" typeB="DARKSIDE"></cwt-rating>
 
             <div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
                 <label ngbButtonLabel class="btn-primary">
