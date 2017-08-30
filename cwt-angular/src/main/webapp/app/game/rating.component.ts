@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Rating, RatingType} from "../custom";
 
 @Component({
@@ -25,6 +25,8 @@ export class RatingComponent implements OnInit {
     public typeA: RatingType;
     @Input()
     public typeB: RatingType;
+    @Output()
+    public onRate: EventEmitter<RatingType> = new EventEmitter<RatingType>();
 
     public aPercent: number;
     public bPercent: number;
@@ -34,10 +36,14 @@ export class RatingComponent implements OnInit {
         "LIKE": 'green',
         "DISLIKE": 'red'
     };
+    public rating: RatingType;
     private numOfRatingsForA: number;
     private numOfRatingsForB: number;
+    public showActionButtons: boolean;
 
     public ngOnInit(): void {
+        this.showActionButtons = this.onRate.observers.length > 0;
+
         this.numOfRatingsForA = this.ratings
             .filter(r => r.type === this.typeA)
             .length;
@@ -53,5 +59,9 @@ export class RatingComponent implements OnInit {
             this.aPercent = 50;
             this.bPercent = 50;
         }
+    }
+
+    public rate(): void {
+        this.onRate.emit(this.rating);
     }
 }

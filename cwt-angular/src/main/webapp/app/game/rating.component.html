@@ -1,4 +1,4 @@
-<div class="rating-container mt-3">
+<div class="rating-container">
     <div
             class="rounded-left" [ngStyle]="{'width': aPercent + '%', 'background-color': typeColorAssignment[typeA]}">
         {{numOfRatingsForA}}
@@ -6,4 +6,17 @@
             class="rounded-right text-right" [ngStyle]="{'width': bPercent + '%', 'background-color': typeColorAssignment[typeB]}">
         {{numOfRatingsForB}}
     </div>
+</div>
+
+<div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="rating" [(ngModel)]="rating" *ngIf="showActionButtons">
+    <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="typeA" (change)="rate()">
+        <i class="fa fa-thumbs-up"></i>
+        <span class="text-capitalize">{{typeA.toLowerCase()}}</span>
+    </label>
+    <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="typeB" (change)="rate()">
+        <i class="fa fa-thumbs-down"></i>
+        <span class="text-capitalize">{{typeB.toLowerCase()}}</span>
+    </label>
 </div>

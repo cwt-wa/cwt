@@ -28,34 +28,11 @@
                 </div>
             </div>
 
-            <cwt-rating [ratings]="game.ratings" typeA="LIKE" typeB="DISLIKE"></cwt-rating>
-
-            <div class="btn-group btn-group-justified mt-1 mb-3" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
-                <label ngbButtonLabel class="btn-primary">
-                    <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
-                    <i class="fa fa-thumbs-up"></i>
-                    Like
-                </label>
-                <label ngbButtonLabel class="btn-primary">
-                    <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
-                    <i class="fa fa-thumbs-down"></i>
-                    Dislike
-                </label>
+            <div class="mt-3">
+                <cwt-rating [ratings]="game.ratings" typeA="LIKE" typeB="DISLIKE" (onRate)="rate($event)"></cwt-rating>
             </div>
-
-            <cwt-rating [ratings]="game.ratings" typeA="LIGHTSIDE" typeB="DARKSIDE"></cwt-rating>
-
-            <div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
-                <label ngbButtonLabel class="btn-primary">
-                    <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
-                    <i class="fa fa-rocket"></i>
-                    Lightside
-                </label>
-                <label ngbButtonLabel class="btn-primary">
-                    <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
-                    <i class="fa fa-lightbulb-o"></i>
-                    Darkside
-                </label>
+            <div class="mt-3">
+                <cwt-rating [ratings]="game.ratings" typeA="LIGHTSIDE" typeB="DARKSIDE" (onRate)="rate($event)"></cwt-rating>
             </div>
         </div>
         <div class="col-md-9">

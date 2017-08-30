@@ -96,6 +96,7 @@ export interface Rating {
 }
 
 export interface Game {
+    id: number;
     homeUser: User;
     awayUser: User;
     playoff: {
