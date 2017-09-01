@@ -1,5 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Rating, RatingType} from "../custom";
+import {Component, Input, OnInit} from '@angular/core';
+import {Rating, RatingDto, RatingType} from "../custom";
+import {RequestService} from "../_services/request.service";
+import {AuthService} from "../_services/auth.service";
 
 @Component({
     selector: 'cwt-rating',
@@ -25,8 +27,8 @@ export class RatingComponent implements OnInit {
     public typeA: RatingType;
     @Input()
     public typeB: RatingType;
-    @Output()
-    public onRate: EventEmitter<RatingType> = new EventEmitter<RatingType>();
+    @Input()
+    public gameId: number;
 
     public aPercent: number;
     public bPercent: number;
@@ -39,11 +41,15 @@ export class RatingComponent implements OnInit {
     public rating: RatingType;
     private numOfRatingsForA: number;
     private numOfRatingsForB: number;
-    public showActionButtons: boolean;
+
+    public constructor(private requestService: RequestService, private authService: AuthService) {
+    }
 
     public ngOnInit(): void {
-        this.showActionButtons = this.onRate.observers.length > 0;
+        this.calc();
+    }
 
+    private calc() {
         this.numOfRatingsForA = this.ratings
             .filter(r => r.type === this.typeA)
             .length;
@@ -53,8 +59,8 @@ export class RatingComponent implements OnInit {
         const totalRatings: number = this.numOfRatingsForA + this.numOfRatingsForB;
 
         if (totalRatings !== 0) {
-            this.aPercent = this.numOfRatingsForA === 0 ? 0 : totalRatings / this.numOfRatingsForA;
-            this.bPercent = this.numOfRatingsForB === 0 ? 0 : totalRatings / this.numOfRatingsForB;
+            this.aPercent = this.numOfRatingsForA === 0 ? 0 : (this.numOfRatingsForA / totalRatings) * 100;
+            this.bPercent = this.numOfRatingsForB === 0 ? 0 : (this.numOfRatingsForB / totalRatings) * 100;
         } else {
             this.aPercent = 50;
             this.bPercent = 50;
@@ -62,6 +68,8 @@ export class RatingComponent implements OnInit {
     }
 
     public rate(): void {
-        this.onRate.emit(this.rating);
+        const payload: RatingDto = {type: this.rating, user: this.authService.getUserFromTokenPayload().id};
+        this.requestService.post<Rating>(`game/${this.gameId}/rating`, payload)
+            .subscribe(res => this.ratings.push(res) && this.calc());
     }
 }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
-import {Game, Rating, RatingType, User} from "../custom";
+import {Game, User} from "../custom";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -23,10 +23,5 @@ export class GameDetailComponent {
 
     public get winningUser(): User {
         return this.game.scoreHome > this.game.scoreAway ? this.game.homeUser : this.game.awayUser;
-    }
-
-    public rate(rating: RatingType): void {
-        this.requestService.post(`game/${this.game.id}/rating`, <Rating> {type: rating})
-            .subscribe();
     }
 }

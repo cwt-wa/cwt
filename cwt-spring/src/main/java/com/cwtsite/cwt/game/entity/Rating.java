@@ -30,6 +30,12 @@ public class Rating implements Serializable {
     @JoinColumn
     private Game game;
 
+    public Rating(RatingType type, User user, Game game) {
+        this.type = type;
+        this.user = user;
+        this.game = game;
+    }
+
     protected Rating() {
     }
 

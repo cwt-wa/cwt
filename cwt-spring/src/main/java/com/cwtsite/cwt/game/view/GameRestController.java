@@ -2,6 +2,7 @@ package com.cwtsite.cwt.game.view;
 
 import com.cwtsite.cwt.core.exception.ResourceNotFoundException;
 import com.cwtsite.cwt.game.entity.Game;
+import com.cwtsite.cwt.game.entity.Rating;
 import com.cwtsite.cwt.game.service.GameService;
 import com.cwtsite.cwt.game.view.model.GameDto;
 import com.cwtsite.cwt.game.view.model.ReportDto;
@@ -69,5 +70,10 @@ public class GameRestController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(gameService.saveAll(games));
+    }
+
+    @RequestMapping(value = "/{id}/rating", method = RequestMethod.POST)
+    public Rating rateGame(@PathVariable("id") long id, @RequestBody RatingDto rating) {
+        return gameService.rateGame(id, rating.getUser(), rating.getType());
     }
 }

@@ -119,3 +119,9 @@ export interface GameDto {
         spot: number;
     }
 }
+
+
+export interface RatingDto {
+    type: RatingType;
+    user: number
+}

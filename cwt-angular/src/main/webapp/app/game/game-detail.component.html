@@ -29,10 +29,10 @@
             </div>
 
             <div class="mt-3">
-                <cwt-rating [ratings]="game.ratings" typeA="LIKE" typeB="DISLIKE" (onRate)="rate($event)"></cwt-rating>
+                <cwt-rating [ratings]="game.ratings" typeA="LIKE" typeB="DISLIKE" [gameId]="game.id"></cwt-rating>
             </div>
             <div class="mt-3">
-                <cwt-rating [ratings]="game.ratings" typeA="LIGHTSIDE" typeB="DARKSIDE" (onRate)="rate($event)"></cwt-rating>
+                <cwt-rating [ratings]="game.ratings" typeA="LIGHTSIDE" typeB="DARKSIDE" [gameId]="game.id"></cwt-rating>
             </div>
         </div>
         <div class="col-md-9">

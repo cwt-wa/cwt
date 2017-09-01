@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="rating" [(ngModel)]="rating" *ngIf="showActionButtons">
+<div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="rating" [(ngModel)]="rating">
     <label ngbButtonLabel class="btn-primary">
         <input ngbButton type="radio" [value]="typeA" (change)="rate()">
         <i class="fa fa-thumbs-up"></i>
