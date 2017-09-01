@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.game.view;
 
 import com.cwtsite.cwt.core.exception.ResourceNotFoundException;
+import com.cwtsite.cwt.entity.Comment;
 import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.game.entity.Rating;
 import com.cwtsite.cwt.game.service.GameService;
@@ -75,5 +76,10 @@ public class GameRestController {
     @RequestMapping(value = "/{id}/rating", method = RequestMethod.POST)
     public Rating rateGame(@PathVariable("id") long id, @RequestBody RatingDto rating) {
         return gameService.rateGame(id, rating.getUser(), rating.getType());
+    }
+
+    @RequestMapping(value = "/{id}/comment", method = RequestMethod.POST)
+    public Comment commentGame(@PathVariable("id") long id, @RequestBody CommentDto comment) {
+        return gameService.commentGame(id, comment.getUser(), comment.getBody());
     }
 }

@@ -53,6 +53,7 @@ export class RatingComponent implements OnInit {
 
     public ngOnInit(): void {
         this.calc();
+        // TODO Pre-set when user has already rated.
     }
 
     private calc() {

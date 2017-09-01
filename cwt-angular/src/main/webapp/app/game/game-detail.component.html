@@ -1,14 +1,15 @@
 <div *ngIf="game">
-    <span class="float-right">
-        Reported by {{game.reporter.username}} on <br>
+    <span class="float-right text-right">
+        Reported by
+        <a [routerLink]="['/user', game.reporter.username]">{{game.reporter.username}}</a><br>
         <!--TODO {{game.created}}-->
         December 19, 2016 at 00:06
     </span>
 
     <h1>
-        {{game.homeUser.username}}
+        <a [routerLink]="['/user', game.homeUser.username]">{{game.homeUser.username}}</a>
         {{game.scoreHome}}–{{game.scoreAway}}
-        {{game.awayUser.username}}
+        <a [routerLink]="['/user', game.awayUser.username]">{{game.awayUser.username}}</a>
     </h1>
     <p class="lead">
         Group
@@ -23,9 +24,16 @@
                 <div class="card-body bg-light">
                     <h4 class="card-title">
                         <i class="fa fa-star"></i>
-                        {{winningUser.username}}
+                        <a [routerLink]="['/user', winningUser.username]">{{winningUser.username}}</a>
                     </h4>
                 </div>
+            </div>
+
+            <div class="mt-3">
+                <button class="btn btn-primary w-100">
+                    <i class="fa fa-download"></i>
+                    Replay <!-- TODO Actual Replay download link -->
+                </button>
             </div>
 
             <div class="mt-3">
@@ -36,12 +44,19 @@
             </div>
         </div>
         <div class="col-md-9">
-            <form>
-                <textarea rows="3" class="form-control" placeholder="Write a comment…"></textarea>
-                <button class="btn btn-primary float-right mt-1">Submit Comment</button>
+            <form #commentForm="ngForm" (ngSubmit)="submitComment()">
+                <textarea rows="3" class="form-control" placeholder="Write a comment…" required
+                          [(ngModel)]="comment.body" name="comment">
+                </textarea>
+                <button class="btn btn-primary float-right mt-1" [disabled]="!commentForm.form.valid">
+                    Submit Comment
+                </button>
             </form>
+            <div class="clearfix"></div>
             <div *ngFor="let comment of game.comments">
-                {{comment}}
+                <h6 class="m-0"><a [routerLink]="['/user', comment.author.username]">{{comment.author.username}}</a></h6>
+                <span class="text-muted">2 minutes ago</span> <!-- TODO created -->
+                <p class="p-1 bg-light rounded">{{comment.body}}</p>
             </div>
             <div class="clearfix"></div>
             <div *ngIf="!game.comments.length" class="text-center text-muted mt-3">

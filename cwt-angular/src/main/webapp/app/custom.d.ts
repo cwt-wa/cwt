@@ -120,8 +120,12 @@ export interface GameDto {
     }
 }
 
-
 export interface RatingDto {
     type: RatingType;
     user: number
+}
+
+export interface CommentDto {
+    user: number;
+    body: string;
 }

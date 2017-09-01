@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.game.service;
 
+import com.cwtsite.cwt.entity.Comment;
 import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.game.entity.Rating;
 import com.cwtsite.cwt.game.entity.enumeration.RatingType;
@@ -26,16 +27,19 @@ public class GameService {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final GroupService groupService;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public GameService(GameRepository gameRepository, TournamentService tournamentService, GroupRepository groupRepository,
-                       UserRepository userRepository, GroupService groupService, RatingRepository ratingRepository) {
+                       UserRepository userRepository, GroupService groupService, RatingRepository ratingRepository,
+                       CommentRepository commentRepository) {
         this.gameRepository = gameRepository;
         this.tournamentService = tournamentService;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
         this.groupService = groupService;
         this.ratingRepository = ratingRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Transactional
@@ -81,5 +85,11 @@ public class GameService {
         final User user = userRepository.findOne(userId);
         final Game game = gameRepository.findOne(gameId);
         return ratingRepository.save(new Rating(type, user, game));
+    }
+
+    public Comment commentGame(long gameId, Long userId, String body) {
+        final User user = userRepository.findOne(userId);
+        final Game game = gameRepository.findOne(gameId);
+        return commentRepository.save(new Comment(body, user, game));
     }
 }

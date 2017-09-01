@@ -48,6 +48,12 @@ public class Comment implements Serializable {
     protected Comment() {
     }
 
+    public Comment(String body, User author, Game game) {
+        this.body = body;
+        this.author = author;
+        this.game = game;
+    }
+
     public Long getId() {
         return id;
     }
