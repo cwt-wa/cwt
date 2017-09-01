@@ -38,6 +38,12 @@ export class RatingComponent implements OnInit {
         "LIKE": 'green',
         "DISLIKE": 'red'
     };
+    public readonly typeIconAssignment: { [key: string]: string } = {
+        "DARKSIDE": 'fa-lightbulb-o',
+        "LIGHTSIDE": 'fa-rocket',
+        "LIKE": 'fa-thumbs-up',
+        "DISLIKE": 'fa-thumbs-down'
+    };
     public rating: RatingType;
     private numOfRatingsForA: number;
     private numOfRatingsForB: number;

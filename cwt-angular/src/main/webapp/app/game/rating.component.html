@@ -11,12 +11,12 @@
 <div class="btn-group btn-group-justified mt-1" ngbRadioGroup name="rating" [(ngModel)]="rating">
     <label ngbButtonLabel class="btn-primary">
         <input ngbButton type="radio" [value]="typeA" (change)="rate()">
-        <i class="fa fa-thumbs-up"></i>
+        <i class="fa" [ngClass]="typeIconAssignment[typeA]"></i>
         <span class="text-capitalize">{{typeA.toLowerCase()}}</span>
     </label>
     <label ngbButtonLabel class="btn-primary">
         <input ngbButton type="radio" [value]="typeB" (change)="rate()">
-        <i class="fa fa-thumbs-down"></i>
+        <i class="fa" [ngClass]="typeIconAssignment[typeB]"></i>
         <span class="text-capitalize">{{typeB.toLowerCase()}}</span>
     </label>
 </div>
