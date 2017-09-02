@@ -1,9 +1,15 @@
-{{numberOfRounds}}
-
 <div class="playoff-tree">
-    <div *ngFor="let round of numberOfRoundsIterable;" class="playoff-round">
-        <hr>
-        <table *ngFor="let game of gamesInRound(round + 1)" class="playoff-spot">
+    <div *ngFor="let round of numberOfRoundsIterable; let lastRound = last" class="playoff-round">
+        <table *ngFor="let game of gamesInRound(round + 1); let odd = odd; let gameInRound = index; let lastGameOfRound = last" class="playoff-spot" [ngClass]="{'odd': odd}"
+               [ngStyle]="{'margin-top': round !== 0 ? ([[0, 81, 81, 81], [118, 236], [196, 12]])[round - 1][gameInRound] + 'px' : 'inherit'}">
+            <thead *ngIf="lastRound">
+            <tr>
+                <td colspan="3" class="text-center rounded-top">
+                    <h6 class="m-0" *ngIf="lastGameOfRound">Little Final</h6>
+                    <h5 class="m-0" *ngIf="!lastGameOfRound">Final</h5>
+                </td>
+            </tr>
+            </thead>
             <tbody>
             <tr>
                 <td class="playoff-user">
@@ -12,8 +18,8 @@
                 <td class="playoff-score">
                     {{game.scoreHome}}
                 </td>
-                <td colspan="3">
-                    Rating
+                <td>
+                    <i class="fa fa-arrow-circle-down"></i>
                 </td>
             </tr>
             <tr>
@@ -24,21 +30,12 @@
                     {{game.scoreAway}}
                 </td>
                 <td>
-                    C
-                </td>
-                <td>
-                    D
-                </td>
-                <td>
-                    GO
+                    <a [routerLink]="['/game', game.id]">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<div class="clearfix"></div>
-
-<pre class="mt-5">{{games | json}}</pre>
-

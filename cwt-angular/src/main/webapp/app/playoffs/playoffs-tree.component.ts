@@ -14,6 +14,9 @@ export class PlayoffsTreeComponent implements OnInit {
     public constructor(private requestService: RequestService) {
     }
 
+    /**
+     * @todo Calling this from the template causes lots of DOM updates.
+     */
     public get numberOfRoundsIterable(): number[] {
         const numberOfRoundsIterable: number[] = [];
 
@@ -32,13 +35,21 @@ export class PlayoffsTreeComponent implements OnInit {
 
                 this.numberOfRounds = Math.log2(this.games
                     .filter(g => g.playoff.round === 1)
-                    .length) + 1
-                ;
+                    .length) + 1;
             });
+
+        // TODO Order games so that they make sense in a tree.
     }
 
     public gamesInRound(round: number): Game[] {
-        return this.games
+        const gamesOfRound: Game[] = this.games
             .filter(g => g.playoff.round === round);
+
+        if (round === this.numberOfRounds) {
+            gamesOfRound.push(...this.gamesInRound(round + 1));
+            gamesOfRound.reverse();
+        }
+
+        return gamesOfRound;
     }
 }

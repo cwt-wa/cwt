@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A Game.
+ * @todo There should definitely be more lazy loading here.
  */
 @Entity
 @Table(name = "game")
