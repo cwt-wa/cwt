@@ -26,12 +26,12 @@ public enum ConfigurationKey {
     /**
      * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the game for the third place.
      */
-    LITTLE_FINALE_GAME_BEST_OF(Integer.class),
+    LITTLE_FINAL_GAME_BEST_OF(Integer.class),
 
     /**
-     * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the finale.
+     * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the final.
      */
-    FINALE_GAME_BEST_OF(Integer.class);
+    FINAL_GAME_BEST_OF(Integer.class);
 
 
     private final Class type;

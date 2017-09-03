@@ -167,8 +167,8 @@ INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'RULES'
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'NUMBER_OF_GROUP_MEMBERS_ADVANCING', 2, 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'GROUP_GAMES_BEST_OF', 5, 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'PLAYOFF_GAMES_BEST_OF', 5, 1);
-INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'LITTLE_FINALE_GAME_BEST_OF', 7, 1);
-INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'FINALE_GAME_BEST_OF', 7, 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'LITTLE_FINAL_GAME_BEST_OF', 7, 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'FINAL_GAME_BEST_OF', 7, 1);
 
 INSERT INTO public."group" (id, label, tournament_id) VALUES (10, 'A', 1);
 INSERT INTO public."group" (id, label, tournament_id) VALUES (11, 'B', 1);
