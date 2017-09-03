@@ -5,7 +5,7 @@ INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 40);
 INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 41);
 INSERT INTO public.user_profile (id, about, clan, country, email, facebook, modified, skype, twitter, user_id) VALUES (1, null, null, null, null, null, null, null, null, 1);
 INSERT INTO user_setting (id, hide_email, hide_profile, user_id) VALUES (1, false, false, 1);
-INSERT INTO public.tournament (id, created, open, review, status, bronze_winner_id, gold_winner_id, host_id, silver_winner_id) VALUES (1, NULL, NULL, NULL, 'GROUP', NULL, NULL, 1, NULL);
+INSERT INTO public.tournament (id, created, open, review, status, bronze_winner_id, gold_winner_id, host_id, silver_winner_id) VALUES (1, NULL, NULL, NULL, 'PLAYOFFS', NULL, NULL, 1, NULL);
 INSERT INTO public.application (id, created, revoked, applicant_id, tournament_id) VALUES (1, null, null, 1, 1);
 INSERT INTO public.user_ (id, activated, activation_key, email, password_hash, password_legacy_hash, reset_date, reset_key, username) VALUES (2, true, null, '2@2', '$2a$10$bjMYWhe0CdANS4aD0k0r8OUMLDv2wrCg3M2WLsjwU.VwYHzyCLcH2', null, null, null, 'khamski');
 INSERT INTO public.user_authority (user_id, authority_id) VALUES (2, 40);
@@ -167,7 +167,6 @@ INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'RULES'
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'NUMBER_OF_GROUP_MEMBERS_ADVANCING', 2, 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'GROUP_GAMES_BEST_OF', 5, 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'PLAYOFF_GAMES_BEST_OF', 5, 1);
-INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'LITTLE_FINAL_GAME_BEST_OF', 7, 1);
 INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'FINAL_GAME_BEST_OF', 7, 1);
 
 INSERT INTO public."group" (id, label, tournament_id) VALUES (10, 'A', 1);
@@ -246,4 +245,4 @@ INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_us
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (33, 1, null, 33, 1, 15, 1, 3, false, 241, null, 1);
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (34, 1, null, 34, 2, 16, 3, 1, false, 223, null, 1);
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (35, 1, null, 35, 2, 15, 4, 3, false, 210, null, 1);
-INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (36, 1, null, 36, 1, 16, 4, 3, false, 275, null, 1);
+INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (36, 1, null, 36, 1, 16, null, null, false, 275, null, null);

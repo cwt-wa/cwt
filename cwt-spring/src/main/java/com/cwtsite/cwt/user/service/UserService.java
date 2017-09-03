@@ -2,10 +2,12 @@ package com.cwtsite.cwt.user.service;
 
 import com.cwtsite.cwt.application.service.ApplicationRepository;
 import com.cwtsite.cwt.entity.GroupStanding;
-import com.cwtsite.cwt.tournament.entity.Tournament;
-import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.group.service.GroupRepository;
+import com.cwtsite.cwt.playoffs.service.PlayoffService;
+import com.cwtsite.cwt.tournament.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.tournament.service.TournamentService;
 import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.AuthorityName;
@@ -30,15 +32,18 @@ public class UserService {
     private final TournamentService tournamentService;
     private final ApplicationRepository applicationRepository;
     private final GroupRepository groupRepository;
+    private final PlayoffService playoffService;
 
     @Autowired
     public UserService(UserRepository userRepository, AuthService authService, TournamentService tournamentService,
-                       ApplicationRepository applicationRepository, GroupRepository groupRepository) {
+                       ApplicationRepository applicationRepository, GroupRepository groupRepository,
+                       PlayoffService playoffService) {
         this.userRepository = userRepository;
         this.authService = authService;
         this.tournamentService = tournamentService;
         this.applicationRepository = applicationRepository;
         this.groupRepository = groupRepository;
+        this.playoffService = playoffService;
     }
 
     @Transactional
@@ -94,7 +99,7 @@ public class UserService {
                 userCanReportForCurrentTournament = numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed;
             }
         } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
-            userCanReportForCurrentTournament = false;
+            userCanReportForCurrentTournament = playoffService.getNextGameForUser(user) != null;
         } else {
             userCanReportForCurrentTournament = false;
         }
@@ -105,16 +110,29 @@ public class UserService {
     public List<User> getRemainingOpponents(final User user) {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
         final Group group = groupRepository.findByTournamentAndUser(currentTournament, user);
-
-        // TODO Reduce/filter group members by those already played against.
+        List<User> remainingOpponents;
 
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
-            return group.getStandings().stream()
+            // TODO Reduce/filter group members by those already played against.
+
+            remainingOpponents = group.getStandings().stream()
                     .filter(groupStanding -> !groupStanding.getUser().equals(user))
                     .map(GroupStanding::getUser)
                     .collect(Collectors.toList());
+        } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
+            final Game nextPlayoffGameForUser = playoffService.getNextGameForUser(user);
+
+            if (nextPlayoffGameForUser == null) {
+                remainingOpponents = Collections.emptyList();
+            } else {
+                remainingOpponents = nextPlayoffGameForUser.getHomeUser().equals(user)
+                        ? Collections.singletonList(nextPlayoffGameForUser.getAwayUser())
+                        : Collections.singletonList(nextPlayoffGameForUser.getHomeUser());
+            }
         } else {
-            return Collections.emptyList();
+            remainingOpponents = Collections.emptyList();
         }
+
+        return remainingOpponents;
     }
 }

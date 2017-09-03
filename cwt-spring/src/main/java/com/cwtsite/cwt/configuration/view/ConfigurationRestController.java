@@ -3,8 +3,10 @@ package com.cwtsite.cwt.configuration.view;
 import com.cwtsite.cwt.configuration.entity.Configuration;
 import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.configuration.service.ConfigurationService;
+import com.cwtsite.cwt.playoffs.service.PlayoffService;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.tournament.exception.IllegalTournamentStatusException;
 import com.cwtsite.cwt.tournament.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,14 @@ public class ConfigurationRestController {
 
     private final ConfigurationService configurationService;
     private final TournamentService tournamentService;
+    private final PlayoffService playoffService;
 
     @Autowired
-    public ConfigurationRestController(ConfigurationService configurationService, TournamentService tournamentService) {
+    public ConfigurationRestController(ConfigurationService configurationService, TournamentService tournamentService,
+                                       PlayoffService playoffService) {
         this.configurationService = configurationService;
         this.tournamentService = tournamentService;
+        this.playoffService = playoffService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -39,16 +44,18 @@ public class ConfigurationRestController {
     }
 
     @RequestMapping(value = "/score-best-of", method = RequestMethod.GET)
-    public ResponseEntity<?> getBestOfScore() {
+    public ResponseEntity<?> getBestOfScore(@RequestParam("user-id") Long userId) {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
         ConfigurationKey configurationKey;
 
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
             configurationKey = ConfigurationKey.GROUP_GAMES_BEST_OF;
         } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
-            configurationKey = ConfigurationKey.PLAYOFF_GAMES_BEST_OF;
+            configurationKey = playoffService.finalGamesAreNext()
+                    ? ConfigurationKey.FINAL_GAME_BEST_OF
+                    : ConfigurationKey.PLAYOFF_GAMES_BEST_OF;
         } else {
-            return ResponseEntity.badRequest().body("Tournament is neither in group stage nor playoffs. Thus, there's no definition on what game scores can be reported.");
+            throw new IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS);
         }
 
         return ResponseEntity.ok(configurationService.getOne(configurationKey));

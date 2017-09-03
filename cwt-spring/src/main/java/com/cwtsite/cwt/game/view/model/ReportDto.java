@@ -1,5 +1,10 @@
 package com.cwtsite.cwt.game.view.model;
 
+import com.cwtsite.cwt.game.entity.Game;
+import com.cwtsite.cwt.group.entity.Group;
+import com.cwtsite.cwt.tournament.entity.Tournament;
+import com.cwtsite.cwt.user.repository.entity.User;
+
 public class ReportDto {
 
     private Long user;
@@ -37,5 +42,23 @@ public class ReportDto {
 
     public void setScoreOfOpponent(Long scoreOfOpponent) {
         this.scoreOfOpponent = scoreOfOpponent;
+    }
+
+    public static Game map(final ReportDto dto, final Tournament currentTournament,
+                           final User reportingUser, final User opponent, final Group group) {
+        final Game game = new Game();
+
+        game.setScoreHome(Math.toIntExact(dto.getScoreOfUser()));
+        game.setScoreAway(Math.toIntExact(dto.getScoreOfOpponent()));
+        game.setTournament(currentTournament);
+        game.setHomeUser(reportingUser);
+        game.setAwayUser(opponent);
+        game.setReporter(reportingUser);
+
+        game.setGroup(group);
+
+
+        return game;
+
     }
 }

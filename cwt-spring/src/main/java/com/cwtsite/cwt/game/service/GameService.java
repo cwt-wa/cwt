@@ -9,6 +9,8 @@ import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.group.service.GroupRepository;
 import com.cwtsite.cwt.group.service.GroupService;
 import com.cwtsite.cwt.tournament.entity.Tournament;
+import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.tournament.exception.IllegalTournamentStatusException;
 import com.cwtsite.cwt.tournament.service.TournamentService;
 import com.cwtsite.cwt.user.repository.UserRepository;
 import com.cwtsite.cwt.user.repository.entity.User;
@@ -44,9 +46,37 @@ public class GameService {
 
     @Transactional
     public Game reportGame(final ReportDto reportDto) {
-        final Game game = map(reportDto);
-        groupService.calcTableByGame(game, homeUserHasWon(game));
-        return gameRepository.save(game);
+        final Tournament currentTournament = tournamentService.getCurrentTournament();
+        final User reportingUser = userRepository.findOne(reportDto.getUser());
+
+        Game reportedGame;
+
+        if (currentTournament.getStatus() == TournamentStatus.GROUP) {
+            final User opponent = userRepository.findOne(reportDto.getOpponent());
+            final Group group = groupRepository.findByTournamentAndUser(currentTournament, opponent);
+
+            Game mappedGame = ReportDto.map(reportDto, currentTournament, reportingUser, opponent, group);
+            groupService.calcTableByGame(mappedGame, homeUserHasWon(mappedGame));
+            reportedGame = gameRepository.save(mappedGame);
+        } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
+            final Game playoffGameToBeReported =
+                    gameRepository.findNextPlayoffGameForUser(currentTournament, reportingUser);
+            playoffGameToBeReported.setReporter(reportingUser);
+
+            if (playoffGameToBeReported.getHomeUser().equals(reportingUser)) {
+                playoffGameToBeReported.setScoreHome(Math.toIntExact(reportDto.getScoreOfUser()));
+                playoffGameToBeReported.setScoreAway(Math.toIntExact(reportDto.getScoreOfOpponent()));
+            } else {
+                playoffGameToBeReported.setScoreHome(Math.toIntExact(reportDto.getScoreOfOpponent()));
+                playoffGameToBeReported.setScoreAway(Math.toIntExact(reportDto.getScoreOfUser()));
+            }
+
+            reportedGame = gameRepository.save(playoffGameToBeReported);
+        } else {
+            throw new IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS);
+        }
+
+        return reportedGame;
     }
 
     private Game map(final ReportDto reportDto) {

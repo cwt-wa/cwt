@@ -24,11 +24,6 @@ public enum ConfigurationKey {
     PLAYOFF_GAMES_BEST_OF(Integer.class),
 
     /**
-     * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the game for the third place.
-     */
-    LITTLE_FINAL_GAME_BEST_OF(Integer.class),
-
-    /**
      * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the final.
      */
     FINAL_GAME_BEST_OF(Integer.class);
