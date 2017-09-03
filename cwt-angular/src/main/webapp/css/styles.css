@@ -45,6 +45,11 @@
     text-align: center;
 }
 
+.nav-item,
+.nav-link {
+    border-radius: 0.25rem;
+}
+
 .nav-item a {
     color: white !important;
     padding: 10px;
@@ -208,12 +213,14 @@ a {
         background-color: #3f3429 !important;
         margin: 0 !important;
         display: table-row;
+        border-radius: 0;
     }
 
     .nav-link {
         display: table-cell;
         vertical-align: middle;
         border-top: 1px solid #39291A;
+        border-radius: 0;
     }
 
     .nav-item:first-child .nav-link {
