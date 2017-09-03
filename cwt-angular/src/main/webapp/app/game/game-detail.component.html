@@ -12,8 +12,8 @@
         <a [routerLink]="['/user', game.awayUser.username]">{{game.awayUser.username}}</a>
     </h1>
     <p class="lead">
-        Group
-        {{game.group.label}}
+        <span *ngIf="game.group">Group {{game.group.label}}</span>
+        <span *ngIf="game.playoff">Playoffs</span> <!-- TODO Be more specific -->
     </p>
 
 
