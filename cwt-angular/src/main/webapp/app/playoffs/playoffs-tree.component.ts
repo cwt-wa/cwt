@@ -8,48 +8,64 @@ import {Game} from "../custom";
 })
 export class PlayoffsTreeComponent implements OnInit {
 
-    public games: Game[];
-    private numberOfRounds: number;
+    public playoffGames: Game[][];
 
     public constructor(private requestService: RequestService) {
-    }
-
-    /**
-     * @todo Calling this from the template causes lots of DOM updates.
-     */
-    public get numberOfRoundsIterable(): number[] {
-        const numberOfRoundsIterable: number[] = [];
-
-        let i;
-        for (i = 0; i < this.numberOfRounds; i++) {
-            numberOfRoundsIterable.push(i);
-        }
-
-        return numberOfRoundsIterable;
     }
 
     public ngOnInit(): void {
         this.requestService.get<Game[]>('tournament/current/game/playoff')
             .subscribe(res => {
-                this.games = res;
 
-                this.numberOfRounds = Math.log2(this.games
+                const numberOfRounds: number = Math.log2(res
                     .filter(g => g.playoff.round === 1)
                     .length) + 1;
-            });
 
-        // TODO Order games so that they make sense in a tree.
+                this.playoffGames = new Array<Game[]>(numberOfRounds)
+                    .fill(null)
+                    .map((value, index) => {
+                        value;
+
+                        const round: number = index + 1;
+                        const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round);
+                        const existingGamesInRound: Game[] = this.getExistingGamesInRound(round, res);
+
+                        const existingAndUpcomingGamesInRound = new Array(expectedNumberOfGamesInRound - existingGamesInRound.length);
+                        existingAndUpcomingGamesInRound.push(...existingGamesInRound);
+                        existingAndUpcomingGamesInRound.fill({}, 0, (expectedNumberOfGamesInRound) - existingGamesInRound.length);
+
+                        return existingAndUpcomingGamesInRound;
+                    });
+
+            });
     }
 
-    public gamesInRound(round: number): Game[] {
-        const gamesOfRound: Game[] = this.games
-            .filter(g => g.playoff.round === round);
-
-        if (round === this.numberOfRounds) {
-            gamesOfRound.push(...this.gamesInRound(round + 1));
-            gamesOfRound.reverse();
+    /**
+     * @todo This is hardcoded.
+     */
+    private calcRequiredNumberOfGamesInRound(round: number) {
+        switch (round) {
+            case 1:
+                return 8;
+            case 2:
+                return 4;
+            case 3:
+                return 2;
+            case 4:
+                return 2;
         }
 
-        return gamesOfRound;
+        throw Error(`The round ${round} has not been hardcoded.`);
+    }
+
+    public getExistingGamesInRound(round: number, games: Game[]): Game[] {
+        return games
+            .filter(g => g.playoff.round === round);
+    }
+
+    public get debug() {
+        return this.playoffGames
+            .map((a, i) => a
+                .map(g => <any> {home: g.homeUser && g.homeUser.username, away: g.awayUser && g.awayUser.username, round: i}))
     }
 }

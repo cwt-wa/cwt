@@ -1,7 +1,7 @@
-<div class="playoff-tree">
-    <div *ngFor="let round of numberOfRoundsIterable; let lastRound = last" class="playoff-round">
-        <table *ngFor="let game of gamesInRound(round + 1); let odd = odd; let gameInRound = index; let lastGameOfRound = last" class="playoff-spot" [ngClass]="{'odd': odd}"
-               [ngStyle]="{'margin-top': round !== 0 ? ([[0, 81, 81, 81], [118, 236], [196, 12]])[round - 1][gameInRound] + 'px' : 'inherit'}">
+<div class="playoff-tree" *ngIf="playoffGames">
+    <div *ngFor="let gamesInRound of playoffGames; let indexOfRound = index; let lastRound = last" class="playoff-round">
+        <table *ngFor="let game of gamesInRound; let odd = odd; let indexOfGameInRound = index; let lastGameOfRound = last" class="playoff-spot" [ngClass]="{'odd': odd}"
+               [ngStyle]="{'margin-top': indexOfRound !== 0 ? ([[0, 81, 81, 81], [118, 236], [196, 12]])[indexOfRound - 1][indexOfGameInRound] + 'px' : 'inherit'}">
             <thead *ngIf="lastRound">
             <tr>
                 <td colspan="3" class="text-center rounded-top">
@@ -13,10 +13,10 @@
             <tbody>
             <tr>
                 <td class="playoff-user">
-                    {{game.homeUser.username}}
+                    {{game?.homeUser?.username}}
                 </td>
                 <td class="playoff-score">
-                    {{game.scoreHome}}
+                    {{game?.scoreHome}}
                 </td>
                 <td>
                     <i class="fa fa-arrow-circle-down"></i>
@@ -24,13 +24,13 @@
             </tr>
             <tr>
                 <td class="playoff-user">
-                    {{game.awayUser.username}}
+                    {{game?.awayUser?.username}}
                 </td>
                 <td class="playoff-score">
-                    {{game.scoreAway}}
+                    {{game?.scoreAway}}
                 </td>
                 <td>
-                    <a [routerLink]="['/game', game.id]">
+                    <a [routerLink]="['/game', game?.id]" *ngIf="game">
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </td>
@@ -39,3 +39,9 @@
         </table>
     </div>
 </div>
+
+<div class="clearfix"></div>
+<pre style="margin-top: 250px" *ngIf="playoffGames">{{debug| json}}</pre>
+
+
+

@@ -59,6 +59,8 @@ public class GameService {
             groupService.calcTableByGame(mappedGame, homeUserHasWon(mappedGame));
             reportedGame = gameRepository.save(mappedGame);
         } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
+            // TODO Advance the winner.
+
             final Game playoffGameToBeReported =
                     gameRepository.findNextPlayoffGameForUser(currentTournament, reportingUser);
             playoffGameToBeReported.setReporter(reportingUser);

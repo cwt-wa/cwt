@@ -226,7 +226,7 @@ INSERT INTO playoff_game (id, round, spot) VALUES (32, 2, 4);
 INSERT INTO playoff_game (id, round, spot) VALUES (33, 3, 1);
 INSERT INTO playoff_game (id, round, spot) VALUES (34, 3, 2);
 INSERT INTO playoff_game (id, round, spot) VALUES (35, 4, 1);
-INSERT INTO playoff_game (id, round, spot) VALUES (36, 5, 1);
+-- INSERT INTO playoff_game (id, round, spot) VALUES (36, 5, 1);
 
 INSERT INTO public.game (id, created, downloads, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, reporter_id, tournament_id) VALUES (10, null, null, null, 2, 3, false, 19, 15, 1, null, 1, 1);
 
@@ -242,7 +242,8 @@ INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_us
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (30, 1, null, 30, 2, 14, 2, 3, false, 231, null, 1);
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (31, 1, null, 31, 3, 15, 2, 3, false, 268, null, 1);
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (32, 1, null, 32, 4, 16, 1, 3, false, 220, null, 1);
-INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (33, 1, null, 33, 1, 15, 1, 3, false, 241, null, 1);
+-- INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (33, 1, null, 33, 1, 15, 1, 3, false, 241, null, 1);
+INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (33, 1, null, 33, 1, 15, null, null, false, 241, null, null);
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (34, 1, null, 34, 2, 16, 3, 1, false, 223, null, 1);
 INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (35, 1, null, 35, 2, 15, 4, 3, false, 210, null, 1);
-INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (36, 1, null, 36, 1, 16, null, null, false, 275, null, null);
+-- INSERT INTO game (id, tournament_id, group_id, playoff_id, home_user_id, away_user_id, score_home, score_away, tech_win, downloads, created, reporter_id) VALUES (36, 1, null, 36, 1, 16, null, null, false, 275, null, null);
