@@ -12,27 +12,33 @@
             </thead>
             <tbody>
             <tr>
-                <td class="playoff-user">
+                <td class="playoff-user" [ngClass]="{'rounded-top-left': !lastRound, 'rounded-top-right': !game?.homeUser || !game?.awayUser}">
                     {{game?.homeUser?.username}}
                 </td>
-                <td class="playoff-score">
+                <td class="playoff-score" *ngIf="game?.reporter">
                     {{game?.scoreHome}}
                 </td>
-                <td>
-                    <i class="fa fa-arrow-circle-down"></i>
+                <td *ngIf="game?.reporter" rowspan="2" class="rounded-bottom-right" [ngClass]="{'rounded-top-right': !lastRound}">
+                    <a [routerLink]="['/game', game?.id]">
+                        <i class="fa fa-arrow-circle-down"></i>
+                    </a>
+                    <a [routerLink]="['/game', game?.id]">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </td>
+                <td class="playoff-bet rounded-top-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
+                    <input type="radio"> <!-- TODO Betting. -->
                 </td>
             </tr>
             <tr>
-                <td class="playoff-user">
+                <td class="playoff-user rounded-bottom-left" [ngClass]="{'rounded-bottom-right': !game?.homeUser || !game?.awayUser}">
                     {{game?.awayUser?.username}}
                 </td>
-                <td class="playoff-score">
+                <td class="playoff-score" *ngIf="game?.reporter">
                     {{game?.scoreAway}}
                 </td>
-                <td>
-                    <a [routerLink]="['/game', game?.id]" *ngIf="game">
-                        <i class="fa fa-info-circle"></i>
-                    </a>
+                <td class="playoff-bet rounded-bottom-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
+                    <input type="radio">
                 </td>
             </tr>
             </tbody>

@@ -497,3 +497,19 @@ a {
 .btn-group-justified .btn-group .dropdown-menu {
     left: auto;
 }
+
+.rounded-top-left {
+    border-top-left-radius: 0.25rem !important;
+}
+
+.rounded-bottom-left {
+    border-bottom-left-radius: 0.25rem !important;
+}
+
+.rounded-top-right {
+    border-top-right-radius: 0.25rem !important;
+}
+
+.rounded-bottom-right {
+    border-bottom-right-radius: 0.25rem !important;
+}

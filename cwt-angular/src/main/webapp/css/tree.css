@@ -1,4 +1,4 @@
-/* TODO This is optimized for 1024px screen width. */
+/* TODO This is optimized for desktop sizes */
 /* TODO Move this into the component. */
 
 .playoff-tree {
@@ -13,10 +13,16 @@
     background-color: #1a2427;
     color: white;
     padding: 5px;
+    height: 36px;
 }
 
 .playoff-spot a {
     color: white;
+}
+
+.playoff-spot td a {
+    display: block;
+    padding: 2px 0;
 }
 
 table.playoff-spot {
@@ -25,7 +31,7 @@ table.playoff-spot {
     display: table;
     border-collapse: separate;
     border-spacing: 1px;
-
+    width: 228px;
 }
 
 .playoff-round:nth-child(2) {
@@ -42,28 +48,20 @@ table.playoff-spot.odd {
 
 .playoff-spot .playoff-user {
     width: 175px;
-
 }
 
-.playoff-score {
+.playoff-score,
+.playoff-bet {
     text-align: center;
 }
 
-.playoff-spot > tbody > tr:first-child > td:first-child {
-    border-top-left-radius: 0.25rem !important;
+@media (min-width: 1200px) {
+
+    table.playoff-spot {
+        width: 273px;
+    }
+
+    .playoff-spot .playoff-user {
+        width: 217px;
+    }
 }
-
-.playoff-spot > tbody > tr:nth-child(2) > td:first-child {
-    border-bottom-left-radius: 0.25rem !important;
-}
-
-.playoff-spot > tbody > tr:first-child > td:nth-child(3) {
-    border-top-right-radius: 0.25rem !important;
-}
-
-.playoff-spot > tbody > tr:nth-child(2) > td:nth-child(3) {
-    border-bottom-right-radius: 0.25rem !important;
-}
-
-
-/*81px 118px*/
