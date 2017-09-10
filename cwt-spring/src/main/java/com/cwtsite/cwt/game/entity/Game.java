@@ -9,6 +9,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -39,10 +40,10 @@ public class Game implements Serializable {
     private Integer downloads;
 
     @Column(name = "created")
-    private LocalDate created;
+    private Timestamp created;
 
     @Column(name = "modified")
-    private LocalDate modified;
+    private Timestamp modified;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
@@ -131,28 +132,28 @@ public class Game implements Serializable {
         return this;
     }
 
-    public LocalDate getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public Game created(LocalDate created) {
+    public Game created(Timestamp created) {
         this.created = created;
         return this;
     }
 
-    public LocalDate getModified() {
+    public Timestamp getModified() {
         return modified;
     }
 
-    public void setModified(LocalDate modified) {
+    public void setModified(Timestamp modified) {
         this.modified = modified;
     }
 
-    public Game modified(LocalDate modified) {
+    public Game modified(Timestamp modified) {
         this.modified = modified;
         return this;
     }

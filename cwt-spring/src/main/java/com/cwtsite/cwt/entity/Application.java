@@ -5,7 +5,7 @@ import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -22,7 +22,7 @@ public class Application implements Serializable {
     private Long id;
 
     @Column(name = "created")
-    private LocalDate created;
+    private Timestamp created;
 
     @Column(name = "revoked")
     private Boolean revoked;
@@ -49,15 +49,15 @@ public class Application implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public Application created(LocalDate created) {
+    public Application created(Timestamp created) {
         this.created = created;
         return this;
     }

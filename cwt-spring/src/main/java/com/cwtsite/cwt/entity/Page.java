@@ -4,7 +4,7 @@ import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -28,10 +28,10 @@ public class Page implements Serializable {
     private String text;
 
     @Column(name = "created")
-    private LocalDate created;
+    private Timestamp created;
 
     @Column(name = "modified")
-    private LocalDate modified;
+    private Timestamp modified;
 
     @ManyToOne
     private User author;
@@ -73,28 +73,28 @@ public class Page implements Serializable {
         return this;
     }
 
-    public LocalDate getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public Page created(LocalDate created) {
+    public Page created(Timestamp created) {
         this.created = created;
         return this;
     }
 
-    public LocalDate getModified() {
+    public Timestamp getModified() {
         return modified;
     }
 
-    public void setModified(LocalDate modified) {
+    public void setModified(Timestamp modified) {
         this.modified = modified;
     }
 
-    public Page modified(LocalDate modified) {
+    public Page modified(Timestamp modified) {
         this.modified = modified;
         return this;
     }

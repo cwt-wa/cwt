@@ -6,7 +6,7 @@ import com.cwtsite.cwt.user.repository.entity.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "configuration")
@@ -23,7 +23,7 @@ public class Configuration implements Serializable {
     private String value;
 
     @Column(name = "created")
-    private LocalDate created;
+    private Timestamp created;
 
     @ManyToOne
     private User author;
@@ -44,11 +44,11 @@ public class Configuration implements Serializable {
         this.value = value;
     }
 
-    public LocalDate getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 

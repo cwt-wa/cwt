@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -32,10 +32,10 @@ public class Comment implements Serializable {
     private Boolean deleted;
 
     @Column(name = "created")
-    private LocalDate created;
+    private Timestamp created;
 
     @Column(name = "modified")
-    private LocalDate modified;
+    private Timestamp modified;
 
     @ManyToOne
     private User author;
@@ -88,28 +88,28 @@ public class Comment implements Serializable {
         this.deleted = deleted;
     }
 
-    public LocalDate getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public Comment created(LocalDate created) {
+    public Comment created(Timestamp created) {
         this.created = created;
         return this;
     }
 
-    public LocalDate getModified() {
+    public Timestamp getModified() {
         return modified;
     }
 
-    public void setModified(LocalDate modified) {
+    public void setModified(Timestamp modified) {
         this.modified = modified;
     }
 
-    public Comment modified(LocalDate modified) {
+    public Comment modified(Timestamp modified) {
         this.modified = modified;
         return this;
     }

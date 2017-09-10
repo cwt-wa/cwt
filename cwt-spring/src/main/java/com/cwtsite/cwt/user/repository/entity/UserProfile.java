@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -21,7 +21,7 @@ public class UserProfile implements Serializable {
     private Long id;
 
     @Column(name = "modified")
-    private LocalDate modified;
+    private Timestamp modified;
 
     @Column(name = "country")
     private String country;
@@ -61,15 +61,15 @@ public class UserProfile implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getModified() {
+    public Timestamp getModified() {
         return modified;
     }
 
-    public void setModified(LocalDate modified) {
+    public void setModified(Timestamp modified) {
         this.modified = modified;
     }
 
-    public UserProfile modified(LocalDate modified) {
+    public UserProfile modified(Timestamp modified) {
         this.modified = modified;
         return this;
     }

@@ -6,7 +6,7 @@ import com.cwtsite.cwt.user.repository.entity.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -34,10 +34,10 @@ public class Tournament implements Serializable {
     private String review;
 
     @Column(name = "open")
-    private LocalDate open;
+    private Timestamp open;
 
     @Column(name = "created")
-    private LocalDate created;
+    private Timestamp created;
 
     @ManyToOne
     private User host;
@@ -94,28 +94,28 @@ public class Tournament implements Serializable {
         return this;
     }
 
-    public LocalDate getOpen() {
+    public Timestamp getOpen() {
         return open;
     }
 
-    public void setOpen(LocalDate open) {
+    public void setOpen(Timestamp open) {
         this.open = open;
     }
 
-    public Tournament open(LocalDate open) {
+    public Tournament open(Timestamp open) {
         this.open = open;
         return this;
     }
 
-    public LocalDate getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public Tournament created(LocalDate created) {
+    public Tournament created(Timestamp created) {
         this.created = created;
         return this;
     }
