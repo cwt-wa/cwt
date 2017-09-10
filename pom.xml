@@ -55,6 +55,4 @@
         <developerConnection>scm:git:git@github.com:Zemke/cwt.git</developerConnection>
     </scm>
 
-    <!-- TODO Distribution management -->
-
 </project>

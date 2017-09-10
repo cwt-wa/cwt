@@ -180,20 +180,6 @@ public class Tournament implements Serializable {
         this.moderators = users;
     }
 
-//    TODO Fucked up ManyToMany?
-//    public Tournament addModerator(User user) {
-//        moderators.add(user);
-//        user.getTournaments().add(this);
-//        return this;
-//    }
-
-//    TODO Fucked up ManyToMany?
-//    public Tournament removeModerator(User user) {
-//        moderators.remove(user);
-//        user.getTournaments().remove(this);
-//        return this;
-//    }
-
     public Tournament moderators(Set<User> users) {
         this.moderators = users;
         return this;
