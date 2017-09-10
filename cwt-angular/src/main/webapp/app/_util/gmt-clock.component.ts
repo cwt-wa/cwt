@@ -23,7 +23,7 @@ export class GmtClockComponent {
 
     constructor() {
         window.setInterval(() => {
-            const nowLocal = new Date(); // TODO Is it costly to instantiate Date every second?
+            const nowLocal = new Date();
 
             this.displayDate =
                 GmtClockComponent.WEEKDAYS[nowLocal.getUTCDay()]
