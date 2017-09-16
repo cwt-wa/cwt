@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,6 @@ public class User implements Serializable {
     private Long id;
 
     @JsonIgnore
-    @NotNull
     @Size(min = 60, max = 60)
     @Column(name = "password_hash", length = 60)
     private String password;
@@ -41,7 +41,7 @@ public class User implements Serializable {
 
     @Email
     @Size(max = 100)
-    @Column(length = 100, unique = true, nullable = false)
+    @Column(length = 100, unique = true)
     private String email;
 
     @NotNull
@@ -75,6 +75,9 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false, fetch = FetchType.EAGER, mappedBy = "user")
     @JoinColumn(unique = true)
     private UserSetting userSetting;
+
+    @Column(name = "created")
+    private Timestamp created;
 
     protected User() {
     }
@@ -179,6 +182,14 @@ public class User implements Serializable {
 
     public void setUserSetting(UserSetting userSetting) {
         this.userSetting = userSetting;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     @Override
