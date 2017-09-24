@@ -41,8 +41,7 @@ public class UserProfile implements Serializable {
     @Column(name = "twitter")
     private String twitter;
 
-    @Lob
-    @Column(name = "about")
+    @Column(name = "about", columnDefinition = "text")
     private String about;
 
     @JsonIgnore

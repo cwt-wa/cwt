@@ -29,8 +29,7 @@ public class Tournament implements Serializable {
     @Column(name = "status", nullable = false)
     private TournamentStatus status;
 
-    @Lob
-    @Column(name = "review")
+    @Column(name = "review", columnDefinition = "text")
     private String review;
 
     @Column(name = "open")
