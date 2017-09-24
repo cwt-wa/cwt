@@ -24,8 +24,7 @@ public class Comment implements Serializable {
     private Long id;
 
     @NotNull
-    @Lob
-    @Column(name = "body", nullable = false)
+    @Column(name = "body", nullable = false, columnDefinition = "text")
     private String body;
 
     @Column(name = "deleted")

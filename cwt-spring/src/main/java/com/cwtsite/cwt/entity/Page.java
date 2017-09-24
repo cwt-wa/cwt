@@ -23,8 +23,7 @@ public class Page implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Lob
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "text")
     private String text;
 
     @Column(name = "created")
