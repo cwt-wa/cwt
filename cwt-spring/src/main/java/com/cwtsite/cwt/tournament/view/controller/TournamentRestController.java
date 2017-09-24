@@ -2,11 +2,11 @@ package com.cwtsite.cwt.tournament.view.controller;
 
 import com.cwtsite.cwt.entity.Application;
 import com.cwtsite.cwt.game.entity.Game;
-import com.cwtsite.cwt.playoffs.service.PlayoffService;
-import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.group.service.GroupService;
 import com.cwtsite.cwt.group.view.model.GroupDto;
+import com.cwtsite.cwt.playoffs.service.PlayoffService;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.tournament.service.TournamentService;
 import com.cwtsite.cwt.tournament.view.model.StartNewTournamentDto;
 import com.cwtsite.cwt.user.repository.entity.User;
@@ -49,9 +49,11 @@ public class TournamentRestController {
                 startNewTournamentDto.getModeratorIds());
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Tournament> getTournament(@PathVariable("id") long id) {
-        Tournament tournament = tournamentService.getTournament(id);
+    @RequestMapping(path = "/{idOrYear}", method = RequestMethod.GET)
+    public ResponseEntity<Tournament> getTournament(@PathVariable("idOrYear") long idOrYear) {
+        final Tournament tournament = String.valueOf(idOrYear).startsWith("20")
+                ? tournamentService.getTournamentByYear(idOrYear)
+                : tournamentService.getTournament(idOrYear);
 
         return tournament == null
                 ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)

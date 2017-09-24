@@ -21,7 +21,7 @@ import {ApplyComponent} from "./application/apply.component";
 import {ApplicantsComponent} from "./application/applicants.component";
 import {AdminGroupsStartComponent} from "./group/admin-groups-start.component";
 import {ConfigurationService} from "./_services/configuration.service";
-import {GroupsOverviewComponent} from "./group/groups-overview.acomponent";
+import {GroupsOverviewComponent} from "./group/groups-overview.component";
 import {GroupTableComponent} from "./group/group-table.component";
 import {ReportGameComponent} from "./game/report-game.component";
 import {AdminPlayoffsStartComponent} from "./playoffs/admin-playoffs-start.component";
@@ -31,6 +31,7 @@ import {GameDetailComponent} from "./game/game-detail.component";
 import {RatingComponent} from "./game/rating.component";
 import {DamnArchiveComponent} from "./archive/damn-archive.component";
 import {ReadMoreComponent} from "./_util/read-more.component";
+import {ArchiveDetailComponent} from "./archive/archive-detail.component";
 
 const appRoutes: Routes = [
     {
@@ -75,7 +76,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'groups',
-        component: GroupsOverviewComponent
+        component: GroupsOverviewComponent,
     },
     {
         path: 'report',
@@ -92,6 +93,10 @@ const appRoutes: Routes = [
     {
         path: 'archive',
         component: DamnArchiveComponent
+    },
+    {
+        path: 'archive/:idOrYear',
+        component: ArchiveDetailComponent
     },
     {
         path: '**',
@@ -130,6 +135,7 @@ const appRoutes: Routes = [
         RatingComponent,
         DamnArchiveComponent,
         ReadMoreComponent,
+        ArchiveDetailComponent,
     ],
     providers: [
         WebAppViewService,

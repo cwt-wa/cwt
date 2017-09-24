@@ -71,4 +71,8 @@ public class TournamentService {
     public List<Tournament> getAll() {
         return tournamentRepository.findAll();
     }
+
+    public Tournament getTournamentByYear(long year) {
+        return tournamentRepository.findByYear((int) year);
+    }
 }

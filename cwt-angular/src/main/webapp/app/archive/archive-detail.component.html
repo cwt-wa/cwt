@@ -1,0 +1,12 @@
+<h1>
+    Archive
+</h1>
+<p class="lead">
+    {{tournament?.created | date:'y'}}
+</p>
+
+<div class="mb-2">
+    <cwt-groups-overview *ngIf="tournament" [tournamentId]="tournament.id" [title]="null"></cwt-groups-overview>
+</div>
+
+<cwt-playoffs-tree *ngIf="tournament" [tournamentId]="tournament.id"></cwt-playoffs-tree>

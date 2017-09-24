@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {Game} from "../custom";
 
@@ -8,13 +8,16 @@ import {Game} from "../custom";
 })
 export class PlayoffsTreeComponent implements OnInit {
 
+    @Input()
+    tournamentId: number;
+
     public playoffGames: Game[][];
 
     public constructor(private requestService: RequestService) {
     }
 
     public ngOnInit(): void {
-        this.requestService.get<Game[]>('tournament/current/game/playoff')
+        this.requestService.get<Game[]>(`tournament/${this.tournamentId || 'current'}/game/playoff`)
             .subscribe(res => {
 
                 const numberOfRounds: number = Math.log2(res

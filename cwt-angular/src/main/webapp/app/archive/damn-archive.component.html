@@ -5,7 +5,7 @@
         <img class="card-img-top" src="../../img/icon.png" height="148"> <!-- TODO Collages matching that CWT edition. -->
         <div class="card-body">
             <h4 class="card-title">
-                <a [routerLink]="['/archive', (tournament.created | date:'y')]">
+                <a [routerLink]="['/archive', tournament.created | date:'y']">
                     {{tournament.created | date:'y'}}
                     –
                     The Epic Headline <!-- TODO Create some kind of headline for that CWT edition. -->
