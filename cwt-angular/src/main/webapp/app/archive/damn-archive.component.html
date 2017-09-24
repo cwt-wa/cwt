@@ -1,0 +1,50 @@
+<div *ngIf="tournaments">
+    <h1 class="mb-4">Archive</h1>
+
+    <div *ngFor="let tournament of tournaments" class="card mb-2">
+        <img class="card-img-top" src="../../img/icon.png" height="148"> <!-- TODO Collages matching that CWT edition. -->
+        <div class="card-body">
+            <h4 class="card-title">
+                <a [routerLink]="['/archive', (tournament.created | date:'y')]">
+                    {{tournament.created | date:'y'}}
+                    –
+                    The Epic Headline <!-- TODO Create some kind of headline for that CWT edition. -->
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="card-text">
+                        <cwt-read-more *ngIf="tournament.review" length="70" [text]="tournament.review">
+                        </cwt-read-more>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <ul class="cwt-podest">
+                        <li *ngIf="tournament.goldWinner">
+                            <a [routerLink]="['/user', tournament.goldWinner.username]">
+                                {{tournament.goldWinner.username}}
+                            </a>
+                        </li>
+                        <li *ngIf="tournament.silverWinner">
+                            <a [routerLink]="['/user', tournament.silverWinner.username]">
+                                {{tournament.silverWinner.username}}
+                            </a>
+                        </li>
+                        <li *ngIf="tournament.bronzeWinner">
+                            <a [routerLink]="['/user', tournament.bronzeWinner.username]">
+                                {{tournament.bronzeWinner.username}}
+                            </a>
+                        </li>
+                    </ul>
+
+                    <small class="text-muted">
+                        Organized by:<br>
+                        <a href="">Zemke</a>,
+                        <a href="">Kayz</a>,
+                        <a href="">Joschi</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -129,3 +129,17 @@ export interface CommentDto {
     user: number;
     body: string;
 }
+
+export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED" | "ARCHIVED";
+
+export interface Tournament {
+    id: number;
+    status: TournamentStatus;
+    review: String;
+    open: Date;
+    created: Date;
+    host: User;
+    bronzeWinner: User;
+    silverWinner: User;
+    goldWinner: User;
+}

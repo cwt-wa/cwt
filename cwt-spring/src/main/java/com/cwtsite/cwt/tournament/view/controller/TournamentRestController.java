@@ -127,4 +127,9 @@ public class TournamentRestController {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
         return getPlayoffGames(currentTournament.getId());
     }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity<List<Tournament>> getAllTournaments() {
+        return ResponseEntity.ok(tournamentService.getAll());
+    }
 }

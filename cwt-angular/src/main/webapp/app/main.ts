@@ -1,7 +1,8 @@
 import "../polyfill";
 import "../vendor";
 import "../css/styles.css";
-import "../css/tree.css";
+import "../css/tree.css"; // TODO Make this component specifix
+import "../css/archive.css"; // TODO Make this component specifix
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {enableProdMode} from "@angular/core";
 import {AppModule} from "./app.module";

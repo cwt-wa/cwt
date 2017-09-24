@@ -67,4 +67,8 @@ public class TournamentService {
     public List<Application> getApplicants(Tournament tournament) {
         return this.applicationRepository.findByTournament(tournament);
     }
+
+    public List<Tournament> getAll() {
+        return tournamentRepository.findAll();
+    }
 }

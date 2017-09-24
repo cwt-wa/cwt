@@ -29,6 +29,8 @@ import {StandingsOrderPipe} from "./_util/standings-order.pipe";
 import {PlayoffsTreeComponent} from "./playoffs/playoffs-tree.component";
 import {GameDetailComponent} from "./game/game-detail.component";
 import {RatingComponent} from "./game/rating.component";
+import {DamnArchiveComponent} from "./archive/damn-archive.component";
+import {ReadMoreComponent} from "./_util/read-more.component";
 
 const appRoutes: Routes = [
     {
@@ -88,6 +90,10 @@ const appRoutes: Routes = [
         component: GameDetailComponent
     },
     {
+        path: 'archive',
+        component: DamnArchiveComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -122,6 +128,8 @@ const appRoutes: Routes = [
         PlayoffsTreeComponent,
         GameDetailComponent,
         RatingComponent,
+        DamnArchiveComponent,
+        ReadMoreComponent,
     ],
     providers: [
         WebAppViewService,
