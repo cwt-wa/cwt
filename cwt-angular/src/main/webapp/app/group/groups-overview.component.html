@@ -9,7 +9,11 @@
     </label>
 </div>
 
-<h1 class="mb-4">Groups</h1>
+<h1 class="mb-4" *ngIf="title !== null">
+    {{title}}
+</h1>
+
+<div class="clearfix mb-4" *ngIf="title === null"></div>
 
 <div class="row" *ngIf="viewMode === 'square' && groups">
     <cwt-group-table class="col-md-12 col-lg-6"
