@@ -5444,3 +5444,9 @@ INSERT INTO rating (id, user_id, game_id, type) VALUES (1099, 210, 1193, 'DISLIK
 INSERT INTO rating (id, user_id, game_id, type) VALUES (1100, 262, 1179, 'DISLIKE');
 INSERT INTO rating (id, user_id, game_id, type) VALUES (1101, 9, 1209, 'DISLIKE');
 INSERT INTO rating (id, user_id, game_id, type) VALUES (1102, 291, 1218, 'DISLIKE');
+
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'RULES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac mauris non nisi iaculis commodo. Sed convallis bibendum dui nec posuere. Phasellus quis ante ut orci vulputate semper vitae lobortis odio. Mauris vel orci et nulla euismod eleifend. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla faucibus nisl sit amet ex ultricies eleifend. Suspendisse a leo fringilla ipsum venenatis posuere. Fusce placerat nunc sed fermentum pulvinar. Mauris eu quam ut urna laoreet varius sit amet non ex. Duis felis lacus, auctor accumsan cursus non, volutpat et nisl. Sed in turpis interdum augue ultricies luctus. Donec ac mattis arcu, eget lobortis massa.', 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'NUMBER_OF_GROUP_MEMBERS_ADVANCING', 2, 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'GROUP_GAMES_BEST_OF', 5, 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'PLAYOFF_GAMES_BEST_OF', 5, 1);
+INSERT INTO configuration (created, key, value, author_id) VALUES (NULL, 'FINAL_GAME_BEST_OF', 7, 1);
