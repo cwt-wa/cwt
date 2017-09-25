@@ -33,9 +33,15 @@ export class PlayoffsTreeComponent implements OnInit {
                         const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round);
                         const existingGamesInRound: Game[] = this.getExistingGamesInRound(round, res);
 
-                        const existingAndUpcomingGamesInRound = new Array(expectedNumberOfGamesInRound - existingGamesInRound.length);
+                        const existingAndUpcomingGamesInRound: Game[] =
+                            new Array(expectedNumberOfGamesInRound - existingGamesInRound.length);
                         existingAndUpcomingGamesInRound.push(...existingGamesInRound);
-                        existingAndUpcomingGamesInRound.fill({}, 0, (expectedNumberOfGamesInRound) - existingGamesInRound.length);
+                        existingAndUpcomingGamesInRound.fill(
+                            <Game> {}, 0, (expectedNumberOfGamesInRound) - existingGamesInRound.length);
+
+                        existingAndUpcomingGamesInRound.sort((a, b) => a.playoff && b.playoff
+                            ? (a.playoff.spot > b.playoff.spot ? 1 : -1)
+                            : 0);
 
                         return existingAndUpcomingGamesInRound;
                     });
