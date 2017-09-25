@@ -12,7 +12,7 @@
             </thead>
             <tbody>
             <tr>
-                <td class="playoff-user" [ngClass]="{'rounded-top-left': !lastRound, 'rounded-top-right': !game?.homeUser || !game?.awayUser}">
+                <td class="playoff-user" [ngClass]="{'rounded-top-left': !lastRound, 'rounded-top-right': (!game?.homeUser || !game?.awayUser) && !lastRound}">
                     {{game?.homeUser?.username}}
                 </td>
                 <td class="playoff-score" *ngIf="game?.reporter">
