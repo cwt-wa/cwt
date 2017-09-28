@@ -32,6 +32,7 @@ import {RatingComponent} from "./game/rating.component";
 import {DamnArchiveComponent} from "./archive/damn-archive.component";
 import {ReadMoreComponent} from "./_util/read-more.component";
 import {ArchiveDetailComponent} from "./archive/archive-detail.component";
+import {GroupGamesComponent} from "./group/group-games.component";
 
 const appRoutes: Routes = [
     {
@@ -136,6 +137,7 @@ const appRoutes: Routes = [
         DamnArchiveComponent,
         ReadMoreComponent,
         ArchiveDetailComponent,
+        GroupGamesComponent,
     ],
     providers: [
         WebAppViewService,

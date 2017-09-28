@@ -4,6 +4,7 @@ import com.cwtsite.cwt.entity.Comment;
 import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -52,7 +53,9 @@ public class Game implements Serializable {
     @ManyToOne
     private Tournament tournament;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn
     private Group group;
 
     @ManyToOne

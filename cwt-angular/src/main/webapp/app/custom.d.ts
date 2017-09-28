@@ -65,6 +65,7 @@ export interface Group {
     label: GroupLabel;
     tournament: any;
     standings: GroupStanding[]
+    games: Game[]
 }
 
 export interface GroupDto {

@@ -1,0 +1,29 @@
+<table class="table table-sm group-games">
+    <tbody>
+    <tr *ngFor="let game of games;">
+        <td class="text-right">
+            <a [routerLink]="['/user', game.homeUser.username]">
+                {{game.homeUser.username}}
+            </a>
+        </td>
+        <td class="text-center text-nowrap">
+            {{game.scoreHome}}–{{game.scoreAway}}
+        </td>
+        <td class="text-left">
+            <a [routerLink]="['/user', game.awayUser.username]">
+                {{game.awayUser.username}}
+            </a>
+        </td>
+        <td class="text-right">
+            <a [routerLink]="['/game', game.id]">
+                <i class="fa fa-arrow-circle-down"></i>
+            </a>
+        </td>
+        <td class="text-center">
+            <a [routerLink]="['/game', game.id]">
+                <i class="fa fa-info-circle"></i>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
