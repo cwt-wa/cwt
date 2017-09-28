@@ -19,7 +19,6 @@ export class PlayoffsTreeComponent implements OnInit {
     public ngOnInit(): void {
         this.requestService.get<Game[]>(`tournament/${this.tournamentId || 'current'}/game/playoff`)
             .subscribe(res => {
-
                 const numberOfRounds: number = Math.log2(res
                     .filter(g => g.playoff.round === 1)
                     .length) + 1;
@@ -32,6 +31,12 @@ export class PlayoffsTreeComponent implements OnInit {
                         const round: number = index + 1;
                         const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round);
                         const existingGamesInRound: Game[] = this.getExistingGamesInRound(round, res);
+
+                        if (numberOfRounds === round) {
+                            existingGamesInRound.push(...this.getExistingGamesInRound(round + 1, res));
+                        }
+
+                        existingGamesInRound.reverse();
 
                         const existingAndUpcomingGamesInRound: Game[] =
                             new Array(expectedNumberOfGamesInRound - existingGamesInRound.length);
