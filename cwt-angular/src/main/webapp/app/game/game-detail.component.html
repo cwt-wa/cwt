@@ -44,15 +44,17 @@
             </div>
         </div>
         <div class="col-md-9">
-            <form #commentForm="ngForm" (ngSubmit)="submitComment()">
+            <div *ngIf="newComment">
+                <form #commentForm="ngForm" (ngSubmit)="submitComment()">
                 <textarea rows="3" class="form-control" placeholder="Write a comment…" required
-                          [(ngModel)]="comment.body" name="comment">
+                          [(ngModel)]="newComment.body" name="comment">
                 </textarea>
-                <button class="btn btn-primary float-right mt-1" [disabled]="!commentForm.form.valid">
-                    Submit Comment
-                </button>
-            </form>
-            <div class="clearfix"></div>
+                    <button class="btn btn-primary float-right mt-1" [disabled]="!commentForm.form.valid">
+                        Submit Comment
+                    </button>
+                </form>
+                <div class="clearfix"></div>
+            </div>
             <div *ngFor="let comment of game.comments">
                 <h6 class="m-0"><a [routerLink]="['/user', comment.author.username]">{{comment.author.username}}</a></h6>
                 <span class="text-muted">2 minutes ago</span> <!-- TODO created -->

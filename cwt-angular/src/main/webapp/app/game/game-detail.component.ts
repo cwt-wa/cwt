@@ -11,7 +11,7 @@ import {AuthService} from "../_services/auth.service";
 export class GameDetailComponent {
 
     public game: Game;
-    public comment: CommentDto;
+    public newComment: CommentDto;
     public authenticatedUser: JwtUser;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
@@ -26,7 +26,7 @@ export class GameDetailComponent {
 
         this.authenticatedUser = this.authService.getUserFromTokenPayload();
         if (this.authenticatedUser) {
-            this.comment = {user: this.authenticatedUser.id, body: null};
+            this.newComment = {user: this.authenticatedUser.id, body: null};
         }
     }
 
@@ -35,7 +35,7 @@ export class GameDetailComponent {
     }
 
     public submitComment(): void {
-        this.requestService.post<Comment>(`game/${this.game.id}/comment`, this.comment)
+        this.requestService.post<Comment>(`game/${this.game.id}/comment`, this.newComment)
             .subscribe(res => this.game.comments.push(res));
     }
 }
