@@ -85,6 +85,10 @@ public class UserService {
         boolean userCanReportForCurrentTournament;
         final Tournament currentTournament = tournamentService.getCurrentTournament();
 
+        if (currentTournament == null) {
+            return false;
+        }
+
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
             final Group group = this.groupRepository.findByTournamentAndUser(currentTournament, user);
 
