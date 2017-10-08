@@ -34,7 +34,7 @@ public class AuthService {
         return userRepository.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
     }
 
-    String createHash(String plainPassword) {
+    public String createHash(String plainPassword) {
         return plainPassword == null ? "" : BCrypt.hashpw(plainPassword, BCrypt.gensalt());
     }
 

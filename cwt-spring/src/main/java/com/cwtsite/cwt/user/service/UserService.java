@@ -135,4 +135,8 @@ public class UserService {
 
         return remainingOpponents;
     }
+
+    public User saveUser(final User user) {
+        return userRepository.save(user);
+    }
 }
