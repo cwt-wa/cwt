@@ -18,6 +18,9 @@ public class AuthService {
     @Value("${password.salt}")
     private String salt;
 
+    @Value("${password.bcrypt-salt}")
+    private String bCryptSalt;
+
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final JwtUserDetailsServiceImpl userDetailsService;
@@ -35,7 +38,7 @@ public class AuthService {
     }
 
     public String createHash(String plainPassword) {
-        return plainPassword == null ? "" : BCrypt.hashpw(plainPassword, BCrypt.gensalt());
+        return plainPassword == null ? "" : BCrypt.hashpw(plainPassword, bCryptSalt);
     }
 
     public String createLegacyHash(String plainPassword) {

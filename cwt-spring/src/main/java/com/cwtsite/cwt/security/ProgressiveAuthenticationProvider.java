@@ -48,7 +48,7 @@ public class ProgressiveAuthenticationProvider implements AuthenticationProvider
 
         final boolean validCredentials = usesLegacyPassword
                 ? authService.createLegacyHash(password).equals(user.getPassword_legacy())
-                : authService.createHash(password).equals(user.getPassword_legacy());
+                : authService.createHash(password).equals(user.getPassword());
 
         if (!validCredentials) {
             throw new BadCredentialsException(logPrefix + "entered the wrong password.");
