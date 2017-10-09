@@ -10,12 +10,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "rating")
+@SequenceGenerator(name = "rating_seq", sequenceName = "rating_seq", initialValue = 1103, allocationSize = 1)
 public class Rating implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_seq")
     private Long id;
 
     @Column(name = "type")

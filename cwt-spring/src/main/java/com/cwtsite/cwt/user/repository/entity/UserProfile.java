@@ -12,12 +12,13 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "user_profile")
+@SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_seq", initialValue = 1332, allocationSize = 1)
 public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
     private Long id;
 
     @Column(name = "modified")

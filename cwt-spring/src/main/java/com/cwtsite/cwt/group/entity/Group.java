@@ -17,12 +17,13 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "\"group\"")
+@SequenceGenerator(name = "group_seq", sequenceName = "group_seq", initialValue = 121, allocationSize = 1)
 public class Group implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_seq")
     private Long id;
 
     @Enumerated(EnumType.STRING)

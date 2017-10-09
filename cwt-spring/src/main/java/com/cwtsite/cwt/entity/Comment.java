@@ -15,12 +15,13 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "comment")
+@SequenceGenerator(name = "comment_seq", sequenceName = "comment_seq", initialValue = 511, allocationSize = 1)
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
     private Long id;
 
     @NotNull

@@ -21,7 +21,8 @@ public class Tournament implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "tournament_seq", sequenceName = "tournament_seq", initialValue = 16, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tournament_seq")
     private Long id;
 
     @NotNull

@@ -13,12 +13,13 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "group_standing")
+@SequenceGenerator(name = "group_standing_seq", sequenceName = "group_standing_seq", initialValue = 486, allocationSize = 1)
 public class GroupStanding implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_standing_seq")
     private Long id;
 
     @Column(name = "points")

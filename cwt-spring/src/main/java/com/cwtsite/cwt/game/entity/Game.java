@@ -20,12 +20,13 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "game")
+@SequenceGenerator(name = "game_seq", sequenceName = "game_seq", initialValue = 1219, allocationSize = 1)
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_seq")
     private Long id;
 
     @Column(name = "score_home")

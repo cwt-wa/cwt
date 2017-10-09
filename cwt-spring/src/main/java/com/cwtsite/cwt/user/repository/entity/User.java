@@ -17,12 +17,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "user_")
+@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 1332, allocationSize = 1)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Long id;
 
     @JsonIgnore

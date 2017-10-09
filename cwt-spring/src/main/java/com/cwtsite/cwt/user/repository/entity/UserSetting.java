@@ -11,12 +11,13 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "user_setting")
+@SequenceGenerator(name = "user_setting_seq", sequenceName = "user_setting_seq", initialValue = 1332, allocationSize = 1)
 public class UserSetting implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_setting_seq")
     private Long id;
 
     @Column(name = "hide_profile")

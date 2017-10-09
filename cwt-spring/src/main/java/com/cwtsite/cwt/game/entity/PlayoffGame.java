@@ -9,12 +9,13 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "playoff_game")
+@SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_seq", initialValue = 261, allocationSize = 1)
 public class PlayoffGame implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playoff_game_seq")
     private Long id;
 
     @Column(name = "round")
