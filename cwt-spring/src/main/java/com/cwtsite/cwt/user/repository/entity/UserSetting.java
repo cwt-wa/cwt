@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * A UserSetting.
- */
 @Entity
 @Table(name = "user_setting")
 @SequenceGenerator(name = "user_setting_seq", sequenceName = "user_setting_seq", initialValue = 1332, allocationSize = 1)
@@ -26,9 +24,8 @@ public class UserSetting implements Serializable {
     @Column(name = "hide_email")
     private Boolean hideEmail;
 
-    // TODO Add modified
-//    @Column(name = "modified")
-//    private Timestamp modified;
+    @Column(name = "modified")
+    private Timestamp modified;
 
     @JsonIgnore
     @OneToOne
@@ -78,6 +75,14 @@ public class UserSetting implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Timestamp getModified() {
+        return modified;
+    }
+
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
     }
 
     public UserSetting user(User user) {

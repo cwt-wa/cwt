@@ -23,9 +23,9 @@ public class Configuration implements Serializable {
     @Column(name = "value", columnDefinition = "text")
     private String value;
 
-    @Column(name = "created")
+    @Column(name = "modified")
     @CreationTimestamp
-    private Timestamp created; // TODO Better to save modified
+    private Timestamp modified;
 
     @ManyToOne
     private User author;
@@ -46,12 +46,12 @@ public class Configuration implements Serializable {
         this.value = value;
     }
 
-    public Timestamp getCreated() {
-        return created;
+    public Timestamp getModified() {
+        return modified;
     }
 
-    public void setCreated(Timestamp created) {
-        this.created = created;
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
     }
 
     public User getAuthor() {
