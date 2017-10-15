@@ -1,8 +1,20 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-var helpers = require('./helpers');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const helpers = require('./helpers');
+
+const appCssExtractTextPlugin = new ExtractTextPlugin({
+    filename: "app_[name].css",
+    disable: false,
+    allChunks: true
+});
+
+const bootstrapCssExtractTextPlugin = new ExtractTextPlugin({
+    filename: "bootstrap_[name].css",
+    disable: false,
+    allChunks: true
+});
 
 module.exports = {
     entry: {
@@ -18,6 +30,14 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.(scss)$/,
+                use: bootstrapCssExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
+
+            },
+            {
                 test: /\.ts$/,
                 use: ['ts-loader', 'angular2-template-loader']
             },
@@ -32,7 +52,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'main', 'webapp', 'app'),
-                use: ExtractTextPlugin.extract({
+                use: appCssExtractTextPlugin.extract({
                     use: "css-loader",
                     fallback: "style-loader"
                 })
@@ -57,8 +77,12 @@ module.exports = {
             template: './src/main/webapp/app/index.html'
         }),
         new webpack.ProvidePlugin({
-            $: "jquery", jQuery: "jquery", "window.jQuery": "jquery",
-            Tether: "tether", "window.Tether": "tether"
-        })
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
+            Popper: ["popper.js", "default"],
+        }),
+        bootstrapCssExtractTextPlugin,
+        appCssExtractTextPlugin
     ]
 };

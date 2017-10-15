@@ -6,7 +6,7 @@ import "@angular/core";
 import "@angular/common";
 import "@angular/router";
 // import 'bootstrap/dist/js/bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 import '@ng-bootstrap/ng-bootstrap';
 import 'font-awesome/css/font-awesome.css';
 import 'toastr/toastr.js';

@@ -1,5 +1,6 @@
 import "../polyfill";
 import "../vendor";
+import "../scss/main.scss";
 import "../css/styles.css";
 import "../css/tree.css"; // TODO Make this component specific
 import "../css/archive.css"; // TODO Make this component specific
