@@ -1,15 +1,14 @@
 package com.cwtsite.cwt.entity;
 
 import com.cwtsite.cwt.user.repository.entity.User;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * A Page.
- */
 @Entity
 @Table(name = "page")
 public class Page implements Serializable {
@@ -27,9 +26,11 @@ public class Page implements Serializable {
     private String text;
 
     @Column(name = "created")
+    @CreationTimestamp
     private Timestamp created;
 
     @Column(name = "modified")
+    @UpdateTimestamp
     private Timestamp modified;
 
     @ManyToOne

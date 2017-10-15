@@ -3,6 +3,7 @@ package com.cwtsite.cwt.configuration.entity;
 
 import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.user.repository.entity.User;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +24,8 @@ public class Configuration implements Serializable {
     private String value;
 
     @Column(name = "created")
-    private Timestamp created;
+    @CreationTimestamp
+    private Timestamp created; // TODO Better to save modified
 
     @ManyToOne
     private User author;

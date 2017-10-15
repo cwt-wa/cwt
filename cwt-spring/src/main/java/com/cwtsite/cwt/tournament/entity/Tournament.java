@@ -2,6 +2,7 @@ package com.cwtsite.cwt.tournament.entity;
 
 import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.user.repository.entity.User;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,9 +12,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * A Tournament.
- */
 @Entity
 @Table(name = "tournament")
 public class Tournament implements Serializable {
@@ -37,6 +35,7 @@ public class Tournament implements Serializable {
     private Timestamp open;
 
     @Column(name = "created")
+    @CreationTimestamp
     private Timestamp created;
 
     @ManyToOne

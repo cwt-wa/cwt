@@ -2,6 +2,7 @@ package com.cwtsite.cwt.user.repository.entity;
 
 import com.cwtsite.cwt.user.repository.entity.enumeration.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
@@ -36,10 +37,12 @@ public class User implements Serializable {
     @Column(name = "password_legacy_hash", length = 40)
     private String password_legacy;
 
+    // TODO Should be in UserProfile
     @Size(max = 16, min = 3)
     @Column(length = 16, unique = true, nullable = false)
     private String username;
 
+    // TODO Should be in UserProfile
     @Email
     @Size(max = 100)
     @Column(length = 100, unique = true)
@@ -78,7 +81,13 @@ public class User implements Serializable {
     private UserSetting userSetting;
 
     @Column(name = "created")
+    @CreationTimestamp
     private Timestamp created;
+
+    // TODO Add modified
+    @Column(name = "modified")
+    @CreationTimestamp
+    private Timestamp modified;
 
     protected User() {
     }

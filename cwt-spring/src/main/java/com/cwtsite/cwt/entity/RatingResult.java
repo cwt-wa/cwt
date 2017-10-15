@@ -6,9 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * Materialized View?
- */
 @Entity
 @Table(name = "rating_result")
 public class RatingResult implements Serializable {

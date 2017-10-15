@@ -2,15 +2,13 @@ package com.cwtsite.cwt.entity;
 
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * A Application.
- */
 @Entity
 @Table(name = "application")
 @SequenceGenerator(name = "application_seq", sequenceName = "application_seq", initialValue = 102, allocationSize = 1)
@@ -23,6 +21,7 @@ public class Application implements Serializable {
     private Long id;
 
     @Column(name = "created")
+    @CreationTimestamp
     private Timestamp created;
 
     @Column(name = "revoked")

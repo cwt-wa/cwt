@@ -12,9 +12,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * A Group.
- */
 @Entity
 @Table(name = "\"group\"")
 @SequenceGenerator(name = "group_seq", sequenceName = "group_seq", initialValue = 121, allocationSize = 1)

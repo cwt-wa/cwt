@@ -26,6 +26,10 @@ public class UserSetting implements Serializable {
     @Column(name = "hide_email")
     private Boolean hideEmail;
 
+    // TODO Add modified
+//    @Column(name = "modified")
+//    private Timestamp modified;
+
     @JsonIgnore
     @OneToOne
     @JoinColumn(unique = true)

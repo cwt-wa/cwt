@@ -3,6 +3,8 @@ package com.cwtsite.cwt.entity;
 import com.cwtsite.cwt.game.entity.Game;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,9 +34,11 @@ public class Comment implements Serializable {
     private Boolean deleted;
 
     @Column(name = "created")
+    @CreationTimestamp
     private Timestamp created;
 
     @Column(name = "modified")
+    @UpdateTimestamp
     private Timestamp modified;
 
     @ManyToOne

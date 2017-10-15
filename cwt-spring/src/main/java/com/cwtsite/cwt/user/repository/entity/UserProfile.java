@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.user.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class UserProfile implements Serializable {
     private Long id;
 
     @Column(name = "modified")
+    @UpdateTimestamp
     private Timestamp modified;
 
     @Column(name = "country")

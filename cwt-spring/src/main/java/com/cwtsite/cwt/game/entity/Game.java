@@ -5,13 +5,14 @@ import com.cwtsite.cwt.group.entity.Group;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,9 +43,11 @@ public class Game implements Serializable {
     private Integer downloads;
 
     @Column(name = "created")
+    @CreationTimestamp
     private Timestamp created;
 
     @Column(name = "modified")
+    @UpdateTimestamp
     private Timestamp modified;
 
     @OneToOne(cascade = CascadeType.ALL)
