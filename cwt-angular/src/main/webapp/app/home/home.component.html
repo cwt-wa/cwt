@@ -1,38 +1,20 @@
-<div class="row text-right">
-    <div class="col-12">
-        <cwt-apply-banner [userId]="authenticatedUser.id" *ngIf="authenticatedUser"></cwt-apply-banner>
-    </div>
-</div>
+<cwt-apply-banner [userId]="authenticatedUser.id" *ngIf="authenticatedUser" class="float-right"></cwt-apply-banner>
 
-<a routerLink="/apply">
-    Apply
-</a>
-<a routerLink="/register">
-    Register
-</a>
-<a routerLink="/admin">
-    Admin
-</a>
-<hr>
-<br>
+<h1 class="mb-4">
+    Crespo’s Worms Tournament
+</h1>
 
-<div class="row" *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-    <div class="col-md-6">
-        Hello, World! {{x}}.1
-    </div>
-    <div class="col-md-6">
-        Hello, World! {{x}}.2
-    </div>
-    <div class="col-md-6">
-        Hello, World! {{x}}.3
-    </div>
-    <div class="col-md-6">
-        Hello, World! {{x}}.4
-    </div>
-    <div class="col-md-6">
-        Hello, World! {{x}}.5
-    </div>
-    <div class="col-md-6">
-        Hello, World! {{x}}.6
+
+<div class="card" *ngIf="news">
+    <div class="card-body">
+        <p class="card-text">
+            <span class="rendered-text">{{news.value}}</span>
+        </p>
+        <p class="card-text float-right">
+            <small class="text-muted">
+                <a [routerLink]="['/user', news.author.username]">{{news.author.username}}</a>
+                <cwt-time-ago [date]="news.modified"></cwt-time-ago>
+            </small>
+        </p>
     </div>
 </div>
