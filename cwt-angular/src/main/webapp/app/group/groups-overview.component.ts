@@ -31,7 +31,7 @@ export class GroupsOverviewComponent implements OnInit {
         this.requestService.get<Group[]>(`tournament/${this.tournamentId || 'current'}/group`)
             .subscribe(res => this.groups = res);
 
-        this.configurationService.requestByKeys<number>(["NUMBER_OF_GROUP_MEMBERS_ADVANCING"])
+        this.configurationService.requestByKeys<number>("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
             .subscribe(res => this.numberOfGroupMembersAdvancing = res[0].value);
     }
 

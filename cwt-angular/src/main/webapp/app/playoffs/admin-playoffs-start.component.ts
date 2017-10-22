@@ -56,7 +56,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
     public ngOnInit(): void {
         Observable.forkJoin(
             this.requestService.get<Group[]>('tournament/current/group'),
-            this.configurationService.requestByKeys<number>(["NUMBER_OF_GROUP_MEMBERS_ADVANCING"])
+            this.configurationService.requestByKeys<number>("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
             )
             .subscribe((res: [Group[], Configuration<number>[]]) => {
                     this.groups = res[0];
