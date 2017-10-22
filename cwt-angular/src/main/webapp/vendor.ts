@@ -14,6 +14,7 @@ import 'toastr/build/toastr.css';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/observable/throw';
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 // You can import js, ts, css, sass, ...
