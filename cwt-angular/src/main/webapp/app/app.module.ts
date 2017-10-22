@@ -33,6 +33,8 @@ import {DamnArchiveComponent} from "./archive/damn-archive.component";
 import {ReadMoreComponent} from "./_util/read-more.component";
 import {ArchiveDetailComponent} from "./archive/archive-detail.component";
 import {GroupGamesComponent} from "./group/group-games.component";
+import {TimeAgoComponent} from "./_util/time-ago.component";
+import {TimeAgoService} from "./_services/time-ago.service";
 
 const appRoutes: Routes = [
     {
@@ -138,6 +140,7 @@ const appRoutes: Routes = [
         ReadMoreComponent,
         ArchiveDetailComponent,
         GroupGamesComponent,
+        TimeAgoComponent,
     ],
     providers: [
         WebAppViewService,
@@ -145,6 +148,7 @@ const appRoutes: Routes = [
         RequestService,
         ConfigurationService,
         StandingsOrderPipe,
+        TimeAgoService,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     bootstrap: [AppComponent]
