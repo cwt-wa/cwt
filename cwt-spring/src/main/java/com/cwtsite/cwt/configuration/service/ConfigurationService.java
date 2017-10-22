@@ -30,4 +30,8 @@ public class ConfigurationService {
     public List<Configuration> getAll() {
         return configurationRepository.findAll();
     }
+
+    public Configuration save(Configuration configuration) {
+        return this.configurationRepository.save(configuration);
+    }
 }

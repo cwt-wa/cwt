@@ -144,3 +144,9 @@ export interface Tournament {
     silverWinner: User;
     goldWinner: User;
 }
+
+
+export interface ConfigurationDto {
+    value: string;
+    key: ConfigurationKey;
+}

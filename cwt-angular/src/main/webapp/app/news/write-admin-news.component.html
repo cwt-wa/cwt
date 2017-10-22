@@ -1,0 +1,14 @@
+<div *ngIf="news" class="row justify-content-center">
+    <div class="col-12">
+        <form #newsForm="ngForm" (ngSubmit)="submit()">
+            <div class="form-group">
+                <textarea class="form-control" id="text" aria-describedby="text"
+                          placeholder="Write some news for everyone to see…"
+                          rows="20"
+                          [(ngModel)]="news.value" name="text" #text="ngModel" required>
+                </textarea>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+        </form>
+    </div>
+</div>

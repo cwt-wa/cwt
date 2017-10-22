@@ -35,6 +35,7 @@ import {ArchiveDetailComponent} from "./archive/archive-detail.component";
 import {GroupGamesComponent} from "./group/group-games.component";
 import {TimeAgoComponent} from "./_util/time-ago.component";
 import {TimeAgoService} from "./_services/time-ago.service";
+import {WriteAdminNewsComponent} from "./news/write-admin-news.component";
 
 const appRoutes: Routes = [
     {
@@ -102,6 +103,10 @@ const appRoutes: Routes = [
         component: ArchiveDetailComponent
     },
     {
+        path: 'admin/news',
+        component: WriteAdminNewsComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -141,6 +146,7 @@ const appRoutes: Routes = [
         ArchiveDetailComponent,
         GroupGamesComponent,
         TimeAgoComponent,
+        WriteAdminNewsComponent,
     ],
     providers: [
         WebAppViewService,

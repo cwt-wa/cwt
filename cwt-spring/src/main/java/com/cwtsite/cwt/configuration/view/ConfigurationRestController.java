@@ -3,18 +3,19 @@ package com.cwtsite.cwt.configuration.view;
 import com.cwtsite.cwt.configuration.entity.Configuration;
 import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.configuration.service.ConfigurationService;
+import com.cwtsite.cwt.configuration.view.model.ConfigurationDto;
 import com.cwtsite.cwt.playoffs.service.PlayoffService;
 import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.tournament.exception.IllegalTournamentStatusException;
 import com.cwtsite.cwt.tournament.service.TournamentService;
+import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.user.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -25,13 +26,15 @@ public class ConfigurationRestController {
     private final ConfigurationService configurationService;
     private final TournamentService tournamentService;
     private final PlayoffService playoffService;
+    private final AuthService authService;
 
     @Autowired
     public ConfigurationRestController(ConfigurationService configurationService, TournamentService tournamentService,
-                                       PlayoffService playoffService) {
+                                       PlayoffService playoffService, AuthService authService) {
         this.configurationService = configurationService;
         this.tournamentService = tournamentService;
         this.playoffService = playoffService;
+        this.authService = authService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -41,6 +44,13 @@ public class ConfigurationRestController {
         }
 
         return configurationService.getAll(configurationKeys);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<Configuration> query(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
+        final User authenticatedUser = authService.getUserFromToken(request.getHeader(authService.getTokenHeaderName()));
+        final Configuration configuration = ConfigurationDto.map(configurationDto, authenticatedUser);
+        return ResponseEntity.ok(configurationService.save(configuration));
     }
 
     @RequestMapping(value = "/score-best-of", method = RequestMethod.GET)
