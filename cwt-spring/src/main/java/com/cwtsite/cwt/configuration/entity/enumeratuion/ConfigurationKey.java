@@ -26,7 +26,12 @@ public enum ConfigurationKey {
     /**
      * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the final.
      */
-    FINAL_GAME_BEST_OF(Integer.class);
+    FINAL_GAME_BEST_OF(Integer.class),
+
+    /**
+     * News written by admins to be shown on the front page.
+     */
+    NEWS(String.class);
 
 
     private final Class type;
