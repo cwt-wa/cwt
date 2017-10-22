@@ -1,25 +1,37 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TimeAgoService} from "../_services/time-ago.service";
+import {Observable} from "rxjs/Observable";
+import {TimeAgo} from "../custom";
 
 @Component({
     selector: 'cwt-time-ago',
-    // template: require('time-ago.component.html')
     template: `
-        <span [title]="(date | date:'medium')">{{timeAgo}} ago</span>
-        
+        <span [title]="(date | date:'medium')" i18n>
+            {timeAgo.unit, select,
+                DAY {{{timeAgo.value}} {timeAgo.unit, plural, =1 {day} other {days}} ago}
+                HOUR {{{timeAgo.value}} {timeAgo.unit, plural, =1 {hour} other {hours}} ago}
+                MINUTE {{{timeAgo.value}} {timeAgo.unit, plural, =1 {minute} other {minutes}} ago}
+                SECOND {just now}
+                other {{{timeAgo.value | date:'medium'}}}
+            }
+        </span>
+        <pre>{{timeAgo.value | json}}</pre>
+        <pre>{{timeAgo.unit | json}}</pre>
     `
 })
 export class TimeAgoComponent implements OnInit {
     @Input()
     date: Date | string;
-    timeAgo: string;
+    timeAgo: TimeAgo;
 
     constructor(private timeAgoService: TimeAgoService) {
     }
 
     public ngOnInit(): void {
-        this.timeAgo = this.timeAgoService.timeAgo(new Date(<Date> this.date));
+        const dateAsDate: Date = new Date(<Date> this.date);
+        this.timeAgo = this.timeAgoService.timeAgo(dateAsDate);
+
+        Observable.timer(0, 1000 * 60)
+            .subscribe(() => this.timeAgo = this.timeAgoService.timeAgo(dateAsDate));
     }
-
-
 }

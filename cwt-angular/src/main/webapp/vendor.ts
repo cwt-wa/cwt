@@ -15,3 +15,4 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/timer';

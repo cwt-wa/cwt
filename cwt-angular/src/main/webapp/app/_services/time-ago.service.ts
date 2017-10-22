@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {TimeAgo} from "../custom";
 
 @Injectable()
 export class TimeAgoService {
@@ -6,30 +7,34 @@ export class TimeAgoService {
     constructor() {
     }
 
-    timeAgo(date: Date) {
-        const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-        let interval = Math.floor(seconds / 31536000);
+    timeAgo(subjectDate: Date): TimeAgo {
+        const diffToNowInSeconds: number = Math.floor((Date.now() - subjectDate.getTime()) / 1000);
 
-        if (interval > 1) {
-            return interval + " years";
+        let intervalForSpecificUnit: number = Math.floor(diffToNowInSeconds / (31536000));
+        if (intervalForSpecificUnit > 1) {
+            return {value: intervalForSpecificUnit, unit: "YEAR", original: subjectDate};
         }
-        interval = Math.floor(seconds / 2592000);
-        if (interval > 1) {
-            return interval + " months";
+
+        intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 2592000);
+        if (intervalForSpecificUnit > 1) {
+            return {value: intervalForSpecificUnit, unit: "MONTH", original: subjectDate};
         }
-        interval = Math.floor(seconds / 86400);
-        if (interval > 1) {
-            return interval + " days";
+
+        intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 86400);
+        if (intervalForSpecificUnit > 1) {
+            return {value: intervalForSpecificUnit, unit: "DAY", original: subjectDate};
         }
-        interval = Math.floor(seconds / 3600);
-        if (interval > 1) {
-            return interval + " hours";
+
+        intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 3600);
+        if (intervalForSpecificUnit > 1) {
+            return {value: intervalForSpecificUnit, unit: "HOUR", original: subjectDate};
         }
-        interval = Math.floor(seconds / 60);
-        if (interval > 1) {
-            return interval + " minutes";
+
+        intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 60);
+        if (intervalForSpecificUnit > 1) {
+            return {value: intervalForSpecificUnit, unit: "MINUTE", original: subjectDate};
         }
-        return Math.floor(seconds) + " seconds";
+
+        return {value: Math.floor(diffToNowInSeconds), unit: "SECOND", original: subjectDate};
     }
-
 }

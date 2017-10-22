@@ -150,3 +150,11 @@ export interface ConfigurationDto {
     value: string;
     key: ConfigurationKey;
 }
+
+export type TimeUnit = "YEAR" | "MONTH" | "DAY" | "HOUR" | "MINUTE" | "SECOND";
+
+export interface TimeAgo {
+    value: number;
+    unit: TimeUnit;
+    original: Date;
+}
