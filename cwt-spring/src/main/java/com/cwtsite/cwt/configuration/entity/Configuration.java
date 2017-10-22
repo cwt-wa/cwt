@@ -4,6 +4,7 @@ package com.cwtsite.cwt.configuration.entity;
 import com.cwtsite.cwt.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.user.repository.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,10 +25,10 @@ public class Configuration implements Serializable {
     private String value;
 
     @Column(name = "modified")
-    @CreationTimestamp
+    @UpdateTimestamp
     private Timestamp modified;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User author;
 
     public ConfigurationKey getKey() {
