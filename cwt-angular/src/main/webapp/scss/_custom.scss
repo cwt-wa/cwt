@@ -1,1 +1,47 @@
-$blue: #ff47f6 !default;
+// Thanks to Paletton for making creation of the color scheme a breeze.
+
+// Primary brown
+$color-primary-0: #3F3429;
+$color-primary-1: #A18E7C;
+$color-primary-2: #6E6052;
+$color-primary-3: #39291A;
+$color-primary-4: #2E1D0D;
+
+// Blue
+$color-blue-0: #1E202B;
+$color-blue-1: #575C6D;
+$color-blue-2: #3A3E4B;
+$color-blue-3: #141827;
+$color-blue-4: #0B101F;
+
+// Green
+$color-green-0: #1F2F23;
+$color-green-1: #5D7864;
+$color-green-2: #3D5243;
+$color-green-3: #132B19;
+$color-green-4: #092210;
+
+// Red
+$color-red-0: #3F2C29;
+$color-red-1: #A1807C;
+$color-red-2: #6E5552;
+$color-red-3: #391D1A;
+$color-red-4: #2E110D;
+
+// Complement
+$color-complement-0: #1A2427;
+$color-complement-1: #4D5F63;
+$color-complement-2: #334144;
+$color-complement-3: #112023;
+$color-complement-4: #08191C;
+
+$theme-colors: (
+        primary: $color-primary-0,
+        secondary: $color-complement-0,
+        success: $color-green-0,
+        info: $color-blue-0,
+        warning: #ffff00, // TODO
+        danger: $color-red-0,
+        light: #f8f9fa, // From the Bootstrap variables.
+        dark: #343a40 // From the Bootstrap variables.
+);
