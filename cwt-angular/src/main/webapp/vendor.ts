@@ -8,6 +8,9 @@ import '@ng-bootstrap/ng-bootstrap';
 
 import 'font-awesome/css/font-awesome.css';
 
+import 'toastr/toastr.js';
+import 'toastr/build/toastr.css';
+
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/forkJoin';
