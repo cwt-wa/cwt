@@ -17,7 +17,11 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "types": [
+      "node",
+      "jasmine"
+    ]
   },
   "include": [
     "src/main/webapp/app/**/*"

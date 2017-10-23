@@ -4,14 +4,14 @@ module.exports = {
     devtool: 'inline-source-map',
 
     resolve: {
-        extensions: ['', '.ts', '.js']
+        extensions: ['.ts', '.js']
     },
 
     module: {
         rules: [
             {
                 test: /\.ts$/,
-                use: ['awesome-typescript-loader', 'angular2-template-loader']
+                use: ['ts-loader', 'angular2-template-loader']
             },
             {
                 test: /\.html$/,

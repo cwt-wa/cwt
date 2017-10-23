@@ -27,7 +27,7 @@
     "zone.js": "latest"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.35",
+    "@types/jasmine": "^2.6.0",
     "@types/node": "^6.0.45",
     "angular2-template-loader": "^0.4.0",
     "css-loader": "^0.23.1",
@@ -38,10 +38,12 @@
     "html-webpack-plugin": "^2.28.0",
     "jasmine-core": "^2.4.1",
     "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.8.0",
+    "karma-typescript": "^3.0.8",
+    "karma-webpack": "^2.0.5",
     "node-sass": "^4.5.3",
     "null-loader": "^0.1.1",
     "phantomjs-prebuilt": "^2.1.7",
