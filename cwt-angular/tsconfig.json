@@ -24,6 +24,8 @@
     ]
   },
   "include": [
-    "src/main/webapp/app/**/*"
+    "src/main/webapp/app/**/*",
+    "src/test/webapp/app/**/*"
+
   ]
 }
