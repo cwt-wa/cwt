@@ -8,15 +8,13 @@ import {TimeAgo} from "../custom";
     template: `
         <span [title]="(date | date:'medium')" i18n>
             {timeAgo.unit, select,
-                DAY {{{timeAgo.value}} {timeAgo.unit, plural, =1 {day} other {days}} ago}
-                HOUR {{{timeAgo.value}} {timeAgo.unit, plural, =1 {hour} other {hours}} ago}
-                MINUTE {{{timeAgo.value}} {timeAgo.unit, plural, =1 {minute} other {minutes}} ago}
+                DAY {{{timeAgo.value}} {timeAgo.value, plural, =1 {day} other {days}} ago}
+                HOUR {{{timeAgo.value}} {timeAgo.value, plural, =1 {hour} other {hours}} ago}
+                MINUTE {{{timeAgo.value}} {timeAgo.value, plural, =1 {minute} other {minutes}} ago}
                 SECOND {just now}
-                other {{{timeAgo.value | date:'medium'}}}
+                other {{{timeAgo.original | date:'medium'}}}
             }
         </span>
-        <pre>{{timeAgo.value | json}}</pre>
-        <pre>{{timeAgo.unit | json}}</pre>
     `
 })
 export class TimeAgoComponent implements OnInit {

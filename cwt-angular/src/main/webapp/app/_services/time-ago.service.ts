@@ -16,22 +16,22 @@ export class TimeAgoService {
         }
 
         intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 2592000);
-        if (intervalForSpecificUnit > 1) {
+        if (intervalForSpecificUnit >= 1) {
             return {value: intervalForSpecificUnit, unit: "MONTH", original: subjectDate};
         }
 
         intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 86400);
-        if (intervalForSpecificUnit > 1) {
+        if (intervalForSpecificUnit >= 1) {
             return {value: intervalForSpecificUnit, unit: "DAY", original: subjectDate};
         }
 
         intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 3600);
-        if (intervalForSpecificUnit > 1) {
+        if (intervalForSpecificUnit >= 1) {
             return {value: intervalForSpecificUnit, unit: "HOUR", original: subjectDate};
         }
 
         intervalForSpecificUnit = Math.floor(diffToNowInSeconds / 60);
-        if (intervalForSpecificUnit > 1) {
+        if (intervalForSpecificUnit >= 1) {
             return {value: intervalForSpecificUnit, unit: "MINUTE", original: subjectDate};
         }
 
