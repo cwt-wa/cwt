@@ -6,6 +6,8 @@ import "rxjs/add/operator/catch";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {AuthService} from "./auth.service";
 
+const toastr = require('toastr/toastr.js');
+
 export type QueryParams = string | URLSearchParams | { [key: string]: any | any[]; } | null;
 
 @Injectable()
@@ -41,15 +43,18 @@ export class RequestService {
         return res.json();
     }
 
-    private handleError(error: Response | any) {
-        let errMsg: string;
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
+    private handleError(res: Response | any) {
+        let msg: string;
+
+        if (res instanceof Response && (<Response> res).status === 0) {
+            msg = 'There is no Internet connection.';
         }
+
+        const errMsg: string = msg
+            ? msg
+            : 'An unknown error occurred.';
+
+        toastr.error(errMsg);
         return Observable.throw(errMsg);
     }
 
