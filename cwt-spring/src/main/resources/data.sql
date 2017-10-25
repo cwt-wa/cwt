@@ -2860,106 +2860,106 @@ INSERT INTO group_standing (id, group_id, user_id, points, games, game_ratio, ro
 INSERT INTO group_standing (id, group_id, user_id, points, games, game_ratio, round_ratio) VALUES (485, 120, 180, 1, 3, -3, -6);
 
 
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (1, '2012-10-06 22:45:55', 20, null, 2, 'Quite a rocky start for both of us, many unnecessary mistakes :\\');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (2, '2012-10-07 00:08:32', 159, null, 2, 'still learning, only 4 league games before this :p');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (3, '2012-10-07 01:40:39', 10, null, 2, 'Interesting game :) Some very nice moves of franz, never seen him playing before.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (4, '2012-10-07 06:53:55', 5, null, 3, 'lawl! report system, rocks
-nice pic, J!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (5, '2012-10-07 08:44:51', 2, null, 3, 'Made in Calais, France. You find there bonbons of 27 european states and this one.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (6, '2012-10-07 13:14:41', 56, '2012-10-07 13:16:33', 2, '@smash, round 3 25:00 , lol man, such an easy win, just JP/rope and shotgun both xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (7, '2012-10-07 13:36:26', 159, null, 2, 'yeah, not a proud moment :(  my sd experience showed there.  just wasn''t even thinking right.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (8, '2012-10-07 16:07:09', 56, null, 4, 'round 1 last turn, don''t know if kami was possible if i did it a bit more down.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (9, '2012-10-07 16:33:09', 13, null, 5, 'end first round- a win of expirience :)
-gg mate');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (10, '2012-10-07 16:37:51', 180, null, 5, 'well,was my first cwt game,i was to nervios,anyway,gg''s xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (11, '2012-10-07 20:26:55', 10, null, 6, 'Hilarious fails by both of us ...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (12, '2012-10-07 20:33:39', 20, null, 6, 'At least this was entertaining :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (13, '2012-10-08 18:28:09', 12, null, 8, 'Mine double kill in first round save my life, after so many misses one great attack give me great boost for rest of battle.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (14, '2012-10-08 19:07:37', 27, null, 6, 'Too much balls, need to be more of a pussy to win cwt games xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (15, '2012-10-08 19:59:16', 56, null, 8, 'Haha lier, you didn''t have a WS in last round :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (16, '2012-10-08 20:56:38', 12, null, 8, 'I did not said i have, i write when you said that you are dead-then i write yea. I never tell do i, or do i not have WS. That is your to count ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (17, '2012-10-08 22:19:16', 10, null, 9, 'Bad luck mate, you fought very well. I enjoyed playing with you, you have a great potential, with some months you will transfer your lack of Inter experience into another top player :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (18, '2012-10-08 23:25:36', 20, null, 6, 'Lightside is only good if you can back it up with consistency. Otherwise it''s just showing off :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (19, '2012-10-08 23:45:57', 159, null, 9, 'Painful early mistakes are what really disappointed me, but I definitely tried my best to play through them ;)  And I''m loving the khamski stream commentary. I''m only 29 min in, "maybe he is just a roper" made my smile xD  TTRR is a top favorite of mine, but Elite is right up there equally.  Anyway ggs Kayz, look forward to more');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (20, '2012-10-09 00:17:18', 27, null, 9, 'It was nice to watch the game, nice to see franz playing. I agree with kayz here: you just seem to need experience and we will have a new intermediate pro, I hope you are enjoying the scheme and the challenge.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (21, '2012-10-09 05:34:16', 10, null, 6, 'Ah cmon Dario my homing try wasn''t that hard, though I could just wait until his petrol was worn off to rope to him indeed xD. But since I won the 2nd round then undeservedly, it''s all fair :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (22, '2012-10-09 13:18:07', 2, '2012-10-09 13:33:29', 9, 'I just watched the stream. Categorizing players you don''t know as ropers is funny. Kayz doesn''t win 3-0 = "strange game", also funny :D
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1, 2, 20, null, 'Quite a rocky start for both of us, many unnecessary mistakes :\\', 'false', '2012-10-06 22:45:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (2, 2, 159, null, 'still learning, only 4 league games before this :p', 'false', '2012-10-07 00:08:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (3, 2, 10, null, 'Interesting game :) Some very nice moves of franz, never seen him playing before.', 'false', '2012-10-07 01:40:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (4, 3, 5, null, 'lawl! report system, rocks
+nice pic, J!', 'false', '2012-10-07 06:53:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (5, 3, 2, null, 'Made in Calais, France. You find there bonbons of 27 european states and this one.', 'false', '2012-10-07 08:44:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (6, 2, 56, '2012-10-07 13:16:33', '@smash, round 3 25:00 , lol man, such an easy win, just JP/rope and shotgun both xD', 'false', '2012-10-07 13:14:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (7, 2, 159, null, 'yeah, not a proud moment :(  my sd experience showed there.  just wasn''t even thinking right.', 'false', '2012-10-07 13:36:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (8, 4, 56, null, 'round 1 last turn, don''t know if kami was possible if i did it a bit more down.', 'false', '2012-10-07 16:07:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (9, 5, 13, null, 'end first round- a win of expirience :)
+gg mate', 'false', '2012-10-07 16:33:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (10, 5, 180, null, 'well,was my first cwt game,i was to nervios,anyway,gg''s xD', 'false', '2012-10-07 16:37:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (11, 6, 10, null, 'Hilarious fails by both of us ...', 'false', '2012-10-07 20:26:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (12, 6, 20, null, 'At least this was entertaining :D', 'false', '2012-10-07 20:33:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (13, 8, 12, null, 'Mine double kill in first round save my life, after so many misses one great attack give me great boost for rest of battle.', 'false', '2012-10-08 18:28:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (14, 6, 27, null, 'Too much balls, need to be more of a pussy to win cwt games xD', 'false', '2012-10-08 19:07:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (15, 8, 56, null, 'Haha lier, you didn''t have a WS in last round :)', 'false', '2012-10-08 19:59:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (16, 8, 12, null, 'I did not said i have, i write when you said that you are dead-then i write yea. I never tell do i, or do i not have WS. That is your to count ;)', 'false', '2012-10-08 20:56:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (17, 9, 10, null, 'Bad luck mate, you fought very well. I enjoyed playing with you, you have a great potential, with some months you will transfer your lack of Inter experience into another top player :)', 'false', '2012-10-08 22:19:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (18, 6, 20, null, 'Lightside is only good if you can back it up with consistency. Otherwise it''s just showing off :)', 'false', '2012-10-08 23:25:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (19, 9, 159, null, 'Painful early mistakes are what really disappointed me, but I definitely tried my best to play through them ;)  And I''m loving the khamski stream commentary. I''m only 29 min in, "maybe he is just a roper" made my smile xD  TTRR is a top favorite of mine, but Elite is right up there equally.  Anyway ggs Kayz, look forward to more', 'false', '2012-10-08 23:45:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (20, 9, 27, null, 'It was nice to watch the game, nice to see franz playing. I agree with kayz here: you just seem to need experience and we will have a new intermediate pro, I hope you are enjoying the scheme and the challenge.', 'false', '2012-10-09 00:17:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (21, 6, 10, null, 'Ah cmon Dario my homing try wasn''t that hard, though I could just wait until his petrol was worn off to rope to him indeed xD. But since I won the 2nd round then undeservedly, it''s all fair :D', 'false', '2012-10-09 05:34:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (22, 9, 2, '2012-10-09 13:33:29', 'I just watched the stream. Categorizing players you don''t know as ropers is funny. Kayz doesn''t win 3-0 = "strange game", also funny :D
 
-It was a good decision to ask franz to sign up for CWT. Group E is definitly most attractive group.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (23, '2012-10-09 13:45:19', 10, null, 9, 'Totally agreed there, Joschi :) Though it''s always evil, if nobody knows some player, who proves himself then and showing he didn''t deserve to get in Pot D^^');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (24, '2012-10-09 14:31:37', 12, null, 9, 'Well in my opinion commentary was funny as hell. From " wow franz is leading", "wow he lead again", "he is American, he think different XD". I was laughing the whole game. Who knows what he will said for me tonight...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (25, '2012-10-09 14:36:35', 12, null, 9, 'ps. "Kayz will start his devastating, cool, mind, kicking, killing, doble killing something"  Khamski RULES!!!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (26, '2012-10-09 15:26:29', 13, null, 6, 'lol almost 700 downlads');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (27, '2012-10-09 16:25:24', 20, null, 6, 'WTF, we are popular :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (28, '2012-10-09 22:43:07', 26, null, 11, 'Very hard game for me,thx mrViks.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (29, '2012-10-10 04:56:39', 13, null, 6, 'I think its just a bug ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (30, '2012-10-10 05:41:47', 1, null, 6, 'Yeah, must be. I hope it doesn''t happen to other games, but I''ll have an eye on this from now on.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (31, '2012-10-10 12:24:17', 16, null, 11, 'u2 dude, please upload last round, i wanna check finish again');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (32, '2012-10-10 14:20:52', 26, '2012-10-10 15:34:21', 11, 'My friend ,I uploaded all, 1 and 1,2,3,4 :) ,btw you have a game on your computer :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (33, '2012-10-10 20:32:32', 6, null, 14, 'gj john...
+It was a good decision to ask franz to sign up for CWT. Group E is definitly most attractive group.', 'false', '2012-10-09 13:18:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (23, 9, 10, null, 'Totally agreed there, Joschi :) Though it''s always evil, if nobody knows some player, who proves himself then and showing he didn''t deserve to get in Pot D^^', 'false', '2012-10-09 13:45:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (24, 9, 12, null, 'Well in my opinion commentary was funny as hell. From " wow franz is leading", "wow he lead again", "he is American, he think different XD". I was laughing the whole game. Who knows what he will said for me tonight...', 'false', '2012-10-09 14:31:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (25, 9, 12, null, 'ps. "Kayz will start his devastating, cool, mind, kicking, killing, doble killing something"  Khamski RULES!!!', 'false', '2012-10-09 14:36:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (26, 6, 13, null, 'lol almost 700 downlads', 'false', '2012-10-09 15:26:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (27, 6, 20, null, 'WTF, we are popular :D', 'false', '2012-10-09 16:25:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (28, 11, 26, null, 'Very hard game for me,thx mrViks.', 'false', '2012-10-09 22:43:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (29, 6, 13, null, 'I think its just a bug ;)', 'false', '2012-10-10 04:56:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (30, 6, 1, null, 'Yeah, must be. I hope it doesn''t happen to other games, but I''ll have an eye on this from now on.', 'false', '2012-10-10 05:41:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (31, 11, 16, null, 'u2 dude, please upload last round, i wanna check finish again', 'false', '2012-10-10 12:24:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (32, 11, 26, '2012-10-10 15:34:21', 'My friend ,I uploaded all, 1 and 1,2,3,4 :) ,btw you have a game on your computer :)', 'false', '2012-10-10 14:20:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (33, 14, 6, null, 'gj john...
 i need learn how to finish hard game
 we have show gr8 game
-gl in next');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (34, '2012-10-10 20:40:16', 1, null, 14, 'Zoky deserved a victory, but experience won. Johnmir is very good even when inactive.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (35, '2012-10-10 21:20:14', 17, null, 14, 'OMG! What a lucky end!
-Zoky, you deserved to win, but luck decided. Anyway, it was a really exciting game, thank you!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (36, '2012-10-11 15:06:33', 10, null, 11, 'Was there some misunderstanding? Viks did you agree on 3-2? I wrote you both a pm');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (37, '2012-10-11 16:39:11', 13, null, 11, 'lolno idea why U said they have to reply this round.
+gl in next', 'false', '2012-10-10 20:32:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (34, 14, 1, null, 'Zoky deserved a victory, but experience won. Johnmir is very good even when inactive.', 'false', '2012-10-10 20:40:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (35, 14, 17, null, 'OMG! What a lucky end!
+Zoky, you deserved to win, but luck decided. Anyway, it was a really exciting game, thank you!', 'false', '2012-10-10 21:20:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (36, 11, 10, null, 'Was there some misunderstanding? Viks did you agree on 3-2? I wrote you both a pm', 'false', '2012-10-11 15:06:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (37, 11, 13, null, 'lolno idea why U said they have to reply this round.
 Especially since its probably most important round in this group. Mablak will own everyone 3;0:)
-I know Viks is not a quitters but he had 2 more worms and hhg..');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (38, '2012-10-11 16:51:09', 16, null, 11, 'we replayed last round and i won but if other pros say that i had no chance i will let zolo, i wont unfair win');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (39, '2012-10-11 16:52:27', 10, null, 11, 'Koras as a pro you should see that Viks could use lg and kill the two little worms, and then it''s 100 hp vs 100 hp. And right BECAUSE it''s an important game, it should be replayed, because they didn''t use a spectator, and the game was no 100% win.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (40, '2012-10-11 16:53:17', 10, '2012-10-11 17:00:19', 11, 'Furthermore I can''t understand that Zolo-du reports a 3-2 game with a round where a network dropped happened, which wasn''t cleared without the mod team, this is just impolite...
+I know Viks is not a quitters but he had 2 more worms and hhg..', 'false', '2012-10-11 16:39:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (38, 11, 16, null, 'we replayed last round and i won but if other pros say that i had no chance i will let zolo, i wont unfair win', 'false', '2012-10-11 16:51:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (39, 11, 10, null, 'Koras as a pro you should see that Viks could use lg and kill the two little worms, and then it''s 100 hp vs 100 hp. And right BECAUSE it''s an important game, it should be replayed, because they didn''t use a spectator, and the game was no 100% win.', 'false', '2012-10-11 16:52:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (40, 11, 10, '2012-10-11 17:00:19', 'Furthermore I can''t understand that Zolo-du reports a 3-2 game with a round where a network dropped happened, which wasn''t cleared without the mod team, this is just impolite...
 
 So please everyone, for the future, use a spectator, I don''t want to argue with you if this is an unfair decision or not, it''s your own fault that this situation had to happen.
 
-@Viks what you mean with "other pros"? It''s the mod team which decides this, and we agreed on replay, of course Zolo had an advantage, but it was far from 100% win, and I doubt that Zolo could kill you with a hhg, if you hid well, hard to get fall damage in many cases.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (41, '2012-10-11 16:59:11', 26, '2012-10-11 17:12:39', 11, 'sure,they were in configuring fair position, and now the game will decide the two movements, and it is ok?, btw the repetition of the nerves is not willing to shut off the wifi, but tell me what to change 3rd person?
+@Viks what you mean with "other pros"? It''s the mod team which decides this, and we agreed on replay, of course Zolo had an advantage, but it was far from 100% win, and I doubt that Zolo could kill you with a hhg, if you hid well, hard to get fall damage in many cases.', 'false', '2012-10-11 16:53:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (41, 11, 26, '2012-10-11 17:12:39', 'sure,they were in configuring fair position, and now the game will decide the two movements, and it is ok?, btw the repetition of the nerves is not willing to shut off the wifi, but tell me what to change 3rd person?
 2btw. he must use jet,not only lg..if wont kill2 worms..
 ps.I can not solicit to anyone about the game and how I play as an opportunity to keep up it''s my fault that no one is?
 
-....');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (42, '2012-10-11 17:03:23', 10, '2012-10-11 17:15:58', 11, 'Ew sorry, Zolo. I didn''t understand anything from your post Oo
+....', 'false', '2012-10-11 16:59:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (42, 11, 10, '2012-10-11 17:15:58', 'Ew sorry, Zolo. I didn''t understand anything from your post Oo
 
 Edit: Yes, but then it''s jp vs nothing, and he can teleport etc, or you attack him with axe, and he might kami draw or plop your somewhere. Just saying it wasn''t a 100% win for you
 
-Well it''s your both fault that you didn''t have a spectator, but I can''t give you a win here. If Viks was in your situation, it would be the same. It''s bad luck for you, but also your own fault, as well as Viks''');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (43, '2012-10-11 17:17:48', 26, '2012-10-11 17:20:08', 11, 'where he have good hide if kill 2 worms? Kayz I never want free win...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (44, '2012-10-11 17:24:18', 10, '2012-10-11 17:34:43', 11, 'Kill left one first, then climb up and jump up. you could kill him almost everywhere probably, but some bow shots are not that easy, and you could also fail. So dude, you see, it''s not 100% right? :)
+Well it''s your both fault that you didn''t have a spectator, but I can''t give you a win here. If Viks was in your situation, it would be the same. It''s bad luck for you, but also your own fault, as well as Viks''', 'false', '2012-10-11 17:03:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (43, 11, 26, '2012-10-11 17:20:08', 'where he have good hide if kill 2 worms? Kayz I never want free win...', 'false', '2012-10-11 17:17:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (44, 11, 10, '2012-10-11 17:34:43', 'Kill left one first, then climb up and jump up. you could kill him almost everywhere probably, but some bow shots are not that easy, and you could also fail. So dude, you see, it''s not 100% right? :)
 
 100% if for me for example: 2 ropes and jp and 100 hp, vs one worm with nothing hiding on right side with 1 hp, without girders or petrol left.. and even then the 100 hp one could plop his jetpack and himself with it.
 
 I know you had like 80% chance on win Zolo, but giving a free win here would just stand against the rules we made, and we made them not to punish people who didn''t find a spectator, but to have the same fairness to everyone. We are talking about worms here, not chess, in worms you can fuck up everywhere and at any time!
 
-And then we even make rules which are bombing safe, and even then we got stupid discussions about fairness here, meh just admit you two did a mistake and stand for it.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (45, '2012-10-11 18:14:06', 13, null, 11, 'dont call it "free win" my friend,  "free chance" for Viks sounds better here  :)
+And then we even make rules which are bombing safe, and even then we got stupid discussions about fairness here, meh just admit you two did a mistake and stand for it.', 'false', '2012-10-11 17:24:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (45, 11, 13, null, 'dont call it "free win" my friend,  "free chance" for Viks sounds better here  :)
 Even if he fail Viks would have few hp worm and 0 chutes(tele,tele/tele,tele :) ), and after all he could fail this 2 jet/lg kills too! lol
 
 btw if any important crash will happend in my PO game, i want all MODS judge on it........ no your fast "replay it"
-check replayed round, Zolo was so frustrated and played like total noob');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (46, '2012-10-11 18:34:02', 10, '2012-10-11 18:35:52', 11, 'Koras, if you drop in PO, and have no spec, then you will get nothing else but "replay it", except it''s 100% sure. Wtf is this argument: "Viks could fail the plops", so what? Zolo-du could fail a thousand things, too. What does it say? Nothing!
+check replayed round, Zolo was so frustrated and played like total noob', 'false', '2012-10-11 18:14:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (46, 11, 10, '2012-10-11 18:35:52', 'Koras, if you drop in PO, and have no spec, then you will get nothing else but "replay it", except it''s 100% sure. Wtf is this argument: "Viks could fail the plops", so what? Zolo-du could fail a thousand things, too. What does it say? Nothing!
 I am a bit annoyed that some of you think we have nothing else to do than judging all the games you play which drop without spectator. We changed the rules to ease this shit, we want general fairness, and only because some of you are too lazy to find a 3rd guy, we won''t take the blame for it. This is a serious tournament, and this is worms, so I repeat again, a drop says nothing about who''d win the game in 99% of all cases. I saw the best players fucking up very easy turns, so it''s just unfair to give free wins on most of the unsolved rounds. That Zolo was frustrated and played like a noob is not the Mod team''s fault, he and Viks didn''t play with a spec, so they have to deal with the consequences.
 
 And Zolo sent me the replay, you were wrong there saying Zolo had Jp and Lg, too, just like Viks, he had only jetpack. And you also seemed to forget that Viks and Zolo both had 3 girders and 2 petrols, talking about sd waiting...
 
-This round was a lot, but it wasn''t a 100% win for Zolo-du. And that''s all I will say to this case.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (47, '2012-10-11 18:52:25', 13, null, 11, 'if U want wait for SD worms have to be at least a bit separated lol, both had 2 tele so U should know what would happend.
+This round was a lot, but it wasn''t a 100% win for Zolo-du. And that''s all I will say to this case.', 'false', '2012-10-11 18:34:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (47, 11, 13, null, 'if U want wait for SD worms have to be at least a bit separated lol, both had 2 tele so U should know what would happend.
 there is always best option then replay it as "BEST OF ONE" , when your opponent have a first turn but U are then one who had huge adventage.
 
 after all its all bullshit :)
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (48, '2012-10-11 18:53:00', 13, null, 11, 'btw
-Viks dont even had a single chute :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (49, '2012-10-11 19:01:21', 10, '2012-10-11 19:02:52', 11, 'I know Koras, but look, Viks had a huge advantage in the first round, which Zolo-du didn''t even upload
+', 'false', '2012-10-11 18:52:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (48, 11, 13, null, 'btw
+Viks dont even had a single chute :)', 'false', '2012-10-11 18:53:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (49, 11, 10, '2012-10-11 19:02:52', 'I know Koras, but look, Viks had a huge advantage in the first round, which Zolo-du didn''t even upload
 
 http://www62.zippyshare.com/v/6970231/file.html
 
 It dropped and he gave him a rm. Talking about fairness :)
-What have chutes to do with anything here, lol???');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (50, '2012-10-11 19:13:25', 15, null, 16, 'GGs ae, i still upset coz the 3rd round, but u won anyway, get fad ae and we are ok hehe');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (51, '2012-10-11 19:16:38', 5, null, 16, 'lol both barman and his ava rocks! ))
-bl, Thouson. Seems like your rustiness played a bad trick to you.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (52, '2012-10-11 20:02:38', 5, '2012-10-11 20:08:07', 11, '=r=u=l=e=s=q=u=o=t=e=
+What have chutes to do with anything here, lol???', 'false', '2012-10-11 19:01:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (50, 16, 15, null, 'GGs ae, i still upset coz the 3rd round, but u won anyway, get fad ae and we are ok hehe', 'false', '2012-10-11 19:13:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (51, 16, 5, null, 'lol both barman and his ava rocks! ))
+bl, Thouson. Seems like your rustiness played a bad trick to you.', 'false', '2012-10-11 19:16:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (52, 11, 5, '2012-10-11 20:08:07', '=r=u=l=e=s=q=u=o=t=e=
 
 [size=14][color=LimeGreen][b]What should you do against the disease of internet disconnections?[/b][/color]
 [/size]
@@ -2974,79 +2974,79 @@ We''re sorry, but we''re not wizards.
 So why the drama?
 It''s all there in the rules.
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (56, '2012-10-11 20:12:08', 26, '2012-10-11 20:18:29', 11, '@ Kayz "I know Koras, but look, Viks had a huge advantage in the first round, which Zolo-du didn''t even upload"  here big aventage and in last round not sure????
+', 'false', '2012-10-11 20:02:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (56, 11, 26, '2012-10-11 20:18:29', '@ Kayz "I know Koras, but look, Viks had a huge advantage in the first round, which Zolo-du didn''t even upload"  here big aventage and in last round not sure????
 
 
 Desynchronization,not my fault, it happens when the host the original scheme is not used, but it creates,I myself downloaded the CWT scheme in which case there is getting desynchronization,but in the last round was not  desynchronization only drop Viks,decision no matter what the game, I like him and I will not say that it is a special drop.
 If I''m talking about rm, I made a big mistake it was not a good idea,too fast,I was annoyed with the situation,I was not focused and even in the nerves turned off the wifi on my laptop,I''m so sorry for that Viks and Koras i Chuvash.
 Now I drank a few drinks and end disputes.
 @ Kayz,im not player pro how you,and if you think that first Viks  move konck+dyna 3 worms,my nobish move with cluster and secend again knock and 3 worms plop with cows they were equal opportunity,well apparently it was.
-Give me the advantage and how i do not win you have 1 liter of whiskey :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (63, '2012-10-11 21:32:25', 16, '2012-10-11 21:33:47', 11, '@ Zolo-du "but in the last round was not desynchronization only drop Viks"
+Give me the advantage and how i do not win you have 1 liter of whiskey :)', 'false', '2012-10-11 20:12:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (63, 11, 16, '2012-10-11 21:33:47', '@ Zolo-du "but in the last round was not desynchronization only drop Viks"
 it was desynchronization that wrote on my chatroom, in both causes same
 if u played drunk we can replay this round again and finish this disussion, i think it''s fair
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (64, '2012-10-11 21:38:37', 16, null, 18, 'Mablak joked with me, how many tricks i saw only in this 3 rounds, probably unbeatable when play seriously     ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (65, '2012-10-11 21:49:28', 5, null, 18, 'His whole attitude towards things he do just rocks. Respect to a big player. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (66, '2012-10-11 23:01:00', 10, null, 11, 'Hey Zolo, I am really sorry, that this shit happened, but I hope you understand that we can''t judge a lot on this situation, because you didn''t follow the advise to have a spectator. That Viks started was random and had nothing to do with the case, because you only got in this situation because of lack of a spec. Thank you khamski for your words');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (67, '2012-10-12 02:52:34', 11, null, 19, 'Nice SG by Koras at 3.25 in round 3 :]');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (68, '2012-10-12 05:05:11', 13, null, 19, 'hehe ty
-but not as nice as my yesterday self pwnage vs U:)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (69, '2012-10-12 08:18:23', 158, null, 11, 'Ah, there is always place for a little drama in worms. =\\');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (70, '2012-10-12 08:46:57', 2, null, 16, '@Thouson: does the repitive shout of ''gg'' strengthen your concentration? With a bit more patience you still can qualify for playoffs.
+', 'false', '2012-10-11 21:32:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (64, 18, 16, null, 'Mablak joked with me, how many tricks i saw only in this 3 rounds, probably unbeatable when play seriously     ', 'false', '2012-10-11 21:38:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (65, 18, 5, null, 'His whole attitude towards things he do just rocks. Respect to a big player. ', 'false', '2012-10-11 21:49:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (66, 11, 10, null, 'Hey Zolo, I am really sorry, that this shit happened, but I hope you understand that we can''t judge a lot on this situation, because you didn''t follow the advise to have a spectator. That Viks started was random and had nothing to do with the case, because you only got in this situation because of lack of a spec. Thank you khamski for your words', 'false', '2012-10-11 23:01:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (67, 19, 11, null, 'Nice SG by Koras at 3.25 in round 3 :]', 'false', '2012-10-12 02:52:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (68, 19, 13, null, 'hehe ty
+but not as nice as my yesterday self pwnage vs U:)', 'false', '2012-10-12 05:05:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (69, 11, 158, null, 'Ah, there is always place for a little drama in worms. =\\', 'false', '2012-10-12 08:18:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (70, 16, 2, null, '@Thouson: does the repitive shout of ''gg'' strengthen your concentration? With a bit more patience you still can qualify for playoffs.
 
-That was a very entertaining match.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (71, '2012-10-12 12:25:32', 180, null, 6, 'wow,677 dowloads xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (72, '2012-10-12 13:40:31', 10, null, 11, 'I think it would be very nice of you, Viks, if you play another rm on a fair map, if you want, you can give Zolo the starting turn for his advantage, but you don''t have to, since you got the right of start in the 5th round.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (73, '2012-10-12 14:18:19', 16, null, 11, 'I agree whit that, Zolo, let''s play 5th round again
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (74, '2012-10-12 15:01:07', 26, null, 11, 'In this situation Viks doing a very large fair play, I really appreciate it because now it is and I am not without fault and if we play,Viks start.Not to day, maybe tomorrow.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (75, '2012-10-12 15:33:38', 16, null, 11, 'ok, tomorrow but random start');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (76, '2012-10-12 15:53:03', 46, '2012-10-12 15:54:34', 11, 'Goal! They found a compromise! It''s will be interesting :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (77, '2012-10-12 17:48:23', 13, null, 11, 'nice');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (78, '2012-10-12 18:03:39', 5, null, 11, 'Yeah, one round played 3 times. Very nice. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (79, '2012-10-12 19:59:47', 10, null, 11, 'Thank you Viks and Zolo, that was a wise decision :) A drunk cluster throwing Zolo-du was no challenge there.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (80, '2012-10-12 20:56:35', 42, null, 21, 'ive forced rematch in the middle of first round due to Bytor hosting a classic intermediate scheme then killing my 69(?)hp worm with cluster. Normally i wouldnt mind playing it but this is cwt and since we were eual in that round, i refused to play it.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (81, '2012-10-13 11:20:22', 56, null, 19, 'Bytor you did some cool cows releases from rope');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (82, '2012-10-13 12:38:15', 148, null, 20, 'eh.. John.. I still believe in you :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (83, '2012-10-13 15:13:46', 30, null, 23, 'so many mistakes on both sides :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (84, '2012-10-13 18:55:59', 159, '2012-10-13 18:59:39', 24, 'my first CWT win *tear*
+That was a very entertaining match.', 'false', '2012-10-12 08:46:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (71, 6, 180, null, 'wow,677 dowloads xD', 'false', '2012-10-12 12:25:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (72, 11, 10, null, 'I think it would be very nice of you, Viks, if you play another rm on a fair map, if you want, you can give Zolo the starting turn for his advantage, but you don''t have to, since you got the right of start in the 5th round.', 'false', '2012-10-12 13:40:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (73, 11, 16, null, 'I agree whit that, Zolo, let''s play 5th round again
+', 'false', '2012-10-12 14:18:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (74, 11, 26, null, 'In this situation Viks doing a very large fair play, I really appreciate it because now it is and I am not without fault and if we play,Viks start.Not to day, maybe tomorrow.', 'false', '2012-10-12 15:01:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (75, 11, 16, null, 'ok, tomorrow but random start', 'false', '2012-10-12 15:33:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (76, 11, 46, '2012-10-12 15:54:34', 'Goal! They found a compromise! It''s will be interesting :)', 'false', '2012-10-12 15:53:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (77, 11, 13, null, 'nice', 'false', '2012-10-12 17:48:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (78, 11, 5, null, 'Yeah, one round played 3 times. Very nice. ', 'false', '2012-10-12 18:03:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (79, 11, 10, null, 'Thank you Viks and Zolo, that was a wise decision :) A drunk cluster throwing Zolo-du was no challenge there.', 'false', '2012-10-12 19:59:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (80, 21, 42, null, 'ive forced rematch in the middle of first round due to Bytor hosting a classic intermediate scheme then killing my 69(?)hp worm with cluster. Normally i wouldnt mind playing it but this is cwt and since we were eual in that round, i refused to play it.', 'false', '2012-10-12 20:56:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (81, 19, 56, null, 'Bytor you did some cool cows releases from rope', 'false', '2012-10-13 11:20:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (82, 20, 148, null, 'eh.. John.. I still believe in you :)', 'false', '2012-10-13 12:38:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (83, 23, 30, null, 'so many mistakes on both sides :D', 'false', '2012-10-13 15:13:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (84, 24, 159, '2012-10-13 18:59:39', 'my first CWT win *tear*
 was pleasure playing you Ivo, hope we play again
 
-and ty CWT for this opportunity, I feel I learned lots even in this short time. looking forward to see and play with all of you ^^');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (85, '2012-10-14 06:20:47', 1, null, 21, 'That''s your good right.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (86, '2012-10-14 07:06:26', 46, null, 23, 'this game looks like fun game, not CWT :)
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (87, '2012-10-14 11:39:09', 2, '2012-10-14 11:41:20', 20, 'Stream made by nappy. Co-commentators Crespo and Jakka.
+and ty CWT for this opportunity, I feel I learned lots even in this short time. looking forward to see and play with all of you ^^', 'false', '2012-10-13 18:55:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (85, 21, 1, null, 'That''s your good right.', 'false', '2012-10-14 06:20:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (86, 23, 46, null, 'this game looks like fun game, not CWT :)
+', 'false', '2012-10-14 07:06:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (87, 20, 2, '2012-10-14 11:41:20', 'Stream made by nappy. Co-commentators Crespo and Jakka.
 
 http://de.twitch.tv/nickyownsyou/b/335325998
 
-ahaha, because I just heard: My worm dont call "Beiber" but "Beiser" ;-)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (88, '2012-10-14 12:10:17', 2, null, 24, 'franz the Redeemer, or what shall the picture say us? :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (89, '2012-10-14 16:42:10', 26, null, 11, 'Congratulations, probably giving rise victory .. 98%  :D,one for me and one for KBA3u ...:P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (90, '2012-10-14 18:55:42', 1, '2012-10-14 18:58:17', 27, '[url=http://www.cwtsite.com/files/fms/if_Tade_3-1_Fenrys.png]It''s become truth.[/url]');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (91, '2012-10-14 19:05:07', 13, null, 27, 'Now Random have to win LB!
-GJ TADE');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (92, '2012-10-14 19:26:51', 10, null, 11, 'I am glad this case got solved. Thanks to both of you');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (93, '2012-10-14 20:18:40', 25, null, 27, 'Great game! I really enjoyed watching it!
+ahaha, because I just heard: My worm dont call "Beiber" but "Beiser" ;-)', 'false', '2012-10-14 11:39:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (88, 24, 2, null, 'franz the Redeemer, or what shall the picture say us? :D', 'false', '2012-10-14 12:10:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (89, 11, 26, null, 'Congratulations, probably giving rise victory .. 98%  :D,one for me and one for KBA3u ...:P', 'false', '2012-10-14 16:42:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (90, 27, 1, '2012-10-14 18:58:17', '[url=http://www.cwtsite.com/files/fms/if_Tade_3-1_Fenrys.png]It''s become truth.[/url]', 'false', '2012-10-14 18:55:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (91, 27, 13, null, 'Now Random have to win LB!
+GJ TADE', 'false', '2012-10-14 19:05:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (92, 11, 10, null, 'I am glad this case got solved. Thanks to both of you', 'false', '2012-10-14 19:26:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (93, 27, 25, null, 'Great game! I really enjoyed watching it!
 A lot of pressure involved here, because this would decide automatically 1 player in the playoff stage.
 Tade needed at least to win by 3-1 and fenrys nearly had the second round in many moments of the game.
-In round 4, the win could have gone either way, congratulations to Tade and better luck next time for fenrys.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (94, '2012-10-14 20:33:33', 12, null, 27, 'Tnx. Very stressful game, especially i lost first game. It is hard to play when you dont have chance to miss. Well this was my goal at the beggining of Cwt, and i done it. Now what happens happens...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (95, '2012-10-14 20:57:34', 2, null, 27, 'fuckin awesome this petrol bomb in 4th round. and then this homming missile try from fenrys. very thrilling!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (96, '2012-10-14 21:27:09', 12, null, 27, 'his homing try was great and now when i watch again replay, 0.16 second devide me from loss... ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (97, '2012-10-14 21:28:30', 2, null, 26, 'good dynamite drop by thouson in third round. stable performance by FaD, well done too!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (98, '2012-10-14 22:09:25', 31, null, 32, 'The end of secound round and my rope, WTF she gone...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (99, '2012-10-14 22:12:26', 50, null, 28, 'what u guys find on rounds like that ? just cause it sais 3:0 agaist jule agaist my name : ) ? it were rly not highskilled rounds. tomek knows it . i just come back from a long break and my hearth wasnt like i have to win! i just played to not be a fuckn coward. u guys rly cant see anything ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (100, '2012-10-14 23:42:13', 13, null, 28, 'lol what U talking about? U could practice a bit before CWT....');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (101, '2012-10-15 02:06:54', 20, null, 27, 'This match belongs straight into "never give up" books. Very good job on fighting until the very end, Tade!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (102, '2012-10-15 02:18:38', 20, null, 26, 'I wonder if there''s a link to a wrong scheme somewhere. This is the second time a scheme without jp delay is used, severely affecting Thouson''s starting turn in round 2.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (103, '2012-10-15 08:14:18', 5, null, 26, 'I think its just an old onl scheme still on a players hard drives.
+In round 4, the win could have gone either way, congratulations to Tade and better luck next time for fenrys.', 'false', '2012-10-14 20:18:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (94, 27, 12, null, 'Tnx. Very stressful game, especially i lost first game. It is hard to play when you dont have chance to miss. Well this was my goal at the beggining of Cwt, and i done it. Now what happens happens...', 'false', '2012-10-14 20:33:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (95, 27, 2, null, 'fuckin awesome this petrol bomb in 4th round. and then this homming missile try from fenrys. very thrilling!', 'false', '2012-10-14 20:57:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (96, 27, 12, null, 'his homing try was great and now when i watch again replay, 0.16 second devide me from loss... ', 'false', '2012-10-14 21:27:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (97, 26, 2, null, 'good dynamite drop by thouson in third round. stable performance by FaD, well done too!', 'false', '2012-10-14 21:28:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (98, 32, 31, null, 'The end of secound round and my rope, WTF she gone...', 'false', '2012-10-14 22:09:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (99, 28, 50, null, 'what u guys find on rounds like that ? just cause it sais 3:0 agaist jule agaist my name : ) ? it were rly not highskilled rounds. tomek knows it . i just come back from a long break and my hearth wasnt like i have to win! i just played to not be a fuckn coward. u guys rly cant see anything ', 'false', '2012-10-14 22:12:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (100, 28, 13, null, 'lol what U talking about? U could practice a bit before CWT....', 'false', '2012-10-14 23:42:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (101, 27, 20, null, 'This match belongs straight into "never give up" books. Very good job on fighting until the very end, Tade!', 'false', '2012-10-15 02:06:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (102, 26, 20, null, 'I wonder if there''s a link to a wrong scheme somewhere. This is the second time a scheme without jp delay is used, severely affecting Thouson''s starting turn in round 2.', 'false', '2012-10-15 02:18:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (103, 26, 5, null, 'I think its just an old onl scheme still on a players hard drives.
 Maybe some disclaimer should be shown to delete old one and dl a new one.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (104, '2012-10-15 10:39:30', 56, null, 27, 'wow, cool try. Actually Fenrys could have won with underwater homing if he jumped on the scythe on the right.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (105, '2012-10-15 23:25:44', 5, '2012-10-16 00:28:57', 35, 'Really good perfomance from kalababa made this game worth to watch!
+', 'false', '2012-10-15 08:14:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (104, 27, 56, null, 'wow, cool try. Actually Fenrys could have won with underwater homing if he jumped on the scythe on the right.', 'false', '2012-10-15 10:39:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (105, 35, 5, '2012-10-16 00:28:57', 'Really good perfomance from kalababa made this game worth to watch!
 So here it is. Stream with a live commentary of one of the players (right from the field of battle) and our well-known expert commentator Kayz.
 
 [url]http://ru.twitch.tv/khamski/b/335692151[/url]
@@ -3054,69 +3054,69 @@ So here it is. Stream with a live commentary of one of the players (right from t
 
 *edit:
 Woops, beware! Tunnel vision stream.
-I guess i wont stream my matches from a separate machine anymore.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (106, '2012-10-16 13:28:56', 2, null, 34, 'Sad thing that you didn''t qualify for Playoffs, Thouson. I recall your good performance last year. In the game vs barman it was just your patience which sucked :p');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (107, '2012-10-16 15:06:32', 24, null, 19, 'You haven''t seen yet his cool cows attack little =)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (108, '2012-10-16 15:28:20', 10, null, 34, 'http://en.twitch.tv/khamski/b/335710169
-Check out the stream of this game :) We had Kilobyte, zoky, Khamski and me as commentators :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (109, '2012-10-16 18:11:45', 10, null, 26, 'Meh I just saw this game. It made me really mad to see that there was no delay on Jetpack.
+I guess i wont stream my matches from a separate machine anymore.', 'false', '2012-10-15 23:25:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (106, 34, 2, null, 'Sad thing that you didn''t qualify for Playoffs, Thouson. I recall your good performance last year. In the game vs barman it was just your patience which sucked :p', 'false', '2012-10-16 13:28:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (107, 19, 24, null, 'You haven''t seen yet his cool cows attack little =)', 'false', '2012-10-16 15:06:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (108, 34, 10, null, 'http://en.twitch.tv/khamski/b/335710169
+Check out the stream of this game :) We had Kilobyte, zoky, Khamski and me as commentators :)', 'false', '2012-10-16 15:28:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (109, 26, 10, null, 'Meh I just saw this game. It made me really mad to see that there was no delay on Jetpack.
 FaD I can''t believe you don''t know that we play with Jetpack delay for such a long time now. You are an NNN ffs. Maybe read the forum and the rule updates from time to time?
 It''s NOT the original NNN-luckless scheme. The original NNN scheme always had jetpack delay, but with 3.6.28 and before it just didn''t work properly, so the jetpack was available since the 1st turn, then the patch came, and some idiot posted the scheme without delay, which was a total nonsense
-I still can''t believe some people still have this crappy scheme in their folders. Delete it asap.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (110, '2012-10-16 20:04:06', 10, null, 27, 'Omg the round ratio decided. Very awesome 4th round. So epic petrol and homing try. Just so exciting. Bitchy mine though.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (111, '2012-10-18 14:21:08', 55, null, 26, 'i know that with jp delay, i just picked te wrong schema, i had both on my system, didnt know that i still had the old1');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (112, '2012-10-18 22:28:19', 10, '2012-10-18 22:28:58', 36, 'Well done Jule');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (113, '2012-10-18 22:29:14', 10, null, 37, 'In over 50% of the rounds with Mablak where SD happens, it''s on his turn :O.
-Very nice close games there. First and third round were very cool.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (114, '2012-10-19 01:09:50', 11, null, 37, 'Yeah, some interesting stuff, KBA surprised me with his laying a mine/knocking it immediately. Actually I''m pretty sure it''s way below 50%, since I often wait it out in caves and allow SD to come whether in my favor or not.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (115, '2012-10-19 13:24:45', 10, null, 37, 'Ye this mine knock move was pretty awesome. But it didn''t surprise me, I know KBA3u is capable of such stuff :D
-I was just teasing with the SD comment :P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (116, '2012-10-19 14:07:03', 2, null, 15, 'nice last cow attack in rnd4.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (117, '2012-10-20 16:01:30', 2, null, 38, 'nice game turn around, chuvash.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (118, '2012-10-20 16:36:45', 10, null, 39, '1st and 3rd round were  the best ones. Nice homing barrel kill there.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (119, '2012-10-20 16:36:49', 46, null, 38, 'I think it wasn''t "game turn around". 1st and 2nd round was obviously my too, but my mixed in buttons in last turns bring a win to Khamski');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (120, '2012-10-20 16:38:41', 10, null, 38, 'I agree with your comment on 2nd round, but in 1st round, you let Khamski''s skunked worms live until SD. Own fault there :) Khamski did two very nice sd runs there, you shouldn''t open to him.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (121, '2012-10-20 16:44:35', 46, null, 38, 'anyway it wasnt "game turn around"');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (122, '2012-10-20 17:12:30', 5, null, 38, 'Thx, Kayz.
+I still can''t believe some people still have this crappy scheme in their folders. Delete it asap.', 'false', '2012-10-16 18:11:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (110, 27, 10, null, 'Omg the round ratio decided. Very awesome 4th round. So epic petrol and homing try. Just so exciting. Bitchy mine though.', 'false', '2012-10-16 20:04:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (111, 26, 55, null, 'i know that with jp delay, i just picked te wrong schema, i had both on my system, didnt know that i still had the old1', 'false', '2012-10-18 14:21:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (112, 36, 10, '2012-10-18 22:28:58', 'Well done Jule', 'false', '2012-10-18 22:28:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (113, 37, 10, null, 'In over 50% of the rounds with Mablak where SD happens, it''s on his turn :O.
+Very nice close games there. First and third round were very cool.', 'false', '2012-10-18 22:29:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (114, 37, 11, null, 'Yeah, some interesting stuff, KBA surprised me with his laying a mine/knocking it immediately. Actually I''m pretty sure it''s way below 50%, since I often wait it out in caves and allow SD to come whether in my favor or not.', 'false', '2012-10-19 01:09:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (115, 37, 10, null, 'Ye this mine knock move was pretty awesome. But it didn''t surprise me, I know KBA3u is capable of such stuff :D
+I was just teasing with the SD comment :P', 'false', '2012-10-19 13:24:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (116, 15, 2, null, 'nice last cow attack in rnd4.', 'false', '2012-10-19 14:07:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (117, 38, 2, null, 'nice game turn around, chuvash.', 'false', '2012-10-20 16:01:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (118, 39, 10, null, '1st and 3rd round were  the best ones. Nice homing barrel kill there.', 'false', '2012-10-20 16:36:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (119, 38, 46, null, 'I think it wasn''t "game turn around". 1st and 2nd round was obviously my too, but my mixed in buttons in last turns bring a win to Khamski', 'false', '2012-10-20 16:36:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (120, 38, 10, null, 'I agree with your comment on 2nd round, but in 1st round, you let Khamski''s skunked worms live until SD. Own fault there :) Khamski did two very nice sd runs there, you shouldn''t open to him.', 'false', '2012-10-20 16:38:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (121, 38, 46, null, 'anyway it wasnt "game turn around"', 'false', '2012-10-20 16:44:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (122, 38, 5, null, 'Thx, Kayz.
 I should finish him there.  It was a must.
 But i failed.
 Sry for awful perfomance in 3 rounds in a row.
 My brain just stopped worming.
 I will deal with it. :)
 gg.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (123, '2012-10-20 21:25:30', 55, null, 40, 'nice taktical playing m8.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (124, '2012-10-21 20:13:22', 13, null, 42, '6 round, nice battle. I need a loots of practice if I want reach someting better then PO this year:)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (125, '2012-10-21 21:57:51', 42, null, 42, 'lactosed
-I can now sleep well');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (126, '2012-10-22 04:16:08', 1, null, 42, 'Now that''s awesome. Well done, lacoste.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (127, '2012-10-22 07:07:23', 158, null, 42, 'Good job there. :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (128, '2012-10-22 07:07:28', 42, null, 42, 'Thanks
-Havent played any competitive Inter with HHG since 2009 xd Guess it worked out quite nicely');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (129, '2012-10-22 12:32:30', 10, null, 42, 'Wow lacoste, you are some crazy ognisty grzyb xD Awesome job!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (130, '2012-10-22 16:07:59', 26, null, 42, 'Yea,nice game :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (131, '2012-10-25 21:34:36', 158, null, 44, 'Five rounds till sd, watch if you dare.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (132, '2012-10-26 06:29:12', 5, '2012-10-26 06:29:58', 44, 'Tough game.
+', 'false', '2012-10-20 17:12:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (123, 40, 55, null, 'nice taktical playing m8.', 'false', '2012-10-20 21:25:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (124, 42, 13, null, '6 round, nice battle. I need a loots of practice if I want reach someting better then PO this year:)', 'false', '2012-10-21 20:13:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (125, 42, 42, null, 'lactosed
+I can now sleep well', 'false', '2012-10-21 21:57:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (126, 42, 1, null, 'Now that''s awesome. Well done, lacoste.', 'false', '2012-10-22 04:16:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (127, 42, 158, null, 'Good job there. :)', 'false', '2012-10-22 07:07:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (128, 42, 42, null, 'Thanks
+Havent played any competitive Inter with HHG since 2009 xd Guess it worked out quite nicely', 'false', '2012-10-22 07:07:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (129, 42, 10, null, 'Wow lacoste, you are some crazy ognisty grzyb xD Awesome job!', 'false', '2012-10-22 12:32:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (130, 42, 26, null, 'Yea,nice game :)', 'false', '2012-10-22 16:07:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (131, 44, 158, null, 'Five rounds till sd, watch if you dare.', 'false', '2012-10-25 21:34:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (132, 44, 5, '2012-10-26 06:29:58', 'Tough game.
 I was losing 0-2 and played 3 tough rounds under serious pressure .
 All of my 3 games ended with 3-2 score!
 So i got it full from a group stage. ))
 gg, kukumber.
 That cows walking above my head are still behind my eyes. ))
-bl and better luck next time.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (133, '2012-10-31 18:23:53', 10, null, 47, 'Only one word to describe this game: Hahaha :D So many funny turns');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (134, '2012-11-01 00:38:21', 22, null, 47, 'why couldnt somebody stream that!! :D all commentators wouldve been died on laughing........');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (135, '2012-11-07 18:57:06', 26, null, 52, 'GJ bravo Kayz,but u have a little lucky :P
-btw. Random very nice game,very creative :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (136, '2012-11-08 16:40:43', 27, null, 52, 'Nice knock and bow plop in second round, Kayz!.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (137, '2012-11-08 19:52:59', 10, null, 52, 'Tyvm Dario :) Random played very well and had awesome ideas here. I almost lost my mind when I hit myself with shotgun in 1st round but I somehow managed to stay calm :)
+bl and better luck next time.', 'false', '2012-10-26 06:29:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (133, 47, 10, null, 'Only one word to describe this game: Hahaha :D So many funny turns', 'false', '2012-10-31 18:23:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (134, 47, 22, null, 'why couldnt somebody stream that!! :D all commentators wouldve been died on laughing........', 'false', '2012-11-01 00:38:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (135, 52, 26, null, 'GJ bravo Kayz,but u have a little lucky :P
+btw. Random very nice game,very creative :D', 'false', '2012-11-07 18:57:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (136, 52, 27, null, 'Nice knock and bow plop in second round, Kayz!.', 'false', '2012-11-08 16:40:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (137, 52, 10, null, 'Tyvm Dario :) Random played very well and had awesome ideas here. I almost lost my mind when I hit myself with shotgun in 1st round but I somehow managed to stay calm :)
 
-Learning it step by step, I still think too much about my own fails, distracting me in the subsequent rounds :(');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (138, '2012-11-08 19:54:08', 42, '2012-11-08 19:54:40', 53, 'Beat 40 min record of full CWT game and ill buy you shoes for winter. For the loser, ofc');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (139, '2012-11-08 20:00:14', 12, null, 53, '4 games in 40 minutes is really an unbeatable record...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (140, '2012-11-08 20:09:00', 10, null, 53, 'I would''ve given rematch after this surrender :o');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (141, '2012-11-09 14:14:43', 158, null, 53, 'Don''t get me wrong but it''s really weird. That second round... I would never accept such victory for myself. Maybe I give to much credit to friendly atmosphere and sportsmanship, but that''s what worms are for me. And then those positions in last round. At least first and third rounds were nice and interesting. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (142, '2012-11-09 15:07:04', 46, null, 53, 'Agree with kukumber. It wasn''t a lose by lacoste..., just an example of not best sportsmensip');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (143, '2012-11-09 15:35:19', 13, null, 53, 'hey big heads! it''s so easy to judge now?!
+Learning it step by step, I still think too much about my own fails, distracting me in the subsequent rounds :(', 'false', '2012-11-08 19:52:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (138, 53, 42, '2012-11-08 19:54:40', 'Beat 40 min record of full CWT game and ill buy you shoes for winter. For the loser, ofc', 'false', '2012-11-08 19:54:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (139, 53, 12, null, '4 games in 40 minutes is really an unbeatable record...', 'false', '2012-11-08 20:00:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (140, 53, 10, null, 'I would''ve given rematch after this surrender :o', 'false', '2012-11-08 20:09:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (141, 53, 158, null, 'Don''t get me wrong but it''s really weird. That second round... I would never accept such victory for myself. Maybe I give to much credit to friendly atmosphere and sportsmanship, but that''s what worms are for me. And then those positions in last round. At least first and third rounds were nice and interesting. ', 'false', '2012-11-09 14:14:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (142, 53, 46, null, 'Agree with kukumber. It wasn''t a lose by lacoste..., just an example of not best sportsmensip', 'false', '2012-11-09 15:07:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (143, 53, 13, null, 'hey big heads! it''s so easy to judge now?!
 it was just a unlucky mistake.... i did it once too:) SHIT HAPPEND,
 it was one of 4 rounds... one wasted chance,nothing else.
 4th round?
@@ -3125,16 +3125,16 @@ ANYWAY imo it could be 6vs6 after lacoste turn (better unpile + kami double kill
 Yea I know.... still a super hard challenge but he had  would had some tiny chances :)
 
 congrats Tade, your 2nd CWT quarter final, GJ!
-Lacoste deserved for something more sice he won his group, I was thinging he will be black horse. bl mate');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (144, '2012-11-09 15:38:12', 13, null, 48, 'gj mate, since I SUCK u are biggest polish chance for medal!
-go for it!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (145, '2012-11-09 15:44:34', 24, null, 48, 'thanks Koras but Mablak will be big problem :P there is always one top 3 player in my tree :) and i leaving tomorrow I will be inactiv 2 weeks or more..anyway ill try to do my best ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (146, '2012-11-09 15:45:09', 12, null, 53, 'I dont know why you put such a big deal out of this. The thing is when he surrender i did not offer he did not ask for another game. Case closed, for me surrend is a in choice of weapons. No one will say anythig if he sucess in worm select and kill my one or two worms. Mistake is made, result is 1-1 play on...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (147, '2012-11-09 15:52:45', 2, null, 53, '... because everybody frequently likes to play the upholder of moral standards. It''s not friendly to propose two players what to do in a certain situation, although you wasn''t part of it.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (148, '2012-11-09 16:06:10', 26, null, 53, 'Lacoste weak game,u can play better :)
-Tade congrat :P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (149, '2012-11-09 17:16:44', 10, null, 48, 'Please schedule Playoff games, I don''t like that I didn''t know when you play so I can watch it. So you get a dislike :P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (150, '2012-11-09 18:43:17', 5, null, 53, 'Great game tbh.
+Lacoste deserved for something more sice he won his group, I was thinging he will be black horse. bl mate', 'false', '2012-11-09 15:35:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (144, 48, 13, null, 'gj mate, since I SUCK u are biggest polish chance for medal!
+go for it!', 'false', '2012-11-09 15:38:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (145, 48, 24, null, 'thanks Koras but Mablak will be big problem :P there is always one top 3 player in my tree :) and i leaving tomorrow I will be inactiv 2 weeks or more..anyway ill try to do my best ;)', 'false', '2012-11-09 15:44:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (146, 53, 12, null, 'I dont know why you put such a big deal out of this. The thing is when he surrender i did not offer he did not ask for another game. Case closed, for me surrend is a in choice of weapons. No one will say anythig if he sucess in worm select and kill my one or two worms. Mistake is made, result is 1-1 play on...', 'false', '2012-11-09 15:45:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (147, 53, 2, null, '... because everybody frequently likes to play the upholder of moral standards. It''s not friendly to propose two players what to do in a certain situation, although you wasn''t part of it.', 'false', '2012-11-09 15:52:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (148, 53, 26, null, 'Lacoste weak game,u can play better :)
+Tade congrat :P', 'false', '2012-11-09 16:06:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (149, 48, 10, null, 'Please schedule Playoff games, I don''t like that I didn''t know when you play so I can watch it. So you get a dislike :P', 'false', '2012-11-09 17:16:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (150, 53, 5, null, 'Great game tbh.
 
 1st round:
 I really liked how lacoste turned round to his advantage and really outplayed Tade.
@@ -3155,203 +3155,203 @@ He tried to hold on.
 But finally lowered his hands.
 
 Congrats. Tade.
-bl, lactose.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (151, '2012-11-09 22:03:13', 24, null, 48, 'It was impossible sir :P quick spontan contact with Viks and bang let''s play');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (152, '2012-11-10 04:44:32', 26, null, 48, 'Complain Kayz :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (153, '2012-11-10 11:07:47', 46, null, 48, 'lol, nice design about disliking Kayz! :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (154, '2012-11-10 16:29:22', 20, null, 52, 'Amazing game.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (155, '2012-11-11 19:35:16', 25, null, 54, 'Jule could have done better. In the end a lenient attitude towards the game gave a taste of righteousness in this result, in my opinion. Gj nappy.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (156, '2012-11-12 02:10:41', 50, null, 54, 'crap if u just watch those rounds. i was to stupid to open that girder or use kami to have my 100% sure win wich had been result of much better gameplay. in my opinion i made the better moves and kills. but im just to fuckn stupid sometimes.
-ye gj nappy! and bj jule ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (157, '2012-11-12 02:54:24', 20, null, 54, 'Why everyone feels like their duty is to make a statement about how undeserved and unfortunate their opponent''s victory was. How about taking a loss like a man? Much better gameplay lol, why didn''t you win then if your gameplay was better.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (158, '2012-11-12 06:33:17', 10, null, 54, 'Congrats to the better player (trololo)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (159, '2012-11-12 13:13:24', 50, null, 54, 'well nappy i lost because i was too stupid to concentrate on that last finish move in third round wich had game made 2:1 for me . and after ifucked that up i didnt concentrate ne more it was over for me =) i IWNED MYSELF');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (160, '2012-11-12 13:17:01', 50, null, 54, 'well also i think like in other sports, there should be more respect for losen me like that, that was a lucky win not more. but here no 1 cares for sitatuins like that and i life with it. i make me free from u maybe thats why im inactive. i mean if a football teams plays much better and loses , all know it! all say it and all have mercy with it. but i read troll after troll here peace im out');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (161, '2012-11-12 13:36:14', 20, null, 54, 'Somehow you don''t mention how you won round 2, and round 3 was basically lost for me after your worm survived from cows with 3 hp. Ah well, sure, I''m just trolling, trolololo.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (162, '2012-11-12 13:42:37', 50, null, 54, 'round 2  was a sure thing. i messed up my worm on right side. so still was 3:2 worms for me...
-i dont say that u r trollen nappy .its ok diskussing brings nothing here =) ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (163, '2012-11-12 13:44:37', 2, null, 54, 'nappy won, nappy was better. everything else is bad losing :D
+bl, lactose.', 'false', '2012-11-09 18:43:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (151, 48, 24, null, 'It was impossible sir :P quick spontan contact with Viks and bang let''s play', 'false', '2012-11-09 22:03:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (152, 48, 26, null, 'Complain Kayz :D', 'false', '2012-11-10 04:44:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (153, 48, 46, null, 'lol, nice design about disliking Kayz! :D', 'false', '2012-11-10 11:07:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (154, 52, 20, null, 'Amazing game.', 'false', '2012-11-10 16:29:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (155, 54, 25, null, 'Jule could have done better. In the end a lenient attitude towards the game gave a taste of righteousness in this result, in my opinion. Gj nappy.', 'false', '2012-11-11 19:35:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (156, 54, 50, null, 'crap if u just watch those rounds. i was to stupid to open that girder or use kami to have my 100% sure win wich had been result of much better gameplay. in my opinion i made the better moves and kills. but im just to fuckn stupid sometimes.
+ye gj nappy! and bj jule ', 'false', '2012-11-12 02:10:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (157, 54, 20, null, 'Why everyone feels like their duty is to make a statement about how undeserved and unfortunate their opponent''s victory was. How about taking a loss like a man? Much better gameplay lol, why didn''t you win then if your gameplay was better.', 'false', '2012-11-12 02:54:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (158, 54, 10, null, 'Congrats to the better player (trololo)', 'false', '2012-11-12 06:33:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (159, 54, 50, null, 'well nappy i lost because i was too stupid to concentrate on that last finish move in third round wich had game made 2:1 for me . and after ifucked that up i didnt concentrate ne more it was over for me =) i IWNED MYSELF', 'false', '2012-11-12 13:13:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (160, 54, 50, null, 'well also i think like in other sports, there should be more respect for losen me like that, that was a lucky win not more. but here no 1 cares for sitatuins like that and i life with it. i make me free from u maybe thats why im inactive. i mean if a football teams plays much better and loses , all know it! all say it and all have mercy with it. but i read troll after troll here peace im out', 'false', '2012-11-12 13:17:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (161, 54, 20, null, 'Somehow you don''t mention how you won round 2, and round 3 was basically lost for me after your worm survived from cows with 3 hp. Ah well, sure, I''m just trolling, trolololo.', 'false', '2012-11-12 13:36:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (162, 54, 50, null, 'round 2  was a sure thing. i messed up my worm on right side. so still was 3:2 worms for me...
+i dont say that u r trollen nappy .its ok diskussing brings nothing here =) ', 'false', '2012-11-12 13:42:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (163, 54, 2, null, 'nappy won, nappy was better. everything else is bad losing :D
 
-Bye Jule.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (164, '2012-11-12 13:45:32', 50, null, 54, 'its just i  unexploded  in round 3 and totally in round 4. but that was result from  unexploded  in round 3 in the end .
+Bye Jule.', 'false', '2012-11-12 13:44:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (164, 54, 50, null, 'its just i  unexploded  in round 3 and totally in round 4. but that was result from  unexploded  in round 3 in the end .
 shootn through that girders end and landscaep instead of just have a eye for it open it. or use kami. i just  unexploded
 and from than on i ask myself why and u can tell me u had the better gameplay and nicer kills cause u won in end thats ok 0)
-i just think i  unexploded  more than u was winning sumthen there ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (165, '2012-11-12 13:46:16', 50, null, 54, 'kopp zu joschi');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (166, '2012-11-12 18:53:17', 6, '2012-11-12 18:54:37', 54, 'some1 need start learn how to lose game :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (167, '2012-11-17 08:56:06', 13, null, 38, 'oh I didnt knew chuvash was almost as close to be 2nd in his group too!(just 1 round amaizing!)
-Anyway it was nice "GAME TURN AROUND" chuvash, 0;2 is always good come back. Even if U could win 9 of 10 game vs your opponent.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (168, '2012-11-17 18:16:19', 13, null, 55, 'nice homing in decider! but in fact my fault :(
+i just think i  unexploded  more than u was winning sumthen there ;)', 'false', '2012-11-12 13:45:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (165, 54, 50, null, 'kopp zu joschi', 'false', '2012-11-12 13:46:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (166, 54, 6, '2012-11-12 18:54:37', 'some1 need start learn how to lose game :D', 'false', '2012-11-12 18:53:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (167, 38, 13, null, 'oh I didnt knew chuvash was almost as close to be 2nd in his group too!(just 1 round amaizing!)
+Anyway it was nice "GAME TURN AROUND" chuvash, 0;2 is always good come back. Even if U could win 9 of 10 game vs your opponent.', 'false', '2012-11-17 08:56:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (168, 55, 13, null, 'nice homing in decider! but in fact my fault :(
 Like I said in game "when U are not playing often U forget about basic things like hide after every turn".
 Anyway I was closer then I expected
-gg''s');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (169, '2012-11-17 18:22:15', 46, '2012-11-17 18:23:06', 55, 'Thank you for this game. I really wanted this game vs you since CWT 2010 when you own me in 1/8  :) I was a new guy, but I wanted to beat you in next CWT so much :) But was inactive in last CWT. So now this dream is come true :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (170, '2012-11-17 18:27:34', 13, null, 55, 'oh np:()
+gg''s', 'false', '2012-11-17 18:16:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (169, 55, 46, '2012-11-17 18:23:06', 'Thank you for this game. I really wanted this game vs you since CWT 2010 when you own me in 1/8  :) I was a new guy, but I wanted to beat you in next CWT so much :) But was inactive in last CWT. So now this dream is come true :)', 'false', '2012-11-17 18:22:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (170, 55, 13, null, 'oh np:()
 I will try to be like Johnmir now,
-Playing in CWT even when I am inactive. Not like Rafka and other lame wormers! I will never quit CWT:)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (171, '2012-11-17 19:21:56', 25, null, 55, 'In the end Koras should have hidden better for that homing, gj by chuvash and gl for the quarter-finals, too bad that not much people spectated the match.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (172, '2012-11-17 21:18:55', 2, null, 55, 'Game frequency is very low. That results in declining interest of community. This effect is obviously wanted.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (173, '2012-11-17 23:02:54', 29, null, 55, 'Koras - I didnt play cause I didnt want to, and most of all Im not that WORM MANIAC like You playing everyday through who knows how many hours a day (at least earlier), since You was 10. I told U before - get a life! :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (174, '2012-11-18 03:36:35', 10, null, 55, 'Saying "get a life" but lurking on comments of games where your name was mentioned = Ultra amazingly funny. Thx you made my day Rafka');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (175, '2012-11-18 10:39:30', 13, null, 55, 'Rafka I could wrote 10 other nick here: Antares,Rafalus,X Worm,SirGorash and others...
-My goal is to play in CWT even when I will be totally inactive :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (176, '2012-11-18 10:42:24', 13, null, 55, 'I didnt want to offend just you.
- In few yeras when everyone will be inactive CWT might be very interesting too :) rusty old wormers^^');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (177, '2012-11-18 11:45:55', 46, null, 49, 'the first round really looks like one guy want too sleep much, and another one just wake up :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (178, '2012-11-18 12:13:40', 13, null, 49, 'it happend when grandpa John play vs rusty Mablak:)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (179, '2012-11-18 12:53:15', 26, null, 55, 'well good Chuvash,you are the favorite to win CWT :),not this time Koras :)
-btw.Rafka live :) hehe');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (180, '2012-11-18 14:00:14', 10, null, 49, 'Well played Mab, but seriously I couldn''t help but notice that in 2nd round right before SD in 2v1 situation Johnmir right shot when timer hit 00:00 and directly SD for Mablak. Are you kidding me? xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (181, '2012-11-18 14:44:40', 13, null, 49, 'wow AMAZING SD situation!
+Playing in CWT even when I am inactive. Not like Rafka and other lame wormers! I will never quit CWT:)', 'false', '2012-11-17 18:27:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (171, 55, 25, null, 'In the end Koras should have hidden better for that homing, gj by chuvash and gl for the quarter-finals, too bad that not much people spectated the match.', 'false', '2012-11-17 19:21:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (172, 55, 2, null, 'Game frequency is very low. That results in declining interest of community. This effect is obviously wanted.', 'false', '2012-11-17 21:18:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (173, 55, 29, null, 'Koras - I didnt play cause I didnt want to, and most of all Im not that WORM MANIAC like You playing everyday through who knows how many hours a day (at least earlier), since You was 10. I told U before - get a life! :)', 'false', '2012-11-17 23:02:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (174, 55, 10, null, 'Saying "get a life" but lurking on comments of games where your name was mentioned = Ultra amazingly funny. Thx you made my day Rafka', 'false', '2012-11-18 03:36:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (175, 55, 13, null, 'Rafka I could wrote 10 other nick here: Antares,Rafalus,X Worm,SirGorash and others...
+My goal is to play in CWT even when I will be totally inactive :)', 'false', '2012-11-18 10:39:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (176, 55, 13, null, 'I didnt want to offend just you.
+ In few yeras when everyone will be inactive CWT might be very interesting too :) rusty old wormers^^', 'false', '2012-11-18 10:42:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (177, 49, 46, null, 'the first round really looks like one guy want too sleep much, and another one just wake up :)', 'false', '2012-11-18 11:45:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (178, 49, 13, null, 'it happend when grandpa John play vs rusty Mablak:)', 'false', '2012-11-18 12:13:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (179, 55, 26, null, 'well good Chuvash,you are the favorite to win CWT :),not this time Koras :)
+btw.Rafka live :) hehe', 'false', '2012-11-18 12:53:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (180, 49, 10, null, 'Well played Mab, but seriously I couldn''t help but notice that in 2nd round right before SD in 2v1 situation Johnmir right shot when timer hit 00:00 and directly SD for Mablak. Are you kidding me? xD', 'false', '2012-11-18 14:00:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (181, 49, 13, null, 'wow AMAZING SD situation!
 It reminds me CWT 2006 final Dario vs Johnmir.
 Almost same situation, John got 2 worms while Dario just 1 and SD came a bit too early;) in this year Dario was already uber pro but with some luck John could beat him!
-gg''s');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (182, '2012-11-18 16:54:15', 12, null, 55, 'Nice finish round 4. Nice playing for both...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (183, '2012-11-18 17:42:20', 20, null, 59, 'I''m glad it''s over. :D I could have done better, but anyway, chuvash is a better player right now and deserved it much more. Gratz!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (184, '2012-11-18 22:18:03', 10, null, 59, 'Uff close bat in the end');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (185, '2012-11-19 20:07:48', 29, null, 55, 'Sorry Koras, I should have been write it to Kayz, cause He''s nr 1 player who doesnt see any existance beside worms :D
-yea Kayz U made many days of mine, cgrats ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (186, '2012-11-19 20:09:43', 29, null, 55, 'And btw, I know what U ment, but still playing in tour isnt just about participation, thats not the point...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (187, '2012-11-20 13:24:17', 2, null, 55, 'Guys, don''t transfer your animosities to CWT. Nobody wins in offensive comments.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (188, '2012-11-21 21:29:38', 10, '2012-11-21 21:30:11', 56, 'First round draw, then homing miss, 1-0 Tade, then 2-0 for Tade, and then I somehow managed to turn this game around :O
-One of the most thrilling games I ever played. Some caves were more lightside than some islands, and some caves turned to fort mode, almost all scenarios happened');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (189, '2012-11-22 19:54:15', 26, null, 56, 'Very good game
-btw.hi Antares :) long time');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (190, '2012-11-22 22:56:08', 12, null, 56, 'Yea, i agree. Very good games. For me one of the best games i am played lately. ofcourse insted of last two round where i totally lost concentraton. Especailly after dyna tripe kill miss... But still i am pleased with my playing and Kayz good luck in semifinals...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (191, '2012-11-22 23:02:27', 13, null, 56, 'nice Dragon Ball!:) i know its not that hard but always looks cool:)
+gg''s', 'false', '2012-11-18 14:44:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (182, 55, 12, null, 'Nice finish round 4. Nice playing for both...', 'false', '2012-11-18 16:54:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (183, 59, 20, null, 'I''m glad it''s over. :D I could have done better, but anyway, chuvash is a better player right now and deserved it much more. Gratz!', 'false', '2012-11-18 17:42:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (184, 59, 10, null, 'Uff close bat in the end', 'false', '2012-11-18 22:18:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (185, 55, 29, null, 'Sorry Koras, I should have been write it to Kayz, cause He''s nr 1 player who doesnt see any existance beside worms :D
+yea Kayz U made many days of mine, cgrats ;)', 'false', '2012-11-19 20:07:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (186, 55, 29, null, 'And btw, I know what U ment, but still playing in tour isnt just about participation, thats not the point...', 'false', '2012-11-19 20:09:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (187, 55, 2, null, 'Guys, don''t transfer your animosities to CWT. Nobody wins in offensive comments.', 'false', '2012-11-20 13:24:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (188, 56, 10, '2012-11-21 21:30:11', 'First round draw, then homing miss, 1-0 Tade, then 2-0 for Tade, and then I somehow managed to turn this game around :O
+One of the most thrilling games I ever played. Some caves were more lightside than some islands, and some caves turned to fort mode, almost all scenarios happened', 'false', '2012-11-21 21:29:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (189, 56, 26, null, 'Very good game
+btw.hi Antares :) long time', 'false', '2012-11-22 19:54:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (190, 56, 12, null, 'Yea, i agree. Very good games. For me one of the best games i am played lately. ofcourse insted of last two round where i totally lost concentraton. Especailly after dyna tripe kill miss... But still i am pleased with my playing and Kayz good luck in semifinals...', 'false', '2012-11-22 22:56:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (191, 56, 13, null, 'nice Dragon Ball!:) i know its not that hard but always looks cool:)
 
 
-Tade gj, I know it suck to lost when u are leading 2;0 but well...  thats Kayz. I hope Dinamo performance in CHL make U happy:)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (192, '2012-11-23 15:00:44', 10, null, 56, 'Btw in 2nd round I could hit you with homing if aiming more left.
+Tade gj, I know it suck to lost when u are leading 2;0 but well...  thats Kayz. I hope Dinamo performance in CHL make U happy:)', 'false', '2012-11-22 23:02:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (192, 56, 10, null, 'Btw in 2nd round I could hit you with homing if aiming more left.
 The person who gets SD on his turn, can hit the other one FIRST on any position after 25 turns,
 including the first turn, which was mine. :)
-It''s a very interesting detail, that the one who gets lucky on SD is also lucky with the water rise.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (193, '2012-11-23 19:16:56', 13, null, 56, 'Yea but its not that easy to hit opponent after this 25 turns.... its much easier to do it after 26 :()');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (194, '2012-11-25 00:52:05', 55, null, 57, 'strange loose in round2 , never thought the petrol fire can hurt me from there');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (195, '2012-11-25 12:21:28', 2, null, 57, 'I am very happy you won this. Now take your chance and win the trophy!
+It''s a very interesting detail, that the one who gets lucky on SD is also lucky with the water rise.', 'false', '2012-11-23 15:00:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (193, 56, 13, null, 'Yea but its not that easy to hit opponent after this 25 turns.... its much easier to do it after 26 :()', 'false', '2012-11-23 19:16:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (194, 57, 55, null, 'strange loose in round2 , never thought the petrol fire can hurt me from there', 'false', '2012-11-25 00:52:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (195, 57, 2, null, 'I am very happy you won this. Now take your chance and win the trophy!
 
-Regarding the game, the only round I had an advantage (rnd3) you played me out like a damn noob xD Rnd 4 the draw was possible too, but I had a lack of game rythm and so the concentration was gone. In overall, my finishes weren''t CWT worth.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (196, '2012-11-25 21:59:22', 10, null, 57, 'Gj FaD.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (197, '2012-11-26 22:25:59', 158, null, 58, 'Wow, great job, Tomek. Will check games I didn''t see tomorrow. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (198, '2012-11-26 22:50:29', 11, null, 58, 'Way to go Tomek, gl in finals! Round 1 was the most interesting, mainly due to the smart hide Tomek took at the end.
+Regarding the game, the only round I had an advantage (rnd3) you played me out like a damn noob xD Rnd 4 the draw was possible too, but I had a lack of game rythm and so the concentration was gone. In overall, my finishes weren''t CWT worth.', 'false', '2012-11-25 12:21:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (196, 57, 10, null, 'Gj FaD.', 'false', '2012-11-25 21:59:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (197, 58, 158, null, 'Wow, great job, Tomek. Will check games I didn''t see tomorrow. ', 'false', '2012-11-26 22:25:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (198, 58, 11, null, 'Way to go Tomek, gl in finals! Round 1 was the most interesting, mainly due to the smart hide Tomek took at the end.
 
-I''m pretty mad at myself for playing so bad in the last 2 rounds, I think during the intermission after round 3, I let myself get cocky knowing I''d start first, mentality always prevails.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (199, '2012-11-26 23:00:09', 25, null, 58, 'round 3 is not complete...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (200, '2012-11-26 23:10:25', 10, null, 58, 'Awesome job, Tomek :) Still possible that all medals will go to NNN yay');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (201, '2012-11-27 06:16:10', 24, null, 58, 'thanks guys..i won Mablak first time in my carrier:P had some luck with positions in last round but it not happens to me often..agree 1st round was the best:) Crespo because i had a disconnect and gave win to Mablak, could be not fair to play again this round..');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (202, '2012-11-27 13:19:44', 55, null, 58, 'wow i cant belive this, Tomek had the classical noob advantige, coz with his all mistakes and giving up, he killed mablacks concentration. but grats Tomek anyway. see u in semifinal');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (203, '2012-11-27 14:40:23', 158, null, 58, 'Very good and consistent playing from Tomek in last 2 rounds, whereas Mablak made a lot of mistakes, well, some bl too.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (204, '2012-11-27 16:02:04', 24, '2012-11-27 16:03:53', 58, 'yes 2 last rounds.. i was motivated because of Fad words..thanks man i needed it ;)  i was preety sure that i will loose after my 2 sucks rounds(2-1 for mab and he starts) but he told me something about i forgot-neva surrender and fight to the end like a man!:) see yain semi im sure it will be nice show! :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (205, '2012-11-27 17:39:38', 46, null, 58, 'festival of mistakes. sorry for disliking it :/');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (206, '2012-11-27 20:46:06', 55, null, 58, 'had to help my good old friend  :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (207, '2012-11-27 23:13:17', 13, null, 58, 'this mistake with cows in decider was just too big.... ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (208, '2012-12-01 19:14:36', 10, '2012-12-01 19:18:52', 61, 'Close match, in 4th round I shouldn''t have killed myself with cows :&
+I''m pretty mad at myself for playing so bad in the last 2 rounds, I think during the intermission after round 3, I let myself get cocky knowing I''d start first, mentality always prevails.', 'false', '2012-11-26 22:50:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (199, 58, 25, null, 'round 3 is not complete...', 'false', '2012-11-26 23:00:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (200, 58, 10, null, 'Awesome job, Tomek :) Still possible that all medals will go to NNN yay', 'false', '2012-11-26 23:10:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (201, 58, 24, null, 'thanks guys..i won Mablak first time in my carrier:P had some luck with positions in last round but it not happens to me often..agree 1st round was the best:) Crespo because i had a disconnect and gave win to Mablak, could be not fair to play again this round..', 'false', '2012-11-27 06:16:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (202, 58, 55, null, 'wow i cant belive this, Tomek had the classical noob advantige, coz with his all mistakes and giving up, he killed mablacks concentration. but grats Tomek anyway. see u in semifinal', 'false', '2012-11-27 13:19:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (203, 58, 158, null, 'Very good and consistent playing from Tomek in last 2 rounds, whereas Mablak made a lot of mistakes, well, some bl too.', 'false', '2012-11-27 14:40:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (204, 58, 24, '2012-11-27 16:03:53', 'yes 2 last rounds.. i was motivated because of Fad words..thanks man i needed it ;)  i was preety sure that i will loose after my 2 sucks rounds(2-1 for mab and he starts) but he told me something about i forgot-neva surrender and fight to the end like a man!:) see yain semi im sure it will be nice show! :)', 'false', '2012-11-27 16:02:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (205, 58, 46, null, 'festival of mistakes. sorry for disliking it :/', 'false', '2012-11-27 17:39:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (206, 58, 55, null, 'had to help my good old friend  :)', 'false', '2012-11-27 20:46:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (207, 58, 13, null, 'this mistake with cows in decider was just too big.... ', 'false', '2012-11-27 23:13:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (208, 61, 10, '2012-12-01 19:18:52', 'Close match, in 4th round I shouldn''t have killed myself with cows :&
 
-At least it was no 0-3 pwnage. :P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (209, '2012-12-01 19:21:53', 158, null, 61, 'Wrong first round.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (210, '2012-12-01 19:52:47', 158, '2012-12-01 19:53:11', 61, 'Good games, some very nice moves and some bitter fails. It was one of the most intriguing games for me on this CWT. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (211, '2012-12-02 06:27:48', 26, null, 61, 'The game worthy of the final !
-btw.one question Kayz,in last 1v1 and u want draw,why? :)Chuvash have rope?');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (212, '2012-12-02 12:00:37', 12, null, 61, 'Nice games. Bl Kayz, to me you look better oponent this 5 games, but what can you do... Did not like that telekami at the end...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (213, '2012-12-02 13:43:53', 10, null, 61, 'Well he had rope and lg, he could get me anywhere, was my only chance, and only one pixel missing for damage ^^');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (214, '2012-12-02 21:23:18', 13, null, 61, 'I saw just decider, Kayz mistake with cows was just too big, he lost whole adventage cause of this turn. If he would make classic SG like in most turn of this round he would probably win.
-Chuvash, gl in final!! Its probably your year');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (215, '2012-12-02 21:27:41', 13, '2012-12-02 21:28:10', 61, 'btw next turn by chuvash wasnt great too... he almost lost his worm when he attacked your 2 worms with cows. Now i see why most CWT tourneys was won by HOLY users :) U really suck with this cows in important games :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (216, '2012-12-03 20:46:06', 24, null, 62, 'Good concentrated and sportmanship playing from Fad. I,totaly deserved for loose because i showed nothing..or more..i choosed not so good day for playing and what to do..:/ last game with kayz and i going to retire.good luck in final mate you have a chance');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (217, '2012-12-04 14:11:52', 13, null, 62, 'I hope u will play again in next year. I wont  be as active as erlier too but I wil try in next year too :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (218, '2012-12-04 16:36:21', 55, null, 62, 'ty Tomek, it wasnt so clear as the result show.
+At least it was no 0-3 pwnage. :P', 'false', '2012-12-01 19:14:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (209, 61, 158, null, 'Wrong first round.', 'false', '2012-12-01 19:21:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (210, 61, 158, '2012-12-01 19:53:11', 'Good games, some very nice moves and some bitter fails. It was one of the most intriguing games for me on this CWT. ', 'false', '2012-12-01 19:52:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (211, 61, 26, null, 'The game worthy of the final !
+btw.one question Kayz,in last 1v1 and u want draw,why? :)Chuvash have rope?', 'false', '2012-12-02 06:27:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (212, 61, 12, null, 'Nice games. Bl Kayz, to me you look better oponent this 5 games, but what can you do... Did not like that telekami at the end...', 'false', '2012-12-02 12:00:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (213, 61, 10, null, 'Well he had rope and lg, he could get me anywhere, was my only chance, and only one pixel missing for damage ^^', 'false', '2012-12-02 13:43:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (214, 61, 13, null, 'I saw just decider, Kayz mistake with cows was just too big, he lost whole adventage cause of this turn. If he would make classic SG like in most turn of this round he would probably win.
+Chuvash, gl in final!! Its probably your year', 'false', '2012-12-02 21:23:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (215, 61, 13, '2012-12-02 21:28:10', 'btw next turn by chuvash wasnt great too... he almost lost his worm when he attacked your 2 worms with cows. Now i see why most CWT tourneys was won by HOLY users :) U really suck with this cows in important games :)', 'false', '2012-12-02 21:27:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (216, 62, 24, null, 'Good concentrated and sportmanship playing from Fad. I,totaly deserved for loose because i showed nothing..or more..i choosed not so good day for playing and what to do..:/ last game with kayz and i going to retire.good luck in final mate you have a chance', 'false', '2012-12-03 20:46:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (217, 62, 13, null, 'I hope u will play again in next year. I wont  be as active as erlier too but I wil try in next year too :)', 'false', '2012-12-04 14:11:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (218, 62, 55, null, 'ty Tomek, it wasnt so clear as the result show.
 gj for bronze :)
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (219, '2012-12-08 22:37:56', 1, null, 64, 'Terrific.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (220, '2012-12-08 22:38:31', 46, null, 64, 'It was most excite game in this CWT for me! Fad really strong and clever guy! Also he have big advantage with his age! So I''m sure it''s just his first and not last cup! Thank you for this game Fad!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (221, '2012-12-08 23:28:57', 55, null, 64, 'thank you chuvash for the nice saying :) , you played very well especially in caves, congratulation again! ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (222, '2012-12-08 23:52:13', 10, '2012-12-09 00:17:45', 64, 'Wow so close. Gonna see now. Sorry for not being available :) Congratulations chuvash
+', 'false', '2012-12-04 16:36:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (219, 64, 1, null, 'Terrific.', 'false', '2012-12-08 22:37:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (220, 64, 46, null, 'It was most excite game in this CWT for me! Fad really strong and clever guy! Also he have big advantage with his age! So I''m sure it''s just his first and not last cup! Thank you for this game Fad!', 'false', '2012-12-08 22:38:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (221, 64, 55, null, 'thank you chuvash for the nice saying :) , you played very well especially in caves, congratulation again! ', 'false', '2012-12-08 23:28:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (222, 64, 10, '2012-12-09 00:17:45', 'Wow so close. Gonna see now. Sorry for not being available :) Congratulations chuvash
 
-Edit: Ha FaD nice lightsiding in opens, I liked the SD cows, but your tactic in caves was improvable, work on that for next year :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (223, '2012-12-09 07:22:27', 5, null, 64, 'lol.. I lost to gold and silver. And in both games i was leading.
+Edit: Ha FaD nice lightsiding in opens, I liked the SD cows, but your tactic in caves was improvable, work on that for next year :)', 'false', '2012-12-08 23:52:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (223, 64, 5, null, 'lol.. I lost to gold and silver. And in both games i was leading.
 Not that bad. ))
 
 Congrats, chuvash!
 bl, FaD.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (224, '2012-12-09 07:26:34', 26, null, 64, 'Big applause, congratulates. Very good year for you,win CWT,and u have big advantage in ONL ,well done.
-Secend place for Fad,this is also a very big success-someone had to win :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (225, '2012-12-09 08:30:24', 158, null, 64, 'Good games, very intense, worth finals for sure. Though it was really long and a lot of shotguns, guess thats what you get when two darksiders meet :P
-Congratz with 1st and 2nd places, guys!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (226, '2012-12-09 10:36:41', 42, null, 64, 'Worth a final, really good games.
+', 'false', '2012-12-09 07:22:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (224, 64, 26, null, 'Big applause, congratulates. Very good year for you,win CWT,and u have big advantage in ONL ,well done.
+Secend place for Fad,this is also a very big success-someone had to win :)', 'false', '2012-12-09 07:26:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (225, 64, 158, null, 'Good games, very intense, worth finals for sure. Though it was really long and a lot of shotguns, guess thats what you get when two darksiders meet :P
+Congratz with 1st and 2nd places, guys!', 'false', '2012-12-09 08:30:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (226, 64, 42, null, 'Worth a final, really good games.
 
-6th round SD cows were so much easier from above without any risk');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (227, '2012-12-12 21:01:05', 13, null, 64, 'gg''s
+6th round SD cows were so much easier from above without any risk', 'false', '2012-12-09 10:36:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (227, 64, 13, null, 'gg''s
 congrats chuvash(and FaD too!)!
-I hope its not your last CWT, now I am the one who want little revange :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (228, '2012-12-13 09:28:23', 2, null, 64, 'Stream: http://www.twitch.tv/thesecondcitysaint/b/346351416');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (229, '2012-12-28 16:27:17', 10, null, 63, 'Crazy game, lots of mistakes. Sorry we had to change the playtime so often. Christmas time is busy time :)
-Thanks to all participants for this awesome CWT 2012!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (230, '2012-12-28 16:29:18', 46, null, 63, 'Congrats with bronze!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (231, '2012-12-29 12:13:19', 158, null, 63, 'Good games, very lightside, always a pleasure to watch ones like these. Gratz Kayz and nice kami in the last round :P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (232, '2013-10-08 23:40:48', 13, null, 946, 'real final of 2011 :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (233, '2013-10-10 19:39:12', 16, null, 953, 'Last sg was decisive, I don''t know how I didn''t see a hole, anyway gg''s');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (234, '2013-10-10 21:24:38', 55, null, 953, 'close game, gg');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (235, '2013-10-10 21:26:11', 55, null, 951, 'nice playing from SiD in the 1rst round, but chuvash showed his experience in the end and won this gg.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (236, '2013-10-10 21:55:18', 5, '2013-10-10 21:56:08', 953, 'Awesome game at some point but then Viks just started to be nervous. And that last plop... even Kayz himself didn''t expect that. bl Viks. *edit: And congrats, Kayz ))');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (237, '2013-10-13 19:59:49', 158, null, 955, 'Was a bit late there to spectate. Ggs, come on coste, put yourself together ;o');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (238, '2013-10-13 20:09:46', 5, null, 958, 'Was off chat so thanx to FaD and zoky. bl SiD. Good game. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (239, '2013-10-13 21:17:00', 42, null, 955, 'I wish');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (240, '2013-10-13 22:20:20', 10, null, 956, 'Crazy game, both seemed rusty');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (241, '2013-10-16 18:15:46', 18, null, 962, 'Last round Hldd3n quit after a devastation failed Jetpack. I cant say I blame him. I may have done the same. Game clearly said Hldd3n disconnected due to Hldd3n quiting. Anyway GG M8. Gl in the rest of your games.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (242, '2013-10-16 19:12:24', 1, null, 962, 'Ew, quitting a game of CWT is an offense. >_o');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (243, '2013-10-16 22:38:20', 5, null, 964, 'I really enjoyed watching stream of this game. Thanx Kayz and zoky. vn work.
-bl Uzur. Good game.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (244, '2013-10-17 14:17:29', 24, null, 966, 'Keep training mate..your creativy is in good level :) gg''s');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (245, '2013-10-17 16:06:13', 225, null, 966, 'ty man, gg''s
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (246, '2013-10-17 19:39:34', 1, null, 968, 'Flawless victories for Zoky so far.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (247, '2013-10-17 20:12:44', 6, null, 968, 'ye....i was so scared beafore this game....this will be my 1st playoffs :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (248, '2013-10-17 20:13:33', 1, null, 968, 'Way to go!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (249, '2013-10-18 08:21:20', 18, null, 956, 'Not rusty, first game nerves.We both played like compleat noobs. Nappy was just slightly less noob then me :-)
-I had plenty of chances to turn the game but blew them all. No body to blame but me.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (250, '2013-10-19 15:20:40', 20, null, 969, 'The last round ended abruptly. :(');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (251, '2013-10-19 23:07:48', 20, null, 971, 'Why did you play cave-cave-island-cave-cave? That''s unfair for a person who doesn''t get an island start.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (252, '2013-10-20 11:18:29', 31, null, 971, 'Mistake, but don''t care, becouse I was hosting and it was mine start. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (253, '2013-10-23 07:14:32', 18, null, 977, 'Fairly average game. Round 1 was a total mess. Map chosen we thought would be more complex when the random scheme was applied but it ended up being wide open with my first turn Pizza was down 5 worms by the 2nd turn. It happends just bad luck of the draw there.
+I hope its not your last CWT, now I am the one who want little revange :)', 'false', '2012-12-12 21:01:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (228, 64, 2, null, 'Stream: http://www.twitch.tv/thesecondcitysaint/b/346351416', 'false', '2012-12-13 09:28:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (229, 63, 10, null, 'Crazy game, lots of mistakes. Sorry we had to change the playtime so often. Christmas time is busy time :)
+Thanks to all participants for this awesome CWT 2012!', 'false', '2012-12-28 16:27:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (230, 63, 46, null, 'Congrats with bronze!', 'false', '2012-12-28 16:29:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (231, 63, 158, null, 'Good games, very lightside, always a pleasure to watch ones like these. Gratz Kayz and nice kami in the last round :P', 'false', '2012-12-29 12:13:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (232, 946, 13, null, 'real final of 2011 :)', 'false', '2013-10-08 23:40:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (233, 953, 16, null, 'Last sg was decisive, I don''t know how I didn''t see a hole, anyway gg''s', 'false', '2013-10-10 19:39:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (234, 953, 55, null, 'close game, gg', 'false', '2013-10-10 21:24:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (235, 951, 55, null, 'nice playing from SiD in the 1rst round, but chuvash showed his experience in the end and won this gg.', 'false', '2013-10-10 21:26:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (236, 953, 5, '2013-10-10 21:56:08', 'Awesome game at some point but then Viks just started to be nervous. And that last plop... even Kayz himself didn''t expect that. bl Viks. *edit: And congrats, Kayz ))', 'false', '2013-10-10 21:55:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (237, 955, 158, null, 'Was a bit late there to spectate. Ggs, come on coste, put yourself together ;o', 'false', '2013-10-13 19:59:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (238, 958, 5, null, 'Was off chat so thanx to FaD and zoky. bl SiD. Good game. ', 'false', '2013-10-13 20:09:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (239, 955, 42, null, 'I wish', 'false', '2013-10-13 21:17:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (240, 956, 10, null, 'Crazy game, both seemed rusty', 'false', '2013-10-13 22:20:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (241, 962, 18, null, 'Last round Hldd3n quit after a devastation failed Jetpack. I cant say I blame him. I may have done the same. Game clearly said Hldd3n disconnected due to Hldd3n quiting. Anyway GG M8. Gl in the rest of your games.', 'false', '2013-10-16 18:15:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (242, 962, 1, null, 'Ew, quitting a game of CWT is an offense. >_o', 'false', '2013-10-16 19:12:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (243, 964, 5, null, 'I really enjoyed watching stream of this game. Thanx Kayz and zoky. vn work.
+bl Uzur. Good game.', 'false', '2013-10-16 22:38:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (244, 966, 24, null, 'Keep training mate..your creativy is in good level :) gg''s', 'false', '2013-10-17 14:17:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (245, 966, 225, null, 'ty man, gg''s
+', 'false', '2013-10-17 16:06:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (246, 968, 1, null, 'Flawless victories for Zoky so far.', 'false', '2013-10-17 19:39:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (247, 968, 6, null, 'ye....i was so scared beafore this game....this will be my 1st playoffs :D', 'false', '2013-10-17 20:12:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (248, 968, 1, null, 'Way to go!', 'false', '2013-10-17 20:13:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (249, 956, 18, null, 'Not rusty, first game nerves.We both played like compleat noobs. Nappy was just slightly less noob then me :-)
+I had plenty of chances to turn the game but blew them all. No body to blame but me.', 'false', '2013-10-18 08:21:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (250, 969, 20, null, 'The last round ended abruptly. :(', 'false', '2013-10-19 15:20:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (251, 971, 20, null, 'Why did you play cave-cave-island-cave-cave? That''s unfair for a person who doesn''t get an island start.', 'false', '2013-10-19 23:07:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (252, 971, 31, null, 'Mistake, but don''t care, becouse I was hosting and it was mine start. ', 'false', '2013-10-20 11:18:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (253, 977, 18, null, 'Fairly average game. Round 1 was a total mess. Map chosen we thought would be more complex when the random scheme was applied but it ended up being wide open with my first turn Pizza was down 5 worms by the 2nd turn. It happends just bad luck of the draw there.
   Rest of the game was pretty fair. I made a couple critical kills when it counted (round 4 mine drop from JP 06:40 for instance). PizzaSheet played it a little too safe. He made some piles but I kept him busy on other fronts and couldn''t kill them without exposing himself.
-Gl to the rest of my group. Unless something totaly unexpected happends I shall be moving on.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (254, '2013-10-23 20:42:45', 158, null, 978, 'Great games, CWT at it''s best.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (255, '2013-10-23 22:23:27', 55, null, 978, 'very interresting game, lakoste fail very importand moves and lost it, could also be 3:0 for lakoste
-gg.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (256, '2013-10-23 22:59:48', 240, null, 978, 'That was really fun, the most rumbled I''ve seen Mab in a while! Rusty group indeed, but could easily have two eventual semifinalists in it by the end. See shall we.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (257, '2013-10-26 03:41:08', 20, null, 981, 'My previous record for the shortest third round was crushed in this game :[');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (258, '2013-10-28 22:11:36', 13, null, 976, 'gj Tade! first place congratulations!
-anyway Tomek will suprise someone in PO!:0');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (259, '2013-10-31 21:44:08', 13, null, 986, 'It wasnt easy game for me...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (260, '2013-11-01 11:19:09', 11, null, 987, 'I think we had this problem last year, but I can''t view the games, it''s telling me the file isn''t a .rar when I try to open it.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (261, '2013-11-01 11:26:34', 12, null, 987, 'To me it is normal, i watched the game an hour ago...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (262, '2013-11-01 12:23:04', 5, null, 987, 'Works in chrome. Didn''t test others.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (263, '2013-11-02 18:33:16', 56, '2013-11-02 18:53:30', 988, 'Last round was interesting with that sheep');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (264, '2013-11-04 22:54:27', 12, null, 989, 'No calculations, just pure KILLIN!!!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (265, '2013-11-08 20:23:42', 1, null, 990, 'Har, close one, Jellenio. Next chance in 2014!
+Gl to the rest of my group. Unless something totaly unexpected happends I shall be moving on.', 'false', '2013-10-23 07:14:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (254, 978, 158, null, 'Great games, CWT at it''s best.', 'false', '2013-10-23 20:42:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (255, 978, 55, null, 'very interresting game, lakoste fail very importand moves and lost it, could also be 3:0 for lakoste
+gg.', 'false', '2013-10-23 22:23:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (256, 978, 240, null, 'That was really fun, the most rumbled I''ve seen Mab in a while! Rusty group indeed, but could easily have two eventual semifinalists in it by the end. See shall we.', 'false', '2013-10-23 22:59:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (257, 981, 20, null, 'My previous record for the shortest third round was crushed in this game :[', 'false', '2013-10-26 03:41:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (258, 976, 13, null, 'gj Tade! first place congratulations!
+anyway Tomek will suprise someone in PO!:0', 'false', '2013-10-28 22:11:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (259, 986, 13, null, 'It wasnt easy game for me...', 'false', '2013-10-31 21:44:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (260, 987, 11, null, 'I think we had this problem last year, but I can''t view the games, it''s telling me the file isn''t a .rar when I try to open it.', 'false', '2013-11-01 11:19:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (261, 987, 12, null, 'To me it is normal, i watched the game an hour ago...', 'false', '2013-11-01 11:26:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (262, 987, 5, null, 'Works in chrome. Didn''t test others.', 'false', '2013-11-01 12:23:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (263, 988, 56, '2013-11-02 18:53:30', 'Last round was interesting with that sheep', 'false', '2013-11-02 18:33:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (264, 989, 12, null, 'No calculations, just pure KILLIN!!!', 'false', '2013-11-04 22:54:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (265, 990, 1, null, 'Har, close one, Jellenio. Next chance in 2014!
 
-Gratz, Kukumberous.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (266, '2013-11-08 21:05:11', 13, null, 990, 'exactyly, so close...
-GLin PO kuku!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (267, '2013-11-09 01:18:47', 31, null, 990, 'That 2-nd round... I could easy end it but I had to plop my own worm... Gl in PO dude, PLS do tour best and if you will lose
-0:3, I will find you and I will kill you ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (268, '2013-11-11 20:06:33', 10, null, 991, 'Mistake Madness!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (269, '2013-11-11 20:41:56', 217, null, 991, 'I didn''t gave any easy game, that is enough for me with Playing Kayz :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (270, '2013-11-11 22:24:49', 10, null, 991, 'Yeah you are improving already :) Keep that up and you will be a huge threat next time =D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (271, '2013-11-12 04:28:23', 18, null, 990, 'Ok I''m confused. Jellenio & Kukumber are tied in points. Wouldn''t the winner of the tied player''s game move on?');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (272, '2013-11-12 08:55:20', 158, null, 990, 'Extract from rules:
-In case of same amount of points: equal points -> game ratio -> round ratio -> decisive best-of-five match');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (273, '2013-11-13 07:17:46', 18, null, 990, 'So you lwon due to sats (round ratio) even though you lost the game against him...that seams harsh.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (274, '2013-11-13 08:36:54', 158, '2013-11-13 08:49:13', 990, 'My overall performance in group was slightly better, that''s pretty much it. Group stage is based on 3 games.
+Gratz, Kukumberous.', 'false', '2013-11-08 20:23:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (266, 990, 13, null, 'exactyly, so close...
+GLin PO kuku!', 'false', '2013-11-08 21:05:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (267, 990, 31, null, 'That 2-nd round... I could easy end it but I had to plop my own worm... Gl in PO dude, PLS do tour best and if you will lose
+0:3, I will find you and I will kill you ;)', 'false', '2013-11-09 01:18:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (268, 991, 10, null, 'Mistake Madness!', 'false', '2013-11-11 20:06:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (269, 991, 217, null, 'I didn''t gave any easy game, that is enough for me with Playing Kayz :D', 'false', '2013-11-11 20:41:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (270, 991, 10, null, 'Yeah you are improving already :) Keep that up and you will be a huge threat next time =D', 'false', '2013-11-11 22:24:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (271, 990, 18, null, 'Ok I''m confused. Jellenio & Kukumber are tied in points. Wouldn''t the winner of the tied player''s game move on?', 'false', '2013-11-12 04:28:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (272, 990, 158, null, 'Extract from rules:
+In case of same amount of points: equal points -> game ratio -> round ratio -> decisive best-of-five match', 'false', '2013-11-12 08:55:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (273, 990, 18, null, 'So you lwon due to sats (round ratio) even though you lost the game against him...that seams harsh.', 'false', '2013-11-13 07:17:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (274, 990, 158, '2013-11-13 08:49:13', 'My overall performance in group was slightly better, that''s pretty much it. Group stage is based on 3 games.
 My games 3-0, 2-3, 1-3
 Jellenio''s games 3-2, 2-3, 1-3.
 Actually I wonder what''s the problem. You don''t like me that much? :)
 
-I''m not a huge fan of football, but group stage system is quite similar there as far as I remember, goal difference and goals scored are involved in case of same amount of points.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (275, '2013-11-13 09:34:35', 217, null, 993, 'Already viks better player than me, and  with no concentration + no luck i couldn''t do anything. Anyway.
-GL in playoffs man, you can do good place.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (276, '2013-11-13 09:36:40', 5, null, 990, 'Wrong.
+I''m not a huge fan of football, but group stage system is quite similar there as far as I remember, goal difference and goals scored are involved in case of same amount of points.', 'false', '2013-11-13 08:36:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (275, 993, 217, null, 'Already viks better player than me, and  with no concentration + no luck i couldn''t do anything. Anyway.
+GL in playoffs man, you can do good place.', 'false', '2013-11-13 09:34:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (276, 990, 5, null, 'Wrong.
 Read CL rules before assuming things.
 
 =============
@@ -3369,20 +3369,20 @@ c) higher number of goals scored ....
 
 http://www.uefa.com/MultimediaFiles/Download/Regulations/competitions/Regulations/01/79/68/69/1796869_DOWNLOAD.pdf
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (277, '2013-11-13 09:58:17', 158, null, 990, '1) I stated quite clearly I''m not sure of how those things are in football.
+', 'false', '2013-11-13 09:36:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (277, 990, 158, null, '1) I stated quite clearly I''m not sure of how those things are in football.
 2) Assuming does not suppose any proofs, it''s just a guess, so I don''t feel reading anything about football, especially since I lost any interest to it long ago.
-3) Khamski would say to himself "Don''t bark at me".');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (278, '2013-11-13 10:16:32', 5, null, 990, '"I stated quite clearly I''m not sure..."
+3) Khamski would say to himself "Don''t bark at me".', 'false', '2013-11-13 09:58:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (278, 990, 5, null, '"I stated quite clearly I''m not sure..."
 
 Next time give yourself some time to check things before you write it.
 Be sure in what you write.
 You are a CWT mod ffs.
- ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (279, '2013-11-13 10:49:09', 158, null, 990, 'Statement "as far as i remember" comprises certain amount of doubt. Read carefully, no surprise you didn''t read my message when we had drops with Jellenio either and claimed nobody saw it even though Jellenio replied to me.
+ ', 'false', '2013-11-13 10:16:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (279, 990, 158, null, 'Statement "as far as i remember" comprises certain amount of doubt. Read carefully, no surprise you didn''t read my message when we had drops with Jellenio either and claimed nobody saw it even though Jellenio replied to me.
 As for your constant complains about me being a bad mod. We both know how one person miserably failed at it back in 2009. All he did was walking around saying "MODS WORD IS A RULE" and banning people for nothing. So don''t you dare to say anything about it again.
-Last but not least, if you want one more drama go somewhere else please, we discussed group standings here, your constant desire to prove me wrong has nothing to do with it.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (280, '2013-11-13 12:27:51', 5, null, 990, 'We discuss tie breaker situations here and all my comments are precisely fit the topic.
+Last but not least, if you want one more drama go somewhere else please, we discussed group standings here, your constant desire to prove me wrong has nothing to do with it.', 'false', '2013-11-13 10:49:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (280, 990, 5, null, 'We discuss tie breaker situations here and all my comments are precisely fit the topic.
 
 So while discussing it you were posting incorrect things.
 Things that are in doubt even for yourself.
@@ -3404,17 +3404,17 @@ If two players have same amount of points player that won the game (against play
 Just a heads up though. It''s for mods to decide.
 
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (281, '2013-11-13 13:20:54', 20, null, 990, 'It''s cool this site comes with popcorn, sometimes it''s very useful.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (282, '2013-11-13 14:26:56', 158, null, 990, ' Rules for group games were there upon sign ups, and they are same as the last year, if someone doesn''t read them it''s his own fault. We play worms here, so I qouted CWT rules and guessed they are similar to football.
+', 'false', '2013-11-13 12:27:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (281, 990, 20, null, 'It''s cool this site comes with popcorn, sometimes it''s very useful.', 'false', '2013-11-13 13:20:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (282, 990, 158, null, ' Rules for group games were there upon sign ups, and they are same as the last year, if someone doesn''t read them it''s his own fault. We play worms here, so I qouted CWT rules and guessed they are similar to football.
 And again you twist things, I never claimed the thing I told about football to be absolutely correct, and it doesn''t need to be correct, and I don''t need to waste my time on learning something which would be of no use to me, there was totally no serious relevance to football. But of course as crazy about football as you are you would think that was the most important thing in the message.
 Now let me make one more assumption. If we were judging by football rules we would have 3 people with 3 points and it would end up with me advancing due stats anyway. Current system is designed to compensate close games automatically and it does great job. And the fact it''s the first issue about the system only confirms it, especially given the fact you wouldn''t give a single damn about it if it was someone else advancing rather than me.
 If you don''t understand something it doesn''t mean it''s wrong.
 You have an idea? Post it on forum, it will be discussed. Want some attention? Sorry it''s not the place. So what''s your business here anyway?
 
 P.S.
-Quite funny to hear this arrogant stuff about deep breathing and thinking from the likes of you.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (283, '2013-11-13 20:04:34', 5, '2013-11-13 20:17:07', 990, '[i]>Rules for group games were there upon sign ups, and they are same as the last year,
+Quite funny to hear this arrogant stuff about deep breathing and thinking from the likes of you.', 'false', '2013-11-13 14:26:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (283, 990, 5, '2013-11-13 20:17:07', '[i]>Rules for group games were there upon sign ups, and they are same as the last year,
 >if someone doesn''t read them it''s his own fault. [/i]
 
 I read rules and i have no complains about them.
@@ -3515,27 +3515,27 @@ It looks bad.
 
 I wasn''t arrogant.
 Just wanted to calm you down.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (284, '2013-11-13 21:15:24', 158, null, 990, 'A lot of words, a lot of ego, a lot of show off. Nothing useful. Childish as always.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (285, '2013-11-13 22:45:50', 238, null, 990, 'He keeps saying one thing: Look stuff up before you post about it if you''re not sure about it. Seems useful to me! :)
-It''s what I do when modding. Memory isn''t perfect, you know :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (286, '2013-11-13 23:34:55', 10, null, 990, 'I see nothing unfair in Jellenio not advancing, he lost to Thouson, kukumber won Thouson 3-0 --> better performance.
+', 'false', '2013-11-13 20:04:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (284, 990, 158, null, 'A lot of words, a lot of ego, a lot of show off. Nothing useful. Childish as always.', 'false', '2013-11-13 21:15:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (285, 990, 238, null, 'He keeps saying one thing: Look stuff up before you post about it if you''re not sure about it. Seems useful to me! :)
+It''s what I do when modding. Memory isn''t perfect, you know :)', 'false', '2013-11-13 22:45:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (286, 990, 10, null, 'I see nothing unfair in Jellenio not advancing, he lost to Thouson, kukumber won Thouson 3-0 --> better performance.
 
 It''s a group stage, so the whole group is involved... As Khamski said: In the 3 people tie kukumber''d still win. We don''t need to change the system, because this game wasn''t a tie-break between two players, kukumber had better stats, so it wasn''t a tie-break. A tie-break requires the two players to be equal in standing (that''s quite the definition of a tie), and that wasn''t the case.
 So kukumber deserved this spot, even though he lost to Jellenio with winning Thouson 3-0, which Jellenio didn''t.
-I don''t see a problem, and I agree, as a mod you should check things up before you assume stuff, but there was no need for an almost 4000 letter block, Khams ;o And I never understood why people complained who aren''t even involved, it was the same with the Johnmir vs. Fenrys case...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (287, '2013-11-14 07:47:13', 158, null, 990, 'I wish you were right DarkOne, but his point seems more like "you dont know rules of football, which means you are a bad mod" just a nonsense. Especially when he told that his business here is to critisize me as a mod, even though he has no idea of what I do for CWT, neither he knows what is it to be a good mod since he is a failure himself. The thing he can''t get is that I didn''t base my message on what I recalled about football, thus it doesn''t have to be absolutely correct, in fact I could refer to quidditch and it won''t change anything there ("I think they play bo5 in quidditch too" - "No, you''re wrong, it''s a shame for mod not to know that", that''s just ridiculous). If I based my point on it I would make a research, but in that case it was just an addition and nothing more. "I think it''s same in football" well maybe it''s not, so what, it doesn''t change CWT system anyway which was the point. And I still wonder along with Kayz, why would Khamski enter in the middle of conversation which has nothing to do with himself.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (288, '2013-11-14 08:01:48', 18, null, 990, 'Geez guys..wtf.  No need for all the drama.
+I don''t see a problem, and I agree, as a mod you should check things up before you assume stuff, but there was no need for an almost 4000 letter block, Khams ;o And I never understood why people complained who aren''t even involved, it was the same with the Johnmir vs. Fenrys case...', 'false', '2013-11-13 23:34:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (287, 990, 158, null, 'I wish you were right DarkOne, but his point seems more like "you dont know rules of football, which means you are a bad mod" just a nonsense. Especially when he told that his business here is to critisize me as a mod, even though he has no idea of what I do for CWT, neither he knows what is it to be a good mod since he is a failure himself. The thing he can''t get is that I didn''t base my message on what I recalled about football, thus it doesn''t have to be absolutely correct, in fact I could refer to quidditch and it won''t change anything there ("I think they play bo5 in quidditch too" - "No, you''re wrong, it''s a shame for mod not to know that", that''s just ridiculous). If I based my point on it I would make a research, but in that case it was just an addition and nothing more. "I think it''s same in football" well maybe it''s not, so what, it doesn''t change CWT system anyway which was the point. And I still wonder along with Kayz, why would Khamski enter in the middle of conversation which has nothing to do with himself.', 'false', '2013-11-14 07:47:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (288, 990, 18, null, 'Geez guys..wtf.  No need for all the drama.
 I like both Kukumber and Jellenio. I was just thinking from Jellenio''s point of view.
 
   I''m just not a big fan of stats or reading too much into them. It''s a game not a fantasy league. Jellenio lost to Thouson. Kukumber won vs Thouson. But Jellenio won vs Kukumber. There''s valid arguments on both sides like which game carries more weight. The one one between the two tied players or their past game with a 3rd party. Also the game between the two tied players was decided by a single round.
   Kukumber should advance, and does. I just can''t help felling bad for Jellenio going out like this.
 
-   ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (289, '2013-11-14 08:15:24', 158, null, 990, 'I was joking bout liking, even put a smiley there, no worries. :)
+   ', 'false', '2013-11-14 08:01:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (289, 990, 158, null, 'I was joking bout liking, even put a smiley there, no worries. :)
 And yes when it comes to 3 players having one win it surely a bit disappointing for those who do not advance, especially when it''s a matter of one round. This year it happened to be not me, my luck.
-As for drama, it doesn''t have a lot of connection to what you talked about, started from nothing, as always, so no worries bout that too.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (290, '2013-11-14 10:03:57', 5, '2013-11-14 10:20:59', 990, 'It''s funny how you bring up things you know nothing about.
+As for drama, it doesn''t have a lot of connection to what you talked about, started from nothing, as always, so no worries bout that too.', 'false', '2013-11-14 08:15:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (290, 990, 5, '2013-11-14 10:20:59', 'It''s funny how you bring up things you know nothing about.
 Over and over again.
 
 Okay.
@@ -3598,9 +3598,9 @@ That what i will propose for 2014 in the forums.
 No complains about 2013 as i stated numerously before.
 So it''s all good.
 
-But next year we can make rules even better.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (291, '2013-11-14 11:03:40', 20, null, 990, '(No, Khamski, banning me on the very first day when I couldn''t even see the schedule wasn''t understandable in any way :P)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (292, '2013-11-14 11:35:05', 5, '2013-11-14 11:47:22', 990, 'At the early days of CWT full MOD squad decisions took place.
+But next year we can make rules even better.', 'false', '2013-11-14 10:03:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (291, 990, 20, null, '(No, Khamski, banning me on the very first day when I couldn''t even see the schedule wasn''t understandable in any way :P)', 'false', '2013-11-14 11:03:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (292, 990, 5, '2013-11-14 11:47:22', 'At the early days of CWT full MOD squad decisions took place.
 So it couldn''t be my own decision.
 And it had to have reasons.
 I have to check forums. Maybe there is some info on that case.
@@ -3627,25 +3627,25 @@ Not a single one.
 
 
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (293, '2013-11-14 11:43:18', 238, null, 990, 'Kuku, do me a favour and reread this thread :) in his post, all khamski did was correct you and give you the source.
+', 'false', '2013-11-14 11:35:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (293, 990, 238, null, 'Kuku, do me a favour and reread this thread :) in his post, all khamski did was correct you and give you the source.
 
-Khamski, don''t write if all you have is assumptions! Check the forum before posting, you were a mod ffs xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (294, '2013-11-14 11:45:49', 31, null, 990, 'I am in love or all football statistics and if I have a vote, for me much better is CL rules and it will be good to change rules for CWT 2014. But for me, volley rules would be even better.
+Khamski, don''t write if all you have is assumptions! Check the forum before posting, you were a mod ffs xD', 'false', '2013-11-14 11:43:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (294, 990, 31, null, 'I am in love or all football statistics and if I have a vote, for me much better is CL rules and it will be good to change rules for CWT 2014. But for me, volley rules would be even better.
 If you win:
 3:0 - 3 points for winner, 0 for losser
 3:1 - 3 points for winner, 0 for losser
 3:2 - 2 points for winner, 1 point for losser.
 In that situation I will have 3 points, kuku 4 points, and he move on.
 
-Tell me admins pls, wtf is "Game Ratio" for you ? -1 RATIO ? WTF !! Ratio belongs from <0, inf>. Ratio is (won games/lost games), not (won games - lost game). Ratio is more fair for players !! ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (295, '2013-11-14 11:54:11', 5, null, 990, 'Sorry, Jellenio but i disagree.
+Tell me admins pls, wtf is "Game Ratio" for you ? -1 RATIO ? WTF !! Ratio belongs from <0, inf>. Ratio is (won games/lost games), not (won games - lost game). Ratio is more fair for players !! ', 'false', '2013-11-14 11:45:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (295, 990, 5, null, 'Sorry, Jellenio but i disagree.
 Current point system of CWT is awesome.
 All we need is to fix the tie-breaker a bit for 2014 edition.
 That''s all.
 But anyway it will be only a proposal.
-Mods will decide.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (296, '2013-11-14 12:17:46', 2, '2013-11-14 16:02:08', 990, 'You have big qualities and your merits for this community are big, khamski.
+Mods will decide.', 'false', '2013-11-14 11:54:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (296, 990, 2, '2013-11-14 16:02:08', 'You have big qualities and your merits for this community are big, khamski.
 
 At the same time, the job of a moderator isn''t really yours and CWT09 wasn''t the necessary "shook" (with education effects and so on...) for a better future, but the low point of 11 years of CWT.
 
@@ -3661,8 +3661,8 @@ Other may have made mistakes too, but I consider that as a result of your barkin
 
 I consider my opinion as valid, because I tried to to everything for a successful tournament, in 2009 and 2010. But only 2010 it was successful. Thanks to Zemke.
 
-Because it was mentioned, here everybody can read the cwt09 moderation work: http://www.cwt.boards.net/board/4/2009-private-talk (formerly not visible for normal members)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (297, '2013-11-14 12:43:39', 5, '2013-11-14 13:38:08', 990, 'Thanx, Joschi.
+Because it was mentioned, here everybody can read the cwt09 moderation work: http://www.cwt.boards.net/board/4/2009-private-talk (formerly not visible for normal members)', 'false', '2013-11-14 12:17:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (297, 990, 5, '2013-11-14 13:38:08', 'Thanx, Joschi.
 It''s great that you finally appeared here.
 I respect you for what you did to CWT too.
 
@@ -3700,15 +3700,15 @@ I was true to everyone publicly and privately.
 So read and enjoy.
 I will do it myself actually. .
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (298, '2013-11-14 16:45:22', 10, null, 990, 'In my opinion the main concept of 2009 was a step in the right direction, but the implementation of this concept was a failure, being so black-and-white about the rules was just ridiculous.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (299, '2013-11-14 16:48:59', 10, null, 990, '"You break the rules you are out.
+', 'false', '2013-11-14 12:43:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (298, 990, 10, null, 'In my opinion the main concept of 2009 was a step in the right direction, but the implementation of this concept was a failure, being so black-and-white about the rules was just ridiculous.', 'false', '2013-11-14 16:45:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (299, 990, 10, null, '"You break the rules you are out.
 
 If i''ll have to ban all players except one i will.
 And that last will be the champion."
 
-LOL');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (300, '2013-11-14 18:49:35', 158, null, 990, '@DarkOne
+LOL', 'false', '2013-11-14 16:48:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (300, 990, 158, null, '@DarkOne
 He corrected me in a not very polite way (actually so much he wanted to tell that I was wrong he put that word first, totally changing the theme of the original conversation), I replied to him with my list of 3. And then he tells me I somehow not allowed to make assumptions cause I''m "a mod ffs", very nice of him again (I guess "ffs" here means "fancy fragile stuff", you may guess yourself although). So...
 @Khamski
 1) I was calm throughout all my messages, and your arrogant stuff sounds ridiculous, as I told.
@@ -3716,8 +3716,8 @@ He corrected me in a not very polite way (actually so much he wanted to tell tha
 3) And let me finish off this the most clear possible way. Who the hell are you to tell me what to do? Why do you impose on me your views? If you want to share them feel free, one message is more than enough for that. Why do you act like some fucking Gandalf of WormNet thinking everybody needs your advise? You don''t make an impression of old wise man. At all. Personally I don''t have a tiny bit of respect for you, you look more like 40 years old child who wants the world to revolve around him. I told you I don''t want to talk to you after you canceled the game with chuvash. Why don''t you just piss off? Why do you seek for that crap again and again? Play your CWT games, have fun, and if you want respect deserve it by your actions, not by pointless "blah-blah-blah", cause "it isn''t what you say, it''s what you do".
 
 P.S.
-How sad it is that person half of your age should explain it all to you?');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (301, '2013-11-14 19:22:11', 13, '2013-11-14 19:24:37', 990, '[quote] We both know how one person miserably failed at it back in 2009.[/quote]
+How sad it is that person half of your age should explain it all to you?', 'false', '2013-11-14 18:49:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (301, 990, 13, '2013-11-14 19:24:37', '[quote] We both know how one person miserably failed at it back in 2009.[/quote]
 
 oO if I am not wrong in 2009 u didnt even heard about this game :)
 Your current friends are not 100% objective cause some of them were banned....
@@ -3731,8 +3731,8 @@ IMO Khamski is the one who saved the tourney :)
 
 
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (302, '2013-11-14 21:52:39', 5, '2013-11-14 22:01:09', 990, '[b]2kukumber:[/b]
+', 'false', '2013-11-14 19:22:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (302, 990, 5, '2013-11-14 22:01:09', '[b]2kukumber:[/b]
 
 [i]"cwt 2009 was a failure", "40 year child", "you canceled chuvash game", "you want attention",  "you are crazy about football", "fucking Gandalf of Wormnet", "Who the hell are you"[/i]...
 
@@ -3760,9 +3760,9 @@ So show community how wise and mature you are.
 And stop this non-sense right here.
 I know you can handle it. :)
 
-Peace.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (303, '2013-11-14 22:22:37', 158, null, 990, 'And that person wrote about me making wrong assumptions? Your message is one big lie and unlike me you don''t even say it could possibly be incorrect. Just a narcissistic liar, pathetic.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (304, '2013-11-14 22:24:47', 10, '2013-11-14 22:30:55', 990, '1) I was calm throughout all my messages, and your arrogant stuff sounds ridiculous, as I told.
+Peace.', 'false', '2013-11-14 21:52:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (303, 990, 158, null, 'And that person wrote about me making wrong assumptions? Your message is one big lie and unlike me you don''t even say it could possibly be incorrect. Just a narcissistic liar, pathetic.', 'false', '2013-11-14 22:22:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (304, 990, 10, '2013-11-14 22:30:55', '1) I was calm throughout all my messages, and your arrogant stuff sounds ridiculous, as I told.
 
 You both started calmly, imo Khamski is still calm, "ffs" is just an expression of wonder (and maybe annoyance), it''s not an insult, but your latest post is just rude and for sure not calm, kukumber. Instead of focussing on the actual topic, you still attack khamski for cancelling his game with chuvash and his 2009 modding work, what does this have to do with this case???
 And anyway:
@@ -3780,8 +3780,8 @@ but you didn''t check it. Ok you are not a mod now, but it''s still ironic and a
 Further I think it''s indeed a low move that Joschi showed everyone the private section, there are even polls about "No, I hate Rafka"...
 Some things should not get public xD.
 
-But what to expect of someone who threatened to delete our forum, and the first post he makes after he wanted to  depart from the normal community, reveals a private section about a 4 year old CWT edition.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (305, '2013-11-14 22:34:26', 5, '2013-11-14 22:40:53', 990, '[b]2kukumber:[/b]
+But what to expect of someone who threatened to delete our forum, and the first post he makes after he wanted to  depart from the normal community, reveals a private section about a 4 year old CWT edition.', 'false', '2013-11-14 22:24:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (305, 990, 5, '2013-11-14 22:40:53', '[b]2kukumber:[/b]
 
 "narcissistic liar, pathetic."
 
@@ -3800,69 +3800,69 @@ And Let''s finish this hate race finally.
 
 
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (306, '2013-11-15 01:33:28', 158, null, 990, '@Kayz, I only referred to canceld game to specify time period, didn''t tell anything about actual game. As for "ffs" is a rude expression, simply because of what it stands for and its emotional accent.
+', 'false', '2013-11-14 22:34:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (306, 990, 158, null, '@Kayz, I only referred to canceld game to specify time period, didn''t tell anything about actual game. As for "ffs" is a rude expression, simply because of what it stands for and its emotional accent.
 
 @Khamski
 Maybe you should have thought that it would be problematic to end it before you started it? It seems you only good at advising to think rather than doing it yourself. Same as you easily judge me for most weirdest things ever, but when it comes to judging you, somehow it''s not my concern. Very convenient.
 I asked you not to start drama, I asked you to discuss rules modifications on forum, but somehow your ego and pride wouldn''t allow you to accept "bad mod" telling you things that make sense.
-You''re all about drama indeed, and I''m far not the first person to reveal it.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (307, '2013-11-15 15:22:33', 31, '2013-11-15 20:16:26', 990, 'Tell me admins pls, wtf is "Game Ratio" in table for you ? -1 RATIO ? WTF !! Ratio belongs from <0, inf). Ratio = (won games/lost games), not ratio=(won games - lost game). Ratio is more fair for players ! ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (308, '2013-11-15 15:27:58', 10, null, 990, 'Yeah It''s Won - Lost, it''s not a "Ratio" indeed, mathematically speaking xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (309, '2013-11-15 15:51:47', 209, null, 991, 'gooo akt :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (310, '2013-11-15 18:44:43', 2, null, 990, 'Hm, some guys can''t without personal sidewhipes.
+You''re all about drama indeed, and I''m far not the first person to reveal it.', 'false', '2013-11-15 01:33:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (307, 990, 31, '2013-11-15 20:16:26', 'Tell me admins pls, wtf is "Game Ratio" in table for you ? -1 RATIO ? WTF !! Ratio belongs from <0, inf). Ratio = (won games/lost games), not ratio=(won games - lost game). Ratio is more fair for players ! ', 'false', '2013-11-15 15:22:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (308, 990, 10, null, 'Yeah It''s Won - Lost, it''s not a "Ratio" indeed, mathematically speaking xD', 'false', '2013-11-15 15:27:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (309, 991, 209, null, 'gooo akt :)', 'false', '2013-11-15 15:51:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (310, 990, 2, null, 'Hm, some guys can''t without personal sidewhipes.
 
 Since minimum 2 years the linked forum is visible for everybody!
 
-khamski to nappy: "I have to check forums. Maybe there is some info on that case." You are welcome, too.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (311, '2013-11-16 13:04:17', 47, null, 990, 'Thanks Joschi for making available the private forum, good to finally know the truth in all its glory');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (312, '2013-11-19 11:37:17', 158, null, 997, 'Finally! :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (313, '2013-11-24 18:29:16', 1, null, 1002, 'Darkside.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (314, '2013-11-24 18:33:12', 158, null, 1002, 'A pity, lesson learned though.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (315, '2013-11-24 21:56:21', 18, null, 1002, 'I don''t see a replay.
- Hidd3n didn''t show up?');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (316, '2013-11-24 22:10:40', 158, null, 1002, 'Sort of, it''s a tech win, due to lack of activity. Hldd3n told he''s ok with that, though it''s still disappointing they didn''t play.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (317, '2013-11-25 05:47:41', 18, null, 1002, 'Oh.
-  Yea it is. But Hidd3n is very disappointed in his own performance in CWT. & being in last place with no chance of advancing does make the game seam "pointless" from his perspective. Would have been nice if they played. It''s bad fourm not to finish but I can understand. That''s why we have rules. I won''t hold it against him.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (318, '2013-11-30 21:23:51', 10, null, 1009, 'Cool I can focus on other stuff now. Good luck ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (319, '2013-11-30 22:08:57', 5, null, 1009, 'LB did a really heroic comeback from 0-2.
+khamski to nappy: "I have to check forums. Maybe there is some info on that case." You are welcome, too.', 'false', '2013-11-15 18:44:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (311, 990, 47, null, 'Thanks Joschi for making available the private forum, good to finally know the truth in all its glory', 'false', '2013-11-16 13:04:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (312, 997, 158, null, 'Finally! :)', 'false', '2013-11-19 11:37:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (313, 1002, 1, null, 'Darkside.', 'false', '2013-11-24 18:29:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (314, 1002, 158, null, 'A pity, lesson learned though.', 'false', '2013-11-24 18:33:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (315, 1002, 18, null, 'I don''t see a replay.
+ Hidd3n didn''t show up?', 'false', '2013-11-24 21:56:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (316, 1002, 158, null, 'Sort of, it''s a tech win, due to lack of activity. Hldd3n told he''s ok with that, though it''s still disappointing they didn''t play.', 'false', '2013-11-24 22:10:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (317, 1002, 18, null, 'Oh.
+  Yea it is. But Hidd3n is very disappointed in his own performance in CWT. & being in last place with no chance of advancing does make the game seam "pointless" from his perspective. Would have been nice if they played. It''s bad fourm not to finish but I can understand. That''s why we have rules. I won''t hold it against him.', 'false', '2013-11-25 05:47:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (318, 1009, 10, null, 'Cool I can focus on other stuff now. Good luck ;)', 'false', '2013-11-30 21:23:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (319, 1009, 5, null, 'LB did a really heroic comeback from 0-2.
 Congratulations with this front-pager win!
 
 Kayz had this game in his hands and tbh i still don''t completely understand what happened there.
 Anyway better luck next year!
 p.s. That sg move was great!
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (320, '2013-11-30 23:32:44', 1, null, 1009, 'Positive thinking, Kayz!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (321, '2013-12-01 00:23:16', 20, null, 1009, 'NO MAMES!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (322, '2013-12-01 01:18:52', 10, '2013-12-01 14:18:24', 1009, 'It was quite annoying though that khamski chose the same layout 3 times in a row...
+', 'false', '2013-11-30 22:08:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (320, 1009, 1, null, 'Positive thinking, Kayz!', 'false', '2013-11-30 23:32:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (321, 1009, 20, null, 'NO MAMES!', 'false', '2013-12-01 00:23:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (322, 1009, 10, '2013-12-01 14:18:24', 'It was quite annoying though that khamski chose the same layout 3 times in a row...
 
 Edit:
 
-Cleared it out, sorry Khamski. :) Peace');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (323, '2013-12-01 01:21:16', 217, '2013-12-01 01:22:37', 1009, 'This is surprise.
+Cleared it out, sorry Khamski. :) Peace', 'false', '2013-12-01 01:18:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (323, 1009, 217, '2013-12-01 01:22:37', 'This is surprise.
 Bl Kayz,
-Congratz LB. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (324, '2013-12-01 05:24:59', 158, null, 1009, 'Didn''t see that coming. Would definitely check the replay later, hoping to find something epic there :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (325, '2013-12-01 09:11:49', 5, null, 1009, 'I really didn''t like your remark, Kayz.
+Congratz LB. ', 'false', '2013-12-01 01:21:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (324, 1009, 158, null, 'Didn''t see that coming. Would definitely check the replay later, hoping to find something epic there :)', 'false', '2013-12-01 05:24:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (325, 1009, 5, null, 'I really didn''t like your remark, Kayz.
 But i won''t continue this here.
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (326, '2013-12-01 11:51:55', 209, null, 1009, 'omg i Can not believe :D Kayz you had 2:0 a lost 2:3. Great job LittleBiatch ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (327, '2013-12-01 12:46:00', 56, null, 1009, 'In the 1st round I had a good position advantage and managed to fuck it up (instead of sg I should have used 1 rope to kill the 2 worms with the barrel and secure my hide. Then I wasted 2 ropes for nothing).
+', 'false', '2013-12-01 09:11:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (326, 1009, 209, null, 'omg i Can not believe :D Kayz you had 2:0 a lost 2:3. Great job LittleBiatch ', 'false', '2013-12-01 11:51:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (327, 1009, 56, null, 'In the 1st round I had a good position advantage and managed to fuck it up (instead of sg I should have used 1 rope to kill the 2 worms with the barrel and secure my hide. Then I wasted 2 ropes for nothing).
 
-Mistakes were made from both sides yes. I watched the twitch of the last round and khamski I think my teleport kill was not a mistake at all: I didn''t like my worm down there and Kayz had a worm select which is a huge advantage is this situation. 1vs1 was much more comfortable than 2vs2 with him controlling the largest part of the map + 1 worm select.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (328, '2013-12-01 13:34:38', 5, null, 1009, 'Who cares. You won. Be happy.
+Mistakes were made from both sides yes. I watched the twitch of the last round and khamski I think my teleport kill was not a mistake at all: I didn''t like my worm down there and Kayz had a worm select which is a huge advantage is this situation. 1vs1 was much more comfortable than 2vs2 with him controlling the largest part of the map + 1 worm select.', 'false', '2013-12-01 12:46:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (328, 1009, 5, null, 'Who cares. You won. Be happy.
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (329, '2013-12-02 13:34:07', 55, null, 1009, 'its realy dangerous to underrate the situation when you lead 2:0 then you loose concentration and everythibk can happend, after the pressure gooing higher and higher. awful pressure.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (330, '2013-12-02 15:31:59', 1, null, 1009, 'Good job by the two who bet on LittleBiatch.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (331, '2013-12-02 15:34:50', 1, null, 1009, 'Bytor and LitteBiatch himself bet on it.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (332, '2013-12-02 17:14:36', 13, null, 1009, 'such a suprise....');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (333, '2013-12-02 19:10:47', 56, null, 1009, 'Ye lol a few weeks ago I played funners with several onl top5 and won, including chuvash and even if it''s nothing special, for me it was, like the first time I won vs Bytor. It really gave me the confidence that I needed. The time where I systematically expected to lose is over, that''s why I bet on myself now ^^');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (334, '2013-12-03 15:33:13', 13, null, 1009, 'IMO barman will kick your ass in next round :P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (335, '2013-12-03 18:48:36', 16, null, 1009, 'wow what a game, very nice, gj LB');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (336, '2013-12-07 12:25:29', 5, null, 1008, 'Sorry for awful performance.
+', 'false', '2013-12-01 13:34:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (329, 1009, 55, null, 'its realy dangerous to underrate the situation when you lead 2:0 then you loose concentration and everythibk can happend, after the pressure gooing higher and higher. awful pressure.', 'false', '2013-12-02 13:34:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (330, 1009, 1, null, 'Good job by the two who bet on LittleBiatch.', 'false', '2013-12-02 15:31:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (331, 1009, 1, null, 'Bytor and LitteBiatch himself bet on it.', 'false', '2013-12-02 15:34:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (332, 1009, 13, null, 'such a suprise....', 'false', '2013-12-02 17:14:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (333, 1009, 56, null, 'Ye lol a few weeks ago I played funners with several onl top5 and won, including chuvash and even if it''s nothing special, for me it was, like the first time I won vs Bytor. It really gave me the confidence that I needed. The time where I systematically expected to lose is over, that''s why I bet on myself now ^^', 'false', '2013-12-02 19:10:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (334, 1009, 13, null, 'IMO barman will kick your ass in next round :P', 'false', '2013-12-03 15:33:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (335, 1009, 16, null, 'wow what a game, very nice, gj LB', 'false', '2013-12-03 18:48:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (336, 1008, 5, null, 'Sorry for awful performance.
 
 The very first move of mine must get the dumbest cwt move award.
 I thought there is no way to attack the tripple pile.
@@ -3875,252 +3875,252 @@ gg, man and good luck in your next game.
 
 
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (337, '2013-12-08 12:26:33', 24, null, 1005, 'not bad games as a players with high temperature and funny conditions to play :P I needed a little luck to win some rounds but  unfortunately luck was far away from me :P congrats and go for gold :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (338, '2013-12-08 12:50:10', 10, null, 1005, 'Dislike the fact that it was played spontaneously, without having time to stream it. Gj chuvash');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (339, '2013-12-08 14:31:07', 24, null, 1005, 'come on Kayz, Chuvash wanted to play at weekends only and I- from monday to friday..i wanted to play 28/12 when i come to home.. but i got a fever and i stayed at home today..i joined ag and meat chuv so we agreed to play earlier
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (340, '2013-12-08 16:11:28', 158, null, 1005, 'Thanks for playing it that soon anyway, hopefully there will be no problems with next game now.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (341, '2013-12-08 16:45:17', 1, '2013-12-08 16:45:50', 1005, 'Well, it''s not bad to have the tournament accelerate a bit.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (342, '2013-12-08 23:08:11', 55, null, 1007, 'quick game ...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (343, '2013-12-14 18:03:07', 20, null, 1011, 'It was a good game, but round 3 ending was such a typical shit screwing me over in the most important moment. Apparently, it''s just the law of life, lol.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (344, '2013-12-15 00:15:23', 13, null, 1011, 'holly crap this SD in 2nd round... just 2 s and it could be your round
+', 'false', '2013-12-07 12:25:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (337, 1005, 24, null, 'not bad games as a players with high temperature and funny conditions to play :P I needed a little luck to win some rounds but  unfortunately luck was far away from me :P congrats and go for gold :)', 'false', '2013-12-08 12:26:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (338, 1005, 10, null, 'Dislike the fact that it was played spontaneously, without having time to stream it. Gj chuvash', 'false', '2013-12-08 12:50:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (339, 1005, 24, null, 'come on Kayz, Chuvash wanted to play at weekends only and I- from monday to friday..i wanted to play 28/12 when i come to home.. but i got a fever and i stayed at home today..i joined ag and meat chuv so we agreed to play earlier
+', 'false', '2013-12-08 14:31:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (340, 1005, 158, null, 'Thanks for playing it that soon anyway, hopefully there will be no problems with next game now.', 'false', '2013-12-08 16:11:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (341, 1005, 1, '2013-12-08 16:45:50', 'Well, it''s not bad to have the tournament accelerate a bit.', 'false', '2013-12-08 16:45:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (342, 1007, 55, null, 'quick game ...', 'false', '2013-12-08 23:08:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (343, 1011, 20, null, 'It was a good game, but round 3 ending was such a typical shit screwing me over in the most important moment. Apparently, it''s just the law of life, lol.', 'false', '2013-12-14 18:03:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (344, 1011, 13, null, 'holly crap this SD in 2nd round... just 2 s and it could be your round
 bl there
-3rd idk what to say about this jump :p');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (345, '2013-12-21 18:49:59', 46, null, 1012, 'aw, wanted "Darkside" but missclicked  :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (346, '2013-12-22 23:22:23', 10, null, 1015, 'Haha in 1st round the round time clock was on 00:00 after chuvash''s turn before he said "I have a clock" :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (347, '2013-12-23 00:04:09', 47, null, 1015, 'CHEAT! xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (348, '2013-12-23 05:08:51', 46, null, 1015, 'That was just a joke about a clock.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (349, '2013-12-23 10:18:23', 158, null, 1015, 'Thought you asked for 1 minute after the round to reset  the alarm on your clock! :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (350, '2013-12-24 14:19:15', 13, null, 1015, 'congrats!
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (351, '2013-12-26 19:07:06', 56, null, 1013, 'last round last move i thought to myself "thats  a draw" at the beginning of my turn and then dont know why I began to shoot this worm instead of the other on the far right :s  First 2 rounds were cool though..');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (352, '2013-12-26 19:46:21', 13, null, 1013, 'yea gg mate');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (353, '2014-01-04 00:17:46', 13, null, 1016, 'ty for this ''3'' votes my dear friends ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (354, '2014-01-04 00:54:07', 5, null, 1016, 'It gave you "i''ll prove you foos wrong" "nothing to loose" underdog attitude!
+3rd idk what to say about this jump :p', 'false', '2013-12-15 00:15:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (345, 1012, 46, null, 'aw, wanted "Darkside" but missclicked  :)', 'false', '2013-12-21 18:49:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (346, 1015, 10, null, 'Haha in 1st round the round time clock was on 00:00 after chuvash''s turn before he said "I have a clock" :D', 'false', '2013-12-22 23:22:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (347, 1015, 47, null, 'CHEAT! xD', 'false', '2013-12-23 00:04:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (348, 1015, 46, null, 'That was just a joke about a clock.', 'false', '2013-12-23 05:08:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (349, 1015, 158, null, 'Thought you asked for 1 minute after the round to reset  the alarm on your clock! :D', 'false', '2013-12-23 10:18:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (350, 1015, 13, null, 'congrats!
+', 'false', '2013-12-24 14:19:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (351, 1013, 56, null, 'last round last move i thought to myself "thats  a draw" at the beginning of my turn and then dont know why I began to shoot this worm instead of the other on the far right :s  First 2 rounds were cool though..', 'false', '2013-12-26 19:07:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (352, 1013, 13, null, 'yea gg mate', 'false', '2013-12-26 19:46:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (353, 1016, 13, null, 'ty for this ''3'' votes my dear friends ', 'false', '2014-01-04 00:17:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (354, 1016, 5, null, 'It gave you "i''ll prove you foos wrong" "nothing to loose" underdog attitude!
 So be thankful!  )))
-Congratulations, mate! ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (355, '2014-01-04 01:53:17', 31, null, 1016, 'No problem Koras. You are my hero and I will always vote for you. Gj for match and gl in final ;)
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (356, '2014-01-04 03:55:06', 46, null, 1016, 'seems a bit rusty but fun rounds :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (357, '2014-01-04 10:16:57', 8, null, 1016, 'GJ dude!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (358, '2014-01-04 10:58:25', 24, null, 1016, 'Good job! second vote was from me :) chuvash, Koras is a old fox - he is always in shape, beware :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (359, '2014-01-04 12:29:06', 158, null, 1016, 'Rust ;()
+Congratulations, mate! ', 'false', '2014-01-04 00:54:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (355, 1016, 31, null, 'No problem Koras. You are my hero and I will always vote for you. Gj for match and gl in final ;)
+', 'false', '2014-01-04 01:53:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (356, 1016, 46, null, 'seems a bit rusty but fun rounds :)', 'false', '2014-01-04 03:55:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (357, 1016, 8, null, 'GJ dude!', 'false', '2014-01-04 10:16:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (358, 1016, 24, null, 'Good job! second vote was from me :) chuvash, Koras is a old fox - he is always in shape, beware :D', 'false', '2014-01-04 10:58:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (359, 1016, 158, null, 'Rust ;()
 Nice games, though expected to see different level of playing ;)
-Special love goes to starting turn of round 3 xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (360, '2014-01-04 13:42:51', 10, null, 1016, 'In the last night stream I heard this: "That''s a fact. He brought enough drama at this tournament with his attitude. Anyway, he''s a great player. He has a great quality of playing and that is what matters.. what matters in our community. It matters the most. The playing abilities." Wow what a sad truth :D
+Special love goes to starting turn of round 3 xD', 'false', '2014-01-04 12:29:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (360, 1016, 10, null, 'In the last night stream I heard this: "That''s a fact. He brought enough drama at this tournament with his attitude. Anyway, he''s a great player. He has a great quality of playing and that is what matters.. what matters in our community. It matters the most. The playing abilities." Wow what a sad truth :D
 
-Gj Koras! Make NNN proud and win this thing. ;D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (361, '2014-01-04 13:53:03', 10, null, 1016, 'I am still thankful to barman for pointing out and teaching me that SD will come 100% in the next turn if NO sd warning comes on the actual turn. On Koras'' 2nd to last turn in 3rd round no warning came and then SD on Mab''s turn. It''s very useful to know!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (362, '2014-01-04 17:50:44', 56, null, 1016, 'Interesting, can be useful if we didn''t count... But Do you know the frequency of this "no warnings" ? I checked 4 of my SD rounds and only 1 of them showed no warning but we need more rounds for a statistical significance.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (363, '2014-01-04 19:39:15', 12, '2014-01-04 19:40:04', 1016, 'No warning came after time is 0:00 and no SD.
+Gj Koras! Make NNN proud and win this thing. ;D', 'false', '2014-01-04 13:42:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (361, 1016, 10, null, 'I am still thankful to barman for pointing out and teaching me that SD will come 100% in the next turn if NO sd warning comes on the actual turn. On Koras'' 2nd to last turn in 3rd round no warning came and then SD on Mab''s turn. It''s very useful to know!', 'false', '2014-01-04 13:53:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (362, 1016, 56, null, 'Interesting, can be useful if we didn''t count... But Do you know the frequency of this "no warnings" ? I checked 4 of my SD rounds and only 1 of them showed no warning but we need more rounds for a statistical significance.', 'false', '2014-01-04 17:50:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (363, 1016, 12, '2014-01-04 19:40:04', 'No warning came after time is 0:00 and no SD.
 So if SD came right after clock come to 0:00 then you wont se "No warning"
-But if SD is not after clock came to 0:00 then is "No warning" at beggining of your turn.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (364, '2014-01-04 22:24:07', 13, null, 1016, '[quote]"That''s a fact.[b] He brought enough drama at this tournament with his attitude[/b]. Anyway, he''s a great player. He has a great quality of playing and that is what matters.. what matters in our community. It matters the most. The playing abilities." [/quote]
+But if SD is not after clock came to 0:00 then is "No warning" at beggining of your turn.', 'false', '2014-01-04 19:39:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (364, 1016, 13, null, '[quote]"That''s a fact.[b] He brought enough drama at this tournament with his attitude[/b]. Anyway, he''s a great player. He has a great quality of playing and that is what matters.. what matters in our community. It matters the most. The playing abilities." [/quote]
 drama? :)
 wow i didnt knew u blame just [b] me[/b] about this delay
 barman and LB also threw two cents to this situation........
 Lately I am just very busy thats all.
-Chuvash just  asked me about final game and gave few proposals,  unfortunately I dont have as much free time as he atm. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (365, '2014-01-04 23:32:28', 13, null, 1016, 'Kham ty for streaming it, i am watching it atm.
+Chuvash just  asked me about final game and gave few proposals,  unfortunately I dont have as much free time as he atm. ', 'false', '2014-01-04 22:24:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (365, 1016, 13, null, 'Kham ty for streaming it, i am watching it atm.
 Anyway I didnt change any of my worm names in this tourney( btw i think its lame), i use this team since few years:) so i dont know why u started too talk about it in the begining of the first round.
 
 Now I see how lucky i was, i remember Rafka words "Koras is one of this players who can beat better players then him :D"
 
 bl Mab, i hope U will win your last game.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (367, '2014-01-05 02:21:28', 10, null, 1016, 'Hey Koras, Khamski didn''t talk about you in that quote. It was about chuvash xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (368, '2014-01-05 12:45:20', 13, null, 1016, 'anyway looks like some of U take it too seriously... chuvash too:)
-i dont see any drama bring by him to cwt 2013');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (369, '2014-01-05 12:55:20', 46, null, 1016, 'I just told that I dislike option with counting utilityes in chat field in the stream. I didnt told I hate streams at all. What drama I bring? Only you need this drama, not me.
-And Khamski told about Koras in 1st round, he was wrong and LB corrected him. Not about me Kayz.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (370, '2014-01-06 08:15:42', 10, null, 1016, 'The quote was from 3rd round..');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (371, '2014-01-08 08:46:39', 158, null, 1018, 'GGs. Gratz Mablak. Nice team names Fanto ;o');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (372, '2014-01-08 10:17:24', 5, null, 1018, 'Congratulations, Mablak!
+', 'false', '2014-01-04 23:32:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (367, 1016, 10, null, 'Hey Koras, Khamski didn''t talk about you in that quote. It was about chuvash xD', 'false', '2014-01-05 02:21:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (368, 1016, 13, null, 'anyway looks like some of U take it too seriously... chuvash too:)
+i dont see any drama bring by him to cwt 2013', 'false', '2014-01-05 12:45:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (369, 1016, 46, null, 'I just told that I dislike option with counting utilityes in chat field in the stream. I didnt told I hate streams at all. What drama I bring? Only you need this drama, not me.
+And Khamski told about Koras in 1st round, he was wrong and LB corrected him. Not about me Kayz.', 'false', '2014-01-05 12:55:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (370, 1016, 10, null, 'The quote was from 3rd round..', 'false', '2014-01-06 08:15:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (371, 1018, 158, null, 'GGs. Gratz Mablak. Nice team names Fanto ;o', 'false', '2014-01-08 08:46:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (372, 1018, 5, null, 'Congratulations, Mablak!
 Awesome match ending move.
 Great way to finish the tournament.
 Great way to show stream audience a beauty of worms.
 
 Bl, Fanto. You were stubborn and showed a good performance. It wasn''t easy for Mab.
 
-Good game.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (373, '2014-01-08 14:38:42', 13, null, 1018, '3rd medal in his 4th CWT');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (374, '2014-01-09 08:50:51', 10, '2014-01-09 08:50:59', 1018, 'Cool drop in 5th round xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (375, '2014-01-14 17:54:58', 13, null, 1019, '4:1:P
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (376, '2014-01-14 17:56:58', 158, null, 1019, 'That was quite lightside and entertaining. Gratz with 1st and 2nd places guys!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (377, '2014-01-14 22:56:59', 13, null, 1019, 'That''s, since 3 round it was typical ownage, unfortunately i couldnt find way to play better.
+Good game.', 'false', '2014-01-08 10:17:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (373, 1018, 13, null, '3rd medal in his 4th CWT', 'false', '2014-01-08 14:38:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (374, 1018, 10, '2014-01-09 08:50:59', 'Cool drop in 5th round xD', 'false', '2014-01-09 08:50:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (375, 1019, 13, null, '4:1:P
+', 'false', '2014-01-14 17:54:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (376, 1019, 158, null, 'That was quite lightside and entertaining. Gratz with 1st and 2nd places guys!', 'false', '2014-01-14 17:56:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (377, 1019, 13, null, 'That''s, since 3 round it was typical ownage, unfortunately i couldnt find way to play better.
 It was our 3rd CWT game, 2;1 for chuvi atm but its not my last word:P
 congrats u are definitely best wormer since Dario is retired(http://www.normalnonoobs.com/rankinghistory   ZOMFG 2013 was definitely yours).
 Maybe final would be better if Kayz didnt had bad when he played vs talented rookie:P or if Mablak had more luck in semifinal...
-see U next year!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (378, '2014-01-15 15:44:40', 55, null, 1019, 'Congrats to chuvash ! and also to Koras for Silver !');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (379, '2014-01-15 19:14:22', 1, null, 1019, 'Silver is probably the unfavorable medal to win, although it also nicely compels one''s work.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (380, '2014-01-16 06:38:20', 13, null, 1019, 'It''s ok');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (381, '2014-01-22 15:08:51', 18, null, 1019, 'Congrats Chuvash. Much more light sided game then I would have expected at CWT final.
+see U next year!', 'false', '2014-01-14 22:56:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (378, 1019, 55, null, 'Congrats to chuvash ! and also to Koras for Silver !', 'false', '2014-01-15 15:44:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (379, 1019, 1, null, 'Silver is probably the unfavorable medal to win, although it also nicely compels one''s work.', 'false', '2014-01-15 19:14:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (380, 1019, 13, null, 'It''s ok', 'false', '2014-01-16 06:38:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (381, 1019, 18, null, 'Congrats Chuvash. Much more light sided game then I would have expected at CWT final.
   Koras got on a downhill spiral few could recover from. But still managed to look like was having fun.
 
-Good sportsmanship from all (most) participants this year, few scheduling issues and good clean games. A good CWT.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (382, '2014-06-08 14:15:32', 1, null, 1005, 'That''s the 1,000th game of CWT. \\o/');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (383, '2014-07-11 13:33:57', 5, null, 1005, 'yay, chuvash is aging back');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (384, '2014-10-10 19:54:36', 13, null, 1022, 'good game!
+Good sportsmanship from all (most) participants this year, few scheduling issues and good clean games. A good CWT.', 'false', '2014-01-22 15:08:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (382, 1005, 1, null, 'That''s the 1,000th game of CWT. \\o/', 'false', '2014-06-08 14:15:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (383, 1005, 5, null, 'yay, chuvash is aging back', 'false', '2014-07-11 13:33:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (384, 1022, 13, null, 'good game!
 Looks like Tomek is first who reach Po in this year!
 gj mate
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (385, '2014-10-11 10:30:01', 10, '2014-10-11 10:35:21', 1024, 'The replays are not correct! Please fix that asap! I think it''s not too much work to check a few replays for crashed rounds..');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (386, '2014-10-11 10:52:07', 10, null, 1021, 'Wow, what a cool match. The comeback was really interesting to watch. Also a very nice chat with interesting trivia :).
-I believe Hwoarang could jump up with lg before, there was a little cliff on the right, and I believe it was possible backflipping with facing right on the edge. He also could use homing out of the side to shoot Kory when he was top left in the tunnel ^^');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (387, '2014-10-11 13:11:01', 10, null, 1025, 'In the first two rounds the old NNN Luckless scheme was used, where no Jetpack Delay is given. Since noone of us used a Jetpack in the first two turns, those rounds are valid. Please refrain from using this stupid scheme, where no Jetpack Delay exists. A very long time ago the bug got fixed, that edited schemes can''t have delay on utilities. Jetpack Delay of two turns was always an important part of the original Intermediate scheme to prevent very powerful attacks in early turns.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (388, '2014-10-11 13:32:22', 158, null, 1025, 'Gopnick came back from the old times carrying the scheme that is covered with dust :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (389, '2014-10-11 15:06:15', 262, null, 1024, 'heppened bcuz i had to re host and forgot in the report time.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (390, '2014-10-11 17:18:08', 10, null, 1025, 'And he still did super massive moves!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (391, '2014-10-11 17:31:30', 237, null, 1027, 'My 1st and probably last CWT xD
-Hate caves.... sometimes in normal i can do everything and sometimes game troll me... damn sd in 1st round.... why not after my turn ?.... in 2nd and 3rd game i just was too angry to play well + sheep fail in last game.... ech.... I don''t have passion to this scheme.....');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (392, '2014-10-11 17:37:31', 262, null, 1027, '" sheep fail in last game." 3rd game  The chelsea  bazooka was the worst shot of season!!!!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (393, '2014-10-11 17:39:16', 269, null, 1027, 'Indeed, dat sheep and zooka <3');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (394, '2014-10-11 17:52:33', 179, null, 1027, 'Lol, just watched those shots, which I somehow missed while spectating.
+', 'false', '2014-10-10 19:54:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (385, 1024, 10, '2014-10-11 10:35:21', 'The replays are not correct! Please fix that asap! I think it''s not too much work to check a few replays for crashed rounds..', 'false', '2014-10-11 10:30:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (386, 1021, 10, null, 'Wow, what a cool match. The comeback was really interesting to watch. Also a very nice chat with interesting trivia :).
+I believe Hwoarang could jump up with lg before, there was a little cliff on the right, and I believe it was possible backflipping with facing right on the edge. He also could use homing out of the side to shoot Kory when he was top left in the tunnel ^^', 'false', '2014-10-11 10:52:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (387, 1025, 10, null, 'In the first two rounds the old NNN Luckless scheme was used, where no Jetpack Delay is given. Since noone of us used a Jetpack in the first two turns, those rounds are valid. Please refrain from using this stupid scheme, where no Jetpack Delay exists. A very long time ago the bug got fixed, that edited schemes can''t have delay on utilities. Jetpack Delay of two turns was always an important part of the original Intermediate scheme to prevent very powerful attacks in early turns.', 'false', '2014-10-11 13:11:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (388, 1025, 158, null, 'Gopnick came back from the old times carrying the scheme that is covered with dust :)', 'false', '2014-10-11 13:32:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (389, 1024, 262, null, 'heppened bcuz i had to re host and forgot in the report time.', 'false', '2014-10-11 15:06:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (390, 1025, 10, null, 'And he still did super massive moves!', 'false', '2014-10-11 17:18:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (391, 1027, 237, null, 'My 1st and probably last CWT xD
+Hate caves.... sometimes in normal i can do everything and sometimes game troll me... damn sd in 1st round.... why not after my turn ?.... in 2nd and 3rd game i just was too angry to play well + sheep fail in last game.... ech.... I don''t have passion to this scheme.....', 'false', '2014-10-11 17:31:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (392, 1027, 262, null, '" sheep fail in last game." 3rd game  The chelsea  bazooka was the worst shot of season!!!!', 'false', '2014-10-11 17:37:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (393, 1027, 269, null, 'Indeed, dat sheep and zooka <3', 'false', '2014-10-11 17:39:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (394, 1027, 179, null, 'Lol, just watched those shots, which I somehow missed while spectating.
 
-13:02 for the zook turn and 15:26 for the sheep one. :o');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (395, '2014-10-11 21:28:46', 53, null, 1028, 'silly game for me, especially the ending round 2 and all 4. what I was thinking in those moments? dunno ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (396, '2014-10-12 08:20:50', 42, '2014-10-12 08:22:54', 1028, 'the ending of game 2 was equally silly for me :) anyway you played really well in game 1');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (397, '2014-10-12 13:49:36', 17, null, 1029, 'Thank you for the match, Korydex! The score is not good for you, but your CWT performance is really nice, good job!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (398, '2014-10-12 15:27:10', 10, null, 1029, 'Amazing gameplay Yev!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (399, '2014-10-12 15:29:19', 16, null, 1030, 'lot of drops but nice games');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (400, '2014-10-12 15:49:04', 251, null, 1030, '5 drops aren''t that much... :P
+13:02 for the zook turn and 15:26 for the sheep one. :o', 'false', '2014-10-11 17:52:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (395, 1028, 53, null, 'silly game for me, especially the ending round 2 and all 4. what I was thinking in those moments? dunno ;)', 'false', '2014-10-11 21:28:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (396, 1028, 42, '2014-10-12 08:22:54', 'the ending of game 2 was equally silly for me :) anyway you played really well in game 1', 'false', '2014-10-12 08:20:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (397, 1029, 17, null, 'Thank you for the match, Korydex! The score is not good for you, but your CWT performance is really nice, good job!', 'false', '2014-10-12 13:49:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (398, 1029, 10, null, 'Amazing gameplay Yev!', 'false', '2014-10-12 15:27:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (399, 1030, 16, null, 'lot of drops but nice games', 'false', '2014-10-12 15:29:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (400, 1030, 251, null, '5 drops aren''t that much... :P
 
-Good luck in the next KO stage ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (401, '2014-10-12 16:12:22', 17, null, 1029, 'Thank you very much! Well, I decided to relax and just play my favourite way and this worked.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (402, '2014-10-12 16:39:59', 10, null, 1031, 'Dramatic games... Only with darksiding skills and SD knowledge I could get back for my horrible mistakes.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (403, '2014-10-12 16:45:30', 10, '2014-10-12 16:50:42', 1031, 'LOL check out first round replay at 08:50. The rope got stuck in this sharp corner, so I mexied over it when I wanted to reattach. This wasn''t lack of skill but horrible bad luck. Should''ve known that, but I still don''t know when it gets stuck and when it doesn''t. Seems random to me...');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (404, '2014-10-12 19:38:13', 212, null, 1031, ' handing out gifts, I do not have the psyche');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (405, '2014-10-12 20:58:37', 5, '2014-10-12 21:03:02', 1034, 'Tried to be as fast and entertaining as i can possibly be.
+Good luck in the next KO stage ;)', 'false', '2014-10-12 15:49:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (401, 1029, 17, null, 'Thank you very much! Well, I decided to relax and just play my favourite way and this worked.', 'false', '2014-10-12 16:12:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (402, 1031, 10, null, 'Dramatic games... Only with darksiding skills and SD knowledge I could get back for my horrible mistakes.', 'false', '2014-10-12 16:39:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (403, 1031, 10, '2014-10-12 16:50:42', 'LOL check out first round replay at 08:50. The rope got stuck in this sharp corner, so I mexied over it when I wanted to reattach. This wasn''t lack of skill but horrible bad luck. Should''ve known that, but I still don''t know when it gets stuck and when it doesn''t. Seems random to me...', 'false', '2014-10-12 16:45:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (404, 1031, 212, null, ' handing out gifts, I do not have the psyche', 'false', '2014-10-12 19:38:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (405, 1034, 5, '2014-10-12 21:03:02', 'Tried to be as fast and entertaining as i can possibly be.
 Bl and thx Peja. Thx specs. I enjoyed this game very much.
 CWT forever.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (406, '2014-10-12 21:02:26', 163, null, 1034, 'enjoyed it as well; thankx khamski');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (407, '2014-10-12 22:40:19', 10, null, 1035, 'well, learning from mistakes now');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (408, '2014-10-12 22:41:52', 262, null, 1035, 'Same words to me!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (409, '2014-10-12 22:53:26', 10, '2014-10-12 22:54:11', 1035, 'Your biggest problem is tactics though, flying to the bottom part of the map with jetpack to skunk 2 worms and go back with rope again is not very wise. If you learn that, you can become a top player. You somehow had to attack in every turn. Very impatient :)
+', 'false', '2014-10-12 20:58:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (406, 1034, 163, null, 'enjoyed it as well; thankx khamski', 'false', '2014-10-12 21:02:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (407, 1035, 10, null, 'well, learning from mistakes now', 'false', '2014-10-12 22:40:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (408, 1035, 262, null, 'Same words to me!', 'false', '2014-10-12 22:41:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (409, 1035, 10, '2014-10-12 22:54:11', 'Your biggest problem is tactics though, flying to the bottom part of the map with jetpack to skunk 2 worms and go back with rope again is not very wise. If you learn that, you can become a top player. You somehow had to attack in every turn. Very impatient :)
 I hope I remove my execution mistakes in the PO stage..
 
-Your biggest advantage is BNG skills imo, most Intermediate players suck at that. And your attacks are great too');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (410, '2014-10-12 23:17:05', 262, '2014-10-12 23:24:11', 1035, 'btw i said "same words to me" because the mistake 2nd game.  was a classic suicide   :p
+Your biggest advantage is BNG skills imo, most Intermediate players suck at that. And your attacks are great too', 'false', '2014-10-12 22:53:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (410, 1035, 262, '2014-10-12 23:24:11', 'btw i said "same words to me" because the mistake 2nd game.  was a classic suicide   :p
 
 Ps:  thx  kaleu.
 
 Bye bye gn.
 
 
-gg  hard player, need fix some mistakes  too.   ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (411, '2014-10-13 05:22:36', 23, null, 1028, 'Noob lol
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (412, '2014-10-13 06:34:34', 53, null, 1028, 'Ð¯ Ñ‚ÐµÐ±Ñ Ð¿Ð¾ Ð°Ð¹Ð¿Ð¸ÑˆÐ½Ð¸ÐºÑƒ Ð²Ñ‹Ñ‡Ð¸ÑÐ»ÑŽ!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (413, '2014-10-13 10:04:06', 158, null, 1035, 'Nice games, last round was a bit weird though.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (414, '2014-10-13 15:47:15', 237, null, 1035, 'Tita pwner :D
+gg  hard player, need fix some mistakes  too.   ', 'false', '2014-10-12 23:17:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (411, 1028, 23, null, 'Noob lol
+', 'false', '2014-10-13 05:22:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (412, 1028, 53, null, 'Ð¯ Ñ‚ÐµÐ±Ñ Ð¿Ð¾ Ð°Ð¹Ð¿Ð¸ÑˆÐ½Ð¸ÐºÑƒ Ð²Ñ‹Ñ‡Ð¸ÑÐ»ÑŽ!', 'false', '2014-10-13 06:34:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (413, 1035, 158, null, 'Nice games, last round was a bit weird though.', 'false', '2014-10-13 10:04:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (414, 1035, 237, null, 'Tita pwner :D
 haha Was it rewange for world cup Brazil-Germany ? xD
 
-vgj Tita :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (415, '2014-10-13 19:21:32', 18, null, 1038, ' Typical Bytor stile.. Fast and furious :-)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (416, '2014-10-13 20:16:14', 262, null, 1038, 'lol');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (417, '2014-10-13 20:42:00', 5, null, 1038, 'Map choice was furious also.
+vgj Tita :)', 'false', '2014-10-13 15:47:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (415, 1038, 18, null, ' Typical Bytor stile.. Fast and furious :-)', 'false', '2014-10-13 19:21:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (416, 1038, 262, null, 'lol', 'false', '2014-10-13 20:16:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (417, 1038, 5, null, 'Map choice was furious also.
 Islands with holes in the center and thin cave! )))
-Bl Peja, congrats Bytor!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (418, '2014-10-13 22:07:48', 24, null, 1038, 'Now Peja knows that he host next time xD To be honest, I learned my skill only playing with Bytor and his maps at verry late hours :-) Appreciate it Bytor');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (419, '2014-10-14 04:22:01', 23, null, 1039, 'gg easy!
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (420, '2014-10-14 09:29:31', 24, null, 1033, 'Chelsea its not a shopper xD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (421, '2014-10-14 11:31:11', 212, null, 1033, 'Maybe Real Madryt better play normal ^^');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (422, '2014-10-14 11:50:48', 10, null, 1035, 'If u call this "pwning", you probably neither did see the result or the game. 3-2 is never a pwning, it was a close and epic match :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (423, '2014-10-14 17:46:49', 13, null, 1035, 'Chelsea dont understand this schemme at all :P
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (424, '2014-10-14 18:10:25', 237, null, 1035, 'Chelsea didn''t even watch this game XD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (425, '2014-10-14 19:14:36', 10, null, 1035, 'Chelsea speaks of himself in the third person!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (426, '2014-10-14 20:52:58', 30, null, 1041, 'Stunning performance by chuvash O_O');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (427, '2014-10-14 21:06:37', 217, null, 1041, 'After first couple turns, i thought i played very good, but i check score bar and i saw he is leading by far :D
+Bl Peja, congrats Bytor!', 'false', '2014-10-13 20:42:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (418, 1038, 24, null, 'Now Peja knows that he host next time xD To be honest, I learned my skill only playing with Bytor and his maps at verry late hours :-) Appreciate it Bytor', 'false', '2014-10-13 22:07:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (419, 1039, 23, null, 'gg easy!
+', 'false', '2014-10-14 04:22:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (420, 1033, 24, null, 'Chelsea its not a shopper xD', 'false', '2014-10-14 09:29:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (421, 1033, 212, null, 'Maybe Real Madryt better play normal ^^', 'false', '2014-10-14 11:31:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (422, 1035, 10, null, 'If u call this "pwning", you probably neither did see the result or the game. 3-2 is never a pwning, it was a close and epic match :)', 'false', '2014-10-14 11:50:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (423, 1035, 13, null, 'Chelsea dont understand this schemme at all :P
+', 'false', '2014-10-14 17:46:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (424, 1035, 237, null, 'Chelsea didn''t even watch this game XD', 'false', '2014-10-14 18:10:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (425, 1035, 10, null, 'Chelsea speaks of himself in the third person!', 'false', '2014-10-14 19:14:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (426, 1041, 30, null, 'Stunning performance by chuvash O_O', 'false', '2014-10-14 20:52:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (427, 1041, 217, null, 'After first couple turns, i thought i played very good, but i check score bar and i saw he is leading by far :D
 GJ again man.
 I believe, you will get a cup this year too.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (428, '2014-10-14 23:03:12', 12, null, 1041, 'Agreed, you were awesome today');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (429, '2014-10-16 06:21:21', 30, null, 1042, 'I''m unable to open the replay archive (using 7zip).');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (430, '2014-10-16 09:02:22', 20, null, 1042, 'Thanks heavens! :D
+', 'false', '2014-10-14 21:06:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (428, 1041, 12, null, 'Agreed, you were awesome today', 'false', '2014-10-14 23:03:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (429, 1042, 30, null, 'I''m unable to open the replay archive (using 7zip).', 'false', '2014-10-16 06:21:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (430, 1042, 20, null, 'Thanks heavens! :D
 
-Seriously though, try this one: https://dl.dropboxusercontent.com/u/1446115/nappy-vs-zolodu-cwt.zip');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (431, '2014-10-16 09:08:26', 5, '2014-10-16 09:09:00', 1042, 'Yeah, same here. Bad archive.
-The one from dropbox works fine.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (432, '2014-10-16 13:21:47', 16, null, 1042, 'try winrar
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (433, '2014-10-16 15:44:32', 158, null, 1042, 'Works for me.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (434, '2014-10-16 16:18:36', 5, '2014-10-16 16:19:21', 1042, 'Winrar here.
+Seriously though, try this one: https://dl.dropboxusercontent.com/u/1446115/nappy-vs-zolodu-cwt.zip', 'false', '2014-10-16 09:02:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (431, 1042, 5, '2014-10-16 09:09:00', 'Yeah, same here. Bad archive.
+The one from dropbox works fine.', 'false', '2014-10-16 09:08:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (432, 1042, 16, null, 'try winrar
+', 'false', '2014-10-16 13:21:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (433, 1042, 158, null, 'Works for me.', 'false', '2014-10-16 15:44:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (434, 1042, 5, '2014-10-16 16:19:21', 'Winrar here.
 Reported archive gives "Bad archive" message.
 But when i click replays they work.
-Kinda weird.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (435, '2014-10-18 12:35:55', 53, null, 1043, 'Tournament  over for me, good luck to all. CWT MASSIVE!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (436, '2014-10-19 05:11:05', 9, null, 1022, 'looked all 5 games. A lot of mistakes but a lot of the beautiful game. gj');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (437, '2014-10-19 12:23:59', 237, null, 1046, 'gg !
+Kinda weird.', 'false', '2014-10-16 16:18:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (435, 1043, 53, null, 'Tournament  over for me, good luck to all. CWT MASSIVE!', 'false', '2014-10-18 12:35:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (436, 1022, 9, null, 'looked all 5 games. A lot of mistakes but a lot of the beautiful game. gj', 'false', '2014-10-19 05:11:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (437, 1046, 237, null, 'gg !
 
-My best games at this CWT :) ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (438, '2014-10-19 14:25:45', 17, null, 1046, 'Thank you, Chelsea, the match was exciting!
-You could actually win the 3rd round. Anyway, better luck next time!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (439, '2014-10-19 14:32:33', 6, null, 1047, 'man,i was playing so bad..i was lucky in 3rd round where he didnt count my stuff,.and i have manage to take draw');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (440, '2014-10-19 14:38:55', 10, null, 1045, '1st Round: Best end ever');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (441, '2014-10-19 15:06:44', 9, '2014-10-19 15:35:52', 1047, 'luck was not on my side in the open games (3 game and a little ... 4). In the second game I overestimated their strength. I was better prepared to open maps, but no luck. and as always, the nervousness in my way.
+My best games at this CWT :) ', 'false', '2014-10-19 12:23:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (438, 1046, 17, null, 'Thank you, Chelsea, the match was exciting!
+You could actually win the 3rd round. Anyway, better luck next time!', 'false', '2014-10-19 14:25:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (439, 1047, 6, null, 'man,i was playing so bad..i was lucky in 3rd round where he didnt count my stuff,.and i have manage to take draw', 'false', '2014-10-19 14:32:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (440, 1045, 10, null, '1st Round: Best end ever', 'false', '2014-10-19 14:38:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (441, 1047, 9, '2014-10-19 15:35:52', 'luck was not on my side in the open games (3 game and a little ... 4). In the second game I overestimated their strength. I was better prepared to open maps, but no luck. and as always, the nervousness in my way.
 
-In the fourth game I had to do 2-2, but forgot about the suicide.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (442, '2014-10-19 15:19:51', 5, null, 1045, 'Worms! )))');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (443, '2014-10-19 22:40:14', 20, null, 1051, 'A very satisfying match, ggs!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (444, '2014-10-21 07:01:00', 18, null, 1045, 'Good game, very entertaining. 1st round finish was Suspenseful.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (445, '2014-10-21 15:19:46', 5, '2014-10-21 15:21:17', 1051, 'Awesome game. The best so far.
+In the fourth game I had to do 2-2, but forgot about the suicide.', 'false', '2014-10-19 15:06:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (442, 1045, 5, null, 'Worms! )))', 'false', '2014-10-19 15:19:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (443, 1051, 20, null, 'A very satisfying match, ggs!', 'false', '2014-10-19 22:40:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (444, 1045, 18, null, 'Good game, very entertaining. 1st round finish was Suspenseful.', 'false', '2014-10-21 07:01:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (445, 1051, 5, '2014-10-21 15:21:17', 'Awesome game. The best so far.
 I will route necomers to it to show what CWT is all about.
-Respect to both players!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (446, '2014-10-21 20:06:50', 158, null, 1053, 'Nice, close games :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (447, '2014-10-21 20:12:31', 178, null, 1053, 'Something broke in the fourth round... But GG''s anyway, dat was exiting.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (448, '2014-10-21 20:20:30', 12, null, 1053, 'yea nOox you are right. It is thin line between win and loosing your nerves as you all can see tonight ;)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (449, '2014-10-22 19:03:11', 46, null, 1054, 'whoops, wrong score. It''s 3:0
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (450, '2014-10-22 19:04:05', 178, null, 1054, '2 rounds is too much for me))
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (451, '2014-10-22 19:54:51', 17, null, 1054, 'I was like WTF seeing 3-2. Sorry, nOox, but would be a surprise from you!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (452, '2014-10-23 02:23:59', 178, '2014-10-23 02:24:18', 1054, 'Perhaps, it could be 3-1, cause first round was close, but nothing more i guess))
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (453, '2014-10-23 16:06:17', 10, null, 1054, 'Can''t fix it, sorry. Wrote to Zemke');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (454, '2014-10-23 17:32:20', 46, null, 1054, 'not big deal');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (455, '2014-10-23 19:16:59', 178, null, 1055, 'Kinda fiery of fails by both. I made much more mistakes than AKT + more correct and more accurate game in 4 round and...gratz AKT :) dat was close match. Ty 4 games, WP''ed)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (456, '2014-10-24 10:43:48', 217, null, 1055, 'Ty for games too man, you''re cool.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (457, '2014-10-25 15:08:56', 9, '2014-10-25 15:13:49', 1058, 'I am extremely disappointed with my game ... [color=red]Disgusting[/color]!!!
-Sure that I was not ready.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (458, '2014-10-25 18:58:16', 13, '2014-10-25 19:02:28', 1057, 'congrats to Zoky who finally after 7 years[b] won[/b]  his group!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (459, '2014-10-25 19:07:30', 158, '2014-10-25 19:08:33', 1059, 'Extremely light side, was a pleasure to watch :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (460, '2014-10-25 19:08:16', 42, '2014-10-25 19:08:28', 1059, 'Theres only lightside in this world');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (461, '2014-10-25 19:08:48', 42, null, 1059, 'world*');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (462, '2014-10-25 19:09:24', 158, null, 1059, 'Thats my coste :P');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (463, '2014-10-25 22:55:28', 42, null, 1059, 'You either climb the ladder or die hiding in a dark corner.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (464, '2014-10-25 23:03:39', 42, '2014-10-25 23:07:02', 1059, 'Of course you risk breaking a spoke here and there and fall eventually, but at least its exciting :)
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (465, '2014-10-26 10:47:35', 10, null, 1060, 'Crazy game, could as well be 3-0 for pizza :o');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (466, '2014-10-26 10:58:03', 10, '2014-10-26 10:58:55', 1059, 'I think in 2nd round ending bow to left was 100% kill :)
+Respect to both players!', 'false', '2014-10-21 15:19:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (446, 1053, 158, null, 'Nice, close games :)', 'false', '2014-10-21 20:06:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (447, 1053, 178, null, 'Something broke in the fourth round... But GG''s anyway, dat was exiting.', 'false', '2014-10-21 20:12:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (448, 1053, 12, null, 'yea nOox you are right. It is thin line between win and loosing your nerves as you all can see tonight ;)', 'false', '2014-10-21 20:20:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (449, 1054, 46, null, 'whoops, wrong score. It''s 3:0
+', 'false', '2014-10-22 19:03:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (450, 1054, 178, null, '2 rounds is too much for me))
+', 'false', '2014-10-22 19:04:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (451, 1054, 17, null, 'I was like WTF seeing 3-2. Sorry, nOox, but would be a surprise from you!', 'false', '2014-10-22 19:54:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (452, 1054, 178, '2014-10-23 02:24:18', 'Perhaps, it could be 3-1, cause first round was close, but nothing more i guess))
+', 'false', '2014-10-23 02:23:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (453, 1054, 10, null, 'Can''t fix it, sorry. Wrote to Zemke', 'false', '2014-10-23 16:06:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (454, 1054, 46, null, 'not big deal', 'false', '2014-10-23 17:32:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (455, 1055, 178, null, 'Kinda fiery of fails by both. I made much more mistakes than AKT + more correct and more accurate game in 4 round and...gratz AKT :) dat was close match. Ty 4 games, WP''ed)', 'false', '2014-10-23 19:16:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (456, 1055, 217, null, 'Ty for games too man, you''re cool.', 'false', '2014-10-24 10:43:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (457, 1058, 9, '2014-10-25 15:13:49', 'I am extremely disappointed with my game ... [color=red]Disgusting[/color]!!!
+Sure that I was not ready.', 'false', '2014-10-25 15:08:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (458, 1057, 13, '2014-10-25 19:02:28', 'congrats to Zoky who finally after 7 years[b] won[/b]  his group!', 'false', '2014-10-25 18:58:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (459, 1059, 158, '2014-10-25 19:08:33', 'Extremely light side, was a pleasure to watch :)', 'false', '2014-10-25 19:07:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (460, 1059, 42, '2014-10-25 19:08:28', 'Theres only lightside in this world', 'false', '2014-10-25 19:08:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (461, 1059, 42, null, 'world*', 'false', '2014-10-25 19:08:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (462, 1059, 158, null, 'Thats my coste :P', 'false', '2014-10-25 19:09:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (463, 1059, 42, null, 'You either climb the ladder or die hiding in a dark corner.', 'false', '2014-10-25 22:55:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (464, 1059, 42, '2014-10-25 23:07:02', 'Of course you risk breaking a spoke here and there and fall eventually, but at least its exciting :)
+', 'false', '2014-10-25 23:03:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (465, 1060, 10, null, 'Crazy game, could as well be 3-0 for pizza :o', 'false', '2014-10-26 10:47:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (466, 1059, 10, '2014-10-26 10:58:55', 'I think in 2nd round ending bow to left was 100% kill :)
 
-Edit: 20th Minute 2nd round for the lazy ones :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (467, '2014-10-26 12:56:08', 42, '2014-10-26 12:58:03', 1059, 'Yep it was :D realised it in the 2nd check lol. Silly me. For some reason i completely ignored the left side as he had no chutes, missing the fact that theres easy bounce with bow');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (468, '2014-10-27 00:00:23', 5, null, 1061, 'Had to be slow at the last round. Sorry specs. SD was my only chance there.
+Edit: 20th Minute 2nd round for the lazy ones :D', 'false', '2014-10-26 10:58:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (467, 1059, 42, '2014-10-26 12:58:03', 'Yep it was :D realised it in the 2nd check lol. Silly me. For some reason i completely ignored the left side as he had no chutes, missing the fact that theres easy bounce with bow', 'false', '2014-10-26 12:56:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (468, 1061, 5, null, 'Had to be slow at the last round. Sorry specs. SD was my only chance there.
 Vn stream commentating btw! Nice flow. Enjoyed it a lot. Gj!
 
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (469, '2014-10-27 19:02:25', 13, '2014-10-27 19:03:46', 1061, 'gj!
+', 'false', '2014-10-27 00:00:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (469, 1061, 13, '2014-10-27 19:03:46', 'gj!
 looks like your game vs Bytor will be VERY VERY important :)
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (470, '2014-10-27 20:49:23', 158, null, 1063, 'Quite a number of fails from both sides, but a lot of great moves too, and again, very lightside, good games there.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (471, '2014-10-27 20:51:54', 42, null, 1063, 'I have no patience for this shit xd Greeeeeed');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (472, '2014-10-27 22:54:07', 18, null, 1061, 'Actually, his game with me is unimportant. He can loose 3-0 or 3-1 and there would be a three way tie. Not sure how that would be decided as each would have 1 victory over one other.
+', 'false', '2014-10-27 19:02:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (470, 1063, 158, null, 'Quite a number of fails from both sides, but a lot of great moves too, and again, very lightside, good games there.', 'false', '2014-10-27 20:49:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (471, 1063, 42, null, 'I have no patience for this shit xd Greeeeeed', 'false', '2014-10-27 20:51:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (472, 1061, 18, null, 'Actually, his game with me is unimportant. He can loose 3-0 or 3-1 and there would be a three way tie. Not sure how that would be decided as each would have 1 victory over one other.
    But in reality all he needs to be 1st from our group is 1 point so if he lost 3-2 he would be first. Then me and fad would be tied for 2nd and since fad won our game he would advance.
-  So khamski is in a good spot now he doesn''t need to win to be first, just one point. And the absolute worst case scenario would be a three way tie.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (473, '2014-10-28 07:11:28', 5, '2014-10-28 07:14:04', 1061, 'If you bash me 3-0 you will have to play the bo5 vs FaD for the 1st place. Loser will get second place.
+  So khamski is in a good spot now he doesn''t need to win to be first, just one point. And the absolute worst case scenario would be a three way tie.', 'false', '2014-10-27 22:54:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (473, 1061, 5, '2014-10-28 07:14:04', 'If you bash me 3-0 you will have to play the bo5 vs FaD for the 1st place. Loser will get second place.
 
 If you win me 3-1. You are out. FaD and me playing bo5 decider for the 1st place. Loser will get second.
 
-Any other result will grant me 1st place and FaD second.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (474, '2014-10-28 08:40:51', 6, null, 1061, 'kmam if U lose 3:1,why u must play vs fad for 1st place?u have beat him,so u have advantage..no?');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (475, '2014-10-28 13:02:04', 5, null, 1061, 'Unfortunately no. Current rules don''t take it into consideration.
+Any other result will grant me 1st place and FaD second.', 'false', '2014-10-28 07:11:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (474, 1061, 6, null, 'kmam if U lose 3:1,why u must play vs fad for 1st place?u have beat him,so u have advantage..no?', 'false', '2014-10-28 08:40:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (475, 1061, 5, null, 'Unfortunately no. Current rules don''t take it into consideration.
 
 Tie-breaker rule:
 "In case of same amount of points: equal points -> game ratio -> round ratio -> decisive best-of-five match"
@@ -4130,47 +4130,47 @@ Even wrote a proposal to Zemke and Kayz long before the tourney started.
 Zemke promised to make a poll on it.
 But didn''t.
 
-Fucking liar! )))))');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (476, '2014-10-28 14:13:26', 5, null, 1029, 'Lets say i read some reviews and expected moar!! )) Gimme back my money!!! ))
+Fucking liar! )))))', 'false', '2014-10-28 13:02:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (476, 1029, 5, null, 'Lets say i read some reviews and expected moar!! )) Gimme back my money!!! ))
 It''s like when you are out of a movie theatre. That feeling. lol
 
 I can''t say Korydex was destroyed by Johnmir.
 I''d say he was destroyed by his chatting, telling stories, praising idols routine.
 Otherwise he could pull at least a point from this match easily.
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (477, '2014-10-28 14:23:06', 5, null, 1053, 'Aaaahh! That zooka at the end of 1st.  yyaaayyyy ))) Luck but still the way it landed on last pixel of worms head was amazing.
+', 'false', '2014-10-28 14:13:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (477, 1053, 5, null, 'Aaaahh! That zooka at the end of 1st.  yyaaayyyy ))) Luck but still the way it landed on last pixel of worms head was amazing.
 
 2nd round dat strategic grd block. Saved 50 hp worm. Leeched tele and lg. yay.
 
-4th round. Such a skirmish ending.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (478, '2014-10-28 15:42:13', 10, null, 1061, 'This is the first time I hear about this poll lol');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (479, '2014-10-28 16:02:38', 5, null, 1061, 'There on forums thread your message goes right after Zemke''s statement about poll.
+4th round. Such a skirmish ending.', 'false', '2014-10-28 14:23:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (478, 1061, 10, null, 'This is the first time I hear about this poll lol', 'false', '2014-10-28 15:42:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (479, 1061, 5, null, 'There on forums thread your message goes right after Zemke''s statement about poll.
 So it''s really a "lol" that you don''t know nothing about it.
 Pay attention, ffs.))
 
 http://www.normalnonoobs.com/forum/viewtopic.php?f=24&t=1480&sid=ef40c53c0df8b73cc1f6f009f822ebff
 
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (480, '2014-10-28 19:52:06', 6, null, 1061, 'i aks cos i saw that on forum');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (481, '2014-10-28 23:03:54', 10, null, 1064, 'oh wow :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (482, '2014-10-29 07:51:07', 5, null, 1061, 'Yeah. I replied to Kayz.
-Seems like everybody saw it except him. ))');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (483, '2014-10-29 10:32:00', 18, null, 1061, 'What''s supirior goal difference?
-In the unlikely event you loose 3-0 we would have three way tie why would me and fad play for first and second spots and not you? My head hurts :-(');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (484, '2014-10-29 10:54:58', 5, '2014-10-29 10:59:36', 1061, 'Yup, "goal difference" aka "round ratio" comes into play.
+', 'false', '2014-10-28 16:02:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (480, 1061, 6, null, 'i aks cos i saw that on forum', 'false', '2014-10-28 19:52:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (481, 1064, 10, null, 'oh wow :D', 'false', '2014-10-28 23:03:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (482, 1061, 5, null, 'Yeah. I replied to Kayz.
+Seems like everybody saw it except him. ))', 'false', '2014-10-29 07:51:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (483, 1061, 18, null, 'What''s supirior goal difference?
+In the unlikely event you loose 3-0 we would have three way tie why would me and fad play for first and second spots and not you? My head hurts :-(', 'false', '2014-10-29 10:32:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (484, 1061, 5, '2014-10-29 10:59:36', 'Yup, "goal difference" aka "round ratio" comes into play.
 If you pwn me 3-0 my round ratio falls to "2".
 And both your and FaD round ratios would be "3".
 So you''ll need head-2-head to decide a winner of the group.
 Loser will be 2nd.
 I will be third.
-And Peja predictably stays on 4th.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (485, '2014-10-29 12:15:16', 42, null, 1061, 'Khamski''s sheep is a contender for big money in this year''s Worst Shot Ever, tho');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (486, '2014-10-29 12:37:06', 5, null, 1061, 'sheep happens ))');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (487, '2014-10-29 21:19:34', 18, null, 1065, '[size=14]I fucked around 3rd round as Khamski only needed 1 round I was told. Round 4 i screwed around ( i was gonna through the game) but at end i changed my mind because at least a win looks good on paper :-)[/size]
+And Peja predictably stays on 4th.', 'false', '2014-10-29 10:54:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (485, 1061, 42, null, 'Khamski''s sheep is a contender for big money in this year''s Worst Shot Ever, tho', 'false', '2014-10-29 12:15:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (486, 1061, 5, null, 'sheep happens ))', 'false', '2014-10-29 12:37:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (487, 1065, 18, null, '[size=14]I fucked around 3rd round as Khamski only needed 1 round I was told. Round 4 i screwed around ( i was gonna through the game) but at end i changed my mind because at least a win looks good on paper :-)[/size]
 
-Good luck in the Play Offs M8!!!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (488, '2014-10-29 22:48:53', 5, null, 1065, 'If i would win this game i guess i''d have no hunger for more.
+Good luck in the Play Offs M8!!!', 'false', '2014-10-29 21:19:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (488, 1065, 5, null, 'If i would win this game i guess i''d have no hunger for more.
 Winning group with 2 monsters like you and FaD with 100% result would be enough for me in this edition i guess.
 But--- I fucking lost! :D
 So now i am hungry again!!
@@ -4178,63 +4178,1738 @@ Beware PO people! ))
 
 thx, mate! good game really.
 Although it went a bit downhill after 1-2.
-Sorry specs!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (489, '2014-10-30 03:25:57', 18, null, 1065, 'Well said. A hungry hunter is a dangers thing.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (490, '2014-10-30 08:58:48', 6, null, 1065, 'skunk hunter :D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (491, '2014-10-30 09:14:15', 17, null, 1065, 'Nice "playing to the end", Bytor! Feel more satisfied now. (If you had at least 1-3 with Fad!)
+Sorry specs!', 'false', '2014-10-29 22:48:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (489, 1065, 18, null, 'Well said. A hungry hunter is a dangers thing.', 'false', '2014-10-30 03:25:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (490, 1065, 6, null, 'skunk hunter :D', 'false', '2014-10-30 08:58:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (491, 1065, 17, null, 'Nice "playing to the end", Bytor! Feel more satisfied now. (If you had at least 1-3 with Fad!)
 
 Surprisingly good job in the group, Khams! You had the hardest group!
 
 Waiting for the playoffs, Kayz, cmon man! Don''t wanna get any german in 1/16! Please, shuffle cards better :D
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (492, '2014-10-30 10:03:32', 20, null, 1065, 'I''m pretty sure you won''t get any Germans in 1/16, John. Pretty much because there''s no 1/16 :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (493, '2014-10-30 22:07:09', 22, null, 1066, 'drop in last round. I didnt want to continue so I gave the victory to Zolo-du');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (494, '2014-10-31 10:55:21', 9, null, 1028, 'XD');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (495, '2014-10-31 15:21:08', 5, null, 1028, 'coste: Awesome drill try at the end )))
+', 'false', '2014-10-30 09:14:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (492, 1065, 20, null, 'I''m pretty sure you won''t get any Germans in 1/16, John. Pretty much because there''s no 1/16 :)', 'false', '2014-10-30 10:03:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (493, 1066, 22, null, 'drop in last round. I didnt want to continue so I gave the victory to Zolo-du', 'false', '2014-10-30 22:07:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (494, 1028, 9, null, 'XD', 'false', '2014-10-31 10:55:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (495, 1028, 5, null, 'coste: Awesome drill try at the end )))
 Boolc: not yet ready to be that offensive with a lightsider. Wasting too much stuff too early. nt though.
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (496, '2014-10-31 16:23:57', 5, null, 1066, 'What a pain to watch...
+', 'false', '2014-10-31 15:21:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (496, 1066, 5, null, 'What a pain to watch...
 lol why did you skip 3 turns??
 How can you possibly win if you skip moves, dude!
 bl
 gg
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (497, '2014-11-01 23:47:57', 158, null, 1067, 'Thanks for finishing that one :)');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (498, '2014-11-02 08:59:00', 5, '2014-11-02 09:04:02', 1067, 'lol n jp drop at the end of 1st. ))
+', 'false', '2014-10-31 16:23:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (497, 1067, 158, null, 'Thanks for finishing that one :)', 'false', '2014-11-01 23:47:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (498, 1067, 5, '2014-11-02 09:04:02', 'lol n jp drop at the end of 1st. ))
 And yes good you finished this one.
 But i am not sure cwt games should be played as f.ing funners. 3 islands and all that attitude at last round.
 Just my opinion though.
- ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (499, '2014-11-02 20:58:53', 5, null, 1070, 'Another proof that chuvash is a sinister opponent.
+ ', 'false', '2014-11-02 08:59:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (499, 1070, 5, null, 'Another proof that chuvash is a sinister opponent.
 Even when he is rushing PO games. Even when he is making bad start turns.
 Still somehow he gets it under control and kicks ass!
 Congrats!
 
 Bl Kory. You were showing a quality but impatience fucked it all up.
 
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (500, '2014-11-03 23:29:04', 5, null, 1075, 'Awesome game. lg roping at the end of 5th was so damn stressful!
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (501, '2014-11-04 11:33:42', 55, null, 1075, 'very good game to watch. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (502, '2014-11-04 13:26:46', 9, null, 1075, 'great game!');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (503, '2014-11-04 21:13:44', 266, null, 1076, 'szmaciarz zoky poczul krew myslal ze ma wygrane.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (504, '2014-11-04 21:24:26', 212, null, 1076, 'Duzo juz widzialem
-');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (505, '2014-11-04 22:53:19', 10, null, 1076, 'Koniec tematu');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (506, '2014-11-05 00:14:08', 42, null, 1076, ':D');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (507, '2014-11-05 00:47:18', 55, null, 1076, 'awsome epic close march gj to both. ');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (508, '2014-11-05 08:57:54', 5, '2014-11-05 08:58:38', 1076, 'Awesome game.
+', 'false', '2014-11-02 20:58:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (500, 1075, 5, null, 'Awesome game. lg roping at the end of 5th was so damn stressful!
+', 'false', '2014-11-03 23:29:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (501, 1075, 55, null, 'very good game to watch. ', 'false', '2014-11-04 11:33:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (502, 1075, 9, null, 'great game!', 'false', '2014-11-04 13:26:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (503, 1076, 266, null, 'szmaciarz zoky poczul krew myslal ze ma wygrane.', 'false', '2014-11-04 21:13:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (504, 1076, 212, null, 'Duzo juz widzialem
+', 'false', '2014-11-04 21:24:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (505, 1076, 10, null, 'Koniec tematu', 'false', '2014-11-04 22:53:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (506, 1076, 42, null, ':D', 'false', '2014-11-05 00:14:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (507, 1076, 55, null, 'awsome epic close march gj to both. ', 'false', '2014-11-05 00:47:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (508, 1076, 5, '2014-11-05 08:58:38', 'Awesome game.
 Kayz was playing very fucking courageous assuming the fact that he was trailing 0-2.
 Didn''t change his playing style. Kept it crazy but became more effective.
 Some moves like that bouncy nade try and that match deciding mega grave kill (that could become a great TRY too) were simply awesome.
 vgg
 
 bl zoky. You became very tough opponent to ANYONE.
-So stop this crap about leaving and come back even stronger in 2015.');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (509, '2014-11-05 12:56:33', 10, null, 1076, 'You will never see a game of me where I am not a crazy lunatic :) Thanks');
-INSERT INTO comment (id, created, author_id, modified, game_id, body) VALUES (510, '2014-11-06 16:37:40', 266, '2014-11-06 16:39:13', 1076, 'zoky''s disgrace.');
+So stop this crap about leaving and come back even stronger in 2015.', 'false', '2014-11-05 08:57:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (509, 1076, 10, null, 'You will never see a game of me where I am not a crazy lunatic :) Thanks', 'false', '2014-11-05 12:56:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (510, 1076, 266, '2014-11-06 16:39:13', 'zoky''s disgrace.', 'false', '2014-11-06 16:37:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (511, 1076, 42, '2014-11-06 18:35:48', 'How about you reveal your face first, combo, whoever you are', 'false', '2014-11-06 18:34:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (512, 1076, 13, null, 'lol btw its not me
+not a bad game!', 'false', '2014-11-08 14:38:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (513, 1076, 10, null, 'combo = tadeusz = waldek = zelichon ;)', 'false', '2014-11-08 17:04:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (514, 1071, 10, null, 'Sometimes taking it slower works better. TerRoR had absolutely nothing in last round, no mobility except 2x teleport :) not even bungee or chute =D', 'false', '2014-11-08 20:50:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (515, 1071, 42, null, 'I just noticed i could win in the last turn... that jump on the left worked by approx 1 pixel', 'false', '2014-11-08 20:52:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (516, 1071, 5, '2014-11-08 21:17:07', 'In round 2 it was clearly possible for Terror to just go right. Go down. Shotgun tunnel worm then hide.
+Then 1v1 and it could go either way.', 'false', '2014-11-08 21:16:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (517, 1071, 10, null, 'He could not pass between object and ground. He could indeed open on ground and shoot straight to the tunnel, but then his hide would suck. Furthermore clock was on 00:12 when he could do it, and SD could come directly for lacoste''s win anyway', 'false', '2014-11-08 22:26:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (518, 1071, 5, null, 'He could hope for lucky bounces after dyna.
+On sd: he couldn''t know for sure that sd will come.
+So trying his fortune and equalising in numbers was better than just sitting there.
 
+But it''s obvious that he had to open himself way earlier.
+lacoste had only 1 rope so TerRor was safe from being killed by two 50hp moves.', 'false', '2014-11-09 11:34:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (519, 1069, 262, null, '- i played very bad imo, but won.  gj tita
+
+- ty', 'false', '2014-11-10 00:14:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (520, 1069, 46, null, 'what a nice self comment :D
+gj tita!', 'false', '2014-11-10 05:34:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (521, 1069, 262, null, 'ty
+
+the next game will be a final  beforehand.   ', 'false', '2014-11-10 13:50:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (522, 1069, 10, null, 'A final beforehand? We''ll see about that :)', 'false', '2014-11-10 19:23:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (523, 1072, 5, '2014-11-10 19:37:00', 'Thx for streaming guys.
+Your "powered by skype" round was amazing in terms of efforts to continue the broadcast.
+Also it''s really important to hear the analysis of a game by other experienced wormers.
+
+Streaming ftw! *thumbs up*.
+It adds a whole new feedback dimension to our otherwise "numb" business.
+
+Nicky chose a smart strategy to OVERdarkside a darkisder xD and it went great. ))
+If he would try his crazy shit i would counterattack the shit out of him and this game would surely be mine.
+
+In "skype" round i had funny placement with 4 in a pile and the rest near barrels.
+In round 3 i made really stupid retreat and it costed me 2 100hp''s.
+In last round placing sucked ass too but i was too dumb to use nap and ws so soon and not preparing good exit carefully.
+
+Watching a lost games can be torturous but i have to admit i love this game even more now.
+It''s really awesome.
+Weird feeling.
+
+Good game.
+Good luck to everyone in PO games.
+', 'false', '2014-11-10 19:36:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (524, 1072, 20, null, 'Yeah, it appeared to me that sudden death endings were inevitable. So, instead of pushing and doing stupid things (and losing, like always) I just decided to plan turns carefully so I could get the most out of it. It pretty much worked, even in the round one where I fell victim to a sudden glimpse of a smart triple, lol.
+
+It is also quite funny but apparently an extensive lightside training I did prior to this match was the thing that kept me from stupid risk :)', 'false', '2014-11-10 23:22:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (525, 1078, 53, null, 'gg, leicht.
+', 'false', '2014-11-13 20:47:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (526, 1078, 209, null, 'Bravo ', 'false', '2014-11-13 21:28:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (527, 1074, 55, null, 'Epic game! Thanks for that :)', 'false', '2014-11-16 23:30:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (528, 1079, 20, null, 'You know... This is probably the most epic match I''ve ever played. The final turn somehow sums up my entire worming career - train hard, do well, reach the decisive moment and then fail in the most ridiculous fashion ever :)
+
+Fuck this game.', 'false', '2014-11-16 23:38:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (529, 1079, 20, null, 'Oh and I just tested that homing, hit it first try :)', 'false', '2014-11-16 23:46:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (530, 1074, 5, null, 'AWesome darn game.
+So much quality.
+Very motivating and a great showcase why we love wa.', 'false', '2014-11-17 00:13:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (531, 1079, 5, null, 'This game had everything. So so epic.
+bl Nicky but you really had to  practice those edge taps after you plopped in our game. :P
+Congrats TerRor for going to semis! Great win and awesome games ahead! Gl there.', 'false', '2014-11-17 00:16:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (532, 1079, 20, null, 'You know what''s funny :)
+
+I practiced these homings THOROUGHLY after the first mistake. I hit like dozens and dozens of them, learned the right aim at different positions, and of course never ever fell off. And now this happens :)', 'false', '2014-11-17 00:25:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (533, 1079, 55, null, 'what a game realy, i mean how more close it could be? Congrats  TeRoR and nicky heads up you was very good, it just should not happend...
+', 'false', '2014-11-17 00:25:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (534, 1074, 5, null, 'Recorded stream:  http://www.twitch.tv/khamski/b/589559683', 'false', '2014-11-17 00:36:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (535, 1079, 5, null, 'Recorded stream:  http://www.twitch.tv/khamski/b/589620532', 'false', '2014-11-17 00:37:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (536, 1077, 262, null, 'hey.  now u need 3 hands   That''s all.  gl vs terror.', 'false', '2014-11-18 21:58:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (537, 1077, 5, null, 'Awesomeness. Another cwt level game. And you can learn a lot of stuff about this game from the stream:
+http://www.twitch.tv/khamski/b/590242228', 'false', '2014-11-18 22:07:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (538, 1073, 17, null, 'Thank you for the match, Viks!
+
+You could actually win this, if not those mistakes... In fact, it''s pity, you played really well, but spoiled your own work with some accidents. Anyway, good job, good luck next time!', 'false', '2014-11-21 16:53:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (539, 1073, 5, null, 'Yeah. gg. Congrats, John. bl Viks.
+Stream is here: http://www.twitch.tv/khamski/b/591177776
+Not much commnentating there.  Game time was a bit unusual.', 'false', '2014-11-21 17:06:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (540, 1082, 5, null, 'I think the first round was a total brutal epicness. *thumbs|toes up and even a boner as taner said* )))
+After that this match went downlow because TerRor kind of tried to play pragmatic and stopped himself from his awesome big moves.
+So chuvash got this whole thing under control, got even  more confident and played 3 really amazing rounds.
+gg guys.
+Congrats chuvash!
+Better luck next year, TerRor!
+', 'false', '2014-11-22 21:22:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (541, 1082, 12, null, 'Really good game guys. I really like first round with that awesome cow move by terror, as well chuvash brilliant round 2 with 7 worms alive at the end of game!!! Too bad Terror you miss that SG move at end of third, you lost whole game there...
+chuvash is one game away to history and third consecutive CWT. Awesome job, congratz!', 'false', '2014-11-23 12:06:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (542, 1082, 10, null, 'Hm pity that TerRoR blew many chances he had :/ (shotgun and bow in open round) Was expecting a closer match. Maybe exhausted from work?', 'false', '2014-11-24 00:39:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (543, 1082, 9, null, 'This is the best game of the tournament! very good job!!!', 'false', '2014-11-24 12:57:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (544, 1082, 10, '2014-11-24 17:49:18', 'It is? Maybe you and I saw different games.
+I saw solid (but not flawless as pointed out in stream for some reason) playing chuvash beating TerRoR who did too many mistakes. For me the best game would be a close 3-2 with an epic clash until the end, decided by tiny mistakes.', 'false', '2014-11-24 17:48:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (545, 1081, 158, null, 'Very close games, as expected, was fun to watch :)', 'false', '2014-11-30 17:51:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (546, 1081, 17, null, 'I didn''t use any of FaD''s mistakes, and it''s really bad of me. But I respect that FaD played to the end and didn''t give up after some unlucky moments. A deserved win of a pro player!', 'false', '2014-11-30 19:59:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (547, 1081, 55, null, 'Just to much mistakes from both of us >_>,  TY John! I was lucky in the end that you not saw the skunk chance. BL there, hope see you next Year again in CWT. :)', 'false', '2014-11-30 21:00:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (548, 1081, 10, '2014-12-01 16:50:20', 'What an interesting game! Johnmir''s denial to use skunks was his doom. :D', 'false', '2014-12-01 16:50:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (549, 1080, 5, null, 'Pretty error-less game from FaD  as chat said. Agree there. Congrats, FaD! Nice clean and thoughtful playing. Gl in the final!
+Give us a great show!!! ))', 'false', '2014-12-07 20:52:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (550, 1080, 10, null, 'Error-less from FaD? What are you talking about? That''s like the biggest joke ever?', 'false', '2014-12-07 20:57:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (551, 1080, 5, null, 'I saw a nice clean thoughtfull playing from FaD.
+Chat had the same opinion. Nicky also.
+Calm down with your reactions please.
+It was a fair game and fair result.
+Just congratulate the winner !
+FaD was better and he got his fair place in the final.
+', 'false', '2014-12-07 21:33:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (552, 1080, 10, '2014-12-07 22:29:22', 'Well tbh we both sucked. I just a lot more. It wasn''t a top level game, even if you think it was. :) I didn''t see any extraordinary moves by any side.', 'false', '2014-12-07 22:20:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (553, 1080, 5, '2014-12-07 22:40:49', ' "Error-less" and "top level"  are different words with different meanings.
+No. FaD didn''t suck.
+He was playing good.
+You didn''t give him any reason to play top-level.
+Good was enough.
+
+', 'false', '2014-12-07 22:40:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (554, 1080, 10, null, 'So you define "Error-less" only by execution of turns?
+What about all the bad hides by both of us and tactical errors?
+"Good was enough", ye it was, doesn''t change the fact it wasn''t Error-less. :)
+FaD even told me he didn''t play well. But what do we know? Of course you have the best insight of worms.
+Good luck in final FaD.', 'false', '2014-12-07 22:44:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (555, 1080, 5, null, 'Just my opinion, dude. I have a right to express it.
+Its great that FaD calmed u down but still i have a right to express my pov on the match.
+Same as anyone here.
+
+', 'false', '2014-12-07 23:19:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (556, 1080, 238, null, 'I only saw round 1, but FaD''s kami seemed like a pretty big mistake, since it allowed Kayz to deal some big damage (to come back to 2v2) and then his worm placement allowed Kayz to draw with kami, also big mistake.
+
+But that''s just me :)', 'false', '2014-12-08 00:05:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (557, 1080, 5, '2014-12-08 00:32:09', 'The only one i didn''t see was round 1.  Was it that bad?
+Aww... Then FaD is scary. Playing bad and still bashing Kayz 3-0 is really something.
+Beware, chuvash! ))
+', 'false', '2014-12-08 00:31:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (558, 1080, 238, null, 'Yeah, it was pretty bad. Kayz had really bad positions at the start, the blunders helped secure the draw for Kayz despite that.', 'false', '2014-12-08 15:10:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (559, 1080, 266, null, 'Arab w finale tego chyba jeszcze nie bylo!!', 'false', '2014-12-08 16:21:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (560, 1080, 10, null, 'that''s wrong, tadeusz. FaD was in final 2013 as well', 'false', '2014-12-08 16:57:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (561, 1080, 266, null, 'no dlatego napisalem "chyba" :)', 'false', '2014-12-08 17:27:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (562, 1080, 55, null, 'keep commentating guys, i want new record most comments in a cwt game :) haha
+No  drama for me :) just happy to have another chance to win this damn Tournament :)
+Every round was close, in the end i was lucky that kayz did so much mistakes.
+GG Kayz, next year is another chance', 'false', '2014-12-08 17:41:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (563, 1080, 212, null, 'that''s wrong, Kayz. FaD was in final 2012 as well', 'false', '2014-12-08 19:24:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (564, 1080, 1, null, 'Has it ever happened in CWT history that a final took place with the same ambassadors again? At least weâ€™ve already had chuvash and FaD playing the finale of 2012 two years to the day. http://cwtsite.com/games/view/64', 'false', '2014-12-08 20:21:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (565, 64, 10, '2014-12-09 12:10:31', 'I obviously meant 2012, typo. Oops wrong window...', 'false', '2014-12-09 12:09:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (566, 1080, 10, null, 'I obviously meant 2012, typo. Oops commented on the wrong place xD', 'false', '2014-12-09 12:10:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (567, 64, 5, null, 'Fuck sake, Chelsea! You scared the shit out of me! )))', 'false', '2014-12-09 20:36:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (568, 64, 46, null, 'lol :D
+This "... FaD 3-4 chuvash" in chatbox realy confused a bit :D', 'false', '2014-12-10 06:38:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (569, 64, 10, null, 'gg FaD. Better luck in 2015 :( </troll>', 'false', '2014-12-10 06:43:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (570, 64, 4, null, 'was it kins or somebody else', 'false', '2014-12-10 07:22:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (571, 64, 20, null, 'gg', 'false', '2014-12-10 09:55:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (572, 64, 212, null, 'gg , Fad i Belive you won , maybe next year you win :(', 'false', '2014-12-10 13:07:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (573, 64, 237, null, 'Chelsea = pr0 troll ];->', 'false', '2014-12-10 19:19:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (574, 64, 13, null, 'phew!', 'false', '2014-12-10 20:56:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (575, 64, 23, null, 'Congratulations', 'false', '2014-12-11 08:20:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (576, 64, 10, '2014-12-11 15:50:43', 'lmao everyone got trolled badly by me xD. And it was even an accident', 'false', '2014-12-11 15:50:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (577, 64, 237, null, 'not by you, but by me coz i liked this game XD', 'false', '2014-12-11 16:31:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (578, 64, 1, null, 'Trolled like a pro.', 'false', '2014-12-11 16:48:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (579, 64, 10, null, 'You only liked it because I commented it lol', 'false', '2014-12-12 12:14:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (580, 64, 1, null, 'You only commented it, because I provided the link. :D', 'false', '2014-12-12 17:25:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (581, 64, 10, null, 'You only provided the link, because I am your father, Luke.', 'false', '2014-12-12 20:54:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (582, 64, 23, null, 'deceived xD
+', 'false', '2014-12-19 12:22:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (583, 1083, 1, null, 'Congratulations for bronze, Kayz! And also TerRoR for being the best without a cup. ', 'false', '2014-12-22 10:30:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (584, 1084, 212, null, 'Cong ', 'false', '2014-12-23 22:32:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (585, 1084, 5, null, 'recorded stream: http://www.twitch.tv/khamski/c/5741316
+', 'false', '2014-12-23 22:41:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (586, 1084, 5, null, 'I congratulated FaD already. Now i  wannapraise chuvash as an amazing player who brought this game up after big boys left. Awesome thoughtful tactical playing that dominated the ring for 3 years! And even now FaD had to adapt a learn so much to compete and have chances to win! Great input. Great playing. And good luck in 2015!', 'false', '2014-12-23 22:46:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (587, 1084, 13, null, 'yey! gj FaaaaaaaaaaaaaaaaaaD! I am proud of you!
+Three Peat  ne1? :)
+', 'false', '2014-12-24 07:56:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (588, 1084, 158, null, 'Congratz with first and second places guys. Great games, totally worth finals :)', 'false', '2014-12-24 09:57:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (589, 1084, 26, null, 'Hi all.
+FaD gj bravo :)', 'false', '2014-12-24 13:54:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (590, 1084, 55, null, 'Thanks to everybody who take part to the tournament, thanks to the mods work, thanks to the streamers and commentators, congrats to Chuvash for silver and have a good time during holidays everybody.
+See you on next CWT :)', 'false', '2014-12-24 15:18:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (591, 1084, 1, null, 'My biggest gratulations to FaD! Youâ€™ve deserved this victory now that youâ€™ve kept improving and challenging yourself for two years after you had lost in 2012. Thank you for bringing this title to Germany and NNN, too.', 'false', '2014-12-25 18:22:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (592, 1084, 10, null, 'This game is one of the few I saw in the last time where turns were carefully planned and executed, involving tactics going beyond one turn. (maybe except last round, where it seemed that the concentration went down on both sides, because the number of mistakes grew, which is understandable in such a long game). Congratulations to FaD for breaking the CWT combo :) Awesome kami kill in the cave dude. Impressive observation!!', 'false', '2014-12-26 02:14:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (593, 1005, 1, null, 'I was wrong. Actually this is the 1,000th game of CWT. http://cwtsite.com/games/view/1007', 'false', '2015-01-22 23:15:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (594, 1007, 1, null, 'Thatâ€™s the 1,000th game of CWT. \\o/', 'false', '2015-01-22 23:16:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (595, 1007, 1, null, 'I was wrong. Actually this is the 1,000th game of CWT.
+http://cwtsite.com/games/view/1005', 'false', '2015-01-30 01:01:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (596, 1005, 1, null, 'Oh no, I wasnâ€™t wrong. This really is the 1,000th game of CWT. ;D', 'false', '2015-01-30 01:01:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (597, 1005, 10, null, 'Wooo number 1000!', 'false', '2015-01-30 01:02:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (598, 100, 52, null, 'It was Konrad not Koras.', 'false', '2015-02-02 11:54:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (599, 1069, 10, null, 'http://www.twitch.tv/wormykayz/c/5466348
+
+A must see for every wormer:
+
+01:30:06 (1 hour 30 minutes) tita''s turn and the following laughing flash of nicky and me.
+
+Remember forever :)', 'false', '2015-02-02 23:33:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (600, 100, 238, null, 'That would explain why there are 2 Korases in that year!', 'false', '2015-04-28 18:50:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (601, 100, 1, null, 'Thanks for the hint. Fixed.', 'false', '2015-04-30 13:04:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (602, 783, 31, null, 'Fucking awsome. Good job dude. This grup will be yours :P', 'false', '2010-10-16 19:27:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (603, 783, 26, null, 'draw was very happy for me,also the first round was for you too but third i won a normal :D<br />
+btw. in a rematch i sure so you show your  very good class ,you no give  chance for me  :)', 'false', '2010-10-16 16:19:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (604, 783, 10, null, 'One stupid selfowned draw, one missed kami. :) Anyway gg.', 'false', '2010-10-16 15:52:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (605, 783, 10, null, 'There is still his home game Jell. ;)', 'false', '2010-10-16 22:18:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (606, 783, 13, null, 'home/away not a big difference;)<br />
+', 'false', '2010-10-16 22:44:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (607, 783, 10, null, 'I meant that there is still one game to play, Koras, and that I want to win it. Again you didn''t read carefully. ;o', 'false', '2010-10-17 14:36:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (608, 783, 5, null, 'Zolo was playing uber simple. Kayz was looking  rusty or just nervous. that kami in the 1st was not a good idea.<br />
+Everytime players fail this move they say "it was so simple!" lol.<br />
+Anyway now Kayz is concentrated a lot more. Thanx Zolo :(  :D', 'false', '2010-10-17 16:26:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (609, 775, 5, null, 'Good games. Thanx to specs for their time and support.<br />
+', 'false', '2010-10-17 21:02:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (610, 775, 5, null, 'Draw was fun. Last move was a good example of  "Never start a move without a clear plan...". On the other hand i had no time for planning... <br />
+Or maybe i had time and just lagged...', 'false', '2010-10-17 21:06:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (611, 773, 10, null, 'Close second round. Phew.', 'false', '2010-10-18 19:47:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (612, 777, 26, null, 'Thx for interesting game :)', 'false', '2010-10-18 20:36:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (613, 779, 10, null, 'The third round was one of the most awesome and thrilling games I''ve had in a so long time. Thx for this awesome match, Khamski. I almost failed this LG backflip. :D Phew.', 'false', '2010-10-21 17:38:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (614, 779, 5, null, 'I honored by this comment, man. Thanx. And that backflip had to work otherwise it would be unfair.', 'false', '2010-10-21 17:49:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (615, 781, 5, null, '1st roud was a pressure. Ending was really funny and happy for me.<br />
+I the 2nd round i was way more confident because i kinda understood how Dark will play.', 'false', '2010-10-26 18:01:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (616, 779, 5, null, 'lol.. refresh made double post.. plz delete posts #3 and #4', 'false', '2010-10-21 18:34:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (617, 784, 26, null, 'Thx for a nice and friendly game  :) and nice mine :)', 'false', '2010-10-21 19:15:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (618, 784, 10, null, ':) Thx, too, you really played much more concentrated as usual. Keep this, mate', 'false', '2010-10-21 19:40:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (619, 779, 47, null, 'enjoyable game to watch. khamski had all the chances to win it, too sad for him he wasted his ropes and jp too early in the last round.<br />
+<br />
+lg move in the end by kayz - magnificent. risky, but turned out to be successful. gj mate<br />
+<br />
+p.s. I just imagine how your heart was beating in the moment when that backflip jump seemed to be not working and just several seconds left :)', 'false', '2010-10-21 22:32:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (620, 781, 9, null, 'I disappointed that that once again does not manage the tactical play...', 'false', '2010-10-27 06:58:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (621, 781, 9, null, 'in the first round decisive move was is bad thought-out.', 'false', '2010-10-27 07:00:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (622, 773, 9, null, 'beside me was a rope. What line I did not dare.... Oh, this my disease - a displacement in ÃªÃ®Ã­Ã¶Ã®Ã¢ÃªÃ Ãµ of the plays. How much wins lost............... ', 'false', '2010-10-27 07:02:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (623, 779, 47, null, 'lol, this refresh really sux. there has to be a cure for this :))', 'false', '2010-10-21 23:11:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (624, 779, 10, null, 'The cure is: Don''t refresh :D', 'false', '2010-10-22 17:07:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (625, 779, 2, null, 'Khamski, due to tactical aspects, you played very wise and also a bit better then Kayz (sorry Kayz xD)<br />
+<br />
+But at the end of 3rd round, you had twice the possibility on homming missile shot. You missed the chance to award yourself for your fantastic performance in cave round with a win.<br />
+<br />
+Kayz last LG attack totally surpised me, very GJ. These close wins are the most thrilling rounds. I''m jealous :)', 'false', '2010-10-23 12:02:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (626, 779, 5, null, 'Thanx for your good words, Joschi. That homming comment makes me feel stupid :(. I didn''t see it at all. Got to watch the replay again.<br />
+Yep lg move was very kewl. The fact that Kayz carefully prepared it for a 4-5 moves before is even more cool. And i totally missed his plan. Thats why i wanted him to jump on that slope. Otherwise my win would be kinda dumb.', 'false', '2010-10-23 15:04:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (627, 779, 10, null, 'You know this homing shot, where you go to water, aim almost horizontal, shoot it under water out of the map, and then you can attack the SIDE of a map, no matter how high?<br />
+I was on the maximum left side, you could not shoot me from down, but from left. :)<br />
+<br />
+Anyway, your win won''t be dumb, you played much better and had a huge worm advantage, if you waited for SD earlier, and keep your worms on the right side, instead of digging left, you would win 100%. I only had LG, and your homing would be my end anyway.', 'false', '2010-10-23 15:07:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (628, 779, 10, null, 'Here''s a link to a picture I drew to point out the move.<br />
+<br />
+http://img526.imageshack.us/img526/6025/wa2010102317114145.png', 'false', '2010-10-23 15:17:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (629, 779, 5, null, 'Ah.. that. Thanx. You showed me this move before but i never trained it enough. So it would be 80% fail because if you aim a bit lower you waste homie if a bit upper you hit the land and die.', 'false', '2010-10-23 17:35:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (630, 779, 5, null, 'Also position matters... I mean if i was too far from you homie could just not reach the edge and go up early. No?', 'false', '2010-10-23 17:36:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (631, 784, 5, null, 'In1st game Zolo did very few mistakes and got his win as a reward. In this game i was surprised how Kayz managed to lose the round.', 'false', '2010-10-23 17:42:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (632, 779, 2, null, 'In my opinion, the homming would have worked flawless, without doubts. Kayz was right with his "horizontal shot", but in this case you could have aimed also a bit (only a bit) lower, because the water level was pretty high. If you are worry of distance (in fact the only difficult thing to measure), you could go to the left side first, down with bungee. Anyway, for the next time you know about this option.<br />
+<br />
+I just commented it, to give you a hint for your next caves. Because it''s always sad, giving such a nice played round away.<br />
+<br />
+', 'false', '2010-10-23 18:07:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (633, 777, 5, null, 'Festival of mistakes. CWT pressure is huge and games are very nervous.', 'false', '2010-10-23 18:49:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (634, 779, 5, null, 'Ooops i forgot the water_raised thing. You are right. I''s in my arsenal now. Ad not only in mine. lol )) ', 'false', '2010-10-23 18:59:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (635, 783, 5, null, 'Ending of Round 2: I wonder whether or not Kayz could pass cactuses without lg and then turn lg and make an easy kill? ', 'false', '2010-10-24 10:20:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (636, 783, 5, null, 'Finally i solved the cave round enigma of Kayz loss. He gave too many cheap kill opportunities to Zolodu. So at the end of the game Zolo had enough utilities to kill Kayz worms one by one. maybe i am wrong but i think Kayz tried to play simple in this game. And he kinda sucks at it. :p', 'false', '2010-10-24 10:42:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (637, 780, 5, null, 'When both players play open and aggressive their real level is revealing.<br />
+Result shows that we have dramatically different skill levels :) But it was worth to match. <br />
+Good games.<br />
+', 'false', '2010-10-24 12:12:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (638, 780, 10, null, 'Well, you did also some unusual mistakes, you are a great player, maybe it was lack of concentration. I wish you good luck for fighting the PO spot. :)', 'false', '2010-10-24 12:21:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (639, 780, 26, null, 'nice game ,especially first round,in second Khamsky had too many errors  gj Kayz/bl Khamski<br />
+I know that Khamski is a very good player ,never won with him  :),I must play vs him,hard for me...', 'false', '2010-10-24 13:51:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (640, 780, 5, null, 'Well amount of mistakes depends on playing style. You must agree. Making_50_damage_and_looking_for_opponents_mistakes kind of playing guarantee you a small amount of mistakes.But i am fucking tired of it. I want to have lightsiding potential. And to gain that i have to play aggressive in important matches. I tried it. I made helluva a lot of mistakes. I failed. :) Anyway it doesnt change a lot for standings. I still need to win all 3 games. @Zolo: Thanx, mate! CWT games are so different. For example your 1st game vs Kayz was very high quality... your second was far from good. So noone knows how it will go for us.<br />
+', 'false', '2010-10-24 15:01:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (641, 780, 5, null, 'ooops.. @Kayz: thanx!', 'false', '2010-10-24 15:02:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (642, 773, 5, null, 'Kayz gave to many of his worms to Dark for free.<br />
+That''s why the close second round.<br />
+I don''t know if Dark had a rope at the end. I guess he had. Maybe more than one.<br />
+So that "gg" was true. Dark just didn''t see his win.', 'false', '2010-10-24 17:19:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (643, 773, 5, null, 'Off course great sheep at the end. vgj.', 'false', '2010-10-24 17:20:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (644, 783, 26, null, 'It turns out that it was very valuable victory,while certainly happy for me :)', 'false', '2010-10-25 16:12:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (645, 775, 2, null, 'Zolo couldn''t play his usuall tactics. Let''s await the rematch, if it was a bad shape or his opponent Khams evoked Zolos mistakes. Your rematch maybe bring the decision for the 2nd k.o. slot.', 'false', '2010-10-25 21:30:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (646, 777, 9, null, 'I did not get ready to play. I played since there was it is necessary to play.', 'false', '2010-10-27 07:04:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (647, 782, 5, null, 'Second round ends with dc. But everybody including Dark''X''Lord agreed on 2:0.', 'false', '2010-10-28 07:06:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (648, 782, 5, null, 'Second round ends with dc. But everybody including Dark''X''Lord agreed on 2:0.', 'false', '2010-10-28 08:32:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (649, 782, 9, null, 'bad my play in critical moves... ', 'false', '2010-10-28 16:10:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (650, 778, 9, null, 'Monstrous error Zolo in 3 the end (third game)... Nervous.<br />
+It was a pity to me to kill you...', 'false', '2010-10-31 05:49:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (651, 778, 26, null, 'ehh "Kurwa maÃ¦ " Why do not I used bazooka??    Even so, if I won I would have to win 2:1 or 2:0 Khamski  now must win only 2:0  :D<br />
+', 'false', '2010-10-31 13:28:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (652, 778, 2, null, 'You wasn''t concentrated until end. DarkXLord could use it for his advantages :)', 'false', '2010-11-02 16:41:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (653, 776, 5, null, 'Hard game full of stress. <br />
+I lost 1st round and putted myself on the edge.<br />
+Somehow i managed to win second... Phew!.<br />
+Third round was a stress of another kind.<br />
+But finally Zolo-du showed a good spirit and we finished our game.<br />
+Bl, mate. Wish you gl in CWT 2011.<br />
+<br />
+Aaaaaand... Hi, PlayOffs !!! xD <br />
+<br />
+', 'false', '2010-11-03 22:51:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (654, 776, 26, null, 'Congratulations', 'false', '2010-11-04 05:23:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (655, 788, 2, null, 'lol Agio in the last round! ', 'false', '2010-10-14 17:11:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (656, 786, 2, null, 'Really sad that Ivo didn''t rewarded himself with a round for his excellent game play. Only 1% of calmess and you win next time :)', 'false', '2010-10-14 17:14:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (657, 786, 10, null, 'Wow, Ivo. I am impressed. :) Very nice and close match.', 'false', '2010-10-14 19:06:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (658, 786, 1, null, 'I can just join previous comments. You do only need more experience and you would''ve mastered the important situations.', 'false', '2010-10-14 19:49:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (659, 785, 1, null, 'This point is more than deserved. :)', 'false', '2010-10-14 19:50:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (660, 786, 8, null, 'Ty friends! Random00 is such a PRO! I was happy with my performance and the most important was having fun. I have more fun playing this 0-2 defeat, than each one of the 3 rounds of the 1-2 defeat. Even that which I won. It was a pity that I played so bad in 3rd round, so it would be all nice rounds. But that''s me :D<br />
+Cheers ;) ', 'false', '2010-10-14 20:06:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (661, 785, 2, null, 'positive thinking ! Wow, after Ivo''s start, wasting 2 WS, I really thought he is out of concentration. But random00 didn''t considered Ivo''s team order and somehow every made pile was resolved immediately :))', 'false', '2010-10-15 10:37:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (662, 795, 2, null, 'You team weapon makes you unique, DreamTrance! (aww, just can''t use the abbreviation DT...)', 'false', '2010-10-15 11:06:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (663, 786, 2, null, 'Random''s grenade shouldn''t be unmentioned. 2nd round, decisive shot, looked for some ppl kinda impossible... and he just did it ^^', 'false', '2010-10-15 13:52:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (664, 787, 2, null, 'Very wise use of petrol in 1st round, DreamTrance. Sadly later rounds didn''t turned into won rounds. :(', 'false', '2010-10-17 12:31:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (665, 803, 2, null, 'I know he usually plays better. A lot of failed shots brand his todays game play. After a surprisingly good running 3 kill turn in 2nd round, my mate Gop gave up.', 'false', '2010-10-23 10:41:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (666, 804, 55, null, 'very nice kami plop by joschi', 'false', '2010-10-18 16:51:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (667, 804, 2, null, 'We both didn''t show our best performance, but in my case only the result counts ^^ Only kamikaze attack (2nd round, 8'') was CWT like.', 'false', '2010-10-18 16:03:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (668, 250, 2, null, 'Kilobyte is the sheep whisperer. Two pretty nice sheeps in 1st and 3rd round. Thx for match.', 'false', '2010-10-15 22:30:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (669, 359, 23, null, 'Too late, but still... ENJOY THE GAME!', 'false', '2010-10-25 10:50:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (670, 808, 22, null, 'Bad counter? PEOPLE HEAR THISSS!! Im the bad counter!!!! I thought SW was -45.3129345 but it looks I miscalculated!!! OMFG!!!!!', 'false', '2010-10-29 13:54:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (671, 221, 22, null, 'I tried to put a draw match, but system didnt allow. Nice mistakes, atleast we all have fun :D', 'false', '2010-10-30 21:00:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (672, 223, 23, null, 'cya next CWT, dude! ;)', 'false', '2010-11-02 05:06:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (673, 446, 10, null, 'Cmon, what is this? Johnmir didn''t care about this game :)', 'false', '2010-11-06 14:40:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (674, 815, 31, null, 'Ehh I had adventage in both rounds, and I dont know, how I could lost it. Shit mistake in the end. CTW is over :( ', 'false', '2010-10-15 21:13:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (675, 815, 2, null, 'Nice one Fonseca, you are the good mood tree here :-)', 'false', '2010-10-15 22:29:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (676, 811, 31, null, 'Ehh, I have him win :( How I could kill my own worm when is 1 vs 1. Fck it.', 'false', '2010-10-16 18:42:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (677, 812, 49, null, '2 disconnections and i was leading :''( <br />
+Anyway, you showed great tactics on that last round, well done!', 'false', '2010-10-16 18:49:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (678, 811, 49, null, 'Nothing special', 'false', '2010-10-16 18:50:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (679, 815, 49, null, 'Mistakes are part of you Jellenio, fucking accept them and stop complaining.', 'false', '2010-10-16 18:53:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (680, 815, 31, null, 'No, It isnt. I can play good, and I was doing it. But they came back in wrong time :(<br />
+', 'false', '2010-10-16 18:56:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (681, 815, 13, null, 'hehe Gorash U have to live with it :) he always complain...', 'false', '2010-10-16 22:45:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (682, 812, 13, null, 'gj Jellenio!<br />
+i hope U are not a quitter:)', 'false', '2010-10-16 22:46:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (683, 812, 13, null, 'wtf wrong replays...', 'false', '2010-10-16 23:27:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (684, 811, 13, null, 'In this game U played much better(but U lost it lol)... just need more patience:)', 'false', '2010-10-16 23:35:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (685, 812, 2, null, 'I don''t know the story, but why didn''t you asked someone to spectat your game??! I recommend you to ask some buddy who is hanging around at MSN or Snooper to join your CWT games. It''s our only chance to prevent problems with desynchronisation.', 'false', '2010-10-17 10:33:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (686, 812, 49, null, 'Next time', 'false', '2010-10-17 15:00:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (687, 810, 2, null, 'Fonseca, the skunked sg master :p', 'false', '2010-10-17 17:48:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (688, 810, 14, null, 'skunk is serious business =)', 'false', '2010-10-17 17:58:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (689, 817, 2, null, 'fast games :)', 'false', '2010-10-19 23:02:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (690, 820, 12, null, 'Many games of this tournament have interesting ending. The one who have great advantage loose (i am saying about round 1). Very tight games... GG`s', 'false', '2010-10-23 16:14:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (691, 820, 49, null, 'Thanks wind!', 'false', '2010-10-24 02:55:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (692, 110, 49, null, 'This time i played concentrated but still far from Dario''s level. Too bad :''(', 'false', '2010-11-04 02:26:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (693, 830, 13, null, 'gg mate!', 'false', '2010-10-13 21:35:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (694, 830, 42, null, 'yea ggs, and darn, first round of game 1 was totally mine. Got a lesson for next matches', 'false', '2010-10-14 10:07:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (695, 830, 1, null, 'Homing Granny. xD', 'false', '2010-10-14 10:37:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (696, 830, 2, null, 'Dude, lacoste! At least one round was possible :''(', 'false', '2010-10-14 11:23:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (697, 42, 5, null, 'at work now.. will rate it later.. ', 'false', '2010-10-14 13:46:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (698, 827, 24, null, 'nice grenade and mine in 1st roung! bl in second round Bytor :)', 'false', '2010-10-17 18:00:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (699, 825, 2, null, 'Aweful cows in 2nd round xD Are you sure you can handle them, lacoste? xD But therefor I liked the sg run some turns laters.<br />
+<br />
+Gg. with a high shown concentration from both of you. You are both crazy qualifing for k.o. stage. Very nice.', 'false', '2010-10-19 23:19:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (700, 825, 42, null, 'I sometimes got stuck with my brain, especialy when using jetpack+cows. Few seconds later i realized jetpack was unnecessary there :D That was turn decider, fucked up whole :D', 'false', '2010-10-20 09:34:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (701, 825, 42, null, 'Also i didnt risk a fly with my last rope after sg run, dunno why, kami suicide was 99% possible and round could be mine too. Another brain stuck :D', 'false', '2010-10-20 09:39:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (702, 19, 13, null, '2 draws... in cave<br />
+Bytor lost 3 games but all 1:2 but if he win last 3 he will be in PO.<br />
+Everything in your hands mate.', 'false', '2010-10-21 20:26:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (703, 831, 6, null, 'ok ggs...my mistake take mi 3 points,but 1Â¸is ok..<br />
+its my first round vs him heheh', 'false', '2010-10-23 17:40:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (704, 832, 2, null, 'A really exciting match! ', 'false', '2010-10-23 17:41:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (705, 832, 2, null, 'Damn! I just commented the wrong game :0 I wanted to rate Bytors home..', 'false', '2010-10-23 17:41:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (706, 832, 6, null, 'well good games again...<br />
+i quess that was one of the best games by me...<br />
+no perfect,but i have take easy kills,and block him well<br />
+show must go on', 'false', '2010-10-23 17:45:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (707, 832, 47, null, 'Bytor, if you wanna be in PO, you still have the chances. If you win it 2:0, you''ll most probably have the 2nd place in group :D', 'false', '2010-10-23 18:17:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (708, 832, 47, null, 'I mean your last game vs lacoste :D', 'false', '2010-10-23 18:18:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (709, 832, 6, null, 'ya baytor beat lacoste plz :)', 'false', '2010-10-23 18:58:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (710, 832, 13, null, 'hehe very interesting situation in our group!', 'false', '2010-10-23 19:00:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (711, 841, 2, null, 'Sorry dudes, my game crashed immediately after your 2nd round started. I hope there didn''t occured any problems because of that.', 'false', '2010-10-15 13:12:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (712, 844, 2, null, 'Evil positions in 2nd round :-/', 'false', '2010-10-16 10:39:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (713, 370, 2, null, 'wow, the SD brought twice a really turn over in 1st&3rd round. Good preparation, Maze. The concentration won :p', 'false', '2010-10-23 11:45:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (714, 370, 12, null, 'SD SD....', 'false', '2010-10-23 12:10:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (715, 842, 2, null, 'rofl! Maze failed kamikaze is really funny to watch! The worm seemed already drown. :o', 'false', '2010-10-23 13:00:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (716, 370, 24, null, 'concentration and good tactic:) gg''s', 'false', '2010-10-23 22:13:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (717, 834, 2, null, 'You both get my drawn talkactive award :0', 'false', '2010-10-26 09:49:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (718, 834, 24, null, '2 jump fails killed maze in last round,,we all know how jumping is important :P ggs', 'false', '2010-10-26 15:37:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (719, 834, 13, null, 'uh great game!<br />
+practice jumps and U can beat everyone :)', 'false', '2010-10-26 17:13:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (720, 371, 2, null, 'dudes! Fenrys, do you know how close you was at qualification for k.o. stage? xD The 2nd round really seemed yours.<br />
+<br />
+Good job, Maze. Turning rounds seems to be an excellent skill of you :)', 'false', '2010-11-01 18:48:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (721, 371, 57, null, 'yep close :)', 'false', '2010-11-02 09:08:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (722, 849, 2, null, 'Oh, how the last miss in 2nd round hurts :-/ This could have been your round.', 'false', '2010-10-15 22:45:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (723, 845, 21, null, 'firefox ftw chrome sux, finally raported game which have been played 6 days ago:P', 'false', '2010-10-30 11:57:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (724, 846, 23, null, 'Ã‘ÃŽÃÃ…ÃÃˆÃ‘Ãœ Ã“Ã†Ã… ÃÃ‹ÃŸÃ’Ãœ!!!!! ÃˆÃ‡ ÃƒÃÃ“ÃÃÃ› Ã‚Ã›Ã‰Ã„Ã…Ã˜Ãœ - ÃÃ“Ã’Ã›Ã‹ÃŠÃ“ Ã‚ÃˆÃ‘ÃŠÃ€ÃÃŸ Ã„ÃŽÃ‹Ã†Ã…Ã! *chmoke*<br />
+', 'false', '2010-10-28 09:51:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (725, 846, 53, null, 'ye, thks u cluster ;)', 'false', '2010-10-28 09:00:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (726, 846, 21, null, 'Nice 2nd round + epic fail at end by me.', 'false', '2010-10-28 08:43:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (727, 845, 53, null, 'gj =*', 'false', '2010-10-30 16:25:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (728, 850, 21, null, 'Check last shot at first round, propably the best in cwt2010 since now? XD', 'false', '2010-10-30 19:36:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (729, 850, 2, null, 'mwhahaha<br />
+<br />
+Therefor your homming sucked :p', 'false', '2010-10-30 23:18:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (730, 846, 23, null, 'Ya gryu, soberis'', ept! Vyidesh iz gruppy - butylku viskarya dolzhen! ;)', 'false', '2010-10-28 09:52:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (731, 846, 21, null, 'whatever xd', 'false', '2010-10-28 09:57:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (732, 850, 21, null, 'Yup zook shot was consequence of to early homming:)', 'false', '2010-10-31 07:34:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (733, 855, 2, null, 'nice one. awaiting the rematch :)', 'false', '2010-11-06 12:12:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (734, 860, 8, null, 'Domi played amazing in 1st round. Fantomas did the same at 2nd. At 3rd, sorry Fantomas, but I think Domi played better. But made a capital mistake with a hide after his move and, with SD arriving in the next Fantomas turn, he took it very well. Thus, a very nice game with a clear round for each one and a very leveled 3rd.', 'false', '2010-10-16 22:53:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (735, 860, 2, null, 'I watched a good game!', 'false', '2010-10-17 11:17:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (736, 865, 47, null, 'some real thriller in the end of 3rd round with my last worm surviving against Viks'' 4. Some bl for Viks too. ggs overall', 'false', '2010-10-18 14:53:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (737, 859, 47, null, 'gg. I guess 1st place owner is still not decided. I relaxed a little in this game (especially last round), 3 cwt games in a row in 1 day - too much exercise :) Domi was more concentrated, gj mate, you still can be in PO.', 'false', '2010-10-18 19:20:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (738, 863, 13, null, 'Nice cows by Tomek.<br />
+Epic plop and block in the end of last one ;)<br />
+looks liek Tomek chances for first place are really big now... but he have to win at least 2 or 3 games.', 'false', '2010-10-19 18:34:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (739, 863, 47, null, 'Not of my best games so far. I was playing nervously, couldn''t concentrate. And no luck with sd and the block was really horrendous... But my sheep in last round is worth seeing, was pretty funny stuff :)<br />
+Tomek on contrary played much better and deserved to win. He can get the 1st place now if he manages to win all the remaining games. Time will tell.', 'false', '2010-10-19 18:53:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (740, 863, 47, null, 'correction: it wasn''t a sheep, rather a dyna :)', 'false', '2010-10-19 19:04:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (741, 863, 24, null, 'sheep or dyna? :P My one of  not so many good days at playing and concentrate. i hope i will keep my shape to the end cwt!.. should be no SD in Crespo its my opinion :P', 'false', '2010-10-19 19:06:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (742, 863, 13, null, 'if he win 2 and lose 1 he will be first too because he have betetr ratio vs U :)<br />
+but Domi and Viks are pretty good wormers so we will see....', 'false', '2010-10-19 19:42:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (743, 863, 47, null, 'Auauaua... I guess I should prepare to play vs some real beast in 1/8 PO. Doesn''t matter, even I was 1st in group and get an average opponent in 1/8, in quarters I''d most probably encounter a really "die hard" one xD', 'false', '2010-10-19 20:22:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (744, 859, 2, null, 'Haha, Domi, what the fuck happend in 3rd round with your tele try? Is it because of your laptop touchpad? :O', 'false', '2010-10-20 11:22:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (745, 859, 3, null, 'My mouse is very sensitive :p', 'false', '2010-10-20 16:57:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (746, 867, 3, null, 'Very tough games. Congrats tomek, you deserve it. ', 'false', '2010-10-25 20:06:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (747, 867, 24, null, 'Thank you Domi.My brain need relax after this games..was really hard to beat u dude.. im afraid about next games vs you ;) gg''s', 'false', '2010-10-25 20:45:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (748, 867, 2, null, 'Superb!', 'false', '2010-10-25 21:11:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (749, 868, 2, null, '2nd round was yours, Domi :(', 'false', '2010-11-08 13:47:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (750, 55, 12, null, 'Really good games. Bl chuvash with that SD in cave. Koras practice a little i never seen you out of shape like this :P', 'false', '2010-11-14 16:37:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (751, 877, 5, null, 'It could easily be 3:0 for SirG. Just the rust in the deciding moments. And watch tie games on forums! They decided this match.', 'false', '2010-11-14 16:47:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (752, 877, 13, null, 'lol what a bl in first<br />
+1<br />
+perfect 52<br />
+and this risky try after sd...... u should just wait and let him plop :)', 'false', '2010-11-14 16:55:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (753, 877, 13, null, 'about second round.... its really hard to win any round if U start from 5vs8 :(<br />
+Especially when your oponent is pro and dont make many mistakes.<br />
+In 3rd FaD played jsut better.<br />
+congrats Fad', 'false', '2010-11-14 17:10:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (754, 877, 10, null, 'The draws were very interesting, pity that they aren''t here. SirG should win some rounds for sure :) Great playing.', 'false', '2010-11-14 18:43:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (755, 873, 10, null, ':) Interesting game, the third round was pure berserk.', 'false', '2010-11-14 21:00:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (756, 877, 49, null, 'ty! That game felt like the last Rocky movie, the old dinosaur* giving a good fight to the new generation, but still in the end, losing.<br />
+GGs FaD, i respect your lightsiding skills!<br />
+<br />
+*Dinosaur: Koras said that to Optymus when saw him online: "what you doing dinosaur" was so damn funny ^^', 'false', '2010-11-14 21:03:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (757, 877, 2, null, 'My personal thanks goes to SirGorash.<br />
+<br />
+You was an enrichment for the tourney. At the start of the tourney I told you of my sceptic for old comeback''ers, due to their high risk of inactivity. But you proved me the opposite and showed a more then average engagement in match dating. Thanks a lot. <br />
+<br />
+And hats off for your professional ambitions, too! I like the spirit to give his best, but also respect opponents'' achievements.', 'false', '2010-11-14 22:12:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (758, 877, 8, null, 'Nice words SirG!<br />
+I hope you''ll maintain activity after CWT.', 'false', '2010-11-15 00:42:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (759, 877, 3, null, 'Awesome games.', 'false', '2010-11-15 13:55:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (760, 877, 55, null, 'great game, great oppent', 'false', '2010-11-15 15:00:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (761, 877, 5, null, 'Good analogy, SirG. But i would compare it with the last battle in "Gladiator". ', 'false', '2010-11-15 15:11:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (762, 871, 55, null, 'awfull game from joschi, looks like it was not your day<br />
+congrats Maze!', 'false', '2010-11-15 15:15:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (763, 203, 49, null, 'Im happy for you John! good job :)<br />
+PS: I should start playing tower race.', 'false', '2010-11-15 20:17:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (764, 203, 17, null, 'Very unlucky game for Tomek. He had problems with his eye... Too hard to play. It''s a pity you leave, hope to meet you next year! And by the way, nice playing in the group! Bl in playoffs.<br />
+<br />
+PS. Thank you, SirG! Tower race is fun! Let''s play, you will like it, i know!', 'false', '2010-11-15 20:21:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (765, 871, 2, null, 'Monster Maze xD<br />
+<br />
+good job. You was just curious to win this match. I just showed a lack of everything what is needed in a knockout game ;-)', 'false', '2010-11-15 22:18:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (766, 871, 12, null, 'Congratulations Maze! Joschi bl with that holy in round 4 :( <br />
+<br />
+', 'false', '2010-11-15 22:42:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (767, 876, 12, null, 'Skunk in round 3 was GREAT!', 'false', '2010-11-15 23:10:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (768, 55, 8, null, 'Nice final move at 3rd round Koras!', 'false', '2010-11-16 09:40:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (769, 203, 8, null, 'Yeah, too bad that Tomek played with that eye injury. For sure it limited his game. Anyway, a game with some nice moves, but with high number of mistakes by both players too. Tomek had very bl with a jump at the final of 2nd round and then John had a very nice rope race!', 'false', '2010-11-16 09:45:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (770, 876, 5, null, 'Yep, he was better.<br />
+Good luck 2 all quarter-finalists. :)<br />
+', 'false', '2010-11-16 10:08:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (771, 877, 9, null, 'vn darksides Fad in first game!', 'false', '2010-11-16 15:59:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (772, 871, 2, null, 'Haha, that HHG was really sick! Bastard !! :c As sick as I was ;)', 'false', '2010-11-17 20:29:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (773, 608, 3, null, 'Fantomas could have won in the first round but in general dario was superior.<br />
+<br />
+Anyway, very good fight fanto always gave.<br />
+<br />
+gg''s!', 'false', '2010-11-18 21:23:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (774, 608, 47, null, 'I did what I could, in first 2 rounds the fight was very close and nobody knew who would win until last turn, I made some oversights and missed a couple of opportunities, I could easily take a round, but missed my chance (probably due to nervousness of the whole situation), in the 3rd round I relaxed and enjoyed my last moments of cwt xD Anyway, it was a GG, good fight with some nice moves and I hope everyone will enjoy watching it. Congrats, Dario, you played good. I''m not gonna say superior (my pride won''t let me do this xD), but you played good enough to beat me. I could''ve done better, but.. oh well, see you in next cwt and GL in quarters. ', 'false', '2010-11-18 21:56:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (775, 608, 10, null, '[lNNNxDario] or pulling the wire and asking for rm<br />
+[Fantomas] dunno what you''re trying to imply here<br />
+<br />
+You evil Dario :). Nice match.', 'false', '2010-11-18 23:30:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (776, 608, 49, null, 'Fantomas managed to play quite nice in some moments, just a bit more of concentration needed to keep it up the whole match :S<br />
+I don''t see Dario playing at his best, hmm maybe map or nerves but he still managed to get a 3-0, incredible job das!', 'false', '2010-11-19 04:24:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (777, 608, 24, null, 'ye.. you are just born for this game man', 'false', '2010-11-20 14:06:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (778, 49, 17, null, 'The game was just cool. My respect to Mablak, who shown not only a real class but a great spirit. My repect, Mab. Gl in 1/2!', 'false', '2010-11-20 20:42:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (779, 49, 47, null, 'Awesome game (especially first 4 rounds). In 4th round, John had a real chance to put it to bed with a 3:1 score, just had to wait in safety after sd and make an easy homing, but he didn''t expect a long kami produced by Mablak which made it a draw (nobody actually expected, it was something seen very rarely). Too bad John lost concentration after this and Mablak was just unbreakable and finished the game in cold blood. Impressive performance by both, thx for the show ;) GL Mablak in semi and don''t worry John, you played great and lost with dignity, we''re looking forward to seeing you again in next cwt! ;)', 'false', '2010-11-20 23:19:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (780, 49, 12, null, 'Oh my god... That draw was something.... It was one looooooong kami.', 'false', '2010-11-21 09:56:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (781, 49, 9, null, 'John can sympathise... After such loss it is very difficult to play further, moral advantage was replaced by weariness. Five games - it is heavy.<br />
+<br />
+vgj in the second game - knock with bungee and doublekill. ', 'false', '2010-11-21 11:13:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (782, 49, 3, null, 'Extremely competitive games.<br />
+<br />
+Two of the best ever. Congrats both!', 'false', '2010-11-21 12:19:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (783, 49, 49, null, 'Such a great performance from both players, totally agree with Fantomas. GL in semis Mab and John take it easy you did a great job playing at your best, you even scared me "another God level wormer? no plz!" :)', 'false', '2010-11-21 14:34:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (784, 49, 17, null, 'Thank you very much for good words, guys, it is important for me :) Thank you, Fantomas :)<br />
+<br />
+I proved myself I could play good if I try. That is my main aim on each CWT to show old spirit.  Hope to see you all next year, friends!', 'false', '2010-11-21 16:20:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (785, 49, 24, null, 'fucking pro games;) exelent job john in 2 round i mean bungee gravi + bow!!  grats mab.. nice to watch this games guys.. Mablak your calm and planned playing just killing me man :D', 'false', '2010-11-21 17:15:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (786, 49, 10, null, 'wow Johnmir, you rocked there. Great match you both.', 'false', '2010-11-21 18:39:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (787, 878, 30, null, 'Too bad I made such a silly mistake in the second round ;/<br />
+Could have been 3-0 instead of 2-3; but yea, I just sucked at the 4th and 5th round, so I kinda deserved to lose it in the end :o<br />
+<br />
+gl mablak in the semifinal.', 'false', '2010-11-21 18:43:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (788, 49, 8, null, 'Congratulation for both players! I loved to see all rounds!<br />
+John, you "died standing" like an honored warrior :) You proofed, once again (!) that you are one of the very top players of this scheme. You could won (once again) with all pros here and with almost absence of activity. I can imagine what you could do if you would play every ONL seasons regularity!<br />
+Mablak, insane knock at first move of first round! I stayed "what?! oO"! GL in semis!', 'false', '2010-11-23 12:27:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (789, 49, 17, null, 'Thank you, friends! I have to admit i was really sad after that loss, i mean i have had a bad mood for 2 days. I''m not too happy even now. It''s your fault Mab, you are in the "fucking black list" now :D (j/k, of couse). But i''m getting better, your nice words (and some towers with Kayz :D) helped a lot.', 'false', '2010-11-23 19:30:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (790, 881, 55, null, 'bye bye gold medal :''(', 'false', '2010-11-27 21:44:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (791, 881, 55, null, 'serously mablack showned once again his strong taktik skills and deserved the win<br />
+', 'false', '2010-11-27 21:48:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (792, 881, 2, null, 'You can still win a golden trophy, FaD :-)', 'false', '2010-11-28 01:29:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (793, 881, 27, null, 'e) Forbidden bugs (Remember that rope/bungee knocking is allowed)<br />
+<br />
+    * Bungee from Jet Pack (unless both players clearly agreed on allowing this)', 'false', '2010-11-28 03:04:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (794, 881, 11, null, 'Thanks Fad, good games.                                                                                                                         ', 'false', '2010-11-28 04:36:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (795, 881, 8, null, 'Nice words FaD :)<br />
+Congratulations Mablak!', 'false', '2010-11-28 07:32:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (796, 869, 10, null, 'Nice match, but we both failed a lot :(', 'false', '2010-11-28 14:35:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (797, 869, 13, null, '2nd round=fail race :D<br />
+Damn I didnt knew he dont have anything in last tourn of last round... its very important to count weapones.', 'false', '2010-11-28 14:41:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (798, 869, 55, null, 'thats why i ignore ppl and count weapones xDD its very usefull for ppl with low memory like me :)', 'false', '2010-11-28 16:24:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (799, 869, 17, null, 'Congradulations, Kayz! And bl to Koras. Sometimes we have to play when we are not 100% ready for it. It''s your situation, it''s a pity that you leave... But it''s not bad to be in first 8, in one basket with Dario, Mablak, Kayz... Next time better luck for us, friend!', 'false', '2010-11-28 18:02:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (800, 881, 17, null, 'Gj, Mab, gl in the final! You had a hard opponent, Fad, we should prepair better next time, see you next year!', 'false', '2010-11-28 18:04:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (801, 869, 11, null, 'Koras had quite the nice HHG last round, it''s too bad he lost that one, close stuff.', 'false', '2010-11-28 21:28:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (802, 869, 26, null, 'Congratulations Kayz<br />
+Koras,co ty odpierdalaÂ³eÂ¶ w drugiej rundzie lol?,tak jak pisaÂ³eÂ¶ wygraÂ³byÂ¶ 3:0 ale to wszystko chuj w porÃ³wnaniu do koÃ±ca finaÂ³owej rundy ,takie coÂ¶ to tylko ja! potrafiÃª odjebaÃ¦. TrochÃª szkoda bo z gry wynikaÂ³o Â¿e jesteÂ¶ lepszy.<br />
+For all-I''m sorry in Polish  :D,My English sucks  :P', 'false', '2010-11-29 12:51:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (803, 869, 10, null, 'Koras, what are you fuckin that in the second round lol?, As you write me 3-0 but you played it all dick, compared to the end of this round of finals, such as it was just me! he can fuck. A little pity because the game shows here that you are better.<br />
+<br />
+;o Google translator is not good, but it still shows what you meant. :) Don''t lie that your english is too bad to write this :)', 'false', '2010-11-30 21:30:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (804, 869, 26, null, 'Oryginal txt :P<br />
+<br />
+"Congratulations Kayz<br />
+Koras,co ty odpierdalaÂ³eÂ¶ w drugiej rundzie lol? Tak jak pisaÂ³eÂ¶ wygraÂ³byÂ¶ 3:0 ale to wszystko chuj w porÃ³wnaniu do koÃ±ca finaÂ³owej rundy,takie coÂ¶ to tylko ja potrafiÃª odjebaÃ¦.TrochÃª szkoda bo z gry wynikaÂ³o Â¿e jesteÂ¶ lepszy."<br />
+<br />
+Kayz,you and Koras= very good players,so in  this match Koras play better and.. lost  :D<br />
+<br />
+<br />
+btw.Kayz,I''m not lying, why would I lie?  :P<br />
+<br />
+<br />
+', 'false', '2010-11-30 22:30:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (805, 882, 26, null, 'Congratulations  Kayz,  vgj <br />
+<br />
+btw. only im win vs You in this tournament  :DD<br />
+good luck vs Mablak (only he have  chance win yet  ) :P', 'false', '2010-12-01 22:20:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (806, 882, 9, null, 'congratulate, Kayz!<br />
+I knew that you will be able this!', 'false', '2010-12-02 13:20:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (807, 882, 9, null, 'congratulate, Kayz!<br />
+I knew that you will be able this!', 'false', '2010-12-02 15:06:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (808, 49, 49, null, 'Amazing game, 5 starts!', 'false', '2010-12-03 13:35:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (809, 49, 49, null, 'Amazing game, 5 starts!', 'false', '2010-12-03 13:36:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (810, 882, 46, null, 'Omg, he did it! Congrats Kayz! Excellent job!', 'false', '2010-12-03 14:36:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (811, 882, 10, null, 'Thank you all!', 'false', '2010-12-05 17:46:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (812, 881, 10, null, 'Vn games! Gj Mab', 'false', '2010-12-05 17:48:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (813, 883, 1, null, 'Congratulations Mablak, venerable winner of CWT ''10.', 'false', '2010-12-08 20:56:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (814, 883, 12, null, 'Congratulations Mablak, great final games by you and Kayz. It could go either way, GG`s', 'false', '2010-12-09 00:14:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (815, 883, 11, null, 'Thanks Tade and Zemke, I''m impressed at how consistently both of us played, not many major mistakes. There was the end of one of those cave rounds where I just walked into the water, thinking the background was land, that might''ve been the worst one.', 'false', '2010-12-09 05:35:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (816, 883, 17, null, 'Congradulations, Mablak! Same to Kayz! Both of you did a nice way to final and shown a world class playing! Was nice to see you in the final of CWT 2010.', 'false', '2010-12-09 08:16:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (817, 883, 10, null, 'Thanks John and Tade, yes I was surprised that we both did a good match. Mablak and me were a bit rusty and unstable, but in this final there were only tiny tactical mistakes and bad hides which decided the rounds. It was a very big fun. :) Congratz again, Mab.', 'false', '2010-12-09 21:10:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (818, 883, 12, null, 'Now you both have to picture yourself with the cup so we can see best two intermediate players at the moment!!!', 'false', '2010-12-09 23:08:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (819, 884, 55, null, 'if my big move would work... but gras owned me<br />
+but at all it was good game <br />
+', 'false', '2010-12-11 23:59:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (820, 884, 13, null, 'I can''t download this game..', 'false', '2010-12-18 20:58:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (821, 869, 13, null, 'It was 3:2 and typical epic fail in the end of last round .. i wouldnt say "I played better".<br />
+Look at our onl games, in most of them single mistake in last once decide who will win whole game. Just sometimes we make more and sometimes less this kind of tourns.', 'false', '2010-12-18 21:15:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (822, 884, 1, null, 'Some bug, sorry.<br />
+<br />
+http://www.cwtsite.com/style/replays/download.php?filename=[THP]_Dario_4-3_FaD_r1.WAgame<br />
+http://www.cwtsite.com/style/replays/download.php?filename=[THP]_Dario_4-3_FaD_r2.WAgame<br />
+http://www.cwtsite.com/style/replays/download.php?filename=[THP]_Dario_4-3_FaD_r3.WAgame<br />
+http://www.cwtsite.com/style/replays/download.php?filename=[THP]_Dario_4-3_FaD_r4.WAgame<br />
+http://www.cwtsite.com/style/replays/download.php?filename=[THP]_Dario_4-3_FaD_r5.WAgame<br />
+http://www.cwtsite.com/style/replays/download.php?filename=[THP]_Dario_4-3_FaD_r6.WAgame<br />
+http://www.cwtsite.com/style/replays/download.php?filename=[THP]_Dario_4-3_FaD_r7.WAgame', 'false', '2010-12-18 21:51:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (823, 885, 10, null, 'I can''t watch the files. They''re broken!', 'false', '2011-10-12 15:59:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (824, 885, 20, null, 'Stripe 3-1 Tomek, but Tomek has 3 points? wtf, who actually won the game? :)', 'false', '2011-10-12 16:04:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (825, 911, 8, null, 'Congratulation to littlebiatch! He was simple better and no excuses from me will steal him the this victory shine! ;) ', 'false', '2011-10-12 23:10:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (826, 911, 56, null, 'Thanks man, I''ve enjoyed this game ! Maybe you were a bit surprised since I''ve never won any game vs you in the ONL... But the ranking doesn''t really reflect my improvements for the moment because I''m always playing and losing vs top players :/', 'false', '2011-10-12 23:28:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (827, 911, 8, null, 'Actually, I didn''t be surprised. I remembered my last game against you, has been very close. And that has been when I have had some activity... So, I was expecting a tough match.', 'false', '2011-10-13 00:03:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (828, 885, 2, null, 'last round, good tactic by Tomek.', 'false', '2011-10-13 08:10:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (829, 885, 24, null, 'thanks. i cant watch the replays too :P i won tenori.. stripe wasn''t in best shape..', 'false', '2011-10-13 08:31:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (830, 885, 21, null, 'Well done Tomek. I`m not such person who excuse himself with poor shape:) I had few nice moves, but overall i sucked in v. important moments like this simple 3 kill (i used 2 ropes instead of just lg + bow) xD', 'false', '2011-10-13 14:27:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (831, 924, 2, null, 'I saw a lot of untypically mistakes in round 2 :)', 'false', '2011-10-13 19:01:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (832, 919, 15, null, 'I palyed a bit hurry, but we did some good jobs, the diference are at final of the rounds
+', 'false', '2011-10-13 20:48:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (833, 930, 16, null, 'TT''s old school and better tactic in finish of rounds are crucial. gg''s', 'false', '2011-10-13 21:35:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (834, 930, 20, null, 'Very nervous games, I don''t feel satisfied since we both were far from our best and made many mistakes... Anyways, gg &amp; gl in the next matches.', 'false', '2011-10-13 21:57:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (835, 919, 2, null, 'nice bat by pandello. and Thouson, can it be, that you are bit pessimistic? :)', 'false', '2011-10-14 07:11:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (836, 919, 15, null, 'why pessimistic?
+', 'false', '2011-10-14 15:51:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (837, 896, 4, null, 'Good games Gop :)', 'false', '2011-10-14 17:18:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (838, 919, 2, null, 'because, only following your chat, you already had lost 2 rounds. Especially Rnd2, never ever he would have succeded with  a double kill in last turn :o', 'false', '2011-10-14 18:14:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (839, 921, 13, null, 'damn, nowu have to beat FaD if U wanna reach PO... just 1 game in this CWT.', 'false', '2011-10-14 22:22:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (840, 921, 27, null, 'Of course john lost, he has to play with his old team. Laplandetz, Sportsman, Girsha, General, Mihev, Kozlik, Cherv, Wormen. Can''t forget that team, I miss it!.', 'false', '2011-10-14 23:15:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (841, 921, 27, null, 'wormer* :P', 'false', '2011-10-14 23:16:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (842, 919, 15, null, 'Sometimes we need to make the enemie relax, and think he already won... hehe,but if was a gr8 roper, could sg the 2 worms, but i dont remember,but without lg he couldnt do this..
+', 'false', '2011-10-14 23:31:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (843, 921, 20, null, 'Mihej! noob XD', 'false', '2011-10-15 00:10:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (844, 921, 27, null, 'oldschool worm-order abuse was so much fun', 'false', '2011-10-15 03:01:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (845, 911, 9, null, 'noble words, Ivo. ', 'false', '2011-10-15 04:22:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (846, 924, 17, null, 'I warn my next opponents. I WILL NOT start any other game at later then 19.00 GMT. Please, notice this. I don''t see a reason why i have to play in a worse conditions then my opponent.
+The only exception can be done for american players, but not for european. Sorry.
+
+At the same time I don''t say Fenrys won somehow unfair, of couse not, the game was exciting and he has shown a will to win!', 'false', '2011-10-15 05:14:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (847, 921, 17, null, 'I warn my next opponents. I WILL NOT start any other game at later then 19.00 GMT. Please, notice this. I don''t see a reason why i have to play in a worse conditions then my opponent. The only exception can be done for american players, but not for european. Sorry. At the same time I don''t say Fenrys won somehow unfair, of couse not, the game was exciting and he has shown a will to win!
+
+PS. Sorry i commented a wrong game, lol.', 'false', '2011-10-15 05:16:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (848, 885, 5, null, 'Yep, Stripe is rusty as heck', 'false', '2011-10-15 10:07:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (849, 919, 5, null, 'Didn''t like the game. Thouson please play less zilian or i''ll wipe you off the map and get easy 4. ;) ', 'false', '2011-10-15 10:12:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (850, 921, 2, null, 'I still saw a quiet cute game, with some faults at Rnd 5. I am kinda astonished, that Johnmir''s mine drops still works like a suiss clockworck :o All your mine drops succeded and that after a period of inactivity! I think tables point calculation system mirrors pretty good actual players standing, your critic is incorrect, Koras.', 'false', '2011-10-15 11:46:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (851, 921, 2, null, 'and of course we saw a more then justified winner with Fenrys :p I still remember at my CWT''09 1/8 Final with you :)', 'false', '2011-10-15 11:48:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (852, 921, 17, null, 'Thank you, Joschi! I''m glad i still can do something on a level, at least mines! Hope to do better next games!', 'false', '2011-10-15 14:00:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (853, 892, 4, null, 'edit: this rating goes to me, Joschi has 4', 'false', '2011-10-15 14:21:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (854, 892, 2, null, 'Right, not worth to watch. Kory, normally you play better, why did you refused here to give a good challenge?', 'false', '2011-10-15 14:39:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (855, 892, 4, null, 'I dont like excuses, but I had a head ache and was destroyed by your tactic, I usually suck when I play versus not lightsiders.', 'false', '2011-10-15 15:04:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (856, 932, 20, null, 'ggs. The ending of the first round was quite nice, I wonder how did I find enough balls to make that jump :p', 'false', '2011-10-15 16:39:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (857, 916, 5, null, '1st 2 rounds went too easy. Im caves pandello gave a real fight. So i am happy i got away with a win there.', 'false', '2011-10-15 18:41:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (858, 919, 15, null, 'Play bad isnt a "zillian" style... and its true, if i paly like this, u ill win me easy , hehe, but sometimes, in bad games, i do a interesting move and get the game hehe
+', 'false', '2011-10-15 21:48:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (859, 919, 13, null, 'WTF happend with my comments?
+', 'false', '2011-10-15 21:50:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (860, 915, 13, null, 'ot that bad.... i will play for Thouson in decider vs Kham :)
+he asked me for 3:0 but it may be hard. Anyway Khamski knocked my out for CWT Po few yeras ago so I will do my best to win vs him too :)', 'false', '2011-10-15 23:05:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (861, 915, 15, null, 'only the 1t round was good... i was sick,and played veeeery bad... i will never play other cwt game in a middle of a sickness...', 'false', '2011-10-15 23:07:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (862, 919, 15, null, 'kkkk', 'false', '2011-10-16 00:54:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (863, 919, 5, null, '"zilian" is not bad it''s acting on a first thought. Feche played like this but his first thoughts were not that bad.
+', 'false', '2011-10-16 06:48:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (864, 924, 9, null, 'I have looked all plays. John much felt nervous in the last play. all worms did not plop in the third play x)) In spite of extremely unchancy play against Fad, I ready to win you. My condition on given moment this allows', 'false', '2011-10-16 11:50:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (865, 921, 9, null, 'I have looked all plays. John much felt nervous in the last play. all worms did not plop in the third play x)) In spite of extremely unchancy play against Fad, I ready to win you. My condition on given moment this allows', 'false', '2011-10-16 11:51:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (866, 924, 9, null, 'oh commentary not for this plays excuse me', 'false', '2011-10-16 11:52:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (867, 927, 20, null, 'Hilarious SD finishes in both cave rounds, wind is bitch! ggs, now gl in the rest of matches folks :p', 'false', '2011-10-16 16:45:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (868, 927, 12, null, 'i should take at least one of first two games. I have 2 deciders and both missed... Now for second place...', 'false', '2011-10-16 17:02:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (869, 927, 2, null, 'Yes, two times "wtf finishes", though I already feared, that in Rnd 2, TT has better hide. That homming missile was pretty heavy. Rnd1, I don''t know why you used lg and jetpack. Ther you have lost a sure round.', 'false', '2011-10-16 17:12:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (870, 921, 17, null, 'Friend, you will win me for sure, but only since you check your personal mail. You didn''t reply on my message... Good luck vs me! ))', 'false', '2011-10-16 18:26:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (871, 921, 17, null, 'Btw, i reraly nervous on CWT. Only in some extreme situations, cause i know it is one of the keys to win. My last round was played like it was cause i just can''t play at 1:00 after 10 hours working day, then some home things to do. Can you? That''s why don''t ask me to play later then 22.00, yes, i do have a wierd lifestyle lately... But can''t miss CWT.', 'false', '2011-10-16 18:29:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (872, 927, 20, null, 'I''ve just looked replays, in round 2 I actually could pass through these petrols on 28th minute for sg finish, there are few vital pixels I didn''t notice during the game. Oh well, everyone is smart after the fight :p', 'false', '2011-10-16 19:18:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (873, 927, 12, null, 'in first i accident use lg, i wanted jatpack too but i press the button once instead of twice... XD', 'false', '2011-10-16 19:42:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (874, 927, 26, null, 'Tade good game technically but tactically wrong,in all round you had an advantage gl in next game,congratulations for the promotion Tenori :)', 'false', '2011-10-16 21:40:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (875, 897, 5, null, 'oh man! Kayz! Round 1. tele to the very right!
+', 'false', '2011-10-17 17:14:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (876, 897, 26, null, 'Very cool game,Weem4n in first round 2or3 good knock''s and move for jet very good,generally good game but no easy win vs  Kayz,congratulations Kayz and very nice mine in 4 round,pro mine :D', 'false', '2011-10-17 17:24:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (877, 895, 2, null, 'Rnd 3 was definitly most funny round. I enjoyed these unconventionel maps. Rnd 4 seemed to be clear victory for me, but at the end I only won because of a mistake made by Bytor. GG', 'false', '2011-10-17 21:39:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (878, 895, 30, null, 'Awesome comeback in Round 3 by Joschi. And almost such an amazing comeback by Bytor in the followinng round. Nice to watch :)', 'false', '2011-10-17 23:07:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (879, 895, 20, null, 'wtf @ round 3 map XD Nice nade comeback hehehe', 'false', '2011-10-17 23:22:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (880, 904, 24, null, 'awesome games :) well done Mablak from 2-0 to 3-2.. verry nice mad cows in last round Random', 'false', '2011-10-18 08:18:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (881, 905, 24, null, 'awesome games :) well done Mablak from 2-0 to 3-2.. verry nice mad cows in last round Random', 'false', '2011-10-18 08:22:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (882, 904, 24, null, 'damn my mistake wrong comment :P', 'false', '2011-10-18 08:22:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (883, 905, 28, null, 'Nice match :)', 'false', '2011-10-18 13:02:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (884, 897, 10, null, 'He had rope, Khamski, he had rope...', 'false', '2011-10-18 14:42:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (885, 897, 10, null, 'Ty, Zolo. Yes it was Round 1, where Weem4n did this ultra awesome turn^^ Jp kill, dyna + mine activation = 101 dmg :D', 'false', '2011-10-18 14:55:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (886, 897, 5, null, 'Of course he did. But he had to make a long walk there to actually use it. At elast u had a better chances.', 'false', '2011-10-18 15:51:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (887, 912, 37, null, 'I tried as much as a person who hasn''t played year and a half can, even I know that 1 round would be to much for me even if in the best shape I have had years ago. Just I am glad I am back and show some fight the first 2 rounds. ', 'false', '2011-10-18 21:27:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (888, 912, 2, null, 'Please notice, Dario, that we play with jetpack delay of 2 turns.', 'false', '2011-10-18 21:30:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (889, 912, 2, null, 'Rnd. 1 &amp; Rnd2. you have shown a very good performance, WM. A win wasn''t that far. Lesson of Rnd. 2: Never teleport a 1hp worm on a knock spot :p', 'false', '2011-10-18 21:38:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (890, 912, 2, null, 'of course very controlled and good playing of Dario, as always :) ', 'false', '2011-10-18 21:39:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (891, 897, 62, null, 'Only 1st round... It''s not enough to win the German machine :P', 'false', '2011-10-18 23:20:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (892, 897, 5, null, 'Round 3. Kayz 1st turn. Total fucking awesomeness. *applause*', 'false', '2011-10-19 09:29:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (893, 897, 5, null, 'Well what can i say... WeeM4n is good. Playing like this with a broken arm is awesome. He got everything except accuracy. I''d like to see him in PO it has to be interesting.', 'false', '2011-10-19 09:56:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (894, 919, 5, null, 'btw that "relax" trick is indeed true. when someone starts that on me i often feel i won it and suddenly loose concentration.
+', 'false', '2011-10-19 10:00:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (895, 897, 2, null, 'I thought exactly the same, khamski. Good and well-thought playing by Weem4n. If he keeps his level, it will be hard to displace him of place 2. Place 1. is of course reserved for Kayz :-)', 'false', '2011-10-19 10:03:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (896, 897, 10, null, 'Ty khamski, yes I loved it that I made to get the hide with Rocko, had to take him, since this stupid mine was a free kill xD.', 'false', '2011-10-19 18:58:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (897, 889, 10, null, 'Haha 2nd round so epic, I think TT spoke about telecide :P', 'false', '2011-10-19 19:15:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (898, 897, 26, null, 'Yes Yoschi,of course it will not be easy but I have not lost yet :)
+', 'false', '2011-10-19 20:10:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (899, 913, 56, null, 'bah...no surprises there. i don''t have the level to put him under pressure yet :)', 'false', '2011-10-19 21:27:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (900, 890, 24, null, 'verry good playing Fonesca.. wasn''t easy to beat you.. I used all my ideas to win this games ;o ggs!', 'false', '2011-10-19 22:16:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (901, 921, 10, null, 'Good game, concentrate more and you will pwn again John :)', 'false', '2011-10-20 16:45:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (902, 901, 10, null, 'WOOOOOOOOO first group who finished!!!', 'false', '2011-10-21 13:33:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (903, 901, 26, null, 'Congratulations Weem4n :),but I feel sorry for this game ( lost 2:0 and did 2:2) especially last round and last fucking move! :D,well Kayz and Weem4n gl in next phase .', 'false', '2011-10-21 13:53:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (904, 901, 10, null, 'Ye the game for the playoffs. Just watched it and wow the last round, the shotgun was an epic thrill weem4n :)', 'false', '2011-10-21 14:07:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (905, 921, 17, null, 'Lol, Kayz, I did, thank you. Need to be good vs FaD now ))', 'false', '2011-10-21 16:14:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (906, 901, 56, null, 'Gj man !', 'false', '2011-10-21 19:21:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (907, 928, 2, null, 'I liked the finish of Rnd 3 and zokys turn around in Rnd 4. GG.', 'false', '2011-10-21 21:27:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (908, 910, 2, null, 'Oh, replay files are broken.', 'false', '2011-10-21 22:01:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (909, 901, 62, null, 'thx :) Game waas really hard and interesting :)', 'false', '2011-10-21 22:32:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (910, 895, 10, null, 'Awesome Joschi :)', 'false', '2011-10-21 22:37:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (911, 923, 10, null, 'Nice stable playing John :D. Any 3-0 is important for you.', 'false', '2011-10-21 22:51:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (912, 928, 6, null, 'that was not so good games.i have made some noob mistakes,but nv,.croatian derby will give 2nd player :)', 'false', '2011-10-22 09:52:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (913, 909, 37, null, 'I don''t remember me being such nervous in any match except in all my matches with Dario :P, but at the end won this cause of his many mistakes. Good fight LB.', 'false', '2011-10-22 20:37:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (914, 909, 56, null, 'Yeah that was an important match for both of us... Even if I''ve missed some decisive moves I''m pretty happy with the game. Even if you are retired and rusty, you played better ! GJ ;)', 'false', '2011-10-22 20:45:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (915, 923, 17, null, 'Thank you, Kayz!
+Yes, it was pretty important comparing my and FaD''s shape...', 'false', '2011-10-22 21:51:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (916, 388, 30, null, 'nice comeback, zoky.
+but strange end of the fifth round :D', 'false', '2011-10-23 15:10:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (917, 388, 6, null, 'its hard to play game where any of two players dont care about game lol..', 'false', '2011-10-23 15:27:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (918, 388, 12, null, 'well i lead 2-0 and i have clear pass in playoff so i did not count anything anymore, and in fifth round i really think i get more down to shot homing without mistake, but i plop myself...
+', 'false', '2011-10-23 16:30:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (919, 246, 10, null, 'Oh :( Well good luck vs Thouson Khams. and good luck vs Khamski Thouson ^^', 'false', '2011-10-24 03:22:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (920, 910, 2, null, 'Nice 1st Rnd. I love skunk triple attack :)', 'false', '2011-10-24 10:36:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (921, 901, 9, null, 'n last game
+
+', 'false', '2011-10-24 10:36:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (922, 914, 37, null, 'Very nice match. 2nd round I drew a won situation 5vs1 instead of winning. that could give another 1/8 cause he even had chanses in that 1. See U later in 1/8 ;) GreatG Ivo', 'false', '2011-10-24 10:55:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (923, 914, 8, null, 'Thanks mate. It was fun. Hope you''ll have good luck and fun on the PO''s. Once again, congrats to all participants and the Mod team to make this tourney such an awesomeness! Vgj with this site Zemke ;)', 'false', '2011-10-24 11:18:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (924, 909, 2, null, 'wow, really thrilling game. LB, with a bit more experience, you win this game 3-0 :D In Rnd 1 and Rnd 2 you had a nice advantage. You definitly confirmed your good skills from match vs Ivo.
+
+On the other hand, WM plays very stable and without nerves, good luck in playoffs !', 'false', '2011-10-24 12:44:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (925, 906, 2, null, 'hahaha Rnd 3! dsa spends 5 ropes in first two rounds ! Really awesome finishing there! Nice 5th Rnd, too!', 'false', '2011-10-24 13:53:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (926, 909, 37, null, 'haha n1 Josc. ty', 'false', '2011-10-24 16:25:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (927, 803, 2, null, 'Now we have a Bytor - Gopnick showdown :p Give your best, guys.', 'false', '2011-10-24 17:59:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (928, 925, 30, null, 'Awesome match, but I think Round 6 has the wrong replay. I haven''t watched Johnmir''s second won round yet ;D', 'false', '2011-10-25 00:48:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (929, 925, 17, null, 'The game was exciting, wanna thank FaD for it. Unfortunately Fenrys hasn''t got a chance to play in playoffs. I''m not too satisfied with me coming into playoffs... it was like catching the last train, some luck is also involved, like FaD''s mistakes in 4th round. Anyway I will have a chance to prove my level in 1/8 match. Hope I deserved to be in 16 best. We will see...', 'false', '2011-10-25 12:04:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (930, 925, 17, null, 'i''m not satisfied with my way to playoffs *', 'false', '2011-10-25 12:05:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (931, 925, 55, null, 'gg, but there was a crash game to unlucky for fenrys game crashed in good position for me and the result was 2:0 or 1:0', 'false', '2011-10-25 14:25:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (932, 925, 10, null, 'lol FaD, there wasn''t a crash, you crashed alone :P', 'false', '2011-10-26 10:21:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (933, 927, 10, null, 'Oh how could I miss this game. Awesome! Agreed TT, everyone is smarter after game, btw Tade could actually kill both worms in 2nd round with rope and lg :) Your girder was possible to jump on^^', 'false', '2011-10-26 10:39:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (934, 905, 2, null, 'Wee, 119 downloads, record so far. But true, CWT08 winner meets CWT''10 winner, that guarantees a high-premium game :-)', 'false', '2011-10-26 11:31:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (935, 914, 2, null, 'Gave 5, also because of the situation. Ivo was closer to playoffs then it seems now. Ivo, good match-turn in 2nd Rnd., though you could have make it even a victory, since you had the homming missile advantage :-)', 'false', '2011-10-26 11:33:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (936, 925, 13, null, 'bl Fenyrs, new sytem is just wierd........
+', 'false', '2011-10-26 13:31:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (937, 925, 13, null, 'John 7 won,6 lost rounds, Fenyrs 6 won, 6 lost', 'false', '2011-10-26 13:32:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (938, 889, 5, null, 'Gr8 skunk in 1st from Stripe but he was kinda helpless in that cave at the end.', 'false', '2011-10-26 18:06:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (939, 886, 29, null, 'grats dude, but I must say that fucking wind was so fucking evil, no words...', 'false', '2011-10-27 23:10:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (940, 886, 14, null, 'Thanks , I retribute the congratulations, they were very good and hard games!', 'false', '2011-10-28 10:47:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (941, 917, 2, null, 'Nasty last runs, man! I feel with you.', 'false', '2011-10-28 21:00:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (942, 917, 5, null, 'Thanx for support. Yeah but game is a game. Thouson was better. Gl in PO. :)', 'false', '2011-10-29 07:03:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (943, 917, 13, null, 'omg thats a suprise!<br />
+gj Thouson... Kham  oh well there is always next year :)', 'false', '2011-10-29 11:49:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (944, 888, 29, null, 'last round - no chances, gg', 'false', '2011-10-29 13:29:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (945, 888, 24, null, 'previous round- no chances too but crash saved your ass<br />
+ ^^ gg''s', 'false', '2011-10-29 14:04:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (946, 888, 29, null, 'in 2 vs 1 in cave there''s always a chance...', 'false', '2011-10-30 13:26:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (947, 887, 2, null, 'Last group stage game :-))) 48 of 48 games are played. You made me happy :) ', 'false', '2011-10-30 15:43:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (948, 887, 2, null, 'What a drama at the end, Fonseca! Couldn''t you go with your last rope there?', 'false', '2011-10-30 16:34:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (949, 936, 2, null, 'I don''t regret that I''ve nominated WeeM4n as replace guy for SirGorash. Quick game scheduling, stable performance in game, nice sportsmanship. Not only 1st playoff game, but also 1st surprise.<br>
+<br>
+Sorry for you, TT.', 'false', '2011-10-29 15:39:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (950, 936, 62, null, 'I just can to rate this game "awesome". It''s all my words! Thx for really nice game TenoriTaiga and thx Joshi for this good words.', 'false', '2011-10-30 01:25:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (951, 934, 24, null, 'nice sheep by joschi in 2nd round.. 3 kills ;o', 'false', '2011-10-31 21:13:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (952, 934, 56, null, '5th round: really smooth shot at 17:00', 'false', '2011-10-31 21:54:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (953, 934, 56, null, '...shot on the pixel xD', 'false', '2011-10-31 21:57:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (954, 123, 27, null, 'Uber BL for Bytor in rounds 2 and 4.', 'false', '2011-10-31 23:31:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (955, 934, 62, null, 'Nice sheep, Joshi, in 2nd round which was like a thriller ^^ Awesome dyna by raffka in 5th. GG!', 'false', '2011-11-01 00:45:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (956, 939, 10, null, 'Crazy match', 'false', '2011-11-01 01:04:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (957, 934, 2, null, 'I liked this game, too. It''s a long time ago, that I focused me so strong on a match. Although Rnd. 1 wasn''t well played, at all. Sadly I failed twice in Rnd. 4 to kill these low hp worms, would have been an interesting finish otherwise.', 'false', '2011-11-01 01:09:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (958, 939, 15, null, 'OMg,if i didnt 2
+fails in last round, the result would be diferent... hehe<br><br>
+GGs man
+<br><br>
+Gl in next games', 'false', '2011-11-01 01:13:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (959, 934, 10, null, 'Awesome game!', 'false', '2011-11-01 01:25:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (960, 939, 10, null, 'Yep sure, result would be different if you didn''t fail... I failed too btw', 'false', '2011-11-01 01:27:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (961, 939, 62, null, 'A lot of funny mistakes ;)', 'false', '2011-11-01 01:27:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (962, 123, 2, null, 'I stay at my point, that Bytors SG shot in Rnd2 was amzing, though it didn''t changed rounds outcome; First the rope, then the SG! Proof of a good fight spirit, keeping the creativity though the game seemes lost. And Darios firepunch trick in Rnd1 was also nice to watch.', 'false', '2011-11-01 09:06:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (963, 934, 29, null, 'Its a long time ago, that I focused me NOT so strong..... but I played that day anyway, gg.', 'false', '2011-11-01 17:51:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (964, 935, 13, null, 'gg mate!', 'false', '2011-11-01 21:43:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (965, 878, 13, null, 'gj Random, FaD ws in very good shape...<br>
+maybe next year will eb your Fad:)', 'false', '2011-11-01 21:43:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (966, 878, 55, null, 'last year was 3:2 for me now its for him, anyway congrats ', 'false', '2011-11-01 21:49:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (967, 878, 2, null, 'Am I the only one is nerved of the new (frienldy) FaD? x''''DDDD', 'false', '2011-11-01 21:59:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (968, 878, 62, null, 'funny spike and sg kind shot random in 3rd round :)', 'false', '2011-11-01 22:05:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (969, 878, 11, null, 'Good games. Seemed like FaD had the SD advantage multiple times, but didn''t quite maintain it.', 'false', '2011-11-01 22:07:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (970, 935, 37, null, 'I promised the spectators of this game that if I somehow take the 3rd round, I will make a comeback and win it 3:2. After the 4th I was sure that I have to play regularly for months to even have SOME chanses. <br>
+@ Koras: congrats and gl in 1/4 and so on... But concentrate more and play more tactical (slow and safe), I think U are not that dangerous like before. For now just had the luck to play a combacker and noob like me ;)', 'false', '2011-11-02 10:35:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (971, 935, 13, null, 'oh ty, but in fact I knew U are really rusty... thats why I talk a loots and just have fun instead of do my best.<br>
+I will try play better vs weeman', 'false', '2011-11-02 12:03:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (972, 203, 10, null, 'Uff bl for John in third round, Quadruple kill :x Well played Tom', 'false', '2011-11-02 18:19:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (973, 203, 24, null, 'yes 4 free kills for me at start bl John :( thanks Kayz', 'false', '2011-11-02 18:45:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (974, 883, 10, null, 'Well what to say, except that I lost by my own mistakes of movement, tactic were quite equal..', 'false', '2011-11-03 20:27:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (975, 883, 5, null, 'Game was a multiple bitch to you in the last round. You didn''t deserve that.', 'false', '2011-11-03 20:42:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (976, 883, 12, null, 'It is all about little tiny mistakes...', 'false', '2011-11-04 06:25:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (977, 883, 21, null, 'Oh Kayzor:( wd Mab', 'false', '2011-11-04 10:58:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (978, 943, 24, null, 'grats and gl in future games =) I was in good shape but its still not enough.. I need more train:) gg''s ', 'false', '2011-11-06 19:44:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (979, 943, 2, null, 'The finish of rnd1 made me sad. For me it looked kinda impossible that Darios worm could be in its explosion radius. In contrary, you, Tomek, should have awaited (you had missile advantage) and take care that Dario can''t make a kamikaze. I wrote to khamski, by pm, that Dario can max. reach a draw there :p<br><br>
+The rest of the game was very cool played from Dario.', 'false', '2011-11-06 19:57:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (980, 943, 24, null, 'there was no way to awoid kamikaze attack.. i could only risk with dyna but draw would be better:) ', 'false', '2011-11-06 22:03:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (981, 943, 11, null, 'Too bad about 1st round Tomek, I think you just needed to shoot into that hammer before Dario could get too close. Good games though.', 'false', '2011-11-07 00:17:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (982, 943, 24, null, 'true Mablak..i was think about it during watching replays..after fact:P ', 'false', '2011-11-07 10:28:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (983, 943, 10, null, 'Nice games, ye you could finish in 2nd round with shotgun after Dario''s insane double kill tele try xD', 'false', '2011-11-07 14:38:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (984, 942, 13, null, 'phew.... terrrible mistake in the end of last round gave me win :)', 'false', '2011-11-07 19:02:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (985, 942, 62, null, 'Really I don''t know why I did it hole... Very hard match. I was so tired and thought that you failed trying to reaching me. Thx for wonderful game and gl in 1/2 ;)', 'false', '2011-11-07 19:11:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (986, 942, 2, null, 'Weem4n, what the hell did you thought at opening this wall xD Oh my godness, you wanted to open it 4 times before this round and I wondered every single time... that was an epic match, especially after 5th rounds ending. I am not quiet sure, but I think kamikaze 1 turn before could have succeeded, too?', 'false', '2011-11-07 20:47:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (987, 942, 2, null, '... by the way, this was an epic live-stream event ;D', 'false', '2011-11-07 20:48:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (988, 942, 62, null, 'How many people watched? :)', 'false', '2011-11-07 20:52:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (989, 942, 2, null, 'it started with ~ 100 viewers and ended with 250 viewers. And everybody laughed about your last opening! xD joke, in general you made a very good job!', 'false', '2011-11-07 20:55:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (990, 942, 24, null, 'damn pressure :P gg''s', 'false', '2011-11-07 21:49:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (991, 942, 62, null, 'What do you mean Tomek? :)', 'false', '2011-11-07 22:13:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (992, 942, 24, null, 'stress/pressure = horrible mistake..moment without thinking friend', 'false', '2011-11-08 10:27:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (993, 942, 56, null, 'by the way weem4an, hhg is not "holeleyuuuuyaaaaaaa" but "alleluia" xD', 'false', '2011-11-08 16:50:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (994, 942, 62, null, 'by the way WeeM4n, not weem4an :P', 'false', '2011-11-08 17:08:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (995, 942, 26, null, 'Very nice game,WeeM4n again u have big chance in last round for win but last move...,hmm Koras well again lucky but fortunately  promotes better ,congratulations for the promotion.', 'false', '2011-11-08 20:24:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (996, 254, 2, null, 'Thanks a lot for the game, I couldn''t have put more intensity in this game. Quite after the game, my brain feels a bit empty :p<br><be>
+Uber good job of streaming guys. I enjoyed to play in a big arena xD', 'false', '2011-11-08 23:04:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (997, 254, 5, null, 'Joschi came prepared to CWT and showed a great perfomance. Random00 was playing good too but he lacked  creativity a bit. And this setup his chance was playing with very low percent of mistakes. But unfortunately he didn''t manage to play clean. Bl better luck next year!', 'false', '2011-11-09 09:00:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (998, 254, 11, null, 'Joschi did well in the 2 games where he got terrible positions, tied one and almost the other! Random had some good piling, although he may have been relying on shotgun too much.', 'false', '2011-11-09 09:45:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (999, 254, 10, null, 'One of the best games yet in this PO! No doubt about that. I am very impressed, Joschi used to lose many games where he could easily won, and now he won games where I thought he might lose them. Awesome comebacks, epic attacks. I would rate this game 6 instead of 5!', 'false', '2011-11-09 11:09:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1000, 254, 27, null, 'Round 2 wasn''t terrible placement for Joschi imho. Random got 5 extra turns in the first, but joschi got 3 extra, then random had 4 blocked worms, while joschi only 1, that put random 1 turn behind joschi. Equivalent to a shotgun war where joschi started.', 'false', '2011-11-09 18:21:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1001, 254, 55, null, 'very nice tele kami by joschi, well played', 'false', '2011-11-09 23:48:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1002, 254, 2, null, 'I just cursed the starter positions of rnd5. At the begin it seemed to be doomed! But then I remembered me at 3rd cave rnd against Bytor, same bad start, same terrain and I turned it too :p Doesn''t change the fact that I can''t follow your sg war calculation :D There are a lot of aspects to be considered, so I don''t know if it is comparably.', 'false', '2011-11-10 13:41:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1003, 946, 11, null, 'I was well prepared for this match, but ended up making a lot of mistakes. But of course, many of them were due to knowing that I''d lose if I didn''t stay aggressive with Dario. On the whole he played better, he earned it :].', 'false', '2011-11-12 23:34:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1004, 946, 1, null, 'This game has fundamentally paved the way for the breakthrough of CWT Live-Streams! All eyes were focused on that stream. I particularly liked the interaction between chat and commentators. I want to thank Kayz and Khamski. It was so amazingly executed. The splash screen and the way you commented the game has been an awesome experience for everybody who watched. Way to go. cwtTV', 'false', '2011-11-13 00:04:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1005, 946, 55, null, 'nice to watch you good game', 'false', '2011-11-13 00:11:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1006, 946, 27, null, 'Gj with the noches in the caves, pretty accurattely memorized, Mablak. And no, it''s not as easy as it looks and you can''t hit any spot, there are blind-spots for notches.', 'false', '2011-11-13 02:17:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1007, 946, 5, null, 'Thank you, Zemke mate :).  We were surprised by Mab perfomance. Of course we were sure that in 4th round he will use his advantage of 1st move in island and give Dario a hard time. But unfortunately it didn''t happen. Congrats, Dario. Bl Mab but hell you got it last year so it is not that disappointing. Better luck next year!
+', 'false', '2011-11-13 11:27:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1008, 449, 2, null, 'Get clear with yourself, Koras. Calling me dick just after you have won CWT Semi-Final is kinda out. I offered you to play all Sunday, Monday... I just wanted to have a clear and fixed playtime. Not your &quot;I will try to be there&quot; mubbling.', 'false', '2011-11-13 20:36:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1009, 449, 13, null, 'You always was, are and will be....
+Not as a player but as a person.
+U should win this but U didnt, thats what I call justice.', 'false', '2011-11-13 20:40:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1010, 449, 56, null, 'All the files are corrupted for me.. am I the only one ?', 'false', '2011-11-13 21:27:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1011, 449, 1, null, 'It''s fixed. It was an after effect of the wrong report.', 'false', '2011-11-13 21:54:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1012, 449, 56, null, 'I want to know the story about the dead guy ! Lol who did you kill Koras ? xD', 'false', '2011-11-13 22:06:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1013, 449, 55, null, 'koras and a friend found a man was hanging on a tree  selfkill
+', 'false', '2011-11-13 22:11:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1014, 449, 62, null, 'Oh, maybe we thought so much before the game against Koras...', 'false', '2011-11-13 22:14:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1015, 449, 5, null, 'Well Koras, mate. You are not the greatest person too to be honest. Who is lol? And also if FaD and Joschi  are telling its all i would say... not a big deal. I know i sound a bit dicky but i played my cwt game vs Zolo  (if i remember correctly) when i had a whole house full of ppl who came to my grand dad mourning. Dunno the details tho...', 'false', '2011-11-14 09:28:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1016, 449, 5, null, 'Ehm.. I really souned dicky there. Just to clarify my point. A death is always a tragedy. Watching a suicide isan awful experience. But you have to hang on and continue fullfilling your duties. One of those is cwt scheduling. Its not just a game its a serious event that has a lotta people involved.', 'false', '2011-11-14 09:31:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1017, 449, 5, null, 'On the game: It was a real cwt game. Ending was an epic drama. But i think winner has a very low chances against Dario. Why? Because of a high percent of mistakes. If Dario will play like he played vs Mablak Koras is doomed. ', 'false', '2011-11-14 09:34:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1018, 449, 11, null, 'That last game was just... what the hell kind of strategy was that, haha. Darksiding from the start, pretty unusual. And it was pretty unfortunate that worm had to land there at the end, really absurd. But good games, there were some nice moves in there.', 'false', '2011-11-14 10:44:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1019, 449, 2, null, 'The problem is, khams, that Koras didn''t inform me at all about his situation. All I get &quot;I can''t concentrate about worms&quot;, &quot;there is something what is stronger then me&quot;. Nothing more I received from him. Would you delay your agreed playtime just because of this? Though I offered him to play Monday, he keep up spreading shit about my person. Not just calling me dick here and in game, but also in privat chat with other CWT friends.
+
+I clearly expect an excuse from Koras.', 'false', '2011-11-14 11:59:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1020, 946, 9, null, 'Hight pro-style games!', 'false', '2011-11-14 13:52:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1021, 449, 13, null, '&quot;If Dario will play like he played vs Mablak Koras is doomed. &quot;
+oh really?
+I was thinking I have some chances :) haha rofl i am just Koras. Only Mablak and Kayz had some small chances with him....
+U have wrong priorities, its just a game and u could wait  a bit.
+
+
+
+', 'false', '2011-11-14 14:22:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1022, 449, 27, null, 'Ye, no need finishing CWT so fast, I kinda like the old slow-paced style it had before (15 days for each game). I think it''s better to see good games where players can concentrate, even if that means the tournament will last 3 months instead of 1,5.
+BL on the last move, Joschi, pretty unlikely that would happen. Gj Koras at keeping up to a well prepared Joschi even though you had a hanged man on your head all game long.', 'false', '2011-11-14 14:39:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1023, 449, 13, null, 'and one more thing dear &quot;haters&quot;, its not my fault that I had ''easy&quot; way to final.
+Its admin fault that 3 last year finalist was in same half of tree.', 'false', '2011-11-14 14:42:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1024, 449, 5, null, 'Koras: just stop this. Your attitude is well-known. I wish you a great playing vs Dario and win. We all need a great CWT final. Peace.
+Joschi: I understood all that. That''s why i intervened. But its hopeless. Just let him be.
+', 'false', '2011-11-14 15:36:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1025, 449, 2, null, 'WTF Dario, who told you that I was prepared? Do you have installed a webcam in my house? Or only because I don''t follow the trend to cry about playing conditions? Dislike to speculations here. I am excited, what ideas back up your logical arguments this time. And by the way, it''s just sooo offtopic. Still awesome to see, why you think it was me who hurried and that your way to generalize everything. In the playoffs I asked every player (not only my opponents, but also other pairings) to match his/their games in a COMFORTABLE playtime for him-/theirself. Koras was VERY happy to play on Sunday. Everything following missunderstanding is purely owed to Koras unability to use pm functions. And no, the majority of participants like to concentrate the attention on the tourney about a relative short period, not about 3 months.', 'false', '2011-11-14 17:41:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1026, 449, 26, null, 'Hm ,we are all still friends? :) :PPPP.               btw .Kham what do you want from me?I knew nothing about any mourning ...  . You sure  played with me?
+
+btw2. gj Koras and gl in final :D  ,Joshi too gl,maybe u have a bronze medal... ', 'false', '2011-11-14 18:46:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1027, 449, 5, null, 'It''s not important who i was playing, Zolo.  I was just illustrating some point. You have nothing to do with it. :)', 'false', '2011-11-14 19:39:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1028, 449, 5, null, 'Of course we are! :D', 'false', '2011-11-14 19:39:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1029, 449, 37, null, '@Koras: hey dick ;) :D I played the 1/8 with nobody else but U, in the day I couldn''t play, but U couldn''t the other days. With sleep of 4 hours and just came back from work half an hour before the game. Ok know that siuations and mind on other things can''t compare, but U did what profesional does =&gt; not just played it, than win it.
+I loved the tactic war all the game long. Hope U will do it in final too with just a few mistakes less.
+And I belive U have 40% chanses if U don''t chat at all during game.
+
+@Joschi: pitty U didn''t materialize the great play during all tourney. After all a medal next to your name, especially with Mablak will be massage to all in future and a proof that U are among best ones all time. Same 40% here in my opinion.
+
+@both: I am shocked I see both of U, who are one of my favourite friends and players, talk like this, like U are 10.
+Hope everybody will forget this very soon!!! We all deserve that. The clan and the game need great examples of not just great players but persons as well =&gt; and I know U are!!!
+
+Finaly to all cwt participants: tnx for reminding me how exciting this game is!!!!!!!', 'false', '2011-11-15 00:03:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1030, 449, 37, null, 'Lol never learned it''s better to give 3-4 coments in a row than 1 Dostoevski novel at once :)', 'false', '2011-11-15 00:06:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1031, 449, 2, null, 'WM, then tell me where I talked as I was ten. I am really curious. Show me what I did wrong.', 'false', '2011-11-15 12:05:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1032, 449, 62, null, 'Kill them all!!!', 'false', '2011-11-15 12:57:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1033, 449, 37, null, 'I meant for makeing such a tension. We can talk on msn, don''t need to be here ;)
+I know he can be hard person sometimes, but he has never been like that with me, because probably I haven''t went against him on forums, instead if wanted to tell him sth would do it in face: msn, ag... my sugestion: think that maybe the fault is not just his!? accept that? Now I feel I am makeing tension too ;)
+
+Peace!', 'false', '2011-11-15 13:58:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1034, 449, 37, null, 'I hope that U will concentrate on playing and win the bronze. I really do! ', 'false', '2011-11-15 14:04:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1035, 947, 5, null, 'Wasn''t a greatest game but Joschi has to cheer up. Mods did a great job with this edition of CWT so as was said successful tourney is the best reward. Also getting to semis is itself a big achievement.', 'false', '2011-11-16 09:06:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1036, 947, 11, null, 'Yeah, Joschi wasn''t playing as well as he did in previous rounds, while I was playing above average, and had some risky moves work out for me. GGs in any case, hope CWT is even more competitive next year.', 'false', '2011-11-16 10:03:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1037, 947, 10, null, 'Sorry, but what risky moves did you do? :) You both played very conservative and defensive (as always) and Joschi did some mistakes there.', 'false', '2011-11-16 11:27:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1038, 947, 47, null, 'I think Joschi''s problem is that he used the same approach in this game as he did in his last games against random and koras, i.e. passive, darkside mode, waiting for opponent''s mistakes. This just doesn''t work when you play with somone like Mablak, who is, to be honest, of much higher class of play than Joschi. Only way I see for him to have any chances to win is to play aggressively, in Fad''s style, doing a lot of damage in short amount of time :) this is risky tho, but just waiting and looking how the opponents destroys you is much worse. And don''t forget about the audience, it will certainly appreciate some action and nice moves, at least attempts to do so. Good job tho to reach this stage of the tournament, Joschi. Mablak - congrats on bronze.', 'false', '2011-11-16 18:40:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1039, 946, 47, null, 'this should be a model for other players on how to play normal. awesome stuff', 'false', '2011-11-16 18:53:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1040, 947, 26, null, 'Joshi play for neuromuscular,can better but fourth place is a good result.Mablak - congrats for bronze.', 'false', '2011-11-16 20:03:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1041, 947, 13, null, 'congrats Mab!', 'false', '2011-11-16 20:13:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1042, 947, 2, null, 'Well, we can speculate a lot about my game play, but at the end we''ll always come to the conclusion that Mablak is just better. I saw my advantages in rnd1, lost it though of Mabs mistakes and get unmotivated because of this. Fully owed to Mablaks superior playing, congratulations Sir.
+Still, our biggest success is tourneys result, though I don''t want deny, that some critics and suspicions against me and Zemke were too harsh formulated. Zemke and me had a talk about this, and wonder if that comes because of the big cash prize. Because we want to reach everything with this cash prize, BUT NOT rumour and mistrust. In my opinion it''s worth that everybody rethinks his actions, because Zemke and me don''t run this for our own ego, but for communities pleasure ...', 'false', '2011-11-19 13:59:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1043, 948, 13, null, '&quot;he missed like 20 pixels or something&quot; Kayz :)
+anyway I am happy, i could lose vs weeman i should lose VS Joschi..... i have a loots of things to learn before I wanna win gold.', 'false', '2011-11-21 20:51:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1044, 948, 10, null, 'It wasn''t an accusation, I know it''s because of your monitor :) But the try just looked funny, that''s all', 'false', '2011-11-21 21:38:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1045, 948, 47, null, 'this wasn''t a game worth calling a final, koras should''ve done better. the score isn''t surprising tho, dario played much better throughout the tournament, so congrats Dario!', 'false', '2011-11-21 21:48:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1046, 948, 2, null, 'lol, Dario made his own present for birthday tomorrow. Happy Birthday Dario! 300 $ aren''t a bad present :-)', 'false', '2011-11-21 22:09:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1047, 948, 24, null, 'yes congrats and HB! Dario! full deserved to win this crespo tourney.. He is still best intermediate player in the world! one more grats.. its my dream to win any tourney:P but you doing it without any problems:) just type of  hard thinking player and talent from god for sure :)', 'false', '2011-11-21 23:08:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1048, 948, 55, null, 'good performence during the torney by Dario congrats for gold and Koras too for silver
+', 'false', '2011-11-21 23:37:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1049, 948, 55, null, 'happy birthday m8! just read it', 'false', '2011-11-21 23:38:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1050, 948, 37, null, 'Congrats too all audience, to all players, especially the mods and the medal winners of course. Nice effort by both for making this cwt looks like a great story, ending with a titan final game. And like a crowd want to watch more rounds in future. ;)', 'false', '2011-11-22 01:25:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1051, 948, 27, null, 'Yeyyy win :P. Congratulations to Koras and Mablak for their achievements too. Final was a nice game, nothing unusual, some bad lucks, some unexpeted bounces, some misses.', 'false', '2011-11-22 02:30:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1052, 948, 17, null, 'Two NNN guys in the final that''s awesome!
+
+Congradulations to Mab and Koras!
+
+Congradulations, Daz!!! You are so unreachable now, too many gold medals ))) Who would get more medals or will ever try to get?
+
+Thank you for the tourney, Zemke, Joschi and Random00, the job is just great! Who would do this better!', 'false', '2011-11-22 11:50:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1053, 948, 37, null, 'Dario made this game looks like an easy game for playing. But whoever thinks he can play on that level just can try. The win against him is too far for anyone now.
+ Happy birthday mate!!!', 'false', '2011-11-22 13:29:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1054, 948, 37, null, 'If I think now maybe and just maybe SirG could respond with some close finish (all who saw his games years ago, knows what i am talking about). I can''t forget 5 kills in 1st move, when all guys can think about 2 or max 3 worms. Anyway everything is almost impossible against the complite tactic/skills/concentration and vision of the game, which Dario has.', 'false', '2011-11-22 13:34:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1055, 948, 26, null, 'Congrats Dario for win ,silver a very good result Koras gj too :)', 'false', '2011-11-22 17:21:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1056, 948, 13, null, 'haha yeah WM, it was against SuperPippo and his &quot;how I suppose to win now?!&quot;
+I agree, SirGorash is one of greatest wormers without any medal in history of this turney.', 'false', '2011-11-22 23:05:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1057, 948, 5, null, 'This game was all about concentration. Koras was playing awesome at the start but then he was too pressed with all his  opponents &quot;greatness&quot; lol. If Koras continued playing his way he had chances to win it. But he preffered to chat, listen and react on streaming and all that irrelevant bullshit. So as a result he lost. Agree with Zolo here. SirG would most probably pwn in this one but unfortunately he is busy with RL stuff now.', 'false', '2011-11-23 08:04:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1058, 948, 37, null, 'That''s my comment Khamski lol :)', 'false', '2011-11-23 14:34:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1059, 948, 5, null, 'You''ve made three comments and none of them looks like mine lol. )) Or you are talking about the 4th one that you were about to write? :P
+', 'false', '2011-11-23 14:52:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1060, 948, 8, null, 'Congratulations to all that has played this awesome tourney, but specialy to Mablak, Koras and, of course, Dario! You are the best Intermediate player for so many years, and no one is seeing how can this change. Your will to teach your knowledge give even more shine to your status.
+A big THANKS for Zemke and Joschi for all this can be true. Also for khamski and Kayz for your thrilling and wise live comments.', 'false', '2011-11-24 17:02:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1061, 948, 17, null, 'SirGorash has 1/2 of a bronze medal ))))) We didn''t finish our third place match of some year CWT))', 'false', '2011-11-25 19:10:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1062, 943, 55, null, 'good lighsider skills but sometimes u attck without think ( just like me but not often anymore)', 'false', '2011-12-04 21:31:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1063, 100, 13, null, 'I played few games with Konrad, he was a great player.... but it was long time ago :)', 'false', '2015-09-04 22:38:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1064, 1087, 10, null, 'Great kills. Watch the live stream [url=http://www.twitch.tv/wormykayz/v/20700205]here![/url]', 'false', '2015-10-14 21:01:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1065, 1087, 5, null, 'Leeching ropes ftw...', 'false', '2015-10-14 21:43:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1066, 1087, 1, null, 'Kayz, what''s that new feature for? :)', 'false', '2015-10-15 14:57:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1067, 1088, 275, null, 'Intense and dramatic game. Both players played mostly safe but tried some creative moves. Even though it''s 3-0 Korydex win, the level of playing is very high from both sides.
+To sum up the game - no one wanted to lose.', 'false', '2015-10-15 17:28:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1068, 1089, 288, null, 'WILD KANO!', 'false', '2015-10-16 10:25:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1069, 1090, 5, null, 'Good one, taner. My sympathy to Boolc. Typical CWT meltdown. I''ve been there.', 'false', '2015-10-16 20:34:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1070, 1090, 212, null, 'Wild', 'false', '2015-10-16 20:38:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1071, 1090, 5, null, '"Whats he''s doing there?"
+"Killin''"
+
+ ))) epic', 'false', '2015-10-16 21:04:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1072, 1091, 10, null, 'Hey j0hny, the baseball bat angle modification you did in Round 4 is not allowed. Please follow the NNN rules. Thanks
+
+e) Forbidden bugs (Remember that rope/bungee knocking is allowed)
+
+    Bungee from Jet Pack (unless both players clearly agreed on allowing this).
+    Bow/bat/rope angle modifications.
+    Walking on top of the indestructible barrier of a cave.
+    Skip walking using the mouse.
+    Floating weapon glitch
+    Jumping from Pneumatic Drill
+    Jumping after teleporting (turning around after teleporting is allowed because it doesn''t change the worm position).', 'false', '2015-10-17 17:38:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1073, 1093, 10, null, 'If anyone wants to know why taner couldn''t move in Round 3 at 02:30 minutes: It was the dealt damage to Herbert West. Everytime you deal damage, you can still move around, but if you stop moving, the game stops and the damage is given. Since you activated the second mine, this had to explode first, before the damage could be dealt, but the motion was still frozen. Hilarious bl.', 'false', '2015-10-17 18:03:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1074, 1093, 5, null, 'ahahahaa.. so fucking awesome... LIKE!
+Gotta watch the whole game though...', 'false', '2015-10-17 18:15:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1075, 1093, 288, null, 'yea cant really see that coming in such a game', 'false', '2015-10-17 18:24:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1076, 1089, 52, null, 'Fun game to watch. You''ve made my day with your team, Chicken - one worm in particular :-D', 'false', '2015-10-18 10:07:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1077, 1094, 52, null, 'Good game. Bugi played better than 0-3 implies, but ''dex is in form right now.', 'false', '2015-10-18 11:50:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1078, 1094, 210, null, 'kurwa wysraÅ‚a tego cwela co wymyÅ›liÅ‚ tÄ… jebanÄ… gre', 'false', '2015-10-18 12:24:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1079, 1095, 210, null, 'kurwa wysraÅ‚a tego cwela co wymyÅ›liÅ‚ tÄ… jebanÄ… gre', 'false', '2015-10-18 12:24:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1080, 1095, 16, null, ':)
+', 'false', '2015-10-18 12:25:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1081, 1096, 5, '2015-10-18 13:15:28', 'Uber skunk drop in 1st round by Fantomas.
+ Ahahaa...
+3rd round -3  lg bat for Fanto
+4th round -3 lg bat for Boolca )))))', 'false', '2015-10-18 13:12:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1082, 1097, 20, null, 'So this guy used three (!) different super weapons during the match, and kept lying about how he didn''t have a super sheep. If this isn''t a ban then I don''t know.', 'false', '2015-10-18 14:04:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1083, 1097, 5, '2015-10-18 14:50:09', 'Wtf... This is CWT or some evening tourney... HiT him  with banhammer!!! )))', 'false', '2015-10-18 14:49:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1084, 1100, 18, null, 'Sorry for wasting everyone''s time.', 'false', '2015-10-18 16:00:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1085, 1098, 5, '2015-10-18 17:36:42', 'What an unexpected result!
+1st place of ONL loses to funner playing taner! Ouch!
+Aaand taner is step away from PO!   ))
+*crunching popcorn sipping soda*  ', 'false', '2015-10-18 17:34:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1086, 1101, 10, null, 'Undeserved win in the final round. Sorry for ultra lucky dyna.', 'false', '2015-10-18 18:06:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1087, 1101, 18, null, '   You called it before you did it.  It may have been a unlikely but, I would not call it luck.  It was a very good last shot out of desperation.', 'false', '2015-10-18 18:57:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1088, 1101, 10, null, 'Thank you! Maybe it wasn''t that undeserved, considering you had a quadruple kill in the first round. :D', 'false', '2015-10-18 20:08:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1089, 1101, 13, null, 'happeds :)', 'false', '2015-10-18 20:15:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1090, 1101, 12, null, 'He had 3vs1 in third game for 3-0. The comeback started there.', 'false', '2015-10-18 21:14:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1091, 1098, 288, null, 'IT IS HAPPENING LADIES AND GENTLEMAN !!!GETTING CLOSER AND CLOSER!HUGGS AND KISSES TO MY FANS!', 'false', '2015-10-19 03:36:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1092, 1104, 217, null, 'I don''t know why but every round was weird to me. I felt like played boring chess game.
+Anyway, congratz man.', 'false', '2015-10-19 20:58:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1093, 1104, 6, null, 'hehe,but we didnt play so borning..attacks was fast IMO..i was rly mad cos my f8 button not work,,but gg any way,,gl in next game m8', 'false', '2015-10-19 20:59:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1094, 1104, 217, null, 'I looked the games and i realize i feel weird because of maps. I am not use to play on too complex maps. But i know i don''t have a right to complain, because i never ask to change map.
+Anyway i learnt something. I should want to semi complex maps to opponent and When i play funner I should play on complex maps too. ', 'false', '2015-10-19 21:23:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1095, 1104, 6, null, 'complex is good for cwt..its most fair for bouth players,if we wanna avoid easy kills', 'false', '2015-10-19 22:04:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1096, 1104, 52, null, 'If you don''t have F8, it makes you effete !
+
+I think I know what you mean, Akt. When I started playing official c-c-i-i-c bo5 games, after years of i-i-c bo3, I sometimes found that by the time of the first island, I was tired after the two gruelling caves.', 'false', '2015-10-20 09:25:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1097, 1105, 52, null, 'Good battle. Nice turn by Viks in round 4 after 9 mins :-)', 'false', '2015-10-20 09:52:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1098, 1089, 212, '2015-10-21 00:54:37', 'Penguin with chicken worms ? :)
+
+edit : ok i know what worm :) ', 'false', '2015-10-20 11:18:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1099, 1101, 287, null, 'GJ Kayz!', 'false', '2015-10-20 11:44:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1100, 1101, 10, null, 'Thank you :)', 'false', '2015-10-20 17:23:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1101, 1106, 251, '2015-10-20 21:34:20', 'FaD is scarily good.. those couple misstakes I made were fatal.. very well played  man!
+
+But.. I didnt really play like Ive lost 3:0 lmao xD
+
+EDIT: FaD deserves some sort of sportsmanship award. Ugly disconnect, huge lead and rematches. You the real mvp.', 'false', '2015-10-20 19:38:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1102, 1107, 55, null, 'nice! ', 'false', '2015-10-20 21:21:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1103, 1106, 55, null, '15 years old and such a good talent. I realy had to play my best there. Well played mate and vbl with the JP fail in round 2. Meaby play some JP races ? :) good luck for upcoming games. ', 'false', '2015-10-21 11:30:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1104, 1106, 5, null, 'Awesome that we have 15 old normal worms players. It''s really awesome.
+It''s almost the age of the Game itself!  And young people are still playing it.
+I guess here we have to say thanx to Steam thing.', 'false', '2015-10-21 12:19:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1105, 1109, 210, null, 'Kinslayer was too nervous, we finished earlier, anyway good game', 'false', '2015-10-21 18:51:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1106, 1109, 295, null, 'i was not nervous, coz this game was about nothing anyway..  sorry za moje zachowanie bugikwlk, wystarczy ze obejrzysz powtorki z korydexem a moze zrozumiesz..', 'false', '2015-10-21 21:57:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1107, 1109, 295, null, 'if u watch replays me vs korydex then maybe u will understand
+', 'false', '2015-10-21 21:58:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1108, 1109, 262, null, 'Kinslayer was too nervous, we finished earlier, anyway good game
+
+
+roflmao   :)', 'false', '2015-10-21 22:30:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1109, 1110, 212, null, 'Tita why you dislikes ? :D ', 'false', '2015-10-21 22:56:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1110, 1110, 262, null, 'guess', 'false', '2015-10-22 01:00:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1111, 1110, 212, null, 'Round 2 ? :) i write : pray , and pray is worked :D ', 'false', '2015-10-22 01:31:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1112, 1110, 212, null, 'Cmon Guys , round 4 in my opinion very good xD', 'false', '2015-10-22 12:01:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1113, 1115, 13, null, 'It would be our 4th CWT battle but I fucked up last year..... 2010,2013,2015
+
+gg', 'false', '2015-10-23 23:38:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1114, 1115, 288, null, 'rektified', 'false', '2015-10-24 00:56:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1115, 1116, 262, null, 'bad game. ', 'false', '2015-10-24 19:01:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1116, 1117, 20, null, 'Don''t watch this game, it is awful :(', 'false', '2015-10-24 19:47:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1117, 1117, 212, '2015-10-24 19:50:49', 'Most game in this year is awful :D
+
+
+http://screenshooter.net/2259565/ywlmkuu   im download and wath ', 'false', '2015-10-24 19:49:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1118, 1118, 5, null, 'I farted... I brainfarted...', 'false', '2015-10-24 22:17:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1119, 1118, 10, null, '21:39, sheep? dyna? knock? :D', 'false', '2015-10-24 22:44:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1120, 1117, 12, null, 'agree!', 'false', '2015-10-24 23:28:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1121, 1117, 1, null, 'Thank you for this screen shot of a RAR archiveâ€¦ itâ€™s beautiful. Definitely the prettiest file Iâ€™ve ever seen.', 'false', '2015-10-24 23:31:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1122, 1117, 288, null, 'wild', 'false', '2015-10-25 00:04:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1123, 1117, 212, null, 'thx Zemke .
+
+wild', 'false', '2015-10-25 01:14:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1124, 1118, 5, null, '"i know i know..."', 'false', '2015-10-25 01:17:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1125, 1093, 13, null, 'owned :)', 'false', '2015-10-25 12:07:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1126, 1093, 237, '2015-10-25 18:45:33', 'wild', 'false', '2015-10-25 13:01:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1127, 1093, 262, null, 'wild', 'false', '2015-10-25 13:21:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1128, 1093, 288, null, 'wild', 'false', '2015-10-25 13:36:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1129, 1093, 212, null, 'wild', 'false', '2015-10-25 17:38:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1130, 1120, 288, null, 'thank god i got kicked  out of this game lol', 'false', '2015-10-25 20:55:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1131, 1120, 262, null, 'wildness', 'false', '2015-10-25 21:36:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1132, 1120, 288, null, 'wild', 'false', '2015-10-25 22:21:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1133, 1121, 288, null, 'asbest almost won this one', 'false', '2015-10-28 18:19:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1134, 1121, 10, null, 'We just replayed third round. But Asbest gave me win because he had to go.', 'false', '2015-10-28 18:24:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1135, 1121, 237, null, 'wild', 'false', '2015-10-28 18:59:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1136, 1121, 52, null, 'I''m shocked by Asbest''s performances here, in the light of his WO gold medals (including in Inter). He was ambushed by some big hitters. And it doesn''t help when a "person from Porlock" appears during a match!', 'false', '2015-10-28 19:10:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1137, 1121, 287, null, 'Gj Kayz! We will see in the final :D
+', 'false', '2015-10-28 21:37:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1138, 1121, 287, null, 'Gj Kayz! We will see in the final :D
+', 'false', '2015-10-28 21:37:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1139, 1121, 212, null, '7 vs 1 vs Asbest on open map Impressive', 'false', '2015-10-28 21:59:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1140, 1124, 5, null, 'I know it''s stupid to "like" your own game but i can''t help it. ))
+I wasn''t playing good but i played my best.
+I liked the fact that i wasn''t disturbed by anything in this game.
+Nor 0-2 pressure, nor stream pressure.. Nothing.
+I was [playing it in full from start to finish.
+And this is new for me. I like it. Means i am progressing.
+After games like this i don''t have bad feelings only desire to explore this game more and become better.
+
+I love this fucking game. It''s awesome!
+
+Big games like that really help to understand the greatness of this game even more.
+
+My congratulations to WorldMaster.
+He was nervous at the begining but after that he took the game under full control.
+And it appeared that his level of playing in above mine. :|
+So his win is truly deserved.
+
+Good game.
+
+Again thx for the stream.
+I really liked the analysis.
+Gonna watch it again.
+That twitch chat window adds some extra.
+*LIKE*
+', 'false', '2015-11-02 09:49:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1141, 1125, 5, '2015-11-03 07:53:20', '*edit
+Gl to chuvash and WM in the PO.
+Wish you both to play in the final!
+
+', 'false', '2015-11-02 22:07:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1142, 1125, 46, null, 'Nice energetic commentating in stream by Walrus! Good balance between game analysis and light jokes. I would like to see you in streams more often!', 'false', '2015-11-03 17:08:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1143, 1125, 288, null, 'thank you chuvash that was so kind', 'false', '2015-11-03 17:48:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1144, 1125, 10, null, 'That shotgun disaster :(', 'false', '2015-11-03 19:40:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1145, 1127, 288, null, 'better luck next year', 'false', '2015-11-05 11:02:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1146, 1128, 274, null, 'Sorry for the break Piki!', 'false', '2015-11-07 18:44:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1147, 1128, 251, '2015-11-07 23:37:31', 'Nothing to be sorry about Felo! It only effected your game, not mine, which is a shame. You were really playing well in those first two caves.
+
+Just keep up that brilliant gameplay,  Id love to see you make FaD sweat a lot, and to see how you play against Kilo!
+
+Also, good that youre back, I hope your return in activity here won''t be for nothing ;)
+
+EDIT: Seems like people love you far more than they do me hahaha', 'false', '2015-11-07 19:05:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1148, 1131, 262, null, 'amazing victory,  now i believe the big final will be taner vs AKT.
+
+', 'false', '2015-11-09 00:06:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1149, 1131, 288, null, 'WILD
+', 'false', '2015-11-09 00:12:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1150, 1131, 212, null, 'Tita you have specific sense humor :) ', 'false', '2015-11-09 04:19:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1151, 1131, 46, null, 'weeee!!! Great job mr.Akt!', 'false', '2015-11-09 06:15:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1152, 1131, 287, null, 'o chuj :D ', 'false', '2015-11-09 11:40:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1153, 1131, 5, null, 'lol Akt is a savage! ))
+A sofa savage! )))', 'false', '2015-11-09 14:41:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1154, 1136, 262, null, 'thanks all 15 votes, but vote isn''t skill  xD', 'false', '2015-11-10 13:10:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1155, 1136, 5, null, 'Well, i guess skill is still there. It''s just about form, motivation and element of surprise.
+Maybe you didn''t expect much from Korydex. It''s a dangerous trap.
+
+', 'false', '2015-11-10 13:19:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1156, 1136, 262, '2015-11-10 14:09:12', 'i  lost 3-0 vs korydex days ago in ONL khamski.   )  i knew about your skills, anyway was my first game of day.  cu  & rola', 'false', '2015-11-10 14:04:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1157, 1136, 20, null, 'Wild', 'false', '2015-11-10 14:20:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1158, 1136, 5, null, 'Oh, crap. Stopped checking ONL after CWT thing started.
+Yeah, well. Don''t go far. CWT is still going. ) We need audience. ', 'false', '2015-11-10 14:21:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1159, 1142, 20, null, 'Penis', 'false', '2015-11-10 20:14:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1160, 1142, 20, null, 'Lol it works', 'false', '2015-11-10 20:15:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1161, 1142, 10, null, 'wild.', 'false', '2015-11-10 20:15:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1162, 1142, 5, null, 'Tough game. Infinite draws...', 'false', '2015-11-10 20:25:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1163, 1135, 46, '2015-11-12 20:12:44', 'meant, gg', 'false', '2015-11-11 07:02:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1164, 1140, 288, null, 'wild
+', 'false', '2015-11-11 22:15:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1165, 1140, 217, null, 'That last second nade from almost ploping worms is fantastic. Congratz man you earn it.', 'false', '2015-11-11 22:56:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1166, 1140, 262, null, 'Gj taner ', 'false', '2015-11-11 23:30:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1167, 1140, 46, null, 'ok, we got christian taner for some more time', 'false', '2015-11-12 05:55:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1168, 1135, 5, null, 'Would be great if streamers could edit those stream boxes above.
+http://www.twitch.tv/khamski/v/25443889', 'false', '2015-11-12 20:18:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1169, 1135, 251, null, 'I watched the stream of our match. And I am highly disrespected to hear what you had to tell about me... DO I LOOK LIKE A 16 FUCKIN YEAR OLD KID TO YOU? xD Im just kidding :) Thanks for the stream,  I actually like that you gave your opinion, will make me want to beat this fker even more in our next game)) (no offence lol)
+
+Have a lot to work on, but also have been lucky enough to experience what that exactly is in such a big tournament.
+
+Ggs, good luck in next rounds :)', 'false', '2015-11-12 22:14:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1170, 1135, 262, null, '3rd hand required.', 'false', '2015-11-12 23:56:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1171, 1135, 237, null, 'Piki, challenge him and beat in tennis match! :D That could be sweet rewange! :)', 'false', '2015-11-13 09:12:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1172, 1143, 20, null, 'last turn = WILD', 'false', '2015-11-14 22:54:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1174, 1143, 288, '2015-11-14 23:27:40', '[size=14]WILD[/size]', 'false', '2015-11-14 23:26:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1175, 1137, 287, null, 'Kano is justifiet for me,becouse he was under influence of porn and alco :D', 'false', '2015-11-15 18:34:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1176, 876, 5, null, 'Blast from the past! ))
+Hope i play this fella in next edition.
+
+wtf am i even doing in year 2010 lol.
+', 'false', '2015-11-15 20:00:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1177, 869, 5, null, 'wtf, Koras!  I give you 5 years to fix this! ', 'false', '2015-11-16 16:19:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1178, 1136, 13, null, 'awwwwww
+gj Kor;p', 'false', '2015-11-17 19:20:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1179, 1142, 10, null, 'Koras was quite rusty in this game. Wasn''t top level.', 'false', '2015-11-20 17:07:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1180, 1142, 288, '2015-11-20 23:32:08', 'Koras you''re too old for this buddy.', 'false', '2015-11-20 19:06:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1181, 1147, 262, null, 'now is my time to say   WILD!!!!', 'false', '2015-11-21 19:56:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1182, 1147, 20, null, 'You didn''t even have the balls to upload the round where you dropped? :)
+
+Every story has the beginning and the end. The mine ends here. Thanks to all these people who we had fun with through all these years, it was amazing - and at times awful, but so is life. GGs!', 'false', '2015-11-21 19:57:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1183, 1147, 47, null, 'lol, I dropped? Check the replay, it actually said "nickynick quits", and before that Azgon and nicky had some dissynchronization issue. Anyway, I am sorry for this incident and not giving you a "free win" for that round, it''s not that I am unsportsmanlike, but I really didn''t see an overwhelming advantage for you there. I owe you beer man, hope no hard feelings ;)', 'false', '2015-11-21 20:05:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1184, 1147, 20, null, 'Yeah, it was you who dropped with "skipped packet", everyone else was in the game. Anyway, judging by the rest of the game, I''m fully capable to blow any amount of advantage, so my claims are invalid. Life!', 'false', '2015-11-21 20:12:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1185, 1147, 47, null, 'Whatever happened, let''s not become enemies over a stupid game. Piece
+', 'false', '2015-11-21 20:14:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1186, 1147, 47, null, 'Peace*
+
+lol', 'false', '2015-11-21 20:15:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1187, 1147, 262, null, 'rubber worm detected?
+
+next time play without rubber  )', 'false', '2015-11-21 20:16:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1188, 1147, 20, null, 'Yeah, no hard feelings Fanto, there''s no point to hold a grudge. Anyway, I''m done for, so it all doesn''t really matter.', 'false', '2015-11-21 20:27:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1189, 1144, 262, null, 'W.I.L.D!!!', 'false', '2015-11-22 22:42:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1190, 1144, 1, null, 'FaD wildly showing off who is the defending champion.', 'false', '2015-11-22 23:22:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1191, 1147, 13, null, 'gj Fanto!
+btw its not just a stupi game........', 'false', '2015-11-26 14:38:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1192, 1144, 13, null, 'owned :P', 'false', '2015-11-26 14:39:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1193, 1142, 13, null, 'I hope its your year bro!
+gl!', 'false', '2015-11-26 14:40:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1194, 1080, 237, null, 'Gj FaD :)', 'false', '2015-11-27 16:06:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1195, 1146, 238, null, 'Uploaded the stream on youtube cause twitch didn''t save it: https://www.youtube.com/watch?v=mPpmDVryslk', 'false', '2015-11-27 19:39:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1196, 1080, 55, null, 'thx :P', 'false', '2015-12-05 16:38:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1197, 1080, 288, null, 'history shall repeat itself.if fad beats me then fad can beat anyone.
+', 'false', '2015-12-05 17:47:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1198, 1080, 262, null, 'lol  wtf?  taner, your level is very easy. that''s all.', 'false', '2015-12-05 19:14:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1199, 1148, 10, null, 'Well played FaD. It was a truly exciting game full of crazy stuff.
+
+Thanks for the amazing stream guys. I was really enjoying watching your insights and comments on our way of playing.
+
+A special thanks to Mablak for commenting this game. Though please get out of my head. You too often spoke out my exact thoughts on the in-game situations (plus more information).
+You use your fingers for measuring kamikaze distance as well? I thought I was the only one! :D', 'false', '2015-12-07 07:42:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1200, 1148, 262, null, 'Fad Maybe you didn''t expect much from kayz.
+
+I remember you talking to Chuvash
+
+"FaD``NNN]yup next time, when you play final with me ok?"
+
+caution next time my friend.   ', 'false', '2015-12-07 12:38:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1201, 1148, 238, null, 'http://www.twitch.tv/docone42/v/28611397 I can''t set this video here for some reason :o', 'false', '2015-12-07 12:59:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1202, 1148, 1, null, 'DarkOne, did you register your Twitch.tv channel on the site? If not, then thatâ€™s probably the reason.', 'false', '2015-12-07 20:21:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1203, 1148, 238, null, 'I did, but the stream was a last minute decision, so I didn''t preregister before the match', 'false', '2015-12-07 20:22:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1204, 1148, 1, null, 'If you registered it after the first person had visited the page the the result of no matching video was cached.', 'false', '2015-12-07 20:25:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1205, 1148, 1, '2015-12-07 20:46:51', 'I think I figured the issue. Youâ€™ll probably need to save the stream as a highlight. Only then I can retrieve it through the Twitch.tv API.
+
+Edit: If you look at Khamskiâ€™s channel for instance, he has all his streams listed under highlights and they all appear on the site, too. http://www.twitch.tv/khamski/profile/highlights', 'false', '2015-12-07 20:45:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1206, 1148, 55, null, 'congrats Kayz, close match as espected, gl in final', 'false', '2015-12-07 20:59:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1207, 1148, 10, '2015-12-07 21:19:04', 'Ah yeah. Highlights are important, otherwise it gets deleted. Thank you bro! Next year it will be yours again :)', 'false', '2015-12-07 21:18:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1208, 1148, 11, null, 'Interesting that we were thinking alike Kayz! It was fun to put my thoughts out there, good match to both and GL in finals, I''d like to commentate there too.
+
+Yeah, fingers for kami is a tiny bit more accurate than estimation, even if it''s less accurate than a ruler. But I still maintain using straight-edges or rulers is against the rules, along with surgically replacing your fingers with rulers.', 'false', '2015-12-07 23:15:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1209, 1148, 13, null, 'great game!', 'false', '2015-12-08 05:41:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1210, 1148, 238, null, 'Thanks, Zemke, I put it as highlight and it appears now :)', 'false', '2015-12-08 09:55:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1211, 1148, 10, null, '"[...] along with surgically replacing your fingers with rulers."
+
+Hahahaha!', 'false', '2015-12-09 17:57:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1212, 1149, 10, null, 'Congrats for bronze mate. I expected a bit more consistency and less fails from both sides though.', 'false', '2015-12-22 15:33:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1213, 1150, 10, null, 'Congrats man. Well played. Wish I was more consistent', 'false', '2015-12-22 21:53:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1214, 1150, 46, null, 'Fast report :D
+Thank you! Was a good game!', 'false', '2015-12-22 21:54:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1215, 1150, 13, null, 'TRIPLE G :)
+', 'false', '2015-12-22 21:55:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1216, 1150, 262, null, 'The big champion!    gj dude, but,  wtf kinslayer ??  what a idiot', 'false', '2015-12-23 12:44:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1217, 1150, 22, null, 'how do you know it was kinslayer? Yea he said it. And if he had said "Im Dario" you could have believed that too?', 'false', '2015-12-23 17:50:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1218, 1150, 262, null, 'i just know.  that''s all.  cu & rola', 'false', '2015-12-23 23:53:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1219, 1135, 512, null, 'good luck for a next round piki....', 'false', '2016-08-04 13:08:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1220, 1148, 512, null, 'intersting game....!', 'false', '2016-08-04 13:09:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1221, 1150, 5, '2016-08-20 20:45:52', 'From the first sound s i detect awesome pro commentator  in the stream!! Who is this guy?
+Thats who we need in wworms streams! Awesome to watch.
+I guess second new voice is Mablak. Awesome inputs.
+Damn. How could community go mute/dead for a year after stream like this!
+It''s awesome. ', 'false', '2016-08-20 20:43:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1222, 1150, 5, null, 'Hahah.. What with the Kayz sound banks? Fucking awesome.. Is it Docones sounds or Kayz''s ? ', 'false', '2016-08-20 20:57:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1223, 1150, 5, null, 'Ahahaha... "brb 43.6 secs" ))) Legendary!
+', 'false', '2016-08-20 21:05:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1224, 1150, 5, null, 'lol that Kayz cows in second round was so sudden for me. Fluid kill.', 'false', '2016-08-20 21:17:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1225, 1150, 5, null, 'Cool match. Dat sheep at the end. A lotta interesting moves. Mablak commentary so epicly precise.
+chuvash is a cold stone. No matter what he just goes for it and get it. Huge fighting spirit. gg.', 'false', '2016-08-21 00:23:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1226, 942, 5, '2016-09-15 15:28:56', 'MODS! How can i dl this game?
+I don''t see it in archive i just dl''d.
+
+
+GOT IT.
+
+TIP:
+When you browse games in that archives just sort it by time.
+So you get nice game list from final down to group games.', 'false', '2016-09-15 15:24:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1227, 1143, 252, null, 'i misclicked like, I havn''t watched this yet, please remove my like xD', 'false', '2016-10-07 09:10:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1228, 1143, 5, null, 'I bet this one was quality. One guy is a champ another guy is veeery skilled wormer.', 'false', '2016-10-07 12:05:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1229, 1143, 13, null, 'great foto Chuvi :)', 'false', '2016-10-08 22:54:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1230, 1150, 9, null, 'I looked at it just today, all five games. Great match. Kaiz is good, but Chuvash great. Very stable psychologically, this chess player!', 'false', '2016-10-12 21:31:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1231, 1155, 52, null, 'R2 shotgun battle. In R3, I was shocked when the uzi after six and a half minutes only did 37 damage.', 'false', '2016-10-25 18:20:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1232, 1156, 262, null, 'WILD', 'false', '2016-10-25 19:03:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1233, 1154, 212, null, 'Good Job ', 'false', '2016-10-25 19:10:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1234, 1156, 52, null, 'Wild comeback in R3', 'false', '2016-10-25 19:10:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1235, 1156, 226, null, 'I SHALL RETURN MORE POWERFUL THAN EVER', 'false', '2016-10-25 19:20:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1236, 1156, 262, null, 'NEXT MATCH OR NEXT YEAR?   ', 'false', '2016-10-25 19:21:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1237, 1156, 1, null, 'â€œLowercase Tanerâ€™s messagesâ€ appears to be useful for comments as well. :)', 'false', '2016-10-25 20:16:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1238, 1156, 4, null, 'nice comeback in round 3 by Afina. good try with bat bounce plop by taner at 21:00', 'false', '2016-10-26 04:21:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1239, 1156, 629, null, '
+I can not understand how I won in the third round. After the cows Taner had the advantage of 375 health points. Let''s analyze? My cows have caused damage to 150 hp (100 + 75 - 25 hp of my worm). Next move taner unblocked his 2 worms. Next my move i killed his worm with 50 hp. Taner next move was a mistake, but it was really bl. My next move - damage to 100 hp. 375 - (150 + 50 + 100) = 75. This is not a big advantage. And he used too many weapons (ropes, jp, sw). Next move taner killed my worm with 1 hp lol (but for me it is 25 hp). I think it was a mistake. Next move i blocked his worm. His next move was big mistake (he used rope and dynamite, but 0 damage). He could use kami. My next turn - 25 damage. And mistake in the end (bow plop was nice, but it was a fatal mistake). That is why i not like use all sw.
+At the end of the game MAYBE he could use bat and plop my worm. But when i played i thank it is very hard to do (or impossible).
+Result. He lost because he made too many mistakes and chose a bad tactic.', 'false', '2016-10-26 05:21:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1240, 1156, 237, null, 'I completly don''t know you, Afina (are you new? or changed nick?) but GJ, well done :)', 'false', '2016-10-26 06:54:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1241, 1156, 5, '2016-10-26 11:20:13', 'Anyway taner''s chance to qualify was and is against quiet inactive Fantomas.
+Against Afina he had no chance because of her style of play.
+It''s ideal to beat players like taner. Zero risk, tactical, thoughtful.
+Also as i said Afina is active and Fantomas isn''t.
+
+But Afina''s introduction to CWT is impressive! Baboozzhh! Total devastation of last year PO participant. ', 'false', '2016-10-26 11:19:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1242, 1156, 262, null, 'I''m still asking myself, why so much waited for Sudden Death in the second game by taner.    4  full worms vs 3 with a easy conection without roper,  taner had the vantage.   3rd  game ? OMG  fucking come back.
+
+taner could win two rounds imo.   maybe win by 3-1.  ', 'false', '2016-10-26 12:03:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1243, 1156, 55, '2016-10-26 12:28:16', 'Afina is new to CWT but she is known as ,,Anastasia'''' when she joined onl years ago she was just a basic player and she got some trouble there and got baned. But that was not a neck break for her she keep playing intermediate and improved her game to a very tactical and smart game. ', 'false', '2016-10-26 12:12:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1244, 1156, 9, '2016-10-26 15:10:55', 'Impressed. I looked with great interest, and this game was a definite opinion about the players. Not sure I have a great chance, but I''ll try. I have very little play in the serious games recently.
+
+Most like this:
+- "I am not a man, taner, i women"
+- "You sure?" XD
+
+Afina, gj!', 'false', '2016-10-26 15:10:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1245, 1157, 10, null, 'You played well. I guess I need to practise more if I want to stand a chance in this year''s CWT..', 'false', '2016-10-26 15:20:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1246, 1156, 298, null, 'I actually felt bad for Taner for the first time.....', 'false', '2016-10-26 16:10:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1247, 1156, 237, null, 'thx, FaD :) ', 'false', '2016-10-26 19:33:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1248, 1159, 262, null, '2nd game, last shot.   Likes!!!', 'false', '2016-10-26 21:05:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1249, 1159, 52, null, 'Yeah, the climax of R2 will probably be my finest moment of the whole tournament! I probably should''ve won R4, but I was becoming tired by then... But at the end of the day, I was playing one of the celebrated best players in the world, so I shouldn''t grumble.', 'false', '2016-10-27 07:58:28');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1250, 1160, 31, null, ':(', 'false', '2016-10-27 20:43:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1251, 1160, 262, null, 'The white flag of Zoky is contagious!!!  ', 'false', '2016-10-27 21:25:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1252, 1162, 52, null, 'GGs. And as for R3, the "Forts round", WTF?! :-)', 'false', '2016-10-28 17:57:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1253, 1162, 262, null, 'Funny R3  lol  ', 'false', '2016-10-28 18:04:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1254, 1162, 4, '2016-10-28 18:07:13', 'http://lookpic.com/O/i2/1714/TihJ26sH.png
+this round will go to history :D', 'false', '2016-10-28 18:06:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1256, 1162, 1, '2016-10-28 19:03:49', 'Thatâ€™s a truly territorial allocation.', 'false', '2016-10-28 18:28:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1257, 1162, 262, '2016-10-28 20:49:20', '1st game I played In this map against chuvash today!! wtf???
+
+
+Anyone know what this means?
+
+N O T H I N G!!!!', 'false', '2016-10-28 20:43:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1258, 1164, 262, null, 'Gj 2016 champion!!', 'false', '2016-10-28 20:47:33');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1259, 1164, 46, null, 'ty! :)', 'false', '2016-10-28 20:54:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1260, 1164, 11, null, '4:30 round 2, nice cows', 'false', '2016-10-28 22:08:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1261, 1164, 262, null, 'kpyto!!!', 'false', '2016-10-28 22:34:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1262, 1162, 5, null, 'tita is the best )))', 'false', '2016-10-29 12:07:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1263, 1164, 5, null, 'Yeah, great cows by NOox. Was that brilliance intentional?
+Also sheEp mind control was great later in third.
+
+Meanwhile chuvash  don''t need all that flashy moves to grab his regular 3-0 bash.
+gg', 'false', '2016-10-29 12:34:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1264, 1162, 5, null, 'Viks is rusty as f.
+I guess he will pick up his for to PO.', 'false', '2016-10-29 12:41:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1265, 1165, 55, null, 'taff game as i espected, kahmski you did just to much mistakes buddy,
+gj tadeuszek', 'false', '2016-10-29 22:46:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1266, 1166, 262, null, 'WILD kamikase!', 'false', '2016-10-29 23:21:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1267, 1166, 4, null, 'what time tita? cba to watch the whole game', 'false', '2016-10-29 23:50:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1268, 1166, 262, null, '21:45   2nd game.  VNT + BL = GG ', 'false', '2016-10-30 00:14:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1269, 1165, 212, null, 'Ojj ten Tadeusz', 'false', '2016-10-30 01:08:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1270, 1166, 212, null, 'Taner I hope you will be taking part next year.', 'false', '2016-10-30 01:28:32');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1271, 1166, 262, null, 'ROFLMAO KANO!!!!', 'false', '2016-10-30 01:43:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1272, 1166, 11, null, 'Those endings are gonna give me nightmares', 'false', '2016-10-30 01:45:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1273, 1165, 4, null, 'ae enjoyed this stream http://www.twitch.tv/wormsstream17/v/97853356
+btw am i the only one that thinks sg plop could with the game for khamski?
+and what''s up with yer jumps man, let''s play some battlerace x]', 'false', '2016-10-30 10:11:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1274, 1166, 52, null, '1 hp hell for taner in the caves... And good use of  ^^  by Fantomas in the chat in the first island :-)', 'false', '2016-10-30 11:07:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1275, 1165, 5, '2016-10-30 14:13:50', 'Yeah, too many stupid falls in a crucial moments.
+But not bad game after all.
+I kinda fade out at the closing round.
+Now i see i could get it pretty surely if not that fall.
+
+
+2Kory: GREAT, observation there. I saw it after you said it. And i guess yess. It was totally a kill.
+
+2 twitch.tv/wormsstream17 :
+Awesome as always, guys!
+I hate t0 watch streams of games i lost but this one went very entertaining.
+And great analysis of the game.
+
+I was playing fast mostly.
+There were situations that i had to delay but i spotted it with  skip move animation.
+And yes, i started to slow down at the end.
+But it was a brain fatigue already i guess.
+I could obviusly grab a win there.
+
+AND THISE COWS COULD WORK!!!
+I was contemplating it but thought second one would go down.
+
+Good game, anyway. Gl to tadeuUUuuUUSHH in his next games!
+
+p.s. That no fall damage on 1hp poisoned worm was knda CREEEPY !!! )))) (round 1 ending)', 'false', '2016-10-30 13:51:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1276, 1170, 262, '2016-10-30 21:56:47', 'Bad lucky using six cows viks.', 'false', '2016-10-30 21:56:22');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1277, 1170, 16, null, 'Yea, stupid animals. Btw Mab has few new unexpected tricks like sd aim, he becoming old unbeatable Mablak', 'false', '2016-10-30 22:10:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1278, 1168, 262, '2016-10-30 23:52:27', 'White flag war.', 'false', '2016-10-30 23:49:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1279, 1168, 20, null, 'Well, it''s not like I could do anything at all in round 4.', 'false', '2016-10-31 09:20:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1280, 1168, 262, null, '2014 , 2nd game, Fad (370hp)   vs  (700hp)    chuvash   Who won?   who?  who?
+
+Sorry friends, but white flag is for the weak.
+', 'false', '2016-10-31 11:07:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1281, 1169, 52, null, 'The hundreds of hours tadeusz has spent playing ONL games are paying dividends now. Another hard-fought five-round victory. Keep going like this!
+
+It was odd watching the last round knowing the result, when it was 1 vs 2 in SD. Oh, that missile by WM...', 'false', '2016-10-31 13:33:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1282, 1171, 295, '2016-10-31 13:40:43', '[color=LimeGreen]Did not expect so easy wins here, anyway GL next free, it is not over yet[/color]', 'false', '2016-10-31 13:38:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1283, 1171, 212, null, 'Powodzenia w playoffach', 'false', '2016-10-31 13:42:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1284, 1171, 212, null, 'Skila masz duÅ¼ego ale to bÄ™dzie za maÅ‚o chyba na Chuvasha , Kayza , itp... Oni myÅ›lÄ… po kilka ruchÃ³w w przÃ³d , przewidujÄ… , analizujÄ… w gÅ‚owach mapÄ™  , i Twoje moÅ¼liwe ruchy . Popraw to a bÄ™dziesz groÅºny w 1/8 .  Chuvash mablak kayz sÄ… pÃ³ki co poza zasiÄ™giem reszty . ', 'false', '2016-10-31 15:07:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1285, 1171, 237, null, 'I ja, ja teÅ¼ jestem poza zasiÄ™giem reszty :D bo nie gram XD', 'false', '2016-10-31 15:44:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1286, 1171, 212, null, 'Nie grasz Å¼eby inni mieli szanse , to zrozumiaÅ‚e xD', 'false', '2016-10-31 15:47:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1287, 1171, 295, null, 'mÄ…dre sÅ‚owa Kano, jeszcze do koÅ„ca nie wiem czy bÄ™dÄ™ w PO, ale mam nadziejÄ™ Å¼e nie trafiÄ™ od razu na chuvasha fada czy mablaka. z Kayzem dam sobie rade :)', 'false', '2016-10-31 16:00:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1288, 1171, 61, null, 'Shouldnt play on mates keylocked PC.
+
+But hey I think we need to rematch the last round.
+
+You got to start twice.', 'false', '2016-10-31 17:02:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1289, 1172, 212, null, 'Coolman I hope you will be taking part next year.', 'false', '2016-10-31 18:23:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1290, 1173, 238, null, 'Congratulations on winning your group, tadeuszek! Hard fought games', 'false', '2016-10-31 18:41:14');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1291, 1173, 55, null, 'in round 3 Kilo u realy should have used shot gun instead of axe in the end, ', 'false', '2016-10-31 18:59:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1292, 1174, 31, null, 'My positions in 2nd round....', 'false', '2016-11-01 10:11:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1293, 1174, 53, null, 'bl man but you dont even have tried.
+', 'false', '2016-11-01 10:44:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1294, 1174, 31, null, 'Tried what ? Wasting time ? Stop joking, my 5 worms together at bottom of map, your worms separated on top of map.', 'false', '2016-11-01 11:22:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1295, 1174, 262, '2016-11-01 12:42:07', 'CWT.
+Year = 2014
+game = tita vs tade
+round = 4th
+Score = tade 2-1 tita  Playoffs
+
+
+Just a exemple how I lost -3 In the first turn and win the game.
+
+we have to respect the white flag, confidence and bravery is for the few.', 'false', '2016-11-01 12:40:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1296, 1174, 212, null, 'First group close to finish all games ', 'false', '2016-11-01 13:09:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1297, 1175, 9, null, 'The first game - failure, not ready. Only in the third game i was functionally ready, but not tactically. The fourth total BL (sheep, knock and etc).', 'false', '2016-11-01 15:37:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1298, 1176, 178, '2016-11-01 21:31:06', 'Archive contain two replays. The third game did not take place due to renouncement
+ of the opponent.', 'false', '2016-11-01 21:30:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1299, 1176, 210, '2016-11-02 08:55:09', 'How do I get started?I''ll try not to be long,I dont have time to write to all, so I write to the boss this party
+Kayz,you just fucked this tournament in this year, most thinking people here know about it.In qualifications, you have set together good players with good, noobs with other noobs. As for those which entered without qualification(think what I mean), say hello to them for me;)I also greet your followers,especially Chelsea which likes all games(to increase the range of the tournament or what ?!).You wanted to put me off at the beginning of CWT, but you should give a chance for Husk, he is good m8, next time maybe i will change nick cause probably only Tadek and Kano write correctly. At the end, that tournament was not fucked for the year, ask people if anything you are not sure (dont be angry about bad language, but believe me, in Polish it would be worse) :)
+pozdro 600 see ya man
+
+ps. Koras w tym roku do CWT nie zagram bo mam duÅ¼o rzeczy na gÅ‚owie i inne ciekawsze rozrywki :) pÃ³ki co gre wyjebaÅ‚em, moÅ¼e za rok sprÃ³buje jak bÄ™dÄ™ przy kompie :D gj bro nadupcaj braci rosjan(moÅ¼e ciarachy tego nie przetÅ‚umaczÄ…) narka', 'false', '2016-11-02 08:51:23');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1300, 1171, 61, null, 'http://s000.tinyupload.com/index.php?file_id=24620416552321711045
+
+Rest of 2 rounds', 'false', '2016-11-02 17:54:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1301, 1176, 10, null, 'I disagree. I used a random pairing tool for this. If you want to win CWT, you need to win vs. every single player. So it doesn''t matter if I paired good with good / noobs with noobs. You are just mad because you lost. End of story.', 'false', '2016-11-02 18:03:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1302, 1176, 5, null, 'I am no fan of Kayz but i see this tourney going GREAT so far. Qualis, draw, streams. Everything is very smooth. Just support the toruney and make it stronger. No need to go negative.', 'false', '2016-11-02 18:17:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1303, 1176, 287, null, 'Bugi,dziekujemy za emocje.Jestes WIELKI.', 'false', '2016-11-02 18:59:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1304, 1176, 210, null, 'no moze nastepnym razem zagram pod innym nickiem bo ten ewidentnie mi nie sÅ‚uÅ¼y heh a kajzior pierdoli bo musial sie upalic trawa od titusa
+', 'false', '2016-11-02 19:04:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1305, 1176, 287, null, 'haha :D dobrze tych bucow cisniesz :D gj
+', 'false', '2016-11-02 19:05:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1306, 1176, 210, '2016-11-02 19:07:43', 'a ten ham''ski niech nie pierdoli ze kwalifikacje sprawnie plynnie poszly jak sam nie gral a powinien bo skilem po chuju :D', 'false', '2016-11-02 19:07:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1307, 1178, 262, null, 'WTF LAST ROUND!!!  lol', 'false', '2016-11-02 23:47:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1308, 1171, 1, null, 'Iâ€™m going to change the result to 3â€“1 on Friday at the earliest.', 'false', '2016-11-03 00:50:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1309, 1178, 36, null, 'so long xD', 'false', '2016-11-03 10:12:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1310, 1179, 629, null, 'I played bad. I not know what happen with me but i played bad...', 'false', '2016-11-03 13:49:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1311, 1179, 52, null, 'Err, you played well throughout', 'false', '2016-11-03 14:46:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1312, 1179, 9, null, 'I did not like the game. this is the worst that I''ve played in tournaments in the sense interestingness. I was bored the whole game. Disgusting game. But this is the reality of this scheme, the game becomes dry and dull, tactical. I do not like it.', 'false', '2016-11-03 15:18:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1313, 1179, 5, '2016-11-03 17:36:09', 'Offline game can be dull. Funner can be dull. Even ONL game can be dull.
+CWT game is never dull. Nevurr.', 'false', '2016-11-03 17:35:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1314, 1180, 226, null, 'WILD', 'false', '2016-11-03 22:07:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1315, 1180, 5, null, 'Noobfest.
+Few good moves though.', 'false', '2016-11-03 22:12:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1316, 1180, 22, null, '3rd round:
+ - 2.55: http://ljdchost.com/I4ri4wP.gif
+ - 4:28: http://tclhost.com/MfLbyh8.gif
+ - 5:30: http://ljdchost.com/BcWZW7i.gif
+ - 7:40: http://ljdchost.com/rZa59sd.gif
+ - 13:38: http://ljdchost.com/W5a3uQa.gif', 'false', '2016-11-03 22:47:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1317, 1180, 5, '2016-11-04 14:45:21', 'All depends though.
+I made abs. giant  reconnect late at the third.
+To my skill level of course.
+
+Gird tactics late at the second was not bad.
+
+1st round i was playing as fast as it possibly can be played.
+Kinda achievement for me too.
+
+All that knowing that game started at 23:30 local time for me.
+
+And i was in the middle of total craziness...  Mass poisoning of our town from water.
+
+Everybody puking and shitting. Weird thing.
+', 'false', '2016-11-04 09:05:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1318, 1179, 10, null, 'It only becomes dull and boring if you are so much afraid of taking a risk that you end up using shotgun every turn. But that''s your choice. You can do spectacular moves that still can be tactical.', 'false', '2016-11-04 13:44:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1319, 1179, 4, '2016-11-04 14:34:27', 'boring things about CWT imho are:
+* only 1v1 games (2v2 is more personalities hence more fun, see clanners)
+* cup style (scheduling games sucks)', 'false', '2016-11-04 14:27:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1320, 1179, 10, null, 'With a 2v2 Intermediate cup you will have over 9000 dramas. I can imagine a thousand scenarios: One player drops while having 1 blocked worm left, the other player wants to continue, the opponents think it''s unfair (because they have two teams to control and the other pair with the dropped player just one) etc. . Placement becomes even more important because of just 4 worms in each team that can be selected, then it''s even harder to schedule, then you will have complaints about players not doing what their teammate wanted to do, then they lose and never talk to each other again. In clanners 2v2 work, because there a single game doesn''t mean that much. But a playoff game is much more important, especially with money prizes involved.', 'false', '2016-11-04 15:23:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1321, 1180, 52, null, 'Putin should hire Steven Seagal to go into Dagestan and kick the polluters'' asses!', 'false', '2016-11-04 16:18:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1322, 1176, 13, null, 'lol he said he wont play vs me....', 'false', '2016-11-04 19:48:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1323, 1176, 13, null, 'Nie bÄ…dÅº pizda, masz zagraÄ‡ ze mnÄ… :) Od niedzieli mam nocki wiÄ™c caÅ‚e popoÅ‚udnia mam wolne. Odezwij siÄ™ numer ci podaÅ‚em. Potrzebuje tych punktÃ³w .............', 'false', '2016-11-04 20:03:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1324, 1181, 212, null, 'Calculated haha  , love it ', 'false', '2016-11-04 20:22:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1325, 1182, 262, null, 'Ahh komo is not inside of the game, he was just commentating.  very nice.
+
+bl aladdin, you are welcome in my game tomorrow.', 'false', '2016-11-04 22:33:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1326, 1179, 9, '2016-11-05 08:34:58', 'Kayz, strange, but in this game, I have not seen good moves. Perhaps this is because of the excellent tactical play Athens, partly due to the unsuccessful placement. Previous my comment I wrote is not in the best mood. And fact - the game was boring, I could not sharpen it, it''s me and annoyed. Most of all, I do not have enough match practice in the league, but I do not aspire to play there. Only few players, all well prepared and almost all play tactical games.
+ So, caves maps are not my favorite.
+[bCCOOC - big error to CWT rules, Ðµhis gives an advantage to some players For a good balance: COCOC or OCOCO. This is true!/b]
+
+In any case, the [u]CWT of the game - it''s cool and emotionally[/u]! Hopefully, I will take part in the following.', 'false', '2016-11-05 08:22:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1327, 1179, 639, null, 'The Problem with OCOCO or COCOC is that One Player always Starts at Cave maps and the other Player always Starts at Open maps...', 'false', '2016-11-05 11:45:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1328, 1179, 10, '2016-11-05 13:49:55', '"CCOOC - big error to CWT rules, Ðµhis gives an advantage to some players For a good balance: COCOC or OCOCO. This is true!" No it''s not a good balance, it''s broken. How is CCOOC an error? Everyone starts each on island and cave, and the staring luck is minimised due to round 5 being cave at a 2-2. All serious intermediate players play CCOOC in bo5 maps since before CWT got founded. This is the first time I hear that it''s wrong. If you are losing 0-2 after the first two cave maps, then it''s just your fault for not winning at least one of those. Can''t blame the opponent for starting third round then. Another option would be OOCCC, but that''s only a good option without draws.', 'false', '2016-11-05 13:49:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1329, 1179, 46, null, '"[bCCOOC - big error to CWT rules, Ðµhis gives an advantage to some players For a good balance: COCOC or OCOCO. This is true!/b]"
+Whaaaat??? Are you serious?!!
+_____________________________
+"boring things about CWT imho are:
+* only 1v1 games (2v2 is more personalities hence more fun, see clanners)
+* cup style (scheduling games sucks)"
+This "boring things" since 2002 and still the biggest yearly tournament at wormnet!
+You can change rules in accordance with your fantasy, but this will be not CWT!
+', 'false', '2016-11-05 19:35:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1330, 1179, 4, '2016-11-05 21:40:06', 'yes, chu, its just my problem that im more about fun. i believe the rules are just fine for the most players here
+
+im sorry for bringing offtopic here btw', 'false', '2016-11-05 21:16:58');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1331, 1172, 298, null, 'Thanks Kano, will sure do!
+', 'false', '2016-11-06 09:08:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1332, 1184, 20, null, 'Two grandpas going at it while sitting in the wheelchairs :D', 'false', '2016-11-06 17:34:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1333, 1185, 10, null, 'Hm in last round on the first turn after SD it was possible for Fanto to switch to Bloody Maniac, fly over with jp and do a diagonal kami. Or not? :)', 'false', '2016-11-06 23:20:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1334, 1185, 46, null, 'also at 27:20 he could do homing instead of SG open.', 'false', '2016-11-07 05:29:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1335, 1185, 262, null, 'Ye chuvash, this was the best option.    ', 'false', '2016-11-07 11:58:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1336, 1176, 210, '2016-11-08 19:08:17', 'Å‚atwiej bÄ™dzie jak powiesz szajzowi niech da Ci za ten mecz free wina, bo jeszcze przypadkiem przegrasz i dasz szanse dwÃ³m braciom rosjanom wyjÅ›Ä‡ z grupy, takÅ¼e szkoda kusiÄ‡ los :D', 'false', '2016-11-07 13:03:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1337, 1176, 287, null, 'hahah dobre :D
+', 'false', '2016-11-07 13:10:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1338, 1185, 47, null, 'Yeah, in hindsight, there were many things I could do. But I''m just too rusty, haven''t played any games since last cwt. Afina was better prepared, her tactics were decent and she deserved the win.', 'false', '2016-11-07 16:04:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1339, 1176, 178, '2016-11-08 06:37:51', 'DwÃ³m kacapom? Great chat between bunch of polish comment-warriors. I really like the manners of these guys. Just awesome. If you are not able to communicate adequately, then just don''t write anything. And last - we have to follow the rules.
+
+One of the points:
+Demonstrating unsportsmanlike behavior, in the game or in the forums is forbidden. This includes flaming and defamation of your opponent.
+
+But who cares, isn''t it?', 'false', '2016-11-08 06:05:31');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1340, 1176, 210, null, 'Hey Bro, its only jokes, it was sounds as positive meaning ;)', 'false', '2016-11-08 08:56:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1341, 1176, 210, null, 'But if you feel resentful i will change it', 'false', '2016-11-08 09:02:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1342, 1176, 178, '2016-11-08 11:19:38', 'I hope its just a joke. Sometimes its impossible to get emotions that you put in this text. Peace ', 'false', '2016-11-08 10:21:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1343, 1176, 13, null, 'Lepiej zagrajmy, jutro i pojutrze mam z nimi mecze. Zobaczymy jak mi pojdzie i pogadamy.', 'false', '2016-11-08 17:07:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1344, 1176, 210, null, 'Ok bez problemu, no moze jeden jest: musze zainstalowaÄ‡ grÄ™ ;) zagraj sobie i zobaczymy czy bede musiaÅ‚ graÄ‡ heh', 'false', '2016-11-08 17:15:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1345, 1176, 237, null, 'xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+
+dojebaliÅ›cie XD zaraz Putin sie wkurwi i was zajebie XD', 'false', '2016-11-08 20:08:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1346, 1176, 212, null, 'Zemke coÅ› wspominaÅ‚ Å¼eby nie pisaÄ‡ po Polsku na stronie CWT . TeÅ¼ dostaÅ‚eÅ› proÅ›bÄ™ Chelsea ? ', 'false', '2016-11-08 20:12:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1347, 1176, 262, '2016-11-08 20:26:17', '[color=yellow][size=14]Fuck polish language  xD[/color][/size]', 'false', '2016-11-08 20:24:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1348, 1176, 10, null, 'Lmao wanting Koras to get a free win and making jokes hoping to prevent Russians getting out of the group, calling me "szajsz"? That''s what you call a joke? Hiding behind your language hoping noone will notice? And tadeusz jumping on your remarks like a tiny minion applauding you for this genius? It''s like Pinky and the Brain, just without the brain.', 'false', '2016-11-08 20:55:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1349, 1176, 55, null, 'New cwt rule 2017 only English language, add it Zemke :D', 'false', '2016-11-08 21:35:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1350, 1176, 22, null, 'you Polish made a really nice language by using the last 5 characters of ABC', 'false', '2016-11-08 22:08:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1351, 1176, 237, null, 'tak Kano, teÅ¼ dostaÅ‚em i prawie siÄ™ tym kurwa przejÄ…Å‚em XD', 'false', '2016-11-08 23:13:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1352, 1176, 13, null, 'TY Kilo :)
+
+Kayz szajs means scheiBe :( in fact in polish it sounds similar to your nick :)
+
+idk what going on maybe they think i am still pro :O
+
+
+', 'false', '2016-11-09 16:29:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1353, 1189, 639, null, 'The end of last map got unexpectedly thrilling ;)
+gg''s ', 'false', '2016-11-09 20:02:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1354, 1189, 4, null, 'I thought I was seeing CWT 2007 replay haha. gg oldfags ^^', 'false', '2016-11-09 20:12:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1355, 1176, 210, null, 'Koras, so when we play? maybe after this weekend, i have many work
+ btw Kayz chill m8, just the ''''szajz'''' didnt mean anything offensive,'''' sz '''' as szybki(fast- good fast turns in your performance bro :))', 'false', '2016-11-10 09:41:19');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1356, 1176, 212, null, 'Bugi -> Groups deadline in sunday ', 'false', '2016-11-10 11:59:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1357, 1176, 210, null, 'ok, so in friday or early sunday', 'false', '2016-11-10 13:53:16');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1358, 1176, 13, null, 'u here Bugikwlk?
+', 'false', '2016-11-10 15:20:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1359, 1189, 18, null, 'check out 21:50 of round 3.  Rabbit walks though an opening, when I tried the same I got stuck. :-(', 'false', '2016-11-10 16:08:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1360, 1189, 295, null, 'coz u have too big asshole', 'false', '2016-11-10 16:35:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1361, 1191, 262, '2016-11-13 15:57:22', 'SENSURED!', 'false', '2016-11-10 20:25:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1362, 1191, 212, null, 'Now Bytor gg for cwt2016 :( Bytor I hope you will be taking part next year.  ', 'false', '2016-11-10 20:42:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1363, 1191, 295, null, 'good  shotguns tade, u will be very dangerous
+', 'false', '2016-11-10 22:46:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1364, 1191, 295, null, '06:20  of first game was already best move I saw in cwt so far, well done tade,  u are my favourite from now xd', 'false', '2016-11-11 11:35:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1365, 1192, 262, null, 'gj  and  gl  1/7', 'false', '2016-11-13 11:52:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1366, 1192, 13, null, '1/7 :P
+', 'false', '2016-11-13 12:13:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1367, 1192, 5, null, 'Thx! You too. ', 'false', '2016-11-13 12:39:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1368, 1192, 295, null, 'khamski what did i told u, u win 3:2 from 0:2 yes my friend it was me', 'false', '2016-11-13 13:21:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1369, 1192, 5, '2016-11-13 13:26:33', 'Thx for support, mate!
+*from 1:2', 'false', '2016-11-13 13:25:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1370, 1193, 210, null, 'ZrÃ³b cos z tym bo chuj z takiej gry jak ciagle musiaÅ‚em hostowaÄ‡ wtedy jest chuj nie koncentracja.. ', 'false', '2016-11-13 14:55:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1371, 1194, 212, '2016-11-13 18:03:55', 'old school normal', 'false', '2016-11-13 18:03:47');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1372, 1189, 10, null, 'This is indeed weird. "I was there with rope" doesn''t count. You released the rope before the place where Bytor got stuck. His worm must''ve skipped the exact place where he would get stuck because he moved fast... I think he couldn''t walk back and he could only walk through in 3 of 5 times maybe?', 'false', '2016-11-13 20:29:45');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1373, 1195, 13, null, 'Like I said "see U in final" :)
+
+could be a bit better if I wouldnt make this few extra mistakes in 4th.... ', 'false', '2016-11-13 21:05:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1374, 1195, 46, null, 'ye, I was smashed in round 4 and you could kill me like 2 or 3 different ways. I know "Koras in shape" could never lose it :)', 'false', '2016-11-13 21:15:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1375, 1196, 262, null, '1st replay   16:00    17:00   18:00   19:00   20:00    wtf
+
+
+I thought that free had won the first round.
+
+', 'false', '2016-11-14 01:07:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1376, 1196, 55, null, '1rst round dropped.
+here is the stream replay: https://www.twitch.tv/wormsstream17/v/100914026
+', 'false', '2016-11-14 16:59:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1378, 1209, 5, '2016-11-24 20:54:53', 'Nice thrilling PO game.
+gg', 'false', '2016-11-16 13:44:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1379, 1209, 295, null, 'good move at 05:26', 'false', '2016-11-16 14:25:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1380, 1206, 46, null, 'I''m satisfied', 'false', '2016-11-16 20:32:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1381, 1206, 226, null, 'BASED ON THE LOOK OF  YOUR FACE ON UR PIC IT LOOKS LIKE U JUST CAME IN UR PANTS.
+', 'false', '2016-11-16 20:34:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1382, 1206, 226, null, 'ALL SHIT TALK ASIDE. SEE YOU IN THE FINAL CHUVASH.', 'false', '2016-11-16 20:37:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1383, 1204, 262, null, 'The clip of my pic.
+
+https://www.youtube.com/watch?v=xSjHRdAD4jw
+
+
+GG''s.', 'false', '2016-11-16 22:43:10');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1384, 1204, 13, null, 'easy win :)
+
+Taner should concetnrate on training :D', 'false', '2016-11-16 22:45:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1385, 1206, 262, null, 'Yes taner, I wait you to do the Comments in the  big final chuvash vs mablak!!! we all are waiting this final. ', 'false', '2016-11-16 23:25:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1386, 1204, 5, null, 'tita really went to town with that tactical play. Scary stuff !
+taner had some crazy epic moments but kinda wasn''t there enough to pull them off.
+Anyway good game!
+
+
+', 'false', '2016-11-17 00:17:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1387, 1206, 5, null, 'Kinslayer had his chances but kind of decided to play safe.
+But then again not safe enough.
+And this kind of play play is bread"n"butter for chuvash.
+Good game!', 'false', '2016-11-17 00:19:51');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1388, 1204, 61, null, 'Gj titaaa', 'false', '2016-11-17 01:57:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1389, 1204, 262, null, 'ty free  :)  Good lucky for you!!!', 'false', '2016-11-17 02:02:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1390, 1204, 36, null, 'Well done cabron
+', 'false', '2016-11-17 07:37:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1391, 1206, 9, null, 'n jump 10.10 in 1 game. Overall, entertaining game!
+', 'false', '2016-11-17 11:18:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1392, 1208, 13, '2016-11-18 00:21:34', 'I''m glad you''re back to the tournament after a two year''s break.
+I hope it''s not because of VBL loose vs me in 2013.....  when U was a better player too :)
+I also hope that in 2017 I will pick someone easier in 1/8 then Mablak or Kayz who konocked me out in previous CWT :S', 'false', '2016-11-18 00:17:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1393, 1208, 11, null, 'Tough one, Koras played well despite a bit of rust. Good match sir.', 'false', '2016-11-18 00:31:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1394, 1208, 46, null, 'at 23:00 in chat:
+mablak: gg
+mablak: messages stopped
+looks like "hey! I sayd gg not because of cheat timer, I just saw is no message there!" :D', 'false', '2016-11-18 05:43:52');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1395, 1205, 13, null, 'At least 1 polish player reached 1/4 :)
+
+gj bro!
+
+we have to play someday', 'false', '2016-11-18 22:26:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1396, 1205, 212, null, 'Gj Bro !!!
+', 'false', '2016-11-19 00:08:11');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1397, 1205, 53, null, 'good play, pan tadeuszek!
+i will be taking part next year (:', 'false', '2016-11-19 05:41:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1398, 1205, 295, null, 'tado dobrze idziesz, byle do finaÅ‚u
+', 'false', '2016-11-19 12:24:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1399, 1179, 9, null, 'I recently learned, Athena, yato you have used ...illegal... methods in this game. It''s disgusting! I despise you for it. Hell!', 'false', '2016-11-19 19:45:36');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1400, 1203, 46, null, 'Yay! Seems like that was nervous game! Looot of fails by both :)', 'false', '2016-11-22 10:14:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1401, 1209, 10, '2016-11-24 20:52:14', 'End of round 3: I tested the drill and it worked :)
+http://www.megafileupload.com/cb0e/2016-11-24_20.47.28_[Offline]_The_Deceived.WAgame
+(Red arrow for file)', 'false', '2016-11-24 20:51:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1402, 1209, 5, null, 'Stream: https://www.twitch.tv/khamski/v/103150487', 'false', '2016-11-25 12:26:29');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1403, 1211, 262, '2016-11-27 01:15:07', 'there''s only  3 games in the replays. ', 'false', '2016-11-27 01:14:20');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1404, 1211, 46, null, 'whoops... sorry. I just sent to Zemke correct replays for replacing this', 'false', '2016-11-27 06:49:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1405, 1211, 5, null, 'I support chuvash for standing his ground on that round 2 result.
+I hate replay won games myself. It''s stupid.
+He showed clearly why it is stupid in his last won round.
+Well done and gl in semis.
+
+bl tadek but you did great tbh.
+You put a lot of pressure on chuvash and showed serious skills.
+
+Good game.', 'false', '2016-11-27 11:24:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1406, 1211, 1, null, 'The replay archive has been updated. âœ…', 'false', '2016-11-27 13:40:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1407, 1211, 295, null, 'the true is that chuvash is very poor this year,  I could beat him like 3:0 or 3:1  if we have finished in same day we started, but he needed time and prays, and then pressure came on me and lost.  Here tadeuszek almost got him, I think tita or masta will show this kid where is his real place', 'false', '2016-11-27 16:28:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1408, 1211, 46, null, '"but he needed time and prays"
+you fucking lier! You was that guy, who left the game between rounds, not me! And after losing you continue crying at PMs and now here. Poor you!', 'false', '2016-11-27 17:01:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1409, 1211, 295, null, 'ye coz u could not wait 5 minutes, then i told u I want play without streams and other shits, but u anyway gave password at ag and skype :)  This looks very poor for me , but enjoy , I bet u had 10 kgs of shit in ur pants after u lost first game and then I started.  :))', 'false', '2016-11-27 17:31:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1410, 1211, 46, null, '"ye coz u could not wait 5 minutes"
+1) Funny how 15 minutes turn in 5 minutes
+2) How I can belive in your "15 minutes" if I know that you are lier?
+3) That was just disrespectfully to ask me for a game "right now" and leaving in 1 hour without my advice
+4) I knew that you dont want a veiwers, coz without em this even more easy to lie after!', 'false', '2016-11-27 17:58:48');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1411, 1211, 13, null, 'lol kin
+10 games vs Chuvi
+maybe U could win 1 :P no more
+
+almost everyone is less active lately, so imo even current Champ is not as good as he was some time ago :)
+
+', 'false', '2016-11-27 22:21:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1412, 1213, 20, null, 'I think it was one of the best games I played (sans round 1), great stuff. Good luck next Mab!', 'false', '2016-11-27 22:34:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1413, 1213, 11, '2016-11-27 22:57:23', 'Thanks, you had some very good moves, especially in round 5. Sheep, cows, and surprise tele that I didn''t prepare enough for.
+
+Maybe someone should do a post-match stream ;O', 'false', '2016-11-27 22:41:12');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1414, 1213, 12, null, 'This was far best game in this year CWT. Just WOW
+', 'false', '2016-11-27 23:50:42');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1415, 1213, 36, null, 'amazing game for both ', 'false', '2016-11-28 07:36:39');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1416, 1213, 46, null, 'Solid game! Nice 5th round. Great sheep by NN in 5th!
+Nice trick with that psychological pressure by Mablak at SD in 5th round, with trying reach Nicky''s worm and make him mistake standing spot', 'false', '2016-11-28 07:40:00');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1417, 1213, 61, null, 'This is what inter is all about.
+
+Well played both! Could have gone either way.', 'false', '2016-11-28 14:02:43');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1418, 1213, 13, null, 'such a run by Mab in decider!!', 'false', '2016-11-28 16:34:49');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1419, 1214, 10, null, 'Close matches. Did some crucial fails in important moments, but Tade played way more consistently than me. Good job mate.', 'false', '2016-11-30 22:03:55');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1420, 1214, 12, null, 'Tnx mate, it means a lot.
+', 'false', '2016-11-30 22:16:21');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1421, 1214, 11, null, '6:55 round 2, impressive sheep!
+
+Kayz had a few silly mistakes which left his defenses open, while Tade played more consistently. GJ, tough nut to crack.', 'false', '2016-11-30 23:03:03');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1422, 1214, 4, null, 'bl kayzito but aeee 1337 sheep!', 'false', '2016-12-01 07:16:57');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1423, 1214, 46, null, 'funny claster at 07:50 of last round :D', 'false', '2016-12-01 09:31:41');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1424, 1214, 13, null, 'It;s his 8th CWT!
+Huge chances for medal!', 'false', '2016-12-01 19:31:37');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1425, 1214, 237, null, 'Go go Tade! I keep fingers crossed for you ;)', 'false', '2016-12-01 23:04:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1426, 1212, 5, null, 'lol... First animated ava on CWT. Nice one!', 'false', '2016-12-10 09:38:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1427, 1212, 262, null, '2nd, Korydex Was the pioneer.', 'false', '2016-12-10 11:29:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1428, 1212, 13, null, 'ahhh such a bad knock in decider....
+could be your round
+
+gg
+
+', 'false', '2016-12-13 14:34:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1429, 1215, 262, null, 'Well, I deserved to lose.  GJ  in 1st round, and GL in the finals man.
+', 'false', '2016-12-14 21:02:59');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1430, 1215, 295, null, 'yes u did, even tho i wanted u to win.   ', 'false', '2016-12-14 21:06:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1431, 1215, 262, null, 'I don''t need Your fans stupid kid', 'false', '2016-12-14 21:08:08');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1432, 1215, 11, null, 'GJ chuv, and BL tita! I thought rounds 1 and 3 were yours. Chuv is slippery as an eel when playing with pigeons.', 'false', '2016-12-14 21:51:56');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1433, 1215, 262, null, 'Yep mab, in 2017 I will watch this replay and check all my shits. :D    Easy 3-0 for me becuz placement, pilles  etc...  About tatical, he''s better than me.  You will beat him. Trust me.', 'false', '2016-12-14 22:17:38');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1434, 1215, 5, '2016-12-14 22:58:06', 'I am not chuvash fan but he murks opponents. Just murks them.
+Thats why i am looking forward for the final!
+What a game ahead.
+
+GO CHUVASH !
+GO MABLAK !
+
+GI GI GI GIIIIIANT CHAMPS CLASH WE ALL PREDICTED!!!
+', 'false', '2016-12-14 22:53:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1435, 1215, 36, null, 'gj, but too many mistakes for tita', 'false', '2016-12-15 09:12:01');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1436, 1215, 262, null, 'Yes, Many mistakes, The last WS in the  my first game + jet  cow + kami.   After all those mistakes My felling was Lose by 3-0 instead win by 3-0 a easy game!', 'false', '2016-12-15 14:49:46');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1437, 1218, 46, null, 'That was the most epic battle I ever played at tournaments! :)', 'false', '2016-12-19 00:07:04');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1438, 1218, 20, null, 'This was unprecedented. Congrats chuvash! And thanks for the great show, extremely well done both!', 'false', '2016-12-19 00:09:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1439, 1218, 262, '2016-12-19 00:13:59', 'I can''t Believe!!!   I want to wake up.   :D   Mablak had all chances of world, Bl man, But this russian is strong.', 'false', '2016-12-19 00:12:30');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1441, 1218, 1, null, '[center][url=https://imgflip.com/i/1g7n78][img]https://i.imgflip.com/1g7n78.jpg[/img][/url][/center]', 'false', '2016-12-19 00:14:18');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1442, 1218, 11, null, 'Way to go man. I think we were both getting pretty damn tired towards the end. In any case, we showed some high level play without too much sloppiness, and provided everyone some entertainment, which is all we could hope for. Proud to get silver!', 'false', '2016-12-19 00:28:15');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1443, 1218, 238, '2016-12-19 00:34:19', 'That was extraordinary, guys, from both sides.
+
+Congratulations to chuvash for a deserved win, yet again!', 'false', '2016-12-19 00:34:02');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1444, 1218, 5, null, 'Stream:
+https://www.twitch.tv/khamski/v/108407748', 'false', '2016-12-19 01:00:13');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1445, 1218, 4, null, 'w00t! epic winrar, vnj chuvash', 'false', '2016-12-19 01:59:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1446, 1218, 13, null, 'great final!!!', 'false', '2016-12-20 10:48:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1447, 1218, 61, '2016-12-20 12:25:17', 'Wow.. Mablak had the win on R5 but missed the backflip through the girder. Was there a pixel or something I missed?
+
+Just wow, I understand getting tired but still epic if missed and then get 4-3''d. Just epic.
+
+Gg''s guys', 'false', '2016-12-20 12:10:44');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1448, 1218, 11, null, 'Yeah free, I was blocked on the left due to missing the shot. I think my logic circuits started breaking down around that point.', 'false', '2016-12-20 12:52:09');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1449, 1218, 1, null, 'At the end of the live stream thereâ€™s some replays shown from Deadcode who replays the most crucial moments of the finale including the girder in round five.', 'false', '2016-12-20 12:55:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1450, 1218, 628, '2016-12-20 15:04:46', 'I still wonder why chuvash wrote "phew" in the chat after escaping from the still open hide of mablak. Was it psychological game trying to make mablak think he was blocked?
+Edit: oh Mablak was actually blocked?? But chuvash jumped down and backflipped up again..
+', 'false', '2016-12-20 15:00:07');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1451, 1218, 262, null, 'Look the grass   :p', 'false', '2016-12-20 16:42:25');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1452, 1218, 295, null, 'such a sad day', 'false', '2016-12-20 17:10:05');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1453, 1218, 10, null, 'Ye Free you missed a pixel. I missed it, too. Mablak''s shot to the left didn''t open him up. right behind the blowtorch tunnel the terrain is too thin to pass through. chuvash landed left of it and that''s why he could jump out. chuvash said "phew" because of SD timer.', 'false', '2016-12-20 19:51:50');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1454, 1217, 262, null, 'Well, Nice games, 2nd time that I play against tade, he''s hard!!!', 'false', '2016-12-21 00:01:24');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1455, 1217, 13, null, 'awww i would prefer Tade with brnze but well :P
+gj Tita!
+', 'false', '2016-12-21 06:27:06');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1456, 1217, 53, null, 'tight game like the final. your first map is identical to the last in the final btw.
+i dont doubt - tita is rock <3', 'false', '2016-12-21 06:55:35');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1457, 1217, 46, null, 'Congtarts with bronze tita!
+That was close game!
+Very nice job for Tade with reaching final stage Ñonsidering his inactivity.
+', 'false', '2016-12-21 12:58:40');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1458, 1218, 46, null, '@Abegod, Mablak was blocked from the left side by some pixels of tunel, and I saw that perfectly.
+Actually I sayd "phew" because of 2 reasons :D
+When I jump into this little hole in girder I was thought like "FUCK! Now that will be a big problem to jump out" and that could mean game over for me. But my second jump was succesfully for me, so I still had time for hide at safe place. That was like 1st "phew" :) And as Kayz noticed SD didnt come after that turns and that was like 2nd "phew" :)', 'false', '2016-12-21 13:13:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1459, 1218, 226, null, 'CONGRATZ CHURKA!YOU MEET ME IN THE FINAL NEXT YEAR.
+
+', 'false', '2016-12-21 20:22:54');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1460, 1218, 13, null, 'nice joke taner......', 'false', '2016-12-23 19:47:34');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1461, 1218, 5, null, 'Weird stupid primitive insults.
+We gotta somehow end this at the next edition.
+
+
+
+
+', 'false', '2016-12-26 11:25:17');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1462, 1218, 226, null, 'WE DO.
+', 'false', '2016-12-26 12:28:26');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1463, 1218, 226, '2016-12-26 13:12:40', 'KHAMSKI I APOLOGIZE FOR THE CAUSED ANAL DISCOMFORT BUT CHRISTIAN TIME IS OVER.
+', 'false', '2016-12-26 13:12:27');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1464, 1218, 5, null, 'Okay
+
+', 'false', '2016-12-26 17:15:53');
+INSERT INTO comment(id, game_id, author_id, modified, body, deleted, created) VALUES (1465, 1218, 226, '2016-12-26 21:21:45', 'Hi again dear Chuvash.Would you please let Khamski know how upset are you from my comment on the scale of 1 to 10?', 'false', '2016-12-26 21:21:38');
 
 INSERT INTO application (id, applicant_id, created, tournament_id) VALUES (1, 10, timestamp '2015-09-25 14:09:08', 14);
 INSERT INTO application (id, applicant_id, created, tournament_id) VALUES (2, 212, timestamp '2015-09-25 14:18:24', 14);
