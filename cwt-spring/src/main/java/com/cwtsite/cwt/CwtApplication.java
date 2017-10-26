@@ -9,15 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller
 @SpringBootApplication
 public class CwtApplication {
-
-    @RequestMapping("/")
-    @ResponseBody
-    String home() {
-        return "Hello, World!";
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(CwtApplication.class, args);
