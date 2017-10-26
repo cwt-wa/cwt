@@ -40,7 +40,7 @@ $theme-colors: (
         secondary: $color-complement-0,
         success: $color-green-0,
         info: $color-blue-4,
-        warning: #ffff00, // TODO
+        warning: $color-red-1,
         danger: $color-red-0,
         light: #f8f9fa, // From the Bootstrap variables.
         dark: #343a40 // From the Bootstrap variables.

@@ -110,6 +110,7 @@ export interface Game {
     comments?: Comment[];
     reporter?: User;
     ratings?: Rating[];
+    tournament: Tournament;
 }
 
 export interface GameDto {

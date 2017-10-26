@@ -11,6 +11,11 @@
         <a [routerLink]="['/user', game.awayUser.username]">{{game.awayUser.username}}</a>
     </h1>
 
+    <div class="alert alert-warning  mt-4" role="alert" *ngIf="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1">
+        <i class="fa fa-warning"></i>
+        Please be aware this game is from a past tournament.
+    </div>
+
     <div class="row mb-1 mt-4">
         <div class="col-lg-3 col-sm-6 order-lg-1 text-center text-lg-left order-sm-2">
             <div class="btn btn-secondary btn-lg" style="width: 205px;">
