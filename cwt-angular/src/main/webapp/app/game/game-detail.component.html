@@ -18,9 +18,24 @@
 
     <div class="row mb-1 mt-4">
         <div class="col-lg-3 col-sm-6 order-lg-1 text-center text-lg-left order-sm-2">
-            <div class="btn btn-secondary btn-lg" style="width: 205px;">
-                Last Sixteen <!-- TODO label and link to group/playoff tree -->
-            </div>
+            <a [routerLink]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? ['/archive', (game.tournament.created | date:'y')] : ['/playoffs']"
+               [fragment]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? 'playoffs': undefined"
+               *ngIf="game.playoff" class="btn btn-secondary btn-lg text-white" style="width: 205px;" i18n>
+                {game.playoff.round, plural,
+                =1 {Last Sixteen}
+                =2 {Quarterfinal}
+                =3 {Semifinal}
+                =4 {Little Final}
+                =5 {Final}
+                other {Playoffs}
+                }
+            </a>
+            <a [routerLink]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? ['/archive', (game.tournament.created | date:'y')] : ['/group']"
+               [fragment]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? game.group.label : undefined"
+               class="btn btn-secondary btn-lg text-white" style="width: 205px;"
+               *ngIf="game.group">
+                Group {{game.group.label}}
+            </a>
         </div>
         <div class="col-lg-3 col-sm-6 text-lg-right order-lg-4 text-center mt-2 mt-sm-0 order-sm-4 mt-sm-2 mt-lg-0">
             <a class="btn btn-secondary btn-lg text-white" style="width: 205px;">
@@ -37,7 +52,8 @@
                 <span *ngIf="submittingRating !== 'LIKE'">{{likes.length}}</span>
                 <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIKE'"/>
             </button>
-            <button class="btn btn-lg btn-danger text-white order-sm-4" style="width: 100px;" (click)="rate('DISLIKE')" ngbTooltip="Dislike"
+            <button class="btn btn-lg btn-danger text-white order-sm-4" style="width: 100px;" (click)="rate('DISLIKE')"
+                    ngbTooltip="Dislike"
                     [ngClass]="{'btn-outline-danger text-dark': authenticatedUserRatings.indexOf('LIKE') !== -1}"
                     [ngClass]="{'font-weight-bold': authenticatedUserRatings.indexOf('DISLIKE') !== -1}"
                     [disabled]="['LIKE', 'DISLIKE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('DISLIKE') !== -1 || authenticatedUserRatings.indexOf('LIKE') !== -1">
@@ -47,7 +63,8 @@
             </button>
         </div>
         <div class="col-lg-3 col-sm-6 text-lg-center order-lg-3 mt-2 pt-lg-0 text-center mt-sm-2 order-sm-3 mt-lg-0">
-            <button class="btn btn-lg bg-primary-1 text-white" style="width: 100px;" href="" (click)="rate('LIGHTSIDE')" ngbTooltip="Aggressive game"
+            <button class="btn btn-lg bg-primary-1 text-white" style="width: 100px;" href="" (click)="rate('LIGHTSIDE')"
+                    ngbTooltip="Aggressive game"
                     [ngClass]="{'btn-outline-primary text-dark': authenticatedUserRatings.indexOf('DARKSIDE') !== -1}"
                     [ngClass]="{'font-weight-bold': authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1}"
                     [disabled]="['LIGHTSIDE', 'DARKSIDE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1 || authenticatedUserRatings.indexOf('DARKSIDE') !== -1">
@@ -56,7 +73,8 @@
                 <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIGHTSIDE'"/>
             </button>
             <button class="btn btn-lg bg-primary-4 text-white" style="width: 100px;" (click)="rate('DARKSIDE')"
-                    [ngClass]="{'btn-outline-primary text-dark': authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1}" ngbTooltip="Thoughtful game"
+                    [ngClass]="{'btn-outline-primary text-dark': authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1}"
+                    ngbTooltip="Thoughtful game"
                     [ngClass]="{'font-weight-bold': authenticatedUserRatings.indexOf('DARKSIDE') !== -1}"
                     [disabled]="['LIGHTSIDE', 'DARKSIDE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('DARKSIDE') !== -1 || authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1">
                 <i class="fa fa-lightbulb-o"></i>
