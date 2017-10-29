@@ -29,8 +29,14 @@ import {RequestService} from "../_services/request.service";
             }`,
 
             `
+            .chat-input button.submit {
+                border: 1px solid #40352a;
+            }`,
+
+            `
             .chat-input > .form-control[contenteditable="true"] {
                 flex-grow: 5;
+                font-size: 16px;
             }`,
 
             `
@@ -42,7 +48,7 @@ import {RequestService} from "../_services/request.service";
             `
             .chat-input > .form-control[contenteditable="true"].single-line {
                 white-space: nowrap;
-                height: 45px;
+                height: 48px;
                 overflow: hidden;
             }`,
 
@@ -76,18 +82,13 @@ export class ChatInputComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.requestService.get<User[]>("/users.json").subscribe(res => this.users = res);
+        this.requestService.get<User[]>("/user").subscribe(res => this.users = res);
     }
 
     public sendMessage(): void {
         this.mentions = this.mentions.filter(m => m.location.nativeElement.parentElement);
         const message: Message = {
             body: this.convertContentEditableToRawTextContent(),
-            created: Date.now(),
-            user: { // TODO Needs to be the authenticated user.
-                username: 'Ole',
-                id: 42
-            },
             recipients: this.mentions.map(ref => ref.instance.mentionedUser),
             category: this.mentions.length === 0 ? 'SHOUTBOX' : 'PRIVATE'
         } as Message;
@@ -107,8 +108,9 @@ export class ChatInputComponent implements OnInit {
         let body: string = this.chatInput.nativeElement.textContent;
 
         body = body.trim();
-        body = body.replace(/\s+/g, " ");
-        body = body.replace(/@\s(.+?)\s/g, "@$1");
+        body = body.replace(/(\[m.*?m\])\n/g, "$1"); // Remove carriage return after mention.
+        body = body.replace(/\s+/g, " "); // Multiple whitespaces into one.
+        body = body.replace(/@\s\[m(.*?)m\]/g, "@$1"); // Convert mention which is wrapped in `[m` and `m]` to simply `@Mention`.
 
         return body;
     }

@@ -1,6 +1,6 @@
-<div *ngIf="message" class="input-group chat-input">
+<div *ngIf="message" class="input-group input-group-lg chat-input">
   <div class="single-line form-control" contenteditable="true" (keydown)="keyDown($event)" #chatInput></div>
   <span class="input-group-btn">
-        <button class="btn btn-primary" type="button" (click)="sendMessage()">Send</button>
+        <button class="btn btn-primary submit" type="button" (click)="sendMessage()"><i class="fa fa-send"></i></button>
   </span>
 </div>

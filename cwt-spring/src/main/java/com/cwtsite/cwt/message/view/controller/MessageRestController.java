@@ -2,10 +2,13 @@ package com.cwtsite.cwt.message.view.controller;
 
 import com.cwtsite.cwt.message.entity.Message;
 import com.cwtsite.cwt.message.service.MessageService;
+import com.cwtsite.cwt.message.view.model.MessageDto;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.cwtsite.cwt.user.service.AuthService;
+import com.cwtsite.cwt.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +22,13 @@ public class MessageRestController {
 
     private final MessageService messageService;
     private final AuthService authService;
+    private final UserService userService;
 
     @Autowired
-    public MessageRestController(MessageService messageService, AuthService authService) {
+    public MessageRestController(MessageService messageService, AuthService authService, UserService userService) {
         this.messageService = messageService;
         this.authService = authService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -35,5 +40,11 @@ public class MessageRestController {
                 : messageService.findMessagesForUser(authenticatedUser);
 
         return ResponseEntity.ok(messages);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<Message> AddMessages(@RequestBody MessageDto messageDto, HttpServletRequest request) {
+        final User authenticatedUser = authService.getUserFromToken(request.getHeader(authService.getTokenHeaderName()));
+        return ResponseEntity.ok(messageService.save(MessageDto.map(messageDto, authenticatedUser, userService.getByIds(messageDto.getRecipients()))));
     }
 }

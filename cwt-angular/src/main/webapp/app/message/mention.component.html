@@ -6,5 +6,5 @@
            container="body" [inputFormatter]="typeAheadInputFormatter" [resultFormatter]="typeAheadResultFormatter"
            (selectItem)="onSelectTypeAheadSuggestionItem($event)">
   </div>
-  <span class="name" style="display: none; visibility: hidden; width: auto">{{mentionedUser}}</span>
+  <span class="name" style="display: none; visibility: hidden; width: auto">[m{{mentionedUser?.username}}m]</span>
 </div>

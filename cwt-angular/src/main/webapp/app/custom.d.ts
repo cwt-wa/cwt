@@ -169,3 +169,10 @@ export interface Message {
     recipients: User[];
     category: MessageCategory;
 }
+
+
+export interface MessageDto {
+    body: string;
+    category: MessageCategory;
+    recipients: number[];
+}

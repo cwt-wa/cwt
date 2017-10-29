@@ -36,6 +36,9 @@ import {GroupGamesComponent} from "./group/group-games.component";
 import {TimeAgoComponent} from "./_util/time-ago.component";
 import {TimeAgoService} from "./_services/time-ago.service";
 import {WriteAdminNewsComponent} from "./news/write-admin-news.component";
+import {ChatComponent} from "./message/chat.component";
+import {ChatInputComponent} from "./message/chat-input.component";
+import {MentionComponent} from "./message/mention.component";
 
 const appRoutes: Routes = [
     {
@@ -147,6 +150,9 @@ const appRoutes: Routes = [
         GroupGamesComponent,
         TimeAgoComponent,
         WriteAdminNewsComponent,
+        ChatComponent,
+        ChatInputComponent,
+        MentionComponent,
     ],
     providers: [
         WebAppViewService,
@@ -157,6 +163,7 @@ const appRoutes: Routes = [
         TimeAgoService,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
+    entryComponents: [MentionComponent],
     bootstrap: [AppComponent]
 })
 

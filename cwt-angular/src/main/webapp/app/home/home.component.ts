@@ -1,8 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {AuthService} from "../_services/auth.service";
-import {Configuration, JwtUser, Message} from "../custom";
+import {Configuration, JwtUser} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
-import {RequestService} from "../_services/request.service";
 
 @Component({
     selector: 'cwt-home',
@@ -10,11 +9,9 @@ import {RequestService} from "../_services/request.service";
 })
 export class HomeComponent implements OnInit {
     news: Configuration<string>;
-    messages: Message[];
     private authenticatedUser: JwtUser;
 
-    constructor(private authService: AuthService, private configurationService: ConfigurationService,
-                private requestService: RequestService) {
+    constructor(private authService: AuthService, private configurationService: ConfigurationService) {
     }
 
     public ngOnInit(): void {
@@ -22,9 +19,5 @@ export class HomeComponent implements OnInit {
 
         this.configurationService.requestByKeys<string>("NEWS")
             .subscribe(res => this.news = res[0]);
-
-        this.requestService.get<Message[]>('message')
-            .subscribe(res => this.messages = res);
     }
-
 }

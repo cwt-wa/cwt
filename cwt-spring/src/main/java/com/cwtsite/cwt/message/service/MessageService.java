@@ -27,4 +27,8 @@ public class MessageService {
         return messageRepository.findTop100ByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(
                 user, Collections.singletonList(user), MessageCategory.guestCategories());
     }
+
+    public Message save(Message message) {
+        return messageRepository.save(message);
+    }
 }
