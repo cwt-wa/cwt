@@ -11,6 +11,6 @@ import java.util.List;
 @Component
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    List<Message> findByCategoryIn(List<MessageCategory> categories);
-    List<Message> findByAuthorOrRecipientsInOrCategoryIn(User author, List<User> recipients, List<MessageCategory> categories);
+    List<Message> findTop100ByCategoryInOrderByCreatedDesc(List<MessageCategory> categories);
+    List<Message> findTop100ByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(User author, List<User> recipients, List<MessageCategory> categories);
 }

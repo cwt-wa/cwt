@@ -6,7 +6,6 @@ import com.cwtsite.cwt.user.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,11 +20,11 @@ public class MessageService {
     }
 
     public List<Message> findMessagesForGuest() {
-        return messageRepository.findByCategoryIn(MessageCategory.guestCategories());
+        return messageRepository.findTop100ByCategoryInOrderByCreatedDesc(MessageCategory.guestCategories());
     }
 
     public List<Message> findMessagesForUser(User user) {
-        return messageRepository.findByAuthorOrRecipientsInOrCategoryIn(
+        return messageRepository.findTop100ByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(
                 user, Collections.singletonList(user), MessageCategory.guestCategories());
     }
 }
