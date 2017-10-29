@@ -1,0 +1,10 @@
+<div class="mention" contenteditable="false">
+  <div class="input-group input-group-sm">
+    <span class="input-group-addon">@</span>
+    <input class="form-control name" type="text" [(ngModel)]="mentionedUser" [size]="(mentionInput.value.length || 1) + 2"
+           #mentionInput #nameInput [ngbTypeahead]="filterSuggestedUsersForTypehead" (keydown)="keyDown($event)" size="1"
+           container="body" [inputFormatter]="typeAheadInputFormatter" [resultFormatter]="typeAheadResultFormatter"
+           (selectItem)="onSelectTypeAheadSuggestionItem($event)">
+  </div>
+  <span class="name" style="display: none; visibility: hidden; width: auto">{{mentionedUser}}</span>
+</div>

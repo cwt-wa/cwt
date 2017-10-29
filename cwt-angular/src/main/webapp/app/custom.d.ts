@@ -159,3 +159,13 @@ export interface TimeAgo {
     unit: TimeUnit;
     original: Date;
 }
+
+export type MessageCategory = "SHOUTBOX" | "PRIVATE" | "NEWS";
+
+export interface Message {
+    body: string;
+    user: User;
+    created: number;
+    recipients: User[];
+    category: MessageCategory;
+}
