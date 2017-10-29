@@ -1,11 +1,10 @@
 <cwt-apply-banner [userId]="authenticatedUser.id" *ngIf="authenticatedUser" class="float-right"></cwt-apply-banner>
 
-<h1 class="mb-4">
+<h1 class="mb-1">
     Crespo’s Worms Tournament
 </h1>
 
-
-<div class="card" *ngIf="news">
+<div class="card bg-red-0 text-white mb-4" *ngIf="news">
     <div class="card-body">
         <p class="card-text">
             <span class="rendered-text">{{news.value}}</span>
