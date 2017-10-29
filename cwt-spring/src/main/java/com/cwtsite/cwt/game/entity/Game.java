@@ -6,8 +6,6 @@ import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -72,11 +70,9 @@ public class Game implements Serializable {
     private User reporter;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Rating> ratings;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Comment> comments;
 
     public Long getId() {

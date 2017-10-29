@@ -2,10 +2,8 @@ package com.cwtsite.cwt.group.entity;
 
 import com.cwtsite.cwt.entity.GroupStanding;
 import com.cwtsite.cwt.game.entity.Game;
-import com.cwtsite.cwt.tournament.entity.Tournament;
 import com.cwtsite.cwt.group.entity.enumeration.GroupLabel;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import com.cwtsite.cwt.tournament.entity.Tournament;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,11 +29,9 @@ public class Group implements Serializable {
     private Tournament tournament;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<GroupStanding> standings;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Game> games;
 
     public Group() {
