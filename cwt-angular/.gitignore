@@ -2,4 +2,5 @@ target/
 node_modules/
 npm-debug.log
 *.scssc
+yarn-error.log
 
