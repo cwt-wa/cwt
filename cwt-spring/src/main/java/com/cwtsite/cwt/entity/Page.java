@@ -1,6 +1,6 @@
 package com.cwtsite.cwt.entity;
 
-import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.domain.user.repository.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

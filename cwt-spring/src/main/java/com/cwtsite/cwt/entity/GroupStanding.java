@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.entity;
 
-import com.cwtsite.cwt.group.entity.Group;
-import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.domain.group.entity.Group;
+import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

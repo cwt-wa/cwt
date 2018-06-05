@@ -1,10 +1,10 @@
 package com.cwtsite.cwt.security;
 
-import com.cwtsite.cwt.user.repository.entity.User;
-import com.cwtsite.cwt.user.service.AuthService;
-import com.cwtsite.cwt.user.service.JwtUserDetailsServiceImpl;
-import com.cwtsite.cwt.user.service.UserService;
-import com.cwtsite.cwt.user.view.model.JwtUser;
+import com.cwtsite.cwt.domain.user.repository.entity.User;
+import com.cwtsite.cwt.domain.user.service.AuthService;
+import com.cwtsite.cwt.domain.user.service.JwtUserDetailsServiceImpl;
+import com.cwtsite.cwt.domain.user.service.UserService;
+import com.cwtsite.cwt.domain.user.view.model.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

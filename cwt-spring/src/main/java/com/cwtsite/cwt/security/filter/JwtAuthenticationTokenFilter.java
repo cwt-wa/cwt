@@ -1,6 +1,6 @@
 package com.cwtsite.cwt.security.filter;
 
-import com.cwtsite.cwt.user.service.JwtTokenUtil;
+import com.cwtsite.cwt.domain.user.service.JwtTokenUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.entity;
 
-import com.cwtsite.cwt.game.entity.Game;
-import com.cwtsite.cwt.user.repository.entity.User;
+import com.cwtsite.cwt.domain.game.entity.Game;
+import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
