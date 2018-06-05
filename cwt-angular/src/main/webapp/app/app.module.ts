@@ -39,6 +39,7 @@ import {WriteAdminNewsComponent} from "./news/write-admin-news.component";
 import {ChatComponent} from "./message/chat.component";
 import {ChatInputComponent} from "./message/chat-input.component";
 import {MentionComponent} from "./message/mention.component";
+import {StreamsComponent} from "./stream/streams.component";
 
 const appRoutes: Routes = [
     {
@@ -102,6 +103,10 @@ const appRoutes: Routes = [
         component: DamnArchiveComponent
     },
     {
+        path: 'streams',
+        component: StreamsComponent
+    },
+    {
         path: 'archive/:idOrYear',
         component: ArchiveDetailComponent
     },
@@ -153,6 +158,7 @@ const appRoutes: Routes = [
         ChatComponent,
         ChatInputComponent,
         MentionComponent,
+        StreamsComponent,
     ],
     providers: [
         WebAppViewService,
