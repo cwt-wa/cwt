@@ -8,9 +8,7 @@ import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse;
 import com.cwtsite.cwt.domain.user.view.model.JwtUser;
 import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,8 +51,8 @@ public class AuthenticationRestController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
-                                                       Device device) throws AuthenticationException {
+    public ResponseEntity<?> createAuthenticationToken(
+            @RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
@@ -65,7 +63,7 @@ public class AuthenticationRestController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails, device);
+        final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }

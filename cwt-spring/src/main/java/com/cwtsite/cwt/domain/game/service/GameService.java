@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GameService {
@@ -47,12 +48,14 @@ public class GameService {
     @Transactional
     public Game reportGame(final ReportDto reportDto) {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
-        final User reportingUser = userRepository.findOne(reportDto.getUser());
+        final User reportingUser = userRepository.findById(reportDto.getUser())
+                .orElseThrow(IllegalArgumentException::new);
 
         Game reportedGame;
 
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
-            final User opponent = userRepository.findOne(reportDto.getOpponent());
+            final User opponent = userRepository.findById(reportDto.getOpponent())
+                    .orElseThrow(IllegalArgumentException::new);
             final Group group = groupRepository.findByTournamentAndUser(currentTournament, opponent);
 
             Game mappedGame = ReportDto.map(reportDto, currentTournament, reportingUser, opponent, group);
@@ -86,8 +89,10 @@ public class GameService {
         final Game game = new Game();
 
         // TODO Three queries in a row -- performance?
-        final User reportingUser = userRepository.findOne(reportDto.getUser());
-        final User opponent = userRepository.findOne(reportDto.getOpponent());
+        final User reportingUser = userRepository.findById(reportDto.getUser())
+                .orElseThrow(IllegalArgumentException::new);
+        final User opponent = userRepository.findById(reportDto.getOpponent())
+                .orElseThrow(IllegalArgumentException::new);
         final Group group = groupRepository.findByTournamentAndUser(currentTournament, opponent);
 
         game.setScoreHome(Math.toIntExact(reportDto.getScoreOfUser()));
@@ -106,22 +111,26 @@ public class GameService {
     }
 
     public List<Game> saveAll(final List<Game> games) {
-        return gameRepository.save(games);
+        return gameRepository.saveAll(games);
     }
 
-    public Game get(long id) {
-        return gameRepository.findOne(id);
+    public Optional<Game> get(long id) {
+        return gameRepository.findById(id);
     }
 
     public Rating rateGame(long gameId, Long userId, RatingType type) {
-        final User user = userRepository.findOne(userId);
-        final Game game = gameRepository.findOne(gameId);
+        final User user = userRepository.findById(userId)
+                .orElseThrow(IllegalArgumentException::new);
+        final Game game = gameRepository.findById(gameId)
+                .orElseThrow(IllegalArgumentException::new);
         return ratingRepository.save(new Rating(type, user, game));
     }
 
     public Comment commentGame(long gameId, Long userId, String body) {
-        final User user = userRepository.findOne(userId);
-        final Game game = gameRepository.findOne(gameId);
+        final User user = userRepository.findById(userId)
+                .orElseThrow(IllegalArgumentException::new);
+        final Game game = gameRepository.findById(gameId)
+                .orElseThrow(IllegalArgumentException::new);
         return commentRepository.save(new Comment(body, user, game));
     }
 }

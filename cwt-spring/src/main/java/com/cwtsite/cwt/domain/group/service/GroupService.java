@@ -23,7 +23,7 @@ public class GroupService {
     }
 
     public List<Group> save(List<Group> groups) {
-        return groupRepository.save(groups);
+        return groupRepository.saveAll(groups);
     }
 
     public List<Group> getGroupsForTournament(final Tournament tournament) {
@@ -76,6 +76,6 @@ public class GroupService {
         standingOfWinner.setGames(standingOfHomeUser.getGames() + 1);
         standingOfLoser.setGames(standingOfAwayUser.getGames() + 1);
 
-        groupStandingRepository.save(Arrays.asList(standingOfWinner, standingOfLoser));
+        groupStandingRepository.saveAll(Arrays.asList(standingOfWinner, standingOfLoser));
     }
 }

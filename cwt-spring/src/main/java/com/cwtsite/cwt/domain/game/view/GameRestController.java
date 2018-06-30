@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.domain.game.view;
 
 import com.cwtsite.cwt.domain.core.exception.ResourceNotFoundException;
-import com.cwtsite.cwt.entity.Comment;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
 import com.cwtsite.cwt.domain.game.service.GameService;
@@ -11,7 +10,9 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
+import com.cwtsite.cwt.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,9 @@ public class GameRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Game> reportGame(@PathVariable("id") long id) {
-        return ResponseEntity.ok(gameService.get(id));
+        return gameService.get(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

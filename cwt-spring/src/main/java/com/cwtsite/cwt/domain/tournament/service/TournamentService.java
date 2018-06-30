@@ -10,10 +10,7 @@ import com.cwtsite.cwt.entity.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class TournamentService {
@@ -39,7 +36,7 @@ public class TournamentService {
 
         final Set<User> moderators = moderatorIds == null || moderatorIds.isEmpty()
                 ? Collections.emptySet()
-                : new HashSet<>(userRepository.findAll(moderatorIds));
+                : new HashSet<>(userRepository.findAllById(moderatorIds));
 
         Tournament tournament = new Tournament();
 
@@ -50,8 +47,8 @@ public class TournamentService {
         return tournamentRepository.save(tournament);
     }
 
-    public Tournament getTournament(final long id) {
-        return tournamentRepository.findOne(id);
+    public Optional<Tournament> getTournament(final long id) {
+        return tournamentRepository.findById(id);
     }
 
     public Tournament getCurrentTournament() {
@@ -72,7 +69,7 @@ public class TournamentService {
         return tournamentRepository.findAll();
     }
 
-    public Tournament getTournamentByYear(long year) {
+    public Optional<Tournament> getTournamentByYear(long year) {
         return tournamentRepository.findByYear((int) year);
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -51,13 +52,13 @@ public class TournamentRestController {
 
     @RequestMapping(path = "/{idOrYear}", method = RequestMethod.GET)
     public ResponseEntity<Tournament> getTournament(@PathVariable("idOrYear") long idOrYear) {
-        final Tournament tournament = String.valueOf(idOrYear).startsWith("20")
+        final Optional<Tournament> tournament = String.valueOf(idOrYear).startsWith("20")
                 ? tournamentService.getTournamentByYear(idOrYear)
                 : tournamentService.getTournament(idOrYear);
 
-        return tournament == null
-                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
-                : ResponseEntity.ok(tournament);
+        return tournament
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @RequestMapping(path = "/current", method = RequestMethod.GET)
@@ -65,7 +66,7 @@ public class TournamentRestController {
         Tournament tournament = tournamentService.getCurrentTournament();
 
         return tournament == null
-                ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
+                ? ResponseEntity.status(HttpStatus.NO_CONTENT).build()
                 : ResponseEntity.ok(tournament);
     }
 
@@ -77,7 +78,11 @@ public class TournamentRestController {
 
     @RequestMapping(value = "{id}/group/many", method = RequestMethod.POST)
     public ResponseEntity<?> addManyGroups(@PathVariable("id") long id, @RequestBody List<GroupDto> groupDtos) {
-        Tournament tournament = tournamentService.getTournament(id);
+        Optional<Tournament> tournament = tournamentService.getTournament(id);
+
+        if (!tournament.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
         List<Long> userIds = groupDtos.stream()
                 .map(GroupDto::getUsers)
@@ -92,7 +97,7 @@ public class TournamentRestController {
                             .filter(user -> groupDto.getUsers().stream()
                                     .anyMatch(userId -> Objects.equals(userId, user.getId())))
                             .collect(Collectors.toList());
-                    return GroupDto.map(tournament, groupMembers, groupDto.getLabel());
+                    return GroupDto.map(tournament.get(), groupMembers, groupDto.getLabel());
                 })
                 .collect(Collectors.toList());
 
@@ -108,8 +113,10 @@ public class TournamentRestController {
 
     @RequestMapping(value = "{id}/group", method = RequestMethod.GET)
     public ResponseEntity<List<Group>> getGroupsForTournament(@PathVariable("id") long id) {
-        Tournament tournament = tournamentService.getTournament(id);
-        return ResponseEntity.ok(groupService.getGroupsForTournament(tournament));
+        return tournamentService.getTournament(id)
+                .map(t -> ResponseEntity.ok(groupService.getGroupsForTournament(t)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+
     }
 
     @RequestMapping(value = "current/group", method = RequestMethod.GET)
@@ -120,8 +127,9 @@ public class TournamentRestController {
 
     @RequestMapping(value = "{id}/game/playoff", method = RequestMethod.GET)
     public ResponseEntity<List<Game>> getPlayoffGames(@PathVariable("id") long id) {
-        final Tournament tournament = tournamentService.getTournament(id);
-        return ResponseEntity.ok(playoffService.getGamesOfTournament(tournament));
+        return tournamentService.getTournament(id)
+                .map(t -> ResponseEntity.ok(playoffService.getGamesOfTournament(t)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @RequestMapping(value = "current/game/playoff", method = RequestMethod.GET)

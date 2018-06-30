@@ -41,7 +41,8 @@ public class ProgressiveAuthenticationProvider implements AuthenticationProvider
             throw new UsernameNotFoundException(logPrefix + "not found.");
         }
 
-        final User user = userService.getById(jwtUser.getId());
+        @SuppressWarnings("ConstantConditions")
+        final User user = userService.getById(jwtUser.getId()).get();
         final boolean usesLegacyPassword = user.getPassword() == null;
 
         // TODO Log use of legacy password.

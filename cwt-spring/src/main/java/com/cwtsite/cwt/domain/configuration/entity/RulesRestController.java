@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "api/rules")
 public class RulesRestController {
@@ -21,7 +23,8 @@ public class RulesRestController {
 
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     public String[] getCurrentRules() {
-        Configuration configuration = configurationService.getOne(ConfigurationKey.RULES);
+        @SuppressWarnings("ConstantConditions")
+        Configuration configuration = configurationService.getOne(ConfigurationKey.RULES).get();
         return new String[]{configuration.getValue()};
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "api/user")
@@ -54,12 +55,6 @@ public class UserRestController {
     }
 
     private User assertUser(final long id) {
-        User user = userService.getById(id);
-
-        if (user == null) {
-            throw new ResourceNotFoundException("No user with ID " + id + " was found.");
-        }
-
-        return user;
+        return userService.getById(id).orElseThrow(ResourceNotFoundException::new);
     }
 }

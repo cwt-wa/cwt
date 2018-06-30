@@ -68,6 +68,7 @@ public class ConfigurationRestController {
             throw new IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS);
         }
 
-        return ResponseEntity.ok(configurationService.getOne(configurationKey));
+        //noinspection ConstantConditions
+        return ResponseEntity.ok(configurationService.getOne(configurationKey).get());
     }
 }

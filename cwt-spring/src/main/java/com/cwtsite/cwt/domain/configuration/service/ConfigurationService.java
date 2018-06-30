@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ConfigurationService {
@@ -18,12 +19,12 @@ public class ConfigurationService {
         this.configurationRepository = configurationRepository;
     }
 
-    public Configuration getOne(ConfigurationKey configurationKey) {
-        return configurationRepository.findOne(configurationKey);
+    public Optional<Configuration> getOne(ConfigurationKey configurationKey) {
+        return configurationRepository.findById(configurationKey);
     }
 
     public List<Configuration> getAll(List<ConfigurationKey> configurationKeys) {
-        return configurationRepository.findAll(configurationKeys);
+        return configurationRepository.findAllById(configurationKeys);
     }
 
     public List<Configuration> getAll() {

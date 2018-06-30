@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -73,12 +74,12 @@ public class UserService {
         return userRepository.findAll(new Sort("username"));
     }
 
-    public User getById(long id) {
-        return userRepository.findOne(id);
+    public Optional<User> getById(long id) {
+        return userRepository.findById(id);
     }
 
     public List<User> getByIds(List<Long> ids) {
-        return userRepository.findAll(ids);
+        return userRepository.findAllById(ids);
     }
 
     public boolean userCanReportForCurrentTournament(final User user) {
