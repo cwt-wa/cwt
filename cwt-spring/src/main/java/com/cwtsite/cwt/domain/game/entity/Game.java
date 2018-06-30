@@ -57,7 +57,7 @@ public class Game implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "group_id")
     private Group group;
 
     @ManyToOne
