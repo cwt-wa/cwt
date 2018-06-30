@@ -1,6 +1,6 @@
 package com.cwtsite.cwt.domain.user.service;
 
-import com.cwtsite.cwt.domain.service.ApplicationRepository;
+import com.cwtsite.cwt.domain.application.service.ApplicationRepository;
 import com.cwtsite.cwt.entity.GroupStanding;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.Group;

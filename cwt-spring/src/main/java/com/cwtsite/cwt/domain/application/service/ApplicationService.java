@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.domain.service;
+package com.cwtsite.cwt.domain.application.service;
 
 import com.cwtsite.cwt.entity.Application;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;

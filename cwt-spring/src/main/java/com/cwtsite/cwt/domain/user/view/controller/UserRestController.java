@@ -1,6 +1,6 @@
 package com.cwtsite.cwt.domain.user.view.controller;
 
-import com.cwtsite.cwt.domain.service.ApplicationService;
+import com.cwtsite.cwt.domain.application.service.ApplicationService;
 import com.cwtsite.cwt.domain.core.exception.ResourceNotFoundException;
 import com.cwtsite.cwt.entity.Application;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
