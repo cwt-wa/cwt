@@ -82,7 +82,7 @@ export class ChatInputComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.requestService.get<User[]>("/user").subscribe(res => this.users = res);
+        this.requestService.get<User[]>("user").subscribe(res => this.users = res);
     }
 
     public sendMessage(): void {
