@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Application, Group, GroupDto, GroupStanding} from "../custom";
 import {GroupService} from "../_services/group.service";
 import {RequestService} from "../_services/request.service";
+import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
     selector: 'cwt-admin-groups-start',
@@ -9,14 +10,11 @@ import {RequestService} from "../_services/request.service";
 })
 export class AdminGroupsStartComponent implements OnInit {
 
-    // TODO Maybe allow num of groups and users per group to be dynamic?
-    private static readonly NUMBER_OF_GROUPS: number = 8;
-    private static readonly USERS_PER_GROUP: number = 4;
     private groups: Group[];
     private applications: Application[];
     manualDraw: boolean = true;
 
-    public constructor(private requestService: RequestService) {
+    public constructor(private requestService: RequestService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     public ngOnInit(): void {
@@ -26,14 +24,14 @@ export class AdminGroupsStartComponent implements OnInit {
         this.groups = [];
 
         let i;
-        for (i = 0; i < AdminGroupsStartComponent.NUMBER_OF_GROUPS; i++) {
+        for (i = 0; i < this.appConfig.tournament.numberOfGroups; i++) {
             this.groups.push(<Group> {
                 label: GroupService.labels[i],
                 standings: [],
             });
 
             let j;
-            for (j = 0; j < AdminGroupsStartComponent.USERS_PER_GROUP; j++) {
+            for (j = 0; j < this.appConfig.tournament.usersPerGroup; j++) {
                 this.groups[this.groups.length - 1].standings.push(<GroupStanding> {});
             }
         }
