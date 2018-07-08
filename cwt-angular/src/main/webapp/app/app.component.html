@@ -30,97 +30,99 @@
     </div>
 </div>
 
-<nav [ngClass]="{'apple-standalone': isAppleStandalone, 'cwt-fixed-top': isStandalone || !isNavCollapsed}"
-     class="navbar navbar-expand-lg navbar-inverse cwt-navbar">
-    <div class="row no-gutters cwt-mobile-nav">
-        <div class="col">
-            <button (click)="isNavCollapsed = !isNavCollapsed" [ngClass]="{'is-active': !isNavCollapsed}"
-                    class="hamburger hamburger--collapse">
+<div class="cwt-nav-container">
+    <nav [ngClass]="{'apple-standalone': isAppleStandalone, 'cwt-fixed-top': isStandalone || !isNavCollapsed}"
+         class="navbar navbar-expand-lg navbar-inverse cwt-navbar">
+        <div class="row no-gutters cwt-mobile-nav">
+            <div class="col">
+                <button (click)="isNavCollapsed = !isNavCollapsed" [ngClass]="{'is-active': !isNavCollapsed}"
+                        class="hamburger hamburger--collapse">
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
                 </span>
-            </button>
-        </div>
-        <div class="col text-center">
-            <a routerLink="/" (click)="isNavCollapsed = true">
-                <img src="../img/icon.png" class="rounded-circle">
-            </a>
-        </div>
-        <div class="col text-right user-panel" ngbDropdown>
-            <i class="fa fa-lg fa-user cwt-user-panel-icon no-caret"
-               [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
-            </i>
-            <div class="dropdown-menu" *ngIf="!authenticatedUser" ngbDropdownMenu>
-                <a routerLink="/login" class="dropdown-item">Log in</a>
-                <div class="dropdown-divider"></div>
-                <a routerLink="/register" class="dropdown-item">Register</a>
+                </button>
             </div>
-            <div class="dropdown-menu" *ngIf="authenticatedUser" ngbDropdownMenu>
-                <a routerLink="/" class="dropdown-item">
-                    {{authenticatedUser.username}}
-                </a>
-                <a routerLink="/" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
-                    Admin
+            <div class="col text-center">
+                <a routerLink="/" (click)="isNavCollapsed = true">
+                    <img src="../img/icon.png" class="rounded-circle">
                 </a>
             </div>
+            <div class="col text-right user-panel" ngbDropdown>
+                <i class="fa fa-lg fa-user cwt-user-panel-icon no-caret"
+                   [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
+                </i>
+                <div class="dropdown-menu" *ngIf="!authenticatedUser" ngbDropdownMenu>
+                    <a routerLink="/login" class="dropdown-item">Log in</a>
+                    <div class="dropdown-divider"></div>
+                    <a routerLink="/register" class="dropdown-item">Register</a>
+                </div>
+                <div class="dropdown-menu" *ngIf="authenticatedUser" ngbDropdownMenu>
+                    <a routerLink="/" class="dropdown-item">
+                        {{authenticatedUser.username}}
+                    </a>
+                    <a routerLink="/" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
+                        Admin
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="navbar navbar-expand-lg container">
-    <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
-        <ul class="navbar-nav" (click)="isNavCollapsed = true">
-            <li class="nav-item cwt-icon">
-                <a class="nav-link" routerLink="/">
-                    <img src="../img/icon.png" class="rounded">
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/groups">
-                    Groups
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/playoffs">
-                    Playoffs
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/games">
-                    Games
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/users">
-                    Users
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/streams">
-                    Streams
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/help">
-                    Help
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/donate">
-                    Donate
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/archive">
-                    Archive
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/more">
-                    More&hellip;
-                </a>
-            </li>
-        </ul>
+    <div class="navbar navbar-expand-lg container">
+        <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
+            <ul class="navbar-nav" (click)="isNavCollapsed = true">
+                <li class="nav-item cwt-icon">
+                    <a class="nav-link" routerLink="/">
+                        <img src="../img/icon.png" class="rounded">
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/groups">
+                        Groups
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/playoffs">
+                        Playoffs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/games">
+                        Games
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/users">
+                        Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/streams">
+                        Streams
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/help">
+                        Help
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/donate">
+                        Donate
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/archive">
+                        Archive
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/more">
+                        More&hellip;
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 
