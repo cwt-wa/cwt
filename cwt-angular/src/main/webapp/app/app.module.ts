@@ -40,6 +40,8 @@ import {ChatComponent} from "./message/chat.component";
 import {ChatInputComponent} from "./message/chat-input.component";
 import {MentionComponent} from "./message/mention.component";
 import {StreamsComponent} from "./stream/streams.component";
+import {AdminGroupsStartManualDrawComponent} from "./group/admin-groups-start-manual-draw.component";
+import {AdminGroupsStartAutomaticDrawComponent} from "./group/admin-groups-start-automatic-draw.component";
 
 const appRoutes: Routes = [
     {
@@ -141,6 +143,8 @@ const appRoutes: Routes = [
         ApplyComponent,
         ApplicantsComponent,
         AdminGroupsStartComponent,
+        AdminGroupsStartManualDrawComponent,
+        AdminGroupsStartAutomaticDrawComponent,
         GroupsOverviewComponent,
         GroupTableComponent,
         ReportGameComponent,

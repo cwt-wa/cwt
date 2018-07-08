@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Application, Group, GroupDto, GroupStanding, User} from "../custom";
+import {Application, Group, GroupDto, GroupStanding} from "../custom";
 import {GroupService} from "../_services/group.service";
-import {Observable} from "rxjs/Observable";
 import {RequestService} from "../_services/request.service";
 
 @Component({
@@ -15,33 +14,9 @@ export class AdminGroupsStartComponent implements OnInit {
     private static readonly USERS_PER_GROUP: number = 4;
     private groups: Group[];
     private applications: Application[];
-    private typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
-    private typeAheadInputFormatter: (value: User) => string;
-    private typeAheadResultFormatter: (value: User) => string;
+    manualDraw: boolean = true;
 
     public constructor(private requestService: RequestService) {
-        this.typeAheadForGroupMember = (text$: Observable<string>) =>
-            text$
-                .distinctUntilChanged()
-                .map(term =>
-                    this.applications
-                        .map(a => a.applicant)
-                        .filter(u => !this.userIsDrawn(u))
-                        .filter(a => a.username.toLowerCase().indexOf(term.toLowerCase()) !== -1));
-        this.typeAheadInputFormatter = (value: User) => value.username;
-        this.typeAheadResultFormatter = (value: User) => value.username;
-    }
-
-    public get drawnApplicants(): User[] {
-        return this.applications
-            .map(a => a.applicant)
-            .filter(u => this.userIsDrawn(u));
-    }
-
-    public get undrawnApplicants(): User[] {
-        return this.applications
-            .map(a => a.applicant)
-            .filter(u => !this.userIsDrawn(u));
     }
 
     public ngOnInit(): void {
@@ -70,13 +45,5 @@ export class AdminGroupsStartComponent implements OnInit {
 
         this.requestService.post('tournament/current/group/many', body)
             .subscribe();
-    }
-
-    private userIsDrawn(user: User): boolean {
-        return !!this.groups
-            .map(g => g.standings)
-            .reduce((previousValue, currentValue) => previousValue.concat(currentValue))
-            .map(s => s.user)
-            .find(u => u && u.id === user.id);
     }
 }
