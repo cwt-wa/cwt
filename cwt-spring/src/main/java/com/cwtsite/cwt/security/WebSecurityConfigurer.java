@@ -80,6 +80,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
+                .antMatchers("/h2/**").permitAll()
                 .anyRequest().permitAll(); // TODO
 
         // Custom JWT based security filter
@@ -89,6 +90,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 
         // disable page caching
-        httpSecurity.headers().cacheControl();
+
+        httpSecurity.headers()
+                .frameOptions().disable()
+                .cacheControl();
     }
 }
