@@ -1,0 +1,56 @@
+<div *ngIf="applications">
+    <h6>Drawn applicants</h6>
+    <p>
+        <span *ngFor="let applicant of drawnApplicants; let last = last">
+            <a [routerLink]="['/user', applicant.id]">{{applicant.username}}</a>{{last ? '' : ', '}}
+        </span>
+        <span class="text-muted" *ngIf="!drawnApplicants.length">You have yet to draw.</span>
+    </p>
+
+    <h6>Undrawn applicants</h6>
+    <p>
+        <span *ngFor="let applicant of undrawnApplicants; let last = last">
+            <a [routerLink]="['/user', applicant.id]">{{applicant.username}}</a>{{last ? '' : ', '}}
+        </span>
+        <span class="text-muted" *ngIf="!undrawnApplicants.length">You have drawn all applicants.</span>
+    </p>
+</div>
+
+<form #groupDrawForm="ngForm" (submit)="submit()" *ngIf="applications">
+    <div class="row mt-4">
+        <div class="col-md-6 mb-4" *ngFor="let pot of pots; let potIndex = index">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <span class="text-muted">Pot</span>
+                        {{potIndex + 1}}
+                    </h4>
+                    <input *ngFor="let userInPot of pot; let userInPotIndex = index" class="form-control w-100 mb-1"
+                           [(ngModel)]="pots[potIndex][userInPotIndex]" placeholder="Enter name" [editable]="false"
+                           [ngbTypeahead]="typeAheadForGroupMember" [inputFormatter]="typeAheadInputFormatter"
+                           required [resultFormatter]="typeAheadResultFormatter"
+                           name="{{'user.' + userInPotIndex}}"
+                           [attr.name]="'user.' + userInPotIndex"
+                           [attr.id]="'user.' + userInPotIndex">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" required [(ngModel)]="confirm" name="agreeToRuleconfirms">
+                    I have reviewed the draw.
+                </label>
+            </div>
+            <button class="btn btn-primary"
+                    [disabled]="!groupDrawForm.form.valid">
+                Draw Groups
+            </button>
+        </div>
+    </div>
+</form>
+
+
+<!--[ngClass]="{'is-invalid': groupDrawForm.control.controls['user.' + group.label + '.' + userInPotIndex]?.invalid && groupDrawForm.control.controls['user.' + group.label + '.' + userInPotIndex]?.touched}"-->
