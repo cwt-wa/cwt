@@ -1,3 +1,7 @@
+
+import {forkJoin as observableForkJoin} from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {Configuration, Game, GameDto, Group, User} from "../custom";
@@ -14,15 +18,15 @@ export class AdminPlayoffsStartComponent implements OnInit {
     public groups: Group[];
     public numberOfGroupMembersAdvancing: number;
     public games: Game[];
-    private typeAheadForPlayoffsUser: (text$: Observable<string>) => Observable<User[]>;
-    private typeAheadInputFormatter: (value: User) => string;
-    private typeAheadResultFormatter: (value: User) => string;
+    typeAheadForPlayoffsUser: (text$: Observable<string>) => Observable<User[]>;
+    typeAheadInputFormatter: (value: User) => string;
+    typeAheadResultFormatter: (value: User) => string;
 
     public constructor(private requestService: RequestService, private configurationService: ConfigurationService,
                        private standingsOrderPipe: StandingsOrderPipe) {
         this.typeAheadForPlayoffsUser = (text$: Observable<string>) =>
             text$
-                .distinctUntilChanged()
+                .pipe(distinctUntilChanged())
                 .map(term => this.groups
                     .map(g => this.standingsOrderPipe.transform(g.standings).slice(0, this.numberOfGroupMembersAdvancing))
                     .reduce((previousStanding, currentStanding) => previousStanding.concat(currentStanding))
@@ -54,7 +58,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        Observable.forkJoin(
+        observableForkJoin(
             this.requestService.get<Group[]>('tournament/current/group'),
             this.configurationService.requestByKeys<number>("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
             )

@@ -2,6 +2,7 @@ import {Component, Inject, Input, OnInit} from "@angular/core";
 import {Application, Group, User} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {Observable} from "rxjs/Observable";
+import {distinctUntilChanged} from "rxjs/operators";
 
 @Component({
     selector: 'cwt-admin-groups-start-automatic-draw',
@@ -29,7 +30,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
 
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
-                .distinctUntilChanged()
+                .pipe(distinctUntilChanged())
                 .map(term =>
                     this.applications
                         .map(a => a.applicant)

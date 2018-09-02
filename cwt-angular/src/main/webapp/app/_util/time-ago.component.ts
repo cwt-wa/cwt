@@ -1,6 +1,7 @@
+
+import {timer as observableTimer} from 'rxjs';
 import {Component, Input, OnInit} from '@angular/core';
 import {TimeAgoService} from "../_services/time-ago.service";
-import {Observable} from "rxjs/Observable";
 import {TimeAgo} from "../custom";
 
 @Component({
@@ -29,7 +30,7 @@ export class TimeAgoComponent implements OnInit {
         const dateAsDate: Date = new Date(<Date> this.date);
         this.timeAgo = this.timeAgoService.timeAgo(dateAsDate);
 
-        Observable.timer(0, 1000 * 60)
+        observableTimer(0, 1000 * 60)
             .subscribe(() => this.timeAgo = this.timeAgoService.timeAgo(dateAsDate));
     }
 }

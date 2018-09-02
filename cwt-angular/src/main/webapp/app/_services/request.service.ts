@@ -1,3 +1,5 @@
+
+import {throwError as observableThrowError} from 'rxjs';
 import {Inject, Injectable} from "@angular/core";
 import {Headers, Http, RequestMethod, RequestOptionsArgs, Response, URLSearchParams} from "@angular/http";
 import {Observable} from "rxjs/Observable";
@@ -55,7 +57,7 @@ export class RequestService {
             : 'An unknown error occurred.';
 
         toastr.error(errMsg);
-        return Observable.throw(errMsg);
+        return observableThrowError(errMsg);
     }
 
 }

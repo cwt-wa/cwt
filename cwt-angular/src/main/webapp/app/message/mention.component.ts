@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, ViewChild} from '@angular/core';
 import {User} from "../custom";
 import {Observable} from "rxjs/Observable";
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 
 @Component({
     selector: 'mention',
@@ -34,8 +35,8 @@ export class MentionComponent {
     removeMention: EventEmitter<any> = new EventEmitter();
     filterSuggestedUsersForTypehead = (text$: Observable<string>) =>
         text$
-            .debounceTime(200)
-            .distinctUntilChanged()
+            .pipe(debounceTime(200))
+            .pipe(distinctUntilChanged())
             .map(term => this.suggestedUsers.filter(u => u.username.toLowerCase().indexOf(term.toLowerCase()) > -1));
     typeAheadInputFormatter = (value: User) => value.username || null;
     typeAheadResultFormatter = (value: User) => value.username || null;

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {RequestService} from "./_services/request.service";
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 
 const toastr = require('toastr/toastr.js');
 
@@ -19,8 +20,8 @@ export class AdminTournamentStartComponent implements OnInit {
 
         this.usernameTypeAhead = (text$: Observable<string>) =>
             text$
-                .debounceTime(200)
-                .distinctUntilChanged()
+                .pipe(debounceTime(200))
+                .pipe(distinctUntilChanged())
                 .map(term =>
                     term.length < 2
                         ? []

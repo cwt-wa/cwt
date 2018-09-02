@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Application, Group, GroupDto, User} from "../custom";
 import {Observable} from "rxjs/Observable";
 import {RequestService} from "../_services/request.service";
+import {distinctUntilChanged} from "rxjs/operators";
 
 @Component({
     selector: 'cwt-admin-groups-start-manual-draw',
@@ -15,14 +16,14 @@ export class AdminGroupsStartManualDrawComponent {
     @Input()
     applications: Application[];
 
-    private typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
-    private typeAheadInputFormatter: (value: User) => string;
-    private typeAheadResultFormatter: (value: User) => string;
+    typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
+    typeAheadInputFormatter: (value: User) => string;
+    typeAheadResultFormatter: (value: User) => string;
 
     public constructor(private requestService: RequestService) {
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
-                .distinctUntilChanged()
+                .pipe(distinctUntilChanged())
                 .map(term =>
                     this.applications
                         .map(a => a.applicant)

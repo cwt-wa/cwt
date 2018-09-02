@@ -9,7 +9,7 @@ import {ConfigurationService} from "../_services/configuration.service";
 })
 export class HomeComponent implements OnInit {
     news: Configuration<string>;
-    private authenticatedUser: JwtUser;
+    authenticatedUser: JwtUser;
 
     constructor(private authService: AuthService, private configurationService: ConfigurationService) {
     }

@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
 import {Comment, CommentDto, Game, JwtUser, Rating, RatingDto, RatingType, User} from "../custom";
 import {AuthService} from "../_services/auth.service";
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -62,7 +63,7 @@ export class GameDetailComponent {
     public submitComment(): void {
         this.submittingComment = true;
         this.requestService.post<Comment>(`game/${this.game.id}/comment`, this.newComment)
-            .finally(() => this.submittingComment = false)
+            .pipe(finalize(() => this.submittingComment = false))
             .subscribe(res => {
                 this.game.comments.unshift(res);
                 this.initNewComment();
@@ -73,7 +74,7 @@ export class GameDetailComponent {
         this.submittingRating = ratingType;
         const payload: RatingDto = {type: ratingType, user: this.authenticatedUser.id};
         this.requestService.post<Rating>(`game/${this.game.id}/rating`, payload)
-            .finally(() => this.submittingRating = null)
+            .pipe(finalize(() => this.submittingRating = null))
             .subscribe(res => this.game.ratings.push(res));
     }
 
