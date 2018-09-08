@@ -52,13 +52,13 @@ public class TournamentService {
     }
 
     public Tournament getCurrentTournament() {
-        final Tournament currentTorunament = tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED);
+        final Tournament currentTournament = tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED);
 
-        if (currentTorunament == null) {
+        if (currentTournament == null) {
             throw new ResourceNotFoundException("There is currently no tournament");
         }
 
-        return currentTorunament;
+        return currentTournament;
     }
 
     public List<Application> getApplicants(Tournament tournament) {
