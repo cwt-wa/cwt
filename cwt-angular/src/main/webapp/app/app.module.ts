@@ -127,7 +127,7 @@ const appRoutes: Routes = [
         BrowserModule,
         FormsModule,
         HttpModule,
-        NgbModule.forRoot(),
+        NgbModule,
         RouterModule.forRoot(appRoutes)
     ],
     declarations: [
