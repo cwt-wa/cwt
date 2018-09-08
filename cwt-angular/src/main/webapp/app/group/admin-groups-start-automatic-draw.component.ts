@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {distinctUntilChanged} from "rxjs/operators";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
+import {Utils} from "../_util/utils";
 
 const toastr = require('toastr/toastr.js');
 
@@ -65,6 +66,8 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
                 indicesOfGroupsAlreadyDrawnAUserOfCurrentPot.push(randomIndexOfGroup)
             }
         }
+
+        randomlyDrawnGroups.forEach(x => Utils.shuffleArray(x.users));
 
         this.requestService.post('tournament/current/group/many', randomlyDrawnGroups)
             .subscribe(
