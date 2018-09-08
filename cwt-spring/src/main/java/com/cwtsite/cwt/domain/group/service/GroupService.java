@@ -1,11 +1,14 @@
 package com.cwtsite.cwt.domain.group.service;
 
+import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
+import com.cwtsite.cwt.domain.tournament.service.TournamentRepository;
 import com.cwtsite.cwt.entity.GroupStanding;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,11 +18,13 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
     private final GroupStandingRepository groupStandingRepository;
+    private final TournamentRepository tournamentRepository;
 
     @Autowired
-    public GroupService(GroupRepository groupRepository, GroupStandingRepository groupStandingRepository) {
+    public GroupService(GroupRepository groupRepository, GroupStandingRepository groupStandingRepository, TournamentRepository tournamentRepository) {
         this.groupRepository = groupRepository;
         this.groupStandingRepository = groupStandingRepository;
+        this.tournamentRepository = tournamentRepository;
     }
 
     public List<Group> save(List<Group> groups) {
@@ -77,5 +82,12 @@ public class GroupService {
         standingOfLoser.setGames(standingOfAwayUser.getGames() + 1);
 
         groupStandingRepository.saveAll(Arrays.asList(standingOfWinner, standingOfLoser));
+    }
+
+    @Transactional
+    public List<Group> startGroupStage(Tournament tournament, List<Group> groups) {
+        tournament.setStatus(TournamentStatus.GROUP);
+        tournamentRepository.save(tournament);
+        return groupRepository.saveAll(groups);
     }
 }

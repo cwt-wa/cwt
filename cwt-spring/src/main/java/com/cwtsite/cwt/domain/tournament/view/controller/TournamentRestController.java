@@ -101,7 +101,7 @@ public class TournamentRestController {
                 })
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(groupService.save(groups));
+        return ResponseEntity.ok(groupService.startGroupStage(tournament.get(), groups));
     }
 
     @RequestMapping(value = "current/group/many", method = RequestMethod.POST)
