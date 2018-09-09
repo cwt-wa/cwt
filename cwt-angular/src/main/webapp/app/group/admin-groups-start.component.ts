@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Application, Group, GroupDto, GroupStanding} from "../custom";
+import {Application, Group, GroupStanding} from "../custom";
 import {GroupService} from "../_services/group.service";
 import {RequestService} from "../_services/request.service";
 import {APP_CONFIG, AppConfig} from "../app.config";
@@ -35,13 +35,5 @@ export class AdminGroupsStartComponent implements OnInit {
                 this.groups[this.groups.length - 1].standings.push(<GroupStanding> {});
             }
         }
-    }
-
-    public submit(): void {
-        const body: GroupDto[] = this.groups
-            .map(g => <GroupDto> {label: g.label, users: g.standings.map(s => s.user.id)});
-
-        this.requestService.post('tournament/current/group/many', body)
-            .subscribe();
     }
 }

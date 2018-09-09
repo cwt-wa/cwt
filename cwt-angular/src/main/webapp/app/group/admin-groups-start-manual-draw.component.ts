@@ -3,6 +3,9 @@ import {Application, Group, GroupDto, User} from "../custom";
 import {Observable} from "rxjs/Observable";
 import {RequestService} from "../_services/request.service";
 import {distinctUntilChanged} from "rxjs/operators";
+import {Router} from "@angular/router";
+
+const toastr = require('toastr/toastr.js');
 
 @Component({
     selector: 'cwt-admin-groups-start-manual-draw',
@@ -20,7 +23,7 @@ export class AdminGroupsStartManualDrawComponent {
     typeAheadInputFormatter: (value: User) => string;
     typeAheadResultFormatter: (value: User) => string;
 
-    public constructor(private requestService: RequestService) {
+    public constructor(private requestService: RequestService, private router: Router) {
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
                 .pipe(distinctUntilChanged())
@@ -50,7 +53,12 @@ export class AdminGroupsStartManualDrawComponent {
             .map(g => <GroupDto> {label: g.label, users: g.standings.map(s => s.user.id)});
 
         this.requestService.post('tournament/current/group/many', body)
-            .subscribe();
+            .subscribe(
+                () => {
+                    this.router.navigateByUrl('/groups');
+                    toastr.success("Successfully saved.");
+                },
+                () => toastr.error("An unknown error occurred."));
     }
 
     private userIsDrawn(user: User): boolean {

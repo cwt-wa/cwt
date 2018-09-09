@@ -72,7 +72,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
         this.requestService.post('tournament/current/group/many', randomlyDrawnGroups)
             .subscribe(
                 () => {
-                    this.router.navigateByUrl('/applicants');
+                    this.router.navigateByUrl('/groups');
                     toastr.success("Successfully saved.");
                 },
                 () => toastr.error("An unknown error occurred."));
