@@ -35,7 +35,7 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Game> reportGame(@PathVariable("id") long id) {
+    public ResponseEntity<Game> getGame(@PathVariable("id") long id) {
         return gameService.get(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
