@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "\"group\"")
+@Table(name = "\"GROUP\"")
 @SequenceGenerator(name = "group_seq", sequenceName = "group_seq", initialValue = 121, allocationSize = 1)
 public class Group implements Serializable {
 
