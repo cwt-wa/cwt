@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "user_")
+@Table(name = "\"USER\"")
 @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 1332, allocationSize = 1)
 public class User implements Serializable {
 
