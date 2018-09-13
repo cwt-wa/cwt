@@ -42,8 +42,8 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Game> reportGame(@RequestBody final ReportDto reportDto) {
-        return ResponseEntity.ok(gameService.reportGame(reportDto));
+    public ResponseEntity<GameDto> reportGame(@RequestBody final ReportDto reportDto) {
+        return ResponseEntity.ok(GameDto.toDto(gameService.reportGame(reportDto)));
     }
 
     @RequestMapping(value = "/many", method = RequestMethod.POST)
@@ -61,7 +61,7 @@ public class GameRestController {
         final List<User> users = userService.getByIds(userIds);
 
         final List<Game> games = gameDtos.stream()
-                .map(dto -> GameDto.map(
+                .map(dto -> GameDto.fromDto(
                         dto,
                         users.stream()
                                 .filter(u -> Objects.equals(u.getId(), dto.getHomeUser()))

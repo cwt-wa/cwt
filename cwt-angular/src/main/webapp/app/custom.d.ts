@@ -114,6 +114,7 @@ export interface Game {
 }
 
 export interface GameDto {
+    id: number;
     homeUser: number;
     awayUser: number;
     playoff: {

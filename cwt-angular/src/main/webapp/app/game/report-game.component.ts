@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
-import {Configuration, JwtUser, ReportDto, User} from "../custom";
+import {Configuration, GameDto, JwtUser, ReportDto, User} from "../custom";
 import {RequestService} from "../_services/request.service";
+import {Router} from "@angular/router";
+
+const toastr = require('toastr/toastr.js');
 
 @Component({
     selector: 'cwt-report-game',
@@ -14,7 +17,7 @@ export class ReportGameComponent implements OnInit {
     private authenticatedUser: JwtUser;
     private possibleScores: number[];
 
-    public constructor(private authService: AuthService, private requestService: RequestService) {
+    public constructor(private authService: AuthService, private requestService: RequestService, private router: Router) {
     }
 
     public ngOnInit(): void {
@@ -37,6 +40,11 @@ export class ReportGameComponent implements OnInit {
 
     public submit(): void {
         this.requestService.post('game', this.report)
-            .subscribe();
+            .subscribe(
+                (res: GameDto) => {
+                    this.router.navigateByUrl(`/game/${res.id}`);
+                    toastr.success("Successfully saved.");
+                },
+                () => toastr.error("An unknown error occurred."));
     }
 }
