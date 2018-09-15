@@ -27,7 +27,7 @@ export class ReportGameComponent implements OnInit {
         this.requestService.get<User[]>(`user/${this.authenticatedUser.id}/group/remaining-opponents`)
             .subscribe(res => this.remainingOpponents = res);
 
-        this.requestService.get<Configuration<number>>('configuration/score-best-of', {'user-id': this.authenticatedUser.id})
+        this.requestService.get<Configuration<number>>('configuration/score-best-of', {'user-id': this.authenticatedUser.id.toString()})
             .subscribe(res => {
                 this.possibleScores = [];
 
