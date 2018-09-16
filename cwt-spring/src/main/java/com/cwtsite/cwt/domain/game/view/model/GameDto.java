@@ -67,7 +67,10 @@ public class GameDto {
         dto.setId(game.getId());
         dto.setHomeUser(game.getHomeUser().getId());
         dto.setAwayUser(game.getAwayUser().getId());
-        dto.setPlayoff(PlayoffDto.toDto(game.getPlayoff()));
+
+        if (game.getPlayoff() != null) {
+            dto.setPlayoff(PlayoffDto.toDto(game.getPlayoff()));
+        }
 
         return dto;
     }

@@ -75,6 +75,10 @@ public class Game implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
     private List<Comment> comments;
 
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Replay replay;
+
     public Long getId() {
         return id;
     }
@@ -253,6 +257,14 @@ public class Game implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Replay getReplay() {
+        return replay;
+    }
+
+    public void setReplay(Replay replay) {
+        this.replay = replay;
     }
 
     @Override

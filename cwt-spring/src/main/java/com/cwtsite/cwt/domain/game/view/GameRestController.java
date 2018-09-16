@@ -12,10 +12,16 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
 import com.cwtsite.cwt.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,7 +49,19 @@ public class GameRestController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<GameDto> reportGame(@RequestBody final ReportDto reportDto) {
-        return ResponseEntity.ok(GameDto.toDto(gameService.reportGame(reportDto)));
+        final Game reportedGame = gameService.reportGame(
+                reportDto.getUser(), reportDto.getOpponent(),
+                reportDto.getScoreOfUser().intValue(), reportDto.getScoreOfOpponent().intValue());
+        return ResponseEntity.ok(GameDto.toDto(reportedGame));
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST, consumes = "multipart/form-data")
+    public ResponseEntity<GameDto> reportGame(@RequestParam("replay") MultipartFile replay,
+                                                       @RequestParam("score-home") int scoreHome,
+                                                       @RequestParam("score-away") int scoreAway,
+                                                       @RequestParam("home-user") long homeUser,
+                                                       @RequestParam("away-user") long awayUser) throws IOException {
+        return ResponseEntity.ok(GameDto.toDto(gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)));
     }
 
     @RequestMapping(value = "/many", method = RequestMethod.POST)

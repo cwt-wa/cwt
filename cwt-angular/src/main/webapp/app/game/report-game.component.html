@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-10">
-        <form #reportForm="ngForm" (submit)="submit()">
+        <form #reportForm="ngForm" (submit)="submit()" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="col-12 col-sm-4">
                     <label for="authenticatedUser" class="sr-only">Your username</label>
@@ -37,7 +37,7 @@
             <div class="form-row my-2">
                 <div class="col">
                     <label for="replayFile" class="sr-only">Replay File</label>
-                    <input type="file" class="form-control-file" id="replayFile">
+                    <input type="file" #replayFile class="form-control-file" id="replayFile">
                 </div>
             </div>
             <div class="form-row">

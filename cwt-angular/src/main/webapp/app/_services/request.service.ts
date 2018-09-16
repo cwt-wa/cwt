@@ -26,6 +26,10 @@ export class RequestService {
         return this.httpClient.delete<T>(this.appConfig.apiEndpoint + relativePath, {params, headers: this.generateDefaultHeaders()});
     }
 
+    public formDataPost<T>(relativePath: string, formData: FormData): Observable<T> {
+        return this.httpClient.post<T>(this.appConfig.apiEndpoint + relativePath, formData, {headers: this.generateDefaultHeaders(), reportProgress: true});
+    }
+
     private generateDefaultHeaders(): {Authorization: string} {
         return {'Authorization': this.authService.getToken()};
     }

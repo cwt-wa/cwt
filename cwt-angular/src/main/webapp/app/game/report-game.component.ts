@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
 import {Configuration, GameDto, JwtUser, ReportDto, User} from "../custom";
 import {RequestService} from "../_services/request.service";
@@ -11,6 +11,8 @@ const toastr = require('toastr/toastr.js');
     template: require('./report-game.component.html')
 })
 export class ReportGameComponent implements OnInit {
+
+    @ViewChild('replayFile') replayFile: ElementRef<HTMLInputElement>;
 
     public remainingOpponents: User[];
     public report: ReportDto = <ReportDto> {};
@@ -39,7 +41,14 @@ export class ReportGameComponent implements OnInit {
     }
 
     public submit(): void {
-        this.requestService.post('game', this.report)
+        const formData = new FormData();
+        formData.append('replay', this.replayFile.nativeElement.files[0]);
+        formData.append('score-home', this.report.scoreOfUser.toString());
+        formData.append('score-away', this.report.scoreOfOpponent.toString());
+        formData.append('away-user', this.report.opponent.toString());
+        formData.append('home-user', this.report.user.toString());
+
+        this.requestService.formDataPost('game', formData)
             .subscribe(
                 (res: GameDto) => {
                     this.router.navigateByUrl(`/game/${res.id}`);
