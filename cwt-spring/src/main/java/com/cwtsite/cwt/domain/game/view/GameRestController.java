@@ -64,6 +64,18 @@ public class GameRestController {
         return ResponseEntity.ok(GameDto.toDto(gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)));
     }
 
+    @RequestMapping(value = "/{gameId}/replay", method = RequestMethod.GET)
+    public ResponseEntity<Resource> download(@PathVariable("gameId") long gameId) throws IOException {
+        final Game game = gameService.get(gameId).orElseThrow(ResourceNotFoundException::new);
+        ByteArrayResource resource = new ByteArrayResource(game.getReplay().getFile());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + gameService.createReplayFileName(game))
+                .contentLength(resource.contentLength())
+                .contentType(MediaType.parseMediaType(game.getReplay().getMediaType()))
+                .body(resource);
+    }
+
     @RequestMapping(value = "/many", method = RequestMethod.POST)
     public ResponseEntity<List<Game>> reportGame(@RequestBody final List<GameDto> gameDtos) {
         final List<Long> userIds = gameDtos.stream()
