@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_")
@@ -86,7 +87,7 @@ public class User implements Serializable {
     @CreationTimestamp
     private Timestamp modified;
 
-    protected User() {
+    public User() {
     }
 
     public User(UserProfile userProfile, UserSetting userSetting, AuthorityName initialRole) {
@@ -209,13 +210,15 @@ public class User implements Serializable {
         }
 
         User user = (User) o;
-
-        return username.equals(user.username);
+        if (user.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return username.hashCode();
+        return Objects.hashCode(id);
     }
 
     @Override
@@ -224,7 +227,7 @@ public class User implements Serializable {
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", authorities='" + authorities.toString() + '\'' +
+                ", authorities='" + Objects.toString(authorities) + '\'' +
                 ", resetDate='" + resetDate + '\'' +
                 ", resetKey='" + resetKey + '\'' +
                 ", activated='" + activated + '\'' +

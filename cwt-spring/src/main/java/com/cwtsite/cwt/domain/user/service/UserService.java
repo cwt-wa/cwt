@@ -1,8 +1,8 @@
 package com.cwtsite.cwt.domain.user.service;
 
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository;
-import com.cwtsite.cwt.entity.GroupStanding;
 import com.cwtsite.cwt.domain.game.entity.Game;
+import com.cwtsite.cwt.domain.game.service.GameRepository;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.group.service.GroupRepository;
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService;
@@ -15,6 +15,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.repository.entity.UserProfile;
 import com.cwtsite.cwt.domain.user.repository.entity.UserSetting;
 import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto;
+import com.cwtsite.cwt.entity.GroupStanding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class UserService {
@@ -34,17 +36,19 @@ public class UserService {
     private final ApplicationRepository applicationRepository;
     private final GroupRepository groupRepository;
     private final PlayoffService playoffService;
+    private final GameRepository gameRepository;
 
     @Autowired
     public UserService(UserRepository userRepository, AuthService authService, TournamentService tournamentService,
                        ApplicationRepository applicationRepository, GroupRepository groupRepository,
-                       PlayoffService playoffService) {
+                       PlayoffService playoffService, GameRepository gameRepository) {
         this.userRepository = userRepository;
         this.authService = authService;
         this.tournamentService = tournamentService;
         this.applicationRepository = applicationRepository;
         this.groupRepository = groupRepository;
         this.playoffService = playoffService;
+        this.gameRepository = gameRepository;
     }
 
     @Transactional
@@ -115,14 +119,19 @@ public class UserService {
     public List<User> getRemainingOpponents(final User user) {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
         final Group group = groupRepository.findByTournamentAndUser(currentTournament, user);
+        final List<Game> games = gameRepository.findReportedGames(currentTournament, user, group);
         List<User> remainingOpponents;
 
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
-            // TODO Reduce/filter group members by those already played against.
-
             remainingOpponents = group.getStandings().stream()
                     .filter(groupStanding -> !groupStanding.getUser().equals(user))
                     .map(GroupStanding::getUser)
+                    .filter(u -> !games.stream()
+                            .flatMap(g -> Stream.of(g.getHomeUser(), g.getAwayUser()))
+                            .distinct()
+                            .collect(Collectors.toList())
+                            .contains(u))
+                    .filter(u -> !u.equals(user))
                     .collect(Collectors.toList());
         } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
             final Game nextPlayoffGameForUser = playoffService.getNextGameForUser(user);
