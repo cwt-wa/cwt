@@ -31,6 +31,6 @@ export class RequestService {
     }
 
     private generateDefaultHeaders(): {Authorization: string} {
-        return {'Authorization': this.authService.getToken()};
+        return {'Authorization': this.authService.getToken() || ''};
     }
 }
