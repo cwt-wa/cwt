@@ -5,9 +5,11 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {
     long countByStatusNot(TournamentStatus status);
 

@@ -7,9 +7,11 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
 
     List<Game> findByTournamentAndPlayoffIsNotNull(Tournament tournament);
