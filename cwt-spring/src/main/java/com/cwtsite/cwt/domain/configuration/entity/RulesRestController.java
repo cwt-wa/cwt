@@ -24,7 +24,7 @@ public class RulesRestController {
     @RequestMapping(path = "/current", method = RequestMethod.GET)
     public String[] getCurrentRules() {
         @SuppressWarnings("ConstantConditions")
-        Configuration configuration = configurationService.getOne(ConfigurationKey.RULES).get();
+        Configuration configuration = configurationService.getOne(ConfigurationKey.RULES);
         return new String[]{configuration.getValue()};
     }
 }

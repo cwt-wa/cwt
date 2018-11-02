@@ -5,42 +5,47 @@ public enum ConfigurationKey {
     /**
      * Behold! The tournament rules!
      */
-    RULES(String.class),
+    RULES(ConfigurationValueType.STRING),
 
     /**
      * Number of group members advancing into the playoffs.
      */
-    NUMBER_OF_GROUP_MEMBERS_ADVANCING(Integer.class),
+    NUMBER_OF_GROUP_MEMBERS_ADVANCING(ConfigurationValueType.INTEGER),
 
     /**
      * What group stage games are played in.
      * I.e. 3 for possbile results of 2–1 and 2–0.
      */
-    GROUP_GAMES_BEST_OF(Integer.class),
+    GROUP_GAMES_BEST_OF(ConfigurationValueType.INTEGER),
 
     /**
      * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the playoffs.
      */
-    PLAYOFF_GAMES_BEST_OF(Integer.class),
+    PLAYOFF_GAMES_BEST_OF(ConfigurationValueType.INTEGER),
 
     /**
      * Like {@link ConfigurationKey#GROUP_GAMES_BEST_OF} but for the final.
      */
-    FINAL_GAME_BEST_OF(Integer.class),
+    FINAL_GAME_BEST_OF(ConfigurationValueType.INTEGER),
 
     /**
      * News written by admins to be shown on the front page.
      */
-    NEWS(String.class);
+    NEWS(ConfigurationValueType.STRING);
 
 
-    private final Class type;
+    private final ConfigurationValueType type;
 
-    ConfigurationKey(final Class type) {
-        this.type = type;
+    ConfigurationKey(final ConfigurationValueType valueType) {
+        this.type = valueType;
     }
 
-    public Class getType() {
+    public ConfigurationValueType getType() {
         return type;
     }
+
+    private enum ConfigurationValueType {
+        INTEGER, STRING;
+    }
 }
+
