@@ -54,7 +54,7 @@ public class ConfigurationRestController {
     }
 
     @RequestMapping(value = "/score-best-of", method = RequestMethod.GET)
-    public ResponseEntity<?> getBestOfScore(@RequestParam("user-id") Long userId) {
+    public ResponseEntity<Configuration> getBestOfScore() {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
         ConfigurationKey configurationKey;
 
@@ -68,7 +68,7 @@ public class ConfigurationRestController {
             throw new IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS);
         }
 
-        //noinspection ConstantConditions
+        //noinspection OptionalGetWithoutIsPresent
         return ResponseEntity.ok(configurationService.getOne(configurationKey).get());
     }
 }
