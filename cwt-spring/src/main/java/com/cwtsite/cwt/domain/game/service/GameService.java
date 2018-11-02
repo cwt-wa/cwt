@@ -1,6 +1,8 @@
 package com.cwtsite.cwt.domain.game.service;
 
 import com.cwtsite.cwt.core.FileValidator;
+import com.cwtsite.cwt.domain.configuration.entity.Configuration;
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationService;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
 import com.cwtsite.cwt.domain.game.entity.Replay;
@@ -14,6 +16,7 @@ import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusExcept
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
 import com.cwtsite.cwt.domain.user.repository.UserRepository;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
+import com.cwtsite.cwt.domain.user.service.UserService;
 import com.cwtsite.cwt.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,6 +28,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class GameService {
@@ -36,11 +40,13 @@ public class GameService {
     private final UserRepository userRepository;
     private final GroupService groupService;
     private final CommentRepository commentRepository;
+    private final ConfigurationService configurationService;
+    private final UserService userService;
 
     @Autowired
     public GameService(GameRepository gameRepository, TournamentService tournamentService, GroupRepository groupRepository,
                        UserRepository userRepository, GroupService groupService, RatingRepository ratingRepository,
-                       CommentRepository commentRepository) {
+                       CommentRepository commentRepository, ConfigurationService configurationService, UserService userService) {
         this.gameRepository = gameRepository;
         this.tournamentService = tournamentService;
         this.groupRepository = groupRepository;
@@ -48,6 +54,8 @@ public class GameService {
         this.groupService = groupService;
         this.ratingRepository = ratingRepository;
         this.commentRepository = commentRepository;
+        this.configurationService = configurationService;
+        this.userService = userService;
     }
 
     @Transactional
@@ -69,16 +77,33 @@ public class GameService {
     }
 
     @Transactional
-    public Game reportGame(long homeUser, long awayUser, int homeScore, int awayScore) {
+    public Game reportGame(long homeUserId, long awayUserId, int homeScore, int awayScore)
+            throws InvalidOpponentException, InvalidScoreException, IllegalTournamentStatusException {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
-        final User reportingUser = userRepository.findById(homeUser)
-                .orElseThrow(IllegalArgumentException::new);
+        final Configuration bestOfValue = configurationService.getBestOfValue(currentTournament.getStatus());
+
+        if (homeScore + awayScore != Integer.valueOf(bestOfValue.getValue())) {
+            throw new InvalidScoreException(String.format(
+                    "Score %s-%s should have been best of %s.",
+                    homeScore, awayScore, bestOfValue.getValue()));
+        } else if (homeScore < 0 || awayScore < 0) {
+            throw new InvalidScoreException(String.format(
+                    "Score %s-%s should not include negative scores.", homeScore, awayScore));
+        }
+
+        final User homeUser = userRepository.findById(homeUserId).orElseThrow(RuntimeException::new);
+        final List<User> remainingOpponents = userService.getRemainingOpponents(homeUser);
+        final User opponent = userRepository.findById(awayUserId).orElseThrow(RuntimeException::new);
+
+        if (!remainingOpponents.contains(opponent)) {
+            throw new InvalidOpponentException(String.format(
+                    "Opponent %s is not in %s",
+                    opponent.getId(), remainingOpponents.stream().map(User::getId).collect(Collectors.toList())));
+        }
 
         Game reportedGame;
 
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
-            final User opponent = userRepository.findById(awayUser)
-                    .orElseThrow(IllegalArgumentException::new);
             final Group group = groupRepository.findByTournamentAndUser(currentTournament, opponent);
 
             final Game game = new Game();
@@ -86,12 +111,11 @@ public class GameService {
             game.setScoreHome(homeScore);
             game.setScoreAway(awayScore);
             game.setTournament(currentTournament);
-            game.setHomeUser(reportingUser);
+            game.setHomeUser(homeUser);
             game.setAwayUser(opponent);
-            game.setReporter(reportingUser);
+            game.setReporter(homeUser);
 
             game.setGroup(group);
-
 
             groupService.calcTableByGame(game, homeUserHasWon(game));
             reportedGame = gameRepository.save(game);
@@ -99,10 +123,10 @@ public class GameService {
             // TODO Advance the winner.
 
             final Game playoffGameToBeReported =
-                    gameRepository.findNextPlayoffGameForUser(currentTournament, reportingUser);
-            playoffGameToBeReported.setReporter(reportingUser);
+                    gameRepository.findNextPlayoffGameForUser(currentTournament, homeUser);
+            playoffGameToBeReported.setReporter(homeUser);
 
-            if (playoffGameToBeReported.getHomeUser().equals(reportingUser)) {
+            if (playoffGameToBeReported.getHomeUser().equals(homeUser)) {
                 playoffGameToBeReported.setScoreHome(Math.toIntExact(homeScore));
                 playoffGameToBeReported.setScoreAway(Math.toIntExact(awayScore));
             } else {
@@ -144,5 +168,17 @@ public class GameService {
         final Game game = gameRepository.findById(gameId)
                 .orElseThrow(IllegalArgumentException::new);
         return commentRepository.save(new Comment(body, user, game));
+    }
+
+    class InvalidScoreException extends RuntimeException {
+        InvalidScoreException(String message) {
+            super(message);
+        }
+    }
+
+    class InvalidOpponentException extends RuntimeException {
+        InvalidOpponentException(String message) {
+            super(message);
+        }
     }
 }
