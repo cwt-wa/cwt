@@ -55,7 +55,7 @@ public class UserServiceTest {
                 .when(groupRepository.findByTournamentAndUser(Mockito.any(), Mockito.any()))
                 .thenReturn(group);
         Mockito
-                .when(gameRepository.findReportedGames(Mockito.any(), Mockito.any(), Mockito.any()))
+                .when(gameRepository.findPlayedByUserInGroup(Mockito.any(), Mockito.any()))
                 .thenReturn(createGames(group));
 
         Assertions
@@ -69,20 +69,6 @@ public class UserServiceTest {
         game1.setId(LocalTime.now().toNanoOfDay());
         game1.setHomeUser(getUser(group, 1));
         game1.setAwayUser(getUser(group, 2));
-
-//        final Game game2 = new Game();
-//        game2.setGroup(group);
-//        game2.setId(LocalTime.now().toNanoOfDay());
-//        game2.setHomeUser(getUser(group, 2));
-//        game2.setAwayUser(getUser(group, 3));
-//
-//        final Game game3 = new Game();
-//        game3.setGroup(group);
-//        game3.setId(LocalTime.now().toNanoOfDay());
-//        game3.setHomeUser(getUser(group, 3));
-//        game3.setAwayUser(getUser(group, 4));
-
-//        return Arrays.asList(game1, game2, game3);
         return Collections.singletonList(game1);
     }
 

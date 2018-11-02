@@ -119,7 +119,7 @@ public class UserService {
     public List<User> getRemainingOpponents(final User user) {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
         final Group group = groupRepository.findByTournamentAndUser(currentTournament, user);
-        final List<Game> games = gameRepository.findReportedGames(currentTournament, user, group);
+        final List<Game> games = gameRepository.findPlayedByUserInGroup(user, group);
         List<User> remainingOpponents;
 
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {

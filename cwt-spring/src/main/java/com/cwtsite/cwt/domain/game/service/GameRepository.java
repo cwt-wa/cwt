@@ -23,9 +23,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             @Param("user") User user);
 
     @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and (g.homeUser is not null " +
-            "and g.awayUser is not null) and g.reporter is not null and g.tournament = :tournament and g.group = :group")
-    List<Game> findReportedGames(
-            @Param("tournament") Tournament tournament,
+            "and g.awayUser is not null) and g.reporter is not null and g.group = :group")
+    List<Game> findPlayedByUserInGroup(
             @Param("user") User user,
             @Param("group") Group group);
 }
