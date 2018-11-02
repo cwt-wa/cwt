@@ -27,7 +27,7 @@ public class Configuration implements Serializable {
     @UpdateTimestamp
     private Timestamp modified;
 
-    @ManyToOne(optional = false)
+    @ManyToOne()
     private User author;
 
     public ConfigurationKey getKey() {

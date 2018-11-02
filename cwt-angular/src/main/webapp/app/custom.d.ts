@@ -33,7 +33,7 @@ export interface Configuration<T> {
     key: ConfigurationKey;
     value: T;
     modified: Date;
-    author: User;
+    author?: User;
 }
 
 

@@ -15,7 +15,7 @@ create table "group" (id bigint not null, label varchar(255), tournament_id bigi
 create table application (id bigint not null, created timestamp, revoked boolean, applicant_id bigint, tournament_id bigint, primary key (id));
 create table authority (id bigint not null, name varchar(50) not null, primary key (id));
 create table comment (id bigint not null, body text not null, created timestamp, deleted boolean, modified timestamp, author_id bigint, game_id bigint, primary key (id));
-create table configuration (key varchar(255) not null, modified timestamp, value text, author_id bigint not null, primary key (key));
+create table configuration (key varchar(255) not null, modified timestamp, value text, author_id bigint, primary key (key));
 create table game (id bigint not null, created timestamp, downloads integer, modified timestamp, score_away integer, score_home integer, tech_win boolean, away_user_id bigint, group_id bigint, home_user_id bigint, playoff_id bigint, replay_id bigint, reporter_id bigint, tournament_id bigint, primary key (id));
 create table group_standing (id bigint not null, game_ratio integer, games integer, points integer, round_ratio integer, group_id bigint, user_id bigint, primary key (id));
 create table message (id bigint not null, body text, category varchar(255), created timestamp, author_id bigint, primary key (id));
@@ -42,7 +42,7 @@ alter table application add constraint FKqkrbk3cglyw1k3ie2fdnbpbfd foreign key (
 alter table application add constraint FK2i6j1qa1y0p58npfnesahidyp foreign key (tournament_id) references tournament;
 alter table comment add constraint FKeygnqcngb7dixfa8lngm5h4f5 foreign key (author_id) references user_;
 alter table comment add constraint FKdnsshxpxsyim4eglkpc9je1ol foreign key (game_id) references game;
-alter table configuration add constraint FKio8mqmfwibfjmkmd5mb7lumfe foreign key (author_id) references user_;
+alter table configuration add constraint fk_config_author foreign key (author_id) references user_;
 alter table game add constraint FKavuvbg81kyepwonnj0ceww8kj foreign key (away_user_id) references user_;
 alter table game add constraint FK62h229fd2s82u9cqyyr6bltq2 foreign key (group_id) references "group";
 alter table game add constraint FKd1a70shd6elggerrpibo1suaw foreign key (home_user_id) references user_;

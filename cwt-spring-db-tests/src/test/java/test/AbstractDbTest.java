@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -37,6 +38,10 @@ public abstract class AbstractDbTest {
         em.getEntityManager().createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
 
         while (tables.next()) {
+            if (Objects.equals(tables.getObject(3), "CONFIGURATION")) {
+                continue;
+            }
+
             em.getEntityManager().createNativeQuery("TRUNCATE TABLE \"" + tables.getObject(3) + "\"").executeUpdate();
         }
 

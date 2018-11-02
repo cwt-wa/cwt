@@ -11,7 +11,7 @@
         </p>
         <p class="card-text float-right">
             <small class="text-muted">
-                <a [routerLink]="['/user', news.author.username]">{{news.author.username}}</a>,
+                <a [routerLink]="['/user', news.author?.username]">{{news.author?.username}}</a>,
                 <cwt-time-ago [date]="news.modified"></cwt-time-ago>
             </small>
         </p>
