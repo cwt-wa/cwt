@@ -5,6 +5,7 @@ import com.btc.redg.generated.RedG;
 import com.btc.redg.runtime.AbstractRedG;
 import com.btc.redg.runtime.RedGEntity;
 import com.btc.redg.runtime.dummy.DefaultDummyFactory;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,6 +14,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -24,6 +27,21 @@ public abstract class AbstractDbTest {
 
     @Autowired
     protected TestEntityManager em;
+
+    @After
+    public void rollback() throws SQLException {
+        final ResultSet tables = dataSource.getConnection().getMetaData().getTables(
+                dataSource.getConnection().getCatalog(), dataSource.getConnection().getSchema(), "%", null);
+
+        em.flush();
+        em.getEntityManager().createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
+
+        while (tables.next()) {
+            em.getEntityManager().createNativeQuery("TRUNCATE TABLE \"" + tables.getObject(3) + "\"").executeUpdate();
+        }
+
+        em.getEntityManager().createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+    }
 
     protected RedG createRedG() {
         final RedG redG = new RedG();
