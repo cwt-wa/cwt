@@ -48,7 +48,7 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<GameDto> reportGame(@RequestBody final ReportDto reportDto) {
+    public ResponseEntity<GameDto> reportGameWithoutReplay(@RequestBody final ReportDto reportDto) {
         final Game reportedGame = gameService.reportGame(
                 reportDto.getUser(), reportDto.getOpponent(),
                 reportDto.getScoreOfUser().intValue(), reportDto.getScoreOfOpponent().intValue());
@@ -56,11 +56,12 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "multipart/form-data")
-    public ResponseEntity<GameDto> reportGame(@RequestParam("replay") MultipartFile replay,
-                                                       @RequestParam("score-home") int scoreHome,
-                                                       @RequestParam("score-away") int scoreAway,
-                                                       @RequestParam("home-user") long homeUser,
-                                                       @RequestParam("away-user") long awayUser) throws IOException {
+    public ResponseEntity<GameDto> reportGameWithReplayFile(
+            @RequestParam("replay") MultipartFile replay,
+            @RequestParam("score-home") int scoreHome,
+            @RequestParam("score-away") int scoreAway,
+            @RequestParam("home-user") long homeUser,
+            @RequestParam("away-user") long awayUser) throws IOException {
         return ResponseEntity.ok(GameDto.toDto(gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)));
     }
 
@@ -77,7 +78,7 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "/many", method = RequestMethod.POST)
-    public ResponseEntity<List<Game>> reportGame(@RequestBody final List<GameDto> gameDtos) {
+    public ResponseEntity<List<Game>> reportManyGamesWithoutReportFile(@RequestBody final List<GameDto> gameDtos) {
         final List<Long> userIds = gameDtos.stream()
                 .map(gameDto -> Arrays.asList(new Long[]{gameDto.getHomeUser(), gameDto.getAwayUser()}))
                 .reduce((longs, longs2) -> {
