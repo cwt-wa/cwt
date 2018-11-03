@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.group.service;
 
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationService;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository;
 import com.cwtsite.cwt.entity.GroupStanding;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class GroupService {
@@ -19,12 +21,15 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final GroupStandingRepository groupStandingRepository;
     private final TournamentRepository tournamentRepository;
+    private final ConfigurationService configurationService;
 
     @Autowired
-    public GroupService(GroupRepository groupRepository, GroupStandingRepository groupStandingRepository, TournamentRepository tournamentRepository) {
+    public GroupService(GroupRepository groupRepository, GroupStandingRepository groupStandingRepository,
+                        TournamentRepository tournamentRepository, ConfigurationService configurationService) {
         this.groupRepository = groupRepository;
         this.groupStandingRepository = groupStandingRepository;
         this.tournamentRepository = tournamentRepository;
+        this.configurationService = configurationService;
     }
 
     public List<Group> save(List<Group> groups) {
@@ -46,7 +51,7 @@ public class GroupService {
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
 
-        // TODO Points pattern from configurations.
+        final List<int[]> pointsPattern = configurationService.getParsedPointsPatternConfiguration();
 
         GroupStanding standingOfWinner;
         GroupStanding standingOfLoser;
@@ -55,9 +60,8 @@ public class GroupService {
             standingOfWinner = standingOfHomeUser;
             standingOfLoser = standingOfAwayUser;
 
-            if (game.getScoreAway() == 2) {
-                standingOfLoser.setPoints(standingOfLoser.getPoints() + 1);
-            }
+            standingOfWinner.setPoints(standingOfWinner.getPoints() + getPointsForScore(pointsPattern, game.getScoreHome()));
+            standingOfLoser.setPoints(standingOfLoser.getPoints() + getPointsForScore(pointsPattern, game.getScoreAway()));
 
             standingOfWinner.setRoundRatio(standingOfWinner.getRoundRatio() + (game.getScoreHome() - game.getScoreAway()));
             standingOfLoser.setRoundRatio(standingOfLoser.getRoundRatio() + (game.getScoreAway() - game.getScoreHome()));
@@ -65,15 +69,12 @@ public class GroupService {
             standingOfWinner = standingOfAwayUser;
             standingOfLoser = standingOfHomeUser;
 
-            if (game.getScoreHome() == 2) {
-                standingOfLoser.setPoints(standingOfLoser.getPoints() + 1);
-            }
+            standingOfWinner.setPoints(standingOfWinner.getPoints() + getPointsForScore(pointsPattern, game.getScoreAway()));
+            standingOfLoser.setPoints(standingOfLoser.getPoints() + getPointsForScore(pointsPattern, game.getScoreHome()));
 
             standingOfWinner.setRoundRatio(standingOfWinner.getRoundRatio() + (game.getScoreAway() - game.getScoreHome()));
             standingOfLoser.setRoundRatio(standingOfLoser.getRoundRatio() + (game.getScoreHome() - game.getScoreAway()));
         }
-
-        standingOfWinner.setPoints(standingOfWinner.getPoints() + 3);
 
         standingOfWinner.setGameRatio(standingOfWinner.getGameRatio() + 1);
         standingOfLoser.setGameRatio(standingOfLoser.getGameRatio() - 1);
@@ -82,6 +83,13 @@ public class GroupService {
         standingOfLoser.setGames(standingOfAwayUser.getGames() + 1);
 
         groupStandingRepository.saveAll(Arrays.asList(standingOfWinner, standingOfLoser));
+    }
+
+    private int getPointsForScore(List<int[]> pointsPattern, Integer score) {
+        return pointsPattern.stream()
+                .filter(pp -> pp[0] == score)
+                .map(pp -> pp[1])
+                .findFirst().orElseThrow(RuntimeException::new);
     }
 
     @Transactional

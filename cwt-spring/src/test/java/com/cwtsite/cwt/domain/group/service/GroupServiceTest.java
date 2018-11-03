@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.group.service;
 
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationService;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
@@ -19,10 +20,13 @@ import java.util.List;
 public class GroupServiceTest {
 
     @InjectMocks
-    public GroupService groupService;
+    private GroupService groupService;
 
     @Mock
-    public GroupStandingRepository groupStandingRepository;
+    private GroupStandingRepository groupStandingRepository;
+
+    @Mock
+    private ConfigurationService configurationService;
 
     @Test
     public void calcTableByGame() {
@@ -36,6 +40,10 @@ public class GroupServiceTest {
         game.setScoreHome(3);
         game.setScoreAway(2);
         game.setGroup(createGroup(user1, user2));
+
+        Mockito
+                .when(configurationService.getParsedPointsPatternConfiguration())
+                .thenReturn(Arrays.asList(new int[]{3, 3}, new int[]{2, 1}));
 
         Mockito
                 .when(groupStandingRepository.saveAll(Mockito.anyCollection()))
