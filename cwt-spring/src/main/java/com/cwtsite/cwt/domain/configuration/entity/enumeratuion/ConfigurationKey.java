@@ -31,7 +31,17 @@ public enum ConfigurationKey {
     /**
      * News written by admins to be shown on the front page.
      */
-    NEWS(ConfigurationValueType.STRING);
+    NEWS(ConfigurationValueType.STRING),
+
+    /**
+     * Relation of won rounds and points.
+     * Defines comma-separated 2-tuples that relate how many points will be given for the amount of won rounds in a game.
+     * <pre>
+     * (won rounds, points), (won rounds, points), …
+     * (3, 3), (2, 1)</pre>
+     * Three points for three won rounds, one point for two won rounds. Anything else is zero points.
+     */
+    POINTS_PATTERN(ConfigurationValueType.STRING);
 
 
     private final ConfigurationValueType type;

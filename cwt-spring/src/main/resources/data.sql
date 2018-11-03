@@ -5,3 +5,4 @@ INSERT INTO configuration (modified, key, value) VALUES (NULL, 'PLAYOFF_GAMES_BE
 INSERT INTO configuration (modified, key, value) VALUES (NULL, 'FINAL_GAME_BEST_OF', 7);
 INSERT INTO configuration (modified, key, value) VALUES (now(), 'NEWS', E'Crespo’s Worms Tournament 2017 is going to start on November 1.
 Yeah, that’s right. We mean it. It’s not October this time. One more month to derust yourselves. Why not play some ONL?\n\nBe ready, see you then.');
+INSERT INTO configuration (modified, key, value) VALUES (now(), 'POINTS_PATTERN', '(3, 3), (2, 1)');
