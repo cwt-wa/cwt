@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
-import {Configuration, GameDto, JwtUser, ReportDto, User} from "../custom";
+import {Configuration, GameDto, JwtUser, ReportDto, ServerError, User} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
 
@@ -54,6 +54,8 @@ export class ReportGameComponent implements OnInit {
                     this.router.navigateByUrl(`/game/${res.id}`);
                     toastr.success("Successfully saved.");
                 },
-                () => toastr.error("An unknown error occurred."));
+                (err: ServerError) => {
+                    toastr.error(err.error.message);
+                });
     }
 }

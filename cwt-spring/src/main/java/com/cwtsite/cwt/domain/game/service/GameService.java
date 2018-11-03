@@ -59,9 +59,13 @@ public class GameService {
     }
 
     @Transactional
-    public Game reportGame(long homeUser, long awayUser, int scoreHome, int scoreAway, MultipartFile replay) throws IOException {
-        final Game reportedGame = reportGame(homeUser, awayUser, scoreHome, scoreAway);
+    public Game reportGame(long homeUser, long awayUser, int scoreHome, int scoreAway, MultipartFile replay)
+            throws InvalidOpponentException, InvalidScoreException, IllegalTournamentStatusException,
+            FileValidator.UploadSecurityException, FileValidator.IllegalFileContentTypeException,
+            FileValidator.FileEmptyException, FileValidator.FileTooLargeException, FileValidator.IllegalFileExtension,
+            IOException {
         FileValidator.validate(replay, 150000, Arrays.asList("application/x-rar", "application/zip"), Arrays.asList("rar", "zip"));
+        final Game reportedGame = reportGame(homeUser, awayUser, scoreHome, scoreAway);
         reportedGame.setReplay(new Replay(replay.getBytes(), replay.getContentType(), StringUtils.getFilenameExtension(replay.getOriginalFilename())));
         return gameRepository.save(reportedGame);
     }
@@ -166,13 +170,13 @@ public class GameService {
         return commentRepository.save(new Comment(body, user, game));
     }
 
-    class InvalidScoreException extends RuntimeException {
+    public class InvalidScoreException extends RuntimeException {
         InvalidScoreException(String message) {
             super(message);
         }
     }
 
-    class InvalidOpponentException extends RuntimeException {
+    public class InvalidOpponentException extends RuntimeException {
         InvalidOpponentException(String message) {
             super(message);
         }

@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.domain.game.view;
 
+import com.cwtsite.cwt.core.FileValidator;
+import com.cwtsite.cwt.domain.core.exception.BadRequestException;
 import com.cwtsite.cwt.domain.core.exception.ResourceNotFoundException;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
@@ -62,7 +64,19 @@ public class GameRestController {
             @RequestParam("score-away") int scoreAway,
             @RequestParam("home-user") long homeUser,
             @RequestParam("away-user") long awayUser) throws IOException {
-        return ResponseEntity.ok(GameDto.toDto(gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)));
+        final Game game;
+        try {
+            game = gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay);
+        } catch (GameService.InvalidOpponentException
+                | GameService.InvalidScoreException
+                | FileValidator.UploadSecurityException
+                | FileValidator.FileEmptyException
+                | FileValidator.IllegalFileContentTypeException
+                | FileValidator.FileTooLargeException
+                | FileValidator.IllegalFileExtension e) {
+            throw new BadRequestException(e.getMessage(), e);
+        }
+        return ResponseEntity.ok(GameDto.toDto(game));
     }
 
     @RequestMapping(value = "/{gameId}/replay", method = RequestMethod.GET)

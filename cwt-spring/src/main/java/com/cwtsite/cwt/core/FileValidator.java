@@ -11,7 +11,9 @@ public class FileValidator {
     }
 
     public static void validate(MultipartFile multipartFile, long maxBytes,
-                                List<String> allowedContentTypes, List<String> allowedLowerCasedFileExtensions) {
+                                List<String> allowedContentTypes, List<String> allowedLowerCasedFileExtensions)
+            throws UploadSecurityException, IllegalFileContentTypeException, FileEmptyException, FileTooLargeException,
+            IllegalFileExtension {
         final String filenameAsUploaded = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         final String filenameExtensionAsUploaded = StringUtils.getFilenameExtension(filenameAsUploaded);
 
@@ -38,13 +40,13 @@ public class FileValidator {
         }
     }
 
-    private static class FileEmptyException extends RuntimeException {
+    public static class FileEmptyException extends RuntimeException {
         FileEmptyException(String filename) {
             super(String.format("File %s is empty.", filename));
         }
     }
 
-    private static class FileTooLargeException extends RuntimeException {
+    public static class FileTooLargeException extends RuntimeException {
         FileTooLargeException(String filename, long actualSize, long maxBytes) {
             super(String.format(
                     "Size %s of file %s exceeds max of %s.",
@@ -52,7 +54,7 @@ public class FileValidator {
         }
     }
 
-    private static class IllegalFileContentTypeException extends RuntimeException {
+    public static class IllegalFileContentTypeException extends RuntimeException {
         IllegalFileContentTypeException(String filename, String actualContentType, List<String> allowedContentTypes) {
             super(String.format(
                     "Content type %s of file %s does not match allowed %s",
@@ -60,7 +62,7 @@ public class FileValidator {
         }
     }
 
-    private static class IllegalFileExtension extends RuntimeException {
+    public static class IllegalFileExtension extends RuntimeException {
         IllegalFileExtension(String extension, List<String> allowedFileExtensions) {
             super(String.format(
                     "File extension %s is not included in allowed %s.",
@@ -68,7 +70,7 @@ public class FileValidator {
         }
     }
 
-    private static class UploadSecurityException extends RuntimeException {
+    public static class UploadSecurityException extends RuntimeException {
         UploadSecurityException(String message) {
             super(message);
         }

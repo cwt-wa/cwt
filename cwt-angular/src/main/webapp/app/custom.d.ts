@@ -1,3 +1,5 @@
+import {HttpErrorResponse} from "@angular/common/http";
+
 export type Role = "ROLE_USER" | "ROLE_ADMIN";
 
 export interface JwtUser {
@@ -176,4 +178,15 @@ export interface MessageDto {
     body: string;
     category: MessageCategory;
     recipients: number[];
+}
+
+
+export interface ServerError extends HttpErrorResponse {
+    error: {
+        error: string;
+        message: string;
+        path: string;
+        status: number;
+        timestamp: Date;
+    }
 }
