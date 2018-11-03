@@ -35,7 +35,7 @@ public class GroupService {
         return groupRepository.findByTournament(tournament);
     }
 
-    public void calcTableByGame(final Game game, final boolean homeUserHasWon) {
+    public void calcTableByGame(final Game game) {
         final GroupStanding standingOfHomeUser = game.getGroup().getStandings().stream()
                 .filter(s -> s.getUser().equals(game.getHomeUser()))
                 .findFirst()
@@ -51,7 +51,7 @@ public class GroupService {
         GroupStanding standingOfWinner;
         GroupStanding standingOfLoser;
 
-        if (homeUserHasWon) {
+        if (game.getScoreHome() > game.getScoreAway()) {
             standingOfWinner = standingOfHomeUser;
             standingOfLoser = standingOfAwayUser;
 

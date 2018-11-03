@@ -117,7 +117,7 @@ public class GameService {
 
             game.setGroup(group);
 
-            groupService.calcTableByGame(game, homeUserHasWon(game));
+            groupService.calcTableByGame(game);
             reportedGame = gameRepository.save(game);
         } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
             // TODO Advance the winner.
@@ -140,10 +140,6 @@ public class GameService {
         }
 
         return reportedGame;
-    }
-
-    public boolean homeUserHasWon(final Game game) {
-        return game.getScoreHome() > game.getScoreAway();
     }
 
     public List<Game> saveAll(final List<Game> games) {
