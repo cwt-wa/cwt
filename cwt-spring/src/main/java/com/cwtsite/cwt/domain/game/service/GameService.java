@@ -10,6 +10,7 @@ import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.group.service.GroupRepository;
 import com.cwtsite.cwt.domain.group.service.GroupService;
+import com.cwtsite.cwt.domain.playoffs.service.PlayoffService;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusException;
@@ -42,11 +43,13 @@ public class GameService {
     private final CommentRepository commentRepository;
     private final ConfigurationService configurationService;
     private final UserService userService;
+    private final PlayoffService playoffService;
 
     @Autowired
     public GameService(GameRepository gameRepository, TournamentService tournamentService, GroupRepository groupRepository,
                        UserRepository userRepository, GroupService groupService, RatingRepository ratingRepository,
-                       CommentRepository commentRepository, ConfigurationService configurationService, UserService userService) {
+                       CommentRepository commentRepository, ConfigurationService configurationService, UserService userService,
+                       PlayoffService playoffService) {
         this.gameRepository = gameRepository;
         this.tournamentService = tournamentService;
         this.groupRepository = groupRepository;
@@ -56,6 +59,7 @@ public class GameService {
         this.commentRepository = commentRepository;
         this.configurationService = configurationService;
         this.userService = userService;
+        this.playoffService = playoffService;
     }
 
     @Transactional
@@ -97,18 +101,18 @@ public class GameService {
 
         final User homeUser = userRepository.findById(homeUserId).orElseThrow(RuntimeException::new);
         final List<User> remainingOpponents = userService.getRemainingOpponents(homeUser);
-        final User opponent = userRepository.findById(awayUserId).orElseThrow(RuntimeException::new);
+        final User awayUser = userRepository.findById(awayUserId).orElseThrow(RuntimeException::new);
 
-        if (!remainingOpponents.contains(opponent)) {
+        if (!remainingOpponents.contains(awayUser)) {
             throw new InvalidOpponentException(String.format(
                     "Opponent %s is not in %s",
-                    opponent.getId(), remainingOpponents.stream().map(User::getId).collect(Collectors.toList())));
+                    awayUser.getId(), remainingOpponents.stream().map(User::getId).collect(Collectors.toList())));
         }
 
         Game reportedGame;
 
         if (currentTournament.getStatus() == TournamentStatus.GROUP) {
-            final Group group = groupRepository.findByTournamentAndUser(currentTournament, opponent);
+            final Group group = groupRepository.findByTournamentAndUser(currentTournament, awayUser);
 
             final Game game = new Game();
 
@@ -116,7 +120,7 @@ public class GameService {
             game.setScoreAway(awayScore);
             game.setTournament(currentTournament);
             game.setHomeUser(homeUser);
-            game.setAwayUser(opponent);
+            game.setAwayUser(awayUser);
             game.setReporter(homeUser);
 
             game.setGroup(group);
@@ -124,21 +128,28 @@ public class GameService {
             groupService.calcTableByGame(game);
             reportedGame = gameRepository.save(game);
         } else if (currentTournament.getStatus() == TournamentStatus.PLAYOFFS) {
-            // TODO Advance the winner.
-
             final Game playoffGameToBeReported =
                     gameRepository.findNextPlayoffGameForUser(currentTournament, homeUser);
+
+            if (!Arrays.asList(playoffGameToBeReported.getHomeUser(), playoffGameToBeReported.getAwayUser())
+                    .containsAll(Arrays.asList(homeUser, awayUser))) {
+                throw new InvalidOpponentException(String.format(
+                        "Next playoff game is expected to be %s vs. %s.",
+                        homeUser.getUsername(), awayUser.getUsername()));
+            }
+
             playoffGameToBeReported.setReporter(homeUser);
 
             if (playoffGameToBeReported.getHomeUser().equals(homeUser)) {
-                playoffGameToBeReported.setScoreHome(Math.toIntExact(homeScore));
-                playoffGameToBeReported.setScoreAway(Math.toIntExact(awayScore));
+                playoffGameToBeReported.setScoreHome(homeScore);
+                playoffGameToBeReported.setScoreAway(awayScore);
             } else {
-                playoffGameToBeReported.setScoreHome(Math.toIntExact(awayScore));
-                playoffGameToBeReported.setScoreAway(Math.toIntExact(homeScore));
+                playoffGameToBeReported.setScoreHome(awayScore);
+                playoffGameToBeReported.setScoreAway(homeScore);
             }
 
             reportedGame = gameRepository.save(playoffGameToBeReported);
+            playoffService.advanceByGame(reportedGame);
         } else {
             throw new IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS);
         }
