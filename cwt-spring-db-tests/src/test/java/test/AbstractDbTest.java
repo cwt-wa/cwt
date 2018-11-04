@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@TestPropertySource(properties = "spring.datasource.platform=test")
+@TestPropertySource(properties = {"spring.datasource.platform=test", "spring.datasource.initialization-mode=always"})
 public abstract class AbstractDbTest {
 
     @Autowired
