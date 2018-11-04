@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
@@ -27,4 +28,10 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findPlayedByUserInGroup(
             @Param("user") User user,
             @Param("group") Group group);
+
+    @Query("select g from Game g where tournament = :tournament and g.playoff.spot = :spot and g.playoff.round = :round")
+    Optional<Game> findGameInPlayoffTree(
+            @Param("tournament") Tournament tournament,
+            @Param("spot") int spot,
+            @Param("round") int round);
 }

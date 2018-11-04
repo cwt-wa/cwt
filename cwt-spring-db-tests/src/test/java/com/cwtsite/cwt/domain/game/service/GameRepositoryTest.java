@@ -134,4 +134,38 @@ public class GameRepositoryTest extends AbstractDbTest {
                 .filter(u -> Objects.equals(u.getId(), userId))
                 .findFirst().orElseThrow(RuntimeException::new);
     }
+
+    @Test
+    public void findGameInPlayoffTree() {
+        final RedG redG = createRedG();
+
+        final GUser gUser = redG.addUser();
+
+        final GTournament gTournament = redG.addTournament()
+                .status(TournamentStatus.PLAYOFFS.name());
+
+        createPlayoffGame(redG, gTournament, 1, 1);
+        createPlayoffGame(redG, gTournament, 1, 2);
+        final GGame gameJustPlayed = createPlayoffGame(redG, gTournament, 1, 3);
+        createPlayoffGame(redG, gTournament, 1, 4);
+        createPlayoffGame(redG, gTournament, 2, 1);
+        final GGame gameToAdvanceTo = createPlayoffGame(redG, gTournament, 2, 2);
+
+        gameJustPlayed
+                .homeUserIdUser(gUser)
+                .scoreHome(3)
+                .scoreAway(1);
+
+        gameToAdvanceTo
+                .homeUserIdUser(null)
+                .id(99L);
+
+        redG.insertDataIntoDatabase(dataSource);
+        loadUsersGetOneWorkaround(gUser.id());
+
+        //noinspection OptionalGetWithoutIsPresent
+        Assert.assertEquals(
+                gameRepository.findGameInPlayoffTree(em.find(Tournament.class, gTournament.id()), 2, 2).get().getId(),
+                gameToAdvanceTo.id());
+    }
 }
