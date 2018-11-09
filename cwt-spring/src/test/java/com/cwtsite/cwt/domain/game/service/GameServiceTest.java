@@ -12,7 +12,6 @@ import com.cwtsite.cwt.domain.group.service.GroupService;
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
-import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusException;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
 import com.cwtsite.cwt.domain.user.repository.UserRepository;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
@@ -192,11 +191,11 @@ public class GameServiceTest {
                 .thenReturn(tournament);
 
         Mockito
-                .when(configurationService.getBestOfValue(TournamentStatus.GROUP))
+                .when(gameService.getBestOfValue(TournamentStatus.GROUP))
                 .thenReturn(createGroupGameBestOfConfiguration(ConfigurationKey.GROUP_GAMES_BEST_OF));
 
         Mockito
-                .when(configurationService.getBestOfValue(TournamentStatus.PLAYOFFS))
+                .when(gameService.getBestOfValue(TournamentStatus.PLAYOFFS))
                 .thenReturn(createGroupGameBestOfConfiguration(ConfigurationKey.PLAYOFF_GAMES_BEST_OF));
 
         try {

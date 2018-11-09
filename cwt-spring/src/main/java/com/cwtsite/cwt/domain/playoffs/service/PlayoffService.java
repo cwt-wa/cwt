@@ -1,8 +1,11 @@
 package com.cwtsite.cwt.domain.playoffs.service;
 
+import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey;
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationService;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame;
 import com.cwtsite.cwt.domain.game.service.GameRepository;
+import com.cwtsite.cwt.domain.group.service.GroupRepository;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
@@ -12,18 +15,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class PlayoffService {
 
     private final GameRepository gameRepository;
     private final TournamentService tournamentService;
+    private final GroupRepository groupRepository;
+    private final ConfigurationService configurationService;
 
     @Autowired
-    public PlayoffService(GameRepository gameRepository, TournamentService tournamentService) {
+    public PlayoffService(GameRepository gameRepository, TournamentService tournamentService,
+                          GroupRepository groupRepository, ConfigurationService configurationService) {
         this.gameRepository = gameRepository;
         this.tournamentService = tournamentService;
+        this.groupRepository = groupRepository;
+        this.configurationService = configurationService;
     }
 
     public List<Game> getGamesOfTournament(final Tournament tournament) {
@@ -34,48 +41,37 @@ public class PlayoffService {
         return gameRepository.findNextPlayoffGameForUser(tournamentService.getCurrentTournament(), user);
     }
 
-    /**
-     * @deprecated in favor of {@link #isFinalGame(Game)}
-     */
-    @Deprecated
-    public boolean finalGamesAreNext() {
+    public boolean onlyFinalGamesAreLeftToPlay() {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
 
         if (currentTournament.getStatus() != TournamentStatus.PLAYOFFS) {
             return false;
         }
 
-        final List<Game> playoffGames = gameRepository.findByTournamentAndPlayoffIsNotNull(currentTournament);
+        final List<Game> finalGames = gameRepository.findReadyGamesInRoundEqualOrGreaterThan(
+                getNumberOfPlayoffRoundsInTournament(currentTournament));
 
-        final int numberOfGamesInFirstRound = playoffGames.stream()
-                .filter(game -> game.getPlayoff().getRound() == 1)
-                .collect(Collectors.toList())
-                .size();
-
-        final int numberOfRounds = (int) (Math.log(numberOfGamesInFirstRound) / Math.log(2)) + 1;
-
-        return playoffGames.stream()
-                .filter(g -> g.getPlayoff().getRound() == numberOfRounds || g.getPlayoff().getRound() == numberOfRounds + 1)
-                .anyMatch(g -> g.getHomeUser() != null && g.getAwayUser() != null && g.getReporter() == null);
+        return finalGames.size() == 2;
     }
 
-    public boolean isFinalGame(Game game) {
-        if (game.getTournament().getStatus() != TournamentStatus.PLAYOFFS || game.getPlayoff() == null) {
-            return false;
-        }
+    private boolean isFinalGame(Game game) {
+        return game.getPlayoff().getRound() == getNumberOfPlayoffRoundsInTournament(game.getTournament()) + 1;
+    }
 
-        final List<Game> playoffGames = gameRepository.findByTournamentAndPlayoffIsNotNull(game.getTournament());
+    private boolean isThirdPlaceGame(Game game) {
+        return game.getPlayoff().getRound() == getNumberOfPlayoffRoundsInTournament(game.getTournament());
+    }
 
-        final int numberOfGamesInFirstRound = (int) playoffGames.stream()
-                .filter(g -> g.getPlayoff().getRound() == 1)
-                .count();
+    private int getNumberOfPlayoffRoundsInTournament(Tournament tournament) {
+        final int groupsCount = groupRepository.countByTournament(tournament);
+        final int numberOfGroupMembersAdvancing = Integer.parseInt(
+                configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING).getValue());
 
-        final int numberOfRounds = (int) (Math.log(numberOfGamesInFirstRound) / Math.log(2)) + 1;
-        return game.getPlayoff().getRound() >= numberOfRounds;
+        return (int) (Math.log(groupsCount * numberOfGroupMembersAdvancing) / Math.log(2));
     }
 
     public Game advanceByGame(Game game) {
-        if (isFinalGame(game)) {
+        if (isFinalGame(game) || isThirdPlaceGame(game)) {
             return null;
         }
 

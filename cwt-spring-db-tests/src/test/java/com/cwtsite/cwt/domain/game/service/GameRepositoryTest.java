@@ -6,12 +6,14 @@ import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import test.AbstractDbTest;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class GameRepositoryTest extends AbstractDbTest {
@@ -130,9 +132,14 @@ public class GameRepositoryTest extends AbstractDbTest {
 
     private User loadUsersGetOneWorkaround(Long userId) {
         // em.find(User.class, gUser.id()) yields null for some reason...
-        return em.getEntityManager().createQuery("select u from User u", User.class).getResultList().stream()
+        return loadUsersWorkaround().stream()
                 .filter(u -> Objects.equals(u.getId(), userId))
                 .findFirst().orElseThrow(RuntimeException::new);
+    }
+
+    private List<User> loadUsersWorkaround() {
+        // em.find(User.class, gUser.id()) yields null for some reason...
+        return em.getEntityManager().createQuery("select u from User u", User.class).getResultList();
     }
 
     @Test
@@ -167,5 +174,75 @@ public class GameRepositoryTest extends AbstractDbTest {
         Assert.assertEquals(
                 gameRepository.findGameInPlayoffTree(em.find(Tournament.class, gTournament.id()), 2, 2).get().getId(),
                 gameToAdvanceTo.id());
+    }
+
+    @Test
+    public void findReadyFinals_positive() {
+        final RedG redG = createRedG();
+
+        final GGame thirdPlaceGame = redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(4).spot(1))
+                .homeUserIdUser(redG.dummyUser())
+                .awayUserIdUser(redG.dummyUser());
+
+        final GGame finalGame = redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(5).spot(1))
+                .homeUserIdUser(redG.dummyUser())
+                .awayUserIdUser(redG.dummyUser());
+
+        redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(3).spot(1))
+                .homeUserIdUser(thirdPlaceGame.homeUserIdUser())
+                .awayUserIdUser(finalGame.homeUserIdUser());
+
+        redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(3).spot(2))
+                .homeUserIdUser(finalGame.homeUserIdUser())
+                .awayUserIdUser(thirdPlaceGame.homeUserIdUser());
+
+        redG.insertDataIntoDatabase(dataSource);
+
+        loadUsersWorkaround();
+
+        Assertions
+                .assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4))
+                .containsExactlyInAnyOrder(em.find(Game.class, finalGame.id()), em.find(Game.class, thirdPlaceGame.id()));
+
+        Assert.assertEquals(4, gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1).size());
+    }
+
+    @Test
+    public void findReadyFinals_negative() {
+        final RedG redG = createRedG();
+
+        redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(4).spot(1))
+                .homeUserIdUser(null)
+                .awayUserIdUser(null);
+
+        redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(5).spot(1))
+                .homeUserIdUser(null)
+                .awayUserIdUser(null);
+
+        redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(3).spot(1))
+                .homeUserIdUser(redG.dummyUser())
+                .awayUserIdUser(redG.dummyUser());
+
+        redG.addGame()
+                .playoffIdPlayoffGame(redG.addPlayoffGame().round(3).spot(2))
+                .homeUserIdUser(redG.dummyUser())
+                .awayUserIdUser(redG.dummyUser());
+
+        redG.insertDataIntoDatabase(dataSource);
+
+        loadUsersWorkaround();
+
+        Assertions
+                .assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4))
+                .isEmpty();
+
+        Assert.assertEquals(2, gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1).size());
     }
 }

@@ -2,9 +2,6 @@ package com.cwtsite.cwt.domain.configuration.service;
 
 import com.cwtsite.cwt.domain.configuration.entity.Configuration;
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey;
-import com.cwtsite.cwt.domain.playoffs.service.PlayoffService;
-import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
-import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,30 +13,11 @@ import java.util.regex.Pattern;
 @Component
 public class ConfigurationService {
 
-
     private final ConfigurationRepository configurationRepository;
-    private final PlayoffService playoffService;
 
     @Autowired
-    public ConfigurationService(ConfigurationRepository configurationRepository, PlayoffService playoffService) {
+    public ConfigurationService(ConfigurationRepository configurationRepository) {
         this.configurationRepository = configurationRepository;
-        this.playoffService = playoffService;
-    }
-
-    public Configuration getBestOfValue(TournamentStatus tournamentStatus) {
-        ConfigurationKey configurationKey;
-
-        if (tournamentStatus == TournamentStatus.GROUP) {
-            configurationKey = ConfigurationKey.GROUP_GAMES_BEST_OF;
-        } else if (tournamentStatus == TournamentStatus.PLAYOFFS) {
-            configurationKey = playoffService.finalGamesAreNext()
-                    ? ConfigurationKey.FINAL_GAME_BEST_OF
-                    : ConfigurationKey.PLAYOFF_GAMES_BEST_OF;
-        } else {
-            throw new IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS);
-        }
-
-        return getOne(configurationKey);
     }
 
     public List<int[]> getParsedPointsPatternConfiguration() {

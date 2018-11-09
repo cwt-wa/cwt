@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.game.service;
 
 import com.cwtsite.cwt.core.FileValidator;
 import com.cwtsite.cwt.domain.configuration.entity.Configuration;
+import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
@@ -88,7 +89,7 @@ public class GameService {
     public Game reportGame(long homeUserId, long awayUserId, int homeScore, int awayScore)
             throws InvalidOpponentException, InvalidScoreException, IllegalTournamentStatusException {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
-        final Configuration bestOfValue = configurationService.getBestOfValue(currentTournament.getStatus());
+        final Configuration bestOfValue = getBestOfValue(currentTournament.getStatus());
 
         if (homeScore + awayScore != Integer.valueOf(bestOfValue.getValue())) {
             throw new InvalidScoreException(String.format(
@@ -155,6 +156,22 @@ public class GameService {
         }
 
         return reportedGame;
+    }
+
+    public Configuration getBestOfValue(TournamentStatus tournamentStatus) {
+        ConfigurationKey configurationKey;
+
+        if (tournamentStatus == TournamentStatus.GROUP) {
+            configurationKey = ConfigurationKey.GROUP_GAMES_BEST_OF;
+        } else if (tournamentStatus == TournamentStatus.PLAYOFFS) {
+            configurationKey = playoffService.onlyFinalGamesAreLeftToPlay()
+                    ? ConfigurationKey.FINAL_GAME_BEST_OF
+                    : ConfigurationKey.PLAYOFF_GAMES_BEST_OF;
+        } else {
+            throw new IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS);
+        }
+
+        return configurationService.getOne(configurationKey);
     }
 
     public List<Game> saveAll(final List<Game> games) {

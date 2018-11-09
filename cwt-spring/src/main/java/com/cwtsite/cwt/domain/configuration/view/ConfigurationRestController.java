@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.configuration.entity.Configuration;
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey;
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService;
 import com.cwtsite.cwt.domain.configuration.view.model.ConfigurationDto;
+import com.cwtsite.cwt.domain.game.service.GameService;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
@@ -23,13 +24,15 @@ public class ConfigurationRestController {
     private final ConfigurationService configurationService;
     private final TournamentService tournamentService;
     private final AuthService authService;
+    private final GameService gameService;
 
     @Autowired
     public ConfigurationRestController(ConfigurationService configurationService, TournamentService tournamentService,
-                                       AuthService authService) {
+                                       AuthService authService, GameService gameService) {
         this.configurationService = configurationService;
         this.tournamentService = tournamentService;
         this.authService = authService;
+        this.gameService = gameService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -51,6 +54,6 @@ public class ConfigurationRestController {
     @RequestMapping(value = "/score-best-of", method = RequestMethod.GET)
     public ResponseEntity<Configuration> getBestOfScore() {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
-        return ResponseEntity.ok(configurationService.getBestOfValue(currentTournament.getStatus()));
+        return ResponseEntity.ok(gameService.getBestOfValue(currentTournament.getStatus()));
     }
 }
