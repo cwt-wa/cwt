@@ -29,9 +29,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             @Param("user") User user,
             @Param("group") Group group);
 
-    @Query("select g from Game g where tournament = :tournament and g.playoff.spot = :spot and g.playoff.round = :round")
+    @Query("select g from Game g where tournament = :tournament and g.playoff.round = :round and g.playoff.spot = :spot")
     Optional<Game> findGameInPlayoffTree(
             @Param("tournament") Tournament tournament,
-            @Param("spot") int spot,
-            @Param("round") int round);
+            @Param("round") int round,
+            @Param("spot") int spot);
 }

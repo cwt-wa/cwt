@@ -61,7 +61,7 @@ public class PlayoffServiceTest {
         final Game game = createGame(1L, createUser(1L), createUser(2L), 2, 3, createPlayoffGame(1, 2), createTournament());
 
         Mockito
-                .when(gameRepository.findGameInPlayoffTree(game.getTournament(), 1, 2))
+                .when(gameRepository.findGameInPlayoffTree(game.getTournament(), 2, 1))
                 .thenReturn(Optional.empty());
 
         Mockito
@@ -104,8 +104,8 @@ public class PlayoffServiceTest {
     }
 
     private Object assertRoundSpot(InvocationOnMock invocation, int expectedRound, int expectedSpot) {
-        int actualSpot = invocation.getArgument(1);
-        int actualRound = invocation.getArgument(2);
+        int actualRound = invocation.getArgument(1);
+        int actualSpot = invocation.getArgument(2);
 
         Assert.assertEquals(expectedRound, actualRound);
         Assert.assertEquals(expectedSpot, actualSpot);

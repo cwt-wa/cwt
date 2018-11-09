@@ -93,7 +93,7 @@ public class PlayoffService {
         }
 
         final Optional<Game> gameToAdvanceTo = gameRepository.findGameInPlayoffTree(
-                game.getTournament(), nextSpot, nextRound);
+                game.getTournament(), nextRound, nextSpot);
         final Game persistedGameToAdvanceTo;
 
         if (gameToAdvanceTo.isPresent()) {
