@@ -54,7 +54,7 @@ public enum ConfigurationKey {
         return type;
     }
 
-    private enum ConfigurationValueType {
+    public enum ConfigurationValueType {
         INTEGER, STRING;
     }
 }
