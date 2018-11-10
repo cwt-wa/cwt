@@ -19,30 +19,28 @@ export class PlayoffsTreeComponent implements OnInit {
     public ngOnInit(): void {
         this.requestService.get<Game[]>(`tournament/${this.tournamentId || 'current'}/game/playoff`)
             .subscribe(res => {
-                const numberOfRounds: number = Math.log2(res
+                const gamesInFirstRound = res
                     .filter(g => g.playoff.round === 1)
-                    .length) + 1;
+                    .length;
+                const numberOfRounds = Math.log2(gamesInFirstRound) + 1;
 
                 this.playoffGames = new Array<Game[]>(numberOfRounds)
                     .fill(null)
-                    .map((value, index) => {
-                        value;
-
-                        const round: number = index + 1;
-                        const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round);
+                    .map((_value, index) => {
+                        const round = index + 1;
+                        const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round, gamesInFirstRound);
                         const existingGamesInRound: Game[] = this.getExistingGamesInRound(round, res);
 
                         if (numberOfRounds === round) {
-                            existingGamesInRound.push(...this.getExistingGamesInRound(round + 1, res));
+                            return existingGamesInRound[0] != null
+                                ? [this.getExistingGamesInRound(round + 1, res)[0], existingGamesInRound[0]]
+                                : [<Game> {}, <Game> {}];
                         }
 
                         existingGamesInRound.reverse();
 
-                        const existingAndUpcomingGamesInRound: Game[] =
-                            new Array(expectedNumberOfGamesInRound - existingGamesInRound.length);
-                        existingAndUpcomingGamesInRound.push(...existingGamesInRound);
-                        existingAndUpcomingGamesInRound.fill(
-                            <Game> {}, 0, (expectedNumberOfGamesInRound) - existingGamesInRound.length);
+                        const existingAndUpcomingGamesInRound: Game[] = new Array(...existingGamesInRound)
+                            .fill(<Game> {}, 0, (expectedNumberOfGamesInRound) - existingGamesInRound.length);
 
                         existingAndUpcomingGamesInRound.sort((a, b) => a.playoff && b.playoff
                             ? (a.playoff.spot > b.playoff.spot ? 1 : -1)
@@ -54,22 +52,8 @@ export class PlayoffsTreeComponent implements OnInit {
             });
     }
 
-    /**
-     * @todo This is hardcoded.
-     */
-    private calcRequiredNumberOfGamesInRound(round: number) {
-        switch (round) {
-            case 1:
-                return 8;
-            case 2:
-                return 4;
-            case 3:
-                return 2;
-            case 4:
-                return 2;
-        }
-
-        throw Error(`The round ${round} has not been hardcoded.`);
+    private calcRequiredNumberOfGamesInRound(round: number, gamesInFirstRound: number): number {
+        return gamesInFirstRound * Math.pow(.5, (round - 1));
     }
 
     public getExistingGamesInRound(round: number, games: Game[]): Game[] {
