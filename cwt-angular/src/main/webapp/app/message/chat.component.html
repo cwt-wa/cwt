@@ -1,6 +1,6 @@
 <chatInput (message)="submit($event)"></chatInput>
 
-<div class="card bg-primary-2 text-white border-0 mt-1">
+<div class="card bg-primary text-white border-0 mt-1">
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
          [ngClass]="{'rounded-top': first, 'bg-red-0': message.category === 'PRIVATE'}">
         {{message.created | date:'shortTime'}}

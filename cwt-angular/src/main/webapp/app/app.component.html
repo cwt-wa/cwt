@@ -1,10 +1,10 @@
 <div class="cwt-top-bar" [ngClass]="{'apple-standalone': isAppleStandalone}">
     <div class="container">
-        <div class="row">
+        <div class="row ">
             <div class="col-md-6 cwt-gmt">
                 <cwt-gmt-clock></cwt-gmt-clock>
             </div>
-            <div class="col-md-6 text-md-right" *ngIf="!authenticatedUser">
+            <div class="col-md-6 text-md-right all-petite-caps" *ngIf="!authenticatedUser">
                 <a routerLink="/login" class="btn">
                     Log in
                 </a>
@@ -12,14 +12,14 @@
                     Register
                 </a>
             </div>
-            <div class="col-md-6 text-md-right" *ngIf="authenticatedUser">
+            <div class="col-md-6 text-md-right all-petite-caps" *ngIf="authenticatedUser">
                 <a routerLink="/report" class="btn" *ngIf="canReport">
                     Report
                 </a>
                 <a routerLink="/admin" class="btn" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                     Admin
                 </a>
-                <button class="btn" (click)="logOut()">
+                <button class="btn all-petite-caps" (click)="logOut()">
                     Log out
                 </button>
                 <a routerLink="/" class="btn" style="overflow: hidden;">
@@ -47,7 +47,7 @@
                     <img src="../img/icon.png" class="rounded-circle">
                 </a>
             </div>
-            <div class="col text-right user-panel" ngbDropdown>
+            <div class="col text-right user-panel all-petite-caps" ngbDropdown>
                 <i class="fa fa-lg fa-user cwt-user-panel-icon no-caret"
                    [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
                 </i>
@@ -70,7 +70,7 @@
 
     <div class="navbar navbar-expand-lg container">
         <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
-            <ul class="navbar-nav" (click)="isNavCollapsed = true">
+            <ul class="navbar-nav all-petite-caps" (click)="isNavCollapsed = true">
                 <li class="nav-item cwt-icon">
                     <a class="nav-link" routerLink="/">
                         <img src="../img/icon.png" class="rounded">
