@@ -521,3 +521,13 @@ img.loading {
 .all-petite-caps {
   font-variant: all-petite-caps;
 }
+
+.popdown {
+  margin-bottom: -12px;
+  margin-top: -5px;
+
+  i.fa-caret-up {
+    position: relative;
+    z-index: 99999;
+  }
+}

@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
 import {Comment, CommentDto, Game, JwtUser, Rating, RatingDto, RatingType, User} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
+import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -16,37 +17,33 @@ export class GameDetailComponent {
     game: Game;
     newComment: CommentDto;
     authenticatedUser: JwtUser;
+    replayUrl: string;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
-                private authService: AuthService) {
+                private authService: AuthService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     public get winningUser(): User {
         return this.game.scoreHome > this.game.scoreAway ? this.game.homeUser : this.game.awayUser;
     }
 
-    get likes(): Rating[] {
-        return this.game.ratings.filter(r => r.type === 'LIKE');
-    }
-
-    get dislikes(): Rating[] {
-        return this.game.ratings.filter(r => r.type === 'DISLIKE');
-    }
-
-    get lightsides(): Rating[] {
-        return this.game.ratings.filter(r => r.type === 'LIGHTSIDE');
-    }
-
-    get darksides(): Rating[] {
-        return this.game.ratings.filter(r => r.type === 'DARKSIDE');
-    }
-
     get authenticatedUserRatings(): RatingType[] {
         return this.game.ratings.filter(r => r.user.id === this.authenticatedUser.id).map(r => r.type);
     }
 
+    get ratings(): { [key in RatingType]: Rating[] } {
+        return {
+            DARKSIDE: this.game.ratings.filter(r => r.type === "DARKSIDE"),
+            LIGHTSIDE: this.game.ratings.filter(r => r.type === "LIGHTSIDE"),
+            LIKE: this.game.ratings.filter(r => r.type === "LIKE"),
+            DISLIKE: this.game.ratings.filter(r => r.type === "DISLIKE"),
+        };
+    }
+
     public ngOnInit(): void {
         this.route.paramMap.subscribe(res => {
+            this.replayUrl = this.appConfig.apiEndpoint + `game/${res.get('id')}/replay`;
+
             this.requestService.get<Game>(`game/${+res.get('id')}`)
                 .subscribe(res => {
                     this.game = res;
