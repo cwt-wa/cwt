@@ -6,7 +6,7 @@ import com.cwtsite.cwt.domain.core.exception.ResourceNotFoundException;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
 import com.cwtsite.cwt.domain.game.service.GameService;
-import com.cwtsite.cwt.domain.game.view.model.GameDto;
+import com.cwtsite.cwt.domain.game.view.model.GameCreationDto;
 import com.cwtsite.cwt.domain.game.view.model.ReportDto;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
@@ -50,15 +50,15 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<GameDto> reportGameWithoutReplay(@RequestBody final ReportDto reportDto) {
+    public ResponseEntity<GameCreationDto> reportGameWithoutReplay(@RequestBody final ReportDto reportDto) {
         final Game reportedGame = gameService.reportGame(
                 reportDto.getUser(), reportDto.getOpponent(),
                 reportDto.getScoreOfUser().intValue(), reportDto.getScoreOfOpponent().intValue());
-        return ResponseEntity.ok(GameDto.toDto(reportedGame));
+        return ResponseEntity.ok(GameCreationDto.toDto(reportedGame));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "multipart/form-data")
-    public ResponseEntity<GameDto> reportGameWithReplayFile(
+    public ResponseEntity<GameCreationDto> reportGameWithReplayFile(
             @RequestParam("replay") MultipartFile replay,
             @RequestParam("score-home") int scoreHome,
             @RequestParam("score-away") int scoreAway,
@@ -76,7 +76,7 @@ public class GameRestController {
                 | FileValidator.IllegalFileExtension e) {
             throw new BadRequestException(e.getMessage(), e);
         }
-        return ResponseEntity.ok(GameDto.toDto(game));
+        return ResponseEntity.ok(GameCreationDto.toDto(game));
     }
 
     @RequestMapping(value = "/{gameId}/replay", method = RequestMethod.GET)
@@ -92,9 +92,9 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "/many", method = RequestMethod.POST)
-    public ResponseEntity<List<Game>> reportManyGamesWithoutReportFile(@RequestBody final List<GameDto> gameDtos) {
-        final List<Long> userIds = gameDtos.stream()
-                .map(gameDto -> Arrays.asList(new Long[]{gameDto.getHomeUser(), gameDto.getAwayUser()}))
+    public ResponseEntity<List<Game>> reportManyGamesWithoutReportFile(@RequestBody final List<GameCreationDto> gameCreationDtos) {
+        final List<Long> userIds = gameCreationDtos.stream()
+                .map(gameCreationDto -> Arrays.asList(new Long[]{gameCreationDto.getHomeUser(), gameCreationDto.getAwayUser()}))
                 .reduce((longs, longs2) -> {
                     final ArrayList<Long> concatenatedLongs = new ArrayList<>(longs);
                     concatenatedLongs.addAll(longs2);
@@ -105,8 +105,8 @@ public class GameRestController {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
         final List<User> users = userService.getByIds(userIds);
 
-        final List<Game> games = gameDtos.stream()
-                .map(dto -> GameDto.fromDto(
+        final List<Game> games = gameCreationDtos.stream()
+                .map(dto -> GameCreationDto.fromDto(
                         dto,
                         users.stream()
                                 .filter(u -> Objects.equals(u.getId(), dto.getHomeUser()))

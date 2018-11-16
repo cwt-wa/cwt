@@ -115,7 +115,7 @@ export interface Game {
     tournament: Tournament;
 }
 
-export interface GameDto {
+export interface GameCreationDto {
     id: number;
     homeUser: number;
     awayUser: number;

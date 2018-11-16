@@ -5,7 +5,7 @@ import com.cwtsite.cwt.domain.game.entity.PlayoffGame;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 
-public class GameDto {
+public class GameCreationDto {
 
     private Long id;
     private Long homeUser;
@@ -44,7 +44,7 @@ public class GameDto {
         this.playoff = playoff;
     }
 
-    public static Game fromDto(final GameDto dto, final User home, final User away,
+    public static Game fromDto(final GameCreationDto dto, final User home, final User away,
                                final Tournament tournament) {
         final Game game = new Game();
 
@@ -61,8 +61,8 @@ public class GameDto {
         return game;
     }
 
-    public static GameDto toDto(Game game) {
-        final GameDto dto = new GameDto();
+    public static GameCreationDto toDto(Game game) {
+        final GameCreationDto dto = new GameCreationDto();
 
         dto.setId(game.getId());
         dto.setHomeUser(game.getHomeUser().getId());

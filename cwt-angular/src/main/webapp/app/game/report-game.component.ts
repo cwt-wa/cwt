@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
-import {Configuration, GameDto, JwtUser, ReportDto, ServerError, User} from "../custom";
+import {Configuration, GameCreationDto, JwtUser, ReportDto, ServerError, User} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
 
@@ -50,7 +50,7 @@ export class ReportGameComponent implements OnInit {
 
         this.requestService.formDataPost('game', formData)
             .subscribe(
-                (res: GameDto) => {
+                (res: GameCreationDto) => {
                     this.router.navigateByUrl(`/game/${res.id}`);
                     toastr.success("Successfully saved.");
                 },
