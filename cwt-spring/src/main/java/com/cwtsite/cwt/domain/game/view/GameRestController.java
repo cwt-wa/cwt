@@ -82,6 +82,11 @@ public class GameRestController {
     @RequestMapping(value = "/{gameId}/replay", method = RequestMethod.GET)
     public ResponseEntity<Resource> download(@PathVariable("gameId") long gameId) throws IOException {
         final Game game = gameService.get(gameId).orElseThrow(ResourceNotFoundException::new);
+
+        if (game.getReplay() == null) {
+            throw new ResourceNotFoundException("There's no replay file for this game.");
+        }
+
         ByteArrayResource resource = new ByteArrayResource(game.getReplay().getFile());
 
         return ResponseEntity.ok()
