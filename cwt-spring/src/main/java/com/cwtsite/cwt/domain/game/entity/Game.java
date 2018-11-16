@@ -1,9 +1,9 @@
 package com.cwtsite.cwt.domain.game.entity;
 
-import com.cwtsite.cwt.entity.Comment;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
+import com.cwtsite.cwt.entity.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

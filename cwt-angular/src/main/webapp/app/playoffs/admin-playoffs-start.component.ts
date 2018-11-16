@@ -3,7 +3,7 @@ import {distinctUntilChanged} from 'rxjs/operators';
 
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Configuration, Game, GameCreationDto, Group, User} from "../custom";
+import {Configuration, GameCreationDto, GameDetailDto, Group, User} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {Observable} from "rxjs/Observable";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
@@ -16,7 +16,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
 
     public groups: Group[];
     public numberOfGroupMembersAdvancing: number;
-    public games: Game[];
+    public games: GameDetailDto[];
     typeAheadForPlayoffsUser: (text$: Observable<string>) => Observable<User[]>;
     typeAheadInputFormatter: (value: User) => string;
     typeAheadResultFormatter: (value: User) => string;
@@ -37,11 +37,11 @@ export class AdminPlayoffsStartComponent implements OnInit {
         this.typeAheadResultFormatter = (value: User) => value.username;
     }
 
-    public get firstBranchGames(): Game[] {
+    public get firstBranchGames(): GameDetailDto[] {
         return this.games.filter((value, index) => value && index < this.games.length / 2);
     }
 
-    public get secondBranchGames(): Game[] {
+    public get secondBranchGames(): GameDetailDto[] {
         return this.games.filter((value, index) => value && index >= this.games.length / 2);
     }
 
@@ -70,7 +70,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
 
                     let i;
                     for (i = 0; i < numberOfPlayoffSpots; i++) {
-                        this.games.push(<Game> {
+                        this.games.push(<GameDetailDto> {
                             playoff: {
                                 spot: i + 1,
                                 round: 1

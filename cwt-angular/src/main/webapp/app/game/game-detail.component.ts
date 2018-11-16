@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
-import {Comment, CommentDto, Game, JwtUser, Rating, RatingDto, RatingType, User} from "../custom";
+import {Comment, CommentDto, GameDetailDto, JwtUser, Rating, RatingDto, RatingType, User} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
 import {APP_CONFIG, AppConfig} from "../app.config";
@@ -14,7 +14,7 @@ export class GameDetailComponent {
 
     submittingComment: boolean;
     submittingRating: RatingType;
-    game: Game;
+    game: GameDetailDto;
     newComment: CommentDto;
     authenticatedUser: JwtUser;
     replayUrl: string;
@@ -44,7 +44,7 @@ export class GameDetailComponent {
         this.route.paramMap.subscribe(res => {
             this.replayUrl = this.appConfig.apiEndpoint + `game/${res.get('id')}/replay`;
 
-            this.requestService.get<Game>(`game/${+res.get('id')}`)
+            this.requestService.get<GameDetailDto>(`game/${+res.get('id')}`)
                 .subscribe(res => {
                     this.game = res;
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);

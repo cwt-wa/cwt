@@ -67,7 +67,7 @@ export interface Group {
     label: GroupLabel;
     tournament: any;
     standings: GroupStanding[]
-    games: Game[]
+    games: GameCreationDto[]
 }
 
 export interface GroupDto {
@@ -98,7 +98,7 @@ export interface Rating {
     user: User;
 }
 
-export interface Game {
+export interface GameDetailDto {
     id: number;
     homeUser: User;
     awayUser: User;
@@ -113,6 +113,7 @@ export interface Game {
     reporter?: User;
     ratings?: Rating[];
     tournament: Tournament;
+    replayExists: boolean;
 }
 
 export interface GameCreationDto {

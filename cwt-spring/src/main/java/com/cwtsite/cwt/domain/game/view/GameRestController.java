@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
 import com.cwtsite.cwt.domain.game.service.GameService;
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto;
+import com.cwtsite.cwt.domain.game.view.model.GameDetailDto;
 import com.cwtsite.cwt.domain.game.view.model.ReportDto;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
@@ -43,9 +44,9 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Game> getGame(@PathVariable("id") long id) {
+    public ResponseEntity<GameDetailDto> getGame(@PathVariable("id") long id) {
         return gameService.get(id)
-                .map(ResponseEntity::ok)
+                .map(body -> ResponseEntity.ok(GameDetailDto.toDto(body)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
