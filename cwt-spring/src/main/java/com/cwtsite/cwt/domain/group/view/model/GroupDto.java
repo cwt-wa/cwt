@@ -1,10 +1,10 @@
 package com.cwtsite.cwt.domain.group.view.model;
 
-import com.cwtsite.cwt.entity.GroupStanding;
-import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.group.entity.enumeration.GroupLabel;
+import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
+import com.cwtsite.cwt.entity.GroupStanding;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,5 +43,14 @@ public class GroupDto {
         group.setStandings(standings);
 
         return group;
+    }
+
+    public static GroupDto toDto(Group group) {
+        final GroupDto dto = new GroupDto();
+
+        dto.setLabel(group.getLabel());
+        dto.setUsers(group.getStandings().stream().map(gs -> gs.getUser().getId()).collect(Collectors.toList()));
+
+        return dto;
     }
 }

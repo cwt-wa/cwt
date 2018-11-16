@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.view;
 
+import com.cwtsite.cwt.domain.game.entity.Rating;
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType;
 
 public class RatingDto {
@@ -21,5 +22,14 @@ public class RatingDto {
 
     public void setType(RatingType type) {
         this.type = type;
+    }
+
+    public static RatingDto toDto(Rating rating) {
+        final RatingDto dto = new RatingDto();
+
+        dto.setUser(rating.getUser().getId());
+        dto.setType(rating.getType());
+
+        return dto;
     }
 }
