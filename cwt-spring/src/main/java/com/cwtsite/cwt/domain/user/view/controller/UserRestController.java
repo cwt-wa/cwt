@@ -1,10 +1,10 @@
 package com.cwtsite.cwt.domain.user.view.controller;
 
 import com.cwtsite.cwt.domain.application.service.ApplicationService;
-import com.cwtsite.cwt.domain.core.exception.ResourceNotFoundException;
-import com.cwtsite.cwt.entity.Application;
+import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
+import com.cwtsite.cwt.entity.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "api/user")
@@ -55,6 +54,6 @@ public class UserRestController {
     }
 
     private User assertUser(final long id) {
-        return userService.getById(id).orElseThrow(ResourceNotFoundException::new);
+        return userService.getById(id).orElseThrow(NotFoundException::new);
     }
 }

@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.security;
 
+import com.cwtsite.cwt.core.CommonsRequestLoggingFilterImpl;
 import com.cwtsite.cwt.security.filter.CorsFilter;
 import com.cwtsite.cwt.security.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -54,6 +56,19 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public CommonsRequestLoggingFilter requestLoggingFilter() {
+        final CommonsRequestLoggingFilterImpl commonsRequestLoggingFilter = new CommonsRequestLoggingFilterImpl();
+
+        commonsRequestLoggingFilter.setIncludeClientInfo(true);
+        commonsRequestLoggingFilter.setIncludeQueryString(true);
+        commonsRequestLoggingFilter.setIncludePayload(true);
+        commonsRequestLoggingFilter.setAfterMessagePrefix("");
+        commonsRequestLoggingFilter.setAfterMessageSuffix("");
+
+        return commonsRequestLoggingFilter;
     }
 
     @Override

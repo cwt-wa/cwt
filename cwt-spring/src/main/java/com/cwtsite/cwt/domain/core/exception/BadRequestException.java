@@ -1,12 +1,15 @@
 package com.cwtsite.cwt.domain.core.exception;
 
+import com.cwtsite.cwt.controller.AbstractRestException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BadRequestException extends RuntimeException {
+public class BadRequestException extends AbstractRestException {
 
-    public BadRequestException(String message, Throwable cause) {
-        super(message, cause);
+    public BadRequestException() {
+        super(null, HttpStatus.BAD_REQUEST);
+    }
+
+    public BadRequestException(String message) {
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }

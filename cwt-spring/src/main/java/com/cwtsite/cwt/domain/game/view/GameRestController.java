@@ -2,7 +2,7 @@ package com.cwtsite.cwt.domain.game.view;
 
 import com.cwtsite.cwt.core.FileValidator;
 import com.cwtsite.cwt.domain.core.exception.BadRequestException;
-import com.cwtsite.cwt.domain.core.exception.ResourceNotFoundException;
+import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
 import com.cwtsite.cwt.domain.game.service.GameService;
@@ -75,17 +75,17 @@ public class GameRestController {
                 | FileValidator.IllegalFileContentTypeException
                 | FileValidator.FileTooLargeException
                 | FileValidator.IllegalFileExtension e) {
-            throw new BadRequestException(e.getMessage(), e);
+            throw new BadRequestException(e.getMessage());
         }
         return ResponseEntity.ok(GameCreationDto.toDto(game));
     }
 
     @RequestMapping(value = "/{gameId}/replay", method = RequestMethod.GET)
     public ResponseEntity<Resource> download(@PathVariable("gameId") long gameId) throws IOException {
-        final Game game = gameService.get(gameId).orElseThrow(ResourceNotFoundException::new);
+        final Game game = gameService.get(gameId).orElseThrow(NotFoundException::new);
 
         if (game.getReplay() == null) {
-            throw new ResourceNotFoundException("There's no replay file for this game.");
+            throw new NotFoundException("There's no replay file for this game.");
         }
 
         ByteArrayResource resource = new ByteArrayResource(game.getReplay().getFile());
@@ -116,10 +116,10 @@ public class GameRestController {
                         dto,
                         users.stream()
                                 .filter(u -> Objects.equals(u.getId(), dto.getHomeUser()))
-                                .findFirst().orElseThrow(ResourceNotFoundException::new),
+                                .findFirst().orElseThrow(NotFoundException::new),
                         users.stream()
                                 .filter(u -> Objects.equals(u.getId(), dto.getAwayUser()))
-                                .findFirst().orElseThrow(ResourceNotFoundException::new),
+                                .findFirst().orElseThrow(NotFoundException::new),
                         currentTournament
                 ))
                 .collect(Collectors.toList());

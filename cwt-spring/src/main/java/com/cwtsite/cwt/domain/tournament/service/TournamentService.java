@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.tournament.service;
 
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository;
-import com.cwtsite.cwt.domain.core.exception.ResourceNotFoundException;
+import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.user.repository.UserRepository;
@@ -55,7 +55,7 @@ public class TournamentService {
         final Tournament currentTournament = tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED);
 
         if (currentTournament == null) {
-            throw new ResourceNotFoundException("There is currently no tournament");
+            throw new NotFoundException("There is currently no tournament");
         }
 
         return currentTournament;

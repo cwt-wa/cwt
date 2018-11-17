@@ -184,7 +184,6 @@ export interface MessageDto {
 
 export interface ServerError extends HttpErrorResponse {
     error: {
-        error: string;
         message: string;
         path: string;
         status: number;
