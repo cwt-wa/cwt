@@ -3,6 +3,7 @@ package com.cwtsite.cwt.domain.game.view;
 import com.cwtsite.cwt.core.FileValidator;
 import com.cwtsite.cwt.domain.core.exception.BadRequestException;
 import com.cwtsite.cwt.domain.core.exception.NotFoundException;
+import com.cwtsite.cwt.domain.core.view.model.PageDto;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
 import com.cwtsite.cwt.domain.game.service.GameService;
@@ -17,6 +18,7 @@ import com.cwtsite.cwt.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -125,6 +127,15 @@ public class GameRestController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(gameService.saveAll(games));
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity<PageDto<Game>> queryGamesPaged(PageDto<Game> pageDto) {
+        return ResponseEntity.ok(PageDto.toDto(
+                gameService.findPaginated(
+                        pageDto.getStart(), pageDto.getSize(),
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")),
+                Arrays.asList("created,Creation", "ratings,Ratings", "comments,Comments")));
     }
 
     @RequestMapping(value = "/{id}/rating", method = RequestMethod.POST)

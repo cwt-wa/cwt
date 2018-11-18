@@ -42,6 +42,8 @@ import {MentionComponent} from "./message/mention.component";
 import {StreamsComponent} from "./stream/streams.component";
 import {AdminGroupsStartManualDrawComponent} from "./group/admin-groups-start-manual-draw.component";
 import {AdminGroupsStartAutomaticDrawComponent} from "./group/admin-groups-start-automatic-draw.component";
+import {GameOverviewComponent} from "./game/game-overview.component";
+import {UserComponent} from "./_util/user.component";
 
 const appRoutes: Routes = [
     {
@@ -95,6 +97,10 @@ const appRoutes: Routes = [
     {
         path: 'game/',
         component: ReportGameComponent
+    },
+    {
+        path: 'games',
+        component: GameOverviewComponent
     },
     {
         path: 'game/:id',
@@ -163,6 +169,8 @@ const appRoutes: Routes = [
         ChatInputComponent,
         MentionComponent,
         StreamsComponent,
+        UserComponent,
+        GameOverviewComponent
     ],
     providers: [
         WebAppViewService,

@@ -21,6 +21,9 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
 import com.cwtsite.cwt.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -196,6 +199,10 @@ public class GameService {
         final Game game = gameRepository.findById(gameId)
                 .orElseThrow(IllegalArgumentException::new);
         return commentRepository.save(new Comment(body, user, game));
+    }
+
+    public Page<Game> findPaginated(int page, int size, Sort sort) {
+        return gameRepository.findAll(PageRequest.of(page, size, sort));
     }
 
     public class InvalidScoreException extends RuntimeException {

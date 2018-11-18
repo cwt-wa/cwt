@@ -5,7 +5,7 @@ import "rxjs/add/operator/catch";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {AuthService} from "./auth.service";
 import {HttpClient} from "@angular/common/http";
-import {ServerError} from "../custom";
+import {PageDto, ServerError, ValueLabel} from "../custom";
 import {_throw} from 'rxjs/observable/throw';
 
 const toastr = require('toastr/toastr.js');
@@ -21,6 +21,23 @@ export class RequestService {
     private static catch<T>(err: ServerError): Observable<T> {
         toastr.error(err.error && err.error.message != null ? err.error.message : "An unknown error occurred.");
         return _throw(err);
+    }
+
+    public getPaged<T>(relativePath: string, params?: PageDto<T>): Observable<PageDto<T, ValueLabel>> {
+        params.content != null && delete params.content;
+        params.sortables != null && delete params.sortables;
+
+        // @ts-ignore string cannot be assigned to ValueLabel (in generics).
+        return this.get<PageDto<T, ValueLabel>>(relativePath, <QueryParams><any>params)
+            .map<PageDto<T, string>, PageDto<T, ValueLabel>>((value: PageDto<T, string>) => {
+                // @ts-ignore string cannot be assigned to ValueLabel (in generics).
+                value.sortables = value.sortables.map<ValueLabel>(s => {
+                    const valueLabel = s.split(",");
+                    return {value: valueLabel[0], label: valueLabel[1]} as ValueLabel;
+                });
+
+                return value;
+            });
     }
 
     public get<T>(relativePath: string, params?: QueryParams): Observable<T> {

@@ -190,3 +190,19 @@ export interface ServerError extends HttpErrorResponse {
         timestamp: Date;
     }
 }
+
+export interface ValueLabel {
+    value: string;
+    label: string;
+}
+
+export interface PageDto<T, S = string | ValueLabel> {
+    content: T[];
+    size: number;
+    start: number;
+    sortBy: string;
+    sortAscending: boolean;
+    totalPages: number;
+    totalElements: number;
+    sortables: S[];
+}
