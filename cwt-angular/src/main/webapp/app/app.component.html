@@ -60,6 +60,9 @@
                     <a routerLink="/" class="dropdown-item">
                         {{authenticatedUser.username}}
                     </a>
+                    <button class="dropdown-item all-petite-caps" (click)="logOut()">
+                        Log out
+                    </button>
                     <a routerLink="/" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                         Admin
                     </a>
