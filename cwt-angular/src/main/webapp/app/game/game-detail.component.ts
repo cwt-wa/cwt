@@ -28,7 +28,9 @@ export class GameDetailComponent {
     }
 
     get authenticatedUserRatings(): RatingType[] {
-        return this.game.ratings.filter(r => r.user.id === this.authenticatedUser.id).map(r => r.type);
+        return this.authenticatedUser
+            ? this.game.ratings.filter(r => r.user.id === this.authenticatedUser.id).map(r => r.type)
+            : [];
     }
 
     get ratings(): { [key in RatingType]: Rating[] } {
@@ -52,9 +54,7 @@ export class GameDetailComponent {
         });
 
         this.authenticatedUser = this.authService.getUserFromTokenPayload();
-        if (this.authenticatedUser) {
-            this.initNewComment();
-        }
+        if (this.authenticatedUser) this.initNewComment();
     }
 
     public submitComment(): void {
