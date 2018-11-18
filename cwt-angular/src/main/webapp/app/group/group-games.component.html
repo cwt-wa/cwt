@@ -2,17 +2,13 @@
     <tbody>
     <tr *ngFor="let game of games;">
         <td class="text-right">
-            <a [routerLink]="['/user', game.homeUser.username]">
-                {{game.homeUser.username}}
-            </a>
+            <cwt-user [username]="game.homeUser.username"></cwt-user>
         </td>
         <td class="text-center text-nowrap">
             {{game.scoreHome}}–{{game.scoreAway}}
         </td>
         <td class="text-left">
-            <a [routerLink]="['/user', game.awayUser.username]">
-                {{game.awayUser.username}}
-            </a>
+            <cwt-user [username]="game.awayUser.username"></cwt-user>
         </td>
         <td class="text-right">
             <a [routerLink]="['/game', game.id]">

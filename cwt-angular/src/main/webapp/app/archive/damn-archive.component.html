@@ -21,19 +21,13 @@
                 <div class="col-md-4">
                     <ul class="cwt-podest">
                         <li *ngIf="tournament.goldWinner">
-                            <a [routerLink]="['/user', tournament.goldWinner.username]">
-                                {{tournament.goldWinner.username}}
-                            </a>
+                            <cwt-user [username]="tournament.goldWinner.username"></cwt-user>
                         </li>
                         <li *ngIf="tournament.silverWinner">
-                            <a [routerLink]="['/user', tournament.silverWinner.username]">
-                                {{tournament.silverWinner.username}}
-                            </a>
+                            <cwt-user [username]="tournament.silverWinner.username"></cwt-user>
                         </li>
                         <li *ngIf="tournament.bronzeWinner">
-                            <a [routerLink]="['/user', tournament.bronzeWinner.username]">
-                                {{tournament.bronzeWinner.username}}
-                            </a>
+                            <cwt-user [username]="tournament.bronzeWinner.username"></cwt-user>
                         </li>
                     </ul>
 

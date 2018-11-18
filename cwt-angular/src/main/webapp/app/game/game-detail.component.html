@@ -1,14 +1,14 @@
 <div *ngIf="game">
     <span class="float-right text-right">
         Reported by
-        <a [routerLink]="['/user', game.reporter.username]">{{game.reporter.username}}</a><br>
+        <cwt-user [username]="game.reporter.username"></cwt-user><br>
         <cwt-time-ago [date]="game.created"></cwt-time-ago>
     </span>
 
     <h1>
-        <a [routerLink]="['/user', game.homeUser.username]">{{game.homeUser.username}}</a>
+        <cwt-user [username]="game.homeUser.username"></cwt-user>
         {{game.scoreHome}}–{{game.scoreAway}}
-        <a [routerLink]="['/user', game.awayUser.username]">{{game.awayUser.username}}</a>
+        <cwt-user [username]="game.awayUser.username"></cwt-user>
     </h1>
 
     <div class="row mt-1">
@@ -121,29 +121,25 @@
                         <div *ngIf="ratings.LIKE.length" class="mb-1">
                             Liked by
                             <span *ngFor="let rating of ratings.LIKE; let last = last">
-                                <a [routerLink]="['/user', rating.user.username]">{{rating.user.username}}</a><span
-                                    *ngIf="!last">, </span>
+                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
                             </span>
                         </div>
                         <div *ngIf="ratings.DISLIKE.length" class="mb-1">
                             Disliked by
                             <span *ngFor="let rating of ratings.DISLIKE; let last = last">
-                                <a [routerLink]="['/user', rating.user.username]">{{rating.user.username}}</a><span
-                                    *ngIf="!last">, </span>
+                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
                             </span>
                         </div>
                         <div *ngIf="ratings.LIGHTSIDE.length" class="mb-1">
                             Rated “ligthside” by
                             <span *ngFor="let rating of ratings.LIGHTSIDE; let last = last">
-                                <a [routerLink]="['/user', rating.user.username]">{{rating.user.username}}</a><span
-                                    *ngIf="!last">, </span>
+                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
                             </span>
                         </div>
                         <div *ngIf="ratings.DARKSIDE.length" class="mb-1">
                             Rated “darkside” by
                             <span *ngFor="let rating of ratings.DARKSIDE; let last = last">
-                                <a [routerLink]="['/user', rating.user.username]">{{rating.user.username}}</a><span
-                                    *ngIf="!last">, </span>
+                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
                             </span>
                         </div>
                     </div>
@@ -176,7 +172,7 @@
                 <div class="card-body" *ngFor="let comment of game.comments" style="border-bottom: 1px solid white !important;">
                     <cwt-time-ago class="float-right" [date]="comment.created"></cwt-time-ago>
                     <h4 class="card-title">
-                        <a [routerLink]="['/user', comment.author.username]" class="text-white">{{comment.author.username}}</a>
+                        <cwt-user [username]="comment.author.username"></cwt-user>
                     </h4>
                     <p class="card-text rendered-text">{{comment.body}}</p>
                 </div>

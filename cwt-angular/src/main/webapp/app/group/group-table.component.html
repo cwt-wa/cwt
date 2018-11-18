@@ -27,9 +27,7 @@
             {{index + 1}}
         </td>
         <td>
-            <a [routerLink]="['/user', standing.user.username]">
-                {{standing.user.username}}
-            </a>
+            <cwt-user [username]="standing.user.username"></cwt-user>
         </td>
         <td class="text-center">
             {{standing.points}}

@@ -12,7 +12,7 @@
 
     <p>
         <span *ngFor="let application of applications; let last = last">
-            <a [routerLink]="['/user', application.applicant.id]">{{application.applicant.username}}</a>{{last ? '' : ', '}}
+            <cwt-user [username]="application.applicant.username"></cwt-user>{{last ? '' : ', '}}
         </span>
     </p>
 </div>

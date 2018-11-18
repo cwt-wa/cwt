@@ -4,7 +4,7 @@
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
          [ngClass]="{'rounded-top': first, 'bg-red-0': message.category === 'PRIVATE'}">
         {{message.created | date:'shortTime'}}
-        <a [routerLink]="['/user', message.author.username]" class="link-inverse">{{message.author.username}}</a>
+        <cwt-user [username]="message.author.username"></cwt-user>
         {{message.body}}
     </div>
 </div>
