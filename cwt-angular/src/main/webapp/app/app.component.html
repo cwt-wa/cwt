@@ -48,7 +48,7 @@
                 </a>
             </div>
             <div class="col text-right user-panel all-petite-caps" ngbDropdown>
-                <i class="fa fa-lg fa-user cwt-user-panel-icon no-caret"
+                <i class="fa fa-lg cwt-user-panel-icon no-caret" [ngClass]="authenticatedUser ? 'fa-user' : 'fa-user-o'"
                    [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
                 </i>
                 <div class="dropdown-menu" *ngIf="!authenticatedUser" ngbDropdownMenu>
