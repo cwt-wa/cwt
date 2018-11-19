@@ -27,13 +27,11 @@ export class RequestService {
         params.content != null && delete params.content;
         params.sortables != null && delete params.sortables;
 
-        // @ts-ignore string cannot be assigned to ValueLabel (in generics).
-        return this.get<PageDto<T, ValueLabel>>(relativePath, <QueryParams><any>params)
-            .map<PageDto<T, string>, PageDto<T, ValueLabel>>((value: PageDto<T, string>) => {
-                // @ts-ignore string cannot be assigned to ValueLabel (in generics).
+        return this.get<PageDto<T, string>>(relativePath, <QueryParams><any>params)
+            .map<PageDto<T, string>, PageDto<T, ValueLabel>>((value: PageDto<T, any>) => {
                 value.sortables = value.sortables.map<ValueLabel>(s => {
-                    const valueLabel = s.split(",");
-                    return {value: valueLabel[0], label: valueLabel[1]} as ValueLabel;
+                    const valueLabel = (s as string).split(",");
+                    return {value: valueLabel[0], label: valueLabel[1]};
                 });
 
                 return value;
