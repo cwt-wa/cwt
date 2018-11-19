@@ -130,11 +130,11 @@ public class GameRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<PageDto<Game>> queryGamesPaged(PageDto<Game> pageDto) {
+    public ResponseEntity<PageDto<GameDetailDto>> queryGamesPaged(PageDto<Game> pageDto) {
         return ResponseEntity.ok(PageDto.toDto(
                 gameService.findPaginated(
                         pageDto.getStart(), pageDto.getSize(),
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")),
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map(GameDetailDto::toDto),
                 Arrays.asList("created,Creation", "ratings,Ratings", "comments,Comments")));
     }
 

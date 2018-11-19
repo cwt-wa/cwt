@@ -45,18 +45,39 @@
                             </h2>
                         </a>
                         <div class="lead all-petite-caps">
-                            <span class="font-weight-normal">Little Final</span> 2015
+                            <span class="font-weight-normal">
+                                <ng-container *ngIf="game.playoff">
+                                    {game.playoff.round, plural,
+                                    =1 {Last Sixteen}
+                                    =2 {Quarterfinal}
+                                    =3 {Semifinal}
+                                    =4 {Little Final}
+                                    =5 {Final}
+                                    other {Playoffs}
+                                    }
+                                </ng-container>
+                                <ng-container *ngIf="game.group">
+                                    Group {{game.group.label}}
+                                </ng-container>
+                            </span>
+                            {{game.tournament.created | date:'y'}}
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="all-petite-caps">
-                            3 Likes • 2 Dislikes
+                            {{filterRatings(game.ratings, "LIKE").length}} Likes
+                            •
+                            {{filterRatings(game.ratings, "DISLIKE").length}} Dislikes
                         </div>
                         <div class="all-petite-caps">
-                            3 Lightside • 0 Darkside
+                            {{filterRatings(game.ratings, "LIGHTSIDE").length}} Lightside
+                            •
+                            {{filterRatings(game.ratings, "DARKSIDE").length}} Darkside
                         </div>
                         <div class="all-petite-caps">
-                            3 Comments • Download
+                            {{game.comments.length}} Comments
+                            <ng-container *ngIf="game.replayExists">•</ng-container>
+                            <a [href]="appConfig.apiEndpoint + 'game/' + game.id + '/replay'" *ngIf="game.replayExists">Download</a>
                         </div>
                     </div>
                 </div>
