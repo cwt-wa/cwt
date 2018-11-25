@@ -535,3 +535,10 @@ img.loading {
 .bg-secondary a {
   color: $white;
 }
+
+
+select.custom-select,
+select.custom-select-lg,
+select.custom-select-sm {
+  -webkit-appearance: none;
+}
