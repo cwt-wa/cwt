@@ -8,13 +8,25 @@ import {APP_CONFIG, AppConfig} from "../app.config";
     template: require('./game-overview.component.html')
 })
 export class GameOverviewComponent implements OnInit {
-    pageOfGames: PageDto<GameDetailDto> = <PageDto<GameDetailDto>> {size: 10, start: 1};
+    pageOfGames: PageDto<GameDetailDto> = <PageDto<GameDetailDto>> {size: 10, start: 0};
     loading: boolean;
 
     constructor(private requestService: RequestService, @Inject(APP_CONFIG) public appConfig: AppConfig) {
     }
 
     ngOnInit(): void {
+        this.load();
+    }
+
+    sort(sortable: string, sortAscending: boolean) {
+        this.pageOfGames.sortBy = sortable;
+        this.pageOfGames.sortAscending = sortAscending;
+        this.pageOfGames.start = 0;
+        this.load();
+    }
+
+    goTo(start: number) {
+        this.pageOfGames.start = start;
         this.load();
     }
 

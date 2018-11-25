@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.entity.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -78,6 +79,14 @@ public class Game implements Serializable {
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Replay replay;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Formula("select count(*) from COMMENT c where c.GAME_ID = id")
+    private Integer commentsSize;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Formula("select count(*) from RATING r where r.GAME_ID = id")
+    private Integer ratingsSize;
 
     public Long getId() {
         return id;
@@ -265,6 +274,14 @@ public class Game implements Serializable {
 
     public void setReplay(Replay replay) {
         this.replay = replay;
+    }
+
+    public Integer getCommentsSize() {
+        return commentsSize;
+    }
+
+    public Integer getRatingsSize() {
+        return ratingsSize;
     }
 
     @Override

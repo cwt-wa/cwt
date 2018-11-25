@@ -44,6 +44,7 @@ import {AdminGroupsStartManualDrawComponent} from "./group/admin-groups-start-ma
 import {AdminGroupsStartAutomaticDrawComponent} from "./group/admin-groups-start-automatic-draw.component";
 import {GameOverviewComponent} from "./game/game-overview.component";
 import {UserComponent} from "./_util/user.component";
+import {PaginatorComponent} from "./_util/paginator.component";
 
 const appRoutes: Routes = [
     {
@@ -170,7 +171,8 @@ const appRoutes: Routes = [
         MentionComponent,
         StreamsComponent,
         UserComponent,
-        GameOverviewComponent
+        GameOverviewComponent,
+        PaginatorComponent
     ],
     providers: [
         WebAppViewService,

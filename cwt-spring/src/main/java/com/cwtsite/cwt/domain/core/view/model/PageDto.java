@@ -10,7 +10,7 @@ import java.util.Optional;
 public class PageDto<T> {
 
     private int size = 10;
-    private int start = 1;
+    private int start = 0;
     private String sortBy;
     private Boolean sortAscending = false;
     private List<T> content;

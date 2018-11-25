@@ -135,7 +135,7 @@ public class GameRestController {
                 gameService.findPaginated(
                         pageDto.getStart(), pageDto.getSize(),
                         pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map(GameDetailDto::toDto),
-                Arrays.asList("created,Creation", "ratings,Ratings", "comments,Comments")));
+                Arrays.asList("created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")));
     }
 
     @RequestMapping(value = "/{id}/rating", method = RequestMethod.POST)

@@ -2,13 +2,14 @@
 
 <div class="float-right text-nowrap" *ngIf="pageOfGames">
     <div class="input-group">
-        <select class="custom-select" [(ngModel)]="pageOfGames.sortBy" [disabled]="loading" (change)="load()">
+        <select class="custom-select" [(ngModel)]="pageOfGames.sortBy" [disabled]="loading"
+                (change)="sort($event.target.value, pageOfGames.sortAscending)">
             <option *ngFor="let sortable of pageOfGames.sortables" [value]="sortable.value">
                 {{sortable.label}}
             </option>
         </select>
         <div class="input-group-append">
-            <button class="btn btn-light" (click)="pageOfGames.sortAscending = !pageOfGames.sortAscending; load()"
+            <button class="btn btn-light" type="button" (click)="sort(pageOfGames.sortBy, !pageOfGames.sortAscending)"
                     [disabled]="loading">
                 <i class="fa" [ngClass]="pageOfGames.sortAscending ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
             </button>
@@ -20,9 +21,9 @@
 
 <img *ngIf="loading" src="../../img/loading.gif"/>
 
-<div class="row mt-2 clear" *ngIf="pageOfGames">
+<div class="row mt-2 clear" *ngIf="pageOfGames && !loading">
     <div class="col-12">
-        <div class="card bg-secondary text-white border-0">
+        <div class="card bg-secondary text-white border-0 mb-1">
             <div class="card-body" *ngFor="let game of pageOfGames.content"
                  style="border-bottom: 1px solid white !important;">
                 <div class="row">
@@ -83,5 +84,7 @@
                 </div>
             </div>
         </div>
+
+        <cwt-paginator [page]="pageOfGames" (goTo)="goTo($event)"></cwt-paginator>
     </div>
 </div>

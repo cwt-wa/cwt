@@ -7,9 +7,13 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import org.assertj.core.api.Assertions;
+import org.hibernate.Hibernate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import test.AbstractDbTest;
 
 import java.util.Arrays;
@@ -244,5 +248,37 @@ public class GameRepositoryTest extends AbstractDbTest {
                 .isEmpty();
 
         Assert.assertEquals(2, gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1).size());
+    }
+
+    @Test
+    public void findAll() {
+        final RedG redG = createRedG();
+
+        redG.addGame().id(1L).addCommentsForGameIdGame(redG.addComment().id(1L));
+        redG.addGame().id(2L).addCommentsForGameIdGame(redG.addComment().id(2L), redG.addComment().id(3L));
+        redG.addGame().id(3L).addCommentsForGameIdGame();
+
+        redG.insertDataIntoDatabase(dataSource);
+
+        final Page<Game> actualPagedGames = gameRepository.findAll(
+                PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "commentsSize")));
+
+        Assertions
+                .assertThat(actualPagedGames.getContent().stream().map(Game::getId))
+                .containsExactly(2L, 1L, 3L);
+    }
+
+    @Test
+    public void lazyPropertyFetching() {
+        final RedG redG = createRedG();
+        redG.addGame().id(1L).addCommentsForGameIdGame(redG.addComment().id(1L));
+        redG.insertDataIntoDatabase(dataSource);
+
+        final Game game = em.find(Game.class, 1L);
+
+        Assert.assertFalse(Hibernate.isPropertyInitialized(game, "commentsSize"));
+        //noinspection ResultOfMethodCallIgnored
+        game.getCommentsSize();
+        Assert.assertTrue(Hibernate.isPropertyInitialized(game, "commentsSize"));
     }
 }
