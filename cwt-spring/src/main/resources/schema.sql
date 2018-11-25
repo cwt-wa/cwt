@@ -1,3 +1,5 @@
+CREATE DOMAIN TEXT AS VARCHAR;
+
 create sequence application_seq start with 102 increment by 1;
 create sequence comment_seq start with 1466 increment by 1;
 create sequence game_seq start with 1219 increment by 1;
