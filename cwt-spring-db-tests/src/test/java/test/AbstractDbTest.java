@@ -5,12 +5,12 @@ import com.btc.redg.generated.RedG;
 import com.btc.redg.runtime.AbstractRedG;
 import com.btc.redg.runtime.RedGEntity;
 import com.btc.redg.runtime.dummy.DefaultDummyFactory;
-import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@TestPropertySource(properties = {"spring.datasource.platform=test", "spring.datasource.initialization-mode=always"})
+@ActiveProfiles("test")
 public abstract class AbstractDbTest {
 
     @Autowired
@@ -29,7 +29,7 @@ public abstract class AbstractDbTest {
     @Autowired
     protected TestEntityManager em;
 
-    @After
+    @Before
     public void rollback() throws SQLException {
         final ResultSet tables = dataSource.getConnection().getMetaData().getTables(
                 dataSource.getConnection().getCatalog(), dataSource.getConnection().getSchema(), "%", null);

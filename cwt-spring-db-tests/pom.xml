@@ -76,7 +76,7 @@
                             <username>sa</username>
                             <password/>
                             <sqlScripts>
-                                <param>../cwt-spring/src/main/resources/schema.sql</param>
+                                <param>./schema.sql</param>
                             </sqlScripts>
                             <schemaRegex>.*</schemaRegex>
                         </configuration>
