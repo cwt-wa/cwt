@@ -26,7 +26,7 @@ create table page (id bigint not null, created timestamp, modified timestamp, te
 create table playoff_game (id bigint not null, round integer, spot integer, primary key (id));
 create table rating (id bigint not null, type varchar(255), game_id bigint, user_id bigint, primary key (id));
 create table rating_result (id bigint not null, darkside integer, dislikes integer, lightside integer, likes integer, game_id bigint, primary key (id));
-create table replay (id bigint not null, extension varchar(255), file blob, media_type varchar(255), primary key (id));
+create table replay (id bigint not null, extension varchar(255), file bytea, media_type varchar(255), primary key (id));
 create table tournament (id bigint not null, created timestamp, open timestamp, review text, status varchar(255) not null, bronze_winner_id bigint, gold_winner_id bigint, host_id bigint, silver_winner_id bigint, primary key (id));
 create table tournament_moderator (tournaments_id bigint not null, moderators_id bigint not null, primary key (tournaments_id, moderators_id));
 create table user_ (id bigint not null, activated boolean not null, activation_key varchar(20), created timestamp, email varchar(100), modified timestamp, password_hash varchar(60), password_legacy_hash varchar(40), reset_date timestamp, reset_key varchar(20), username varchar(16) not null, primary key (id));
