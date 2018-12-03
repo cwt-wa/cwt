@@ -1,9 +1,10 @@
 CREATE OR REPLACE FUNCTION timeline(bigint)
   RETURNS TABLE(timeline text)
-ROWS 1 LANGUAGE SQL AS $$
-
-select string_agg(cast(round as text), '''') as timeline
-from (select TO_CHAR(t.CREATED, ''yyyy'')                                                                                    as year,
+ROWS 1
+LANGUAGE SQL AS
+$$
+select string_agg(cast(round as text), '') as timeline
+from (select TO_CHAR(t.CREATED, 'yyyy')                                                                                      as year,
              5                                                                                                               as max_round,
              least(greatest((case coalesce(g.g_id, 0) when 0 then 0 else 1 end), max(po.round) + 1), 5 - 1) + (case
                                                                                                                  when t.GOLD_WINNER_ID = $1
