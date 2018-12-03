@@ -81,11 +81,11 @@ public class Game implements Serializable {
     private Replay replay;
 
     @Basic(fetch = FetchType.LAZY)
-    @Formula("select count(*) from COMMENT c where c.GAME_ID = id")
+    @Formula("(select count(*) from COMMENT c where c.GAME_ID = id)")
     private Integer commentsSize;
 
     @Basic(fetch = FetchType.LAZY)
-    @Formula("select count(*) from RATING r where r.GAME_ID = id")
+    @Formula("(select count(*) from RATING r where r.GAME_ID = id)")
     private Integer ratingsSize;
 
     public Long getId() {
