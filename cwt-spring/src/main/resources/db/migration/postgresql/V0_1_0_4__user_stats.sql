@@ -1,5 +1,5 @@
 create materialized view user_stats AS
-  (select u.id, coalesce(gold.gold, 0) * 3 + coalesce(silver.silver, 0) * 2 +
+  (select u.id as user_id, coalesce(gold.gold, 0) * 3 + coalesce(silver.silver, 0) * 2 +
                             coalesce(bronze.bronze, 0) as trophy_points, participations.participations, timeline(u.id)
    from USER_ u
           left join (select count(GOLD_WINNER_ID) as gold, GOLD_WINNER_ID from TOURNAMENT group by GOLD_WINNER_ID) gold
@@ -15,3 +15,7 @@ create materialized view user_stats AS
                        join GROUP_STANDING s on g.ID = s.GROUP_ID
                 group by s.USER_ID) participations on participations.USER_ID = u.ID
    order by trophy_points desc, participations desc, username desc);
+
+alter table user_ add column user_stats_id bigint;
+
+update user_ set user_stats_id = id;

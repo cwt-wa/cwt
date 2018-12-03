@@ -78,6 +78,10 @@ public class User implements Serializable {
     @JoinColumn(unique = true)
     private UserSetting userSetting;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    private UserStats userStats;
+
     @Column(name = "created")
     @CreationTimestamp
     private Timestamp created;
@@ -190,6 +194,14 @@ public class User implements Serializable {
 
     public void setUserSetting(UserSetting userSetting) {
         this.userSetting = userSetting;
+    }
+
+    public UserStats getUserStats() {
+        return userStats;
+    }
+
+    public void setUserStats(UserStats userStats) {
+        this.userStats = userStats;
     }
 
     public Timestamp getCreated() {
