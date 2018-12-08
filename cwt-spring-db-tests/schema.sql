@@ -55,6 +55,15 @@ create table replay
   primary key (id)
 );
 
+create table user_stats (
+  user_id bigint not null,
+  trophy_points int not null,
+  participations int not null,
+  timeline text not null,
+  constraint user_stats__pkey
+  primary key (user_id),
+);
+
 create table user_
 (
   id                   bigint      not null,
@@ -68,12 +77,15 @@ create table user_
   reset_date           timestamp,
   reset_key            varchar(20),
   username             varchar(16) not null,
+  user_stats_id        bigint,
   constraint user__pkey
   primary key (id),
   constraint uk_ha67cvlhy4nk1prswl5gj1y0y
   unique (email),
   constraint uk_wqsqlvajcne4rlyosglqglhk
-  unique (username)
+  unique (username),
+  constraint fk_user_stats
+  foreign key (user_stats_id) references user_stats
 );
 
 create table configuration
