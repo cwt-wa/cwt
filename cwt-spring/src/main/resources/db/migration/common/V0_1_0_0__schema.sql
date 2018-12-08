@@ -69,3 +69,7 @@ alter table user_authority add constraint FKgvxjs381k6f48d5d2yi11uh89 foreign ke
 alter table user_authority add constraint FKio2xcw9ogcqbasp25n5vttxrf foreign key (user_id) references user_;
 alter table user_profile add constraint FK5kyn4pw0t8nuix619fha4cjss foreign key (user_id) references user_;
 alter table user_setting add constraint FKlq80s6ksgbgsm6qxr5xkqpob foreign key (user_id) references user_;
+
+
+alter table tournament
+  add column max_rounds int not null;

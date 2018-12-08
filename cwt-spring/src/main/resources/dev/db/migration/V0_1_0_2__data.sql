@@ -14520,3 +14520,4 @@ INSERT INTO public.message (id, body, category, created, author_id) VALUES (2, '
 INSERT INTO public.message (id, body, category, created, author_id) VALUES (1, 'cool archive stuff', 'SHOUTBOX', '2013-09-07 18:03:12.000000', 4);
 
 update tournament set max_rounds = 5;
+update user_profile set country = null where country = '';
