@@ -34,6 +34,9 @@ public class Tournament implements Serializable {
     @Column(name = "open")
     private Timestamp open;
 
+    @Column(nullable = false)
+    private Integer maxRounds;
+
     @Column(name = "created")
     @CreationTimestamp
     private Timestamp created;
@@ -104,6 +107,15 @@ public class Tournament implements Serializable {
     public Tournament open(Timestamp open) {
         this.open = open;
         return this;
+    }
+
+
+    public Integer getMaxRounds() {
+        return maxRounds;
+    }
+
+    public void setMaxRounds(Integer maxRounds) {
+        this.maxRounds = maxRounds;
     }
 
     public Timestamp getCreated() {
@@ -211,6 +223,7 @@ public class Tournament implements Serializable {
                 ", status='" + status + "'" +
                 ", review='" + review + "'" +
                 ", open='" + open + "'" +
+                ", maxRounds='" + maxRounds + "'" +
                 ", created='" + created + "'" +
                 '}';
     }
