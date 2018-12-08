@@ -17,6 +17,8 @@ import com.cwtsite.cwt.domain.user.repository.entity.UserSetting;
 import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto;
 import com.cwtsite.cwt.entity.GroupStanding;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -152,5 +154,14 @@ public class UserService {
 
     public User saveUser(final User user) {
         return userRepository.save(user);
+    }
+
+    public Page<User> findPaginated(int page, int size, Sort sort) {
+        if (sort.equals(Sort.by(Sort.Direction.DESC, "userStats.trophyPoints"))
+                || sort.equals(Sort.by(Sort.Direction.ASC, "userStats.trophyPoints"))) {
+            sort = sort.and(Sort.by(Sort.Direction.DESC, "userStats.participations"));
+        }
+        sort = sort.and(Sort.by(Sort.Direction.DESC, "username"));
+        return userRepository.findAll(PageRequest.of(page, size, sort));
     }
 }

@@ -2,16 +2,19 @@ package com.cwtsite.cwt.domain.user.view.controller;
 
 import com.cwtsite.cwt.domain.application.service.ApplicationService;
 import com.cwtsite.cwt.domain.core.exception.NotFoundException;
+import com.cwtsite.cwt.domain.core.view.model.PageDto;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
 import com.cwtsite.cwt.entity.Application;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -51,6 +54,19 @@ public class UserRestController {
     public ResponseEntity<List<User>> getRemainingOpponents(@PathVariable("id") long id) {
         final User user = assertUser(id);
         return ResponseEntity.ok(userService.getRemainingOpponents(user));
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<PageDto<User>> queryUsersPaged(PageDto<User> pageDto) {
+        return ResponseEntity.ok(PageDto.toDto(
+                userService.findPaginated(
+                        pageDto.getStart(), pageDto.getSize(),
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "userStats.trophyPoints")),
+                Arrays.asList(
+                        "userStats.trophyPoints,Trophies",
+                        "userStats.participations,Participations",
+                        "username,Username",
+                        "userProfile.country,Country")));
     }
 
     private User assertUser(final long id) {
