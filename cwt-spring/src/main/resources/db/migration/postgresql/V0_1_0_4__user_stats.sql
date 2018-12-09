@@ -1,6 +1,6 @@
 create materialized view user_stats AS
   (select u.id as user_id,
-          coalesce(gold.gold, 0) * 3 + coalesce(silver.silver, 0) * 2 +
+          coalesce(gold.gold, 0) * 20 + coalesce(silver.silver, 0) * 5 +
           coalesce(bronze.bronze, 0) as trophy_points,
           coalesce(participations.participations, 0) as participations,
           timeline(u.id)
