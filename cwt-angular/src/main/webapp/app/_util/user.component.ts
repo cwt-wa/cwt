@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 @Component({
     selector: 'cwt-user',
     template: `
-        <a [routerLink]="['/user', username]">{{username}}</a>
+        <a [routerLink]="['/users', username]">{{username}}</a>
     `
 })
 export class UserComponent {

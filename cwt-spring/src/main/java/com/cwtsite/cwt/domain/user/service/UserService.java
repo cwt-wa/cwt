@@ -164,4 +164,8 @@ public class UserService {
         sort = sort.and(Sort.by(Sort.Direction.ASC, "username"));
         return userRepository.findAll(PageRequest.of(page, size, sort));
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

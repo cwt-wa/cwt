@@ -49,6 +49,7 @@ import {UserOverviewComponent} from "./user/user-overview.component";
 import {SorterComponent} from "./_util/sorter.component";
 import {CountryComponent} from "./_util/country.component";
 import {ReachComponent} from "./_util/reach.component";
+import {UserDetailComponent} from "./user/user-detail.component";
 
 const appRoutes: Routes = [
     {
@@ -110,6 +111,10 @@ const appRoutes: Routes = [
     {
         path: 'users',
         component: UserOverviewComponent
+    },
+    {
+        path: 'users/:username',
+        component: UserDetailComponent
     },
     {
         path: 'games/:id',
@@ -184,6 +189,7 @@ const appRoutes: Routes = [
         CountryComponent,
         PaginatorComponent,
         SorterComponent,
+        UserDetailComponent,
         ReachComponent
     ],
     providers: [

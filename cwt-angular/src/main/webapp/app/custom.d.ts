@@ -65,6 +65,16 @@ export interface UserStatsDto {
     tournamentId: number;
     tournamentMaxRound: number;
     round: number;
+    locRound: string;
+}
+
+export interface UserDetailDto {
+    id: number;
+    username: string;
+    country: string;
+    about: string;
+    hasPic: boolean;
+    userStats: UserStatsDto[];
 }
 
 export type GroupLabel = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'

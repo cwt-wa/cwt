@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class UserStatsDto {
 
@@ -16,6 +14,7 @@ public class UserStatsDto {
     private Long tournamentId;
     private Integer tournamentMaxRound;
     private Integer round;
+    private String locRound;
 
     public static List<UserStatsDto> toDtos(UserStats userStats) {
         final Iterator<JsonNode> timelineIterator;
@@ -28,17 +27,42 @@ public class UserStatsDto {
         final ArrayList<UserStatsDto> dtos = new ArrayList<>();
         while (timelineIterator.hasNext()) {
             JsonNode elem = timelineIterator.next();
+            final int tournamentMaxRound = elem.get(2).asInt();
+            final int round = elem.get(3).asInt();
 
             final UserStatsDto dto = new UserStatsDto();
             dto.setParticipated(elem.get(3).asInt() != 0);
             dto.setYear(elem.get(1).asInt());
             dto.setTournamentId(elem.get(0).asLong());
-            dto.setTournamentMaxRound(elem.get(2).asInt());
-            dto.setRound(elem.get(3).asInt());
+            dto.setTournamentMaxRound(tournamentMaxRound);
+            dto.setRound(round);
+            dto.setLocRound(locRound(tournamentMaxRound, round));
             dtos.add(dto);
         }
 
         return dtos;
+    }
+
+    static String locRound(int tournamentMaxRound, int round) {
+        final Map<Integer, String> integerStringHashMap = new HashMap<>();
+        int roundOfLastSixteen = tournamentMaxRound - 3;
+
+        integerStringHashMap.put(tournamentMaxRound + 2, "Champion");
+        integerStringHashMap.put(tournamentMaxRound + 1, "Runner-up");
+        integerStringHashMap.put(tournamentMaxRound, "Third");
+        integerStringHashMap.put(tournamentMaxRound - 1, "Semifinal");
+        integerStringHashMap.put(tournamentMaxRound - 2, "Quarterfinal");
+        integerStringHashMap.put(roundOfLastSixteen, "Last Sixteen");
+        integerStringHashMap.put(1, "Group");
+        integerStringHashMap.put(0, "Not attended");
+
+        int multiplier = 2;
+        for (int i = roundOfLastSixteen - 1; i > 1; i--) {
+            integerStringHashMap.put(i, "Last " + Double.valueOf(16 * Math.pow(2, (multiplier - 1))).intValue());
+            multiplier++;
+        }
+
+        return integerStringHashMap.get(round);
     }
 
     public Boolean getParticipated() {
@@ -79,5 +103,13 @@ public class UserStatsDto {
 
     public void setRound(Integer round) {
         this.round = round;
+    }
+
+    public String getLocRound() {
+        return locRound;
+    }
+
+    public void setLocRound(String locRound) {
+        this.locRound = locRound;
     }
 }

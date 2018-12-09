@@ -5,6 +5,7 @@ import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.core.view.model.PageDto;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
+import com.cwtsite.cwt.domain.user.view.model.UserDetailDto;
 import com.cwtsite.cwt.domain.user.view.model.UserOverviewDto;
 import com.cwtsite.cwt.entity.Application;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,15 @@ public class UserRestController {
     @RequestMapping(path = "/{id}/can-apply", method = RequestMethod.GET)
     public ResponseEntity<Boolean> userCanApplyForTournament(@PathVariable("id") long id) {
         return ResponseEntity.ok(this.userService.userCanApplyForCurrentTournament(assertUser(id)));
+    }
+
+    @RequestMapping(path = "/{usernameOrId}", method = RequestMethod.GET)
+    public ResponseEntity<UserDetailDto> getOne(@PathVariable("usernameOrId") Object usernameOrId) {
+        if (usernameOrId instanceof String) {
+            return ResponseEntity.ok(UserDetailDto.toDto(userService.findByUsername((String) usernameOrId)));
+        } else {
+            return ResponseEntity.ok(UserDetailDto.toDto(assertUser((Long) usernameOrId)));
+        }
     }
 
     @RequestMapping(path = "/{id}/can-report", method = RequestMethod.GET)
