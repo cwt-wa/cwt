@@ -72,4 +72,4 @@ alter table user_setting add constraint FKlq80s6ksgbgsm6qxr5xkqpob foreign key (
 
 
 alter table tournament
-  add column max_rounds int not null;
+  add column max_rounds int not null default 5;
