@@ -8,11 +8,11 @@ create table user_stats (
 );
 
 insert into user_stats (user_id, trophy_points, participations, timeline)
-select u.id                                       as user_id,
-       coalesce(gold.gold, 0) * 3 + coalesce(silver.silver, 0) * 2 +
-       coalesce(bronze.bronze, 0)                 as trophy_points,
-       coalesce(participations.participations, 0) as participations,
-       timeline(u.id)
+select u.id                                                                                                                                                                                                                     as user_id,
+       coalesce(gold.gold, 0) * 20 + coalesce(silver.silver, 0) * 5 +
+       coalesce(bronze.bronze, 0)                                                                                                                                                                                               as trophy_points,
+       coalesce(participations.participations, 0)                                                                                                                                                                               as participations,
+       '[1,2002,5,0],[2,2003,5,0],[3,2004,5,0],[4,2005,5,0],[5,2006,5,0],[6,2007,5,3],[7,2008,5,2],[8,2009,5,5],[9,2010,5,3],[10,2011,5,6],[11,2012,5,2],[12,2013,5,6],[13,2014,5,0],[14,2015,5,2],[15,2016,5,2],[16,2018,5,0]' as timeline
 from USER_ u
        left join (select count(GOLD_WINNER_ID) as gold, GOLD_WINNER_ID from TOURNAMENT group by GOLD_WINNER_ID) gold
          on gold.GOLD_WINNER_ID = u.id
