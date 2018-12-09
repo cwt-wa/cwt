@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'cwt-country',
-    template: `<img [src]="img()" [title]="country" [alt]="country">`
+    template: `<img [src]="img()" [alt]="country" [ngbTooltip]="country">`
 })
 export class CountryComponent {
     @Input()
