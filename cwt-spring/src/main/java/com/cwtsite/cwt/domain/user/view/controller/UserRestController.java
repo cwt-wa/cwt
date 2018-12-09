@@ -5,6 +5,7 @@ import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.core.view.model.PageDto;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
+import com.cwtsite.cwt.domain.user.view.model.UserOverviewDto;
 import com.cwtsite.cwt.entity.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -57,11 +58,11 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ResponseEntity<PageDto<User>> queryUsersPaged(PageDto<User> pageDto) {
+    public ResponseEntity<PageDto<UserOverviewDto>> queryUsersPaged(PageDto<UserOverviewDto> pageDto) {
         return ResponseEntity.ok(PageDto.toDto(
                 userService.findPaginated(
                         pageDto.getStart(), pageDto.getSize(),
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "userStats.trophyPoints")),
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "userStats.trophyPoints")).map(UserOverviewDto::toDto),
                 Arrays.asList(
                         "userStats.trophyPoints,Trophies",
                         "userStats.participations,Participations",

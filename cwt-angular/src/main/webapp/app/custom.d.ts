@@ -51,6 +51,22 @@ export interface User {
     username: string;
 }
 
+export interface UserOverviewDto {
+    id: number;
+    username: string;
+    country: string;
+    participations: number;
+    userStats: UserStatsDto[];
+}
+
+export interface UserStatsDto {
+    participated: boolean;
+    year: number;
+    tournamentId: number;
+    tournamentMaxRound: number;
+    round: number;
+}
+
 export type GroupLabel = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
 
 export interface GroupStanding {

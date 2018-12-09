@@ -161,7 +161,7 @@ public class UserService {
                 || sort.equals(Sort.by(Sort.Direction.ASC, "userStats.trophyPoints"))) {
             sort = sort.and(Sort.by(Sort.Direction.DESC, "userStats.participations"));
         }
-        sort = sort.and(Sort.by(Sort.Direction.DESC, "username"));
+        sort = sort.and(Sort.by(Sort.Direction.ASC, "username"));
         return userRepository.findAll(PageRequest.of(page, size, sort));
     }
 }

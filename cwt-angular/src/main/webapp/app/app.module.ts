@@ -48,6 +48,7 @@ import {PaginatorComponent} from "./_util/paginator.component";
 import {UserOverviewComponent} from "./user/user-overview.component";
 import {SorterComponent} from "./_util/sorter.component";
 import {CountryComponent} from "./_util/country.component";
+import {ReachComponent} from "./_util/reach.component";
 
 const appRoutes: Routes = [
     {
@@ -105,6 +106,10 @@ const appRoutes: Routes = [
     {
         path: 'games',
         component: GameOverviewComponent
+    },
+    {
+        path: 'users',
+        component: UserOverviewComponent
     },
     {
         path: 'game/:id',
@@ -174,10 +179,12 @@ const appRoutes: Routes = [
         MentionComponent,
         StreamsComponent,
         UserComponent,
+        UserOverviewComponent,
         GameOverviewComponent,
         CountryComponent,
         PaginatorComponent,
-        SorterComponent
+        SorterComponent,
+        ReachComponent
     ],
     providers: [
         WebAppViewService,
