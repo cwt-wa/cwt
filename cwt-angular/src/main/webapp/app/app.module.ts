@@ -112,7 +112,7 @@ const appRoutes: Routes = [
         component: UserOverviewComponent
     },
     {
-        path: 'game/:id',
+        path: 'games/:id',
         component: GameDetailComponent
     },
     {
