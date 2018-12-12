@@ -50,6 +50,7 @@ import {SorterComponent} from "./_util/sorter.component";
 import {CountryComponent} from "./_util/country.component";
 import {ReachComponent} from "./_util/reach.component";
 import {UserDetailComponent} from "./user/user-detail.component";
+import {PreviousRouteService} from "./_services/previous-route.service";
 
 const appRoutes: Routes = [
     {
@@ -199,6 +200,7 @@ const appRoutes: Routes = [
         ConfigurationService,
         StandingsOrderPipe,
         TimeAgoService,
+        PreviousRouteService,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     entryComponents: [MentionComponent],
@@ -206,4 +208,8 @@ const appRoutes: Routes = [
 })
 
 export class AppModule {
+
+    // @ts-ignore
+    constructor(private previousRouteService: PreviousRouteService) {
+    }
 }

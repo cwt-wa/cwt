@@ -45,5 +45,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     public logOut(): void {
         this.authService.voidToken();
         this.authenticatedUser = null;
+        window.location.href = '/';
     }
 }

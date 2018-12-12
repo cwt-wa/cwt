@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {UserLogin} from "./model/user-login";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
-const toastr = require('toastr/toastr.js');
+import {PreviousRouteService} from "../_services/previous-route.service";
 
 @Component({
     selector: 'cwt-login',
@@ -11,17 +11,17 @@ const toastr = require('toastr/toastr.js');
 export class LoginComponent {
     userLogin = new UserLogin('', '');
 
-    constructor(private requestService: RequestService, private authService: AuthService) {
+    constructor(private requestService: RequestService, private authService: AuthService,
+                private previousRouteService: PreviousRouteService) {
+
     }
 
     onSubmit() {
-        this.requestService.post<{token: string}>('auth/login', this.userLogin)
-            .subscribe(
-                (wrappedToken) => {
-                    toastr.success('You have been logged in successfully.');
+        this.requestService.post<{ token: string }>('auth/login', this.userLogin)
+            .subscribe((wrappedToken) => {
                     this.authService.storeToken(wrappedToken.token);
-                },
-                () => toastr.error('Meh.')
+                    window.location.href = this.previousRouteService.previousUrl || '/';
+                }
             );
     }
 }
