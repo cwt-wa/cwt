@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.domain.user.view.controller;
 
+import com.cwtsite.cwt.domain.core.exception.BadRequestException;
+import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.AuthService;
 import com.cwtsite.cwt.domain.user.service.JwtTokenUtil;
 import com.cwtsite.cwt.domain.user.service.UserService;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "api/auth")
@@ -46,8 +47,20 @@ public class AuthenticationRestController {
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody @Valid UserRegistrationDto userRegistrationDto) {
-        return ResponseEntity.ok(userService.registerUser(userRegistrationDto));
+    public ResponseEntity<?> register(@RequestBody UserRegistrationDto userRegistrationDto) {
+        final User user;
+        try {
+            user = userService.registerUser(
+                    userRegistrationDto.getUsername(), userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
+        } catch (UserService.UserExistsByEmailOrUsernameException e) {
+            throw new BadRequestException("User already exists.");
+        } catch (UserService.InvalidUsernameException e) {
+            throw new BadRequestException("Username invalid.");
+        } catch (UserService.InvalidEmailException e) {
+            throw new BadRequestException("Email invalid.");
+        }
+        return createAuthenticationToken(
+                new JwtAuthenticationRequest(user.getUsername(), userRegistrationDto.getPassword()));
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

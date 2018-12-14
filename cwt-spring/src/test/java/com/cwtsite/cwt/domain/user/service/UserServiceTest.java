@@ -10,6 +10,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.entity.GroupStanding;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -92,5 +93,31 @@ public class UserServiceTest {
         final User user = new User();
         user.setId(id);
         return user;
+    }
+
+    @Test
+    public void validateUsername() {
+        Assert.assertFalse(userService.validateUsername("Strawberrycheesecake"));
+        Assert.assertFalse(userService.validateUsername("Zemke`NNN"));
+        Assert.assertFalse(userService.validateUsername("Zemke "));
+        Assert.assertFalse(userService.validateUsername(" "));
+        Assert.assertFalse(userService.validateUsername(""));
+        Assert.assertTrue(userService.validateUsername("Z3mk3"));
+        Assert.assertTrue(userService.validateUsername("Zemke"));
+    }
+
+    @Test
+    public void validateEmail() {
+        Assert.assertFalse(userService.validateEmail("@"));
+        Assert.assertFalse(userService.validateEmail("asdsad"));
+        Assert.assertFalse(userService.validateEmail("asdsad@"));
+        Assert.assertFalse(userService.validateEmail("@asds ad"));
+        Assert.assertFalse(userService.validateEmail("sad @cho"));
+        Assert.assertFalse(userService.validateEmail("sad@cho "));
+        Assert.assertFalse(userService.validateEmail(" sad@cho"));
+        Assert.assertFalse(userService.validateEmail(" sad@cho"));
+        Assert.assertTrue(userService.validateEmail("sad@cho"));
+        Assert.assertTrue(userService.validateEmail("choc@choch.de"));
+        Assert.assertTrue(userService.validateEmail("choc@choch.com"));
     }
 }

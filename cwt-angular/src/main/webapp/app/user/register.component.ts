@@ -1,7 +1,8 @@
 import {Component} from "@angular/core";
 import {RequestService} from "../_services/request.service";
 import {UserRegistration} from "./model/user-registration";
-const toastr = require('toastr/toastr.js');
+import {AuthService} from "../_services/auth.service";
+import {PreviousRouteService} from "../_services/previous-route.service";
 
 @Component({
     selector: 'cwt-register',
@@ -10,16 +11,16 @@ const toastr = require('toastr/toastr.js');
 export class RegisterComponent {
     userRegistration: UserRegistration = new UserRegistration('', '', '');
 
-    submitted = false;
-
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService, private authService: AuthService,
+                private previousRouteService: PreviousRouteService) {
     }
 
     submit() {
-        this.requestService.post('auth/register', this.userRegistration)
-            .subscribe(
-                () => toastr.success('You have been registered successfully.'),
-                () => toastr.error('Meh.')
+        this.requestService.post<{ token: string }>('auth/register', this.userRegistration)
+            .subscribe((wrappedToken) => {
+                    this.authService.storeToken(wrappedToken.token);
+                    window.location.href = this.previousRouteService.previousUrl || '/';
+                }
             );
     }
 

@@ -3,7 +3,6 @@ package com.cwtsite.cwt.domain.user.repository.entity;
 import com.cwtsite.cwt.domain.user.repository.entity.enumeration.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,13 +35,10 @@ public class User implements Serializable {
     @Column(name = "password_legacy_hash", length = 40)
     private String password_legacy;
 
-    // TODO Should be in UserProfile
     @Size(max = 16, min = 3)
     @Column(length = 16, unique = true, nullable = false)
     private String username;
 
-    // TODO Should be in UserProfile
-    @Email
     @Size(max = 100)
     @Column(length = 100, unique = true)
     private String email;

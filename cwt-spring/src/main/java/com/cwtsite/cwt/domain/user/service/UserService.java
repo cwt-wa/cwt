@@ -14,7 +14,6 @@ import com.cwtsite.cwt.domain.user.repository.entity.AuthorityName;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.repository.entity.UserProfile;
 import com.cwtsite.cwt.domain.user.repository.entity.UserSetting;
-import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto;
 import com.cwtsite.cwt.entity.GroupStanding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,19 +53,31 @@ public class UserService {
     }
 
     @Transactional
-    public User registerUser(UserRegistrationDto userRegistrationDto) {
-        return userRepository.save(map(userRegistrationDto));
+    public User registerUser(String username, String email, String password)
+            throws UserExistsByEmailOrUsernameException, InvalidUsernameException, InvalidEmailException {
+        final String trimmedUsername = username.trim();
+        final String trimmedEmail = email.trim();
+
+        if (!validateUsername(trimmedUsername)) throw new InvalidUsernameException();
+        if (!validateEmail(trimmedEmail)) throw new InvalidEmailException();
+
+        if (userRepository.findByEmailEqualsOrUsernameEquals(trimmedEmail, trimmedUsername) != null) {
+            throw new UserExistsByEmailOrUsernameException();
+        }
+        User user = new User(new UserProfile(), new UserSetting(), AuthorityName.ROLE_USER);
+        user.setUsername(trimmedUsername);
+        user.setEmail(trimmedEmail);
+        user.setPassword(authService.createHash(password));
+        user.setActivated(true);
+        return userRepository.save(user);
     }
 
-    private User map(UserRegistrationDto dto) {
-        User user = new User(new UserProfile(), new UserSetting(), AuthorityName.ROLE_USER);
+    public boolean validateUsername(String username) {
+        return username.length() <= 16 && username.matches("^[a-zA-Z0-9]+$");
+    }
 
-        user.setUsername(dto.getUsername());
-        user.setEmail(dto.getEmail());
-        user.setPassword(authService.createHash(dto.getPassword()));
-        user.setActivated(true);
-
-        return user;
+    public boolean validateEmail(String email) {
+        return email.matches("^[^ ]+@[^ ]+$");
     }
 
     public Boolean userCanApplyForCurrentTournament(User user) {
@@ -167,5 +178,14 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public class UserExistsByEmailOrUsernameException extends RuntimeException {
+    }
+
+    public class InvalidUsernameException extends RuntimeException {
+    }
+
+    public class InvalidEmailException extends RuntimeException {
     }
 }
