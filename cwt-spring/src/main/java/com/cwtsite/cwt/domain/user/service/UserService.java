@@ -10,10 +10,7 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
 import com.cwtsite.cwt.domain.user.repository.UserRepository;
-import com.cwtsite.cwt.domain.user.repository.entity.AuthorityName;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
-import com.cwtsite.cwt.domain.user.repository.entity.UserProfile;
-import com.cwtsite.cwt.domain.user.repository.entity.UserSetting;
 import com.cwtsite.cwt.entity.GroupStanding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,7 +61,7 @@ public class UserService {
         if (userRepository.findByEmailEqualsOrUsernameEquals(trimmedEmail, trimmedUsername) != null) {
             throw new UserExistsByEmailOrUsernameException();
         }
-        User user = new User(new UserProfile(), new UserSetting(), AuthorityName.ROLE_USER);
+        User user = new User();
         user.setUsername(trimmedUsername);
         user.setEmail(trimmedEmail);
         user.setPassword(authService.createHash(password));

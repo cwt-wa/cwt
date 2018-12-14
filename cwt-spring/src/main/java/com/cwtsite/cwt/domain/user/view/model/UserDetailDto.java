@@ -66,10 +66,10 @@ public class UserDetailDto {
 
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setCountry(user.getUserProfile().getCountry());
-//        dto.setHasPic(user.getUserProfile().getPicture()); // TODO
+        dto.setCountry(user.getCountry());
+//        dto.setHasPic(user.getPicture()); // TODO
         dto.setHasPic(false);
-        dto.setAbout(user.getUserProfile().getAbout());
+        dto.setAbout(user.getAbout());
         dto.setUserStats(UserStatsDto.toDtos(user.getUserStats()));
 
         return dto;

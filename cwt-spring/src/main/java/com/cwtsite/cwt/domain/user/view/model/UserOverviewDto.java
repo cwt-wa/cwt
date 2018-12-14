@@ -17,7 +17,7 @@ public class UserOverviewDto {
 
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setCountry(user.getUserProfile().getCountry());
+        dto.setCountry(user.getCountry());
         dto.setParticipations(user.getUserStats().getParticipations());
         dto.setUserStats(UserStatsDto.toDtos(user.getUserStats()));
 

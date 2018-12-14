@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_")
+@Table(name = "\"USER\"")
 @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 1332, allocationSize = 1)
 public class User implements Serializable {
 
@@ -66,15 +66,13 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
     private List<Authority> authorities;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false, mappedBy = "user")
-    @JoinColumn(unique = true)
-    private UserProfile userProfile;
+    @Column(name = "country")
+    private String country;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false, mappedBy = "user")
-    @JoinColumn(unique = true)
-    private UserSetting userSetting;
+    @Column(name = "about", columnDefinition = "text")
+    private String about;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserStats userStats;
 
@@ -88,12 +86,7 @@ public class User implements Serializable {
     private Timestamp modified;
 
     public User() {
-    }
-
-    public User(UserProfile userProfile, UserSetting userSetting, AuthorityName initialRole) {
-        this.userProfile = userProfile;
-        this.userSetting = userSetting;
-        authorities = Collections.singletonList(Authority.fromName(initialRole));
+        authorities = Collections.singletonList(Authority.fromName(AuthorityName.ROLE_USER));
     }
 
     public Long getId() {
@@ -176,20 +169,20 @@ public class User implements Serializable {
         this.authorities = authorities;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
+    public String getCountry() {
+        return country;
     }
 
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public UserSetting getUserSetting() {
-        return userSetting;
+    public String getAbout() {
+        return about;
     }
 
-    public void setUserSetting(UserSetting userSetting) {
-        this.userSetting = userSetting;
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public UserStats getUserStats() {
@@ -206,6 +199,14 @@ public class User implements Serializable {
 
     public void setCreated(Timestamp created) {
         this.created = created;
+    }
+
+    public Timestamp getModified() {
+        return modified;
+    }
+
+    public void setModified(Timestamp modified) {
+        this.modified = modified;
     }
 
     @Override
@@ -232,14 +233,21 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", password_legacy='" + password_legacy + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", authorities='" + Objects.toString(authorities) + '\'' +
-                ", resetDate='" + resetDate + '\'' +
-                ", resetKey='" + resetKey + '\'' +
-                ", activated='" + activated + '\'' +
+                ", activated=" + activated +
                 ", activationKey='" + activationKey + '\'' +
-                "}";
+                ", resetKey='" + resetKey + '\'' +
+                ", resetDate=" + resetDate +
+                ", authorities=" + Objects.toString(authorities) +
+                ", country='" + country + '\'' +
+                ", about='" + about + '\'' +
+                ", userStats=" + userStats +
+                ", created=" + created +
+                ", modified=" + modified +
+                '}';
     }
 }
