@@ -18,7 +18,7 @@ data class UserStatsDto(
 
     companion object {
 
-        fun toDtos(timeline: String?): List<UserStatsDto> {
+        fun toDtos(timeline: String): List<UserStatsDto> {
             val timelineIterator: Iterator<JsonNode>
             try {
                 timelineIterator = ObjectMapper().readTree("[$timeline]").elements()

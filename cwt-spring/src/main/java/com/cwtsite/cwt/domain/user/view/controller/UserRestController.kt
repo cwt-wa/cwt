@@ -36,9 +36,15 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/{usernameOrId}", method = [RequestMethod.GET])
     fun getOne(@PathVariable("usernameOrId") usernameOrId: Any): ResponseEntity<UserDetailDto> {
         return if (usernameOrId is String) {
-            ResponseEntity.ok(UserDetailDto.toDto(userService.findByUsername(usernameOrId)))
+            val user = userService.findByUsername(usernameOrId)
+            ResponseEntity.ok(UserDetailDto.toDto(
+                    user, UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
         } else {
-            ResponseEntity.ok(UserDetailDto.toDto(assertUser(usernameOrId as Long)))
+            usernameOrId as Long
+            val user = assertUser(usernameOrId)
+            ResponseEntity.ok(UserDetailDto.toDto(
+                    user,
+                    UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
         }
     }
 
@@ -64,7 +70,10 @@ constructor(private val userService: UserService, private val applicationService
                 userService.findPaginated(
                         pageDto.start, pageDto.size,
                         pageDto.asSortWithFallback(Sort.Direction.DESC, "userStats.trophyPoints"))
-                        .map { user -> UserOverviewDto.toDto(user, UserStatsDto.toDtos(user.userStats?.timeline)) },
+                        .map { user ->
+                            UserOverviewDto.toDto(
+                                    user,
+                                    UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())) },
                 Arrays.asList(
                         "userStats.trophyPoints,Trophies",
                         "userStats.participations,Participations",
