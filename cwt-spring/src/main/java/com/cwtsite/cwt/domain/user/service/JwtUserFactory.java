@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.user.service;
 
-import com.cwtsite.cwt.domain.user.repository.entity.enumeration.Authority;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
+import com.cwtsite.cwt.domain.user.repository.entity.enumeration.Authority;
 import com.cwtsite.cwt.domain.user.view.model.JwtUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +21,7 @@ public class JwtUserFactory {
                 user.getEmail(),
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getAuthorities()),
-                user.isActivated(),
+                user.getActivated(),
                 user.getResetDate()
         );
     }

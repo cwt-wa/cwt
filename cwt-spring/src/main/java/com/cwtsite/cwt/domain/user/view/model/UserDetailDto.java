@@ -70,7 +70,7 @@ public class UserDetailDto {
 //        dto.setHasPic(user.getPicture()); // TODO
         dto.setHasPic(false);
         dto.setAbout(user.getAbout());
-        dto.setUserStats(UserStatsDto.toDtos(user.getUserStats()));
+        dto.setUserStats(UserStatsDto.Companion.toDtos(user.getUserStats().getTimeline()));
 
         return dto;
     }
