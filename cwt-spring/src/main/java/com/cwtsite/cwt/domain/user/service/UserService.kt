@@ -118,7 +118,8 @@ constructor(private val userRepository: UserRepository,
 
     fun findPaginated(page: Int, size: Int, sort: Sort): Page<User> {
         var extendedSort = sort
-        if (extendedSort == Sort.by(Sort.Direction.DESC, "userStats.trophyPoints") || extendedSort == Sort.by(Sort.Direction.ASC, "userStats.trophyPoints")) {
+        if (extendedSort == Sort.by(Sort.Direction.DESC, "userStats.trophyPoints")
+                || extendedSort == Sort.by(Sort.Direction.ASC, "userStats.trophyPoints")) {
             extendedSort = extendedSort.and(Sort.by(Sort.Direction.DESC, "userStats.participations"))
         }
         extendedSort = extendedSort.and(Sort.by(Sort.Direction.ASC, "username"))
