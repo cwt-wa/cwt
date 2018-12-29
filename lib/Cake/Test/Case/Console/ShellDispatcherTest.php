@@ -2,8 +2,6 @@
 /**
  * ShellDispatcherTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -429,6 +427,14 @@ class ShellDispatcherTest extends CakeTestCase {
 		$Dispatcher = new TestShellDispatcher();
 		$result = $Dispatcher->getShell('TestPlugin.example');
 		$this->assertInstanceOf('ExampleShell', $result);
+
+		$Dispatcher = new TestShellDispatcher();
+		$result = $Dispatcher->getShell('test_plugin');
+		$this->assertInstanceOf('TestPluginShell', $result);
+
+		$Dispatcher = new TestShellDispatcher();
+		$result = $Dispatcher->getShell('TestPlugin');
+		$this->assertInstanceOf('TestPluginShell', $result);
 	}
 
 /**
@@ -438,14 +444,14 @@ class ShellDispatcherTest extends CakeTestCase {
  */
 	public function testDispatchShellWithMain() {
 		$Dispatcher = new TestShellDispatcher();
-		$Mock = $this->getMock('Shell', array(), array(), 'MockWithMainShell');
+		$Shell = $this->getMock('Shell');
 
-		$Mock->expects($this->once())->method('initialize');
-		$Mock->expects($this->once())->method('runCommand')
+		$Shell->expects($this->once())->method('initialize');
+		$Shell->expects($this->once())->method('runCommand')
 			->with(null, array())
 			->will($this->returnValue(true));
 
-		$Dispatcher->TestShell = $Mock;
+		$Dispatcher->TestShell = $Shell;
 
 		$Dispatcher->args = array('mock_with_main');
 		$result = $Dispatcher->dispatch();
@@ -460,10 +466,7 @@ class ShellDispatcherTest extends CakeTestCase {
  */
 	public function testDispatchShellWithoutMain() {
 		$Dispatcher = new TestShellDispatcher();
-		$Shell = $this->getMock('Shell', array(), array(), 'MockWithoutMainShell');
-
-		$Shell = new MockWithoutMainShell();
-		$this->mockObjects[] = $Shell;
+		$Shell = $this->getMock('Shell');
 
 		$Shell->expects($this->once())->method('initialize');
 		$Shell->expects($this->once())->method('runCommand')
@@ -484,9 +487,9 @@ class ShellDispatcherTest extends CakeTestCase {
  */
 	public function testDispatchNotAShellWithMain() {
 		$Dispatcher = new TestShellDispatcher();
-		$methods = get_class_methods('Object');
+		$methods = get_class_methods('CakeObject');
 		array_push($methods, 'main', 'initdb', 'initialize', 'loadTasks', 'startup', '_secret');
-		$Shell = $this->getMock('Object', $methods, array(), 'MockWithMainNotAShell');
+		$Shell = $this->getMock('CakeObject', $methods);
 
 		$Shell->expects($this->never())->method('initialize');
 		$Shell->expects($this->once())->method('startup');
@@ -498,8 +501,7 @@ class ShellDispatcherTest extends CakeTestCase {
 		$this->assertTrue($result);
 		$this->assertEquals(array(), $Dispatcher->args);
 
-		$Shell = new MockWithMainNotAShell($Dispatcher);
-		$this->mockObjects[] = $Shell;
+		$Shell = $this->getMock('CakeObject', $methods);
 		$Shell->expects($this->once())->method('initdb')->will($this->returnValue(true));
 		$Shell->expects($this->once())->method('startup');
 		$Dispatcher->TestShell = $Shell;
@@ -516,9 +518,9 @@ class ShellDispatcherTest extends CakeTestCase {
  */
 	public function testDispatchNotAShellWithoutMain() {
 		$Dispatcher = new TestShellDispatcher();
-		$methods = get_class_methods('Object');
+		$methods = get_class_methods('CakeObject');
 		array_push($methods, 'main', 'initdb', 'initialize', 'loadTasks', 'startup', '_secret');
-		$Shell = $this->getMock('Object', $methods, array(&$Dispatcher), 'MockWithoutMainNotAShell');
+		$Shell = $this->getMock('CakeObject', $methods);
 
 		$Shell->expects($this->never())->method('initialize');
 		$Shell->expects($this->once())->method('startup');
@@ -530,8 +532,7 @@ class ShellDispatcherTest extends CakeTestCase {
 		$this->assertTrue($result);
 		$this->assertEquals(array(), $Dispatcher->args);
 
-		$Shell = new MockWithoutMainNotAShell($Dispatcher);
-		$this->mockObjects[] = $Shell;
+		$Shell = $this->getMock('CakeObject', $methods);
 		$Shell->expects($this->once())->method('initdb')->will($this->returnValue(true));
 		$Shell->expects($this->once())->method('startup');
 		$Dispatcher->TestShell = $Shell;
