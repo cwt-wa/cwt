@@ -63,7 +63,7 @@ class SchedulesController extends AppController
         $schedules['opponents'] = !@array_key_exists(0, $opps) ? $opps : false;
 
         $schedules['datetimes'] = array(
-            'days' => $this->Schedule->daysLeft(),
+            'days' => $this->Schedule->daysLeft(mktime()),
             'times' => $this->Schedule->getTimes()
         );
 

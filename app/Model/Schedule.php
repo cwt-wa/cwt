@@ -109,26 +109,15 @@ class Schedule extends AppModel
     }
 
     // Returns all days left from today till end of year.
-    public function daysLeft()
+    public function daysLeft($subj, $daysAhead = 7)
     {
-        if (gmdate('m-d') == '12-31') {
-            return 0;
+        $arr = [gmdate('Y-m-d', $subj) => gmdate('M j', $subj)];
+
+        for ($i = 1; $i <= $daysAhead; $i++) {
+            $arr[gmdate('Y-m-d', strtotime("+$i day"))] = gmdate('M j', strtotime("+$i day"));
         }
 
-        $daysLeft = array();
-        $daysLeft[gmdate('Y-m-d')] = gmdate('M j');
-        $skipDays = 1;
-
-        while (true) {
-            $daysLeft[gmdate('Y-m-d', strtotime("+$skipDays day"))] =
-                gmdate('M j', strtotime("+$skipDays day"));
-
-            if (gmdate('Y-m-d', strtotime("+$skipDays day")) == gmdate('Y') . '-12-31') {
-                return $daysLeft;
-            }
-
-            $skipDays++;
-        }
+        return $arr;
     }
 
     // Returns valid times to submit. Half an hour rhythm.
