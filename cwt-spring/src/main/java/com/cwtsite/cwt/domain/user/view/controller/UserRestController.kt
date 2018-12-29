@@ -1,10 +1,13 @@
 package com.cwtsite.cwt.domain.user.view.controller
 
 import com.cwtsite.cwt.domain.application.service.ApplicationService
+import com.cwtsite.cwt.domain.core.exception.BadRequestException
 import com.cwtsite.cwt.domain.core.exception.NotFoundException
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
+import com.cwtsite.cwt.domain.user.view.model.UserChangeDto
 import com.cwtsite.cwt.domain.user.view.model.UserDetailDto
 import com.cwtsite.cwt.domain.user.view.model.UserOverviewDto
 import com.cwtsite.cwt.domain.user.view.model.UserStatsDto
@@ -12,16 +15,14 @@ import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("api/user")
 class UserRestController @Autowired
-constructor(private val userService: UserService, private val applicationService: ApplicationService) {
+constructor(private val userService: UserService, private val applicationService: ApplicationService, private val authService: AuthService) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun register(): ResponseEntity<List<User>> {
@@ -79,6 +80,25 @@ constructor(private val userService: UserService, private val applicationService
                         "userStats.participations,Participations",
                         "username,Username",
                         "userProfile.country,Country")))
+    }
+
+    @RequestMapping("/{id}", method = [RequestMethod.POST])
+    fun changeUser(@RequestBody userChangeDto: UserChangeDto,
+                   @PathVariable("id") id: Long,
+                   request: HttpServletRequest): ResponseEntity<UserChangeDto> {
+        var user = assertUser(id)
+
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
+            throw BadRequestException("You are not allowed to change another user.")
+        }
+
+        try {
+            user = userService.changeUser(user, userChangeDto.about, userChangeDto.username, userChangeDto.country)
+        } catch (e: UserService.InvalidUsernameException) {
+            throw BadRequestException("Username invalid.")
+        }
+
+        return ResponseEntity.ok(UserChangeDto.toDto(user))
     }
 
     private fun assertUser(id: Long): User = userService.getById(id).orElseThrow { NotFoundException() }

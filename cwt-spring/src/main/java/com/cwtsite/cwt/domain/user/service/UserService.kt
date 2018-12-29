@@ -126,6 +126,19 @@ constructor(private val userRepository: UserRepository,
         return userRepository.findAll(PageRequest.of(page, size, extendedSort))
     }
 
+    @Throws(UserService.InvalidUsernameException::class)
+    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: String? = null): User {
+        if (newUsername != null) {
+            if (validateUsername(newUsername)) user.username = newUsername
+            else throw InvalidUsernameException()
+        }
+
+        if (newAboutText != null) user.about = newAboutText;
+        if (newCountry != null) user.country = newCountry;
+
+        return userRepository.save(user)
+    }
+
     fun findAllOrderedByUsername(): List<User> = userRepository.findAll(Sort.by(Sort.Direction.ASC, "username"))
 
     fun validateUsername(username: String): Boolean = username.length <= 16 && username.matches("^[a-zA-Z0-9]+$".toRegex())
