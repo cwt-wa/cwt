@@ -30,7 +30,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
     typeAheadResultFormatter: (value: User) => string;
 
     constructor(@Inject(APP_CONFIG) private appConfig: AppConfig, private requestService: RequestService,
-                private router: Router) {
+                private router: Router, private utils: Utils) {
         this.numberOfGroups = this.appConfig.tournament.numberOfGroups;
         this.usersPerGroup = this.appConfig.tournament.usersPerGroup;
 
@@ -67,7 +67,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
             }
         }
 
-        randomlyDrawnGroups.forEach(x => Utils.shuffleArray(x.users));
+        randomlyDrawnGroups.forEach(x => this.utils.shuffleArray(x.users));
 
         this.requestService.post('tournament/current/group/many', randomlyDrawnGroups)
             .subscribe(
