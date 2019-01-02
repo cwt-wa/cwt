@@ -9,8 +9,8 @@ describe('PlayoffsService', () => {
         function allUsersWereDrawn(draw: GameCreationDto[], usersByPlace: number[][]) {
             const actuallyDrawnUsers: number[] = draw
                 .reduce<number[]>((previousValue: number[], currentValue: GameCreationDto) => {
-                    previousValue.push(currentValue.homeUser);
-                    previousValue.push(currentValue.awayUser);
+                    if (currentValue.homeUser != null) previousValue.push(currentValue.homeUser);
+                    if (currentValue.awayUser != null) previousValue.push(currentValue.awayUser);
                     return previousValue;
                 }, [] as number[])
                 .sort();
@@ -37,9 +37,33 @@ describe('PlayoffsService', () => {
             }
 
             expect(draw.length)
-                .toEqual(usersByPlace.reduce((prev, curr) => prev + curr.length, 0) / 2);
+                .toEqual(Math.ceil(usersByPlace.reduce((prev, curr) => prev + curr.length, 0) / 2));
 
-            draw.forEach(game => {
+            // Free win expected.
+            const possibleRemainders = usersByPlace[Math.floor(usersByPlace.length / 2)];
+            let remainderGame: GameCreationDto;
+            let luckyWinnerGame: GameCreationDto;
+            if (usersByPlace.length % 2 !== 0 && possibleRemainders.length % 2 !== 0) {
+                const luckyWinnerGameCandidates = draw
+                    .filter(g => g.awayUser === null);
+                expect(luckyWinnerGameCandidates.length)
+                    .toBe(1, "There's only one lucky winner.");
+                luckyWinnerGame = luckyWinnerGameCandidates[0];
+                expect(usersByPlace[0])
+                    .toContain(luckyWinnerGame.homeUser, "The lucky winner is a first-placed home user.");
+
+                const remainderGameCandidates = draw
+                    .filter(g => possibleRemainders.indexOf(g.homeUser) !== -1)
+                    .filter(g => usersByPlace[usersByPlace.length - 1].indexOf(g.awayUser) !== -1);
+                expect(remainderGameCandidates.length)
+                    .toBe(1, "There should be one remainder playing as home user against an opponent first-placed would have had.");
+                remainderGame = remainderGameCandidates[0];
+            }
+
+            draw
+                .filter(g => g === remainderGame)
+                .filter(g => g === luckyWinnerGame)
+                .forEach(game => {
                 expect(findPlaceOfUser(game.homeUser) + findPlaceOfUser(game.awayUser) === usersByPlace.length + 1)
                     .toBeTruthy();
             })
@@ -63,5 +87,6 @@ describe('PlayoffsService', () => {
         perform([[1, 2, 3, 4], [9, 10, 11, 12]]);
         perform([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]);
         perform([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]);
+        perform([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
     });
 });

@@ -16,13 +16,18 @@ export class PlayoffsService {
                 let homeUsers: number[];
                 let awayUsers: number[];
                 if (indexOfOpponents === idx) {
+                    if (users.length % 2 !== 0) {
+                        const remainder = users.splice(Math.floor(users.length / 2), 1)[0];
+                        const luckyWinner = usersByPlaceAsc[0][Math.ceil(Math.random() * usersByPlaceAsc[0].length) - 1];
+                        games.find(g => g.homeUser === luckyWinner).homeUser = remainder;
+                        games.push({homeUser: luckyWinner, awayUser: null} as GameCreationDto);
+                    }
                     homeUsers = users.slice(0, users.length / 2);
                     awayUsers = users.slice(users.length / 2);
                 } else {
                     homeUsers = users;
                     awayUsers = allUsers[indexOfOpponents];
                 }
-
 
                 games.push(...this.utils.shuffleArray(homeUsers).map(u => {
                     let rndOpponent = awayUsers[Math.ceil(Math.random() * awayUsers.length) - 1];
