@@ -14522,3 +14522,16 @@ INSERT INTO public.message (id, body, category, created, author_id) VALUES (1, '
 alter table tournament alter column max_rounds drop default;
 
 update user_profile set country = null where country = '';
+
+INSERT INTO tournament (id, status, gold_winner_id, silver_winner_id, bronze_winner_id, review, created, max_rounds)
+VALUES (nextval('tournament_seq'), 'OPEN', null, null, null, null, now(), 5);
+
+insert into application (id, created, applicant_id, tournament_id)
+  select
+    nextval('application_seq') as id,
+    now()                      as created,
+    id                         as applicant_id,
+    16                         as tournament_id
+  from user_
+  limit 100;
+
