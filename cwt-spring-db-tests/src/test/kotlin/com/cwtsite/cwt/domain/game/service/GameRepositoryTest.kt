@@ -11,14 +11,14 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.assertj.core.api.Assertions
 import org.hibernate.Hibernate
 import org.junit.Assert
-import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import test.AbstractDbTest
 import java.util.*
+import kotlin.test.Test
 
-class GameRepositoryTest : AbstractDbTest() {
+open class GameRepositoryTest : AbstractDbTest() {
 
     @Autowired
     private lateinit var gameRepository: GameRepository

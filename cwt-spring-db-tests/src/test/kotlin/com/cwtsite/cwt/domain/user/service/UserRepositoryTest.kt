@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import test.AbstractDbTest
 
-class UserRepositoryTest : AbstractDbTest() {
+open class UserRepositoryTest : AbstractDbTest() {
 
     @Autowired
     private lateinit var userRepository: UserRepository

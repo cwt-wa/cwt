@@ -6,7 +6,7 @@ import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import test.AbstractDbTest
 
-class ConfigurationRepositoryTest : AbstractDbTest() {
+open class ConfigurationRepositoryTest : AbstractDbTest() {
 
     @Autowired
     private lateinit var configurationRepository: ConfigurationRepository
