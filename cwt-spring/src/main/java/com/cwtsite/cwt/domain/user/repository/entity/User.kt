@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 @Entity
-@Table(name = "\"USER\"")
+@Table(name = "\"user\"")
 @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 1332, allocationSize = 1)
 data class User(
         @Id

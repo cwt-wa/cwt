@@ -1,9 +1,9 @@
 package com.cwtsite.cwt.domain.group.entity;
 
-import com.cwtsite.cwt.entity.GroupStanding;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.enumeration.GroupLabel;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
+import com.cwtsite.cwt.entity.GroupStanding;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "\"GROUP\"")
+@Table(name = "\"group\"")
 @SequenceGenerator(name = "group_seq", sequenceName = "group_seq", initialValue = 121, allocationSize = 1)
 public class Group implements Serializable {
 
