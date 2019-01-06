@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.domain.tournament.view.controller;
 
-import com.cwtsite.cwt.entity.Application;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.group.service.GroupService;
@@ -12,6 +11,7 @@ import com.cwtsite.cwt.domain.tournament.view.model.StartNewTournamentDto;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.AuthService;
 import com.cwtsite.cwt.domain.user.service.UserService;
+import com.cwtsite.cwt.entity.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +45,7 @@ public class TournamentRestController {
 
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Tournament createTournament(HttpServletRequest request, @RequestBody StartNewTournamentDto startNewTournamentDto) {
-        return tournamentService.startNewTournament(
-                authService.getUserFromToken(request.getHeader(authService.getTokenHeaderName())),
-                startNewTournamentDto.getModeratorIds());
+        return tournamentService.startNewTournament(startNewTournamentDto.getModeratorIds());
     }
 
     @RequestMapping(path = "/{idOrYear}", method = RequestMethod.GET)

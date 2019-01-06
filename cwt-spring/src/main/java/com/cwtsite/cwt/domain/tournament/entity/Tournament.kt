@@ -17,13 +17,10 @@ data class Tournament(
 
         @Enumerated(EnumType.STRING)
         @Column(nullable = false)
-        var status: TournamentStatus,
+        var status: TournamentStatus = TournamentStatus.OPEN,
 
         @Column(columnDefinition = "text")
         var review: String? = null,
-
-        @Column(nullable = false)
-        var open: Timestamp,
 
         @Column(nullable = false)
         var maxRounds: Int,
@@ -31,9 +28,6 @@ data class Tournament(
         @Column(name = "created", nullable = false)
         @CreationTimestamp
         var created: Timestamp? = null,
-
-        @ManyToOne(optional = false)
-        var host: User,
 
         @ManyToOne
         var bronzeWinner: User? = null,

@@ -27,7 +27,7 @@ public class TournamentService {
         this.applicationRepository = applicationRepository;
     }
 
-    public Tournament startNewTournament(final User host, final List<Long> moderatorIds) throws IllegalStateException {
+    public Tournament startNewTournament(final List<Long> moderatorIds) throws IllegalStateException {
         long numberOfUnarchivedTournaments = tournamentRepository.countByStatusNot(TournamentStatus.ARCHIVED);
 
         if (numberOfUnarchivedTournaments > 0) {
@@ -41,7 +41,6 @@ public class TournamentService {
         Tournament tournament = new Tournament();
 
         tournament.getModerators().addAll(moderators);
-        tournament.setHost(host);
         tournament.setStatus(TournamentStatus.OPEN);
 
         return tournamentRepository.save(tournament);
