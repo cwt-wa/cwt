@@ -75,7 +75,7 @@ open class GameRepositoryTest : AbstractDbTest() {
                 .reporterIdUser(redG.dummyUser())
                 .groupIdGroup(gGroup)
 
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
 
         em.find(Tournament::class.java, gTournament.id())
         val group = em.find(Group::class.java, gGroup.id())
@@ -108,7 +108,7 @@ open class GameRepositoryTest : AbstractDbTest() {
         gGame22.homeUserIdUser(gUser)
         gGame22.reporterIdUser(null)
 
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
 
         val tournament = em.find(Tournament::class.java, gTournament.id())
         val user = loadUsersGetOneWorkaround(gUser.id())
@@ -151,6 +151,7 @@ open class GameRepositoryTest : AbstractDbTest() {
         val gUser = redG.addUser()
 
         val gTournament = redG.addTournament()
+                .id(1L)
                 .status(TournamentStatus.PLAYOFFS.name)
 
         createPlayoffGame(redG, gTournament, 1, 1)
@@ -169,7 +170,7 @@ open class GameRepositoryTest : AbstractDbTest() {
                 .homeUserIdUser(null)
                 .id(99L)
 
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
         loadUsersGetOneWorkaround(gUser.id())
 
 
@@ -202,7 +203,7 @@ open class GameRepositoryTest : AbstractDbTest() {
                 .homeUserIdUser(finalGame.homeUserIdUser())
                 .awayUserIdUser(thirdPlaceGame.homeUserIdUser())
 
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
 
         loadUsersWorkaround()
 
@@ -237,7 +238,7 @@ open class GameRepositoryTest : AbstractDbTest() {
                 .homeUserIdUser(redG.dummyUser())
                 .awayUserIdUser(redG.dummyUser())
 
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
 
         loadUsersWorkaround()
 
@@ -256,7 +257,7 @@ open class GameRepositoryTest : AbstractDbTest() {
         redG.addGame().id(2L).addCommentsForGameIdGame(redG.addComment().id(2L), redG.addComment().id(3L))
         redG.addGame().id(3L).addCommentsForGameIdGame()
 
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
 
         val actualPagedGames = gameRepository.findAll(
                 PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "commentsSize")))
@@ -270,7 +271,7 @@ open class GameRepositoryTest : AbstractDbTest() {
     fun lazyPropertyFetching() {
         val redG = createRedG()
         redG.addGame().id(1L).addCommentsForGameIdGame(redG.addComment().id(1L))
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
 
         val game = em.find(Game::class.java, 1L)
 

@@ -1,4 +1,4 @@
-create table user_stats
+create table if not exists user_stats
 (
   user_id        bigint not null,
   trophy_points  int    not null,
@@ -7,5 +7,5 @@ create table user_stats
   constraint fkio2xcw9ogcqb
     primary key (user_id),
   constraint qjy43i7zadjadj
-    foreign key (user_id) references "user",
+    foreign key (user_id) references "user"
 );

@@ -26,7 +26,7 @@ open class UserRepositoryTest : AbstractDbTest() {
         createUserStats(redG, redG.addUser().id(2L).username("2L"), 5, 2)
         redG.addUser().id(3L)
 
-        redG.insertDataIntoDatabase(dataSource)
+        insertRedGIntoDatabase(redG)
 
         Assertions
                 .assertThat(findAllActual("userStats.participations").content.map { it.id })
