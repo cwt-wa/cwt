@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --inline --progress --port 4300 --host 192.168.178.25  --public 192.168.178.25:4300",
+`    "start": "webpack-dev-server --inline false --progress --port 4300",
     "test": "karma start",
     "test-debug": "karma start --debug --browsers=Chrome --single-run=false",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"

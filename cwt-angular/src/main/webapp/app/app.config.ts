@@ -12,7 +12,7 @@ export interface AppConfig {
 }
 
 export const appConfig: AppConfig = {
-    apiEndpoint: 'http://192.168.178.25:9000/api/',
+    apiEndpoint: 'http://localhost:9000/api/',
     tournament: {
         advancingPerGroup: 2,
         numberOfGroups: 8,
