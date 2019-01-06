@@ -18,13 +18,23 @@ const bootstrapCssExtractTextPlugin = new ExtractTextPlugin({
 
 module.exports = {
     entry: {
-        'polyfills': './src/main/webapp/polyfill.ts',
-        'vendor': './src/main/webapp/vendor.ts',
         'app': './src/main/webapp/app/main.ts'
     },
 
     resolve: {
         extensions: ['*', '.ts', '.js']
+    },
+
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendor",
+                    chunks: "initial",
+                },
+            },
+        },
     },
 
     module: {
@@ -69,9 +79,6 @@ module.exports = {
         new FaviconsWebpackPlugin({
             logo: './src/main/webapp/img/favicon.png',
             inject: true
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['app', 'vendor', 'polyfills']
         }),
         new HtmlWebpackPlugin({
             template: './src/main/webapp/app/index.html'
