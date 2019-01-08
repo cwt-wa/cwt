@@ -51,6 +51,7 @@ import {CountryComponent} from "./_util/country.component";
 import {ReachComponent} from "./_util/reach.component";
 import {UserDetailComponent} from "./user/user-detail.component";
 import {PreviousRouteService} from "./_services/previous-route.service";
+import {Utils} from "./_util/utils";
 
 const appRoutes: Routes = [
     {
@@ -201,6 +202,7 @@ const appRoutes: Routes = [
         StandingsOrderPipe,
         TimeAgoService,
         PreviousRouteService,
+        Utils,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     entryComponents: [MentionComponent],
