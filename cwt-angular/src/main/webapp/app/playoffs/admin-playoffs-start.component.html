@@ -1,38 +1,9 @@
 <h1>Playoffs Draw</h1>
-<p class="lead mb-4">
-    Participants from the first branch can only clash with those of the second branch in the final at the earliest. For instance,
-    you might want to put the last year’s finalists into separate branches.<br>
-    Other than that, subsequent games would be matched sequentially. That means by way of example, in the first branch the winner
-    of the first game will play against the winner of the second game in that same branch and so on.<br>
-    For your orientation when doing the draw, follow the pots of the users advancing from the group stage by their position they
-    ended up with in the group stage.
-</p>
-
-<div class="card-deck">
-    <div *ngFor="let pot of numberOfGroupMembersAdvancingIterable" class="card my-1 my-sm-0">
-        <div class="card-body">
-            <h4 class="card-title">Place {{pot + 1}}</h4>
-            <p class="card-text">
-                <span *ngFor="let group of groups; let last = last;">
-                    <span *ngFor="let standing of group.standings | cwtStandingsOrder; let index = index">
-                        <span *ngIf="index === pot">
-                            <cwt-user [username]="standing.user.username"></cwt-user>{{last ? '' : ', '}}
-                        </span>
-                    </span>
-                </span>
-            </p>
-        </div>
-    </div>
-</div>
-
-<hr>
 
 <form #playoffDrawForm="ngForm" class="mt-4" (submit)="submit()">
     <div class="row" *ngIf="games">
-        <div *ngFor="let branchNum of [0, 1];" class="col-lg-6">
-            <h2 class="mt-lg-0 mt-2">{{branchNum === 0 ? 'First' : 'Second'}} Branch</h2>
-            <div class="form-row py-2" [ngClass]="{'bg-light': even}"
-                 *ngFor="let game of (branchNum === 0 ? firstBranchGames : secondBranchGames); let index = index; let even = even;">
+        <div class="col-12 col-md-6 order-2 order-md-1">
+            <div *ngFor="let game of games; let index = index; let even = even;" class="form-row pb-2">
                 <div class="col-12 col-sm-6">
                     <input class="form-control" required placeholder="Home" [(ngModel)]="game.homeUser"
                            name="{{'gameHomeUserRound1Spot' + game.playoff.spot}}" [editable]="false"
@@ -49,18 +20,43 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 col-md-6 order-1 order-md-2">
+            <div class="row">
+                <div *ngFor="let pot of numberOfGroupMembersAdvancingIterable" class="col-12 col-lg-6">
+                    <div class="card-deck mb-2">
+                        <div class="card my-1 my-sm-0">
+                            <div class="card-body">
+                                <h4 class="card-title">Place {{pot + 1}}</h4>
+                                <p class="card-text">
+                                    <span *ngFor="let group of groups; let last = last;">
+                                        <span *ngFor="let standing of group.standings | cwtStandingsOrder; let index = index">
+                                            <span *ngIf="index === pot">
+                                                <cwt-user [username]="standing.user.username"></cwt-user>{{last ? '' : ', '}}
+                                            </span>
+                                        </span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row mt-3">
         <div class="col-md-12">
-            <div class="form-check">
+            <div class="form-check mb-3">
                 <label class="form-check-label">
                     <input type="checkbox" class="form-check-input" required [(ngModel)]="confirm" name="agreeToRuleconfirms">
                     I have reviewed the draw.
                 </label>
             </div>
-            <button class="btn btn-primary"
+            <button class="btn btn-primary mr-1 mb-1" style="width: 190px">
+                Auto Draw Playoffs
+            </button>
+            <button class="btn btn-primary mb-1" style="width: 190px"
                     [disabled]="!playoffDrawForm.form.valid">
-                Draw Playoffs
+                Submit Playoffs Draw
             </button>
         </div>
     </div>

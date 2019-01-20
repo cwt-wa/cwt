@@ -37,14 +37,6 @@ export class AdminPlayoffsStartComponent implements OnInit {
         this.typeAheadResultFormatter = (value: User) => value.username;
     }
 
-    public get firstBranchGames(): GameDetailDto[] {
-        return this.games.filter((value, index) => value && index < this.games.length / 2);
-    }
-
-    public get secondBranchGames(): GameDetailDto[] {
-        return this.games.filter((value, index) => value && index >= this.games.length / 2);
-    }
-
     public get numberOfGroupMembersAdvancingIterable(): number[] {
         const numberOfGroupMembersAdvancingIterable: number[] = [];
 
