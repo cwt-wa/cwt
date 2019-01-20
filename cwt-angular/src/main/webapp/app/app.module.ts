@@ -52,6 +52,7 @@ import {ReachComponent} from "./_util/reach.component";
 import {UserDetailComponent} from "./user/user-detail.component";
 import {PreviousRouteService} from "./_services/previous-route.service";
 import {Utils} from "./_util/utils";
+import {PlayoffsService} from "./_services/playoffs.service";
 
 const appRoutes: Routes = [
     {
@@ -203,6 +204,7 @@ const appRoutes: Routes = [
         TimeAgoService,
         PreviousRouteService,
         Utils,
+        PlayoffsService,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     entryComponents: [MentionComponent],

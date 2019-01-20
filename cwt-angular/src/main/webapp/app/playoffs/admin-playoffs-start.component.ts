@@ -7,6 +7,7 @@ import {Configuration, GameCreationDto, Group} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {Observable} from "rxjs/Observable";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
+import {PlayoffsService} from "../_services/playoffs.service";
 
 @Component({
     selector: 'cwt-admin-playoffs-start',
@@ -22,7 +23,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
     typeAheadResultFormatter: (userId: number) => string;
 
     public constructor(private requestService: RequestService, private configurationService: ConfigurationService,
-                       private standingsOrderPipe: StandingsOrderPipe) {
+                       private standingsOrderPipe: StandingsOrderPipe, private playoffsService: PlayoffsService) {
         this.typeAheadForPlayoffsUser = (text$: Observable<string>) =>
             text$
                 .pipe(distinctUntilChanged())
@@ -75,6 +76,18 @@ export class AdminPlayoffsStartComponent implements OnInit {
                     }
                 }
             );
+    }
+
+    autoDraw() {
+        const usersByPlaceAsc = this.groups.reduce<number[][]>((usersByPlaceAsc: number[][], group: Group, groupIndex: number) => {
+            const sortedUsers = this.standingsOrderPipe.transform(group.standings).map(s => s.user.id);
+            for (let place = 1; place <= this.numberOfGroupMembersAdvancing; place++) {
+                usersByPlaceAsc[place - 1][groupIndex] = sortedUsers[place - 1]
+            }
+            return usersByPlaceAsc;
+        }, new Array(this.numberOfGroupMembersAdvancing).fill(null).map(() => new Array(this.groups.length)));
+
+        this.games = this.playoffsService.randomDraw(usersByPlaceAsc);
     }
 
     public isDrawn(userId: number): boolean {
