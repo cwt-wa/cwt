@@ -73,6 +73,13 @@ export class AdminPlayoffsStartComponent implements OnInit {
             );
     }
 
+    public isDrawn(userId: number): boolean {
+        return this.games
+            .find(
+                g => (g.awayUser != null && g.awayUser.id === userId)
+                    || (g.homeUser != null && g.homeUser.id === userId)) != null;
+    }
+
     public submit(): void {
         const body: GameCreationDto[] = this.games
             .map(g => <GameCreationDto> {
