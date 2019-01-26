@@ -12,14 +12,14 @@
                     Register
                 </a>
             </div>
-            <div class="col-md-6 text-md-right all-petite-caps" *ngIf="authenticatedUser">
+            <div class="col-md-6 text-md-right" *ngIf="authenticatedUser">
                 <a routerLink="/report" class="btn" *ngIf="canReport">
                     Report
                 </a>
                 <a routerLink="/admin" class="btn" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                     Admin
                 </a>
-                <button class="btn all-petite-caps" (click)="logOut()">
+                <button class="btn" (click)="logOut()">
                     Log out
                 </button>
                 <a routerLink="/" class="btn" style="overflow: hidden;">
@@ -60,7 +60,7 @@
                     <a routerLink="/" class="dropdown-item">
                         {{authenticatedUser.username}}
                     </a>
-                    <button class="dropdown-item all-petite-caps" (click)="logOut()">
+                    <button class="dropdown-item" (click)="logOut()">
                         Log out
                     </button>
                     <a routerLink="/" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">

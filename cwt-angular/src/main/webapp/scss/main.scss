@@ -517,9 +517,17 @@ img.loading {
   height: 20px;
 }
 
+.btn,
+button {
+  font-variant: all-petite-caps;
+}
 
 .all-petite-caps {
   font-variant: all-petite-caps;
+}
+
+.font-variant-none {
+  font-variant: none;
 }
 
 .popdown {
