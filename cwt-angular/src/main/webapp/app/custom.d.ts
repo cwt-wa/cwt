@@ -31,9 +31,9 @@ interface Application {
 
 export type ConfigurationKey = "RULES" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING" | "GROUP_GAMES_BEST_OF" | "PLAYOFF_GAMES_BEST_OF" | "FINALE_GAME_BEST_OF" | "NEWS";
 
-export interface Configuration<T> {
+export interface Configuration {
     key: ConfigurationKey;
-    value: T;
+    value: string;
     modified: Date;
     author?: User;
 }

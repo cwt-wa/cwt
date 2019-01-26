@@ -9,11 +9,11 @@ export class ConfigurationService {
     constructor(private requestService: RequestService) {
     }
 
-    public requestByKeys<T>(...configurationKeys: ConfigurationKey[]): Observable<Configuration<T>[]> {
-        return this.requestService.get<Configuration<T>[]>('configuration', {keys: configurationKeys});
+    public requestByKeys(...configurationKeys: ConfigurationKey[]): Observable<Configuration[]> {
+        return this.requestService.get<Configuration[]>('configuration', {keys: configurationKeys});
     }
 
-    public request<T>(): Observable<Configuration<T>> {
-        return this.requestService.get<Configuration<T>>('configuration');
+    public request(): Observable<Configuration> {
+        return this.requestService.get<Configuration>('configuration');
     }
 }

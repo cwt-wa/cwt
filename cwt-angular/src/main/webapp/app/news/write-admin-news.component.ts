@@ -10,13 +10,13 @@ const toastr = require('toastr/toastr.js');
     template: require('./write-admin-news.component.html')
 })
 export class WriteAdminNewsComponent implements OnInit {
-    news: Configuration<string>;
+    news: Configuration;
 
     constructor(private configurationService: ConfigurationService, private requestService: RequestService) {
     }
 
     ngOnInit(): void {
-        this.configurationService.requestByKeys<string>("NEWS")
+        this.configurationService.requestByKeys("NEWS")
             .subscribe(res => this.news = res[0]);
     }
 

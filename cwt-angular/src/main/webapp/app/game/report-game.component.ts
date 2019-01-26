@@ -29,12 +29,12 @@ export class ReportGameComponent implements OnInit {
         this.requestService.get<User[]>(`user/${this.authenticatedUser.id}/group/remaining-opponents`)
             .subscribe(res => this.remainingOpponents = res);
 
-        this.requestService.get<Configuration<number>>('configuration/score-best-of', {'user-id': this.authenticatedUser.id.toString()})
+        this.requestService.get<Configuration>('configuration/score-best-of', {'user-id': this.authenticatedUser.id.toString()})
             .subscribe(res => {
                 this.possibleScores = [];
 
                 let i;
-                for (i = 0; i <= Math.ceil(res.value / 2); i++) {
+                for (i = 0; i <= Math.ceil(parseInt(res.value) / 2); i++) {
                     this.possibleScores.push(i);
                 }
             });

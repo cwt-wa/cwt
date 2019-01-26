@@ -55,11 +55,11 @@ export class AdminPlayoffsStartComponent implements OnInit {
     public ngOnInit(): void {
         observableForkJoin(
             this.requestService.get<Group[]>('tournament/current/group'),
-            this.configurationService.requestByKeys<number>("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
+            this.configurationService.requestByKeys("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
             )
-            .subscribe((res: [Group[], Configuration<number>[]]) => {
+            .subscribe((res: [Group[], Configuration[]]) => {
                     this.groups = res[0];
-                    this.numberOfGroupMembersAdvancing = res[1][0].value;
+                    this.numberOfGroupMembersAdvancing = parseInt(res[1][0].value);
 
                     const numberOfPlayoffSpots: number = this.numberOfGroupMembersAdvancing * this.groups.length / 2;
                     this.games = [];

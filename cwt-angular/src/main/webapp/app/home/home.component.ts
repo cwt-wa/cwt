@@ -8,7 +8,7 @@ import {ConfigurationService} from "../_services/configuration.service";
     template: require('./home.component.html')
 })
 export class HomeComponent implements OnInit {
-    news: Configuration<string>;
+    news: Configuration;
     authenticatedUser: JwtUser;
 
     constructor(private authService: AuthService, private configurationService: ConfigurationService) {
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
     public ngOnInit(): void {
         this.authenticatedUser = this.authService.getUserFromTokenPayload();
 
-        this.configurationService.requestByKeys<string>("NEWS")
+        this.configurationService.requestByKeys("NEWS")
             .subscribe(res => this.news = res[0]);
     }
 }
