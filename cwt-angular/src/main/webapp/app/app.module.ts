@@ -53,6 +53,7 @@ import {UserDetailComponent} from "./user/user-detail.component";
 import {PreviousRouteService} from "./_services/previous-route.service";
 import {Utils} from "./_util/utils";
 import {PlayoffsService} from "./_services/playoffs.service";
+import {ConfirmDirective} from "./_util/confirm.directive";
 
 const appRoutes: Routes = [
     {
@@ -193,7 +194,8 @@ const appRoutes: Routes = [
         PaginatorComponent,
         SorterComponent,
         UserDetailComponent,
-        ReachComponent
+        ReachComponent,
+        ConfirmDirective
     ],
     providers: [
         WebAppViewService,

@@ -47,12 +47,13 @@
         <div class="col-md-12">
             <div class="form-check mb-3">
                 <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" required [(ngModel)]="confirm" name="agreeToRuleconfirms">
+                    <input type="checkbox" class="form-check-input" required [(ngModel)]="confirm"
+                           name="confirmReview" cwtConfirm>
                     I have reviewed the draw.
                 </label>
             </div>
-            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="autoDraw()" style="width: 190px">
-                Auto Draw Playoffs
+            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="autoDraw(); confirm = false;" style="width: 190px">
+                Preview Auto Draw
             </button>
             <button class="btn btn-primary mb-1" style="width: 190px"
                     [disabled]="!playoffDrawForm.form.valid">
