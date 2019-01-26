@@ -42,7 +42,7 @@ export class PlayoffsService {
             }, [] as GameCreationDto[])
             .map((g, idx) => {
                 g.playoff = {
-                    round: 0,
+                    round: 1,
                     spot: idx + 1
                 };
                 return g;
