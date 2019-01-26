@@ -8,6 +8,9 @@ import {ConfigurationService} from "../_services/configuration.service";
 import {Observable} from "rxjs/Observable";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 import {PlayoffsService} from "../_services/playoffs.service";
+import {Router} from "@angular/router";
+
+const toastr = require('toastr/toastr.js');
 
 @Component({
     selector: 'cwt-admin-playoffs-start',
@@ -23,7 +26,8 @@ export class AdminPlayoffsStartComponent implements OnInit {
     typeAheadResultFormatter: (userId: number) => string;
 
     public constructor(private requestService: RequestService, private configurationService: ConfigurationService,
-                       private standingsOrderPipe: StandingsOrderPipe, private playoffsService: PlayoffsService) {
+                       private standingsOrderPipe: StandingsOrderPipe, private playoffsService: PlayoffsService,
+                       private router: Router) {
         this.typeAheadForPlayoffsUser = (text$: Observable<string>) =>
             text$
                 .pipe(distinctUntilChanged())
@@ -99,6 +103,9 @@ export class AdminPlayoffsStartComponent implements OnInit {
 
     public submit(): void {
         this.requestService.post<GameCreationDto[]>('game/many', this.games)
-            .subscribe();
+            .subscribe(() => {
+                toastr.success("Successfully started playoffs.");
+                this.router.navigateByUrl('/playoffs');
+            });
     }
 }
