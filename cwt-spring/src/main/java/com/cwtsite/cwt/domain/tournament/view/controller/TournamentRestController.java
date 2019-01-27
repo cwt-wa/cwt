@@ -1,6 +1,8 @@
 package com.cwtsite.cwt.domain.tournament.view.controller;
 
+import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.game.entity.Game;
+import com.cwtsite.cwt.domain.game.view.model.GameCreationDto;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.group.service.GroupService;
 import com.cwtsite.cwt.domain.group.view.model.GroupDto;
@@ -18,9 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -139,5 +139,35 @@ public class TournamentRestController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<Tournament>> getAllTournaments() {
         return ResponseEntity.ok(tournamentService.getAll());
+    }
+
+    @RequestMapping(value = "current/playoffs/start", method = RequestMethod.POST)
+    public ResponseEntity<List<Game>> startPlayoffs(@RequestBody final List<GameCreationDto> gameCreationDtos) {
+        final List<Long> userIds = gameCreationDtos.stream()
+                .map(gameCreationDto -> Arrays.asList(new Long[]{gameCreationDto.getHomeUser(), gameCreationDto.getAwayUser()}))
+                .reduce((longs, longs2) -> {
+                    final ArrayList<Long> concatenatedLongs = new ArrayList<>(longs);
+                    concatenatedLongs.addAll(longs2);
+                    return concatenatedLongs;
+                })
+                .orElseGet(Collections::emptyList);
+
+        final Tournament currentTournament = tournamentService.getCurrentTournament();
+        final List<User> users = userService.getByIds(userIds);
+
+        final List<Game> games = gameCreationDtos.stream()
+                .map(dto -> GameCreationDto.fromDto(
+                        dto,
+                        users.stream()
+                                .filter(u -> Objects.equals(u.getId(), dto.getHomeUser()))
+                                .findFirst().orElseThrow(NotFoundException::new),
+                        users.stream()
+                                .filter(u -> Objects.equals(u.getId(), dto.getAwayUser()))
+                                .findFirst().orElseThrow(NotFoundException::new),
+                        currentTournament
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(tournamentService.startPlayoffs(games));
     }
 }

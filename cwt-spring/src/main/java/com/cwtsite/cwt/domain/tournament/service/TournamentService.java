@@ -2,6 +2,8 @@ package com.cwtsite.cwt.domain.tournament.service;
 
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository;
 import com.cwtsite.cwt.domain.core.exception.NotFoundException;
+import com.cwtsite.cwt.domain.game.entity.Game;
+import com.cwtsite.cwt.domain.game.service.GameRepository;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus;
 import com.cwtsite.cwt.domain.user.repository.UserRepository;
@@ -9,6 +11,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.entity.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -18,13 +21,15 @@ public class TournamentService {
     private final UserRepository userRepository;
     private final TournamentRepository tournamentRepository;
     private final ApplicationRepository applicationRepository;
+    private final GameRepository gameRepository;
 
     @Autowired
     public TournamentService(UserRepository userRepository, TournamentRepository tournamentRepository,
-                             ApplicationRepository applicationRepository) {
+                             ApplicationRepository applicationRepository, GameRepository gameRepository) {
         this.userRepository = userRepository;
         this.tournamentRepository = tournamentRepository;
         this.applicationRepository = applicationRepository;
+        this.gameRepository = gameRepository;
     }
 
     public Tournament startNewTournament(final List<Long> moderatorIds) throws IllegalStateException {
@@ -70,5 +75,13 @@ public class TournamentService {
 
     public Optional<Tournament> getTournamentByYear(long year) {
         return tournamentRepository.findByYear((int) year);
+    }
+
+    @Transactional
+    public List<Game> startPlayoffs(List<Game> games) {
+        final Tournament currentTournament = getCurrentTournament();
+        currentTournament.setStatus(TournamentStatus.PLAYOFFS);
+        tournamentRepository.save(currentTournament);
+        return gameRepository.saveAll(games);
     }
 }

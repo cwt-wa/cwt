@@ -102,7 +102,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
     }
 
     public submit(): void {
-        this.requestService.post<GameCreationDto[]>('game/many', this.games)
+        this.requestService.post<GameCreationDto[]>('current/playoffs/start', this.games)
             .subscribe(() => {
                 toastr.success("Successfully started playoffs.");
                 this.router.navigateByUrl('/playoffs');

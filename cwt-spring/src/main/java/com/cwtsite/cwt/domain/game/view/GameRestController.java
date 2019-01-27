@@ -10,9 +10,7 @@ import com.cwtsite.cwt.domain.game.service.GameService;
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto;
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto;
 import com.cwtsite.cwt.domain.game.view.model.ReportDto;
-import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.tournament.service.TournamentService;
-import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.cwtsite.cwt.domain.user.service.UserService;
 import com.cwtsite.cwt.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("api/game")
@@ -97,36 +94,6 @@ public class GameRestController {
                 .contentLength(resource.contentLength())
                 .contentType(MediaType.parseMediaType(game.getReplay().getMediaType()))
                 .body(resource);
-    }
-
-    @RequestMapping(value = "/many", method = RequestMethod.POST)
-    public ResponseEntity<List<Game>> reportManyGamesWithoutReportFile(@RequestBody final List<GameCreationDto> gameCreationDtos) {
-        final List<Long> userIds = gameCreationDtos.stream()
-                .map(gameCreationDto -> Arrays.asList(new Long[]{gameCreationDto.getHomeUser(), gameCreationDto.getAwayUser()}))
-                .reduce((longs, longs2) -> {
-                    final ArrayList<Long> concatenatedLongs = new ArrayList<>(longs);
-                    concatenatedLongs.addAll(longs2);
-                    return concatenatedLongs;
-                })
-                .orElseGet(Collections::emptyList);
-
-        final Tournament currentTournament = tournamentService.getCurrentTournament();
-        final List<User> users = userService.getByIds(userIds);
-
-        final List<Game> games = gameCreationDtos.stream()
-                .map(dto -> GameCreationDto.fromDto(
-                        dto,
-                        users.stream()
-                                .filter(u -> Objects.equals(u.getId(), dto.getHomeUser()))
-                                .findFirst().orElseThrow(NotFoundException::new),
-                        users.stream()
-                                .filter(u -> Objects.equals(u.getId(), dto.getAwayUser()))
-                                .findFirst().orElseThrow(NotFoundException::new),
-                        currentTournament
-                ))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(gameService.saveAll(games));
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
