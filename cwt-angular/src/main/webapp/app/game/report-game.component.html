@@ -11,6 +11,7 @@
                 <div class="col-6 col-sm-2">
                     <label for="your-score" class="sr-only">Your Score</label>
                     <select id="your-score" class="form-control mr-1" [(ngModel)]="report.scoreOfUser" name="userScore" required>
+                        <option value=""></option>
                         <option *ngFor="let score of possibleScores" [value]="score">
                             {{score}}
                         </option>
@@ -20,6 +21,7 @@
                     <label for="opponent-score" class="sr-only">Opponent Score</label>
                     <select id="opponent-score" class="form-control mr-1" [(ngModel)]="report.scoreOfOpponent"
                             name="opponentScore" required>
+                        <option value=""></option>
                         <option *ngFor="let score of possibleScores" [value]="score">
                             {{score}}
                         </option>
@@ -28,6 +30,7 @@
                 <div class="col-12 col-sm-4">
                     <label for="opponent" class="sr-only">Opponent</label>
                     <select id="opponent" [(ngModel)]="report.opponent" name="opponent" class="form-control mr-1" required>
+                        <option value="" *ngIf="remainingOpponents?.length > 1"></option>
                         <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
                             {{opponent.username}}
                         </option>
