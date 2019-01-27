@@ -14535,3 +14535,7 @@ insert into application (id, created, applicant_id, tournament_id)
   from user_
   limit 100;
 
+
+update "user"
+set password_hash       = null,
+    password_legacy_hash='51bf293b2a7ebf5d5699e5f54ff9ac7e8ab1cf7b'; -- dev
