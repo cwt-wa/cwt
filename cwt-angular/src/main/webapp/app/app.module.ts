@@ -54,6 +54,7 @@ import {PreviousRouteService} from "./_services/previous-route.service";
 import {Utils} from "./_util/utils";
 import {PlayoffsService} from "./_services/playoffs.service";
 import {ConfirmDirective} from "./_util/confirm.directive";
+import {ValidateResultDirective} from "./_util/validate-result.directive";
 
 const appRoutes: Routes = [
     {
@@ -195,7 +196,8 @@ const appRoutes: Routes = [
         SorterComponent,
         UserDetailComponent,
         ReachComponent,
-        ConfirmDirective
+        ConfirmDirective,
+        ValidateResultDirective
     ],
     providers: [
         WebAppViewService,

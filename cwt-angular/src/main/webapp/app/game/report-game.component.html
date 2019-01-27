@@ -2,7 +2,8 @@
 
 <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-10">
-        <form #reportForm="ngForm" (submit)="submit()" enctype="multipart/form-data">
+        <form #reportForm="ngForm" (submit)="submit()" enctype="multipart/form-data"
+              [cwtValidateResult]="[scoreOfUserElem, scoreOfOpponentElem]">
             <div class="form-row">
                 <div class="col-12 col-sm-4">
                     <label for="authenticatedUser" class="sr-only">Your username</label>
@@ -10,7 +11,8 @@
                 </div>
                 <div class="col-6 col-sm-2">
                     <label for="your-score" class="sr-only">Your Score</label>
-                    <select id="your-score" class="form-control mr-1" [(ngModel)]="report.scoreOfUser" name="userScore" required>
+                    <select id="your-score" class="form-control mr-1" [(ngModel)]="report.scoreOfUser"
+                            name="userScore" required #scoreOfUserElem>
                         <option value=""></option>
                         <option *ngFor="let score of possibleScores" [value]="score">
                             {{score}}
@@ -20,7 +22,7 @@
                 <div class="col-6 col-sm-2">
                     <label for="opponent-score" class="sr-only">Opponent Score</label>
                     <select id="opponent-score" class="form-control mr-1" [(ngModel)]="report.scoreOfOpponent"
-                            name="opponentScore" required>
+                            name="opponentScore" required #scoreOfOpponentElem>
                         <option value=""></option>
                         <option *ngFor="let score of possibleScores" [value]="score">
                             {{score}}
@@ -57,5 +59,6 @@
 </div>
 
 
+<pre class="mt-5">{{scoreOfUserElem.name}}</pre>
 <pre class="mt-5">{{report | json}}</pre>
 <pre>{{remainingOpponents | json}}</pre>
