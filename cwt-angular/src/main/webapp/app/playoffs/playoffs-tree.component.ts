@@ -22,7 +22,7 @@ export class PlayoffsTreeComponent implements OnInit {
                 const gamesInFirstRound = res
                     .filter(g => g.playoff.round === 1)
                     .length;
-                const numberOfRounds = Math.log2(gamesInFirstRound) + 1;
+                const numberOfRounds = Math.log2(gamesInFirstRound) + 1; // 4
 
                 this.playoffGames = new Array<GameDetailDto[]>(numberOfRounds)
                     .fill(null)
@@ -39,8 +39,15 @@ export class PlayoffsTreeComponent implements OnInit {
 
                         existingGamesInRound.reverse();
 
-                        const existingAndUpcomingGamesInRound: GameDetailDto[] = new Array(...existingGamesInRound)
-                            .fill(<GameDetailDto> {}, 0, (expectedNumberOfGamesInRound) - existingGamesInRound.length);
+                        const existingAndUpcomingGamesInRound: GameDetailDto[] = [...existingGamesInRound]
+                            .concat(new Array(expectedNumberOfGamesInRound - existingGamesInRound.length)
+                                .fill(null)
+                                .map((_value, idx) => ({
+                                    playoff: {
+                                        round: round,
+                                        spot: existingGamesInRound.length + idx
+                                    }
+                                } as GameDetailDto)));
 
                         existingAndUpcomingGamesInRound.sort((a, b) => a.playoff && b.playoff
                             ? (a.playoff.spot > b.playoff.spot ? 1 : -1)
