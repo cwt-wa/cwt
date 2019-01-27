@@ -27,7 +27,13 @@ export class ReportGameComponent implements OnInit {
         this.report.user = this.authenticatedUser.id;
 
         this.requestService.get<User[]>(`user/${this.authenticatedUser.id}/group/remaining-opponents`)
-            .subscribe(res => this.remainingOpponents = res);
+            .subscribe(res => {
+                this.remainingOpponents = res;
+
+                if (this.remainingOpponents.length === 1) {
+                    this.report.opponent = this.remainingOpponents[0].id;
+                }
+            });
 
         this.requestService.get<Configuration>('configuration/score-best-of', {'user-id': this.authenticatedUser.id.toString()})
             .subscribe(res => {
