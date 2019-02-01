@@ -14,8 +14,8 @@ import java.util.Date;
 @RestController
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(AbstractRestException.class)
-    public ResponseEntity<?> handleAllExceptions(AbstractRestException ex, WebRequest request) {
+    @ExceptionHandler(RestException.class)
+    public ResponseEntity<?> handleAllExceptions(RestException ex, WebRequest request) {
         final RestError restError = new RestError(
                 ex.getMessage(),
                 ((ServletWebRequest) request).getRequest().getRequestURI(),

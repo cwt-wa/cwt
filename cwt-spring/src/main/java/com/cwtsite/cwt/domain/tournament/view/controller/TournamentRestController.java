@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.domain.tournament.view.controller;
 
-import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto;
 import com.cwtsite.cwt.domain.group.entity.Group;
@@ -160,10 +159,10 @@ public class TournamentRestController {
                         dto,
                         users.stream()
                                 .filter(u -> Objects.equals(u.getId(), dto.getHomeUser()))
-                                .findFirst().orElseThrow(NotFoundException::new),
+                                .findFirst().orElseThrow(RuntimeException::new),
                         users.stream()
                                 .filter(u -> Objects.equals(u.getId(), dto.getAwayUser()))
-                                .findFirst().orElseThrow(NotFoundException::new),
+                                .findFirst().orElseThrow(RuntimeException::new),
                         currentTournament
                 ))
                 .collect(Collectors.toList());

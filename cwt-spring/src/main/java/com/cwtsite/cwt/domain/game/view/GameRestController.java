@@ -1,8 +1,7 @@
 package com.cwtsite.cwt.domain.game.view;
 
+import com.cwtsite.cwt.controller.RestException;
 import com.cwtsite.cwt.core.FileValidator;
-import com.cwtsite.cwt.domain.core.exception.BadRequestException;
-import com.cwtsite.cwt.domain.core.exception.NotFoundException;
 import com.cwtsite.cwt.domain.core.view.model.PageDto;
 import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.game.entity.Rating;
@@ -74,17 +73,18 @@ public class GameRestController {
                 | FileValidator.IllegalFileContentTypeException
                 | FileValidator.FileTooLargeException
                 | FileValidator.IllegalFileExtension e) {
-            throw new BadRequestException(e.getMessage());
+            throw new RestException(e.getMessage(), HttpStatus.BAD_REQUEST, e);
         }
         return ResponseEntity.ok(GameCreationDto.toDto(game));
     }
 
     @RequestMapping(value = "/{gameId}/replay", method = RequestMethod.GET)
     public ResponseEntity<Resource> download(@PathVariable("gameId") long gameId) throws IOException {
-        final Game game = gameService.get(gameId).orElseThrow(NotFoundException::new);
+        final Game game = gameService.get(gameId)
+                .orElseThrow(() -> new RestException("Game " + gameId + " not found", HttpStatus.NOT_FOUND, null));
 
         if (game.getReplay() == null) {
-            throw new NotFoundException("There's no replay file for this game.");
+            throw new RestException("There's no replay file for this game.", HttpStatus.NOT_FOUND, null);
         }
 
         ByteArrayResource resource = new ByteArrayResource(game.getReplay().getFile());

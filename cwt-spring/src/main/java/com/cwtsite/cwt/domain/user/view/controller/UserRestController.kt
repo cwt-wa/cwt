@@ -1,8 +1,7 @@
 package com.cwtsite.cwt.domain.user.view.controller
 
+import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.application.service.ApplicationService
-import com.cwtsite.cwt.domain.core.exception.BadRequestException
-import com.cwtsite.cwt.domain.core.exception.NotFoundException
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -14,6 +13,7 @@ import com.cwtsite.cwt.domain.user.view.model.UserStatsDto
 import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -89,17 +89,18 @@ constructor(private val userService: UserService, private val applicationService
         var user = assertUser(id)
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
-            throw BadRequestException("You are not allowed to change another user.")
+            throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
         }
 
         try {
             user = userService.changeUser(user, userChangeDto.about, userChangeDto.username, userChangeDto.country)
         } catch (e: UserService.InvalidUsernameException) {
-            throw BadRequestException("Username invalid.")
+            throw RestException("Username invalid.", HttpStatus.BAD_REQUEST, null)
         }
 
         return ResponseEntity.ok(UserChangeDto.toDto(user))
     }
 
-    private fun assertUser(id: Long): User = userService.getById(id).orElseThrow { NotFoundException() }
+    private fun assertUser(id: Long): User = userService.getById(id)
+            .orElseThrow { RestException("User $id not found", HttpStatus.NOT_FOUND, null) }
 }
