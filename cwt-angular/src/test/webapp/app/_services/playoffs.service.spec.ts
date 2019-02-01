@@ -78,7 +78,7 @@ describe('PlayoffsService', () => {
             randomDraw
                 .sort((a, b) => a.playoff.spot - b.playoff.spot)
                 .forEach((g, idx) => {
-                    expect(g.playoff.round).toEqual(0);
+                    expect(g.playoff.round).toEqual(1);
                     expect(g.playoff.spot).toEqual(idx + 1);
                 })
         }
