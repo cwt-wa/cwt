@@ -18,6 +18,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
+import org.assertj.core.api.Assertions
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -200,20 +201,15 @@ class GameServiceTest {
                 .`when`(gameService.getBestOfValue(TournamentStatus.PLAYOFFS))
                 .thenReturn(createGroupGameBestOfConfiguration(ConfigurationKey.PLAYOFF_GAMES_BEST_OF))
 
-        try {
-            gameService.reportGame(homeUserId, awayUserId, 3, 1)
-            Assert.fail()
-        } catch (ignored: GameService.InvalidScoreException) {
-        }
+        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 3, 1) }
+                .isExactlyInstanceOf(GameService.InvalidScoreException::class.java)
 
-        try {
-            gameService.reportGame(homeUserId, awayUserId, 0, 1)
-            Assert.fail()
-        } catch (ignored: GameService.InvalidScoreException) {
-        }
+        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 0, 1) }
+                .isExactlyInstanceOf(GameService.InvalidScoreException::class.java)
 
         Mockito
                 .`when`(userService.getRemainingOpponents(MockitoUtils.anyObject()))
+                .thenReturn(listOf(EntityDefaults.user(99)))
                 .thenReturn(listOf(EntityDefaults.user(99)))
                 .thenReturn(listOf(awayUser))
 
@@ -225,12 +221,11 @@ class GameServiceTest {
                 .`when`(userRepository.findById(awayUserId))
                 .thenReturn(Optional.of(awayUser))
 
-        try {
-            gameService.reportGame(homeUserId, awayUserId, 1, 2)
-            Assert.fail()
-        } catch (ignored: GameService.InvalidOpponentException) {
-        }
+        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 2, 0) }
+                .isExactlyInstanceOf(GameService.InvalidOpponentException::class.java)
 
+        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 1, 2) }
+                .isExactlyInstanceOf(GameService.InvalidOpponentException::class.java)
     }
 
     private fun createGroup(tournament: Tournament): Group {

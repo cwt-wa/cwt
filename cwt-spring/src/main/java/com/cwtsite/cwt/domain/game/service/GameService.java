@@ -92,12 +92,13 @@ public class GameService {
     public Game reportGame(long homeUserId, long awayUserId, int homeScore, int awayScore)
             throws InvalidOpponentException, InvalidScoreException, IllegalTournamentStatusException {
         final Tournament currentTournament = tournamentService.getCurrentTournament();
-        final Configuration bestOfValue = getBestOfValue(currentTournament.getStatus());
+        final Integer bestOfValue = Integer.valueOf(getBestOfValue(currentTournament.getStatus()).getValue());
+        final double winnerScore = Math.ceil(Double.valueOf(bestOfValue) / 2);
 
-        if (homeScore + awayScore != Integer.valueOf(bestOfValue.getValue())) {
+        if ((homeScore != winnerScore && awayScore != winnerScore) || (homeScore + awayScore > bestOfValue)) {
             throw new InvalidScoreException(String.format(
                     "Score %s-%s should have been best of %s.",
-                    homeScore, awayScore, bestOfValue.getValue()));
+                    homeScore, awayScore, bestOfValue));
         } else if (homeScore < 0 || awayScore < 0) {
             throw new InvalidScoreException(String.format(
                     "Score %s-%s should not include negative scores.", homeScore, awayScore));
