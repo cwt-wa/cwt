@@ -13,7 +13,7 @@ public class Replay implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Lob
+    @Column
     private byte[] file;
 
     @Column
