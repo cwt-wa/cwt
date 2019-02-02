@@ -21,7 +21,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
                 ((ServletWebRequest) request).getRequest().getRequestURI(),
                 ex.getStatus().value(),
                 new Date());
-
+        logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(ex.getStatus()).body(restError);
     }
 }
