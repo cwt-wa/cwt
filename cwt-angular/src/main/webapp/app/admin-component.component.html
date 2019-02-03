@@ -1,17 +1,32 @@
-<h1>Admin</h1>
-
-<a routerLink="/admin/tournaments/start" class="btn btn-primary">
-    Start a New Tournament
-</a>
-
-<a routerLink="/admin/groups/start" class="btn btn-primary">
-    Start Group Stage
-</a>
-
-<a routerLink="/admin/playoffs/start" class="btn btn-primary">
-    Start Playoffs
-</a>
-
-<!--
- TODO secondary nav with nested views
--->
+<div class="row justify-content-center">
+    <div class="col-10 col-sm-6 offset-md-1 col-md-5">
+        <h2>Administrative</h2>
+        <ul>
+            <li>
+                <a routerLink="/admin/news">
+                    Write admin news
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-10 col-sm-6 col-md-5">
+        <h2>Tournament</h2>
+        <ul>
+            <li>
+                <a routerLink="/admin/tournaments/start">
+                    Start a new tournament
+                </a>
+            </li>
+            <li>
+                <a routerLink="/admin/groups/start">
+                    Start group stage
+                </a>
+            </li>
+            <li>
+                <a routerLink="/admin/playoffs/start">
+                    Start playoffs
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
