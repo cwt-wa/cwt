@@ -152,7 +152,8 @@
             <div *ngIf="newComment">
                 <form #commentForm="ngForm" (ngSubmit)="submitComment()">
                     <textarea rows="3" class="form-control" placeholder="Write a comment…" required
-                              [(ngModel)]="newComment.body" name="comment">
+                              [(ngModel)]="newComment.body" name="comment"
+                              (keyup.control.enter)="commentForm.onSubmit($event)">
                     </textarea>
                     <div class="float-right">
                         <button class="btn btn-primary mt-1" style="width: 80px"

@@ -4,7 +4,7 @@
             <div class="form-group">
                 <textarea class="form-control" id="text" aria-describedby="text"
                           placeholder="Write some news for everyone to see…"
-                          rows="20"
+                          rows="20" (keyup.control.enter)="newsForm.onSubmit($event)"
                           [(ngModel)]="news.value" name="text" #text="ngModel" required>
                 </textarea>
             </div>
