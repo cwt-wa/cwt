@@ -15,6 +15,7 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusException
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
 import org.springframework.beans.factory.annotation.Autowired
@@ -170,6 +171,13 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
     fun findPaginated(page: Int, size: Int, sort: Sort): Page<Game> {
         return gameRepository.findAll(PageRequest.of(page, size, sort))
+    }
+
+    @Transactional
+    fun addTechWin(winner: User, loser: User): Game {
+        return reportGame(
+                winner.id!!, loser.id!!,
+                Math.ceil(getBestOfValue(tournamentService.currentTournament.status).value.toDouble() / 2).toInt(), 0)
     }
 
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)

@@ -8,6 +8,7 @@ import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
 import com.cwtsite.cwt.domain.game.view.model.ReportDto
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.service.UserService
@@ -111,5 +112,12 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
     fun commentGame(@PathVariable("id") id: Long, @RequestBody comment: CommentDto): Comment {
         return gameService.commentGame(id, comment.user, comment.body)
+    }
+
+    @RequestMapping("/tech-win", method = arrayOf(RequestMethod.POST))
+    fun addTechWin(@RequestBody dto: GameTechWinDto): ResponseEntity<GameCreationDto> {
+        val users = userService.findByIds(dto.winner, dto.loser)
+        return ResponseEntity.ok(GameCreationDto.toDto(
+                gameService.addTechWin(users.find { it.id == dto.winner }!!, users.find { it.id == dto.loser }!!)))
     }
 }

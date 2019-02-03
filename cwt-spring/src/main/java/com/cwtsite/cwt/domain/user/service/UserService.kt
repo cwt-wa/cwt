@@ -155,6 +155,8 @@ constructor(private val userRepository: UserRepository,
 
     fun findAll(): List<User> = userRepository.findAll()
 
+    fun findByIds(vararg userId: Long): List<User> = userRepository.findAllById(userId.toList())
+
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 
     inner class InvalidUsernameException : RuntimeException()
