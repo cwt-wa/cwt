@@ -49,6 +49,7 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
     fun usersWhoAreStillInTournamentAndCanReportGames(): ResponseEntity<List<UserMinimalDto>> {
         // TODO Bad performance.
+        // TODO Provide data on possible clashes.
         return ResponseEntity.ok(
                 userService.findAll()
                         .filter { userService.userCanReportForCurrentTournament(it) }
