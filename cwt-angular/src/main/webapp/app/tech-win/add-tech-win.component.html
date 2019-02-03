@@ -1,0 +1,33 @@
+<img *ngIf="!users" src="../../img/loading.gif"/>
+
+<div class="row justify-content-center" *ngIf="users">
+    <div class="col-xs-6 col-sm-6 col-md-5">
+        <form #techWinForm="ngForm" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label>Winner</label>
+                <input type="text" class="form-control" id="winner" aria-describedby="Winner username" placeholder="Winner"
+                       [(ngModel)]="game.winner" name="winner" required
+                       [ngbTypeahead]="typeAhead"
+                       [inputFormatter]="typeAheadInputFormatter"
+                       [resultFormatter]="typeAheadResultFormatter"
+                       [focusFirst]="!(users.length <= 16)" [typeaheadOpenOnFocus]="users.length <= 16">
+            </div>
+            <div class="form-group">
+                <label>Loser</label>
+                <input type="text" class="form-control" id="loser" aria-describedby="Loser username" placeholder="Loser"
+                       [(ngModel)]="game.loser" name="loser" required
+                       [ngbTypeahead]="typeAhead"
+                       [inputFormatter]="typeAheadInputFormatter"
+                       [resultFormatter]="typeAheadResultFormatter"
+                       [focusFirst]="!(users.length <= 16)" [typeaheadOpenOnFocus]="users.length <= 16">
+            </div>
+            <button type="submit" class="btn btn-primary pull-right"
+                    [disabled]="techWinForm.form.invalid || game.winner === game.loser">
+                Add Tech Win
+            </button>
+        </form>
+    </div>
+</div>
+
+<pre>{{game|json}}</pre>
+<pre>{{users|json}}</pre>

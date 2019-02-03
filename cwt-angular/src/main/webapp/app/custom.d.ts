@@ -77,6 +77,11 @@ export interface UserDetailDto {
     userStats: UserStatsDto[];
 }
 
+export interface UserMinimalDto {
+    id: number;
+    username: string;
+}
+
 export type GroupLabel = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
 
 export interface GroupStanding {
@@ -150,6 +155,11 @@ export interface GameCreationDto {
         round: number;
         spot: number;
     }
+}
+
+export interface GameTechWinDto {
+    winner: number;
+    loser: number;
 }
 
 export interface RatingDto {

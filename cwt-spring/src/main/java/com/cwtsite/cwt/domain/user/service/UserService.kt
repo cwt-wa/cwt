@@ -153,6 +153,8 @@ constructor(private val userRepository: UserRepository,
 
     fun getByIds(ids: List<Long>): List<User> = userRepository.findAllById(ids)
 
+    fun findAll(): List<User> = userRepository.findAll()
+
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 
     inner class InvalidUsernameException : RuntimeException()

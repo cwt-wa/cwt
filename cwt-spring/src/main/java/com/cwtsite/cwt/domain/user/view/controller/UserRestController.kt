@@ -6,10 +6,7 @@ import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
-import com.cwtsite.cwt.domain.user.view.model.UserChangeDto
-import com.cwtsite.cwt.domain.user.view.model.UserDetailDto
-import com.cwtsite.cwt.domain.user.view.model.UserOverviewDto
-import com.cwtsite.cwt.domain.user.view.model.UserStatsDto
+import com.cwtsite.cwt.domain.user.view.model.*
 import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
@@ -47,6 +44,15 @@ constructor(private val userService: UserService, private val applicationService
                     user,
                     UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
         }
+    }
+
+    @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
+    fun usersWhoAreStillInTournamentAndCanReportGames(): ResponseEntity<List<UserMinimalDto>> {
+        // TODO Bad performance.
+        return ResponseEntity.ok(
+                userService.findAll()
+                        .filter { userService.userCanReportForCurrentTournament(it) }
+                        .map { UserMinimalDto.toDto(it) })
     }
 
     @RequestMapping("/{id}/can-report", method = [RequestMethod.GET])

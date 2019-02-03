@@ -55,6 +55,8 @@ import {Utils} from "./_util/utils";
 import {PlayoffsService} from "./_services/playoffs.service";
 import {ConfirmDirective} from "./_util/confirm.directive";
 import {ValidateResultDirective} from "./_util/validate-result.directive";
+import {AddTechWinComponent} from "./tech-win/add-tech-win.component";
+import {TypeaheadOpenOnFocusDirective} from "./_util/typeahead-open-on-focus.directive";
 
 const appRoutes: Routes = [
     {
@@ -142,6 +144,10 @@ const appRoutes: Routes = [
         component: WriteAdminNewsComponent
     },
     {
+        path: 'admin/tech-win',
+        component: AddTechWinComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -197,7 +203,9 @@ const appRoutes: Routes = [
         UserDetailComponent,
         ReachComponent,
         ConfirmDirective,
-        ValidateResultDirective
+        ValidateResultDirective,
+        TypeaheadOpenOnFocusDirective,
+        AddTechWinComponent
     ],
     providers: [
         WebAppViewService,
