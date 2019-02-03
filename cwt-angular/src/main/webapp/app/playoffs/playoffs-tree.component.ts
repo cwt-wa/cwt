@@ -38,14 +38,18 @@ export class PlayoffsTreeComponent implements OnInit {
                         }
 
                         existingGamesInRound.reverse();
+                        const freeSpotsInRound = new Array(expectedNumberOfGamesInRound)
+                            .fill(null)
+                            .map((_value, idx) => idx + 1)
+                            .filter(s => existingGamesInRound.findIndex(g => g.playoff.spot === s) === -1);
 
                         const existingAndUpcomingGamesInRound: GameDetailDto[] = [...existingGamesInRound]
                             .concat(new Array(expectedNumberOfGamesInRound - existingGamesInRound.length)
                                 .fill(null)
-                                .map((_value, idx) => ({
+                                .map(() => ({
                                     playoff: {
                                         round: round,
-                                        spot: existingGamesInRound.length + idx
+                                        spot: freeSpotsInRound.pop()
                                     }
                                 } as GameDetailDto)));
 
@@ -66,11 +70,5 @@ export class PlayoffsTreeComponent implements OnInit {
     public getExistingGamesInRound(round: number, games: GameDetailDto[]): GameDetailDto[] {
         return games
             .filter(g => g.playoff.round === round);
-    }
-
-    public get debug() {
-        return this.playoffGames
-            .map((a, i) => a
-                .map(g => <any> {home: g.homeUser && g.homeUser.username, away: g.awayUser && g.awayUser.username, round: i}))
     }
 }
