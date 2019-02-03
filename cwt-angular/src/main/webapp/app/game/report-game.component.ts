@@ -57,7 +57,7 @@ export class ReportGameComponent implements OnInit {
         this.requestService.formDataPost('game', formData)
             .subscribe(
                 (res: GameCreationDto) => {
-                    this.router.navigateByUrl(`/game/${res.id}`);
+                    this.router.navigateByUrl(`/games/${res.id}`);
                     toastr.success("Successfully saved.");
                 },
                 (err: ServerError) => {
