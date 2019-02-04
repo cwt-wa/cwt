@@ -80,11 +80,12 @@ constructor(private val userRepository: UserRepository,
 
     fun getRemainingOpponents(user: User): List<User> {
         val currentTournament = tournamentService.currentTournament
-        val group = groupRepository.findByTournamentAndUser(currentTournament, user)
-        val games = gameRepository.findPlayedByUserInGroup(user, group)
         val remainingOpponents: List<User>
 
         if (currentTournament.status == TournamentStatus.GROUP) {
+            val group = groupRepository.findByTournamentAndUser(currentTournament, user)
+            val games = gameRepository.findPlayedByUserInGroup(user, group)
+
             remainingOpponents = group.standings
                     .filter { groupStanding -> groupStanding.user != user }
                     .map { it.user }
