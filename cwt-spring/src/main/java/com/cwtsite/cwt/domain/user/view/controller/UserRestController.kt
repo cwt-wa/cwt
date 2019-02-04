@@ -3,6 +3,10 @@ package com.cwtsite.cwt.domain.user.view.controller
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.application.service.ApplicationService
 import com.cwtsite.cwt.domain.core.view.model.PageDto
+import com.cwtsite.cwt.domain.group.service.GroupService
+import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
+import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
@@ -19,7 +23,9 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("api/user")
 class UserRestController @Autowired
-constructor(private val userService: UserService, private val applicationService: ApplicationService, private val authService: AuthService) {
+constructor(private val userService: UserService, private val applicationService: ApplicationService,
+            private val authService: AuthService, private val tournamentService: TournamentService,
+            private val groupService: GroupService, private val playoffService: PlayoffService) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun register(): ResponseEntity<List<User>> {
@@ -48,10 +54,22 @@ constructor(private val userService: UserService, private val applicationService
 
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
     fun usersWhoAreStillInTournamentAndCanReportGames(): ResponseEntity<List<UserMinimalDto>> {
-        // TODO Bad performance.
-        // TODO Provide data on possible clashes.
+        val currentTournament = tournamentService.getCurrentTournament()
+
+        val users = when {
+            currentTournament.status == TournamentStatus.GROUP ->
+                groupService.findAllGroupMembers(currentTournament)
+            currentTournament.status == TournamentStatus.PLAYOFFS ->
+                playoffService.getGamesOfTournament(currentTournament)
+                        .flatMap { listOf(it.homeUser, it.awayUser) }
+                        .filterNotNull()
+                        .distinct()
+            else ->
+                emptyList()
+        }
+
         return ResponseEntity.ok(
-                userService.findAll()
+                users
                         .filter { userService.userCanReportForCurrentTournament(it) }
                         .map { UserMinimalDto.toDto(it) })
     }

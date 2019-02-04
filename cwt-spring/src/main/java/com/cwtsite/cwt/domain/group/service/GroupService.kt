@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
+import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.GroupStanding
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -68,6 +69,8 @@ constructor(private val groupRepository: GroupRepository, private val groupStand
     }
 
     fun save(groups: List<Group>): List<Group> = groupRepository.saveAll(groups)
+
+    fun findAllGroupMembers(tournament: Tournament): List<User> = groupRepository.findAllGroupMembers(tournament)
 
     fun getGroupsForTournament(tournament: Tournament): List<Group> = groupRepository.findByTournament(tournament)
 }

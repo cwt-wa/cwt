@@ -4,7 +4,9 @@ import com.btc.redg.generated.GUser
 import com.btc.redg.generated.RedG
 import com.btc.redg.runtime.AbstractRedG
 import com.btc.redg.runtime.RedGEntity
+import com.btc.redg.runtime.defaultvalues.DefaultValueStrategyBuilder
 import com.btc.redg.runtime.dummy.DefaultDummyFactory
+import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import org.hibernate.Session
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,6 +47,11 @@ abstract class AbstractDbTest {
                     return super.getDummy(redG, dummyClass)
                 }
             }
+        }
+
+        redG.defaultValueStrategy = with(DefaultValueStrategyBuilder()) {
+            whenTableNameMatches("tournament").andColumnNameMatches("status").thenUse(TournamentStatus.GROUP.name)
+            build()
         }
 
         return redG
