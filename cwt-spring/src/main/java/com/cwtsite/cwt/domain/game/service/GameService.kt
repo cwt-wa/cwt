@@ -58,7 +58,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class)
     fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int): Game {
-        val currentTournament = tournamentService.currentTournament
+        val currentTournament = tournamentService.getCurrentTournament()
         val bestOfValue = Integer.valueOf(getBestOfValue(currentTournament.status).value)
         val winnerScore = Math.ceil(java.lang.Double.valueOf(bestOfValue.toDouble()) / 2)
 
@@ -177,7 +177,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun addTechWin(winner: User, loser: User): Game {
         return reportGame(
                 winner.id!!, loser.id!!,
-                Math.ceil(getBestOfValue(tournamentService.currentTournament.status).value.toDouble() / 2).toInt(), 0)
+                Math.ceil(getBestOfValue(tournamentService.getCurrentTournament().status).value.toDouble() / 2).toInt(), 0)
     }
 
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)

@@ -47,15 +47,15 @@ constructor(private val userRepository: UserRepository,
     }
 
     fun userCanApplyForCurrentTournament(user: User): Boolean {
-        val currentTournament = tournamentService.currentTournament
+        val currentTournament = tournamentService.getCurrentTournament()
 
-        return (currentTournament != null && TournamentStatus.OPEN == currentTournament.status
+        return (TournamentStatus.OPEN == currentTournament.status
                 && applicationRepository.findByApplicantAndTournament(user, currentTournament) == null)
     }
 
     fun userCanReportForCurrentTournament(user: User): Boolean {
         val userCanReportForCurrentTournament: Boolean
-        val currentTournament = tournamentService.currentTournament ?: return false
+        val currentTournament = tournamentService.getCurrentTournament() ?: return false
 
         if (currentTournament.status == TournamentStatus.GROUP) {
             val group = this.groupRepository.findByTournamentAndUser(currentTournament, user)
@@ -79,7 +79,7 @@ constructor(private val userRepository: UserRepository,
     }
 
     fun getRemainingOpponents(user: User): List<User> {
-        val currentTournament = tournamentService.currentTournament
+        val currentTournament = tournamentService.getCurrentTournament()
         val remainingOpponents: List<User>
 
         if (currentTournament.status == TournamentStatus.GROUP) {

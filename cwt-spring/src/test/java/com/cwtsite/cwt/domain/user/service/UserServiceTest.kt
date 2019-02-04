@@ -46,7 +46,7 @@ class UserServiceTest {
         tournament.status = TournamentStatus.GROUP
 
         Mockito
-                .`when`(tournamentService.currentTournament)
+                .`when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
 
         val group = Group()

@@ -190,7 +190,7 @@ class GameServiceTest {
     private fun mockAndAssertValidationHappeningBeforeActualReport(
             homeUserId: Long, awayUserId: Long, tournament: Tournament, awayUser: User, homeUser: User) {
         Mockito
-                .`when`(tournamentService.currentTournament)
+                .`when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
 
         Mockito

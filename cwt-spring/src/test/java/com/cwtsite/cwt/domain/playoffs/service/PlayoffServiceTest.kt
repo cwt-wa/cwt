@@ -213,7 +213,7 @@ class PlayoffServiceTest {
                 .thenAnswer { invocation -> findReadyGamesInRoundEqualOrGreaterThanAnswer(invocation, 0) }
 
         Mockito
-                .`when`(tournamentService.currentTournament)
+                .`when`(tournamentService.getCurrentTournament())
                 .thenAnswer { EntityDefaults.tournament(status = TournamentStatus.GROUP) }
                 .thenAnswer { EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS) }
 

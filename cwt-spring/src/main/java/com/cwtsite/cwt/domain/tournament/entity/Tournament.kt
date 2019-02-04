@@ -13,7 +13,7 @@ data class Tournament(
         @Id
         @SequenceGenerator(name = "tournament_seq", sequenceName = "tournament_seq", initialValue = 16, allocationSize = 1)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tournament_seq")
-        val id: Long,
+        val id: Long? = null,
 
         @Enumerated(EnumType.STRING)
         @Column(nullable = false)
@@ -22,8 +22,8 @@ data class Tournament(
         @Column(columnDefinition = "text")
         var review: String? = null,
 
-        @Column(nullable = false)
-        var maxRounds: Int,
+        @Column
+        var maxRounds: Int? = null,
 
         @Column(name = "created", nullable = false)
         @CreationTimestamp
