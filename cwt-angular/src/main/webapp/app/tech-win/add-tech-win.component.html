@@ -5,21 +5,25 @@
         <form #techWinForm="ngForm" (ngSubmit)="submit()">
             <div class="form-group">
                 <label>Winner</label>
-                <input type="text" class="form-control" id="winner" aria-describedby="Winner username" placeholder="Winner"
-                       [(ngModel)]="game.winner" name="winner" required
-                       [ngbTypeahead]="typeAhead"
-                       [inputFormatter]="typeAheadInputFormatter"
-                       [resultFormatter]="typeAheadResultFormatter"
-                       [focusFirst]="!(users.length <= 16)" [typeaheadOpenOnFocus]="users.length <= 16">
+                <select id="winner" [(ngModel)]="game.winner" name="winner" class="custom-select" required
+                        (change)="onWinnerSelection()" [disabled]="loadingRemainingOpponents">
+                    <option value=""></option>
+                    <option *ngFor="let user of users;" [value]="user.id">
+                        {{user.username}}
+                    </option>
+                </select>
             </div>
-            <div class="form-group">
-                <label>Loser</label>
-                <input type="text" class="form-control" id="loser" aria-describedby="Loser username" placeholder="Loser"
-                       [(ngModel)]="game.loser" name="loser" required
-                       [ngbTypeahead]="typeAhead"
-                       [inputFormatter]="typeAheadInputFormatter"
-                       [resultFormatter]="typeAheadResultFormatter"
-                       [focusFirst]="!(users.length <= 16)" [typeaheadOpenOnFocus]="users.length <= 16">
+            <div class="form-group" *ngIf="!loadingRemainingOpponents && remainingOpponents?.length">
+                <label id="loser-label" for="loser">Loser</label>
+                <select id="loser" [(ngModel)]="game.loser" name="loser" class="custom-select" required>
+                    <option value="" *ngIf="remainingOpponents?.length > 1"></option>
+                    <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
+                        {{opponent.username}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="loadingRemainingOpponents" style="height:70px">
+                <img src="../../img/loading.gif"/>
             </div>
             <button type="submit" class="btn btn-primary pull-right"
                     [disabled]="techWinForm.form.invalid || game.winner === game.loser">

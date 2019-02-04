@@ -26,7 +26,7 @@ export class ReportGameComponent implements OnInit {
         this.authenticatedUser = this.authService.getUserFromTokenPayload();
         this.report.user = this.authenticatedUser.id;
 
-        this.requestService.get<User[]>(`user/${this.authenticatedUser.id}/group/remaining-opponents`)
+        this.requestService.get<User[]>(`user/${this.authenticatedUser.id}/remaining-opponents`)
             .subscribe(res => {
                 this.remainingOpponents = res;
 

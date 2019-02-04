@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {GameCreationDto, GameTechWinDto, UserMinimalDto} from "../custom";
-import {Observable} from "rxjs";
-import {distinctUntilChanged} from "rxjs/operators";
+import {GameCreationDto, GameTechWinDto, User, UserMinimalDto} from "../custom";
+import {finalize} from "rxjs/operators";
 import {Router} from "@angular/router";
 
 const toastr = require('toastr/toastr.js');
@@ -14,12 +13,8 @@ const toastr = require('toastr/toastr.js');
 export class AddTechWinComponent implements OnInit {
     users: UserMinimalDto[];
     game: GameTechWinDto = {} as GameTechWinDto;
-
-    typeAhead: (text: Observable<string>) => Observable<any[]> = (text: Observable<string>) => text
-        .pipe(distinctUntilChanged())
-        .map(term => this.users.filter(u => u.username.toLowerCase().indexOf(term.toLowerCase()) !== -1).map(u => u.id));
-    typeAheadInputFormatter = (userId: number) => this.users.find(u => u.id === userId).username;
-    typeAheadResultFormatter = (userId: number) => this.users.find(u => u.id === userId).username;
+    remainingOpponents: User[];
+    loadingRemainingOpponents: boolean = false;
 
     constructor(private requestService: RequestService, private router: Router) {
     }
@@ -27,6 +22,16 @@ export class AddTechWinComponent implements OnInit {
     ngOnInit(): void {
         this.requestService.get<UserMinimalDto[]>("user/still-in-tournament")
             .subscribe(res => this.users = res);
+    }
+
+    onWinnerSelection() {
+        this.loadingRemainingOpponents = true;
+        this.requestService.get<User[]>(`user/${this.game.winner}/remaining-opponents`)
+            .pipe(finalize(() => this.loadingRemainingOpponents = false))
+            .subscribe(res => {
+                this.remainingOpponents = res;
+                if (this.remainingOpponents.length === 1) this.game.loser = this.remainingOpponents[0].id;
+            });
     }
 
     submit() {

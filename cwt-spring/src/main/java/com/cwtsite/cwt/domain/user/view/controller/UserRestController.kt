@@ -66,7 +66,7 @@ constructor(private val userService: UserService, private val applicationService
         return ResponseEntity.ok(this.applicationService.apply(assertUser(id)))
     }
 
-    @RequestMapping("/{id}/group/remaining-opponents", method = [RequestMethod.GET])
+    @RequestMapping("/{id}/remaining-opponents", method = [RequestMethod.GET])
     fun getRemainingOpponents(@PathVariable("id") id: Long): ResponseEntity<List<User>> {
         val user = assertUser(id)
         return ResponseEntity.ok(userService.getRemainingOpponents(user))
