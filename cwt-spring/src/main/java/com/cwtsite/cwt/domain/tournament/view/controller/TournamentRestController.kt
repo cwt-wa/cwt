@@ -139,4 +139,20 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
         return ResponseEntity.ok(tournamentService.startPlayoffs(games))
     }
+
+    @RequestMapping("current/group/users")
+    fun getGroupUsersOfCurrentTournament(): ResponseEntity<List<UserMinimalDto>> {
+        return ResponseEntity.ok(groupService.getGroupsForTournament(tournamentService.getCurrentTournament())
+                .flatMap { it.standings.map { s -> s.user } }
+                .map { UserMinimalDto.toDto(it) })
+    }
+
+    @RequestMapping("{id}/group/users")
+    fun getGroupUsersOfTournament(@PathVariable("id") tournamentId: Long): ResponseEntity<List<UserMinimalDto>> {
+        return ResponseEntity.ok(groupService.getGroupsForTournament(
+                tournamentService.getTournament(tournamentId)
+                        .orElseThrow { RestException("Tournament $tournamentId not found", HttpStatus.NOT_FOUND, null) })
+                .flatMap { it.standings.map { s -> s.user } }
+                .map { UserMinimalDto.toDto(it) })
+    }
 }

@@ -57,6 +57,7 @@ import {ConfirmDirective} from "./_util/confirm.directive";
 import {ValidateResultDirective} from "./_util/validate-result.directive";
 import {AddTechWinComponent} from "./tech-win/add-tech-win.component";
 import {TypeaheadOpenOnFocusDirective} from "./_util/typeahead-open-on-focus.directive";
+import {ReplacePlayerComponent} from "./replace-player/replace-player.component";
 
 const appRoutes: Routes = [
     {
@@ -148,6 +149,10 @@ const appRoutes: Routes = [
         component: AddTechWinComponent
     },
     {
+        path: 'admin/replace-player',
+        component: ReplacePlayerComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -205,7 +210,8 @@ const appRoutes: Routes = [
         ConfirmDirective,
         ValidateResultDirective,
         TypeaheadOpenOnFocusDirective,
-        AddTechWinComponent
+        AddTechWinComponent,
+        ReplacePlayerComponent
     ],
     providers: [
         WebAppViewService,

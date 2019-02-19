@@ -162,6 +162,11 @@ export interface GameTechWinDto {
     loser: number;
 }
 
+export interface ReplacePlayerDto {
+    toBeReplaced: number;
+    replacement: number;
+}
+
 export interface RatingDto {
     type: RatingType;
     user: number
