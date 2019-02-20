@@ -49,10 +49,10 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return String.format(
                 "%s_%s_%s-%s_%s.%s",
                 game.id,
-                game.homeUser.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
+                game.homeUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
                 game.scoreHome, game.scoreAway,
-                game.awayUser.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
-                game.replay.extension)
+                game.awayUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
+                game.replay!!.extension)
     }
 
     @Transactional
@@ -149,7 +149,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return gameRepository.saveAll(games)
     }
 
-    operator fun get(id: Long): Optional<Game> {
+    fun findById(id: Long): Optional<Game> {
         return gameRepository.findById(id)
     }
 

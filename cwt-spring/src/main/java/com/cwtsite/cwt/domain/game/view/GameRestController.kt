@@ -33,7 +33,7 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
-        return gameService.get(id)
+        return gameService.findById(id)
                 .map { body -> ResponseEntity.ok(GameDetailDto.toDto(body)) }
                 .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
     }
@@ -79,19 +79,19 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/{gameId}/replay", method = [RequestMethod.GET])
     @Throws(IOException::class)
     fun download(@PathVariable("gameId") gameId: Long): ResponseEntity<Resource> {
-        val game = gameService.get(gameId)
+        val game = gameService.findById(gameId)
                 .orElseThrow { RestException("Game $gameId not found", HttpStatus.NOT_FOUND, null) }
 
         if (game.replay == null) {
             throw RestException("There's no replay file for this game.", HttpStatus.NOT_FOUND, null)
         }
 
-        val resource = ByteArrayResource(game.replay.file)
+        val resource = ByteArrayResource(game.replay!!.file)
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + gameService.createReplayFileName(game))
                 .contentLength(resource.contentLength())
-                .contentType(MediaType.parseMediaType(game.replay.mediaType))
+                .contentType(MediaType.parseMediaType(game.replay!!.mediaType))
                 .body(resource)
     }
 
@@ -114,7 +114,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         return gameService.commentGame(id, comment.user, comment.body)
     }
 
-    @RequestMapping("/tech-win", method = arrayOf(RequestMethod.POST))
+    @RequestMapping("/tech-win", method = [RequestMethod.POST])
     fun addTechWin(@RequestBody dto: GameTechWinDto): ResponseEntity<GameCreationDto> {
         val users = userService.findByIds(dto.winner, dto.loser)
         return ResponseEntity.ok(GameCreationDto.toDto(

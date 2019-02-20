@@ -1,0 +1,81 @@
+package com.cwtsite.cwt.domain.game.entity
+
+import com.cwtsite.cwt.domain.group.entity.Group
+import com.cwtsite.cwt.domain.tournament.entity.Tournament
+import com.cwtsite.cwt.domain.user.repository.entity.User
+import com.cwtsite.cwt.entity.Comment
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.Formula
+import org.hibernate.annotations.UpdateTimestamp
+import java.sql.Timestamp
+import javax.persistence.*
+
+@Entity
+@Table(name = "game")
+@SequenceGenerator(name = "game_seq", sequenceName = "game_seq", initialValue = 1219, allocationSize = 1)
+data class Game(
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_seq")
+        var id: Long? = null,
+
+        @Column(name = "score_home")
+        var scoreHome: Int? = null,
+
+        @Column(name = "score_away")
+        var scoreAway: Int? = null,
+
+        @Column(name = "tech_win")
+        var isTechWin: Boolean? = false,
+
+        @Column(name = "downloads")
+        var downloads: Int? = null,
+
+        @Column(name = "created")
+        @CreationTimestamp
+        var created: Timestamp? = null,
+
+        @Column(name = "modified")
+        @UpdateTimestamp
+        var modified: Timestamp? = null,
+
+        @OneToOne(cascade = [CascadeType.ALL])
+        @JoinColumn(unique = true)
+        var playoff: PlayoffGame? = null,
+
+        @ManyToOne
+        var tournament: Tournament? = null,
+
+        @JsonIgnore
+        @ManyToOne
+        @JoinColumn(name = "group_id")
+        var group: Group? = null,
+
+        @ManyToOne
+        var homeUser: User? = null,
+
+        @ManyToOne
+        var awayUser: User? = null,
+
+        @ManyToOne
+        var reporter: User? = null,
+
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+        var ratings: List<Rating>? = null,
+
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+        var comments: List<Comment>? = null,
+
+        @JsonIgnore
+        @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+        var replay: Replay? = null,
+
+        @Basic(fetch = FetchType.LAZY)
+        @Formula("(select count(*) from COMMENT c where c.GAME_ID = id)")
+        val commentsSize: Int? = null,
+
+        @Basic(fetch = FetchType.LAZY)
+        @Formula("(select count(*) from RATING r where r.GAME_ID = id)")
+        val ratingsSize: Int? = null
+)
