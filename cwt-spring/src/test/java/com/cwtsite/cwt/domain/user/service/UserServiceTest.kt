@@ -50,14 +50,14 @@ class UserServiceTest {
                 .thenReturn(tournament)
 
         val group = Group()
-        group.standings = createStandings(group, user)
+        group.standings.addAll(createStandings(group, user))
 
         Mockito
                 .`when`(groupRepository.findByTournamentAndUser(Mockito.any(), Mockito.any()))
                 .thenReturn(group)
         Mockito
                 .`when`(gameRepository.findPlayedByUserInGroup(Mockito.any(), Mockito.any()))
-                .thenReturn(createGames(group))
+                .thenReturn(createGames(group, tournament))
 
         Assertions
                 .assertThat(userService.getRemainingOpponents(user))
@@ -81,10 +81,10 @@ class UserServiceTest {
 
     private fun createStandings(group: Group, user: User): List<GroupStanding> {
         return Arrays.asList(
-                GroupStanding(group, user),
-                GroupStanding(group, EntityDefaults.user(2)),
-                GroupStanding(group, EntityDefaults.user(3)),
-                GroupStanding(group, EntityDefaults.user(4))
+                GroupStanding(user),
+                GroupStanding(EntityDefaults.user(2)),
+                GroupStanding(EntityDefaults.user(3)),
+                GroupStanding(EntityDefaults.user(4))
         )
     }
 

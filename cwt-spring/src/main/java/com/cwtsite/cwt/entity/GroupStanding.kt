@@ -1,8 +1,6 @@
 package com.cwtsite.cwt.entity
 
-import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.user.repository.entity.User
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -26,14 +24,21 @@ data class GroupStanding(
         @Column(name = "round_ratio")
         var roundRatio: Int = 0,
 
-        @JsonIgnore
-        @ManyToOne
-        @JoinColumn(name = "group_id")
-        var group: Group,
+//        @JsonIgnore
+//        @ManyToOne
+//        @JoinColumn(name = "group_id")
+//        var group: Group,
 
         @ManyToOne
         var user: User
 ) {
 
-    constructor(group: Group, user: User) : this(id = null, group = group, user = user)
+    constructor(user: User) : this(id = null, user = user)
+
+    fun reset() {
+        points = 0
+        games = 0
+        gameRatio = 0
+        roundRatio = 0
+    }
 }

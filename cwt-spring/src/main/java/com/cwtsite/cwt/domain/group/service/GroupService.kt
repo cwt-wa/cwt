@@ -17,8 +17,34 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 class GroupService @Autowired
-constructor(private val groupRepository: GroupRepository, private val groupStandingRepository: GroupStandingRepository,
-            private val tournamentRepository: TournamentRepository, private val configurationService: ConfigurationService) {
+constructor(private val groupRepository: GroupRepository,
+            private val tournamentRepository: TournamentRepository, private val configurationService: ConfigurationService,
+            private val userRepository: UserRepository, private val tournamentService: TournamentService,
+            private val gameRepository: GameRepository) {
+
+    @Transactional
+    fun replacePlayer(idOfUserObsolete: Long, idOfUserNew: Long): Group {
+        val obsoleteUser = userRepository.findById(idOfUserObsolete).orElseThrow { IllegalArgumentException() }
+        val replacementUser = userRepository.findById(idOfUserNew).orElseThrow { IllegalArgumentException() }
+
+        val group = groupRepository.findByTournamentAndUser(
+                tournamentService.getCurrentTournament(), obsoleteUser) ?: throw RuntimeException()
+
+        (group.standings.find { it.user == obsoleteUser } ?: throw RuntimeException()).user = replacementUser
+        group.standings.onEach { it.reset() }
+
+        val gamesOfGroup = gameRepository.findByGroup(group)
+
+        gamesOfGroup
+                .filter { it.wasPlayedBy(obsoleteUser) }
+                .onEach { it.voided = true }
+
+        gamesOfGroup
+                .filterNot { it.voided }
+                .onEach { calcTableByGame(it) }
+
+        return group
+    }
 
     fun calcTableByGame(game: Game) {
         val standingOfHomeUser = game.group!!.standings
