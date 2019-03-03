@@ -62,7 +62,7 @@ constructor(private val groupRepository: GroupRepository, private val groupStand
     }
 
     private fun getPointsForScore(pointsPattern: List<IntArray>, score: Int): Int =
-            pointsPattern.find { it[0] == score }?.get(1) ?: throw RuntimeException()
+            pointsPattern.find { it[0] == score }?.get(1) ?: 0
 
     @Transactional
     fun startGroupStage(tournament: Tournament, groups: List<Group>): List<Group> {
