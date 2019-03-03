@@ -55,8 +55,8 @@ constructor(private val groupRepository: GroupRepository, private val groupStand
         standingOfWinner.gameRatio = standingOfWinner.gameRatio + 1
         standingOfLoser.gameRatio = standingOfLoser.gameRatio - 1
 
-        standingOfWinner.games = standingOfHomeUser.games + 1
-        standingOfLoser.games = standingOfAwayUser.games + 1
+        standingOfWinner.games = standingOfWinner.games + 1
+        standingOfLoser.games = standingOfLoser.games + 1
 
         groupStandingRepository.saveAll(listOf(standingOfWinner, standingOfLoser))
     }
