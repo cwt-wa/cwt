@@ -10,7 +10,6 @@ import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
 import com.cwtsite.cwt.domain.game.view.model.ReportDto
-import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,7 +28,7 @@ import java.util.*
 @RestController
 @RequestMapping("api/game")
 class GameRestController @Autowired
-constructor(private val gameService: GameService, private val userService: UserService, private val tournamentService: TournamentService) {
+constructor(private val gameService: GameService, private val userService: UserService) {
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
