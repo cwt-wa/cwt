@@ -1,4 +1,8 @@
-abstract class Figure {
+import {Cell} from "../grid/cell";
+import {CellUtils} from "../services/cell-utils";
+import {Grid} from "../grid/grid";
+
+export abstract class Figure {
 
     private cells: Cell[];
     private color: String;
@@ -9,21 +13,21 @@ abstract class Figure {
     private indexOfSmallestYPosition: number = 0;
     private rotateCounter: number = 0;
 
-    constructor(color: String) {
+    constructor(color: String, grid: Grid) {
         this.color = color;
         this.landed = false;
-        this.cells = this.createFigure();
+        this.cells = this.createFigure(grid);
         this.setIndexOfHighestYPosition(CellUtils.calculateIndexOfHighestYPosition(this.cells));
         this.setIndexOfSmallestYPosition(CellUtils.calculateIndexOfSmallestYPosition(this.cells));
         this.setIndexOfSmallestXPosition(CellUtils.calculateIndexOfSmallestXPosition(this.cells));
         this.setIndexOfHighestXPosition(CellUtils.calculateIndexOfGreatestXPosition(this.cells));
     }
 
-    abstract createFigure(): Cell[];
+    abstract createFigure(grid: Grid): Cell[];
 
     abstract rotateFigure(clone: any): void;
 
-    protected rotate(): void {
+    protected rotate(grid: Grid): void {
 
         const clone = JSON.parse(JSON.stringify(this));
 
@@ -56,10 +60,11 @@ abstract class Figure {
         }
     }
 
-    public draw() {
+    public draw(grid : Grid) : Grid{
         for (let cell of this.getCells()) {
             grid.getGrid()[cell.getYPos()][cell.getXPos()].setColor(cell.getColor());
         }
+        return grid;
     }
 
     public fallDown(grid: Grid, fallenCells: Cell[]) {
@@ -127,7 +132,7 @@ abstract class Figure {
                 break;
 
             case "ArrowUp":
-                this.rotate();
+                this.rotate(grid);
                 break;
         }
 

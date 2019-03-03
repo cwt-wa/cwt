@@ -1,4 +1,6 @@
-class Grid {
+import {Cell} from "./cell";
+
+export class Grid {
 
     private width: number;
     private height: number;
@@ -33,7 +35,7 @@ class Grid {
         }
     }
 
-    updateGrid() {
+    updateGrid(fallenCells : Cell[]) : Cell[] {
 
         for (let matrix of this.grid) {
             for (let cell of matrix) {
@@ -44,6 +46,8 @@ class Grid {
         for (let i = 0; i < fallenCells.length; i++) {
             this.grid[fallenCells[i].getYPos()][fallenCells[i].getXPos()].setColor(fallenCells[i].getColor());
         }
+
+        return fallenCells;
 
     }
 

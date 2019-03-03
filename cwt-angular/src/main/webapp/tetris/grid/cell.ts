@@ -1,4 +1,4 @@
-class Cell {
+export class Cell {
 
     static readonly WIDTH = 40;
 

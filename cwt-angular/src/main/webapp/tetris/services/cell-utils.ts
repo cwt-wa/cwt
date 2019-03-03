@@ -1,4 +1,6 @@
-class CellUtils {
+import {Cell} from "../grid/cell";
+
+export class CellUtils {
 
     public static calculateIndexOfHighestYPosition(cells: Cell[]): number {
         let indexOfHighestYPosition = 0;

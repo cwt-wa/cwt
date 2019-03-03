@@ -1,13 +1,17 @@
-class LFigure extends Figure {
+import {Figure} from "./figure";
+import {Grid} from "../grid/grid";
+import {Cell} from "../grid/cell";
+
+export class LFigure extends Figure {
 
     private centerIndex : number = 0;
 
-    constructor(color: String) {
-        super(color);
+    constructor(color: String, grid: Grid) {
+        super(color, grid);
         this.initCenterIndex();
     }
 
-    createFigure(): Cell[] {
+    createFigure(grid: Grid): Cell[] {
         let cells = new Array();
         let middleOfGrid = Math.ceil(grid.getNumberOfCellsHorizontal() / 2);
 

@@ -1,4 +1,4 @@
-enum LevelVelocity {
+export enum LevelVelocity {
     LEVEL_1 = 900,
     LEVEL_2 = 800,
     LEVEL_3 = 700,

@@ -1,6 +1,10 @@
-class IFigure extends Figure {
+import {Cell} from "../grid/cell";
+import {Figure} from "./figure";
+import {Grid} from "../grid/grid";
 
-    createFigure(): Cell[] {
+export class IFigure extends Figure {
+
+    createFigure(grid : Grid): Cell[] {
         let cells = new Array();
         let middleOfGrid = Math.ceil(grid.getNumberOfCellsHorizontal() / 2);
 

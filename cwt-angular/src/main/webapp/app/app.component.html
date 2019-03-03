@@ -76,7 +76,7 @@
             <ul class="navbar-nav all-petite-caps" (click)="isNavCollapsed = true">
                 <li class="nav-item cwt-icon">
                     <a class="nav-link" routerLink="/">
-                        <img src="../img/icon.png" class="rounded">
+                        <img src="../img/icon.png" class="rounded" (dblclick)="easterEgg()">
                     </a>
                 </li>
                 <li class="nav-item">
@@ -133,4 +133,5 @@
      [ngClass]="{'standalone-container': isStandalone && !isAppleStandalone, 'apple-standalone-container': isAppleStandalone}"
      class="container content">
     <router-outlet></router-outlet>
+    <div [innerHTML]="tetrisHtml"></div>
 </div>

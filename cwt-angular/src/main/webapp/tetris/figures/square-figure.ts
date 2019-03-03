@@ -1,10 +1,14 @@
-class SquareFigure extends Figure {
+import {Figure} from "./figure";
+import {Cell} from "../grid/cell";
+import {Grid} from "../grid/grid";
 
-    constructor(color: String) {
-        super(color);
+export class SquareFigure extends Figure {
+
+    constructor(color: String, grid: Grid) {
+        super(color, grid);
     }
 
-    createFigure(): Cell[] {
+    createFigure(grid: Grid): Cell[] {
 
         let cells = new Array();
 
