@@ -61,12 +61,12 @@ class PlayoffServiceTest {
                 .thenAnswer { invocation ->
                     val actualGame = invocation.getArgument<Game>(0)
 
-                    Assert.assertEquals(2, actualGame.playoff.round)
-                    Assert.assertEquals(2, actualGame.playoff.spot)
+                    Assert.assertEquals(2, actualGame.playoff!!.round)
+                    Assert.assertEquals(2, actualGame.playoff!!.spot)
                     Assert.assertEquals(game.tournament, actualGame.tournament)
                     Assert.assertEquals(game.homeUser, actualGame.homeUser)
                     Assert.assertEquals(upcomingAwayUser, actualGame.awayUser)
-                    Assert.assertEquals(2, actualGame.id)
+                    Assert.assertEquals(2L, actualGame.id)
                     Assert.assertNull(actualGame.group)
 
                     actualGame
@@ -91,8 +91,8 @@ class PlayoffServiceTest {
                 .thenAnswer { invocation ->
                     val actualGame = invocation.getArgument<Game>(0)
 
-                    Assert.assertEquals(2, (actualGame.playoff.round as Int).toLong())
-                    Assert.assertEquals(1, (actualGame.playoff.spot as Int).toLong())
+                    Assert.assertEquals(2, (actualGame.playoff!!.round as Int).toLong())
+                    Assert.assertEquals(1, (actualGame.playoff!!.spot as Int).toLong())
                     Assert.assertEquals(game.tournament, actualGame.tournament)
                     Assert.assertEquals(game.awayUser, actualGame.awayUser)
                     Assert.assertNull(actualGame.homeUser)
@@ -107,7 +107,7 @@ class PlayoffServiceTest {
 
     @Test
     fun advanceByGame_roundSpotCalc() {
-        val tournament = EntityDefaults.tournament()
+        val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
         val gameId = 1L
         val homeUser = EntityDefaults.user(gameId)
         val awayUser = EntityDefaults.user(2L)
@@ -117,10 +117,10 @@ class PlayoffServiceTest {
 
         Mockito
                 .`when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject(), Mockito.anyInt(), Mockito.anyInt()))
-                .thenAnswer { invocation -> assertRoundSpot(invocation, 2, 3) } // Coming from round 1 and spot 6.
-                .thenAnswer { invocation -> assertRoundSpot(invocation, 4, 1) } // Coming from round 3 and spot 1.
-                .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 1) } // Coming from round 2 and spot 2.
-                .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 2) } // Coming from round 2 and spot 4.
+                .thenAnswer { invocation -> assertRoundSpot(invocation, 2, 3, tournament) } // Coming from round 1 and spot 6.
+                .thenAnswer { invocation -> assertRoundSpot(invocation, 4, 1, tournament) } // Coming from round 3 and spot 1.
+                .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 1, tournament) } // Coming from round 2 and spot 2.
+                .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 2, tournament) } // Coming from round 2 and spot 4.
 
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(1, 6), tournament))
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(3, 1), tournament))
@@ -128,14 +128,14 @@ class PlayoffServiceTest {
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(2, 4), tournament))
     }
 
-    private fun assertRoundSpot(invocation: InvocationOnMock, expectedRound: Int, expectedSpot: Int): Any {
+    private fun assertRoundSpot(invocation: InvocationOnMock, expectedRound: Int, expectedSpot: Int, tournament: Tournament): Any {
         val actualRound = invocation.getArgument<Int>(1)
         val actualSpot = invocation.getArgument<Int>(2)
 
         Assert.assertEquals(expectedRound.toLong(), actualRound.toLong())
         Assert.assertEquals(expectedSpot.toLong(), actualSpot.toLong())
 
-        return Optional.of(Game())
+        return Optional.of(Game(tournament = tournament))
     }
 
     @Test
@@ -242,14 +242,13 @@ class PlayoffServiceTest {
                            homeUser: User?, awayUser: User,
                            scoreHome: Int?, scoreAway: Int?,
                            playoffGame: PlayoffGame, tournament: Tournament): Game {
-        val game = Game()
+        val game = Game(tournament = tournament)
         game.id = id
         game.homeUser = homeUser
         game.awayUser = awayUser
         game.scoreHome = scoreHome
         game.scoreAway = scoreAway
         game.playoff = playoffGame
-        game.tournament = tournament
         return game
     }
 

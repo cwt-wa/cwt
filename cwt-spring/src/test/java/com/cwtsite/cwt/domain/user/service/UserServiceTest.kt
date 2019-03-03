@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -42,8 +43,7 @@ class UserServiceTest {
     @Test
     fun getRemainingOpponents() {
         val user = EntityDefaults.user(1)
-        val tournament = EntityDefaults.tournament()
-        tournament.status = TournamentStatus.GROUP
+        val tournament = EntityDefaults.tournament(status = TournamentStatus.GROUP)
 
         Mockito
                 .`when`(tournamentService.getCurrentTournament())
@@ -64,13 +64,13 @@ class UserServiceTest {
                 .containsExactlyInAnyOrder(getUser(group, 3), getUser(group, 4))
     }
 
-    private fun createGames(group: Group): List<Game> {
-        val game1 = Game()
-        game1.group = group
-        game1.id = LocalTime.now().toNanoOfDay()
-        game1.homeUser = getUser(group, 1)
-        game1.awayUser = getUser(group, 2)
-        return listOf(game1)
+    private fun createGames(group: Group, tournament: Tournament): List<Game> {
+        val game = Game(tournament = tournament)
+        game.group = group
+        game.id = LocalTime.now().toNanoOfDay()
+        game.homeUser = getUser(group, 1)
+        game.awayUser = getUser(group, 2)
+        return listOf(game)
     }
 
     private fun getUser(group: Group, userId: Long): User {

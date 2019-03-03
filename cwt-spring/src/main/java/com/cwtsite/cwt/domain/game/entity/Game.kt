@@ -27,7 +27,7 @@ data class Game(
         var scoreAway: Int? = null,
 
         @Column(name = "tech_win")
-        var isTechWin: Boolean? = false,
+        var isTechWin: Boolean = false,
 
         @Column(name = "downloads")
         var downloads: Int? = null,
@@ -45,7 +45,7 @@ data class Game(
         var playoff: PlayoffGame? = null,
 
         @ManyToOne
-        var tournament: Tournament? = null,
+        var tournament: Tournament,
 
         @JsonIgnore
         @ManyToOne
@@ -62,10 +62,10 @@ data class Game(
         var reporter: User? = null,
 
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-        var ratings: List<Rating>? = null,
+        val ratings: List<Rating> = emptyList(),
 
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-        var comments: List<Comment>? = null,
+        val comments: List<Comment> = emptyList(),
 
         @JsonIgnore
         @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
@@ -77,5 +77,10 @@ data class Game(
 
         @Basic(fetch = FetchType.LAZY)
         @Formula("(select count(*) from RATING r where r.GAME_ID = id)")
-        val ratingsSize: Int? = null
-)
+        val ratingsSize: Int? = null,
+
+        var voided: Boolean = false
+) {
+
+    fun wasPlayedBy(user: User) = homeUser == user || awayUser == user
+}

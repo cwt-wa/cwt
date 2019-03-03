@@ -86,7 +86,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         if (currentTournament.status == TournamentStatus.GROUP) {
             val group = groupRepository.findByTournamentAndUser(currentTournament, awayUser)
 
-            val game = Game()
+            val game = Game(tournament = currentTournament)
 
             game.scoreHome = homeScore
             game.scoreAway = awayScore
