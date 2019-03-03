@@ -25,6 +25,7 @@ import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 
@@ -32,6 +33,7 @@ import java.util.*
 class GameServiceTest {
 
     @InjectMocks
+    @Spy
     private lateinit var gameService: GameService
 
     @Mock
@@ -57,6 +59,12 @@ class GameServiceTest {
 
     @Mock
     private lateinit var playoffService: PlayoffService
+
+    @Mock
+    private lateinit var ratingRepository: RatingRepository
+
+    @Mock
+    private lateinit var commentRepository: CommentRepository
 
     @Test
     fun reportGameForGroupStage() {
@@ -86,8 +94,8 @@ class GameServiceTest {
                     assertIndependentOfTournamentStatus(
                             awayUser, homeUser, expectedScoreHome, expectedScoreAway, actualGame, tournament)
                     Assert.assertEquals(group, actualGame.group)
-                    Assert.assertEquals(group.label, actualGame.group.label)
-                    Assert.assertEquals(group.tournament, actualGame.group.tournament)
+                    Assert.assertEquals(group.label, actualGame.group!!.label)
+                    Assert.assertEquals(group.tournament, actualGame.group!!.tournament)
                     Assert.assertFalse(actualGame.isTechWin)
                     Assert.assertNull(actualGame.playoff)
                     Assert.assertNotNull(actualGame.group)
@@ -115,24 +123,21 @@ class GameServiceTest {
         Mockito
                 .`when`(gameRepository.findNextPlayoffGameForUser(MockitoUtils.anyObject(), MockitoUtils.anyObject()))
                 .thenAnswer { invocation ->
-                    val game = Game()
-                    game.tournament = invocation.getArgument(0)
+                    val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = invocation.getArgument(1)
                     game.awayUser = awayUser
                     game.playoff = PlayoffGame()
                     game
                 }
                 .thenAnswer { invocation ->
-                    val game = Game()
-                    game.tournament = invocation.getArgument(0)
+                    val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = awayUser
                     game.awayUser = invocation.getArgument(1)
                     game.playoff = PlayoffGame()
                     game
                 }
                 .thenAnswer { invocation ->
-                    val game = Game()
-                    game.tournament = invocation.getArgument(0)
+                    val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = invocation.getArgument(1)
                     game.awayUser = EntityDefaults.user(19)
                     game.playoff = PlayoffGame()
@@ -194,12 +199,12 @@ class GameServiceTest {
                 .thenReturn(tournament)
 
         Mockito
-                .`when`(gameService.getBestOfValue(TournamentStatus.GROUP))
-                .thenReturn(createGroupGameBestOfConfiguration(ConfigurationKey.GROUP_GAMES_BEST_OF))
+                .doReturn(createGroupGameBestOfConfiguration(ConfigurationKey.GROUP_GAMES_BEST_OF))
+                .`when`(gameService).getBestOfValue(TournamentStatus.GROUP)
 
         Mockito
-                .`when`(gameService.getBestOfValue(TournamentStatus.PLAYOFFS))
-                .thenReturn(createGroupGameBestOfConfiguration(ConfigurationKey.PLAYOFF_GAMES_BEST_OF))
+                .doReturn(createGroupGameBestOfConfiguration(ConfigurationKey.PLAYOFF_GAMES_BEST_OF))
+                .`when`(gameService).getBestOfValue(TournamentStatus.PLAYOFFS)
 
         Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 3, 1) }
                 .isExactlyInstanceOf(GameService.InvalidScoreException::class.java)
