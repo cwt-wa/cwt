@@ -3,8 +3,9 @@ import {RequestService} from "../_services/request.service";
 import {ReplacePlayerDto, User, UserMinimalDto} from "../custom";
 import {Observable} from "rxjs";
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
+import {Router} from "@angular/router";
 
-// const toastr = require('toastr/toastr.js');
+const toastr = require('toastr/toastr.js');
 
 @Component({
     selector: 'cwt-replace-player',
@@ -16,7 +17,7 @@ export class ReplacePlayerComponent implements OnInit {
     replacement: ReplacePlayerDto = {} as ReplacePlayerDto;
     replacementSuggestions: User[];
 
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService, private router: Router) {
     }
 
     typeAheadToBeReplaced = (text$: Observable<string>) =>
@@ -51,6 +52,11 @@ export class ReplacePlayerComponent implements OnInit {
     }
 
     submit() {
-        // this.requestService.post()
+        this.requestService.post<void>('group/replace', this.replacement as ReplacePlayerDto)
+            .subscribe(
+                () => {
+                    this.router.navigateByUrl('/groups');
+                    toastr.success("Successfully saved.");
+                });
     }
 }
