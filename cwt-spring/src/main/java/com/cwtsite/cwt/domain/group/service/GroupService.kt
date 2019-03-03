@@ -20,7 +20,7 @@ class GroupService @Autowired
 constructor(private val groupRepository: GroupRepository,
             private val tournamentRepository: TournamentRepository, private val configurationService: ConfigurationService,
             private val userRepository: UserRepository, private val tournamentService: TournamentService,
-            private val gameRepository: GameRepository) {
+            private val gameRepository: GameRepository, private val groupStandingRepository: GroupStandingRepository) {
 
     @Transactional
     fun replacePlayer(idOfUserObsolete: Long, idOfUserNew: Long): Group {
