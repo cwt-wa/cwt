@@ -51,6 +51,7 @@ abstract class AbstractDbTest {
 
         redG.defaultValueStrategy = with(DefaultValueStrategyBuilder()) {
             whenTableNameMatches("tournament").andColumnNameMatches("status").thenUse(TournamentStatus.GROUP.name)
+            whenTableNameMatches("game").andColumnNameMatches("tech_win").thenUse(false)
             build()
         }
 
