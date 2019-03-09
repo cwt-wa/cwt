@@ -36,7 +36,7 @@ public class GameDetailDto {
         dto.setId(game.getId());
         dto.setScoreHome(game.getScoreHome());
         dto.setScoreAway(game.getScoreAway());
-        dto.setTechWin(game.isTechWin());
+        dto.setTechWin(game.getTechWin());
         dto.setDownloads(game.getDownloads());
         dto.setCreated(game.getCreated());
         dto.setModified(game.getModified());

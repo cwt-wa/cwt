@@ -96,7 +96,7 @@ class GameServiceTest {
                     Assert.assertEquals(group, actualGame.group)
                     Assert.assertEquals(group.label, actualGame.group!!.label)
                     Assert.assertEquals(group.tournament, actualGame.group!!.tournament)
-                    Assert.assertFalse(actualGame.isTechWin)
+                    Assert.assertFalse(actualGame.techWin)
                     Assert.assertNull(actualGame.playoff)
                     Assert.assertNotNull(actualGame.group)
 
@@ -152,7 +152,7 @@ class GameServiceTest {
 
                     assertIndependentOfTournamentStatus(
                             awayUser, homeUser, expectedScoreHome, expectedScoreAway, actualGame, tournament)
-                    Assert.assertFalse(actualGame.isTechWin)
+                    Assert.assertFalse(actualGame.techWin)
                     Assert.assertNull(actualGame.group)
                     Assert.assertNotNull(actualGame.playoff)
 
@@ -163,7 +163,7 @@ class GameServiceTest {
 
                     assertIndependentOfTournamentStatus(
                             homeUser, awayUser, expectedScoreAway, expectedScoreHome, actualGame, tournament)
-                    Assert.assertFalse(actualGame.isTechWin)
+                    Assert.assertFalse(actualGame.techWin)
                     Assert.assertNull(actualGame.group)
                     Assert.assertNotNull(actualGame.playoff)
 

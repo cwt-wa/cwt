@@ -27,7 +27,7 @@ data class Game(
         var scoreAway: Int? = null,
 
         @Column(name = "tech_win")
-        var isTechWin: Boolean = false,
+        var techWin: Boolean = false,
 
         @Column(name = "downloads")
         var downloads: Int? = null,
