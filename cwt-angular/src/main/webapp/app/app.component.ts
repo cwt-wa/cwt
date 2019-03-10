@@ -28,6 +28,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public ngOnInit(): void {
         this.requestService.get<{ token: string }>('auth/refresh').subscribe(
             res => {
+                if (res == null || res.token == null) return this.authService.voidToken();
                 this.authService.storeToken(res.token);
                 this.authenticatedUser = this.authService.getUserFromTokenPayload();
 
