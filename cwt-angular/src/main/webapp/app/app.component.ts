@@ -5,7 +5,6 @@ import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
 import {JwtUser} from "./custom";
-import {Tetris} from "../tetris/sketch";
 
 @Component({
     selector: 'my-app',
@@ -53,6 +52,5 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     easterEgg() {
         this.tetrisHtml = require('../tetris/views/tetris.html');
-
    }
 }
