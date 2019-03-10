@@ -30,6 +30,10 @@ constructor(private val groupRepository: GroupRepository,
         val group = groupRepository.findByTournamentAndUser(
                 tournamentService.getCurrentTournament(), obsoleteUser) ?: throw RuntimeException()
 
+        if (group.standings.find { it.user.id == replacementUser.id } != null) {
+            throw RuntimeException("Replacement user is already in a group.")
+        }
+
         (group.standings.find { it.user == obsoleteUser } ?: throw RuntimeException()).user = replacementUser
         group.standings.onEach { it.reset() }
 
