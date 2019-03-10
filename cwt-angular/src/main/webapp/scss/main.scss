@@ -544,7 +544,9 @@ ngb-typeahead-window button {
   }
 }
 
-.bg-secondary a {
+.bg-secondary a,
+.bg-danger a,
+.bg-primary a {
   color: $white;
 }
 

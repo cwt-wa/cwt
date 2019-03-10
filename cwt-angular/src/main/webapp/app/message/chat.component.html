@@ -2,9 +2,9 @@
 
 <div class="card bg-primary text-white border-0 mt-1">
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
-         [ngClass]="{'rounded-top': first, 'bg-red-0': message.category === 'PRIVATE'}">
+         [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}">
         {{message.created | date:'shortTime'}}
-        <cwt-user [username]="message.author.username"></cwt-user>
+        <cwt-user [username]="message.author.username" class="text-white font-weight-bold"></cwt-user>
         {{message.body}}
     </div>
 </div>
