@@ -1,6 +1,11 @@
 <div *ngIf="message" class="input-group input-group-lg chat-input">
-  <div class="single-line form-control" contenteditable="true" (keydown)="keyDown($event)" #chatInput></div>
+    <div class="single-line form-control" [contentEditable]="!submitting"
+         (keydown)="keyDown($event)" #chatInput [ngClass]="{'contenteditable-disabled': submitting}">
+    </div>
   <span class="input-group-append">
-        <button class="btn btn-primary submit" type="button" (click)="sendMessage()"><i class="fa fa-send"></i></button>
+        <button class="btn btn-primary submit" type="button" (click)="sendMessage()">
+            <i *ngIf="!submitting" class="fa fa-send"></i>
+            <img *ngIf="submitting" src="../../img/loading.gif" class="loading"/>
+        </button>
   </span>
 </div>

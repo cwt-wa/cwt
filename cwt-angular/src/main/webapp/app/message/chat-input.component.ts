@@ -34,31 +34,32 @@ import {RequestService} from "../_services/request.service";
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"] {
+            .chat-input > .form-control[contenteditable] {
                 flex-grow: 5;
                 font-size: 16px;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"]:empty::before {
+            .chat-input > .form-control[contenteditable]:empty::before {
                 content: "Type message...";
                 color: gray;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"].single-line {
+            .chat-input > .form-control[contenteditable].single-line {
                 white-space: nowrap;
                 height: 48px;
                 overflow: hidden;
+                padding-top: 12px;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"].single-line br {
+            .chat-input > .form-control[contenteditable].single-line br {
                 display: none;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"].single-line * {
+            .chat-input > .form-control[contenteditable].single-line * {
                 display: inline;
                 white-space: nowrap;
             }`
@@ -67,13 +68,15 @@ import {RequestService} from "../_services/request.service";
 export class ChatInputComponent implements OnInit {
 
     @Output()
-    message: EventEmitter<Message> = new EventEmitter();
+    message: EventEmitter<[Message, (success: boolean) => void]> = new EventEmitter();
 
     @ViewChild("chatInput")
     private chatInput: ElementRef;
 
     private mentions: ComponentRef<MentionComponent>[] = [];
     private users: User[];
+
+    submitting: boolean = false;
 
     constructor(private resolver: ComponentFactoryResolver,
                 private injector: Injector,
@@ -86,19 +89,33 @@ export class ChatInputComponent implements OnInit {
     }
 
     public sendMessage(): void {
+        const body = this.convertContentEditableToRawTextContent();
+        if (body === "" || body == null) return;
+        this.disable(true);
         this.mentions = this.mentions.filter(m => m.location.nativeElement.parentElement);
         const message: Message = {
-            body: this.convertContentEditableToRawTextContent(),
+            body: body,
             recipients: this.mentions.map(ref => ref.instance.mentionedUser),
             category: this.mentions.length === 0 ? 'SHOUTBOX' : 'PRIVATE'
         } as Message;
-        this.message.emit(message);
+        this.message.emit([message, (success: boolean) => {
+            this.disable(false);
+            success === true && this.reset();
+        }]);
+    }
+
+    private disable(disable: boolean) {
+        this.submitting = disable;
+        this.mentions.forEach(value => value.instance.disabled = disable);
+    }
+
+    private reset() {
+        this.chatInput.nativeElement.innerHTML = '';
     }
 
     public keyDown(event: KeyboardEvent): void {
-        if (event.key !== '@') {
-            return;
-        }
+        if (this.submitting) return;
+        if (event.key !== '@') return;
 
         // Don't turn email addresses into mentions.
         const precedingChar = (event.target as HTMLDivElement).textContent.substring(window.getSelection().anchorOffset - 1);

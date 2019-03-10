@@ -1,4 +1,4 @@
-<chatInput (message)="submit($event)"></chatInput>
+<chatInput (message)="submit($event[0], $event[1])"></chatInput>
 
 <div class="card bg-primary text-white border-0 mt-1">
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"

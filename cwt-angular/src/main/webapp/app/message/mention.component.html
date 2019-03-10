@@ -4,7 +4,7 @@
     <input class="form-control name" type="text" [(ngModel)]="mentionedUser" [size]="(mentionInput.value.length || 1) + 2"
            #mentionInput #nameInput [ngbTypeahead]="filterSuggestedUsersForTypehead" (keydown)="keyDown($event)" size="1"
            container="body" [inputFormatter]="typeAheadInputFormatter" [resultFormatter]="typeAheadResultFormatter"
-           (selectItem)="onSelectTypeAheadSuggestionItem($event)">
+           (selectItem)="onSelectTypeAheadSuggestionItem($event)" [disabled]="disabled">
   </div>
   <span class="name" style="display: none; visibility: hidden; width: auto">[m{{mentionedUser?.username}}m]</span>
 </div>

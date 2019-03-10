@@ -14,6 +14,7 @@ import {debounceTime, distinctUntilChanged} from "rxjs/operators";
                 flex-wrap: nowrap;
                 justify-content: space-between;
                 align-items: stretch;
+                margin-top: -21px;
             }`,
 
             `
@@ -40,6 +41,7 @@ export class MentionComponent {
             .map(term => this.suggestedUsers.filter(u => u.username.toLowerCase().indexOf(term.toLowerCase()) > -1));
     typeAheadInputFormatter = (value: User) => value.username || null;
     typeAheadResultFormatter = (value: User) => value.username || null;
+    disabled: boolean;
     @ViewChild('nameInput')
     private nameInput: ElementRef;
 
