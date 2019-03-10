@@ -62,10 +62,10 @@ data class Game(
         var reporter: User? = null,
 
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-        val ratings: List<Rating> = emptyList(),
+        val ratings: List<Rating> = mutableListOf(),
 
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-        val comments: List<Comment> = emptyList(),
+        val comments: List<Comment> = mutableListOf(),
 
         @JsonIgnore
         @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
