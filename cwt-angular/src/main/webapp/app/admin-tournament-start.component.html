@@ -9,7 +9,7 @@
                     <input class="form-control" [(ngModel)]="usernameOfUserToAdd" name="usernameOfUserToAdd"
                            id="usernameOfUserToAdd" [ngbTypeahead]="usernameTypeAhead" placeholder="Enter username"
                            [editable]="false" [showHint]="true" (keypress)="onUsernameInputKeyPress($event)">
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                         <button class="btn btn-secondary" type="button" (click)="addModerator()">
                             <i class="fa fa-plus"></i>
                         </button>
@@ -19,7 +19,7 @@
             <div class="form-group" *ngFor="let moderator of moderators">
                 <div class="input-group input-group-sm">
                     <input title="username" class="form-control" [ngModel]="moderator.username" name="whatever" readonly>
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                         <button class="btn btn-secondary" type="button" (click)="removeModerator(moderator)">
                             <i class="fa fa-minus"></i>
                         </button>

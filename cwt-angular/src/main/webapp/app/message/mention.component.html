@@ -1,6 +1,6 @@
 <div class="mention" contenteditable="false">
   <div class="input-group input-group-sm">
-    <span class="input-group-addon">@</span>
+    <span class="input-group-prepend"><span class="input-group-text">@</span></span>
     <input class="form-control name" type="text" [(ngModel)]="mentionedUser" [size]="(mentionInput.value.length || 1) + 2"
            #mentionInput #nameInput [ngbTypeahead]="filterSuggestedUsersForTypehead" (keydown)="keyDown($event)" size="1"
            container="body" [inputFormatter]="typeAheadInputFormatter" [resultFormatter]="typeAheadResultFormatter"
