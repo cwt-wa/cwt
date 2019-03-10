@@ -100,6 +100,12 @@ export class ChatInputComponent implements OnInit {
             return;
         }
 
+        // Don't turn email addresses into mentions.
+        const precedingChar = (event.target as HTMLDivElement).textContent.substring(window.getSelection().anchorOffset - 1);
+        if (precedingChar !== "" && precedingChar !== "—" /* em-dash */ && precedingChar.match(/\s/) == null) {
+            return;
+        }
+
         event.preventDefault();
         this.instantiateMention();
     }
