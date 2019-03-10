@@ -70,7 +70,8 @@ export class RequestService {
             .catch<T, T>(RequestService.catch);
     }
 
-    private generateDefaultHeaders(): { Authorization: string } {
-        return {'Authorization': this.authService.getToken() || ''};
+    private generateDefaultHeaders(): { Authorization: string } | {} {
+        const authToken = this.authService.getToken();
+        return authToken == null ? {} : {'Authorization': authToken};
     }
 }
