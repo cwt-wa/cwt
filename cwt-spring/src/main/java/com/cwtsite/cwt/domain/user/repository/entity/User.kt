@@ -65,9 +65,9 @@ data class User(
         @PrimaryKeyJoinColumn
         var userStats: UserStats? = null,
 
-        @CreationTimestamp
+        @field:CreationTimestamp
         var created: Timestamp? = null,
 
-        @UpdateTimestamp
+        @field:UpdateTimestamp
         var modified: Timestamp? = null
 )

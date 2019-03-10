@@ -32,12 +32,12 @@ data class Game(
         @Column(name = "downloads")
         var downloads: Int? = null,
 
-        @Column(name = "created")
-        @CreationTimestamp
+        @field:CreationTimestamp
+        @Column(name = "created", nullable = false)
         var created: Timestamp? = null,
 
-        @Column(name = "modified")
-        @UpdateTimestamp
+        @field:UpdateTimestamp
+        @Column(name = "modified", nullable = false)
         var modified: Timestamp? = null,
 
         @OneToOne(cascade = [CascadeType.ALL])

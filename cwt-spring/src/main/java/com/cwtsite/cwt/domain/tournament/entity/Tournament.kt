@@ -26,7 +26,7 @@ data class Tournament(
         var maxRounds: Int? = null,
 
         @Column(name = "created", nullable = false)
-        @CreationTimestamp
+        @field:CreationTimestamp
         var created: Timestamp? = null,
 
         @ManyToOne

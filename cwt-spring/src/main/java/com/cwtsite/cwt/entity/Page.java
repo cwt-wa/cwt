@@ -25,7 +25,7 @@ public class Page implements Serializable {
     @Column(name = "text", columnDefinition = "text")
     private String text;
 
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     @CreationTimestamp
     private Timestamp created;
 

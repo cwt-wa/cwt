@@ -20,7 +20,7 @@ public class Application implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "application_seq")
     private Long id;
 
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     @CreationTimestamp
     private Timestamp created;
 

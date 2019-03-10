@@ -33,7 +33,7 @@ public class Comment implements Serializable {
     @Column(name = "deleted")
     private Boolean deleted;
 
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     @CreationTimestamp
     private Timestamp created;
 
