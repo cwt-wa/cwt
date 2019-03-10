@@ -58,6 +58,7 @@ import {ValidateResultDirective} from "./_util/validate-result.directive";
 import {AddTechWinComponent} from "./tech-win/add-tech-win.component";
 import {TypeaheadOpenOnFocusDirective} from "./_util/typeahead-open-on-focus.directive";
 import {ReplacePlayerComponent} from "./replace-player/replace-player.component";
+import {MarkdownComponent} from "./_util/markdown.component";
 
 const appRoutes: Routes = [
     {
@@ -211,7 +212,8 @@ const appRoutes: Routes = [
         ValidateResultDirective,
         TypeaheadOpenOnFocusDirective,
         AddTechWinComponent,
-        ReplacePlayerComponent
+        ReplacePlayerComponent,
+        MarkdownComponent
     ],
     providers: [
         WebAppViewService,
