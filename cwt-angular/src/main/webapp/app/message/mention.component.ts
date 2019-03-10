@@ -42,6 +42,7 @@ export class MentionComponent {
     typeAheadInputFormatter = (value: User) => value.username || null;
     typeAheadResultFormatter = (value: User) => value.username || null;
     disabled: boolean;
+    mentionHasJustBeenSelected: boolean;
     @ViewChild('nameInput')
     private nameInput: ElementRef;
 
@@ -53,6 +54,7 @@ export class MentionComponent {
     }
 
     public onSelectTypeAheadSuggestionItem(): void {
+        this.mentionHasJustBeenSelected = true;
         this.putCursorAfterMention();
     }
 
