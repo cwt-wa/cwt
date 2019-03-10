@@ -133,6 +133,11 @@ export class ChatInputComponent implements OnInit {
         this.instantiateMention();
     }
 
+    public onCopy(e: ClipboardEvent) {
+        e.clipboardData.setData('text/plain', this.convertContentEditableToRawTextContent());
+        e.preventDefault();
+    }
+
     private convertContentEditableToRawTextContent(): string {
         let body: string = this.chatInput.nativeElement.textContent;
 
