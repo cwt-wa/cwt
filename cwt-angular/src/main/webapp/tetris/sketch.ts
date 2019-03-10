@@ -10,6 +10,9 @@ import {JFigure} from "./figures/j-figure";
 import {SFigure} from "./figures/s-figure";
 import {ZFigure} from "./figures/z-figure";
 
+import 'p5/lib/p5.js';
+
+const p5 = require('p5/lib/p5.js');
 
 let grid: Grid;
 let randomFigure: Figure;
@@ -20,8 +23,28 @@ let canvasWidth = Cell.WIDTH * 10 + 1;
 let canvasHeight = window.innerHeight;
 let levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
 
+const sketch = (s: p5) => {
+    s.setup = () => {
+        setup();
+    };
+
+    s.draw = () => {
+        draw()
+    };
+
+    s.keyPressed = () => {
+        keyPressed();
+    };
+
+    s.keyReleased = () => {
+        keyReleased();
+    };
+};
+
+const canvas: p5 = new p5(sketch);
+
 function setup() {
-    createCanvas(canvasWidth, canvasHeight);
+    canvas.createCanvas(canvasWidth, canvasHeight);
 
     grid = new Grid(canvasWidth, canvasHeight);
     grid.draw();
@@ -29,7 +52,7 @@ function setup() {
     fallenCells = new Array();
 
     randomFigure = calculateRandomFigure();
-    randomFigure.draw();
+    randomFigure.draw(grid);
 
     fallenDownInterval = window.setInterval(() => {
         randomFigure.fallDown(grid, fallenCells);
@@ -42,7 +65,7 @@ function setup() {
 
 
 function draw() {
-    clear();
+    canvas.clear();
 
     nextFigure();
 
@@ -55,9 +78,9 @@ function draw() {
 
     changeLevels();
 
-    grid.updateGrid();
+    grid.updateGrid(fallenCells);
 
-    randomFigure.draw();
+    randomFigure.draw(grid);
 }
 
 function changeLevels() {
@@ -87,9 +110,9 @@ function changeLevels() {
 }
 
 function showLevel(color: String) {
-    textSize(12);
-    fill(color);
-    text(LevelVelocity[levelVelocity], 5, 54);
+    canvas.textSize(12);
+    canvas.fill(color.toString());
+    canvas.text(LevelVelocity[levelVelocity], 5, 54);
 }
 
 function updateFallenDownInterval(newLevelVelocity: LevelVelocity) {
@@ -149,13 +172,13 @@ function dropFigures(deletedRows: number[]) {
 }
 
 function showHighscore() {
-    textSize(30);
-    fill("black");
-    text(highscore.toString(), 5, 35);
+    canvas.textSize(30);
+    canvas.fill("black");
+    canvas.text(highscore.toString(), 5, 35);
 }
 
 function gameOver() {
-    noLoop();
+    canvas.noLoop();
     let input = document.createElement("input");
     input.type = "Game over";
 
@@ -213,7 +236,7 @@ function nextFigure() {
 
 
 function keyPressed() {
-    if (keyCode === DOWN_ARROW) {
+    if (canvas.keyCode === KeyCode.DownArrow) {
         clearInterval(fallenDownInterval);
         fallenDownInterval = window.setInterval(() => {
             randomFigure.fallDown(grid, fallenCells);
@@ -222,7 +245,7 @@ function keyPressed() {
 }
 
 function keyReleased() {
-    if (keyCode === DOWN_ARROW) {
+    if (canvas.keyCode === KeyCode.UpArrow) {
         clearInterval(fallenDownInterval);
         fallenDownInterval = window.setInterval(() => {
             randomFigure.fallDown(grid, fallenCells);
