@@ -23,7 +23,7 @@
     "core-js": "^2.5.7",
     "font-awesome": "latest",
     "jquery": "^3.3.1",
-    "p5": "^0.7.3",
+    "p5": "0.6.0",
     "popper.js": "^1.12.3",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",
