@@ -42,7 +42,7 @@ public class MessageDto {
         message.setAuthor(author);
         message.setBody(dto.body);
         message.setCategory(dto.category);
-        message.setRecipients(recipients);
+        message.getRecipients().addAll(recipients);
 
         return message;
     }

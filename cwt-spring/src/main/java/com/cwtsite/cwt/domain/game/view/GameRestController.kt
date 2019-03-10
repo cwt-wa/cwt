@@ -10,8 +10,12 @@ import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
 import com.cwtsite.cwt.domain.game.view.model.ReportDto
+import com.cwtsite.cwt.domain.message.service.MessageNewsType
+import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
@@ -28,7 +32,7 @@ import java.util.*
 @RestController
 @RequestMapping("api/game")
 class GameRestController @Autowired
-constructor(private val gameService: GameService, private val userService: UserService) {
+constructor(private val gameService: GameService, private val userService: UserService, private val messageService: MessageService) {
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
@@ -56,6 +60,14 @@ constructor(private val gameService: GameService, private val userService: UserS
         val game: Game
         try {
             game = gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)
+            GlobalScope.launch {
+                messageService.publishNews(
+                        MessageNewsType.GAME,
+                        game.id, game.reporter?.username,
+                        game.homeUser!!.id, game.homeUser!!.username,
+                        game.awayUser!!.id, game.awayUser!!.username,
+                        scoreHome, scoreAway)
+            }
         } catch (e: GameService.InvalidOpponentException) {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         } catch (e: GameService.InvalidScoreException) {

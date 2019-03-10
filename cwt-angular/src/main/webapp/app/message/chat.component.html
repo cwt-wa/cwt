@@ -4,8 +4,17 @@
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
          [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}">
         {{message.created | date:'shortTime'}}
-        <cwt-user [username]="message.author.username" class="text-white font-weight-bold"></cwt-user>
-        {{message.body}}
+        <cwt-user *ngIf="message.author" [username]="message.author.username" class="text-white font-weight-bold"></cwt-user>
+        <ng-container *ngIf="message.category === 'NEWS' && message.newsType === 'GAME'">
+            <ng-container *ngIf="message.body.split(','); let messageData">
+                <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>
+                reported
+                <cwt-user [username]="messageData[3]" class="font-weight-bold"></cwt-user>&nbsp;<a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[6]}}–{{messageData[7]}}</a>&nbsp;<cwt-user [username]="messageData[5]" class="font-weight-bold"></cwt-user>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="message.category !== 'NEWS'">
+            {{message.body}}
+        </ng-container>
     </div>
 </div>
 
