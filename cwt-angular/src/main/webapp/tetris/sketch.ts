@@ -9,7 +9,6 @@ import {LFigure} from "./figures/l-figure";
 import {JFigure} from "./figures/j-figure";
 import {SFigure} from "./figures/s-figure";
 import {ZFigure} from "./figures/z-figure";
-
 import 'p5/lib/p5.js';
 
 const p5 = require('p5/lib/p5.js');
@@ -235,8 +234,10 @@ function nextFigure() {
 }
 
 
+
 function keyPressed() {
-    if (canvas.keyCode === KeyCode.DownArrow) {
+    console.log(canvas.keyCode);
+    if (canvas.keyCode === 40) {
         clearInterval(fallenDownInterval);
         fallenDownInterval = window.setInterval(() => {
             randomFigure.fallDown(grid, fallenCells);
@@ -245,7 +246,8 @@ function keyPressed() {
 }
 
 function keyReleased() {
-    if (canvas.keyCode === KeyCode.UpArrow) {
+    console.log(canvas.keyCode);
+    if (canvas.keyCode === 40) { //KeyCode.DownArrow) {
         clearInterval(fallenDownInterval);
         fallenDownInterval = window.setInterval(() => {
             randomFigure.fallDown(grid, fallenCells);
