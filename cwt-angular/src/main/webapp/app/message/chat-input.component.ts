@@ -107,6 +107,7 @@ export class ChatInputComponent implements OnInit {
         this.message.emit([message, (success: boolean) => {
             this.disable(false);
             success === true && this.reset();
+            setTimeout(() => (this.chatInput.nativeElement as HTMLDivElement).focus(), 0);
         }]);
     }
 
