@@ -114,9 +114,9 @@ export class ChatInputComponent implements OnInit {
         let body: string = this.chatInput.nativeElement.textContent;
 
         body = body.trim();
-        body = body.replace(/(\[m.*?m\])\n/g, "$1"); // Remove carriage return after mention.
+        body = body.replace(/(\[m.*?m])\n/g, "$1"); // Remove carriage return after mention.
         body = body.replace(/\s+/g, " "); // Multiple whitespaces into one.
-        body = body.replace(/@\s\[m(.*?)m\]/g, "@$1"); // Convert mention which is wrapped in `[m` and `m]` to simply `@Mention`.
+        body = body.replace(/@\[m(.*?)m]/g, "@$1"); // Convert mention which is wrapped in `[m` and `m]` to simply `@Mention`.
 
         return body;
     }
