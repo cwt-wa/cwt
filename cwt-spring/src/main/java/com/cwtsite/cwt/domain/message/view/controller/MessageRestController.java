@@ -33,7 +33,11 @@ public class MessageRestController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<Message>> getMessages(HttpServletRequest request) {
-        final User authenticatedUser = authService.getUserFromToken(request.getHeader(authService.getTokenHeaderName()));
+        final String authorizationHeader = request.getHeader(authService.getTokenHeaderName());
+        User authenticatedUser = null;
+        if (authorizationHeader != null) {
+            authenticatedUser = authService.getUserFromToken(authorizationHeader);
+        }
 
         List<Message> messages = authenticatedUser == null
                 ? messageService.findMessagesForGuest()
