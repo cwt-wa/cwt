@@ -116,6 +116,7 @@ export class ChatInputComponent implements OnInit {
         body = body.trim();
         body = body.replace(/(\[m.*?m])\n/g, "$1"); // Remove carriage return after mention.
         body = body.replace(/\s+/g, " "); // Multiple whitespaces into one.
+        body = body.replace(/(@\[m.*?m])([^\s?!.…—-])/g, "$1 $2"); // I guess it's likely people forgot a space after the mention.
         body = body.replace(/@\[m(.*?)m]/g, "@$1"); // Convert mention which is wrapped in `[m` and `m]` to simply `@Mention`.
 
         return body;
