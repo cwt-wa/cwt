@@ -41,7 +41,7 @@ const sketch = (s: p5) => {
     };
 };
 
-const canvas: p5 = new p5(sketch);
+export const canvas: p5 = new p5(sketch);
 
 function setup() {
     canvas.createCanvas(canvasWidth, canvasHeight);

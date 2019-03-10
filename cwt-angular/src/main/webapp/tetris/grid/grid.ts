@@ -1,4 +1,5 @@
 import {Cell} from "./cell";
+import {canvas} from "../sketch";
 
 export class Grid {
 
@@ -25,12 +26,9 @@ export class Grid {
 
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[i].length; j++) {
-                // @ts-ignore
-                fill(this.grid[i][j].getColor());
-                // @ts-ignore
-                stroke("#303030");
-                // @ts-ignore
-                rect(j * Cell.WIDTH, i * Cell.WIDTH, Cell.WIDTH, Cell.WIDTH);
+                canvas.fill(this.grid[i][j].getColor().toString());
+                canvas.stroke("#303030");
+                canvas.rect(j * Cell.WIDTH, i * Cell.WIDTH, Cell.WIDTH, Cell.WIDTH);
             }
         }
     }
