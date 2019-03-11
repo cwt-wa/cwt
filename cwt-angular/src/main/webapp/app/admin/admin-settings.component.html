@@ -1,0 +1,12 @@
+<h1>Settings</h1>
+
+<div class="mt-4 card-columns">
+    <div class="card" *ngFor="let config of configurations">
+        <div class="card-body">
+            <h5 class="card-title"><code>{{config.key}}</code></h5>
+            <p class="card-text">{{config.description}}</p>
+            <input type="text" class="form-control" [(ngModel)]="config.value">
+            <a href="#" class="btn btn-primary float-right mt-1 mb-3">Submit</a>
+        </div>
+    </div>
+</div>
