@@ -44,11 +44,11 @@ public class ConfigurationService {
         return configurationRepository.findById(configurationKey).get();
     }
 
-    public List<Configuration> getAll(List<ConfigurationKey> configurationKeys) {
+    public List<Configuration> findAll(List<ConfigurationKey> configurationKeys) {
         return configurationRepository.findAllById(configurationKeys);
     }
 
-    public List<Configuration> getAll() {
+    public List<Configuration> findAll() {
         return configurationRepository.findAll();
     }
 
