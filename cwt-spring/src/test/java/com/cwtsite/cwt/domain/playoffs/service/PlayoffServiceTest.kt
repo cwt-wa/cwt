@@ -226,9 +226,11 @@ class PlayoffServiceTest {
         Mockito
                 .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
                 .thenAnswer {
-                    val configuration = Configuration()
-                    configuration.value = "2"
-                    configuration
+                    Configuration(
+                            value = "2",
+                            key = ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING,
+                            author = EntityDefaults.user()
+                    )
                 }
     }
 

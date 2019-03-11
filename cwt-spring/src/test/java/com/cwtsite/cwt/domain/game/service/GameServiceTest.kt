@@ -241,10 +241,10 @@ class GameServiceTest {
         return group
     }
 
-    private fun createGroupGameBestOfConfiguration(configurationKey: ConfigurationKey): Configuration {
-        val configuration = Configuration()
-        configuration.key = configurationKey
-        configuration.value = "3"
-        return configuration
-    }
+    private fun createGroupGameBestOfConfiguration(configurationKey: ConfigurationKey) =
+            Configuration(
+                    key = configurationKey,
+                    value = "3",
+                    author = EntityDefaults.user()
+            )
 }
