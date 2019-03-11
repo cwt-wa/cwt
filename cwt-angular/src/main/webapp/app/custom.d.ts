@@ -209,11 +209,14 @@ export type MessageCategory = "SHOUTBOX" | "PRIVATE" | "NEWS";
 
 export interface Message {
     body: string;
-    user: User;
+    author: User;
     created: number;
     recipients: User[];
+    newsType: MessageNewsType;
     category: MessageCategory;
 }
+
+export type MessageNewsType = "REPORT" | "RATING" | "COMMENT"
 
 
 export interface MessageDto {

@@ -26,6 +26,6 @@ constructor(private val messageRepository: MessageRepository) {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun publishNews(type: MessageNewsType, vararg data: Any?) =
-            messageRepository.save(Message(category = MessageCategory.NEWS, newsType = type,body = data.joinToString(separator = ",")))
+    fun publishNews(type: MessageNewsType, author: User, vararg data: Any?) =
+            messageRepository.save(Message(category = MessageCategory.NEWS, author = author, newsType = type, body = data.joinToString(separator = ",")))
 }

@@ -4,14 +4,21 @@
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
          [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}">
         {{message.created | date:'shortTime'}}
-        <cwt-user *ngIf="message.author" [username]="message.author.username" class="text-white font-weight-bold"></cwt-user>
-        <ng-container *ngIf="message.category === 'NEWS' && message.newsType === 'GAME'">
+        <cwt-user *ngIf="message.author" [username]="message.author?.username" class="text-white font-weight-bold"></cwt-user>
+
+        <ng-container *ngIf="message.category === 'NEWS'">
             <ng-container *ngIf="message.body.split(','); let messageData">
+                <ng-container [ngSwitch]="message.newsType">
+                    <ng-container *ngSwitchCase="'REPORT'">reported</ng-container>
+                    <ng-container *ngSwitchCase="'RATING'">{{messageData[5]}}d</ng-container>
+                    <ng-container *ngSwitchCase="'COMMENT'">commented</ng-container>
+                </ng-container>
                 <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>
-                reported
-                <cwt-user [username]="messageData[3]" class="font-weight-bold"></cwt-user>&nbsp;<a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[6]}}–{{messageData[7]}}</a>&nbsp;<cwt-user [username]="messageData[5]" class="font-weight-bold"></cwt-user>
+                <a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[3]}}–{{messageData[4]}}</a>
+                <cwt-user [username]="messageData[2]" class="font-weight-bold"></cwt-user>
             </ng-container>
         </ng-container>
+
         <ng-container *ngIf="message.category !== 'NEWS'">
             {{message.body}}
         </ng-container>
