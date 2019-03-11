@@ -26,7 +26,7 @@ constructor(private val configurationService: ConfigurationService, private val 
     @RequestMapping("", method = [RequestMethod.POST])
     fun query(@RequestBody configurationDto: ConfigurationDto, request: HttpServletRequest): ResponseEntity<Configuration> {
         val authenticatedUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-        val configuration = ConfigurationDto.map(configurationDto, authenticatedUser)
+        val configuration = ConfigurationDto.fromDto(configurationDto, authenticatedUser)
         return ResponseEntity.ok(configurationService.save(configuration))
     }
 
