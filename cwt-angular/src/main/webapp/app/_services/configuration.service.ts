@@ -13,7 +13,7 @@ export class ConfigurationService {
         return this.requestService.get<Configuration[]>('configuration', {keys: configurationKeys});
     }
 
-    public request(): Observable<Configuration> {
-        return this.requestService.get<Configuration>('configuration');
+    public request(): Observable<Configuration[]> {
+        return this.requestService.get<Configuration[]>('configuration');
     }
 }
