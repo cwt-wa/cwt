@@ -1,8 +1,8 @@
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Component, Inject, Input, OnInit} from "@angular/core";
 import {Application, Group, GroupDto, User} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
-import {Observable} from "rxjs/Observable";
-import {distinctUntilChanged} from "rxjs/operators";
+import {Observable} from "rxjs";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
 import {Utils} from "../_util/utils";
@@ -36,12 +36,12 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
 
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
-                .pipe(distinctUntilChanged())
-                .map(term =>
+                .pipe(distinctUntilChanged()).pipe(
+                map(term =>
                     this.applications
                         .map(a => a.applicant)
                         .filter(u => !this.userIsDrawn(u))
-                        .filter(a => a.username.toLowerCase().indexOf(term.toLowerCase()) !== -1));
+                        .filter(a => a.username.toLowerCase().indexOf(term.toLowerCase()) !== -1)));
         this.typeAheadInputFormatter = (value: User) => value.username || null;
         this.typeAheadResultFormatter = (value: User) => value.username;
     }
