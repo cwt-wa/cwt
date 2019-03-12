@@ -12,8 +12,8 @@ const toastr = require('toastr/toastr.js');
 })
 export class ApplyComponent implements OnInit {
 
-    public agreeToRules: boolean;
-    private rules: string;
+    agreeToRules: boolean;
+    rules: string;
 
     constructor(private requestService: RequestService, private authService: AuthService,
                 private router: Router) {
