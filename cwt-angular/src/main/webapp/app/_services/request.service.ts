@@ -1,8 +1,6 @@
 import {catchError, map} from 'rxjs/operators';
 import {Inject, Injectable} from "@angular/core";
 import {Observable, throwError as _throw} from "rxjs";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {AuthService} from "./auth.service";
 import {HttpClient} from "@angular/common/http";
