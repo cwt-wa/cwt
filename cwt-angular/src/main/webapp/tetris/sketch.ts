@@ -9,272 +9,274 @@ import {LFigure} from "./figures/l-figure";
 import {JFigure} from "./figures/j-figure";
 import {SFigure} from "./figures/s-figure";
 import {ZFigure} from "./figures/z-figure";
-import 'p5/lib/p5.js';
+//import 'p5/lib/p5.js';
 
-const p5 = require('p5/lib/p5.js');
+//const p5 = require('p5/lib/p5.js');
 
-let grid: Grid;
-let randomFigure: Figure;
-let fallenCells: Cell[];
-let fallenDownInterval: number;
-let highscore: number = 0;
-let canvasWidth = Cell.WIDTH * 10 + 1;
-let canvasHeight = window.innerHeight;
-let levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
+export class Tetris {
 
-const sketch = (s: p5) => {
-    s.setup = () => {
-        setup();
+    private grid: Grid;
+    private randomFigure: Figure;
+    private fallenCells: Cell[];
+    private fallenDownInterval: number;
+    private highscore: number = 0;
+    private canvasWidth = Cell.WIDTH * 10 + 1;
+    private canvasHeight = window.innerHeight;
+    private levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
+
+    public sketch = (s: p5) => {
+        s.setup = () => {
+            this.setup();
+        };
+
+        s.draw = () => {
+            this.draw()
+        };
+
+        s.keyPressed = () => {
+            this.keyPressed();
+        };
+
+        s.keyReleased = () => {
+            this.keyReleased();
+        };
     };
 
-    s.draw = () => {
-        draw()
-    };
+//export const canvas: p5 = new p5(sketch);
 
-    s.keyPressed = () => {
-        keyPressed();
-    };
+    private setup() {
+        canvas.createCanvas(this.canvasWidth, this.canvasHeight);
 
-    s.keyReleased = () => {
-        keyReleased();
-    };
-};
+        this.grid = new Grid(this.canvasWidth, this.canvasHeight);
+        this.grid.draw();
 
-export const canvas: p5 = new p5(sketch);
+        this.fallenCells = new Array();
 
-function setup() {
-    canvas.createCanvas(canvasWidth, canvasHeight);
+        this.randomFigure = this.calculateRandomFigure();
+        this.randomFigure.draw(this.grid);
 
-    grid = new Grid(canvasWidth, canvasHeight);
-    grid.draw();
+        this.fallenDownInterval = window.setInterval(() => {
+            this.randomFigure.fallDown(this.grid, this.fallenCells);
+        }, this.levelVelocity);
 
-    fallenCells = new Array();
-
-    randomFigure = calculateRandomFigure();
-    randomFigure.draw(grid);
-
-    fallenDownInterval = window.setInterval(() => {
-        randomFigure.fallDown(grid, fallenCells);
-    }, levelVelocity);
-
-    window.addEventListener("keydown", (event) => {
-        randomFigure.move(event.key, grid, fallenCells);
-    });
-}
-
-
-function draw() {
-    canvas.clear();
-
-    nextFigure();
-
-    grid.draw();
-
-    dropFigures(deleteFullRows());
-
-    showHighscore();
-    showLevel("black");
-
-    changeLevels();
-
-    grid.updateGrid(fallenCells);
-
-    randomFigure.draw(grid);
-}
-
-function changeLevels() {
-    if (highscore >= 300 && highscore < 600 && levelVelocity != LevelVelocity.LEVEL_2) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_2);
-    } else if (highscore >= 600 && highscore < 900 && levelVelocity != LevelVelocity.LEVEL_3) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_3);
-    } else if (highscore >= 900 && highscore < 1200 && levelVelocity != LevelVelocity.LEVEL_4) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_4);
-    } else if (highscore >= 1200 && highscore < 1500 && levelVelocity != LevelVelocity.LEVEL_5) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_5);
-    } else if (highscore >= 1500 && highscore < 1800 && levelVelocity != LevelVelocity.LEVEL_6) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_6);
-    } else if (highscore >= 1800 && highscore < 2100 && levelVelocity != LevelVelocity.LEVEL_7) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_7);
-    } else if (highscore >= 2100 && highscore < 2400 && levelVelocity != LevelVelocity.LEVEL_8) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_8);
-    } else if (highscore >= 2400 && highscore < 2700 && levelVelocity != LevelVelocity.LEVEL_9) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_9);
-    } else if (highscore >= 2700 && highscore < 3000 && levelVelocity != LevelVelocity.LEVEL_10) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_10);
-    } else if (highscore >= 3000 && highscore < 3300 && levelVelocity != LevelVelocity.LEVEL_11) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_11);
-    } else if (highscore >= 3300 && highscore < 3600 && levelVelocity != LevelVelocity.LEVEL_12) {
-        updateFallenDownInterval(LevelVelocity.LEVEL_12);
+        window.addEventListener("keydown", (event) => {
+            this.randomFigure.move(event.key, this.grid, this.fallenCells);
+        });
     }
-}
 
-function showLevel(color: String) {
-    canvas.textSize(12);
-    canvas.fill(color.toString());
-    canvas.text(LevelVelocity[levelVelocity], 5, 54);
-}
 
-function updateFallenDownInterval(newLevelVelocity: LevelVelocity) {
-    clearInterval(fallenDownInterval);
-    levelVelocity = newLevelVelocity;
-    fallenDownInterval = window.setInterval(() => {
-        randomFigure.fallDown(grid, fallenCells);
-    }, levelVelocity);
-}
+    private draw() {
+        this.canvas.clear();
 
-function deleteFullRows(): number[] {
+        this.nextFigure();
 
-    let deletedRows: number[] = new Array();
+        this.grid.draw();
 
-    fallenCells.sort(function (a, b) {
-        return a.getYPos() - b.getYPos();
-    });
+        this.dropFigures(this.deleteFullRows());
 
-    let counterOfFallenCellsInOneRow = 0;
-    const clone = JSON.parse(JSON.stringify(fallenCells));
+        this.showHighscore();
+        this.showLevel("black");
 
-    for (let i = 0; i < clone.length - 1; i++) {
-        if (clone[i].yPos == clone[i + 1].yPos) {
-            counterOfFallenCellsInOneRow++;
-            if (counterOfFallenCellsInOneRow + 1 === grid.getNumberOfCellsHorizontal()) {
-                let deletingYPos = clone[i].yPos;
-                deletedRows.push(deletingYPos);
+        this.changeLevels();
 
-                for (let j = 0; j < fallenCells.length;) {
-                    if (fallenCells[j].getYPos() == deletingYPos) {
-                        fallenCells.splice(j, 1);
-                    } else {
-                        j++;
+        this.grid.updateGrid(this.fallenCells);
+
+        this.randomFigure.draw(this.grid);
+    }
+
+    private changeLevels() {
+        if (this.highscore >= 300 && this.highscore < 600 && this.levelVelocity != LevelVelocity.LEVEL_2) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_2);
+        } else if (this.highscore >= 600 && this.highscore < 900 && this.levelVelocity != LevelVelocity.LEVEL_3) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_3);
+        } else if (this.highscore >= 900 && this.highscore < 1200 && this.levelVelocity != LevelVelocity.LEVEL_4) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_4);
+        } else if (this.highscore >= 1200 && this.highscore < 1500 && this.levelVelocity != LevelVelocity.LEVEL_5) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_5);
+        } else if (this.highscore >= 1500 && this.highscore < 1800 && this.levelVelocity != LevelVelocity.LEVEL_6) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_6);
+        } else if (this.highscore >= 1800 && this.highscore < 2100 && this.levelVelocity != LevelVelocity.LEVEL_7) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_7);
+        } else if (this.highscore >= 2100 && this.highscore < 2400 && this.levelVelocity != LevelVelocity.LEVEL_8) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_8);
+        } else if (this.highscore >= 2400 && this.highscore < 2700 && this.levelVelocity != LevelVelocity.LEVEL_9) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_9);
+        } else if (this.highscore >= 2700 && this.highscore < 3000 && this.levelVelocity != LevelVelocity.LEVEL_10) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_10);
+        } else if (this.highscore >= 3000 && this.highscore < 3300 && this.levelVelocity != LevelVelocity.LEVEL_11) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_11);
+        } else if (this.highscore >= 3300 && this.highscore < 3600 && this.levelVelocity != LevelVelocity.LEVEL_12) {
+            this.updateFallenDownInterval(LevelVelocity.LEVEL_12);
+        }
+    }
+
+    private showLevel(color: String) {
+        this.canvas.textSize(12);
+        this.canvas.fill(color.toString());
+        this.canvas.text(LevelVelocity[this.levelVelocity], 5, 54);
+    }
+
+    private updateFallenDownInterval(newLevelVelocity: LevelVelocity) {
+        clearInterval(this.fallenDownInterval);
+        this.levelVelocity = newLevelVelocity;
+        this.fallenDownInterval = window.setInterval(() => {
+            this.randomFigure.fallDown(this.grid, this.fallenCells);
+        }, this.levelVelocity);
+    }
+
+    private deleteFullRows(): number[] {
+
+        let deletedRows: number[] = new Array();
+
+        this.fallenCells.sort(function (a, b) {
+            return a.getYPos() - b.getYPos();
+        });
+
+        let counterOfFallenCellsInOneRow = 0;
+        const clone = JSON.parse(JSON.stringify(this.fallenCells));
+
+        for (let i = 0; i < clone.length - 1; i++) {
+            if (clone[i].yPos == clone[i + 1].yPos) {
+                counterOfFallenCellsInOneRow++;
+                if (counterOfFallenCellsInOneRow + 1 === this.grid.getNumberOfCellsHorizontal()) {
+                    let deletingYPos = clone[i].yPos;
+                    deletedRows.push(deletingYPos);
+
+                    for (let j = 0; j < this.fallenCells.length;) {
+                        if (this.fallenCells[j].getYPos() == deletingYPos) {
+                            this.fallenCells.splice(j, 1);
+                        } else {
+                            j++;
+                        }
                     }
-                }
 
+                    counterOfFallenCellsInOneRow = 0;
+                }
+            } else {
                 counterOfFallenCellsInOneRow = 0;
             }
-        } else {
-            counterOfFallenCellsInOneRow = 0;
         }
+
+        return deletedRows;
     }
 
-    return deletedRows;
-}
-
-function dropFigures(deletedRows: number[]) {
-    for (let cell of fallenCells) {
-        for (let deleteRow of deletedRows) {
-            if (cell.getYPos() < deleteRow) {
-                let tmp = cell.getYPos();
-                cell.setYPos(tmp + 1);
+    private dropFigures(deletedRows: number[]) {
+        for (let cell of this.fallenCells) {
+            for (let deleteRow of deletedRows) {
+                if (cell.getYPos() < deleteRow) {
+                    let tmp = cell.getYPos();
+                    cell.setYPos(tmp + 1);
+                }
             }
         }
-    }
-    highscore += (deletedRows.length * 10);
-}
-
-function showHighscore() {
-    canvas.textSize(30);
-    canvas.fill("black");
-    canvas.text(highscore.toString(), 5, 35);
-}
-
-function gameOver() {
-    canvas.noLoop();
-    let input = document.createElement("input");
-    input.type = "Game over";
-
-    let gameOverText = document.getElementById("gameOverText");
-    if (gameOverText != null) {
-        gameOverText.innerText = "Game over";
-        gameOverText.setAttribute("style", "-webkit-animation: moveGameOverText 5s infinite; " +
-            "animation: moveGameOverText 5s infinite; animation-iteration-count: 1;" +
-            "display: block !important;");
+        this.highscore += (deletedRows.length * 10);
     }
 
-    let highscoreDiv = document.getElementById("highscore");
-    if (highscoreDiv != null) {
-        highscoreDiv.setAttribute("style", "display: block; -webkit-animation: moveBackground 5s infinite; " +
-            "animation: moveBackground 5s infinite; animation-iteration-count: 1;");
+    private showHighscore() {
+        this.canvas.textSize(30);
+        this.canvas.fill("black");
+        this.canvas.text(this.highscore.toString(), 5, 35);
     }
 
-    /*window.setTimeout(function () {
-        const name = prompt("What is your name?");
+    private gameOver() {
+        this.canvas.noLoop();
+        let input = document.createElement("input");
+        input.type = "Game over";
 
-        $.post(
-            {
-                url: '/views/post-highscore.php',
-                data: {
-                    highscore: highscore,
-                    name: name
-                },
-                dataType: 'html'
-            }
-        ).done(function (x, y, z) {
-            debugger;
-            alert("Success");
-        }).fail(function (x, y, z) {
-            debugger;
-            alert("Success");
-        });
-    }, 5000);*/
-
-}
-
-function nextFigure() {
-    if (randomFigure.isLanded()) {
-        for (let cell of randomFigure.getCells()) {
-            if (cell.getYPos() <= 0) {
-                gameOver();
-            }
+        let gameOverText = document.getElementById("gameOverText");
+        if (gameOverText != null) {
+            gameOverText.innerText = "Game over";
+            gameOverText.setAttribute("style", "-webkit-animation: moveGameOverText 5s infinite; " +
+                "animation: moveGameOverText 5s infinite; animation-iteration-count: 1;" +
+                "display: block !important;");
         }
-        for (let cell of randomFigure.getCells()) {
-            fallenCells.push(cell);
-            randomFigure = calculateRandomFigure();
+
+        let highscoreDiv = document.getElementById("highscore");
+        if (highscoreDiv != null) {
+            highscoreDiv.setAttribute("style", "display: block; -webkit-animation: moveBackground 5s infinite; " +
+                "animation: moveBackground 5s infinite; animation-iteration-count: 1;");
         }
-        highscore += 10;
-    }
-}
 
+        /*window.setTimeout(function () {
+            const name = prompt("What is your name?");
 
+            $.post(
+                {
+                    url: '/views/post-highscore.php',
+                    data: {
+                        highscore: highscore,
+                        name: name
+                    },
+                    dataType: 'html'
+                }
+            ).done(function (x, y, z) {
+                debugger;
+                alert("Success");
+            }).fail(function (x, y, z) {
+                debugger;
+                alert("Success");
+            });
+        }, 5000);*/
 
-function keyPressed() {
-    console.log(canvas.keyCode);
-    if (canvas.keyCode === 40) {
-        clearInterval(fallenDownInterval);
-        fallenDownInterval = window.setInterval(() => {
-            randomFigure.fallDown(grid, fallenCells);
-        }, LevelVelocity.ARROW_DOWN);
-    }
-}
-
-function keyReleased() {
-    console.log(canvas.keyCode);
-    if (canvas.keyCode === 40) { //KeyCode.DownArrow) {
-        clearInterval(fallenDownInterval);
-        fallenDownInterval = window.setInterval(() => {
-            randomFigure.fallDown(grid, fallenCells);
-        }, levelVelocity);
-    }
-}
-
-function calculateRandomFigure(): Figure {
-
-    let randomNumber = Math.floor(Math.random() * 7);
-
-    switch (randomNumber) {
-        case 0:
-            return new SquareFigure("#FFD700", grid);
-        case 1:
-            return new TFigure("#DC143C", grid);
-        case 2:
-            return new IFigure("#1E90FF", grid);
-        case 3:
-            return new LFigure("#9400D3", grid);
-        case 4:
-            return new JFigure("#5F9EA0", grid);
-        case 5:
-            return new SFigure("#FA8072", grid);
-        case 6:
-            return new ZFigure("#C71585", grid);
     }
 
-    return new SquareFigure("blue", grid);
+    private nextFigure() {
+        if (this.randomFigure.isLanded()) {
+            for (let cell of this.randomFigure.getCells()) {
+                if (cell.getYPos() <= 0) {
+                    this.gameOver();
+                }
+            }
+            for (let cell of this.randomFigure.getCells()) {
+                this.fallenCells.push(cell);
+                this.randomFigure = this.calculateRandomFigure();
+            }
+            this.highscore += 10;
+        }
+    }
+
+
+    private keyPressed() {
+        console.log(this.canvas.keyCode);
+        if (this.canvas.keyCode === 40) {
+            clearInterval(this.fallenDownInterval);
+            this.fallenDownInterval = window.setInterval(() => {
+                this.randomFigure.fallDown(this.grid, this.fallenCells);
+            }, LevelVelocity.ARROW_DOWN);
+        }
+    }
+
+    private keyReleased() {
+        console.log(this.canvas.keyCode);
+        if (this.canvas.keyCode === 40) { //KeyCode.DownArrow) {
+            clearInterval(this.fallenDownInterval);
+            this.fallenDownInterval = window.setInterval(() => {
+                this.randomFigure.fallDown(this.grid, this.fallenCells);
+            }, this.levelVelocity);
+        }
+    }
+
+    private calculateRandomFigure(): Figure {
+
+        let randomNumber = Math.floor(Math.random() * 7);
+
+        switch (randomNumber) {
+            case 0:
+                return new SquareFigure("#FFD700", this.grid);
+            case 1:
+                return new TFigure("#DC143C", this.grid);
+            case 2:
+                return new IFigure("#1E90FF", this.grid);
+            case 3:
+                return new LFigure("#9400D3", this.grid);
+            case 4:
+                return new JFigure("#5F9EA0", this.grid);
+            case 5:
+                return new SFigure("#FA8072", this.grid);
+            case 6:
+                return new ZFigure("#C71585", this.grid);
+        }
+
+        return new SquareFigure("blue", this.grid);
+    }
 }
