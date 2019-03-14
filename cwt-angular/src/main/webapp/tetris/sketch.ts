@@ -9,9 +9,7 @@ import {LFigure} from "./figures/l-figure";
 import {JFigure} from "./figures/j-figure";
 import {SFigure} from "./figures/s-figure";
 import {ZFigure} from "./figures/z-figure";
-//import 'p5/lib/p5.js';
-
-//const p5 = require('p5/lib/p5.js');
+import 'p5/lib/p5.js';
 
 export class Tetris {
 
@@ -24,33 +22,16 @@ export class Tetris {
     private canvasHeight = window.innerHeight;
     private levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
 
-    public sketch = (s: p5) => {
-        s.setup = () => {
-            this.setup();
-        };
+    constructor(private p5: p5) {
+    }
 
-        s.draw = () => {
-            this.draw()
-        };
-
-        s.keyPressed = () => {
-            this.keyPressed();
-        };
-
-        s.keyReleased = () => {
-            this.keyReleased();
-        };
-    };
-
-//export const canvas: p5 = new p5(sketch);
-
-    private setup() {
-        canvas.createCanvas(this.canvasWidth, this.canvasHeight);
+    setup() {
+        this.p5.createCanvas(this.canvasWidth, this.canvasHeight);
 
         this.grid = new Grid(this.canvasWidth, this.canvasHeight);
-        this.grid.draw();
+        this.grid.draw(this.p5);
 
-        this.fallenCells = new Array();
+        this.fallenCells = [];
 
         this.randomFigure = this.calculateRandomFigure();
         this.randomFigure.draw(this.grid);
@@ -65,12 +46,12 @@ export class Tetris {
     }
 
 
-    private draw() {
-        this.canvas.clear();
+    draw() {
+        this.p5.clear();
 
         this.nextFigure();
 
-        this.grid.draw();
+        this.grid.draw(this.p5);
 
         this.dropFigures(this.deleteFullRows());
 
@@ -111,9 +92,9 @@ export class Tetris {
     }
 
     private showLevel(color: String) {
-        this.canvas.textSize(12);
-        this.canvas.fill(color.toString());
-        this.canvas.text(LevelVelocity[this.levelVelocity], 5, 54);
+        this.p5.textSize(12);
+        this.p5.fill(color.toString());
+        this.p5.text(LevelVelocity[this.levelVelocity], 5, 54);
     }
 
     private updateFallenDownInterval(newLevelVelocity: LevelVelocity) {
@@ -126,7 +107,7 @@ export class Tetris {
 
     private deleteFullRows(): number[] {
 
-        let deletedRows: number[] = new Array();
+        let deletedRows: number[] = [];
 
         this.fallenCells.sort(function (a, b) {
             return a.getYPos() - b.getYPos();
@@ -173,13 +154,13 @@ export class Tetris {
     }
 
     private showHighscore() {
-        this.canvas.textSize(30);
-        this.canvas.fill("black");
-        this.canvas.text(this.highscore.toString(), 5, 35);
+        this.p5.textSize(30);
+        this.p5.fill("black");
+        this.p5.text(this.highscore.toString(), 5, 35);
     }
 
     private gameOver() {
-        this.canvas.noLoop();
+        this.p5.noLoop();
         let input = document.createElement("input");
         input.type = "Game over";
 
@@ -236,9 +217,9 @@ export class Tetris {
     }
 
 
-    private keyPressed() {
-        console.log(this.canvas.keyCode);
-        if (this.canvas.keyCode === 40) {
+    public keyPressed() {
+        console.log(this.p5.keyCode);
+        if (this.p5.keyCode === 40) {
             clearInterval(this.fallenDownInterval);
             this.fallenDownInterval = window.setInterval(() => {
                 this.randomFigure.fallDown(this.grid, this.fallenCells);
@@ -246,9 +227,9 @@ export class Tetris {
         }
     }
 
-    private keyReleased() {
-        console.log(this.canvas.keyCode);
-        if (this.canvas.keyCode === 40) { //KeyCode.DownArrow) {
+    public keyReleased() {
+        console.log(this.p5.keyCode);
+        if (this.p5.keyCode === 40) { //KeyCode.DownArrow) {
             clearInterval(this.fallenDownInterval);
             this.fallenDownInterval = window.setInterval(() => {
                 this.randomFigure.fallDown(this.grid, this.fallenCells);

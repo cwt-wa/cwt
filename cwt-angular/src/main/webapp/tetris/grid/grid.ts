@@ -1,5 +1,4 @@
 import {Cell} from "./cell";
-import {canvas} from "../sketch";
 
 export class Grid {
 
@@ -22,7 +21,7 @@ export class Grid {
         }
     }
 
-    draw(): void {
+    draw(canvas : p5): void {
 
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[i].length; j++) {
