@@ -19,7 +19,7 @@
     "@angular/platform-browser-dynamic": "^7",
     "@angular/router": "^7",
     "@ng-bootstrap/ng-bootstrap": "4.x",
-    "bootstrap": "^4.3.1",
+    "bootstrap": "~4.0.0",
     "core-js": "^2.5.7",
     "font-awesome": "latest",
     "jquery": "^3.3.1",
