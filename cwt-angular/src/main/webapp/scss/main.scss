@@ -588,3 +588,31 @@ select.custom-select-sm {
 .text-monospace {
   font-family: monospace;
 }
+
+.navbar .collapse {
+   display: block;
+   height: 0;
+   transition: height ease-out 400ms;
+}
+
+.navbar .collapse:not(.show) {
+   display: block;
+}
+
+.navbar .collapse.show {
+   display: block;
+}
+
+@media (max-width: 991px) {
+  .navbar .collapse.show {
+    height: calc(100vh - 58px);
+    margin-top: 58px;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar .collapse {
+    height: auto;
+    margin-top: -75px;
+  }
+}
