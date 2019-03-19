@@ -60,6 +60,7 @@ import {TypeaheadOpenOnFocusDirective} from "./_util/typeahead-open-on-focus.dir
 import {ReplacePlayerComponent} from "./replace-player/replace-player.component";
 import {MarkdownComponent} from "./_util/markdown.component";
 import {AdminSettingsComponent} from "./admin/admin-settings.component";
+import {AdminTournamentReviewComponent} from "./admin/admin-tournament-review.component";
 
 const appRoutes: Routes = [
     {
@@ -159,6 +160,10 @@ const appRoutes: Routes = [
         component: AdminSettingsComponent
     },
     {
+        path: 'admin/tournaments/review',
+        component: AdminTournamentReviewComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -219,7 +224,8 @@ const appRoutes: Routes = [
         AddTechWinComponent,
         ReplacePlayerComponent,
         MarkdownComponent,
-        AdminSettingsComponent
+        AdminSettingsComponent,
+        AdminTournamentReviewComponent
     ],
     providers: [
         WebAppViewService,
