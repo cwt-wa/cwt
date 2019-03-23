@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "application")
-@SequenceGenerator(name = "application_seq", sequenceName = "application_seq", initialValue = 102, allocationSize = 1)
+@SequenceGenerator(name = "application_seq", sequenceName = "application_seq")
 public class Application implements Serializable {
 
     private static final long serialVersionUID = 1L;

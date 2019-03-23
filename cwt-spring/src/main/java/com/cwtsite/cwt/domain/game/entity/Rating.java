@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "rating")
-@SequenceGenerator(name = "rating_seq", sequenceName = "rating_seq", initialValue = 1103, allocationSize = 1)
+@SequenceGenerator(name = "rating_seq", sequenceName = "rating_seq")
 public class Rating implements Serializable {
 
     private static final long serialVersionUID = 1L;

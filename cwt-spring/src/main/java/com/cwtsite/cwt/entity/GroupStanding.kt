@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "group_standing")
-@SequenceGenerator(name = "group_standing_seq", sequenceName = "group_standing_seq", initialValue = 486, allocationSize = 1)
+@SequenceGenerator(name = "group_standing_seq", sequenceName = "group_standing_seq")
 data class GroupStanding(
 
         @Id

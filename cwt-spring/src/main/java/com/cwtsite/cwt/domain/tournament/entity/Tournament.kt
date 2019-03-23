@@ -11,7 +11,7 @@ import javax.persistence.*
 data class Tournament(
 
         @Id
-        @SequenceGenerator(name = "tournament_seq", sequenceName = "tournament_seq", initialValue = 16, allocationSize = 1)
+        @SequenceGenerator(name = "tournament_seq", sequenceName = "tournament_seq")
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tournament_seq")
         val id: Long? = null,
 

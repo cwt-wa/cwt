@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "comment")
-@SequenceGenerator(name = "comment_seq", sequenceName = "comment_seq", initialValue = 1466, allocationSize = 1)
+@SequenceGenerator(name = "comment_seq", sequenceName = "comment_seq")
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;

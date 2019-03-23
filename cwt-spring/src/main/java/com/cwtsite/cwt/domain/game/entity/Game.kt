@@ -13,7 +13,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "game")
-@SequenceGenerator(name = "game_seq", sequenceName = "game_seq", initialValue = 1219, allocationSize = 1)
+@SequenceGenerator(name = "game_seq", sequenceName = "game_seq")
 data class Game(
 
         @Id

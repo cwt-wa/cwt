@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "playoff_game")
-@SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_seq", initialValue = 261, allocationSize = 1)
+@SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_seq")
 public class PlayoffGame implements Serializable {
 
     private static final long serialVersionUID = 1L;
