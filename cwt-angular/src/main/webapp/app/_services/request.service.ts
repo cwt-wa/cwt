@@ -52,6 +52,14 @@ export class RequestService {
             catchError(RequestService.catch));
     }
 
+    public put<T>(relativePath: string, body: any | null = null): Observable<T> {
+        return this.httpClient
+            .put<T>(
+                this.appConfig.apiEndpoint + relativePath, body,
+                {headers: this.generateDefaultHeaders()}).pipe(
+            catchError(RequestService.catch));
+    }
+
     public delete<T>(relativePath: string, params?: QueryParams): Observable<T> {
         return this.httpClient
             .delete<T>(

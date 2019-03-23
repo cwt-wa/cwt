@@ -183,8 +183,8 @@ export interface Tournament {
     id: number;
     status: TournamentStatus;
     review: String;
-    open: Date;
-    created: Date;
+    open: string;
+    created: string;
     host: User;
     bronzeWinner: User;
     silverWinner: User;

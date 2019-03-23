@@ -10,12 +10,14 @@ import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.tournament.view.model.StartNewTournamentDto
+import com.cwtsite.cwt.domain.tournament.view.model.TournamentUpdateDto
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.servlet.http.HttpServletRequest
@@ -145,6 +147,13 @@ constructor(private val tournamentService: TournamentService, private val userSe
         return ResponseEntity.ok(groupService.getGroupsForTournament(tournamentService.getCurrentTournament())
                 .flatMap { it.standings.map { s -> s.user } }
                 .map { UserMinimalDto.toDto(it) })
+    }
+
+    @RequestMapping("{id}", method = [RequestMethod.PUT])
+    @Transactional
+    fun updateTournament(@PathVariable("id") id: Long, @RequestBody dto: TournamentUpdateDto): ResponseEntity<Tournament> {
+        val tournament = tournamentService.getTournament(id).orElseThrow { RestException("Tournament not found", HttpStatus.NOT_FOUND, null) }
+        return ResponseEntity.ok(dto.update(tournament) { if (it == null) null else userService.getById(it).orElse(null) })
     }
 
     @RequestMapping("{id}/group/users")

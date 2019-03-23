@@ -61,6 +61,7 @@ import {ReplacePlayerComponent} from "./replace-player/replace-player.component"
 import {MarkdownComponent} from "./_util/markdown.component";
 import {AdminSettingsComponent} from "./admin/admin-settings.component";
 import {AdminTournamentReviewComponent} from "./admin/admin-tournament-review.component";
+import {CanDeactivateGuard} from "./_services/can-deactivate-guard";
 
 const appRoutes: Routes = [
     {
@@ -161,7 +162,8 @@ const appRoutes: Routes = [
     },
     {
         path: 'admin/tournaments/review',
-        component: AdminTournamentReviewComponent
+        component: AdminTournamentReviewComponent,
+        canDeactivate: [CanDeactivateGuard]
     },
     {
         path: '**',
@@ -237,6 +239,7 @@ const appRoutes: Routes = [
         PreviousRouteService,
         Utils,
         PlayoffsService,
+        CanDeactivateGuard,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     entryComponents: [MentionComponent],
