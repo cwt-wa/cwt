@@ -5,16 +5,13 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "application")
 @SequenceGenerator(name = "application_seq", sequenceName = "application_seq")
-public class Application implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "application_seq")

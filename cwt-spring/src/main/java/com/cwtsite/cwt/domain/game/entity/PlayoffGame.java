@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.domain.game.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -10,9 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "playoff_game")
 @SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_seq")
-public class PlayoffGame implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class PlayoffGame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playoff_game_seq")

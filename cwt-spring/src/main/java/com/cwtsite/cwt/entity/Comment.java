@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -18,9 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "comment")
 @SequenceGenerator(name = "comment_seq", sequenceName = "comment_seq")
-public class Comment implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")

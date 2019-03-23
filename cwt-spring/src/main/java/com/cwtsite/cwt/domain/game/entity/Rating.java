@@ -5,15 +5,12 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "rating")
 @SequenceGenerator(name = "rating_seq", sequenceName = "rating_seq")
-public class Rating implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_seq")

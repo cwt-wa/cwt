@@ -3,10 +3,9 @@ package com.cwtsite.cwt.domain.user.repository.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class UserStats implements Serializable {
+public class UserStats {
 
     @Id
     @Column(name = "user_id")

@@ -5,15 +5,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "page")
-public class Page implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Page {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
