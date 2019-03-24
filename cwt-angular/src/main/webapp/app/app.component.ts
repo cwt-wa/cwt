@@ -50,10 +50,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         window.location.href = '/';
     }
 
-    public tetrisHtml: string;
-
     easterEgg() {
-        this.tetrisHtml = require('../tetris/views/tetris.html');
         const p5 = require('p5/lib/p5.js');
 
         new p5(function (p: p5) {
