@@ -17,29 +17,23 @@ open class GroupRepositoryTest : AbstractDbTest() {
         val redG = createRedG()
 
         val gTournament = redG.addTournament()
-        val gGroup = redG.addGroup()
-                .tournamentIdTournament(gTournament)
+        val gGroup = redG.addGroup(gTournament)
 
         val dummyUser1 = redG.dummyUser()
-        redG.addGroupStanding()
-                .groupIdGroup(gGroup)
-                .userIdUser(dummyUser1)
-        val dummyUser2 = redG.dummyUser()
-        redG.addGroupStanding()
-                .groupIdGroup(gGroup)
-                .userIdUser(dummyUser2)
-        val dummyUser3 = redG.dummyUser()
-        redG.addGroupStanding()
-                .groupIdGroup(gGroup)
-                .userIdUser(dummyUser3)
-        val dummyUser4 = redG.dummyUser()
-        redG.addGroupStanding()
-                .groupIdGroup(gGroup)
-                .userIdUser(dummyUser4)
+        redG.addGroupStanding(dummyUser1).groupIdGroup(gGroup)
 
-        redG.addGroupStanding()
+        val dummyUser2 = redG.dummyUser()
+        redG.addGroupStanding(dummyUser2).groupIdGroup(gGroup)
+
+        val dummyUser3 = redG.dummyUser()
+        redG.addGroupStanding(dummyUser3).groupIdGroup(gGroup)
+
+        val dummyUser4 = redG.dummyUser()
+        redG.addGroupStanding(dummyUser4).groupIdGroup(gGroup)
+
+
+        redG.addGroupStanding(redG.dummyUser())
                 .groupIdGroup(redG.dummyGroup().tournamentIdTournament(redG.dummyTournament()))
-                .userIdUser(redG.dummyUser())
 
         insertRedGIntoDatabase(redG)
 
