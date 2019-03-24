@@ -29,9 +29,6 @@ data class Game(
         @Column(name = "tech_win")
         var techWin: Boolean = false,
 
-        @Column(name = "downloads")
-        var downloads: Int? = null,
-
         @field:CreationTimestamp
         @Column(name = "created", nullable = false)
         var created: Timestamp? = null,

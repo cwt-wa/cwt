@@ -27,9 +27,6 @@ public class Comment {
     @Column(name = "body", nullable = false, columnDefinition = "text")
     private String body;
 
-    @Column(name = "deleted")
-    private Boolean deleted;
-
     @Column(name = "created", nullable = false)
     @CreationTimestamp
     private Timestamp created;
@@ -75,19 +72,6 @@ public class Comment {
     public Comment body(String body) {
         this.body = body;
         return this;
-    }
-
-    public Boolean isDeleted() {
-        return deleted;
-    }
-
-    public Comment deleted(Boolean deleted) {
-        this.deleted = deleted;
-        return this;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 
     public Timestamp getCreated() {
@@ -167,7 +151,6 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", body='" + body + "'" +
-                ", deleted='" + deleted + "'" +
                 ", created='" + created + "'" +
                 ", modified='" + modified + "'" +
                 '}';

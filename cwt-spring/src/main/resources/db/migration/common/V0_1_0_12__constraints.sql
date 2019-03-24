@@ -79,3 +79,11 @@ alter table replay alter column extension set not null;
 create index fk_tournament_bronze_id on tournament (bronze_winner_id);
 create index fk_tournament_gold_id on tournament (gold_winner_id);
 create index fk_tournament_silver_id on tournament (silver_winner_id);
+
+--
+-- General
+--
+
+alter table comment drop column deleted;
+alter table game drop column downloads;
+drop table page;
