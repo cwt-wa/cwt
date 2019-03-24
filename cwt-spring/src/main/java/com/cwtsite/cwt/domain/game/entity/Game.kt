@@ -44,7 +44,8 @@ data class Game(
         @JoinColumn(unique = true)
         var playoff: PlayoffGame? = null,
 
-        @ManyToOne
+        @ManyToOne(optional = false)
+        @JoinColumn(nullable = false)
         var tournament: Tournament,
 
         @JsonIgnore
@@ -69,6 +70,7 @@ data class Game(
 
         @JsonIgnore
         @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+        @JoinColumn(unique = true)
         var replay: Replay? = null,
 
         @Basic(fetch = FetchType.LAZY)

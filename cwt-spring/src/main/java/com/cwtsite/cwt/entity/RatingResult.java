@@ -25,8 +25,8 @@ public class RatingResult {
     @Column(name = "darkside")
     private Integer darkside;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @OneToOne(optional = false)
+    @JoinColumn(unique = true, nullable = false)
     private Game game;
 
     protected RatingResult() {

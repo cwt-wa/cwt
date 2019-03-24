@@ -29,7 +29,8 @@ data class GroupStanding(
 //        @JoinColumn(name = "group_id")
 //        var group: Group,
 
-        @ManyToOne
+        @ManyToOne(optional = false)
+        @JoinColumn(nullable = false)
         var user: User
 ) {
 

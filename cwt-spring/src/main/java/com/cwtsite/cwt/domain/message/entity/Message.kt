@@ -17,10 +17,11 @@ data class Message(
         var id: Long? = null,
 
         @Column(columnDefinition = "text", nullable = false)
-        var body: String? = null,
+        var body: String,
 
-        @ManyToOne
-        var author: User? = null,
+        @ManyToOne(optional =  false)
+        @JoinColumn(nullable = false)
+        var author: User,
 
         @ManyToMany
         @JoinTable(

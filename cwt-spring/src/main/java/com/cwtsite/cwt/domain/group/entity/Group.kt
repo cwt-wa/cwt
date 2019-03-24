@@ -18,7 +18,8 @@ data class Group(
         @Column(name = "label")
         var label: GroupLabel? = null,
 
-        @ManyToOne
+        @ManyToOne(optional = false)
+        @JoinColumn(nullable = false)
         var tournament: Tournament? = null,
 
         @OneToMany(cascade = [CascadeType.ALL])

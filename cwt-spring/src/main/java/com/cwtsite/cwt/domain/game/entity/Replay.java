@@ -10,13 +10,13 @@ public class Replay {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private byte[] file;
 
-    @Column
+    @Column(nullable = false)
     private String mediaType;
 
-    @Column
+    @Column(nullable = false)
     private String extension;
 
     public Replay() {

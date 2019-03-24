@@ -24,7 +24,7 @@ public class Comment {
     private Long id;
 
     @NotNull
-    @Column(name = "body", nullable = false, columnDefinition = "text", length = 10485760)
+    @Column(name = "body", nullable = false, columnDefinition = "text")
     private String body;
 
     @Column(name = "deleted")
@@ -38,12 +38,13 @@ public class Comment {
     @UpdateTimestamp
     private Timestamp modified;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private User author;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Game game;
 
     protected Comment() {

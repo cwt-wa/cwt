@@ -20,12 +20,13 @@ public class Rating {
     @Enumerated(EnumType.STRING)
     private RatingType type;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private User user;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Game game;
 
     public Rating(RatingType type, User user, Game game) {

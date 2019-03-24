@@ -24,10 +24,12 @@ public class Application {
     @Column(name = "revoked")
     private Boolean revoked;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Tournament tournament;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private User applicant;
 
     protected Application() {
