@@ -74,6 +74,6 @@ export class AppComponent implements AfterViewInit, OnInit {
             p.keyReleased = () => {
                 tetris.keyReleased();
             }
-        });
+        }, document.getElementById('tetris'));
    }
 }
