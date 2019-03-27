@@ -27,7 +27,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     public ngOnInit(): void {
-        this.easterEgg();
+        //this.easterEgg();
         this.requestService.get<{ token: string }>('auth/refresh').subscribe(
             res => {
                 this.authService.storeToken(res.token);
@@ -51,7 +51,11 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     easterEgg() {
+
+        require('../tetris/styles/testTetris.css');
         const p5 = require('p5/lib/p5.js');
+
+        document.body.classList.add("tetris");
 
         new p5(function (p: p5) {
             const tetris = new Tetris(p);
