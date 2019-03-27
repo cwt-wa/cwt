@@ -28,7 +28,7 @@ data class Message(
                 name = "message_recipient",
                 joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
                 inverseJoinColumns = [JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID")])
-        val recipients: List<User> = mutableListOf(),
+        var recipients: MutableList<User> = mutableListOf(),
 
         @Enumerated(EnumType.STRING)
         @Column(nullable = false)
