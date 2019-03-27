@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {Tournament} from "../custom";
 import {CanDeactivateGuard, Deactivatable} from "../_services/can-deactivate-guard";
@@ -27,6 +27,17 @@ export class AdminTournamentReviewComponent implements OnInit, Deactivatable {
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        return this.confirmUnsavedChanges();
+    }
+
+    @HostListener('window:beforeunload', ['$event'])
+    confirmPageLeave($event: Event) {
+        $event.returnValue = this.confirmUnsavedChanges();
+        if (!$event.returnValue) $event.preventDefault();
+    }
+
+    confirmUnsavedChanges(): boolean {
+        if (this.tournamentBeingEdited == null) return true;
         return this.tournaments.find(t => t.id === this.tournamentBeingEdited).review !== this.reviewBeingEdited
             ? confirm("You have unsaved changes. Do you really want to leave?")
             : true;
