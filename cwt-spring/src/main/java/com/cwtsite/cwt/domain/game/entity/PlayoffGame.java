@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "playoff_game")
-@SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_seq")
+@SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_seq", allocationSize = 1)
 public class PlayoffGame {
 
     @Id
