@@ -7155,4 +7155,5 @@ update user_
 set password_hash       = null,
     password_legacy_hash='51bf293b2a7ebf5d5699e5f54ff9ac7e8ab1cf7b'; -- dev
 
-delete from "message";
+insert into message (id, body, author_id, "category")
+values (nextval('message_seq'), 'This is the only message so far, but it''s great nonetheless.', 99, 'SHOUTBOX');
