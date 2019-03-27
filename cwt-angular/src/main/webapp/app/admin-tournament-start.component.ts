@@ -2,6 +2,7 @@ import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {RequestService} from "./_services/request.service";
+import {User} from "./custom";
 
 const toastr = require('toastr/toastr.js');
 
@@ -11,8 +12,8 @@ const toastr = require('toastr/toastr.js');
 })
 export class AdminTournamentStartComponent implements OnInit {
     public usernameTypeAhead: (text$: Observable<string>) => Observable<string[]>;
-    public allUsers: any[]; // TODO type users
-    public moderators: any[];
+    public allUsers: User[];
+    public moderators: User[];
     public usernameOfUserToAdd: string;
 
     constructor(private requestService: RequestService) {
@@ -33,7 +34,7 @@ export class AdminTournamentStartComponent implements OnInit {
 
     ngOnInit(): void {
         this.requestService.get('user').subscribe(
-            (res: any[]) => this.allUsers = res);
+            (res: User[]) => this.allUsers = res);
     }
 
     public onUsernameInputKeyPress(e: KeyboardEvent): void {
