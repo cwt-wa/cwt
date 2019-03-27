@@ -3,6 +3,7 @@ import {AuthService} from "../_services/auth.service";
 import {Configuration, GameCreationDto, JwtUser, ReportDto, ServerError, User} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
+import {CanReportService} from "../_services/can-report.service";
 
 const toastr = require('toastr/toastr.js');
 
@@ -19,7 +20,8 @@ export class ReportGameComponent implements OnInit {
     private authenticatedUser: JwtUser;
     private possibleScores: number[];
 
-    public constructor(private authService: AuthService, private requestService: RequestService, private router: Router) {
+    public constructor(private authService: AuthService, private requestService: RequestService, private router: Router,
+                       private canReportService: CanReportService) {
     }
 
     public ngOnInit(): void {
@@ -59,6 +61,7 @@ export class ReportGameComponent implements OnInit {
                 (res: GameCreationDto) => {
                     this.router.navigateByUrl(`/games/${res.id}`);
                     toastr.success("Successfully saved.");
+                    this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
                 },
                 (err: ServerError) => {
                     toastr.error(err.error.message);

@@ -62,6 +62,7 @@ import {MarkdownComponent} from "./_util/markdown.component";
 import {AdminSettingsComponent} from "./admin/admin-settings.component";
 import {AdminTournamentReviewComponent} from "./admin/admin-tournament-review.component";
 import {CanDeactivateGuard} from "./_services/can-deactivate-guard";
+import {CanReportService} from "./_services/can-report.service";
 
 const appRoutes: Routes = [
     {
@@ -239,6 +240,7 @@ const appRoutes: Routes = [
         PreviousRouteService,
         Utils,
         PlayoffsService,
+        CanReportService,
         CanDeactivateGuard,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
