@@ -56,7 +56,11 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     @RequestMapping("", method = [RequestMethod.POST])
     fun createTournament(request: HttpServletRequest, @RequestBody startNewTournamentDto: StartNewTournamentDto): Tournament {
-        return tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)
+        try {
+            return tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)
+        } catch (e: IllegalStateException) {
+            throw RestException("There are other unarchived tournaments.", HttpStatus.BAD_REQUEST, e)
+        }
     }
 
     @RequestMapping("/{idOrYear}", method = [RequestMethod.GET])

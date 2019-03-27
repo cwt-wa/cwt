@@ -17,6 +17,9 @@ class TournamentService @Autowired
 constructor(private val userRepository: UserRepository, private val tournamentRepository: TournamentRepository,
             private val applicationRepository: ApplicationRepository, private val gameRepository: GameRepository) {
 
+    /**
+     * @throws IllegalStateException When there are other unarchived tournaments.
+     */
     @Throws(IllegalStateException::class)
     fun startNewTournament(moderatorIds: List<Long>): Tournament {
         val numberOfUnarchivedTournaments = tournamentRepository.countByStatusNot(TournamentStatus.ARCHIVED)
