@@ -14,6 +14,7 @@ const toastr = require('toastr/toastr.js');
 export class AdminTournamentReviewComponent implements OnInit, Deactivatable {
 
     tournaments: Tournament[];
+    selectedTournament: number;
     tournamentBeingEdited: number;
     reviewBeingEdited: String;
 
@@ -32,6 +33,11 @@ export class AdminTournamentReviewComponent implements OnInit, Deactivatable {
     }
 
     selectTournament(tournamentId: string) {
+        if (!this.confirmUnsavedChanges()) {
+            this.selectedTournament = this.tournamentBeingEdited;
+            return;
+        }
+
         this.tournamentBeingEdited = parseInt(tournamentId);
         this.reviewBeingEdited = this.tournaments.find(t => t.id === this.tournamentBeingEdited).review;
     }
