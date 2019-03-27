@@ -26,7 +26,7 @@ data class Configuration(
         @field:UpdateTimestamp
         var modified: Timestamp? = null,
 
-        @ManyToOne(optional = false)
+        @ManyToOne(optional = false, fetch = FetchType.LAZY)
         @JoinColumn(nullable = false)
         var author: User
 )
