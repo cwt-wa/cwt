@@ -4,6 +4,7 @@ import com.cwtsite.cwt.core.CommonsRequestLoggingFilterImpl;
 import com.cwtsite.cwt.security.filter.CorsFilter;
 import com.cwtsite.cwt.security.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,6 +30,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     private final AuthenticationProvider progressiveAuthenticationProvider;
+
+    @Value("${config.logging.max-payload-size}")
+    private Integer maxPayloadSize;
 
     @Autowired
     public WebSecurityConfigurer(JwtAuthenticationEntryPoint unauthorizedHandler, UserDetailsService userDetailsService,
@@ -65,6 +69,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         commonsRequestLoggingFilter.setIncludeClientInfo(true);
         commonsRequestLoggingFilter.setIncludeQueryString(true);
         commonsRequestLoggingFilter.setIncludePayload(true);
+        commonsRequestLoggingFilter.setMaxPayloadLength(maxPayloadSize);
         commonsRequestLoggingFilter.setAfterMessagePrefix("");
         commonsRequestLoggingFilter.setAfterMessageSuffix("");
 
