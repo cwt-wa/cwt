@@ -1,8 +1,4 @@
-body.tetris #tetris, body.tetris #tetris :first-child {
-    visibility: visible;
-}
-
-body.tetris :not(#tetris) {
-    visibility: hidden;
+body.tetris .container.content {
+    display:none;
 }
 

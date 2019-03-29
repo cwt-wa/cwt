@@ -19,7 +19,7 @@ export class Tetris {
     private fallenDownInterval: number;
     private highscore: number = 0;
     private canvasWidth = Cell.WIDTH * 10 + 1;
-    private canvasHeight = window.innerHeight;
+    private canvasHeight = window.innerHeight-85; //@TODO richtige Höhe berechnen (oder die Navigation ausblenden?)
     private levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
 
     constructor(private p5: p5) {
