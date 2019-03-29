@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ConfigurationService} from "../_services/configuration.service";
 import {RequestService} from "../_services/request.service";
 import {Configuration, ConfigurationDto} from "../custom";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-write-admin-news',
@@ -12,7 +11,8 @@ const toastr = require('toastr/toastr.js');
 export class WriteAdminNewsComponent implements OnInit {
     news: Configuration;
 
-    constructor(private configurationService: ConfigurationService, private requestService: RequestService) {
+    constructor(private configurationService: ConfigurationService, private requestService: RequestService,
+                private toastr: Toastr) {
     }
 
     ngOnInit(): void {
@@ -22,6 +22,6 @@ export class WriteAdminNewsComponent implements OnInit {
 
     submit(): void {
         this.requestService.post('configuration', <ConfigurationDto> {value: this.news.value, key: this.news.key})
-            .subscribe(() => toastr.success("Successfully saved."), () => toastr.error("An unknown error occurred."));
+            .subscribe(() => this.toastr.success("Successfully saved."));
     }
 }

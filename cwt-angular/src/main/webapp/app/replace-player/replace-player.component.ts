@@ -4,8 +4,7 @@ import {RequestService} from "../_services/request.service";
 import {ReplacePlayerDto, User, UserMinimalDto} from "../custom";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-replace-player',
@@ -17,7 +16,7 @@ export class ReplacePlayerComponent implements OnInit {
     replacement: ReplacePlayerDto = {} as ReplacePlayerDto;
     replacementSuggestions: User[];
 
-    constructor(private requestService: RequestService, private router: Router) {
+    constructor(private requestService: RequestService, private router: Router, private toastr: Toastr) {
     }
 
     typeAheadToBeReplaced = (text$: Observable<string>) =>
@@ -56,7 +55,7 @@ export class ReplacePlayerComponent implements OnInit {
             .subscribe(
                 () => {
                     this.router.navigateByUrl('/groups');
-                    toastr.success("Successfully saved.");
+                    this.toastr.success("Successfully saved.");
                 });
     }
 }

@@ -6,8 +6,7 @@ import {Observable} from "rxjs";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
 import {Utils} from "../_util/utils";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-admin-groups-start-automatic-draw',
@@ -30,7 +29,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
     typeAheadResultFormatter: (value: User) => string;
 
     constructor(@Inject(APP_CONFIG) private appConfig: AppConfig, private requestService: RequestService,
-                private router: Router, private utils: Utils) {
+                private router: Router, private utils: Utils, private toastr: Toastr) {
         this.numberOfGroups = this.appConfig.tournament.numberOfGroups;
         this.usersPerGroup = this.appConfig.tournament.usersPerGroup;
 
@@ -73,9 +72,8 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
             .subscribe(
                 () => {
                     this.router.navigateByUrl('/groups');
-                    toastr.success("Successfully saved.");
-                },
-                () => toastr.error("An unknown error occurred."));
+                    this.toastr.success("Successfully saved.");
+                });
     }
 
     public get drawnApplicants(): User[] {

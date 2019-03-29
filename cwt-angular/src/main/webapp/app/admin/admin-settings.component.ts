@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Configuration, ConfigurationKey} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {RequestService} from "../_services/request.service";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-admin-settings',
@@ -14,7 +13,8 @@ export class AdminSettingsComponent implements OnInit {
 
     configurations: Configuration[];
 
-    constructor(private configurationService: ConfigurationService, private requestService: RequestService) {
+    constructor(private configurationService: ConfigurationService, private requestService: RequestService,
+                private toastr: Toastr) {
     }
 
     ngOnInit(): void {
@@ -24,6 +24,6 @@ export class AdminSettingsComponent implements OnInit {
 
     submit(key: ConfigurationKey, value: string) {
         this.requestService.post("configuration", {key, value})
-            .subscribe(() => toastr.success("Successfully saved."))
+            .subscribe(() => this.toastr.success("Successfully saved."))
     }
 }

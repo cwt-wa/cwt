@@ -3,8 +3,7 @@ import {RequestService} from "../_services/request.service";
 import {Tournament} from "../custom";
 import {CanDeactivateGuard, Deactivatable} from "../_services/can-deactivate-guard";
 import {Observable} from "rxjs";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-admin-tournament-review',
@@ -18,7 +17,7 @@ export class AdminTournamentReviewComponent implements OnInit, Deactivatable {
     tournamentBeingEdited: number;
     reviewBeingEdited: String;
 
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService, private toastr: Toastr) {
     }
 
     ngOnInit(): void {
@@ -56,7 +55,7 @@ export class AdminTournamentReviewComponent implements OnInit, Deactivatable {
     submit() {
         this.requestService.put<Tournament>(`tournament/${this.tournamentBeingEdited}`, {review: this.reviewBeingEdited} as Tournament)
             .subscribe(() => {
-                toastr.success("Successfully saved.");
+                this.toastr.success("Successfully saved.");
                 this.tournaments[this.tournaments.findIndex(t => t.id === this.tournamentBeingEdited)].review =
                     this.reviewBeingEdited;
             })

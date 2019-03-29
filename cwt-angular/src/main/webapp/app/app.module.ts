@@ -63,6 +63,7 @@ import {AdminSettingsComponent} from "./admin/admin-settings.component";
 import {AdminTournamentReviewComponent} from "./admin/admin-tournament-review.component";
 import {CanDeactivateGuard} from "./_services/can-deactivate-guard";
 import {CanReportService} from "./_services/can-report.service";
+import {Toastr} from "./_services/toastr";
 
 const appRoutes: Routes = [
     {
@@ -242,6 +243,7 @@ const appRoutes: Routes = [
         PlayoffsService,
         CanReportService,
         CanDeactivateGuard,
+        Toastr,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     entryComponents: [MentionComponent],

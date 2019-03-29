@@ -3,8 +3,7 @@ import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {JwtUser} from "../custom";
 import {Router} from "@angular/router";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-apply',
@@ -16,7 +15,7 @@ export class ApplyComponent implements OnInit {
     rules: string;
 
     constructor(private requestService: RequestService, private authService: AuthService,
-                private router: Router) {
+                private router: Router, private toastr: Toastr) {
     }
 
     public ngOnInit(): void {
@@ -29,7 +28,7 @@ export class ApplyComponent implements OnInit {
 
         this.requestService.post(`user/${authenticatedUser.id}/application`)
             .subscribe(() => {
-                toastr.success('You have applied successfully.');
+                this.toastr.success('You have applied successfully.');
                 this.router.navigateByUrl('/applicants');
             })
     }

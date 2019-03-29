@@ -3,8 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {RequestService} from "./_services/request.service";
 import {User} from "./custom";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "./_services/toastr";
 
 @Component({
     selector: 'cwt-admin-tournament-start',
@@ -16,7 +15,7 @@ export class AdminTournamentStartComponent implements OnInit {
     public moderators: User[];
     public usernameOfUserToAdd: string;
 
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService, private toastr: Toastr) {
         this.moderators = [];
 
         this.usernameTypeAhead = (text$: Observable<string>) =>
@@ -63,7 +62,6 @@ export class AdminTournamentStartComponent implements OnInit {
     public submit(): void {
         const payload: { moderatorIds: number[] } = {moderatorIds: this.moderators.map(m => m.id)};
         this.requestService.post('tournament', payload).subscribe(
-            () => toastr.success('The tournament has been started successfully.'),
-            () => toastr.error('Meh.'));
+            () => this.toastr.success('The tournament has been started successfully.'));
     }
 }
