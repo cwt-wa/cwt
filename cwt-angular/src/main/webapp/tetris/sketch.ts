@@ -161,44 +161,7 @@ export class Tetris {
 
     private gameOver() {
         this.p5.noLoop();
-        let input = document.createElement("input");
-        input.type = "Game over";
-
-        let gameOverText = document.getElementById("gameOverText");
-        if (gameOverText != null) {
-            gameOverText.innerText = "Game over";
-            gameOverText.setAttribute("style", "-webkit-animation: moveGameOverText 5s infinite; " +
-                "animation: moveGameOverText 5s infinite; animation-iteration-count: 1;" +
-                "display: block !important;");
-        }
-
-        let highscoreDiv = document.getElementById("highscore");
-        if (highscoreDiv != null) {
-            highscoreDiv.setAttribute("style", "display: block; -webkit-animation: moveBackground 5s infinite; " +
-                "animation: moveBackground 5s infinite; animation-iteration-count: 1;");
-        }
-
-        /*window.setTimeout(function () {
-            const name = prompt("What is your name?");
-
-            $.post(
-                {
-                    url: '/views/post-highscore.php',
-                    data: {
-                        highscore: highscore,
-                        name: name
-                    },
-                    dataType: 'html'
-                }
-            ).done(function (x, y, z) {
-                debugger;
-                alert("Success");
-            }).fail(function (x, y, z) {
-                debugger;
-                alert("Success");
-            });
-        }, 5000);*/
-
+        document.getElementById("tetris-gameover").classList.add("gameover");
     }
 
     private nextFigure() {

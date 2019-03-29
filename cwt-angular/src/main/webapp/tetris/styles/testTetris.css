@@ -2,3 +2,11 @@ body.tetris .container.content {
     display:none;
 }
 
+#tetris-gameover {
+    display:none;
+}
+
+#tetris-gameover.gameover, #tetris-gameover.gameover :first-child {
+    display:block;
+    position: absolute;
+}
