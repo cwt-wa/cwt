@@ -11,15 +11,22 @@ canvas {
     display:none;
 }
 
-#tetris-gameover.gameover, #tetris-gameover.gameover :first-child {
+#tetris-gameover.gameover {
     display:block;
-    position: absolute;
     width: 100%;
     background-color:white;
     text-align: center;
 }
 
-#game-over-heading {
+#tetris-gameover {
+    position: absolute;
+}
+
+#highscore-form :nth-child(odd){
+    padding: 0 5px 0 30px;
+}
+
+#gameover-heading {
     font-size:20pt;
     color:#e83e8c;
     font-weight: bold;
