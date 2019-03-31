@@ -21,6 +21,7 @@ export class Tetris {
     private canvasWidth = Cell.WIDTH * 10 + 1;
     private canvasHeight = window.innerHeight-85; //@TODO richtige Höhe berechnen (oder die Navigation ausblenden?)
     private levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
+    onGameOver?: (highscore: number) => void;
 
     constructor(private p5: p5) {
     }
@@ -162,6 +163,7 @@ export class Tetris {
     private gameOver() {
         this.p5.noLoop();
         document.getElementById("tetris-gameover").classList.add("gameover");
+        this.onGameOver != null && this.onGameOver(this.highscore);
     }
 
     private nextFigure() {

@@ -137,11 +137,11 @@
 <div id="tetris">
     <div id="tetris-gameover">
         <label id="gameover-heading">GAME OVER</label>
-        <form id="highscore-form" [action]="tetrisSendHighscore">
+        <form id="highscore-form" > <!-- [action]="tetrisSendHighscore" -->
             <label for="name">name</label>
             <input id="name" type="text" name="name"/>
             <label for="highscore">highscore</label>
-            <input id="highscore" type="number" disabled value=""/>
+            <input id="highscore" type="number" disabled [value]="tetrisHighscore"/>
         </form>
     </div>
 </div>
