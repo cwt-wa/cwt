@@ -2,6 +2,11 @@ body.tetris .container.content {
     display:none;
 }
 
+canvas {
+    margin: 0 auto;
+    display: block;
+}
+
 #tetris-gameover {
     display:none;
 }
@@ -9,4 +14,13 @@ body.tetris .container.content {
 #tetris-gameover.gameover, #tetris-gameover.gameover :first-child {
     display:block;
     position: absolute;
+    width: 100%;
+    background-color:white;
+    text-align: center;
+}
+
+#game-over-heading {
+    font-size:20pt;
+    color:#e83e8c;
+    font-weight: bold;
 }
