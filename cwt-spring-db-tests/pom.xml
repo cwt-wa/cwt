@@ -110,6 +110,12 @@
                                 <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_1__configuration.sql</param>
                                 <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_5__user_aggregation.sql</param>
                                 <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_6__fix_nullables.sql</param>
+                                <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_7__replace_player.sql</param>
+                                <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_8__techwin_default.sql</param>
+                                <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_9__created.sql</param>
+                                <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_10__news_type.sql</param>
+                                <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_11__config-description.sql</param>
+                                <param>../cwt-spring/src/main/resources/db/migration/common/V0_1_0_12__constraints.sql</param>
                                 <param>../cwt-spring/src/main/resources/db/migration/test/R__user_stats.sql</param>
                             </sqlScripts>
                             <schemaRegex>.*</schemaRegex>

@@ -4,7 +4,8 @@ import {Component, Input} from '@angular/core';
     selector: 'cwt-user',
     template: `
         <a [routerLink]="['/users', username]">{{username}}</a>
-    `
+    `,
+    preserveWhitespaces: true
 })
 export class UserComponent {
     @Input()

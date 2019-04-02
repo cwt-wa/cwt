@@ -5,32 +5,31 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "application")
-@SequenceGenerator(name = "application_seq", sequenceName = "application_seq", initialValue = 102, allocationSize = 1)
-public class Application implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@SequenceGenerator(name = "application_seq", sequenceName = "application_seq", allocationSize = 1)
+public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "application_seq")
     private Long id;
 
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     @CreationTimestamp
     private Timestamp created;
 
     @Column(name = "revoked")
     private Boolean revoked;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Tournament tournament;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private User applicant;
 
     protected Application() {

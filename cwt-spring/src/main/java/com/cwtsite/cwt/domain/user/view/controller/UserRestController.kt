@@ -28,8 +28,12 @@ constructor(private val userService: UserService, private val applicationService
             private val groupService: GroupService, private val playoffService: PlayoffService) {
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun register(): ResponseEntity<List<User>> {
-        return ResponseEntity.ok(userService.findAllOrderedByUsername())
+    fun findAll(@RequestParam("term") term: String?): ResponseEntity<List<User>> {
+        if (term == null) {
+            return ResponseEntity.ok(userService.findAllOrderedByUsername())
+        }
+
+        return ResponseEntity.ok(userService.findByUsernameContaining(term))
     }
 
     @RequestMapping("/{id}/can-apply", method = [RequestMethod.GET])

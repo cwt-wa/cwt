@@ -11,7 +11,7 @@ import javax.persistence.*
 data class Tournament(
 
         @Id
-        @SequenceGenerator(name = "tournament_seq", sequenceName = "tournament_seq", initialValue = 16, allocationSize = 1)
+        @SequenceGenerator(name = "tournament_seq", sequenceName = "tournament_seq", allocationSize = 1)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tournament_seq")
         val id: Long? = null,
 
@@ -26,7 +26,7 @@ data class Tournament(
         var maxRounds: Int? = null,
 
         @Column(name = "created", nullable = false)
-        @CreationTimestamp
+        @field:CreationTimestamp
         var created: Timestamp? = null,
 
         @ManyToOne

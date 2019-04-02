@@ -3,8 +3,7 @@ import {RequestService} from "../_services/request.service";
 import {GameCreationDto, GameTechWinDto, User, UserMinimalDto} from "../custom";
 import {finalize} from "rxjs/operators";
 import {Router} from "@angular/router";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-add-tech-win',
@@ -16,7 +15,7 @@ export class AddTechWinComponent implements OnInit {
     remainingOpponents: User[];
     loadingRemainingOpponents: boolean = false;
 
-    constructor(private requestService: RequestService, private router: Router) {
+    constructor(private requestService: RequestService, private router: Router, private toastr: Toastr) {
     }
 
     ngOnInit(): void {
@@ -38,7 +37,7 @@ export class AddTechWinComponent implements OnInit {
         this.requestService.post<GameCreationDto>('game/tech-win', this.game)
             .subscribe(res => {
                 this.router.navigateByUrl(`/games/${res.id}`);
-                toastr.success("Successfully saved.");
+                this.toastr.success("Successfully saved.");
             });
     }
 }

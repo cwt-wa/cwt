@@ -1,11 +1,27 @@
-<chatInput (message)="submit($event)"></chatInput>
+<chatInput (message)="submit($event[0], $event[1])"></chatInput>
 
 <div class="card bg-primary text-white border-0 mt-1">
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
-         [ngClass]="{'rounded-top': first, 'bg-red-0': message.category === 'PRIVATE'}">
+         [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}">
         {{message.created | date:'shortTime'}}
-        <cwt-user [username]="message.author.username"></cwt-user>
-        {{message.body}}
+        <cwt-user *ngIf="message.author" [username]="message.author?.username" class="text-white font-weight-bold"></cwt-user>
+
+        <ng-container *ngIf="message.category === 'NEWS'">
+            <ng-container *ngIf="message.body.split(','); let messageData">
+                <ng-container [ngSwitch]="message.newsType">
+                    <ng-container *ngSwitchCase="'REPORT'">reported</ng-container>
+                    <ng-container *ngSwitchCase="'RATING'">{{messageData[5]}}d</ng-container>
+                    <ng-container *ngSwitchCase="'COMMENT'">commented</ng-container>
+                </ng-container>
+                <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>
+                <a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[3]}}–{{messageData[4]}}</a>
+                <cwt-user [username]="messageData[2]" class="font-weight-bold"></cwt-user>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="message.category !== 'NEWS'">
+            {{message.body}}
+        </ng-container>
     </div>
 </div>
 

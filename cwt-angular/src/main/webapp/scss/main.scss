@@ -544,7 +544,9 @@ ngb-typeahead-window button {
   }
 }
 
-.bg-secondary a {
+.bg-secondary a,
+.bg-danger a,
+.bg-primary a {
   color: $white;
 }
 
@@ -557,4 +559,56 @@ select.custom-select-sm {
 
 .strikethrough {
   text-decoration: line-through;
+}
+
+.markdown h1 {
+  font-size: 2rem;
+}
+.markdown h2 {
+  font-size: 1.75rem;
+}
+.markdown h3 {
+  font-size: 1.5rem;
+}
+.markdown h4 {
+  font-size: 1.25rem;;
+}
+.markdown h5 {
+  font-size: 1rem;;
+}
+.markdown h6 {
+  font-size: 0.75rem;
+}
+
+.contenteditable-disabled {
+  background-color: lightgray;
+  color: gray;
+}
+
+.navbar .collapse {
+   display: block;
+   height: 0;
+   transition: height ease-out 400ms;
+}
+
+.navbar .collapse:not(.show) {
+   display: block;
+}
+
+.navbar .collapse.show {
+   display: block;
+}
+
+@media (max-width: 991px) {
+  .navbar .collapse.show {
+    height: calc(100vh - 58px);
+    margin-top: 58px;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar .collapse {
+    height: auto;
+    margin-top: -75px;
+  }
 }

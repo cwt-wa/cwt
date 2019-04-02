@@ -1,11 +1,10 @@
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Component, Input} from '@angular/core';
 import {Application, Group, GroupDto, User} from "../custom";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {RequestService} from "../_services/request.service";
-import {distinctUntilChanged} from "rxjs/operators";
 import {Router} from "@angular/router";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-admin-groups-start-manual-draw',
@@ -23,15 +22,15 @@ export class AdminGroupsStartManualDrawComponent {
     typeAheadInputFormatter: (value: User) => string;
     typeAheadResultFormatter: (value: User) => string;
 
-    public constructor(private requestService: RequestService, private router: Router) {
+    public constructor(private requestService: RequestService, private router: Router, private toastr: Toastr) {
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
-                .pipe(distinctUntilChanged())
-                .map(term =>
+                .pipe(distinctUntilChanged()).pipe(
+                map(term =>
                     this.applications
                         .map(a => a.applicant)
                         .filter(u => !this.userIsDrawn(u))
-                        .filter(a => a.username.toLowerCase().indexOf(term.toLowerCase()) !== -1));
+                        .filter(a => a.username.toLowerCase().indexOf(term.toLowerCase()) !== -1)));
         this.typeAheadInputFormatter = (value: User) => value.username;
         this.typeAheadResultFormatter = (value: User) => value.username;
     }
@@ -56,9 +55,8 @@ export class AdminGroupsStartManualDrawComponent {
             .subscribe(
                 () => {
                     this.router.navigateByUrl('/groups');
-                    toastr.success("Successfully saved.");
-                },
-                () => toastr.error("An unknown error occurred."));
+                    this.toastr.success("Successfully saved.");
+                });
     }
 
     private userIsDrawn(user: User): boolean {

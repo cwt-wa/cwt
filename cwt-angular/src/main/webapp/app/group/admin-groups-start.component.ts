@@ -10,8 +10,8 @@ import {APP_CONFIG, AppConfig} from "../app.config";
 })
 export class AdminGroupsStartComponent implements OnInit {
 
-    private groups: Group[];
-    private applications: Application[];
+    groups: Group[];
+    applications: Application[];
     manualDraw: boolean = true;
 
     public constructor(private requestService: RequestService, @Inject(APP_CONFIG) private appConfig: AppConfig) {

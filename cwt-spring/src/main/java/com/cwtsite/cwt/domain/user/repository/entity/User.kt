@@ -11,7 +11,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @Table(name = "\"user\"")
-@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 1332, allocationSize = 1)
+@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
@@ -65,9 +65,9 @@ data class User(
         @PrimaryKeyJoinColumn
         var userStats: UserStats? = null,
 
-        @CreationTimestamp
+        @field:CreationTimestamp
         var created: Timestamp? = null,
 
-        @UpdateTimestamp
+        @field:UpdateTimestamp
         var modified: Timestamp? = null
 )

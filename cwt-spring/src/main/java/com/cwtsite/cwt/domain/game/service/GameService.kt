@@ -40,7 +40,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class, FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class, IOException::class)
     fun reportGame(homeUser: Long, awayUser: Long, scoreHome: Int, scoreAway: Int, replay: MultipartFile): Game {
         FileValidator.validate(replay, 150000, Arrays.asList("application/x-rar", "application/zip"), Arrays.asList("rar", "zip"))
-        val reportedGame = reportGame(homeUser, awayUser, scoreHome, scoreAway)
+        val reportedGame = reportGame(homeUser, awayUser, scoreHome, scoreAway, false)
         reportedGame.replay = Replay(replay.bytes, replay.contentType, StringUtils.getFilenameExtension(replay.originalFilename))
         return gameRepository.save(reportedGame)
     }
@@ -49,15 +49,15 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return String.format(
                 "%s_%s_%s-%s_%s.%s",
                 game.id,
-                game.homeUser.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
+                game.homeUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
                 game.scoreHome, game.scoreAway,
-                game.awayUser.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
-                game.replay.extension)
+                game.awayUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
+                game.replay!!.extension)
     }
 
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class)
-    fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int): Game {
+    fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int, persist: Boolean = true): Game {
         val currentTournament = tournamentService.getCurrentTournament()
         val bestOfValue = Integer.valueOf(getBestOfValue(currentTournament.status).value)
         val winnerScore = Math.ceil(java.lang.Double.valueOf(bestOfValue.toDouble()) / 2)
@@ -86,7 +86,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         if (currentTournament.status == TournamentStatus.GROUP) {
             val group = groupRepository.findByTournamentAndUser(currentTournament, awayUser)
 
-            val game = Game()
+            val game = Game(tournament = currentTournament)
 
             game.scoreHome = homeScore
             game.scoreAway = awayScore
@@ -98,7 +98,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             game.group = group
 
             groupService.calcTableByGame(game)
-            reportedGame = gameRepository.save(game)
+            reportedGame = if (persist) gameRepository.save(game) else game
         } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             val playoffGameToBeReported = gameRepository.findNextPlayoffGameForUser(currentTournament, homeUser)
 
@@ -149,7 +149,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return gameRepository.saveAll(games)
     }
 
-    operator fun get(id: Long): Optional<Game> {
+    fun findById(id: Long): Optional<Game> {
         return gameRepository.findById(id)
     }
 

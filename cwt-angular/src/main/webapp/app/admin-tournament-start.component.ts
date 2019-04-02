@@ -1,9 +1,9 @@
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {RequestService} from "./_services/request.service";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-
-const toastr = require('toastr/toastr.js');
+import {User} from "./custom";
+import {Toastr} from "./_services/toastr";
 
 @Component({
     selector: 'cwt-admin-tournament-start',
@@ -11,29 +11,29 @@ const toastr = require('toastr/toastr.js');
 })
 export class AdminTournamentStartComponent implements OnInit {
     public usernameTypeAhead: (text$: Observable<string>) => Observable<string[]>;
-    public allUsers: any[]; // TODO type users
-    public moderators: any[];
+    public allUsers: User[];
+    public moderators: User[];
     public usernameOfUserToAdd: string;
 
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService, private toastr: Toastr) {
         this.moderators = [];
 
         this.usernameTypeAhead = (text$: Observable<string>) =>
             text$
                 .pipe(debounceTime(200))
-                .pipe(distinctUntilChanged())
-                .map(term =>
+                .pipe(distinctUntilChanged()).pipe(
+                map(term =>
                     term.length < 2
                         ? []
                         : this.allUsers
                             .map(u => u.username)
                             .filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)
-                            .slice(0, 10));
+                            .slice(0, 10)));
     }
 
     ngOnInit(): void {
         this.requestService.get('user').subscribe(
-            (res: any[]) => this.allUsers = res);
+            (res: User[]) => this.allUsers = res);
     }
 
     public onUsernameInputKeyPress(e: KeyboardEvent): void {
@@ -60,9 +60,8 @@ export class AdminTournamentStartComponent implements OnInit {
     }
 
     public submit(): void {
-        const payload: { moderators: any[] } = {moderators: this.moderators};
+        const payload: { moderatorIds: number[] } = {moderatorIds: this.moderators.map(m => m.id)};
         this.requestService.post('tournament', payload).subscribe(
-            () => toastr.success('The tournament has been started successfully.'),
-            () => toastr.error('Meh.'));
+            () => this.toastr.success('The tournament has been started successfully.'));
     }
 }

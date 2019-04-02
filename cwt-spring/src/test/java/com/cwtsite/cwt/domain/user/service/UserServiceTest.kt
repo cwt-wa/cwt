@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -42,35 +43,34 @@ class UserServiceTest {
     @Test
     fun getRemainingOpponents() {
         val user = EntityDefaults.user(1)
-        val tournament = EntityDefaults.tournament()
-        tournament.status = TournamentStatus.GROUP
+        val tournament = EntityDefaults.tournament(status = TournamentStatus.GROUP)
 
         Mockito
                 .`when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
 
         val group = Group()
-        group.standings = createStandings(group, user)
+        group.standings.addAll(createStandings(group, user))
 
         Mockito
                 .`when`(groupRepository.findByTournamentAndUser(Mockito.any(), Mockito.any()))
                 .thenReturn(group)
         Mockito
                 .`when`(gameRepository.findPlayedByUserInGroup(Mockito.any(), Mockito.any()))
-                .thenReturn(createGames(group))
+                .thenReturn(createGames(group, tournament))
 
         Assertions
                 .assertThat(userService.getRemainingOpponents(user))
                 .containsExactlyInAnyOrder(getUser(group, 3), getUser(group, 4))
     }
 
-    private fun createGames(group: Group): List<Game> {
-        val game1 = Game()
-        game1.group = group
-        game1.id = LocalTime.now().toNanoOfDay()
-        game1.homeUser = getUser(group, 1)
-        game1.awayUser = getUser(group, 2)
-        return listOf(game1)
+    private fun createGames(group: Group, tournament: Tournament): List<Game> {
+        val game = Game(tournament = tournament)
+        game.group = group
+        game.id = LocalTime.now().toNanoOfDay()
+        game.homeUser = getUser(group, 1)
+        game.awayUser = getUser(group, 2)
+        return listOf(game)
     }
 
     private fun getUser(group: Group, userId: Long): User {
@@ -81,10 +81,10 @@ class UserServiceTest {
 
     private fun createStandings(group: Group, user: User): List<GroupStanding> {
         return Arrays.asList(
-                GroupStanding(group, user),
-                GroupStanding(group, EntityDefaults.user(2)),
-                GroupStanding(group, EntityDefaults.user(3)),
-                GroupStanding(group, EntityDefaults.user(4))
+                GroupStanding(user),
+                GroupStanding(EntityDefaults.user(2)),
+                GroupStanding(EntityDefaults.user(3)),
+                GroupStanding(EntityDefaults.user(4))
         )
     }
 

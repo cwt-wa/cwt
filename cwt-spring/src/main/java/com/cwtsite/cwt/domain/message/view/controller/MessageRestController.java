@@ -33,7 +33,11 @@ public class MessageRestController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<Message>> getMessages(HttpServletRequest request) {
-        final User authenticatedUser = authService.getUserFromToken(request.getHeader(authService.getTokenHeaderName()));
+        final String authorizationHeader = request.getHeader(authService.getTokenHeaderName());
+        User authenticatedUser = null;
+        if (authorizationHeader != null) {
+            authenticatedUser = authService.getUserFromToken(authorizationHeader);
+        }
 
         List<Message> messages = authenticatedUser == null
                 ? messageService.findMessagesForGuest()
@@ -45,6 +49,6 @@ public class MessageRestController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Message> AddMessages(@RequestBody MessageDto messageDto, HttpServletRequest request) {
         final User authenticatedUser = authService.getUserFromToken(request.getHeader(authService.getTokenHeaderName()));
-        return ResponseEntity.ok(messageService.save(MessageDto.map(messageDto, authenticatedUser, userService.getByIds(messageDto.getRecipients()))));
+        return ResponseEntity.ok(messageService.save(MessageDto.Companion.map(messageDto, authenticatedUser, userService.getByIds(messageDto.getRecipients()))));
     }
 }

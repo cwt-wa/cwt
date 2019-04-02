@@ -17,13 +17,17 @@ export class ChatComponent implements OnInit {
             .subscribe(res => this.messages = res);
     }
 
-    submit(message: Message): void {
+    submit(message: Message, cb: (success: boolean) => void): void {
         const messageDto: MessageDto = {
             body: message.body,
             category: message.category,
             recipients: message.recipients.map(u => u.id),
         };
 
-        this.requestService.post<Message>('message', messageDto).subscribe(res => this.messages.unshift(res));
+        this.requestService.post<Message>('message', messageDto)
+            .subscribe(res => {
+                this.messages.unshift(res);
+                cb(true);
+            }, () => cb(false));
     }
 }

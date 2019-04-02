@@ -1,25 +1,22 @@
 package com.cwtsite.cwt.domain.game.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 @Entity
-public class Replay implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Replay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private byte[] file;
 
-    @Column
+    @Column(nullable = false)
     private String mediaType;
 
-    @Column
+    @Column(nullable = false)
     private String extension;
 
     public Replay() {

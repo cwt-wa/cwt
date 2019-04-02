@@ -34,31 +34,32 @@ import {RequestService} from "../_services/request.service";
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"] {
+            .chat-input > .form-control[contenteditable] {
                 flex-grow: 5;
                 font-size: 16px;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"]:empty::before {
+            .chat-input > .form-control[contenteditable]:empty::before {
                 content: "Type message...";
                 color: gray;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"].single-line {
+            .chat-input > .form-control[contenteditable].single-line {
                 white-space: nowrap;
                 height: 48px;
                 overflow: hidden;
+                padding-top: 12px;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"].single-line br {
+            .chat-input > .form-control[contenteditable].single-line br {
                 display: none;
             }`,
 
             `
-            .chat-input > .form-control[contenteditable="true"].single-line * {
+            .chat-input > .form-control[contenteditable].single-line * {
                 display: inline;
                 white-space: nowrap;
             }`
@@ -67,13 +68,15 @@ import {RequestService} from "../_services/request.service";
 export class ChatInputComponent implements OnInit {
 
     @Output()
-    message: EventEmitter<Message> = new EventEmitter();
+    message: EventEmitter<[Message, (success: boolean) => void]> = new EventEmitter();
 
     @ViewChild("chatInput")
     private chatInput: ElementRef;
 
     private mentions: ComponentRef<MentionComponent>[] = [];
     private users: User[];
+
+    submitting: boolean = false;
 
     constructor(private resolver: ComponentFactoryResolver,
                 private injector: Injector,
@@ -86,17 +89,44 @@ export class ChatInputComponent implements OnInit {
     }
 
     public sendMessage(): void {
+        const mentionHasJustBeenAdded = this.mentions.find(m => m.instance.mentionHasJustBeenSelected);
+        if (mentionHasJustBeenAdded != null) {
+            mentionHasJustBeenAdded.instance.mentionHasJustBeenSelected = false;
+            return;
+        }
+
+        const body = this.convertContentEditableToRawTextContent();
+        if (body === "" || body == null) return;
+        this.disable(true);
         this.mentions = this.mentions.filter(m => m.location.nativeElement.parentElement);
         const message: Message = {
-            body: this.convertContentEditableToRawTextContent(),
+            body: body,
             recipients: this.mentions.map(ref => ref.instance.mentionedUser),
             category: this.mentions.length === 0 ? 'SHOUTBOX' : 'PRIVATE'
         } as Message;
-        this.message.emit(message);
+        this.message.emit([message, (success: boolean) => {
+            this.disable(false);
+            success === true && this.reset();
+            setTimeout(() => (this.chatInput.nativeElement as HTMLDivElement).focus(), 0);
+        }]);
+    }
+
+    private disable(disable: boolean) {
+        this.submitting = disable;
+        this.mentions.forEach(value => value.instance.disabled = disable);
+    }
+
+    private reset() {
+        this.chatInput.nativeElement.innerHTML = '';
     }
 
     public keyDown(event: KeyboardEvent): void {
-        if (event.key !== '@') {
+        if (this.submitting) return;
+        if (event.key !== '@') return;
+
+        // Don't turn email addresses into mentions.
+        const precedingChar = (event.target as HTMLDivElement).textContent.substring(window.getSelection().anchorOffset - 1);
+        if (precedingChar !== "" && precedingChar !== "—" /* em-dash */ && precedingChar.match(/\s/) == null) {
             return;
         }
 
@@ -104,13 +134,19 @@ export class ChatInputComponent implements OnInit {
         this.instantiateMention();
     }
 
+    public onCopy(e: ClipboardEvent) {
+        e.clipboardData.setData('text/plain', this.convertContentEditableToRawTextContent());
+        e.preventDefault();
+    }
+
     private convertContentEditableToRawTextContent(): string {
         let body: string = this.chatInput.nativeElement.textContent;
 
         body = body.trim();
-        body = body.replace(/(\[m.*?m\])\n/g, "$1"); // Remove carriage return after mention.
+        body = body.replace(/(\[m.*?m])\n/g, "$1"); // Remove carriage return after mention.
         body = body.replace(/\s+/g, " "); // Multiple whitespaces into one.
-        body = body.replace(/@\s\[m(.*?)m\]/g, "@$1"); // Convert mention which is wrapped in `[m` and `m]` to simply `@Mention`.
+        body = body.replace(/(@\[m.*?m])([^\s?!.…—-])/g, "$1 $2"); // I guess it's likely people forgot a space after the mention.
+        body = body.replace(/@\[m(.*?)m]/g, "@$1"); // Convert mention which is wrapped in `[m` and `m]` to simply `@Mention`.
 
         return body;
     }

@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -17,23 +16,18 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "comment")
-@SequenceGenerator(name = "comment_seq", sequenceName = "comment_seq", initialValue = 1466, allocationSize = 1)
-public class Comment implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@SequenceGenerator(name = "comment_seq", sequenceName = "comment_seq", allocationSize = 1)
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
     private Long id;
 
     @NotNull
-    @Column(name = "body", nullable = false, columnDefinition = "text", length = 10485760)
+    @Column(name = "body", nullable = false, columnDefinition = "text")
     private String body;
 
-    @Column(name = "deleted")
-    private Boolean deleted;
-
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     @CreationTimestamp
     private Timestamp created;
 
@@ -41,12 +35,13 @@ public class Comment implements Serializable {
     @UpdateTimestamp
     private Timestamp modified;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private User author;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Game game;
 
     protected Comment() {
@@ -77,19 +72,6 @@ public class Comment implements Serializable {
     public Comment body(String body) {
         this.body = body;
         return this;
-    }
-
-    public Boolean isDeleted() {
-        return deleted;
-    }
-
-    public Comment deleted(Boolean deleted) {
-        this.deleted = deleted;
-        return this;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 
     public Timestamp getCreated() {
@@ -169,7 +151,6 @@ public class Comment implements Serializable {
         return "Comment{" +
                 "id=" + id +
                 ", body='" + body + "'" +
-                ", deleted='" + deleted + "'" +
                 ", created='" + created + "'" +
                 ", modified='" + modified + "'" +
                 '}';

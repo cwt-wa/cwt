@@ -3,14 +3,11 @@ package com.cwtsite.cwt.entity;
 import com.cwtsite.cwt.domain.game.entity.Game;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "rating_result")
-public class RatingResult implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class RatingResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -28,8 +25,8 @@ public class RatingResult implements Serializable {
     @Column(name = "darkside")
     private Integer darkside;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @OneToOne(optional = false)
+    @JoinColumn(unique = true, nullable = false)
     private Game game;
 
     protected RatingResult() {

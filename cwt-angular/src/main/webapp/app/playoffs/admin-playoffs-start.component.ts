@@ -1,16 +1,14 @@
-import {forkJoin as observableForkJoin} from 'rxjs';
-import {distinctUntilChanged} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
+import {forkJoin as observableForkJoin, Observable} from 'rxjs';
 
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {Configuration, GameCreationDto, Group} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
-import {Observable} from "rxjs/Observable";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 import {PlayoffsService} from "../_services/playoffs.service";
 import {Router} from "@angular/router";
-
-const toastr = require('toastr/toastr.js');
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-admin-playoffs-start',
@@ -27,14 +25,14 @@ export class AdminPlayoffsStartComponent implements OnInit {
 
     public constructor(private requestService: RequestService, private configurationService: ConfigurationService,
                        private standingsOrderPipe: StandingsOrderPipe, private playoffsService: PlayoffsService,
-                       private router: Router) {
+                       private router: Router, private toastr: Toastr) {
         this.typeAheadForPlayoffsUser = (text$: Observable<string>) =>
             text$
-                .pipe(distinctUntilChanged())
-                .map(term => this.getPlayoffUsers()
+                .pipe(distinctUntilChanged()).pipe(
+                map(term => this.getPlayoffUsers()
                     .filter(u => !this.games.find(g => g.homeUser === u.id || g.awayUser === u.id))
                     .filter(u => u.username.toLowerCase().indexOf(term.toLowerCase()) !== -1)
-                    .map(u => u.id));
+                    .map(u => u.id)));
         this.typeAheadInputFormatter = (userId: number) => this.getPlayoffUsers().find(u => u.id === userId).username;
         this.typeAheadResultFormatter = (userId: number) => this.getPlayoffUsers().find(u => u.id === userId).username;
     }
@@ -104,7 +102,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
     public submit(): void {
         this.requestService.post<GameCreationDto[]>('current/playoffs/start', this.games)
             .subscribe(() => {
-                toastr.success("Successfully started playoffs.");
+                this.toastr.success("Successfully started playoffs.");
                 this.router.navigateByUrl('/playoffs');
             });
     }

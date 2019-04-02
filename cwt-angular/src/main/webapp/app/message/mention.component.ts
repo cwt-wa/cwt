@@ -1,7 +1,7 @@
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {Component, ElementRef, EventEmitter, ViewChild} from '@angular/core';
 import {User} from "../custom";
-import {Observable} from "rxjs/Observable";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'mention',
@@ -14,6 +14,7 @@ import {debounceTime, distinctUntilChanged} from "rxjs/operators";
                 flex-wrap: nowrap;
                 justify-content: space-between;
                 align-items: stretch;
+                margin-top: -21px;
             }`,
 
             `
@@ -36,10 +37,12 @@ export class MentionComponent {
     filterSuggestedUsersForTypehead = (text$: Observable<string>) =>
         text$
             .pipe(debounceTime(200))
-            .pipe(distinctUntilChanged())
-            .map(term => this.suggestedUsers.filter(u => u.username.toLowerCase().indexOf(term.toLowerCase()) > -1));
+            .pipe(distinctUntilChanged()).pipe(
+            map(term => this.suggestedUsers.filter(u => u.username.toLowerCase().indexOf(term.toLowerCase()) > -1)));
     typeAheadInputFormatter = (value: User) => value.username || null;
     typeAheadResultFormatter = (value: User) => value.username || null;
+    disabled: boolean;
+    mentionHasJustBeenSelected: boolean;
     @ViewChild('nameInput')
     private nameInput: ElementRef;
 
@@ -51,6 +54,7 @@ export class MentionComponent {
     }
 
     public onSelectTypeAheadSuggestionItem(): void {
+        this.mentionHasJustBeenSelected = true;
         this.putCursorAfterMention();
     }
 

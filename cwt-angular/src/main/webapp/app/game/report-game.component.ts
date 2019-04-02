@@ -1,10 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
-import {Configuration, GameCreationDto, JwtUser, ReportDto, ServerError, User} from "../custom";
+import {Configuration, GameCreationDto, JwtUser, ReportDto, User} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
-
-const toastr = require('toastr/toastr.js');
+import {CanReportService} from "../_services/can-report.service";
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-report-game',
@@ -19,7 +19,8 @@ export class ReportGameComponent implements OnInit {
     private authenticatedUser: JwtUser;
     private possibleScores: number[];
 
-    public constructor(private authService: AuthService, private requestService: RequestService, private router: Router) {
+    public constructor(private authService: AuthService, private requestService: RequestService, private router: Router,
+                       private canReportService: CanReportService, private toastr: Toastr) {
     }
 
     public ngOnInit(): void {
@@ -58,10 +59,8 @@ export class ReportGameComponent implements OnInit {
             .subscribe(
                 (res: GameCreationDto) => {
                     this.router.navigateByUrl(`/games/${res.id}`);
-                    toastr.success("Successfully saved.");
-                },
-                (err: ServerError) => {
-                    toastr.error(err.error.message);
+                    this.toastr.success("Successfully saved.");
+                    this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
                 });
     }
 }

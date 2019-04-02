@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {RequestService} from "./request.service";
 import {Configuration, ConfigurationKey} from "../custom";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ConfigurationService {
@@ -13,7 +13,7 @@ export class ConfigurationService {
         return this.requestService.get<Configuration[]>('configuration', {keys: configurationKeys});
     }
 
-    public request(): Observable<Configuration> {
-        return this.requestService.get<Configuration>('configuration');
+    public request(): Observable<Configuration[]> {
+        return this.requestService.get<Configuration[]>('configuration');
     }
 }

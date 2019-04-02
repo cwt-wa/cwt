@@ -82,33 +82,31 @@ constructor(private val userRepository: UserRepository,
         val currentTournament = tournamentService.getCurrentTournament()
         val remainingOpponents: List<User>
 
-        if (currentTournament.status == TournamentStatus.GROUP) {
-            val group = groupRepository.findByTournamentAndUser(currentTournament, user)
-            val games = gameRepository.findPlayedByUserInGroup(user, group)
+        when (currentTournament.status) {
+            TournamentStatus.GROUP -> {
+                val group = groupRepository.findByTournamentAndUser(currentTournament, user)
+                val games = gameRepository.findPlayedByUserInGroup(user, group)
 
-            remainingOpponents = group.standings
-                    .filter { groupStanding -> groupStanding.user != user }
-                    .map { it.user }
-                    .filter { u ->
-                        !games
-                                .flatMap { g -> listOf(g.homeUser, g.awayUser) }
-                                .distinct()
-                                .contains(u)
-                    }
-                    .filter { u -> u != user }
-        } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
-            val nextPlayoffGameForUser = playoffService.getNextGameForUser(user)
-
-            if (nextPlayoffGameForUser == null) {
-                remainingOpponents = emptyList()
-            } else {
-                remainingOpponents = if (nextPlayoffGameForUser.homeUser == user)
-                    listOf(nextPlayoffGameForUser.awayUser)
-                else
-                    listOf(nextPlayoffGameForUser.homeUser)
+                remainingOpponents = group.standings
+                        .filter { groupStanding -> groupStanding.user != user }
+                        .map { it.user }
+                        .filter { u ->
+                            !games
+                                    .flatMap { g -> listOf(g.homeUser, g.awayUser) }
+                                    .distinct()
+                                    .contains(u)
+                        }
+                        .filter { u -> u != user }
             }
-        } else {
-            remainingOpponents = emptyList()
+            TournamentStatus.PLAYOFFS -> {
+                val nextPlayoffGameForUser = playoffService.getNextGameForUser(user)
+
+                remainingOpponents = if (nextPlayoffGameForUser == null) emptyList() else {
+                    if (nextPlayoffGameForUser.homeUser == user) listOf(nextPlayoffGameForUser.awayUser!!)
+                    else listOf(nextPlayoffGameForUser.homeUser!!)
+                }
+            }
+            else -> remainingOpponents = emptyList()
         }
 
         return remainingOpponents
@@ -157,6 +155,8 @@ constructor(private val userRepository: UserRepository,
     fun findAll(): List<User> = userRepository.findAll()
 
     fun findByIds(vararg userId: Long): List<User> = userRepository.findAllById(userId.toList())
+
+    fun findByUsernameContaining(term: String): List<User> = userRepository.findByUsernameContaining(term)
 
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 

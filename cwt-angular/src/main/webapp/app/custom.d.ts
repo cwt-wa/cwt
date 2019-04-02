@@ -162,6 +162,11 @@ export interface GameTechWinDto {
     loser: number;
 }
 
+export interface ReplacePlayerDto {
+    toBeReplaced: number;
+    replacement: number;
+}
+
 export interface RatingDto {
     type: RatingType;
     user: number
@@ -178,8 +183,8 @@ export interface Tournament {
     id: number;
     status: TournamentStatus;
     review: String;
-    open: Date;
-    created: Date;
+    open: string;
+    created: string;
     host: User;
     bronzeWinner: User;
     silverWinner: User;
@@ -204,11 +209,14 @@ export type MessageCategory = "SHOUTBOX" | "PRIVATE" | "NEWS";
 
 export interface Message {
     body: string;
-    user: User;
+    author: User;
     created: number;
     recipients: User[];
+    newsType: MessageNewsType;
     category: MessageCategory;
 }
+
+export type MessageNewsType = "REPORT" | "RATING" | "COMMENT"
 
 
 export interface MessageDto {

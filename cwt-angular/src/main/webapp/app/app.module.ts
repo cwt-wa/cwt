@@ -57,6 +57,13 @@ import {ConfirmDirective} from "./_util/confirm.directive";
 import {ValidateResultDirective} from "./_util/validate-result.directive";
 import {AddTechWinComponent} from "./tech-win/add-tech-win.component";
 import {TypeaheadOpenOnFocusDirective} from "./_util/typeahead-open-on-focus.directive";
+import {ReplacePlayerComponent} from "./replace-player/replace-player.component";
+import {MarkdownComponent} from "./_util/markdown.component";
+import {AdminSettingsComponent} from "./admin/admin-settings.component";
+import {AdminTournamentReviewComponent} from "./admin/admin-tournament-review.component";
+import {CanDeactivateGuard} from "./_services/can-deactivate-guard";
+import {CanReportService} from "./_services/can-report.service";
+import {Toastr} from "./_services/toastr";
 
 const appRoutes: Routes = [
     {
@@ -148,6 +155,19 @@ const appRoutes: Routes = [
         component: AddTechWinComponent
     },
     {
+        path: 'admin/replace-player',
+        component: ReplacePlayerComponent
+    },
+    {
+        path: 'admin/settings',
+        component: AdminSettingsComponent
+    },
+    {
+        path: 'admin/tournaments/review',
+        component: AdminTournamentReviewComponent,
+        canDeactivate: [CanDeactivateGuard]
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -205,7 +225,11 @@ const appRoutes: Routes = [
         ConfirmDirective,
         ValidateResultDirective,
         TypeaheadOpenOnFocusDirective,
-        AddTechWinComponent
+        AddTechWinComponent,
+        ReplacePlayerComponent,
+        MarkdownComponent,
+        AdminSettingsComponent,
+        AdminTournamentReviewComponent
     ],
     providers: [
         WebAppViewService,
@@ -217,6 +241,9 @@ const appRoutes: Routes = [
         PreviousRouteService,
         Utils,
         PlayoffsService,
+        CanReportService,
+        CanDeactivateGuard,
+        Toastr,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     entryComponents: [MentionComponent],
