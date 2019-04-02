@@ -183,7 +183,6 @@ export class Tetris {
 
 
     public keyPressed() {
-        console.log(this.p5.keyCode);
         if (this.p5.keyCode === 40) {
             clearInterval(this.fallenDownInterval);
             this.fallenDownInterval = window.setInterval(() => {
@@ -193,8 +192,7 @@ export class Tetris {
     }
 
     public keyReleased() {
-        console.log(this.p5.keyCode);
-        if (this.p5.keyCode === 40) { //KeyCode.DownArrow) {
+        if (this.p5.keyCode === 40) {
             clearInterval(this.fallenDownInterval);
             this.fallenDownInterval = window.setInterval(() => {
                 this.randomFigure.fallDown(this.grid, this.fallenCells);

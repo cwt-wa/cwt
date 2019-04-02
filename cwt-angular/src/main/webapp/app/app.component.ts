@@ -18,7 +18,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
-    public tetrisHighscore: number;
     private authenticatedUser: JwtUser;
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
@@ -51,7 +50,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     easterEgg() {
-
         require('../tetris/styles/testTetris.css');
         const p5 = require('p5/lib/p5.js');
         document.body.classList.add("tetris");
@@ -60,7 +58,11 @@ export class AppComponent implements AfterViewInit, OnInit {
             const tetris = new Tetris(p);
 
             tetris.onGameOver = (highscore: number) => {
-                this.tetrisHighscore = highscore;
+                let tetrisHighscore = highscore;
+                let tetrisName: string; //TODO show msg: please log in
+                if (this.authService.getUserFromTokenPayload() != null) tetrisName = this.authService.getUserFromTokenPayload().username;
+                //todo addusertodatabase
+                debugger;
             };
 
             p.setup = () => {
