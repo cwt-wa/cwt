@@ -4,20 +4,10 @@ import {InjectionToken} from "@angular/core";
 
 export interface AppConfig {
     apiEndpoint: string;
-    tournament: {
-        advancingPerGroup: 2;
-        numberOfGroups: 8;
-        usersPerGroup: 4;
-    }
 }
 
 export const appConfig: AppConfig = {
     apiEndpoint: 'http://localhost:9000/api/',
-    tournament: {
-        advancingPerGroup: 2,
-        numberOfGroups: 8,
-        usersPerGroup: 4,
-    }
 };
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');

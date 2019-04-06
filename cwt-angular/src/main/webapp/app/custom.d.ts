@@ -29,7 +29,7 @@ interface Application {
     applicant: User;
 }
 
-export type ConfigurationKey = "RULES" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING" | "GROUP_GAMES_BEST_OF" | "PLAYOFF_GAMES_BEST_OF" | "FINALE_GAME_BEST_OF" | "NEWS";
+export type ConfigurationKey = "RULES" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING" | "GROUP_GAMES_BEST_OF" | "PLAYOFF_GAMES_BEST_OF" | "FINALE_GAME_BEST_OF" | "NEWS" | "USERS_PER_GROUP" | "NUMBER_OF_GROUPS";
 
 export interface Configuration {
     key: ConfigurationKey;
