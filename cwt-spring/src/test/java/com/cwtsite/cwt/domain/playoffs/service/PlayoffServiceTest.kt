@@ -122,6 +122,10 @@ class PlayoffServiceTest {
                 .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 1, tournament) } // Coming from round 2 and spot 2.
                 .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 2, tournament) } // Coming from round 2 and spot 4.
 
+        Mockito
+                .`when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
+                .thenAnswer { it.getArgument(0) }
+
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(1, 6), tournament))
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(3, 1), tournament))
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(2, 2), tournament))
