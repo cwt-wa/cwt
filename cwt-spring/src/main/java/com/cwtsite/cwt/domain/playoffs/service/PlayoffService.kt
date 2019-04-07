@@ -55,9 +55,14 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return (Math.log((groupsCount * numberOfGroupMembersAdvancing).toDouble()) / Math.log(2.0)).toInt()
     }
 
-    fun advanceByGame(game: Game): Game? {
+    /**
+     * @return Games created or updated by the method. The game(s) that the user has advanced to or none in case it
+     * was a final game and there's no further game to advance to. Can be three games when the first user or two games
+     * when the other two users reach a three-way final.
+     */
+    fun advanceByGame(game: Game): List<Game> {
         if (isFinalGame(game) || isThirdPlaceGame(game)) {
-            return null
+            return emptyList()
         }
 
         val winner = if (game.scoreHome!! > game.scoreAway!!) game.homeUser else game.awayUser
@@ -94,6 +99,6 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             ))
         }
 
-        return persistedGameToAdvanceTo
+        return listOf(persistedGameToAdvanceTo)
     }
 }

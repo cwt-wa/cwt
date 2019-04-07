@@ -13,6 +13,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
+import org.assertj.core.api.Assertions
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -196,8 +197,10 @@ class PlayoffServiceTest {
         mockCountByTournament(MockitoUtils.anyObject())
         mockNumberOfGroupMembersAdvancing()
 
-        Assert.assertNull(playoffService.advanceByGame(
-                createGame(1L, EntityDefaults.user(1L), EntityDefaults.user(2L), 2, 3, createPlayoffGame(4, 1), EntityDefaults.tournament())))
+        Assertions
+                .assertThat(playoffService.advanceByGame(
+                        createGame(1L, EntityDefaults.user(1L), EntityDefaults.user(2L), 2, 3, createPlayoffGame(4, 1), EntityDefaults.tournament())))
+                .isEmpty()
     }
 
     @Test
