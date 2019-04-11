@@ -76,6 +76,13 @@ class PlayoffServiceThreeWayFinalTest {
         Mockito
                 .`when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
                 .thenAnswer { it.getArgument<Game>(0) }
+
+        Mockito
+                .`when`(gameRepository.findByTournamentAndRound(tournament, 1))
+                .thenReturn(Mockito.spy<ArrayList<Game>>(object : ArrayList<Game>() {
+                    override val size: Int
+                        get() = 3
+                }))
     }
 
     /**
@@ -133,20 +140,21 @@ class PlayoffServiceThreeWayFinalTest {
 
         val gameToAdvanceTo = playoffService.advanceByGame(game)
 
-//        Mockito.verify(gameRepository, Mockito.never()).findGameInPlayoffTree(Mockito.any(), Mockito.any(), Mockito.any())
+        Mockito.verify(gameRepository, Mockito.never()).findGameInPlayoffTree(Mockito.any(), Mockito.any(), Mockito.any())
 //        Mockito.verify(gameRepository).findGamesInPlayoffTree(tournament, 2)
-//
-//        Assertions.assertThat(gameToAdvanceTo[0].awayUser).isEqualTo(game.homeUser)
-//        Assertions.assertThat(gameToAdvanceTo[0].homeUser).isNull()
-//        Assertions.assertThat(gameToAdvanceTo[0].playoff!!.round).isEqualTo(2)
-//        Assertions.assertThat(gameToAdvanceTo[0].playoff!!.spot).isEqualTo(1)
-//        Assertions.assertThat(gameToAdvanceTo[0].tournament).isEqualTo(tournament)
-//
-//        Assertions.assertThat(gameToAdvanceTo[1].awayUser).isEqualTo(game.homeUser)
-//        Assertions.assertThat(gameToAdvanceTo[1].homeUser).isNull()
-//        Assertions.assertThat(gameToAdvanceTo[1].playoff!!.round).isEqualTo(2)
-//        Assertions.assertThat(gameToAdvanceTo[1].playoff!!.spot).isEqualTo(1)
-//        Assertions.assertThat(gameToAdvanceTo[1].tournament).isEqualTo(tournament)
+//        Mockito.verify(gameRepository).findByTournamentAndRound(tournament, 2)
+
+        Assertions.assertThat(gameToAdvanceTo[0].awayUser).isEqualTo(game.homeUser)
+        Assertions.assertThat(gameToAdvanceTo[0].homeUser).isNull()
+        Assertions.assertThat(gameToAdvanceTo[0].playoff!!.round).isEqualTo(2)
+        Assertions.assertThat(gameToAdvanceTo[0].playoff!!.spot).isEqualTo(1)
+        Assertions.assertThat(gameToAdvanceTo[0].tournament).isEqualTo(tournament)
+
+        Assertions.assertThat(gameToAdvanceTo[1].awayUser).isEqualTo(game.homeUser)
+        Assertions.assertThat(gameToAdvanceTo[1].homeUser).isNull()
+        Assertions.assertThat(gameToAdvanceTo[1].playoff!!.round).isEqualTo(2)
+        Assertions.assertThat(gameToAdvanceTo[1].playoff!!.spot).isEqualTo(1)
+        Assertions.assertThat(gameToAdvanceTo[1].tournament).isEqualTo(tournament)
 
         Assertions.assertThat(gameToAdvanceTo.size).isEqualTo(2)
     }

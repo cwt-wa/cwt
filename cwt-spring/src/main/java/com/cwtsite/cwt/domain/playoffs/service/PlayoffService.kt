@@ -80,7 +80,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
         val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(
                 game.tournament, nextRound, nextSpot)
-        val persistedGameToAdvanceTo: Game
+        val affectedGames = mutableListOf<Game>()
 
         if (gameToAdvanceTo.isPresent) {
             when {
@@ -89,16 +89,35 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 else -> throw RuntimeException("gameToAdvanceTo already has a home and away user.")
             }
 
-            persistedGameToAdvanceTo = gameRepository.save(gameToAdvanceTo.get())
+            affectedGames.add(gameRepository.save(gameToAdvanceTo.get()))
         } else {
-            persistedGameToAdvanceTo = gameRepository.save(Game(
+            affectedGames.add(gameRepository.save(Game(
                     homeUser = if (nextGameAsHomeUser) winner else null,
                     awayUser = if (nextGameAsHomeUser) null else winner,
-                    playoff = with(PlayoffGame()) { round = nextRound; spot = nextSpot; this},
+                    playoff = with(PlayoffGame()) { round = nextRound; spot = nextSpot; this },
                     tournament = game.tournament
-            ))
+            )))
+
+            if (roundIsThreeWayFinal(game.tournament, game.playoff!!.round + 1)) {
+                for (threeWayFinalSpot in 2..3) {
+                    affectedGames.add(Game(
+                            homeUser = null,
+                            awayUser = null,
+                            playoff = with(PlayoffGame()) { round = nextRound; spot = threeWayFinalSpot; this },
+                            tournament = game.tournament
+                    ))
+                }
+            }
         }
 
-        return listOf(persistedGameToAdvanceTo)
+        return affectedGames
+    }
+
+    private fun roundIsThreeWayFinal(tournament: Tournament, round: Int): Boolean {
+        val playersInFirstRound = gameRepository.findByTournamentAndRound(tournament, 1).size * 2
+        val isPlayoffTreeWithThreeWayFinal = kotlin.math.log2(playersInFirstRound.toDouble()) % 1 != 0.0
+        if (!isPlayoffTreeWithThreeWayFinal) return false
+        val numOfRounds = (Math.log((playersInFirstRound).toDouble()) / Math.log(2.0))
+        return Math.floor(numOfRounds) == round.toDouble()
     }
 }
