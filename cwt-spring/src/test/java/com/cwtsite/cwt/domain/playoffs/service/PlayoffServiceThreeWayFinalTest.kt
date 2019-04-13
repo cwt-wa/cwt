@@ -107,7 +107,7 @@ class PlayoffServiceThreeWayFinalTest {
         Assertions.assertThat(gameToAdvanceTo[0].playoff!!.spot).isEqualTo(1)
         Assertions.assertThat(gameToAdvanceTo[0].tournament).isEqualTo(tournament)
 
-        Assertions.assertThat(gameToAdvanceTo[1].awayUser).isNull()
+        Assertions.assertThat(gameToAdvanceTo[1].awayUser).isEqualTo(game.homeUser)
         Assertions.assertThat(gameToAdvanceTo[1].homeUser).isNull()
         Assertions.assertThat(gameToAdvanceTo[1].playoff!!.round).isEqualTo(2)
         Assertions.assertThat(gameToAdvanceTo[1].playoff!!.spot).isEqualTo(2)

@@ -85,23 +85,9 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             val existingThreeWayFinalGames = gameRepository.findByTournamentAndRound(game.tournament, nextRound)
 
             if (existingThreeWayFinalGames.isEmpty()) {
-                affectedGames.add(gameRepository.save(Game(
-                        homeUser = if (nextGameAsHomeUser) winner else null,
-                        awayUser = if (nextGameAsHomeUser) null else winner,
-                        playoff = PlayoffGame(round = nextRound, spot = nextSpot),
-                        tournament = game.tournament
-                )))
-
-                if (nextRoundIsThreeWayFinal) {
-                    for (threeWayFinalSpot in 2..3) {
-                        affectedGames.add(Game(
-                                homeUser = null,
-                                awayUser = null,
-                                playoff = with(PlayoffGame()) { round = nextRound; spot = threeWayFinalSpot; this },
-                                tournament = game.tournament
-                        ))
-                    }
-                }
+                affectedGames.add(gameRepository.save(Game(homeUser = winner, playoff = PlayoffGame(round = nextRound, spot = 1), tournament = game.tournament)))
+                affectedGames.add(gameRepository.save(Game(awayUser = winner, playoff = PlayoffGame(round = nextRound, spot = 2), tournament = game.tournament)))
+                affectedGames.add(gameRepository.save(Game(playoff = PlayoffGame(round = nextRound, spot = 3), tournament = game.tournament)))
             } else {
                 // TODO Second and third to reach three-way final.
             }
