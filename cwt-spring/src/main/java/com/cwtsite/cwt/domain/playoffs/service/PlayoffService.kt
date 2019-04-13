@@ -63,7 +63,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
      */
     @Transactional
     fun advanceByGame(game: Game): List<Game> {
-        if (isFinalGame(game) || isThirdPlaceGame(game)) {
+        if (isFinalGame(game) || isThirdPlaceGame(game) || roundIsThreeWayFinal(game.tournament, game.playoff!!.round)) {
             return emptyList()
         }
 

@@ -243,7 +243,7 @@ class PlayoffServiceThreeWayFinalTest {
                 scoreAway = 1,
                 homeUser = EntityDefaults.user(),
                 awayUser = EntityDefaults.user(id = 2),
-                playoff = PlayoffGame(round = 1, spot = 2),
+                playoff = PlayoffGame(round = 2, spot = 2),
                 tournament = tournament
         )
 
