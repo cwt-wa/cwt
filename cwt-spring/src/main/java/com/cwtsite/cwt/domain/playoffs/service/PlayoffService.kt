@@ -57,6 +57,26 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     }
 
     /**
+     * Playoff tree building with players in first round, number of rounds to final, whether or not there's a three-way
+     * final.
+     * ```
+     *                  +2   +2   +4   +4   +8   +8  +16  +16  +32  +32
+     *     players  4    6    8   12   16   24   32   48   64   96  128
+     *      rounds  2    2    3    3    4    4    5    5    6    6    8
+     *        3way  n    y    n    y    n    y    n    y    n    y    n
+     * log2(plyrs)  2   2.6   3   3.6   4   4.6   5   5.6   6   6.6   7
+     * ```
+     *
+     * Three-way final game pairing.
+     * Numbers represent the `spot` they're coming from.
+     * ```
+     *
+     * 1st 2nd 3rd
+     * 1n  12  12
+     * n1  n1  31
+     * nn  2n  23
+     *
+     * ```
      * @return Games created or updated by the method. The game(s) that the user has advanced to or none in case it
      * was a final game and there's no further game to advance to. Can be three games when the first user or two games
      * when the other two users reach a three-way final.
