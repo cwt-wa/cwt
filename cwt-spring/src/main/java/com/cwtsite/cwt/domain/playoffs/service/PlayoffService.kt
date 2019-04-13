@@ -67,15 +67,15 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
         val winner = if (game.scoreHome!! > game.scoreAway!!) game.homeUser else game.awayUser
 
-        val nextRound = game.playoff!!.round!! + 1
+        val nextRound = game.playoff!!.round + 1
         val nextSpot: Int
         val nextGameAsHomeUser: Boolean
         val nextRoundIsThreeWayFinal = roundIsThreeWayFinal(game.tournament, nextRound)
-        if (game.playoff!!.spot!! % 2 != 0) {
-            nextSpot = (game.playoff!!.spot!! + 1) / 2
+        if (game.playoff!!.spot % 2 != 0) {
+            nextSpot = (game.playoff!!.spot + 1) / 2
             nextGameAsHomeUser = true
         } else {
-            nextSpot = game.playoff!!.spot!! / 2
+            nextSpot = game.playoff!!.spot / 2
             nextGameAsHomeUser = nextRoundIsThreeWayFinal
         }
 
@@ -88,7 +88,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 affectedGames.add(gameRepository.save(Game(
                         homeUser = if (nextGameAsHomeUser) winner else null,
                         awayUser = if (nextGameAsHomeUser) null else winner,
-                        playoff = with(PlayoffGame()) { round = nextRound; spot = nextSpot; this },
+                        playoff = PlayoffGame(round = nextRound, spot = nextSpot),
                         tournament = game.tournament
                 )))
 
@@ -120,7 +120,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 affectedGames.add(gameRepository.save(Game(
                         homeUser = if (nextGameAsHomeUser) winner else null,
                         awayUser = if (nextGameAsHomeUser) null else winner,
-                        playoff = with(PlayoffGame()) { round = nextRound; spot = nextSpot; this },
+                        playoff = PlayoffGame(round = nextRound, spot = nextSpot),
                         tournament = game.tournament
                 )))
             }

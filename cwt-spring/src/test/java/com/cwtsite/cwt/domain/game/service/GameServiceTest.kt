@@ -126,21 +126,21 @@ class GameServiceTest {
                     val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = invocation.getArgument(1)
                     game.awayUser = awayUser
-                    game.playoff = PlayoffGame()
+                    game.playoff = PlayoffGame(round = 1, spot = 1)
                     game
                 }
                 .thenAnswer { invocation ->
                     val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = awayUser
                     game.awayUser = invocation.getArgument(1)
-                    game.playoff = PlayoffGame()
+                    game.playoff = PlayoffGame(round = 1, spot = 1)
                     game
                 }
                 .thenAnswer { invocation ->
                     val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = invocation.getArgument(1)
                     game.awayUser = EntityDefaults.user(19)
-                    game.playoff = PlayoffGame()
+                    game.playoff = PlayoffGame(round = 1, spot = 1)
                     game
                 }
 

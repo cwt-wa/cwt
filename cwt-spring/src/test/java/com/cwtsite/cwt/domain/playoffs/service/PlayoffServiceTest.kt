@@ -92,8 +92,8 @@ class PlayoffServiceTest {
                 .thenAnswer { invocation ->
                     val actualGame = invocation.getArgument<Game>(0)
 
-                    Assert.assertEquals(2, (actualGame.playoff!!.round as Int).toLong())
-                    Assert.assertEquals(1, (actualGame.playoff!!.spot as Int).toLong())
+                    Assert.assertEquals(2, actualGame.playoff!!.round.toLong())
+                    Assert.assertEquals(1, actualGame.playoff!!.spot.toLong())
                     Assert.assertEquals(game.tournament, actualGame.tournament)
                     Assert.assertEquals(game.awayUser, actualGame.awayUser)
                     Assert.assertNull(actualGame.homeUser)
@@ -250,22 +250,19 @@ class PlayoffServiceTest {
     private fun createGame(id: Long?,
                            homeUser: User?, awayUser: User,
                            scoreHome: Int?, scoreAway: Int?,
-                           playoffGame: PlayoffGame, tournament: Tournament): Game {
-        val game = Game(tournament = tournament)
-        game.id = id
-        game.homeUser = homeUser
-        game.awayUser = awayUser
-        game.scoreHome = scoreHome
-        game.scoreAway = scoreAway
-        game.playoff = playoffGame
-        return game
-    }
+                           playoffGame: PlayoffGame, tournament: Tournament) = Game(
+            id = id,
+            homeUser = homeUser,
+            awayUser = awayUser,
+            scoreHome = scoreHome,
+            scoreAway = scoreAway,
+            playoff = playoffGame,
+            tournament = tournament
+    )
 
-    private fun createPlayoffGame(round: Int, spot: Int): PlayoffGame {
-        val playoffGame = PlayoffGame()
-        playoffGame.round = round
-        playoffGame.spot = spot
-        return playoffGame
-    }
+    private fun createPlayoffGame(round: Int, spot: Int) = PlayoffGame(
+            round = round,
+            spot = spot
+    )
 }
 

@@ -95,7 +95,7 @@ class PlayoffServiceThreeWayFinalTest {
                 scoreAway = 1,
                 homeUser = EntityDefaults.user(),
                 awayUser = EntityDefaults.user(id = 2),
-                playoff = with(PlayoffGame()) { round = 1; spot = 2; this },
+                playoff = PlayoffGame(round = 1, spot = 2),
                 tournament = tournament
         )
 
@@ -132,7 +132,7 @@ class PlayoffServiceThreeWayFinalTest {
                 scoreAway = 1,
                 homeUser = EntityDefaults.user(),
                 awayUser = EntityDefaults.user(id = 2),
-                playoff = with(PlayoffGame()) { round = 1; spot = 2; this },
+                playoff = PlayoffGame(round = 1, spot = 2),
                 tournament = tournament
         )
 
@@ -167,7 +167,7 @@ class PlayoffServiceThreeWayFinalTest {
                 scoreAway = 1,
                 homeUser = EntityDefaults.user(),
                 awayUser = EntityDefaults.user(id = 2),
-                playoff = with(PlayoffGame()) { round = 1; spot = 2; this },
+                playoff = PlayoffGame(round = 1, spot = 2),
                 tournament = tournament
         )
 
@@ -201,7 +201,7 @@ class PlayoffServiceThreeWayFinalTest {
                 scoreAway = 1,
                 homeUser = EntityDefaults.user(),
                 awayUser = EntityDefaults.user(id = 2),
-                playoff = with(PlayoffGame()) { round = 1; spot = 2; this },
+                playoff = PlayoffGame(round = 1, spot = 2),
                 tournament = tournament
         )
 
