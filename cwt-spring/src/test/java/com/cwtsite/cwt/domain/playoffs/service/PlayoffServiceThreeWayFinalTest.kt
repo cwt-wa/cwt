@@ -103,8 +103,8 @@ class PlayoffServiceThreeWayFinalTest {
 
         Mockito.verify(gameRepository).findGameInPlayoffTree(tournament, 2, 1)
 
-        Assertions.assertThat(gameToAdvanceTo[0].awayUser).isEqualTo(game.homeUser)
-        Assertions.assertThat(gameToAdvanceTo[0].homeUser).isNull()
+        Assertions.assertThat(gameToAdvanceTo[0].awayUser).isNull()
+        Assertions.assertThat(gameToAdvanceTo[0].homeUser).isEqualTo(game.homeUser)
         Assertions.assertThat(gameToAdvanceTo[0].playoff!!.round).isEqualTo(2)
         Assertions.assertThat(gameToAdvanceTo[0].playoff!!.spot).isEqualTo(1)
         Assertions.assertThat(gameToAdvanceTo[0].tournament).isEqualTo(tournament)

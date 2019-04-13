@@ -70,12 +70,13 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         val nextRound = game.playoff!!.round!! + 1
         val nextSpot: Int
         val nextGameAsHomeUser: Boolean
+        val nextRoundIsThreeWayFinal = roundIsThreeWayFinal(game.tournament, nextRound)
         if (game.playoff!!.spot!! % 2 != 0) {
             nextSpot = (game.playoff!!.spot!! + 1) / 2
             nextGameAsHomeUser = true
         } else {
             nextSpot = game.playoff!!.spot!! / 2
-            nextGameAsHomeUser = false
+            nextGameAsHomeUser = nextRoundIsThreeWayFinal
         }
 
         val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(
@@ -98,7 +99,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                     tournament = game.tournament
             )))
 
-            if (roundIsThreeWayFinal(game.tournament, game.playoff!!.round + 1)) {
+            if (nextRoundIsThreeWayFinal) {
                 for (threeWayFinalSpot in 2..3) {
                     affectedGames.add(Game(
                             homeUser = null,
