@@ -12,6 +12,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class PlayoffService @Autowired
@@ -60,12 +61,13 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
      * was a final game and there's no further game to advance to. Can be three games when the first user or two games
      * when the other two users reach a three-way final.
      */
+    @Transactional
     fun advanceByGame(game: Game): List<Game> {
         if (isFinalGame(game) || isThirdPlaceGame(game)) {
             return emptyList()
         }
 
-        val winner = if (game.scoreHome!! > game.scoreAway!!) game.homeUser else game.awayUser
+        val winner = (if (game.scoreHome!! > game.scoreAway!!) game.homeUser else game.awayUser)!!
 
         val nextRound = game.playoff!!.round + 1
         val nextSpot: Int
@@ -89,7 +91,22 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 affectedGames.add(gameRepository.save(Game(awayUser = winner, playoff = PlayoffGame(round = nextRound, spot = 2), tournament = game.tournament)))
                 affectedGames.add(gameRepository.save(Game(playoff = PlayoffGame(round = nextRound, spot = 3), tournament = game.tournament)))
             } else {
-                // TODO Second and third to reach three-way final.
+                existingThreeWayFinalGames
+                        .fold(mutableListOf<Game>()) { acc, threeWayFinalGame ->
+                            if (threeWayFinalGame.completedPairing()
+                                    || (threeWayFinalGame.emptyPairing() && acc.any { it.emptyPairing() })
+                                    || acc.any { it.wasPlayedBy(threeWayFinalGame.homeUser) || it.wasPlayedBy(threeWayFinalGame.awayUser) }) {
+                                return@fold acc
+                            }
+
+                            acc.add(threeWayFinalGame)
+                            acc
+                        }
+                        .forEach {
+                            if (it.isHalfPaired()) it.pairUser(winner)
+                            else it.homeUser = winner
+                            affectedGames.add(gameRepository.save(it))
+                        }
             }
         } else {
             val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
