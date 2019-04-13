@@ -79,35 +79,50 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             nextGameAsHomeUser = nextRoundIsThreeWayFinal
         }
 
-        val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(
-                game.tournament, nextRound, nextSpot)
         val affectedGames = mutableListOf<Game>()
 
-        if (gameToAdvanceTo.isPresent) {
-            when {
-                gameToAdvanceTo.get().homeUser == null -> gameToAdvanceTo.get().homeUser = winner
-                gameToAdvanceTo.get().awayUser == null -> gameToAdvanceTo.get().awayUser = winner
-                else -> throw RuntimeException("gameToAdvanceTo already has a home and away user.")
-            }
+        if (nextRoundIsThreeWayFinal) {
+            val existingThreeWayFinalGames = gameRepository.findByTournamentAndRound(game.tournament, nextRound)
 
-            affectedGames.add(gameRepository.save(gameToAdvanceTo.get()))
-        } else {
-            affectedGames.add(gameRepository.save(Game(
-                    homeUser = if (nextGameAsHomeUser) winner else null,
-                    awayUser = if (nextGameAsHomeUser) null else winner,
-                    playoff = with(PlayoffGame()) { round = nextRound; spot = nextSpot; this },
-                    tournament = game.tournament
-            )))
+            if (existingThreeWayFinalGames.isEmpty()) {
+                affectedGames.add(gameRepository.save(Game(
+                        homeUser = if (nextGameAsHomeUser) winner else null,
+                        awayUser = if (nextGameAsHomeUser) null else winner,
+                        playoff = with(PlayoffGame()) { round = nextRound; spot = nextSpot; this },
+                        tournament = game.tournament
+                )))
 
-            if (nextRoundIsThreeWayFinal) {
-                for (threeWayFinalSpot in 2..3) {
-                    affectedGames.add(Game(
-                            homeUser = null,
-                            awayUser = null,
-                            playoff = with(PlayoffGame()) { round = nextRound; spot = threeWayFinalSpot; this },
-                            tournament = game.tournament
-                    ))
+                if (nextRoundIsThreeWayFinal) {
+                    for (threeWayFinalSpot in 2..3) {
+                        affectedGames.add(Game(
+                                homeUser = null,
+                                awayUser = null,
+                                playoff = with(PlayoffGame()) { round = nextRound; spot = threeWayFinalSpot; this },
+                                tournament = game.tournament
+                        ))
+                    }
                 }
+            } else {
+                // TODO Second and third to reach three-way final.
+            }
+        } else {
+            val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
+
+            if (gameToAdvanceTo.isPresent) {
+                when {
+                    gameToAdvanceTo.get().homeUser == null -> gameToAdvanceTo.get().homeUser = winner
+                    gameToAdvanceTo.get().awayUser == null -> gameToAdvanceTo.get().awayUser = winner
+                    else -> throw RuntimeException("gameToAdvanceTo already has a home and away user.")
+                }
+
+                affectedGames.add(gameRepository.save(gameToAdvanceTo.get()))
+            } else {
+                affectedGames.add(gameRepository.save(Game(
+                        homeUser = if (nextGameAsHomeUser) winner else null,
+                        awayUser = if (nextGameAsHomeUser) null else winner,
+                        playoff = with(PlayoffGame()) { round = nextRound; spot = nextSpot; this },
+                        tournament = game.tournament
+                )))
             }
         }
 
