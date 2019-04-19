@@ -40,12 +40,20 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return finalGames.size == 2
     }
 
-    private fun isFinalGame(game: Game): Boolean {
-        return game.playoff!!.round == getNumberOfPlayoffRoundsInTournament(game.tournament) + 1
+    private fun isFinalGame(tournament: Tournament, round: Int): Boolean {
+        return round == getNumberOfPlayoffRoundsInTournament(tournament) + 1
     }
 
-    private fun isThirdPlaceGame(game: Game): Boolean {
-        return game.playoff!!.round == getNumberOfPlayoffRoundsInTournament(game.tournament)
+    private fun isThirdPlaceGame(tournament: Tournament, round: Int): Boolean {
+        return round == getNumberOfPlayoffRoundsInTournament(tournament)
+    }
+
+    private fun isThreeWayFinalGame(tournament: Tournament, round: Int): Boolean {
+        val playersInFirstRound = gameRepository.findByTournamentAndRound(tournament, 1).size * 2
+        val isPlayoffTreeWithThreeWayFinal = kotlin.math.log2(playersInFirstRound.toDouble()) % 1 != 0.0
+        if (!isPlayoffTreeWithThreeWayFinal) return false
+        val numOfRounds = (Math.log((playersInFirstRound).toDouble()) / Math.log(2.0))
+        return Math.floor(numOfRounds) == round.toDouble()
     }
 
     private fun getNumberOfPlayoffRoundsInTournament(tournament: Tournament): Int {
@@ -83,7 +91,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
      */
     @Transactional
     fun advanceByGame(game: Game): List<Game> {
-        if (isFinalGame(game) || isThirdPlaceGame(game) || roundIsThreeWayFinal(game.tournament, game.playoff!!.round)) {
+        if (isFinalGame(game.tournament, game.playoff!!.round) || isThirdPlaceGame(game.tournament, game.playoff!!.round)
+                || isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
             return emptyList()
         }
 
@@ -92,7 +101,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         val nextRound = game.playoff!!.round + 1
         val nextSpot: Int
         val nextGameAsHomeUser: Boolean
-        val nextRoundIsThreeWayFinal = roundIsThreeWayFinal(game.tournament, nextRound)
+        val nextRoundIsThreeWayFinal = isThreeWayFinalGame(game.tournament, nextRound)
         if (game.playoff!!.spot % 2 != 0) {
             nextSpot = (game.playoff!!.spot + 1) / 2
             nextGameAsHomeUser = true
@@ -150,13 +159,5 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         }
 
         return affectedGames
-    }
-
-    private fun roundIsThreeWayFinal(tournament: Tournament, round: Int): Boolean {
-        val playersInFirstRound = gameRepository.findByTournamentAndRound(tournament, 1).size * 2
-        val isPlayoffTreeWithThreeWayFinal = kotlin.math.log2(playersInFirstRound.toDouble()) % 1 != 0.0
-        if (!isPlayoffTreeWithThreeWayFinal) return false
-        val numOfRounds = (Math.log((playersInFirstRound).toDouble()) / Math.log(2.0))
-        return Math.floor(numOfRounds) == round.toDouble()
     }
 }
