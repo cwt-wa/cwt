@@ -96,7 +96,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             return emptyList()
         }
 
-        val winner = (if (game.scoreHome!! > game.scoreAway!!) game.homeUser else game.awayUser)!!
+        val winner = game.winner()
 
         val nextRound = game.playoff!!.round + 1
         val nextSpot: Int

@@ -93,4 +93,10 @@ data class Game(
     }
 
     fun isHalfPaired() = (homeUser == null) xor (awayUser == null)
+
+    fun isPlayed() = scoreHome != null && scoreAway != null && homeUser != null && awayUser != null
+
+    fun winner() = (if (scoreHome!! > scoreAway!!) homeUser else awayUser)!!
+
+    fun loser() = (if (scoreHome!! > scoreAway!!) awayUser else homeUser)!!
 }
