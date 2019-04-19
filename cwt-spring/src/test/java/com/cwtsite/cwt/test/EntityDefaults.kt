@@ -17,7 +17,7 @@ object EntityDefaults {
     )
 
     fun tournament(created: LocalDateTime = LocalDateTime.now(), id: Long = 1, maxRounds: Int = 5, moderators: Set<User> = setOf(user()),
-                   status: TournamentStatus = TournamentStatus.ARCHIVED) = Tournament(
+                   status: TournamentStatus = TournamentStatus.FINISHED) = Tournament(
             id = id,
             created = Timestamp.valueOf(created),
             maxRounds = maxRounds,
