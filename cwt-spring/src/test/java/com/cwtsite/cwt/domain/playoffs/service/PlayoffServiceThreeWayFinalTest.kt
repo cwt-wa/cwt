@@ -249,6 +249,4 @@ class PlayoffServiceThreeWayFinalTest {
 
         Assertions.assertThat(playoffService.advanceByGame(game)).isEmpty()
     }
-
-    // TODO Archive tournament and winner, runner-up and third can be determined.
 }

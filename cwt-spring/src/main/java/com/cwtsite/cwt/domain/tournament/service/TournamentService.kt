@@ -43,7 +43,12 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
     }
 
     fun finish(gold: User, silver: User, bronze: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val currentTournament = getCurrentTournament()
+        currentTournament.goldWinner = gold
+        currentTournament.silverWinner = silver
+        currentTournament.bronzeWinner = bronze
+        currentTournament.status = TournamentStatus.FINISHED
+        tournamentRepository.save(currentTournament)
     }
 
     fun getTournament(id: Long): Optional<Tournament> {

@@ -86,6 +86,9 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
      * nn  2n  23
      *
      * ```
+     *
+     * In case the given game concludes the tournament, it will be finished.
+     *
      * @return Games created or updated by the method. The game(s) that the user has advanced to or none in case it
      * was a final game and there's no further game to advance to. Can be three games when the first user or two games
      * when the other two users reach a three-way final.
