@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
+import com.cwtsite.cwt.domain.playoffs.ThreeWayFinalResult
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -91,12 +92,30 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
      */
     @Transactional
     fun advanceByGame(game: Game): List<Game> {
-        if (isFinalGame(game.tournament, game.playoff!!.round) || isThirdPlaceGame(game.tournament, game.playoff!!.round)
-                || isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
+        val winner = game.winner()
+        val loser = game.loser()
+
+        @Suppress("CascadeIf")
+        if (isFinalGame(game.tournament, game.playoff!!.round)) {
+            val thirdPlaceGame = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round - 1)
+            if (thirdPlaceGame.size > 1) throw RuntimeException("There's more than one third place game.")
+            if (thirdPlaceGame.size < 1) throw RuntimeException("There's no third place game although there's already a final game.")
+            if (thirdPlaceGame[0].isPlayed()) tournamentService.finish(winner, loser, thirdPlaceGame[0].winner())
+            return emptyList()
+        } else if (isThirdPlaceGame(game.tournament, game.playoff!!.round)) {
+            val finalGame = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round + 1)
+            if (finalGame.size > 1) throw RuntimeException("There's more than one one-way final game.")
+            if (finalGame.size < 1) throw RuntimeException("There's no one-way final game although there's already a third place game.")
+            if (finalGame[0].isPlayed()) tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner)
+            return emptyList()
+        } else if (isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
+            val threeWayFinalGames = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round)
+            if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.isPlayed() }) {
+                val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
+                tournamentService.finish(gold, silver, bronze)
+            }
             return emptyList()
         }
-
-        val winner = game.winner()
 
         val nextRound = game.playoff!!.round + 1
         val nextSpot: Int
