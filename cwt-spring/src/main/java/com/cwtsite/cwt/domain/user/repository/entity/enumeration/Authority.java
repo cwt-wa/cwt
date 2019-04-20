@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.AuthorityName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -48,5 +49,18 @@ public class Authority {
 
     public static Authority fromName(AuthorityName authorityName) {
         return new Authority(authorityName);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Authority authority = (Authority) o;
+        return id.equals(authority.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

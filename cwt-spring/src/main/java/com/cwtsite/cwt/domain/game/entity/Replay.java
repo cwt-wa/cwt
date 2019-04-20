@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.domain.game.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 
 @Entity
@@ -58,5 +59,18 @@ public class Replay {
 
     public void setExtension(String extension) {
         this.extension = extension;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Replay replay = (Replay) o;
+        return id.equals(replay.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
