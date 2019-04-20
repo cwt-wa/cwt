@@ -55,7 +55,11 @@ constructor(private val userRepository: UserRepository,
 
     fun userCanReportForCurrentTournament(user: User): Boolean {
         val userCanReportForCurrentTournament: Boolean
-        val currentTournament = tournamentService.getCurrentTournament() ?: return false
+        val currentTournament = try {
+            tournamentService.getCurrentTournament()
+        } catch (e: RuntimeException) {
+            return false
+        }
 
         if (currentTournament.status == TournamentStatus.GROUP) {
             val group = this.groupRepository.findByTournamentAndUser(currentTournament, user)

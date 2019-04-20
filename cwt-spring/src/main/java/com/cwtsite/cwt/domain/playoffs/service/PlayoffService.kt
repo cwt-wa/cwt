@@ -25,7 +25,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return gameRepository.findByTournamentAndPlayoffIsNotNull(tournament)
     }
 
-    fun getNextGameForUser(user: User): Game {
+    fun getNextGameForUser(user: User): Game? {
         return gameRepository.findNextPlayoffGameForUser(tournamentService.getCurrentTournament(), user)
     }
 

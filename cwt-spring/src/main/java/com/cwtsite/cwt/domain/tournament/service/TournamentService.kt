@@ -64,8 +64,10 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
         return tournamentRepository.findByYear(year.toInt())
     }
 
-    fun getCurrentTournament(): Tournament = tournamentRepository.findByStatusNot(TournamentStatus.FINISHED)
-            ?: throw RuntimeException("There is currently no tournament.")
+    @Throws(RuntimeException::class)
+    fun getCurrentTournament(): Tournament =
+            tournamentRepository.findByStatusNot(TournamentStatus.FINISHED)
+                    ?: throw RuntimeException("There is currently no tournament.")
 
     fun getAll(): List<Tournament> = tournamentRepository.findAll()
 }
