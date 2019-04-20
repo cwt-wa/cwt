@@ -176,10 +176,10 @@ class PlayoffServiceFinishTournamentTest {
                 }
                 .thenAnswer { answer ->
                     val games = answer.getArgument<MutableIterable<Game>>(0)
-                    Assertions.assertThat(games.map { it.isPlayed() }.any { it }).isFalse()
-                    Assertions.assertThat(games.count { it.wasPlayedBy(user1) }).isEqualTo(2)
-                    Assertions.assertThat(games.count { it.wasPlayedBy(user2) }).isEqualTo(2)
-                    Assertions.assertThat(games.count { it.wasPlayedBy(user3) }).isEqualTo(2)
+                    Assertions.assertThat(games.map { it.wasPlayed() }.any { it }).isFalse()
+                    Assertions.assertThat(games.count { it.pairingInvolves(user1) }).isEqualTo(2)
+                    Assertions.assertThat(games.count { it.pairingInvolves(user2) }).isEqualTo(2)
+                    Assertions.assertThat(games.count { it.pairingInvolves(user3) }).isEqualTo(2)
                     Assertions.assertThat(games.any { it.homeUser == it.awayUser }).isFalse()
                     games
                 }

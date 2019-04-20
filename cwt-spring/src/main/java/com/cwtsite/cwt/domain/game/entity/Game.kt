@@ -81,20 +81,20 @@ data class Game(
         var voided: Boolean = false
 ) {
 
-    fun wasPlayedBy(user: User?) = (user != null) && (homeUser == user || awayUser == user)
+    fun pairingInvolves(user: User?) = (user != null) && (homeUser == user || awayUser == user)
 
-    fun completedPairing() = homeUser != null && awayUser != null
+    fun pairingCompleted() = homeUser != null && awayUser != null
 
-    fun emptyPairing() = homeUser == null && awayUser == null
+    fun pairingHalfCompleted() = (homeUser == null) xor (awayUser == null)
+
+    fun pairingEmpty() = homeUser == null && awayUser == null
 
     fun pairUser(user: User) {
-        if (!isHalfPaired()) throw RuntimeException("Game is not half paired.")
+        if (!pairingHalfCompleted()) throw RuntimeException("Game is not half paired.")
         if (homeUser == null) homeUser = user else awayUser = user
     }
 
-    fun isHalfPaired() = (homeUser == null) xor (awayUser == null)
-
-    fun isPlayed() = scoreHome != null && scoreAway != null && homeUser != null && awayUser != null
+    fun wasPlayed() = scoreHome != null && scoreAway != null && homeUser != null && awayUser != null
 
     fun winner() = (if (scoreHome!! > scoreAway!!) homeUser else awayUser)!!
 

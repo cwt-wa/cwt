@@ -104,17 +104,17 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             val thirdPlaceGame = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round - 1)
             if (thirdPlaceGame.size > 1) throw RuntimeException("There's more than one third place game.")
             if (thirdPlaceGame.size < 1) throw RuntimeException("There's no third place game although there's already a final game.")
-            if (thirdPlaceGame[0].isPlayed()) tournamentService.finish(winner, loser, thirdPlaceGame[0].winner())
+            if (thirdPlaceGame[0].wasPlayed()) tournamentService.finish(winner, loser, thirdPlaceGame[0].winner())
             return emptyList()
         } else if (isThirdPlaceGame(game.tournament, game.playoff!!.round)) {
             val finalGame = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round + 1)
             if (finalGame.size > 1) throw RuntimeException("There's more than one one-way final game.")
             if (finalGame.size < 1) throw RuntimeException("There's no one-way final game although there's already a third place game.")
-            if (finalGame[0].isPlayed()) tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner)
+            if (finalGame[0].wasPlayed()) tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner)
             return emptyList()
         } else if (isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
             val threeWayFinalGames = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round).map { if (it == game) game else it }
-            if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.isPlayed() }) {
+            if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.wasPlayed() }) {
                 try {
                     val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
                     tournamentService.finish(gold, silver, bronze)
@@ -158,9 +158,9 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             } else {
                 existingThreeWayFinalGames
                         .fold(mutableListOf<Game>()) { acc, threeWayFinalGame ->
-                            if (threeWayFinalGame.completedPairing()
-                                    || (threeWayFinalGame.emptyPairing() && acc.any { it.emptyPairing() })
-                                    || acc.any { it.wasPlayedBy(threeWayFinalGame.homeUser) || it.wasPlayedBy(threeWayFinalGame.awayUser) }) {
+                            if (threeWayFinalGame.pairingCompleted()
+                                    || (threeWayFinalGame.pairingEmpty() && acc.any { it.pairingEmpty() })
+                                    || acc.any { it.pairingInvolves(threeWayFinalGame.homeUser) || it.pairingInvolves(threeWayFinalGame.awayUser) }) {
                                 return@fold acc
                             }
 
@@ -168,7 +168,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                             acc
                         }
                         .forEach {
-                            if (it.isHalfPaired()) it.pairUser(winner)
+                            if (it.pairingHalfCompleted()) it.pairUser(winner)
                             else it.homeUser = winner
                             affectedGames.add(gameRepository.save(it))
                         }
