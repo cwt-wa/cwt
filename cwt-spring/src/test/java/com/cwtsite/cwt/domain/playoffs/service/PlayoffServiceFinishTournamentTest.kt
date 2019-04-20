@@ -50,7 +50,7 @@ class PlayoffServiceFinishTournamentTest {
         val (finalGame, thirdPlaceGame) = createOneWayFinalGames()
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, finalGame.playoff!!.round - 1))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, finalGame.playoff!!.round - 1))
                 .thenReturn(listOf(thirdPlaceGame))
 
         playoffService.advanceByGame(finalGame)
@@ -64,7 +64,7 @@ class PlayoffServiceFinishTournamentTest {
         val (finalGame, thirdPlaceGame) = createOneWayFinalGames()
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, thirdPlaceGame.playoff!!.round + 1))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, thirdPlaceGame.playoff!!.round + 1))
                 .thenReturn(listOf(finalGame))
 
         playoffService.advanceByGame(thirdPlaceGame)
@@ -91,7 +91,7 @@ class PlayoffServiceFinishTournamentTest {
         )
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, game.playoff!!.round))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
                 .thenReturn(listOf(
                         EntityDefaults.game(
                                 id = 1,
@@ -163,7 +163,7 @@ class PlayoffServiceFinishTournamentTest {
         )
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, game.playoff!!.round))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
                 .thenReturn(threeWayFinalGames)
 
         Mockito
@@ -201,7 +201,7 @@ class PlayoffServiceFinishTournamentTest {
                 ))
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, 1))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
                 .thenReturn(Mockito.spy<ArrayList<Game>>(object : ArrayList<Game>() {
                     override val size: Int
                         get() = 3

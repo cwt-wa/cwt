@@ -205,7 +205,7 @@ class PlayoffServiceTest {
                 .hasMessage("There's no one-way final game although there's already a third place game.")
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round + 1))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round + 1))
                 .thenReturn(listOf(game.copy(id = 2, reporter = null, scoreAway = null, scoreHome = null)))
 
         Assertions

@@ -78,7 +78,7 @@ class PlayoffServiceThreeWayFinalTest {
                 .thenAnswer { it.getArgument<Game>(0) }
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, 1))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
                 .thenReturn(Mockito.spy<ArrayList<Game>>(object : ArrayList<Game>() {
                     override val size: Int
                         get() = 3
@@ -138,7 +138,7 @@ class PlayoffServiceThreeWayFinalTest {
         )
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, 2))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 2))
                 .thenReturn(listOf(
                         Game(
                                 awayUser = null,
@@ -194,7 +194,7 @@ class PlayoffServiceThreeWayFinalTest {
         )
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndRound(tournament, 2))
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 2))
                 .thenReturn(listOf(
                         Game(
                                 awayUser = secondUserToReachFinals,
