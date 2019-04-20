@@ -42,11 +42,11 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     }
 
     private fun isFinalGame(tournament: Tournament, round: Int): Boolean {
-        return round == getNumberOfPlayoffRoundsInTournament(tournament) + 1
+        return round == getNumberOfPlayoffRoundsInTournament(tournament) + 1 && !isThreeWayFinalGame(tournament, round)
     }
 
     private fun isThirdPlaceGame(tournament: Tournament, round: Int): Boolean {
-        return round == getNumberOfPlayoffRoundsInTournament(tournament)
+        return round == getNumberOfPlayoffRoundsInTournament(tournament) && !isThreeWayFinalGame(tournament, round)
     }
 
     private fun isThreeWayFinalGame(tournament: Tournament, round: Int): Boolean {
@@ -112,7 +112,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             if (finalGame[0].isPlayed()) tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner)
             return emptyList()
         } else if (isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
-            val threeWayFinalGames = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round)
+            val threeWayFinalGames = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round).map { if (it == game) game else it }
             if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.isPlayed() }) {
                 val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
                 tournamentService.finish(gold, silver, bronze)

@@ -42,13 +42,14 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
         return gameRepository.saveAll(games)
     }
 
-    fun finish(gold: User, silver: User, bronze: User) {
+    fun finish(gold: User, silver: User, bronze: User): Tournament {
         val currentTournament = getCurrentTournament()
         currentTournament.goldWinner = gold
         currentTournament.silverWinner = silver
         currentTournament.bronzeWinner = bronze
         currentTournament.status = TournamentStatus.FINISHED
-        tournamentRepository.save(currentTournament)
+        // TODO Refresh Materialized View.
+        return tournamentRepository.save(currentTournament)
     }
 
     fun getTournament(id: Long): Optional<Tournament> {

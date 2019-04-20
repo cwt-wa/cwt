@@ -17,10 +17,17 @@ data class ThreeWayFinalResult(
                     .flatten()
                     .distinct()
                     .associateBy { threeWayFinalGames.count { game -> game.winner() == it } }
+
+            if (userToWonGames.size == 1 && userToWonGames.entries.first().key == 1) {
+                throw TiedThreeWayFinalResult()
+            }
+
             return ThreeWayFinalResult(
-                    gold = userToWonGames[2]!!,
-                    silver = userToWonGames[1]!!,
-                    bronze = userToWonGames[0]!!)
+                    gold = userToWonGames.getValue(2),
+                    silver = userToWonGames.getValue(1),
+                    bronze = userToWonGames.getValue(0))
         }
     }
 }
+
+class TiedThreeWayFinalResult : RuntimeException("All three-way finalists have won one game each.")
