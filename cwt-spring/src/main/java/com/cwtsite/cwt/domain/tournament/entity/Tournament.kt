@@ -43,4 +43,19 @@ data class Tournament(
                 joinColumns = [JoinColumn(name = "tournaments_id", referencedColumnName = "ID")],
                 inverseJoinColumns = [JoinColumn(name = "moderators_id", referencedColumnName = "ID")])
         var moderators: Set<User> = HashSet()
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Tournament
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+}

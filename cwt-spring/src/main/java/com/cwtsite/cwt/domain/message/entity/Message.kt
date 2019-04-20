@@ -19,7 +19,7 @@ data class Message(
         @Column(columnDefinition = "text", nullable = false)
         var body: String,
 
-        @ManyToOne(optional =  false)
+        @ManyToOne(optional = false)
         @JoinColumn(nullable = false)
         var author: User,
 
@@ -40,4 +40,19 @@ data class Message(
         @field:CreationTimestamp
         @Column(nullable = false)
         var created: Timestamp? = null
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Message
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+}

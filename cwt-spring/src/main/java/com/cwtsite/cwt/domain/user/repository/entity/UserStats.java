@@ -3,6 +3,7 @@ package com.cwtsite.cwt.domain.user.repository.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class UserStats {
@@ -61,5 +62,18 @@ public class UserStats {
 
     public void setParticipations(Integer participations) {
         this.participations = participations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserStats userStats = (UserStats) o;
+        return userId.equals(userStats.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
 }
