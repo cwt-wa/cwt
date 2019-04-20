@@ -11,6 +11,7 @@ data class ThreeWayFinalResult(
 
     companion object {
 
+        @Throws(TiedThreeWayFinalResult::class)
         fun fromThreeWayFinalGames(threeWayFinalGames: List<Game>): ThreeWayFinalResult {
             val userToWonGames = threeWayFinalGames
                     .map { listOf(it.homeUser!!, it.awayUser!!) }

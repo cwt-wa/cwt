@@ -13,7 +13,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
-import org.junit.Ignore
+import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -118,48 +118,71 @@ class PlayoffServiceFinishTournamentTest {
     }
 
     @Test
-    @Ignore
     fun advanceByGame_isTiedThreeWayFinalGame() {
         initThreeWayFinal()
-
-        val game = Game(
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 2),
-                playoff = PlayoffGame(round = 2, spot = 2),
-                tournament = tournament
-        )
 
         val user1 = EntityDefaults.user(id = 1, username = "user1")
         val user2 = EntityDefaults.user(id = 2, username = "user2")
         val user3 = EntityDefaults.user(id = 3, username = "user3")
 
+        val game = Game(
+                id = 2,
+                scoreHome = 3,
+                scoreAway = 1,
+                homeUser = user3,
+                awayUser = user1,
+                playoff = PlayoffGame(round = 2, spot = 2),
+                tournament = tournament
+        )
+
+        val threeWayFinalGames = listOf(
+                EntityDefaults.game(
+                        id = 1,
+                        homeUser = user1,
+                        awayUser = user2,
+                        scoreHome = 4,
+                        scoreAway = 1,
+                        playoff = PlayoffGame(round = 2, spot = 1),
+                        tournament = tournament),
+                EntityDefaults.game(
+                        id = 2,
+                        homeUser = user3,
+                        awayUser = user1,
+                        scoreHome = 4,
+                        scoreAway = 1,
+                        playoff = PlayoffGame(round = 2, spot = 2),
+                        tournament = tournament),
+                EntityDefaults.game(
+                        id = 3,
+                        homeUser = user2,
+                        awayUser = user3,
+                        scoreHome = 4,
+                        scoreAway = 1,
+                        playoff = PlayoffGame(round = 2, spot = 3),
+                        tournament = tournament)
+        )
+
         Mockito
                 .`when`(gameRepository.findByTournamentAndRound(tournament, game.playoff!!.round))
-                .thenReturn(listOf(
-                        EntityDefaults.game(
-                                homeUser = user1,
-                                awayUser = user2,
-                                scoreHome = 4,
-                                scoreAway = 1,
-                                playoff = PlayoffGame(round = 5, spot = 1),
-                                tournament = tournament),
-                        EntityDefaults.game(
-                                homeUser = user3,
-                                awayUser = EntityDefaults.user(id = 1, username = "finalGameLoser"),
-                                scoreHome = 4,
-                                scoreAway = 1,
-                                playoff = PlayoffGame(round = 5, spot = 1),
-                                tournament = tournament),
-                        EntityDefaults.game(
-                                homeUser = EntityDefaults.user(id = 2, username = "finalGameWinner"),
-                                awayUser = EntityDefaults.user(id = 3, username = "finalGameLoser"),
-                                scoreHome = 4,
-                                scoreAway = 1,
-                                playoff = PlayoffGame(round = 5, spot = 1),
-                                tournament = tournament)
-                ))
+                .thenReturn(threeWayFinalGames)
+
+        Mockito
+                .`when`(gameRepository.saveAll(MockitoUtils.anyObject<MutableIterable<Game>>()))
+                .thenAnswer { answer ->
+                    val games = answer.getArgument<MutableIterable<Game>>(0)
+                    Assertions.assertThat(games).containsExactlyInAnyOrder(*threeWayFinalGames.toTypedArray())
+                    Assertions.assertThat(games.map { it.voided }.any { !it }).isFalse()
+                    games
+                }
+                .thenAnswer { answer ->
+                    val games = answer.getArgument<MutableIterable<Game>>(0)
+                    Assertions.assertThat(games.map { it.isPlayed() }.any { it }).isFalse()
+                    Assertions.assertThat(games.count { it.wasPlayedBy(user1) }).isEqualTo(2)
+                    Assertions.assertThat(games.count { it.wasPlayedBy(user2) }).isEqualTo(2)
+                    Assertions.assertThat(games.count { it.wasPlayedBy(user3) }).isEqualTo(2)
+                    Assertions.assertThat(games.any { it.homeUser == it.awayUser }).isFalse()
+                    games
+                }
 
         playoffService.advanceByGame(game)
     }

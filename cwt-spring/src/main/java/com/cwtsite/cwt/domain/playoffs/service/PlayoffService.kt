@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.playoffs.ThreeWayFinalResult
+import com.cwtsite.cwt.domain.playoffs.TiedThreeWayFinalResult
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -114,8 +115,21 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         } else if (isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
             val threeWayFinalGames = gameRepository.findByTournamentAndRound(game.tournament, game.playoff!!.round).map { if (it == game) game else it }
             if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.isPlayed() }) {
-                val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
-                tournamentService.finish(gold, silver, bronze)
+                try {
+                    val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
+                    tournamentService.finish(gold, silver, bronze)
+                } catch (e: TiedThreeWayFinalResult) {
+                    return listOf(
+                            *gameRepository.saveAll(threeWayFinalGames.onEach { it.voided = true }).toTypedArray(),
+                            *gameRepository.saveAll(threeWayFinalGames.map {
+                                Game(
+                                        homeUser = it.homeUser,
+                                        awayUser = it.awayUser,
+                                        playoff = PlayoffGame(round = it.playoff!!.round, spot = it.playoff!!.spot),
+                                        tournament = it.tournament
+                                )
+                            }).toTypedArray())
+                }
             }
             return emptyList()
         }
