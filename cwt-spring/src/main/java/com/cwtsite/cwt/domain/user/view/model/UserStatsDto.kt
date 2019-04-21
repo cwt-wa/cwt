@@ -45,7 +45,7 @@ data class UserStatsDto(
             return dtos
         }
 
-        fun locRound(tournamentMaxRound: Int, round: Int): String {
+        private fun locRound(tournamentMaxRound: Int, round: Int): String {
             val integerStringHashMap = mutableMapOf<Int, String>()
             val roundOfLastSixteen = tournamentMaxRound - 3
 
