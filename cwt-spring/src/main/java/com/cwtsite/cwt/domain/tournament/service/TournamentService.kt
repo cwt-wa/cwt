@@ -48,8 +48,10 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
         currentTournament.silverWinner = silver
         currentTournament.bronzeWinner = bronze
         currentTournament.status = TournamentStatus.FINISHED
-        // TODO Refresh Materialized View.
-        return tournamentRepository.save(currentTournament)
+        // TODO Set maxRounds.
+        val savedTournament = tournamentRepository.save(currentTournament)
+        userRepository.refreshUserStats()
+        return savedTournament
     }
 
     fun getTournament(id: Long): Optional<Tournament> {
