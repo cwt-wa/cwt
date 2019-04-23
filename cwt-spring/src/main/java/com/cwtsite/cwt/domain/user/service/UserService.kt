@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.user.service
 
+import com.cwtsite.cwt.core.toInt
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
@@ -117,7 +118,7 @@ constructor(private val userRepository: UserRepository,
     }
 
     fun createDefaultUserStatsTimeline(): String = tournamentRepository.findAll()
-            .joinToString(separator = ",") { "[${it.id},${it.created!!.toLocalDateTime().year},${it.maxRounds},0]" }
+            .joinToString(separator = ",") { "[${it.id},${it.created!!.toLocalDateTime().year},${it.threeWay?.toInt() ?: 0},${it.maxRounds},0]" }
 
     fun findPaginated(page: Int, size: Int, sort: Sort): Page<User> {
         var extendedSort = sort

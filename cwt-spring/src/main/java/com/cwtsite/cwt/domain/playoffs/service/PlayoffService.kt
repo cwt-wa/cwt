@@ -75,17 +75,16 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
      *      rounds  2    2    3    3    4    4    5    5    6    6    8
      *        3way  n    y    n    y    n    y    n    y    n    y    n
      * log2(plyrs)  2   2.6   3   3.6   4   4.6   5   5.6   6   6.6   7
+     * #round 3rd        3    4    4    5    5
      * ```
      *
      * Three-way final game pairing.
      * Numbers represent the `spot` they're coming from.
      * ```
-     *
      * 1st 2nd 3rd
      * 1n  12  12
      * n1  n1  31
      * nn  2n  23
-     *
      * ```
      *
      * In case the given game concludes the tournament, it will be finished.
@@ -98,6 +97,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun advanceByGame(game: Game): List<Game> {
         val winner = game.winner()
         val loser = game.loser()
+
+        val numberOfRoundsInTournament = getNumberOfPlayoffRoundsInTournament(game.tournament) + 1
 
         @Suppress("CascadeIf")
         if (isFinalGame(game.tournament, game.playoff!!.round)) {

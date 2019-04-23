@@ -7,8 +7,9 @@ class UserStatsDtoTest {
 
     @Test
     fun toDtos() {
+        // 8 players in playoffs
         Assertions
-                .assertThat(UserStatsDto.toDtos("[101,2001,5,7],[102,2002,5,6],[103,2003,5,5],[104,2004,5,4],[105,2005,5,3],[106,2006,5,2],[106,2006,5,1],[107,2007,5,0],[108,2008,6,1],[108,2008,6,3],[109,2009,6,2],[110,2010,7,2],[111,2011,7,3]")
+                .assertThat(UserStatsDto.toDtos("[0,0,0,4,6],[0,0,0,4,5],[0,0,0,4,4],[0,0,0,4,3],[0,0,0,4,2],[0,0,0,4,1],[0,0,0,4,0]")
                         .map { it.locRound })
                 .containsExactly(
                         "Champion",
@@ -16,13 +17,48 @@ class UserStatsDtoTest {
                         "Third",
                         "Semifinal",
                         "Quarterfinal",
-                        "Last Sixteen",
                         "Group",
-                        "Not attended",
+                        "Not attended")
+
+        // 12 players in playoffs with three-way final
+        Assertions
+                .assertThat(UserStatsDto.toDtos("[0,0,1,3,6],[0,0,1,3,5],[0,0,1,3,4],[0,0,1,3,3],[0,0,1,3,2],[0,0,1,3,1],[0,0,1,3,0]")
+                        .map { it.locRound })
+                .containsExactly(
+                        "Champion",
+                        "Runner-up",
+                        "Third",
+                        "Last 6",
+                        "Last 12",
                         "Group",
-                        "Last Sixteen",
-                        "Last 32",
-                        "Last 64",
-                        "Last 32")
+                        "Not attended")
+
+        // 16 players in playoffs
+        Assertions
+                .assertThat(UserStatsDto.toDtos("[0,0,0,5,7],[0,0,0,5,6],[0,0,0,5,5],[0,0,0,5,4],[0,0,0,5,3],[0,0,0,5,2],[0,0,0,5,1],[0,0,0,5,0]")
+                        .map { it.locRound })
+                .containsExactly(
+                        "Champion",
+                        "Runner-up",
+                        "Third",
+                        "Semifinal",
+                        "Quarterfinal",
+                        "Last 16",
+                        "Group",
+                        "Not attended")
+
+        // 24 players in playoffs with three-way final
+        Assertions
+                .assertThat(UserStatsDto.toDtos("[0,0,1,4,7],[0,0,1,4,6],[0,0,1,4,5],[0,0,1,4,4],[0,0,1,4,3],[0,0,1,4,2],[0,0,1,4,1],[0,0,1,4,0]")
+                        .map { it.locRound })
+                .containsExactly(
+                        "Champion",
+                        "Runner-up",
+                        "Third",
+                        "Last 6",
+                        "Last 12",
+                        "Last 24",
+                        "Group",
+                        "Not attended")
     }
 }

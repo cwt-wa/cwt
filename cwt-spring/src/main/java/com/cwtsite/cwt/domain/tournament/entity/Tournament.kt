@@ -25,6 +25,9 @@ data class Tournament(
         @Column
         var maxRounds: Int? = null,
 
+        @Column
+        var threeWay: Boolean? = null,
+
         @Column(name = "created", nullable = false)
         @field:CreationTimestamp
         var created: Timestamp? = null,

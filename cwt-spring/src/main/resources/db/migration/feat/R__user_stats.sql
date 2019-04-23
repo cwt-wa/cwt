@@ -22,4 +22,4 @@ create materialized view user_stats AS
    order by trophy_points desc, participations desc, username desc);
 
 -- Required for concurrent refresh.
-create unique index idx_user_stats on user_stats (user_id);
+create unique index if not exists idx_user_stats on user_stats (user_id);

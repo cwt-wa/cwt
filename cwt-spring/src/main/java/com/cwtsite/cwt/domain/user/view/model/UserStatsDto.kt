@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.user.view.model
 
+import com.cwtsite.cwt.core.toBoolean
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -12,6 +13,7 @@ data class UserStatsDto(
         val year: Int,
         val tournamentId: Long,
         val tournamentMaxRound: Int,
+        val threeWayFinal: Boolean,
         val round: Int,
         val locRound: String
 ) {
@@ -27,44 +29,60 @@ data class UserStatsDto(
             }
 
             val dtos = mutableListOf<UserStatsDto>()
+
             while (timelineIterator.hasNext()) {
                 val elem = timelineIterator.next()
-                val tournamentMaxRound = elem.get(2).asInt()
-                val round = elem.get(3).asInt()
+                val threeWayFinal = elem.get(2).asInt().toBoolean()
+                val playoffsRoundsMax = elem.get(3).asInt()
+                val playoffsRoundAchieved = elem.get(4).asInt()
 
                 dtos.add(UserStatsDto(
-                        participated = elem.get(3).asInt() != 0,
+                        participated = playoffsRoundsMax != 0,
                         year = elem.get(1).asInt(),
                         tournamentId = elem.get(0).asLong(),
-                        tournamentMaxRound = tournamentMaxRound,
-                        round = round,
-                        locRound = locRound(tournamentMaxRound, round)
+                        tournamentMaxRound = playoffsRoundsMax,
+                        round = playoffsRoundAchieved,
+                        threeWayFinal = threeWayFinal,
+                        locRound = locRound(threeWayFinal, playoffsRoundsMax, playoffsRoundAchieved)
                 ))
             }
 
             return dtos
         }
 
-        private fun locRound(tournamentMaxRound: Int, round: Int): String {
-            val integerStringHashMap = mutableMapOf<Int, String>()
-            val roundOfLastSixteen = tournamentMaxRound - 3
-
-            integerStringHashMap[tournamentMaxRound + 2] = "Champion"
-            integerStringHashMap[tournamentMaxRound + 1] = "Runner-up"
-            integerStringHashMap[tournamentMaxRound] = "Third"
-            integerStringHashMap[tournamentMaxRound - 1] = "Semifinal"
-            integerStringHashMap[tournamentMaxRound - 2] = "Quarterfinal"
-            integerStringHashMap[roundOfLastSixteen] = "Last Sixteen"
-            integerStringHashMap[1] = "Group"
-            integerStringHashMap[0] = "Not attended"
-
-            var multiplier = 2
-            for (i in roundOfLastSixteen - 1 downTo 2) {
-                integerStringHashMap[i] = "Last " + java.lang.Double.valueOf(16 * Math.pow(2.0, (multiplier - 1).toDouble())).toInt()
-                multiplier++
+        private fun locRound(threeWayFinal: Boolean, playoffsRoundMax: Int, achievedRound: Int): String {
+            return when (achievedRound) {
+                0 -> "Not attended"
+                1 -> "Group"
+                else -> {
+                    if (threeWayFinal) {
+                        when (achievedRound) {
+                            playoffsRoundMax + 3 -> "Champion"
+                            playoffsRoundMax + 2 -> "Runner-up"
+                            playoffsRoundMax + 1 -> "Third"
+                            playoffsRoundMax -> "Last 6"
+                            playoffsRoundMax - 1 -> "Last 12"
+                            playoffsRoundMax - 2 -> "Last 24"
+                            playoffsRoundMax - 3 -> "Last 48"
+                            playoffsRoundMax - 4 -> "Last 96"
+                            else -> throw RuntimeException()
+                        }
+                    } else {
+                        when (achievedRound) {
+                            playoffsRoundMax + 2 -> "Champion"
+                            playoffsRoundMax + 1 -> "Runner-up"
+                            playoffsRoundMax -> "Third"
+                            playoffsRoundMax - 1 -> "Semifinal"
+                            playoffsRoundMax - 2 -> "Quarterfinal"
+                            playoffsRoundMax - 3 -> "Last 16"
+                            playoffsRoundMax - 4 -> "Last 32"
+                            playoffsRoundMax - 5 -> "Last 64"
+                            playoffsRoundMax - 6 -> "Last 128"
+                            else -> throw RuntimeException()
+                        }
+                    }
+                }
             }
-
-            return integerStringHashMap[round]!!
         }
     }
 }

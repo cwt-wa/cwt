@@ -119,11 +119,11 @@ class UserServiceTest {
         Mockito
                 .`when`(tournamentRepository.findAll())
                 .thenReturn(listOf(
-                        EntityDefaults.tournament(id = 1, created = LocalDateTime.of(2002, 10, 1, 13, 32), maxRounds = 5),
-                        EntityDefaults.tournament(id = 2, created = LocalDateTime.of(2003, 5, 13, 17, 32), maxRounds = 7),
-                        EntityDefaults.tournament(id = 3, created = LocalDateTime.of(2004, 12, 1, 19, 32), maxRounds = 5)))
+                        EntityDefaults.tournament(id = 1, created = LocalDateTime.of(2002, 10, 1, 13, 32), maxRounds = 5, threeWay = true),
+                        EntityDefaults.tournament(id = 2, created = LocalDateTime.of(2003, 5, 13, 17, 32), maxRounds = 7, threeWay = false),
+                        EntityDefaults.tournament(id = 3, created = LocalDateTime.of(2004, 12, 1, 19, 32), maxRounds = 5, threeWay = false)))
 
-        Assert.assertEquals("[1,2002,5,0],[2,2003,7,0],[3,2004,5,0]", userService.createDefaultUserStatsTimeline())
+        Assert.assertEquals("[1,2002,1,5,0],[2,2003,0,7,0],[3,2004,0,5,0]", userService.createDefaultUserStatsTimeline())
     }
 
     @Test
