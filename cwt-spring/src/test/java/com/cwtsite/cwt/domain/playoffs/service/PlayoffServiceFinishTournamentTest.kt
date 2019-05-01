@@ -55,7 +55,9 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(finalGame)
 
-        Mockito.verify(tournamentService).finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner())
+        Mockito
+                .verify(tournamentService)
+                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round)
     }
 
     @Test
@@ -69,7 +71,9 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(thirdPlaceGame)
 
-        Mockito.verify(tournamentService).finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner())
+        Mockito
+                .verify(tournamentService)
+                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round)
     }
 
     @Test
@@ -114,7 +118,7 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(game)
 
-        Mockito.verify(tournamentService).finish(user1, user3, user2)
+        Mockito.verify(tournamentService).finish(user1, user3, user2, game.playoff!!.round)
     }
 
     @Test

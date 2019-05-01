@@ -42,13 +42,13 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
         return gameRepository.saveAll(games)
     }
 
-    fun finish(gold: User, silver: User, bronze: User): Tournament {
+    fun finish(gold: User, silver: User, bronze: User, maxRounds: Int): Tournament {
         val currentTournament = getCurrentTournament()
         currentTournament.goldWinner = gold
         currentTournament.silverWinner = silver
         currentTournament.bronzeWinner = bronze
         currentTournament.status = TournamentStatus.FINISHED
-        // TODO Set maxRounds.
+        currentTournament.maxRounds = maxRounds;
         val savedTournament = tournamentRepository.save(currentTournament)
         userRepository.refreshUserStats()
         return savedTournament
