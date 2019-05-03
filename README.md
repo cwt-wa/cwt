@@ -6,4 +6,4 @@ Crespo’s Worms Tournament (CWT) is a yearly hosted tournament of the strategy 
 
 ##
 
-`evolution` is a rewrite in Java.
+`evolution` is a rewrite in ~Java~ Kotlin.
