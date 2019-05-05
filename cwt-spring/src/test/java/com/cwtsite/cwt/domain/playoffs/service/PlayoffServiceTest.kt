@@ -276,6 +276,39 @@ class PlayoffServiceTest {
         Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
     }
 
+    @Test
+    fun getNumberOfPlayoffRoundsInTournament() {
+        val tournament = EntityDefaults.tournament()
+
+        mockNumberOfGroupMembersAdvancing()
+
+        Mockito
+                .`when`(groupRepository.countByTournament(tournament))
+                .thenReturn(4 / 2)
+                .thenReturn(6 / 2)
+                .thenReturn(8 / 2)
+                .thenReturn(12 / 2)
+                .thenReturn(16 / 2)
+                .thenReturn(24 / 2)
+                .thenReturn(32 / 2)
+                .thenReturn(48 / 2)
+                .thenReturn(64 / 2)
+                .thenReturn(96 / 2)
+                .thenReturn(128 / 2)
+
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(7)
+    }
+
     private fun mockNumberOfGroupMembersAdvancing() {
         Mockito
                 .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))

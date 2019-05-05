@@ -64,7 +64,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
     private fun isPlayoffTreeWithThreeWayFinal(playersInFirstRound: Int) = log2(playersInFirstRound.toDouble()) % 1 != 0.0
 
-    private fun getNumberOfPlayoffRoundsInTournament(tournament: Tournament): Int {
+    fun getNumberOfPlayoffRoundsInTournament(tournament: Tournament): Int {
         val groupsCount = groupRepository.countByTournament(tournament)
         val numberOfGroupMembersAdvancing = Integer.parseInt(
                 configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING).value)
@@ -78,7 +78,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
      * ```
      *                  +2   +2   +4   +4   +8   +8  +16  +16  +32  +32
      *     players  4    6    8   12   16   24   32   48   64   96  128
-     *      rounds  2    2    3    3    4    4    5    5    6    6    8
+     *      rounds  2    2    3    3    4    4    5    5    6    6    7
      *        3way  n    y    n    y    n    y    n    y    n    y    n
      * log2(plyrs)  2   2.6   3   3.6   4   4.6   5   5.6   6   6.6   7
      * #round 3rd        3    4    4    5    5
