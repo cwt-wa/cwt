@@ -3,6 +3,7 @@ package com.cwtsite.cwt.domain.tournament.service
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
+import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.UserRepository
@@ -16,7 +17,8 @@ import java.util.*
 @Component
 class TournamentService @Autowired
 constructor(private val userRepository: UserRepository, private val tournamentRepository: TournamentRepository,
-            private val applicationRepository: ApplicationRepository, private val gameRepository: GameRepository) {
+            private val applicationRepository: ApplicationRepository, private val gameRepository: GameRepository,
+            private val playoffService: PlayoffService) {
 
     /**
      * @throws IllegalStateException When there are unfinished tournaments.
@@ -38,17 +40,20 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
     fun startPlayoffs(games: List<Game>): List<Game> {
         val currentTournament = getCurrentTournament()
         currentTournament.status = TournamentStatus.PLAYOFFS
+        currentTournament.threeWay = playoffService.isPlayoffTreeWithThreeWayFinal(currentTournament)
         tournamentRepository.save(currentTournament)
         return gameRepository.saveAll(games)
     }
 
-    fun finish(gold: User, silver: User, bronze: User, maxRounds: Int): Tournament {
+    @Transactional
+    fun finish(gold: User, silver: User, bronze: User, maxRounds: Int, threeWay: Boolean): Tournament {
         val currentTournament = getCurrentTournament()
         currentTournament.goldWinner = gold
         currentTournament.silverWinner = silver
         currentTournament.bronzeWinner = bronze
         currentTournament.status = TournamentStatus.FINISHED
         currentTournament.maxRounds = maxRounds;
+        currentTournament.threeWay = threeWay;
         val savedTournament = tournamentRepository.save(currentTournament)
         userRepository.refreshUserStats()
         return savedTournament

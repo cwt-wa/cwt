@@ -15,6 +15,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import kotlin.math.log2
 
 @Component
 class PlayoffService @Autowired
@@ -52,11 +53,16 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
     private fun isThreeWayFinalGame(tournament: Tournament, round: Int): Boolean {
         val playersInFirstRound = gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1).size * 2
-        val isPlayoffTreeWithThreeWayFinal = kotlin.math.log2(playersInFirstRound.toDouble()) % 1 != 0.0
+        val isPlayoffTreeWithThreeWayFinal = isPlayoffTreeWithThreeWayFinal(playersInFirstRound)
         if (!isPlayoffTreeWithThreeWayFinal) return false
         val numOfRounds = (Math.log((playersInFirstRound).toDouble()) / Math.log(2.0))
         return Math.floor(numOfRounds) == round.toDouble()
     }
+
+    fun isPlayoffTreeWithThreeWayFinal(tournament: Tournament) =
+            isPlayoffTreeWithThreeWayFinal(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1).size * 2)
+
+    private fun isPlayoffTreeWithThreeWayFinal(playersInFirstRound: Int) = log2(playersInFirstRound.toDouble()) % 1 != 0.0
 
     private fun getNumberOfPlayoffRoundsInTournament(tournament: Tournament): Int {
         val groupsCount = groupRepository.countByTournament(tournament)
@@ -105,13 +111,13 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             val thirdPlaceGame = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round - 1)
             if (thirdPlaceGame.size > 1) throw RuntimeException("There's more than one third place game.")
             if (thirdPlaceGame.size < 1) throw RuntimeException("There's no third place game although there's already a final game.")
-            if (thirdPlaceGame[0].wasPlayed()) tournamentService.finish(winner, loser, thirdPlaceGame[0].winner(), game.playoff!!.round - 1)
+            if (thirdPlaceGame[0].wasPlayed()) tournamentService.finish(winner, loser, thirdPlaceGame[0].winner(), game.playoff!!.round - 1, false)
             return emptyList()
         } else if (isThirdPlaceGame(game.tournament, game.playoff!!.round)) {
             val finalGame = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round + 1)
             if (finalGame.size > 1) throw RuntimeException("There's more than one one-way final game.")
             if (finalGame.size < 1) throw RuntimeException("There's no one-way final game although there's already a third place game.")
-            if (finalGame[0].wasPlayed()) tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner, game.playoff!!.round)
+            if (finalGame[0].wasPlayed()) tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner, game.playoff!!.round, false)
             return emptyList()
         } else if (isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
             val threeWayFinalGames = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round)
@@ -119,7 +125,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.wasPlayed() }) {
                 try {
                     val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
-                    tournamentService.finish(gold, silver, bronze, game.playoff!!.round)
+                    tournamentService.finish(gold, silver, bronze, game.playoff!!.round, true)
                 } catch (e: TiedThreeWayFinalResult) {
                     return listOf(
                             *gameRepository.saveAll(threeWayFinalGames.onEach { it.voided = true }).toTypedArray(),

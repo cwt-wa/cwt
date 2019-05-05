@@ -239,6 +239,43 @@ class PlayoffServiceTest {
         Assert.assertFalse(playoffService.onlyFinalGamesAreLeftToPlay())
     }
 
+    @Test
+    fun isPlayoffTreeWithThreeWayFinal() {
+        val tournament = EntityDefaults.tournament()
+        val fn = { listSize: Int ->
+            Mockito
+                    .`when`(Mockito.mock(List::class.java).size)
+                    .thenReturn(listSize)
+                    .getMock<List<Any>>()
+        }
+
+        Mockito
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
+                .thenAnswer { fn(4 / 2) }
+                .thenAnswer { fn(6 / 2) }
+                .thenAnswer { fn(8 / 2) }
+                .thenAnswer { fn(12 / 2) }
+                .thenAnswer { fn(16 / 2) }
+                .thenAnswer { fn(24 / 2) }
+                .thenAnswer { fn(32 / 2) }
+                .thenAnswer { fn(48 / 2) }
+                .thenAnswer { fn(64 / 2) }
+                .thenAnswer { fn(96 / 2) }
+                .thenAnswer { fn(128 / 2) }
+
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+    }
+
     private fun mockNumberOfGroupMembersAdvancing() {
         Mockito
                 .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
