@@ -145,6 +145,7 @@ export interface GameDetailDto {
     ratings?: Rating[];
     tournament: Tournament;
     replayExists: boolean;
+    playoffRoundLocalized: string;
 }
 
 export interface GameCreationDto {

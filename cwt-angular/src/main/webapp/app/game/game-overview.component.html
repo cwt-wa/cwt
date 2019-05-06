@@ -35,14 +35,7 @@
                         <div class="lead all-petite-caps">
                             <span class="font-weight-normal">
                                 <ng-container *ngIf="game.playoff">
-                                    {game.playoff.round, plural,
-                                    =1 {Last Sixteen}
-                                    =2 {Quarterfinal}
-                                    =3 {Semifinal}
-                                    =4 {Little Final}
-                                    =5 {Final}
-                                    other {Playoffs}
-                                    }
+                                    {{game.playoffRoundLocalized}}
                                 </ng-container>
                                 <ng-container *ngIf="game.group">
                                     Group {{game.group.label}}

@@ -24,12 +24,13 @@ class GameDetailDto(
         val reporter: User,
         val ratings: List<Rating>,
         val comments: List<Comment>,
-        val isReplayExists: Boolean
+        val isReplayExists: Boolean,
+        val playoffRoundLocalized: String?
 ) {
 
     companion object {
 
-        fun toDto(game: Game): GameDetailDto {
+        fun toDto(game: Game, playoffRoundLocalized: String?): GameDetailDto {
             return GameDetailDto(
                     id = game.id!!,
                     scoreHome = game.scoreHome!!,
@@ -45,8 +46,37 @@ class GameDetailDto(
                     reporter = game.reporter!!,
                     ratings = game.ratings,
                     comments = game.comments,
-                    isReplayExists = game.replay != null
+                    isReplayExists = game.replay != null,
+                    playoffRoundLocalized = playoffRoundLocalized
             )
         }
+
+        fun localizePlayoffRound(threeWayFinal: Boolean, playoffsRoundMax: Int, achievedRound: Int): String {
+            return if (threeWayFinal) {
+                when (achievedRound) {
+                    playoffsRoundMax -> "Three-way Final"
+                    playoffsRoundMax - 1 -> "Last 6"
+                    playoffsRoundMax - 2 -> "Last 12"
+                    playoffsRoundMax - 3 -> "Last 24"
+                    playoffsRoundMax - 4 -> "Last 48"
+                    playoffsRoundMax - 5 -> "Last 96"
+                    else -> throw RuntimeException()
+                }
+            } else {
+                when (achievedRound) {
+                    playoffsRoundMax + 1 -> "Final"
+                    playoffsRoundMax -> "Little Final"
+                    playoffsRoundMax - 1 -> "Semifinal"
+                    playoffsRoundMax - 2 -> "Quarterfinal"
+                    playoffsRoundMax - 3 -> "Last 16"
+                    playoffsRoundMax - 4 -> "Last 32"
+                    playoffsRoundMax - 5 -> "Last 64"
+                    playoffsRoundMax - 6 -> "Last 128"
+                    else -> throw RuntimeException()
+                }
+            }
+
+        }
+
     }
 }

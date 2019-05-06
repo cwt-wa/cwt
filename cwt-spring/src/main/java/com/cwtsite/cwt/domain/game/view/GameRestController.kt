@@ -12,6 +12,7 @@ import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
 import com.cwtsite.cwt.domain.game.view.model.ReportDto
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
+import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
@@ -35,13 +36,25 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("api/game")
 class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService, private val messageService: MessageService,
-            private val authService: AuthService) {
+            private val authService: AuthService, private val playoffService: PlayoffService) {
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
         return gameService.findById(id)
-                .map { body -> ResponseEntity.ok(GameDetailDto.toDto(body)) }
+                .map { ResponseEntity.ok(mapToDtoWithTitle(it)) }
                 .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
+    }
+
+    private fun mapToDtoWithTitle(game: Game): GameDetailDto {
+        return GameDetailDto.toDto(
+                game,
+                when {
+                    game.playoff() -> GameDetailDto.localizePlayoffRound(
+                            game.tournament.threeWay!!,
+                            playoffService.getNumberOfPlayoffRoundsInTournament(game.tournament),
+                            game.playoff!!.round)
+                    else -> null
+                })
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
@@ -120,7 +133,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         return ResponseEntity.ok(PageDto.toDto(
                 gameService.findPaginated(
                         pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map { GameDetailDto.toDto(it) },
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map { mapToDtoWithTitle(it) },
                 Arrays.asList("created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")))
     }
 

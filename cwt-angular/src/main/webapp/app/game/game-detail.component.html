@@ -17,14 +17,7 @@
                [fragment]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? 'playoffs': undefined"
                *ngIf="game.playoff" class="btn btn-primary btn text-white w-100 all-petite-caps " i18n>
                 <span class="font-weight-bold">
-                    {game.playoff.round, plural,
-                    =1 {Last Sixteen}
-                    =2 {Quarterfinal}
-                    =3 {Semifinal}
-                    =4 {Little Final}
-                    =5 {Final}
-                    other {Playoffs}
-                    }
+                    {{game.playoffRoundLocalized}}
                 </span>
                 {{game.tournament.created | date:'y'}}
             </a>

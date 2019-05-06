@@ -100,6 +100,10 @@ data class Game(
 
     fun loser() = (if (scoreHome!! > scoreAway!!) awayUser else homeUser)!!
 
+    fun playoff() = playoff != null && group == null
+
+    fun group() = !playoff()
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
