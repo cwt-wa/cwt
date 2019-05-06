@@ -40,6 +40,7 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
     fun startPlayoffs(games: List<Game>): List<Game> {
         val currentTournament = getCurrentTournament()
         currentTournament.status = TournamentStatus.PLAYOFFS
+        currentTournament.maxRounds = playoffService.getNumberOfPlayoffRoundsInTournament(currentTournament)
         currentTournament.threeWay = playoffService.isPlayoffTreeWithThreeWayFinal(currentTournament)
         tournamentRepository.save(currentTournament)
         return gameRepository.saveAll(games)
