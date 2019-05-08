@@ -15,10 +15,23 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Component
-class TournamentService @Autowired
-constructor(private val userRepository: UserRepository, private val tournamentRepository: TournamentRepository,
-            private val applicationRepository: ApplicationRepository, private val gameRepository: GameRepository,
-            private val playoffService: PlayoffService) {
+class TournamentService {
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
+    @Autowired
+    private lateinit var tournamentRepository: TournamentRepository
+
+    @Autowired
+    private lateinit var applicationRepository: ApplicationRepository
+
+    @Autowired
+    private lateinit var gameRepository: GameRepository
+
+    @Autowired
+    private lateinit var playoffService: PlayoffService
+
 
     /**
      * @throws IllegalStateException When there are unfinished tournaments.

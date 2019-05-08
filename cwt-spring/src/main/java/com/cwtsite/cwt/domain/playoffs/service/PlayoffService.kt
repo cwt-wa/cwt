@@ -18,9 +18,19 @@ import org.springframework.transaction.annotation.Transactional
 import kotlin.math.log2
 
 @Component
-class PlayoffService @Autowired
-constructor(private val gameRepository: GameRepository, private val tournamentService: TournamentService,
-            private val groupRepository: GroupRepository, private val configurationService: ConfigurationService) {
+class PlayoffService {
+
+    @Autowired
+    private lateinit var gameRepository: GameRepository
+
+    @Autowired
+    private lateinit var tournamentService: TournamentService
+
+    @Autowired
+    private lateinit var groupRepository: GroupRepository
+
+    @Autowired
+    private lateinit var configurationService: ConfigurationService
 
     fun getGamesOfTournament(tournament: Tournament): List<Game> {
         return gameRepository.findByTournamentAndPlayoffIsNotNull(tournament)
