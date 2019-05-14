@@ -39,7 +39,7 @@ class TournamentService {
     @Throws(IllegalStateException::class)
     fun startNewTournament(moderatorIds: List<Long>): Tournament {
         if (tournamentRepository.countByStatusNot(TournamentStatus.FINISHED) > 0) {
-            throw IllegalStateException("For a new tournament to start it is required that all tournaments are archived.")
+            throw IllegalStateException("For a new tournament to start it is required that all tournaments are finished.")
         }
 
         val tournament = Tournament()

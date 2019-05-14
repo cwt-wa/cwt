@@ -13,16 +13,16 @@
 
     <div class="row mt-1">
         <div class="col-12">
-            <a [routerLink]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? ['/archive', (game.tournament.created | date:'y')] : ['/playoffs']"
-               [fragment]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? 'playoffs': undefined"
+            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | date:'y')] : ['/playoffs']"
+               [fragment]="game.tournament.status === 'FINISHED' ? 'playoffs': undefined"
                *ngIf="game.playoff" class="btn btn-primary btn text-white w-100 all-petite-caps " i18n>
                 <span class="font-weight-bold">
                     {{game.playoffRoundLocalized}}
                 </span>
                 {{game.tournament.created | date:'y'}}
             </a>
-            <a [routerLink]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? ['/archive', (game.tournament.created | date:'y')] : ['/group']"
-               [fragment]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? game.group.label : undefined"
+            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | date:'y')] : ['/group']"
+               [fragment]="game.tournament.status === 'FINISHED' ? game.group.label : undefined"
                class="btn btn-secondary btn text-white w-100 all-petite-caps" *ngIf="game.group">
                 <span class="font-weight-bold">
                     Group {{game.group.label}}
@@ -33,7 +33,7 @@
     </div>
 
     <div class="alert alert-warning  mt-1" role="alert"
-         *ngIf="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1">
+         *ngIf="game.tournament.status === 'FINISHED'">
         <i class="fa fa-warning"></i>
         This game is from a past tournament.
     </div>

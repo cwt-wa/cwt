@@ -59,7 +59,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
         try {
             return tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)
         } catch (e: IllegalStateException) {
-            throw RestException("There are other unarchived tournaments.", HttpStatus.BAD_REQUEST, e)
+            throw RestException("There are other unfinished tournaments.", HttpStatus.BAD_REQUEST, e)
         }
     }
 

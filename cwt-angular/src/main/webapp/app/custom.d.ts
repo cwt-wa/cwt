@@ -178,7 +178,7 @@ export interface CommentDto {
     body: string;
 }
 
-export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED" | "ARCHIVED";
+export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED";
 
 export interface Tournament {
     id: number;
