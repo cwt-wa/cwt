@@ -59,7 +59,6 @@ export class PlayoffsTreeComponent implements OnInit {
 
                         return existingAndUpcomingGamesInRound;
                     });
-
             });
     }
 

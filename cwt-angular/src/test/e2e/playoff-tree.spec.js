@@ -1,17 +1,72 @@
-describe('angularjs homepage todo list', function() {
-    it('should add a todo', function() {
-        browser.get('https://angularjs.org');
+const fs = require('fs');
+const httpMock = require('@zemke/http-mock')(9000);
 
-        element(by.model('todoList.todoText')).sendKeys('write first protractor test');
-        element(by.css('[value="add"]')).click();
+const baseData = {
+    "reporter": {
+        "username": "Zemke"
+    },
+    "techWin": false,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+};
 
-        var todoList = element.all(by.repeater('todo in todoList.todos'));
-        expect(todoList.count()).toEqual(3);
-        expect(todoList.get(2).getText()).toEqual('write first protractor test');
+function instantiateGame(spot) {
+    return {
+        "scoreHome": 2,
+        "scoreAway": 0,
+        "playoff": {
+            "round": 1,
+            "spot": spot
+        },
+        "homeUser": {
+            "username": `HomeR1S${spot}`
+        },
+        "awayUser": {
+            "username": `AwayR1S${spot}`
+        }
+    };
+}
 
-        // You wrote your first test, cross it off the list
-        todoList.get(2).element(by.css('input')).click();
-        var completedAmount = element.all(by.css('.done-true'));
-        expect(completedAmount.count()).toEqual(2);
-    });
+function createTree(numberOfPlayersInFirstRound) {
+    const games = [];
+
+    let i;
+    for (i = 0; i < numberOfPlayersInFirstRound / 2; i++) {
+        games.push(Object.assign({}, baseData, instantiateGame(i + 1)));
+    }
+
+    return games;
+}
+
+function writeScreenShot(data, filename) {
+    var stream = fs.createWriteStream(filename);
+    stream.write(new Buffer(data, 'base64'));
+    stream.end();
+}
+
+describe('Playoff tree', function () {
+
+    const fn = function (players) {
+        httpMock.add('/api/tournament/current/game/playoff', JSON.stringify(createTree(players)));
+        browser.get('http://localhost:4300/playoffs');
+        browser.takeScreenshot().then(data => fs.writeFile(`${__dirname}/screenshots/${players}.png`, data, 'base64', console.error));
+    };
+
+    // One-way finals
+    it('4', () => fn(4));
+    it('8', () => fn(8));
+    it('16', () => fn(16));
+    it('32', () => fn(32));
+    it('64', () => fn(64));
+    it('128', () => fn(128));
+
+    // Three-way finals
+    it('6', () => fn(6));
+    it('12', () => fn(12));
+    it('24', () => fn(24));
+    it('48', () => fn(48));
+    it('96', () => fn(96));
 });

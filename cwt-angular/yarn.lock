@@ -251,6 +251,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@zemke/http-mock@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@zemke/http-mock/-/http-mock-2.0.3.tgz#5d0d3e6a59050dab0c51a862ccb458e66c1c949b"
+  integrity sha512-D/AI27hksNMLtmoiDXR1Ns519ZivyZ93b1hEErmHkXmbmD29wyykvDrMQ6LcX+dRVpZhDx7UilGLtZawhvfK4w==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
