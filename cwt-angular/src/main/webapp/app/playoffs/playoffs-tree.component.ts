@@ -11,7 +11,8 @@ export class PlayoffsTreeComponent implements OnInit {
     @Input()
     tournamentId: number;
 
-    public playoffGames: GameDetailDto[][];
+    playoffGames: GameDetailDto[][];
+    isThreeWayFinalTree: boolean;
 
     public constructor(private requestService: RequestService) {
     }
@@ -22,19 +23,21 @@ export class PlayoffsTreeComponent implements OnInit {
                 const gamesInFirstRound = res
                     .filter(g => g.playoff.round === 1)
                     .length;
-                const numberOfRounds = Math.log2(gamesInFirstRound) + 1; // 4
+                const log2GamesInFirstRound = Math.log2(gamesInFirstRound);
+                const numberOfRounds = Math.floor(log2GamesInFirstRound) + 1;
+                this.isThreeWayFinalTree = log2GamesInFirstRound % 1 !== 0;
 
                 this.playoffGames = new Array<GameDetailDto[]>(numberOfRounds)
                     .fill(null)
                     .map((_value, index) => {
                         const round = index + 1;
-                        const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round, gamesInFirstRound);
-                        const existingGamesInRound: GameDetailDto[] = this.getExistingGamesInRound(round, res);
+                        const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round, gamesInFirstRound); // 1w: 1 --- 3w 1.5
+                        const existingGamesInRound: GameDetailDto[] = this.getExistingGamesInRound(round, res); // []
 
-                        if (numberOfRounds === round) {
+                        if (numberOfRounds === round) { // is final
                             return existingGamesInRound[0] != null
                                 ? [this.getExistingGamesInRound(round + 1, res)[0], existingGamesInRound[0]]
-                                : [<GameDetailDto> {}, <GameDetailDto> {}];
+                                : (this.isThreeWayFinalTree ? new Array(3).fill(<GameDetailDto> {}) : new Array(2).fill(<GameDetailDto> {}));
                         }
 
                         existingGamesInRound.reverse();

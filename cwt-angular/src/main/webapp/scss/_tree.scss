@@ -59,6 +59,14 @@ table.playoff-spot.odd {
 .playoff-round:nth-child(2) {
   padding-top: 39px;
 
+  &:last-child {
+    padding-top: 0;
+
+    & .playoff-spot:not(:first-child) {
+      margin-top: 5px;
+    }
+  }
+
   & .playoff-spot:not(:first-child) {
     margin-top: 81px;
   }
@@ -73,6 +81,10 @@ table.playoff-spot.odd {
 
   &:last-child {
     padding-top: 35px;
+
+    &.three-way-final {
+      padding-top: 50px;
+    }
   }
 }
 
@@ -85,6 +97,10 @@ table.playoff-spot.odd {
 
   &:last-child {
     padding-top: 190px;
+
+    &.three-way-final {
+      padding-top: 285px;
+    }
   }
 }
 
@@ -97,6 +113,10 @@ table.playoff-spot.odd {
 
   &:last-child {
     padding-top: 503px;
+
+    &.three-way-final {
+      padding-top: 1065px;
+    }
   }
 }
 
@@ -109,11 +129,19 @@ table.playoff-spot.odd {
 
   &:last-child {
     padding-top: 1128px;
+
+    &.three-way-final {
+      padding-top: 750px;
+    }
   }
 }
 
 .playoff-round:nth-child(7):last-child {
   padding-top: 2375px;
+
+  &.three-way-final {
+    padding-top: 1685px;
+  }
 }
 
 .playoff-round:last-child {
@@ -121,10 +149,4 @@ table.playoff-spot.odd {
   & .playoff-spot:not(:first-child) {
     margin-top: 15px;
   }
-  // Three-way final
-  & .playoff-spot:first-child:last-child {
-    margin-top: 20px;
-  }
 }
-
-// Final header size: 36px
