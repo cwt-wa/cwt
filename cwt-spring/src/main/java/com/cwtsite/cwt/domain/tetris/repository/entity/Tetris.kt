@@ -14,7 +14,7 @@ data class Tetris(
 
         @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
         @JoinColumn(nullable = true)
-        val user: User,
+        val user: User?,
 
         val highscore: Long,
 

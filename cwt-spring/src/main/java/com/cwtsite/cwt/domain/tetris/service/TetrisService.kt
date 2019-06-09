@@ -13,6 +13,6 @@ class TetrisService {
     @Autowired
     private lateinit var tetrisRepository: TetrisRepository
 
-    fun add(user: User, highscore: Long, created : Timestamp): Tetris =
+    fun add(user: User?, highscore: Long, created : Timestamp): Tetris =
             tetrisRepository.save(Tetris(user = user, highscore = highscore, created = created))
 }

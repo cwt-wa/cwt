@@ -8,15 +8,25 @@ import java.sql.Timestamp
 @DataTransferObject
 data class TetrisDto(
         val highscore: Long,
-        val user: UserMinimalDto,
+        val user: UserMinimalDto?,
         val created: Timestamp) {
 
     companion object {
 
-        fun toDto(tetris: Tetris) = TetrisDto(
-                highscore = tetris.highscore,
-                user = UserMinimalDto.toDto(tetris.user),
-                created = tetris.created
-        )
+        fun toDto(tetris: Tetris) : TetrisDto {
+            if (tetris.user == null) {
+                return TetrisDto(
+                        highscore = tetris.highscore,
+                        user = null,
+                        created = tetris.created
+                )
+            } else {
+                return TetrisDto(
+                        highscore = tetris.highscore,
+                        user = UserMinimalDto.toDto(tetris.user),
+                        created = tetris.created
+                )
+            }
+        }
     }
 }
