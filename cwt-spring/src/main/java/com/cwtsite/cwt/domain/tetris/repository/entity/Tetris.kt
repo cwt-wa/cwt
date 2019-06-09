@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.domain.tetris.repository.entity
 
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -15,5 +16,7 @@ data class Tetris(
         @JoinColumn(nullable = true)
         val user: User,
 
-        val highscore: Long
+        val highscore: Long,
+
+        val created: Timestamp
 )

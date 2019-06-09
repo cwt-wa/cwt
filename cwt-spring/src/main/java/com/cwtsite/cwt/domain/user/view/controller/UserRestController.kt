@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.sql.Timestamp
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
@@ -136,7 +137,8 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/{id}/tetris", method = [RequestMethod.POST])
     fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long): ResponseEntity<TetrisDto> {
         val user = userService.getById(userId).orElseThrow { RestException("User $userId not found.", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore)))
+        val timestamp = Timestamp(System.currentTimeMillis());
+        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, timestamp)))
     }
 
     private fun assertUser(id: Long): User = userService.getById(id)
