@@ -5,6 +5,8 @@ import com.cwtsite.cwt.domain.application.service.ApplicationService
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.tetris.service.TetrisService
+import com.cwtsite.cwt.domain.tetris.view.model.TetrisDto
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -25,7 +27,8 @@ import javax.servlet.http.HttpServletRequest
 class UserRestController @Autowired
 constructor(private val userService: UserService, private val applicationService: ApplicationService,
             private val authService: AuthService, private val tournamentService: TournamentService,
-            private val groupService: GroupService, private val playoffService: PlayoffService) {
+            private val groupService: GroupService, private val playoffService: PlayoffService,
+            private val tetrisService: TetrisService) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun findAll(@RequestParam("term") term: String?): ResponseEntity<List<User>> {
@@ -128,6 +131,12 @@ constructor(private val userService: UserService, private val applicationService
         }
 
         return ResponseEntity.ok(UserChangeDto.toDto(user))
+    }
+
+    @RequestMapping("/{id}/tetris", method = [RequestMethod.POST])
+    fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long): ResponseEntity<TetrisDto> {
+        val user = userService.getById(userId).orElseThrow { RestException("User $userId not found.", HttpStatus.NOT_FOUND, null) }
+        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore)))
     }
 
     private fun assertUser(id: Long): User = userService.getById(id)

@@ -7,6 +7,7 @@ import {AuthService} from "./_services/auth.service";
 import {JwtUser} from "./custom";
 import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
+import {Toastr} from "./_services/toastr";
 
 @Component({
     selector: 'my-app',
@@ -21,7 +22,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     private authenticatedUser: JwtUser;
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
-                private router: Router, private authService: AuthService, private canReportService: CanReportService) {
+                private router: Router, private authService: AuthService, private canReportService: CanReportService,
+                private toastr: Toastr) {
         this.isAppleStandalone = this.webAppViewService.isAppleStandalone;
         this.isStandalone = this.webAppViewService.isStandalone;
     }
@@ -58,11 +60,15 @@ export class AppComponent implements AfterViewInit, OnInit {
             const tetris = new Tetris(p);
 
             tetris.onGameOver = (highscore: number) => {
-                let tetrisHighscore = highscore;
-                let tetrisName: string; //TODO show msg: please log in
-                if (this.authService.getUserFromTokenPayload() != null) tetrisName = this.authService.getUserFromTokenPayload().username;
-                //todo addusertodatabase
-                debugger;
+                const authenticatedUser: JwtUser = this.authService.getUserFromTokenPayload();
+
+                if (authenticatedUser != null) {
+                    this.requestService.post<number>(`user/${authenticatedUser.id}/tetris`, highscore)
+                        .subscribe(() => this.toastr.success("Highscore saved."));
+                } else {
+                    this.requestService.post<number>(`tetris`, highscore)
+                        .subscribe(() => this.toastr.success("Highscore saved."));
+                }
             };
 
             p.setup = () => {
