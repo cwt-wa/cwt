@@ -6,11 +6,12 @@ import javax.persistence.*
 @Entity
 @Table(name = "tetris")
 data class Tetris(
+
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Long? = null,
 
-        @OneToOne(cascade = [CascadeType.ALL])
+        @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
         @JoinColumn(nullable = true)
         val user: User,
 
