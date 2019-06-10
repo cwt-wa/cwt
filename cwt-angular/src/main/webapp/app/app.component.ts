@@ -54,7 +54,17 @@ export class AppComponent implements AfterViewInit, OnInit {
     easterEgg() {
         require('../tetris/styles/testTetris.css');
         const p5 = require('p5/lib/p5.js');
+
         document.body.classList.add("tetris");
+
+        var myAppElement = document.querySelector('my-app');
+        var children = myAppElement.children;
+
+        for (let i = 0; i < children.length; i++) {
+            if (children[0].id == null || children[0].id != "tetris") {
+                myAppElement.removeChild(children[0]);
+            }
+        }
 
         new p5((p: p5) => {
             const tetris = new Tetris(p);
