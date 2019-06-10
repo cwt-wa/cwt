@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.tetris.view.controller
 
+import com.cwtsite.cwt.domain.tetris.repository.entity.Tetris
 import com.cwtsite.cwt.domain.tetris.service.TetrisService
 import com.cwtsite.cwt.domain.tetris.view.model.TetrisDto
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,5 +21,8 @@ constructor(private val tetrisService: TetrisService) {
         val timestamp = Timestamp(System.currentTimeMillis());
         return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(null, highscore, timestamp)))
     }
+
+    @RequestMapping("", method = [RequestMethod.GET])
+    fun get(): ResponseEntity<List<Tetris>> = ResponseEntity.ok(tetrisService.findAll())
 
 }

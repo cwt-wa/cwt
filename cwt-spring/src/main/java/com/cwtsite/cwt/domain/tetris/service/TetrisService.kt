@@ -15,4 +15,6 @@ class TetrisService {
 
     fun add(user: User?, highscore: Long, created : Timestamp): Tetris =
             tetrisRepository.save(Tetris(user = user, highscore = highscore, created = created))
+
+    fun findAll(): List<Tetris> = tetrisRepository.findAll()
 }

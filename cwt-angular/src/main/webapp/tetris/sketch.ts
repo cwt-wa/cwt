@@ -164,7 +164,7 @@ export class Tetris {
 
     private gameOver() {
         this.p5.noLoop();
-        document.getElementById("tetris-gameover").classList.add("gameover");
+        document.getElementById("tetris-gameover").classList.add("tetris-visible");
         this.onGameOver != null && this.onGameOver(this.highscore);
         this.p5.noCanvas();
     }

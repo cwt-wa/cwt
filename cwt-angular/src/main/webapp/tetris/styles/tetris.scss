@@ -14,22 +14,24 @@ canvas {
   display: none;
 }
 
-/*#tetris-gameover.gameover {
-  display: block;
-  width: 100%;
-  background-color: white;
-  text-align: center;
+#tetris-gameover.tetris-visible {
+  display:block;
+  text-align:center;
+  //background-color: lightpink;
 }
 
-#tetris-gameover {
-  position: absolute;
+#tetris-highscore-table.tetris-visible {
+  display:block;
 }
 
-#gameover-heading {
-  font-size: 20pt;
-  color: #e83e8c;
-  font-weight: bold;
-}*/
+#tetris-table-heading {
+  background-color: #FFDCE1;
+
+}
+
+.tetris-table-odd-entries{
+  background-color: #FFEBED;
+}
 
 #tetris-heading {
   text-align: center;

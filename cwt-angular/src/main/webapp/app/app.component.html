@@ -144,6 +144,20 @@
         </button>
     </div>
     <div id="tetris-gameover">
-        <label id="gameover-heading">GAME OVER</label>
+        <label id="gameover-heading">
+            <h2>GAME OVER</h2>
+        </label>
+        <table id="tetris-highscore-table" align="center">
+            <tr id="tetris-table-heading">
+                <th>User</th>
+                <th>Highscore</th>
+                <th>Created</th>
+            </tr>
+            <tr *ngFor="let highscore of highscores">
+                <td>{{highscore.user?.username}}</td>
+                <td>{{highscore.highscore}}</td>
+                <td>{{highscore.created | date: 'dd.MM.yy hh:mm:ss'}}</td>
+            </tr>
+        </table>
     </div>
 </div>

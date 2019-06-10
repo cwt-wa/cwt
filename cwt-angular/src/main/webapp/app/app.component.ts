@@ -4,7 +4,7 @@ import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
-import {JwtUser} from "./custom";
+import {JwtUser, TetrisDto} from "./custom";
 import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
@@ -19,6 +19,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
+    public highscores: TetrisDto[];
     private authenticatedUser: JwtUser;
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
@@ -29,7 +30,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     public ngOnInit(): void {
-        //this.easterEgg();
         this.requestService.get<{ token: string }>('auth/refresh').subscribe(
             res => {
                 if (res == null || res.token == null) return this.authService.voidToken();
@@ -80,6 +80,9 @@ export class AppComponent implements AfterViewInit, OnInit {
                     this.requestService.post<number>(`tetris`, highscore)
                         .subscribe(() => this.toastr.success("Highscore saved."));
                 }
+
+                this.requestService.get<TetrisDto[]>(`tetris`)
+                    .subscribe(res => this.highscores = res);
             };
 
             p.setup = () => {
