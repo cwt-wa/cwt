@@ -206,19 +206,19 @@ export class Tetris {
 
         switch (randomNumber) {
             case 0:
-                return new SquareFigure("#FFD700", this.grid);
+                return new SquareFigure("#4e4133", this.grid);
             case 1:
-                return new TFigure("#DC143C", this.grid);
+                return new TFigure("#2A9D8F", this.grid);
             case 2:
-                return new IFigure("#1E90FF", this.grid);
+                return new IFigure("#007bff", this.grid);
             case 3:
-                return new LFigure("#9400D3", this.grid);
+                return new LFigure("#6f42c1", this.grid);
             case 4:
-                return new JFigure("#5F9EA0", this.grid);
+                return new JFigure("#e83e8c", this.grid);
             case 5:
-                return new SFigure("#FA8072", this.grid);
+                return new SFigure("#E9C46A", this.grid);
             case 6:
-                return new ZFigure("#C71585", this.grid);
+                return new ZFigure("#B9BAA3", this.grid);
         }
 
         return new SquareFigure("blue", this.grid);
