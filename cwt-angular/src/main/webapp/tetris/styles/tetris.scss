@@ -1,0 +1,63 @@
+@import "../../scss/_custom.scss";
+@import "~bootstrap/scss/bootstrap";
+
+body.tetris .container.content {
+  display: none;
+}
+
+canvas {
+  margin: 0 auto;
+  display: block;
+}
+
+#tetris-gameover {
+  display: none;
+}
+
+/*#tetris-gameover.gameover {
+  display: block;
+  width: 100%;
+  background-color: white;
+  text-align: center;
+}
+
+#tetris-gameover {
+  position: absolute;
+}
+
+#gameover-heading {
+  font-size: 20pt;
+  color: #e83e8c;
+  font-weight: bold;
+}*/
+
+#tetris-heading {
+  text-align: center;
+  margin-bottom: 0;
+  color: white;
+  padding: 10px 10px 10px 10px;
+  display: none;
+  background-color: theme-color('primary');
+}
+
+#tetris-heading.tetris-visible {
+  display: block;
+}
+
+#tetris-exit {
+  display:none;
+  text-align: right;
+}
+
+#tetris-exit.tetris-visible {
+  display:block;
+}
+
+#exit-button {
+  background-color: $pink;
+  color: white;
+  margin-right: 20px;
+  margin-top:5px;
+  border-color: $pink;
+}
+

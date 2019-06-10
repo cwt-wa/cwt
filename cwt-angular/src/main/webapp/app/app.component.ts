@@ -52,7 +52,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     easterEgg() {
-        require('../tetris/styles/testTetris.css');
+        require('../tetris/styles/tetris.scss');
         const p5 = require('p5/lib/p5.js');
 
         document.body.classList.add("tetris");
@@ -70,6 +70,7 @@ export class AppComponent implements AfterViewInit, OnInit {
             const tetris = new Tetris(p);
 
             tetris.onGameOver = (highscore: number) => {
+
                 const authenticatedUser: JwtUser = this.authService.getUserFromTokenPayload();
 
                 if (authenticatedUser != null) {
@@ -98,4 +99,8 @@ export class AppComponent implements AfterViewInit, OnInit {
             }
         }, document.getElementById('tetris'));
    }
+
+     clearTetris() {
+        window.location.reload();
+    }
 }
