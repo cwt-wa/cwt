@@ -135,14 +135,9 @@
     <router-outlet></router-outlet>
 </div>
 <div id="tetris">
-    <div id="tetris-heading">
-        <h1>Play some Tetris</h1>
-    </div>
-    <div id="tetris-exit">
-        <button id="exit-button" (click)="clearTetris()">
+    <button id="btn-close-tetris" (click)="closeTetris()">
             <i class="fa fa-times"></i>
         </button>
-    </div>
     <div id="tetris-gameover">
         <label id="gameover-heading">
             <h2>GAME OVER</h2>

@@ -21,6 +21,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isStandalone: boolean;
     public highscores: TetrisDto[];
     private authenticatedUser: JwtUser;
+    private tetris: Tetris;
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
                 private router: Router, private authService: AuthService, private canReportService: CanReportService,
@@ -30,6 +31,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     public ngOnInit(): void {
+        this.easterEgg();
         this.requestService.get<{ token: string }>('auth/refresh').subscribe(
             res => {
                 if (res == null || res.token == null) return this.authService.voidToken();
@@ -55,21 +57,19 @@ export class AppComponent implements AfterViewInit, OnInit {
         require('../tetris/styles/tetris.scss');
         const p5 = require('p5/lib/p5.js');
 
+        let tetrisDiv = document.getElementById('tetris');
+        tetrisDiv.classList.add("tetris-visible");
+        tetrisDiv.style.width = window.innerWidth.toString() + "px";
+        tetrisDiv.style.height = window.innerHeight + document.body.scrollHeight + "px";
         document.body.classList.add("tetris");
 
-        var myAppElement = document.querySelector('my-app');
-        var children = myAppElement.children;
-
-        for (let i = 0; i < children.length; i++) {
-            if (children[0].id == null || children[0].id != "tetris") {
-                myAppElement.removeChild(children[0]);
-            }
-        }
 
         new p5((p: p5) => {
-            const tetris = new Tetris(p);
+            this.tetris = new Tetris(p);
 
-            tetris.onGameOver = (highscore: number) => {
+            this.tetris.onGameOver = (highscore: number) => {
+                document.getElementById("tetris-gameover").classList.add("tetris-visible");
+                document.body.classList.add('gameOver');
 
                 const authenticatedUser: JwtUser = this.authService.getUserFromTokenPayload();
 
@@ -86,24 +86,30 @@ export class AppComponent implements AfterViewInit, OnInit {
             };
 
             p.setup = () => {
-                tetris.setup()
+                this.tetris.setup()
             };
 
             p.draw = () => {
-                tetris.draw()
+                this.tetris.draw()
             };
 
             p.keyPressed = () => {
-                tetris.keyPressed();
+                this.tetris.keyPressed();
             };
 
             p.keyReleased = () => {
-                tetris.keyReleased();
+                this.tetris.keyReleased();
             }
         }, document.getElementById('tetris'));
    }
 
-     clearTetris() {
-        window.location.reload();
+    closeTetris() {
+        if (document.querySelector('canvas')) {
+            this.tetris.close();
+        }
+        document.getElementById("tetris-gameover").classList.remove("tetris-visible");
+        document.getElementById('tetris').classList.remove('tetris-visible');
+        document.body.classList.remove('tetris');
+        document.body.classList.remove('gameOver');
     }
 }

@@ -1,13 +1,43 @@
 @import "../../scss/_custom.scss";
 @import "~bootstrap/scss/bootstrap";
 
-body.tetris .container.content {
-  display: none;
+body.tetris > my-app > div:not(#tetris) {
+  filter: blur(4px);
+  transition: 1s -webkit-filter linear;
+
+}
+body.tetris {
+  overflow:hidden
+}
+
+body.gameOver {
+  overflow: auto !important;
 }
 
 canvas {
   margin: 0 auto;
   display: block;
+  margin-top:25px;
+  overflow: auto !important;
+}
+
+#tetris.tetris-visible {
+  display:block;
+}
+
+#tetris {
+  display:none;
+  position:absolute;
+  background-color: rgba(0,0,0,0);
+  top:0;
+}
+
+#btn-close-tetris{
+  background-color:$pink;
+  border-color: $pink;
+  margin: 5px 5px 5px 5px;
+  color: white;
+  float:right;
 }
 
 #tetris-gameover {
@@ -15,9 +45,8 @@ canvas {
 }
 
 #tetris-gameover.tetris-visible {
-  display:block;
+  display:inline;
   text-align:center;
-  //background-color: lightpink;
 }
 
 #tetris-highscore-table.tetris-visible {
@@ -28,38 +57,3 @@ canvas {
   background-color: #FFDCE1;
 
 }
-
-.tetris-table-odd-entries{
-  background-color: #FFEBED;
-}
-
-#tetris-heading {
-  text-align: center;
-  margin-bottom: 0;
-  color: white;
-  padding: 10px 10px 10px 10px;
-  display: none;
-  background-color: theme-color('primary');
-}
-
-#tetris-heading.tetris-visible {
-  display: block;
-}
-
-#tetris-exit {
-  display:none;
-  text-align: right;
-}
-
-#tetris-exit.tetris-visible {
-  display:block;
-}
-
-#exit-button {
-  background-color: $pink;
-  color: white;
-  margin-right: 20px;
-  margin-top:5px;
-  border-color: $pink;
-}
-

@@ -27,8 +27,6 @@ export class Tetris {
     }
 
     setup() {
-        document.getElementById("tetris-heading").classList.add("tetris-visible");
-        document.getElementById("tetris-exit").classList.add("tetris-visible");
         this.p5.createCanvas(this.canvasWidth, this.canvasHeight);
 
         this.grid = new Grid(this.canvasWidth, this.canvasHeight);
@@ -164,7 +162,6 @@ export class Tetris {
 
     private gameOver() {
         this.p5.noLoop();
-        document.getElementById("tetris-gameover").classList.add("tetris-visible");
         this.onGameOver != null && this.onGameOver(this.highscore);
         this.p5.noCanvas();
     }
@@ -225,5 +222,9 @@ export class Tetris {
         }
 
         return new SquareFigure("blue", this.grid);
+    }
+
+    public close() : void {
+        this.p5.noCanvas();
     }
 }
