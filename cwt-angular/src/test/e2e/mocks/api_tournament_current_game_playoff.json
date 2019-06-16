@@ -1,0 +1,2313 @@
+[
+  {
+    "id": 130,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-12-20T23:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 143,
+      "round": 5,
+      "spot": 1
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 154,
+      "username": "Xaositect",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Australia",
+      "about": "",
+      "userStats": {
+        "userId": 154,
+        "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 25,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 25,
+      "username": "Crespo",
+      "email": "wormstournament@sapo.pt",
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Portugal",
+      "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+      "userStats": {
+        "userId": 25,
+        "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 5,
+        "participations": 6
+      },
+      "created": "2011-10-03T10:08:16.000+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 131,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-12-18T23:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 144,
+      "round": 4,
+      "spot": 1
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 143,
+      "username": "Teletubbies",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 143,
+        "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 1,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 145,
+      "username": "UrbanSpaceman",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 145,
+        "timeline": "[1,2002,0,5,4],[2,2003,0,5,1],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [
+      {
+        "id": 953,
+        "type": "LIKE",
+        "user": {
+          "id": 262,
+          "username": "tita",
+          "email": "titahemp@yahoo.com.br",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Brazil",
+          "about": "https://www.youtube.com/watch?v=nY9qlw03-DE",
+          "userStats": {
+            "userId": 262,
+            "timeline": "[1,2002,0,5,0],[2,2003,0,5,0],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,3],[14,2015,0,5,2],[15,2016,0,5,5],[16,2019,0,5,0]",
+            "trophyPoints": 1,
+            "participations": 3
+          },
+          "created": "2014-10-03T09:42:53.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      }
+    ],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 1,
+    "voided": false
+  },
+  {
+    "id": 132,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "techWin": false,
+    "created": "2002-12-12T23:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 145,
+      "round": 3,
+      "spot": 1
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 154,
+      "username": "Xaositect",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Australia",
+      "about": "",
+      "userStats": {
+        "userId": 154,
+        "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 25,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 143,
+      "username": "Teletubbies",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 143,
+        "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 1,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 133,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-11-01T23:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 146,
+      "round": 3,
+      "spot": 2
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 25,
+      "username": "Crespo",
+      "email": "wormstournament@sapo.pt",
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Portugal",
+      "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+      "userStats": {
+        "userId": 25,
+        "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 5,
+        "participations": 6
+      },
+      "created": "2011-10-03T10:08:16.000+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 145,
+      "username": "UrbanSpaceman",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 145,
+        "timeline": "[1,2002,0,5,4],[2,2003,0,5,1],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 134,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-11-21T23:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 147,
+      "round": 2,
+      "spot": 2
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 143,
+      "username": "Teletubbies",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 143,
+        "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 1,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 130,
+      "username": "RatoonSoft",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "France",
+      "about": "",
+      "userStats": {
+        "userId": 130,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,1],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,1],[6,2007,0,5,1],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 5
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 135,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "techWin": false,
+    "created": "2002-10-25T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 148,
+      "round": 2,
+      "spot": 4
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 25,
+      "username": "Crespo",
+      "email": "wormstournament@sapo.pt",
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Portugal",
+      "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+      "userStats": {
+        "userId": 25,
+        "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 5,
+        "participations": 6
+      },
+      "created": "2011-10-03T10:08:16.000+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 137,
+      "username": "Simon",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 137,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,5],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 1,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 136,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "techWin": false,
+    "created": "2002-10-25T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 149,
+      "round": 2,
+      "spot": 1
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 154,
+      "username": "Xaositect",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Australia",
+      "about": "",
+      "userStats": {
+        "userId": 154,
+        "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 25,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 100,
+      "username": "Javito",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Spain",
+      "about": "",
+      "userStats": {
+        "userId": 100,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,2],[3,2004,0,5,2],[4,2005,0,5,2],[5,2006,0,5,2],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 5
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 137,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "techWin": false,
+    "created": "2002-10-25T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 150,
+      "round": 2,
+      "spot": 3
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 145,
+      "username": "UrbanSpaceman",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 145,
+        "timeline": "[1,2002,0,5,4],[2,2003,0,5,1],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 18,
+      "username": "Bytor",
+      "email": "Cstoliker@aol.com",
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United States",
+      "about": "I am one of the dinosaurs of worms. I have played in every CWT since its inception. I started playing in 1999 and quickly adapted \"normal\" as my preferred game.<br><br>\n\n  For many years \"normal\" was not a popular game style and I enjoyed a certain status of being a big fish (but admittedly, in a small pond) because of it.<br><br>\n\n  Eventual, normal game started gaining popularity and with the start of league its popularity exploded. Each generation or wormers seams to have the benefit of trial, error and discovery's of the players before. I find myself now being a rather small fish in an ocean.<br><br>\n\n  I have always liked fast pace exiting games.  I again find myself again going against what is popular as most now have developed (or started as) slow, tactical & careful playing stile. A stile born of constant competition and one I have never adopted.",
+      "userStats": {
+        "userId": 18,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,3],[3,2004,0,5,2],[4,2005,0,5,3],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,2],[8,2009,0,5,2],[9,2010,0,5,1],[10,2011,0,5,2],[11,2012,0,5,1],[12,2013,0,5,2],[13,2014,0,5,1],[14,2015,0,5,1],[15,2016,0,5,1],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 15
+      },
+      "created": "2011-10-01T14:53:39.000+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 138,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "techWin": false,
+    "created": "2002-11-02T23:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 151,
+      "round": 1,
+      "spot": 3
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 143,
+      "username": "Teletubbies",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 143,
+        "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 1,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 156,
+      "username": "Zero",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Germany",
+      "about": "",
+      "userStats": {
+        "userId": 156,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,1],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 139,
+    "scoreHome": 3,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-10-31T23:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 152,
+      "round": 1,
+      "spot": 4
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 130,
+      "username": "RatoonSoft",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "France",
+      "about": "",
+      "userStats": {
+        "userId": 130,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,1],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,1],[6,2007,0,5,1],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 5
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 110,
+      "username": "Makimura",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Germany",
+      "about": "",
+      "userStats": {
+        "userId": 110,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,0],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 1
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 140,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "techWin": false,
+    "created": "2002-10-20T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 153,
+      "round": 1,
+      "spot": 2
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 100,
+      "username": "Javito",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Spain",
+      "about": "",
+      "userStats": {
+        "userId": 100,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,2],[3,2004,0,5,2],[4,2005,0,5,2],[5,2006,0,5,2],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 5
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 67,
+      "username": "Pipinasso",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Portugal",
+      "about": "",
+      "userStats": {
+        "userId": 67,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2011-11-04T18:29:12.000+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 141,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-10-14T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 154,
+      "round": 1,
+      "spot": 5
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 145,
+      "username": "UrbanSpaceman",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 145,
+        "timeline": "[1,2002,0,5,4],[2,2003,0,5,1],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 86,
+      "username": "euenahub",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 86,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,0],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 1
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 142,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-10-12T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 155,
+      "round": 1,
+      "spot": 8
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 137,
+      "username": "Simon",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United Kingdom",
+      "about": "",
+      "userStats": {
+        "userId": 137,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,5],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 1,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 88,
+      "username": "Feiticeiro",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Brazil",
+      "about": "",
+      "userStats": {
+        "userId": 88,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,1],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 143,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "techWin": false,
+    "created": "2002-10-12T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 156,
+      "round": 1,
+      "spot": 1
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 154,
+      "username": "Xaositect",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Australia",
+      "about": "",
+      "userStats": {
+        "userId": 154,
+        "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 25,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 73,
+      "username": "Chaos1187",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United States",
+      "about": "",
+      "userStats": {
+        "userId": 73,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,0],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 1
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 144,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "techWin": false,
+    "created": "2002-10-11T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 157,
+      "round": 1,
+      "spot": 7
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 25,
+      "username": "Crespo",
+      "email": "wormstournament@sapo.pt",
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Portugal",
+      "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+      "userStats": {
+        "userId": 25,
+        "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 5,
+        "participations": 6
+      },
+      "created": "2011-10-03T10:08:16.000+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 142,
+      "username": "tixas",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "Portugal",
+      "about": "",
+      "userStats": {
+        "userId": 142,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,2],[3,2004,0,5,2],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 3
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  },
+  {
+    "id": 311,
+    "scoreHome": 3,
+    "scoreAway": 0,
+    "techWin": true,
+    "created": "2002-10-18T22:00:00.000+0000",
+    "modified": "2019-05-07T18:23:00.971+0000",
+    "playoff": {
+      "id": 158,
+      "round": 1,
+      "spot": 6
+    },
+    "tournament": {
+      "id": 1,
+      "status": "FINISHED",
+      "review": null,
+      "maxRounds": 5,
+      "threeWay": null,
+      "created": "2001-12-31T23:00:00.000+0000",
+      "bronzeWinner": {
+        "id": 143,
+        "username": "Teletubbies",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "United Kingdom",
+        "about": "",
+        "userStats": {
+          "userId": 143,
+          "timeline": "[1,2002,0,5,5],[2,2003,0,5,0],[3,2004,0,5,2],[4,2005,0,5,1],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 1,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "silverWinner": {
+        "id": 25,
+        "username": "Crespo",
+        "email": "wormstournament@sapo.pt",
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Portugal",
+        "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+        "userStats": {
+          "userId": 25,
+          "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 5,
+          "participations": 6
+        },
+        "created": "2011-10-03T10:08:16.000+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "goldWinner": {
+        "id": 154,
+        "username": "Xaositect",
+        "email": null,
+        "activated": true,
+        "resetKey": null,
+        "resetDate": null,
+        "authorities": [],
+        "country": "Australia",
+        "about": "",
+        "userStats": {
+          "userId": 154,
+          "timeline": "[1,2002,0,5,7],[2,2003,0,5,6],[3,2004,0,5,1],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+          "trophyPoints": 25,
+          "participations": 3
+        },
+        "created": "2019-05-07T18:23:00.971+0000",
+        "modified": "2019-05-07T18:23:00.971+0000"
+      },
+      "moderators": [
+        {
+          "id": 25,
+          "username": "Crespo",
+          "email": "wormstournament@sapo.pt",
+          "activated": true,
+          "resetKey": null,
+          "resetDate": null,
+          "authorities": [],
+          "country": "Portugal",
+          "about": "Summer 2012: I got a WA cd and returned to revive the nostalgic moments of my teenagehood.\nBy doing this, I found this live community of wormers who have taken CWT to an unseen dimension! Congratulations to organizers and players.\nStreams with commentators are so cool.",
+          "userStats": {
+            "userId": 25,
+            "timeline": "[1,2002,0,5,6],[2,2003,0,5,2],[3,2004,0,5,3],[4,2005,0,5,2],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+            "trophyPoints": 5,
+            "participations": 6
+          },
+          "created": "2011-10-03T10:08:16.000+0000",
+          "modified": "2019-05-07T18:23:00.971+0000"
+        }
+      ]
+    },
+    "homeUser": {
+      "id": 18,
+      "username": "Bytor",
+      "email": "Cstoliker@aol.com",
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United States",
+      "about": "I am one of the dinosaurs of worms. I have played in every CWT since its inception. I started playing in 1999 and quickly adapted \"normal\" as my preferred game.<br><br>\n\n  For many years \"normal\" was not a popular game style and I enjoyed a certain status of being a big fish (but admittedly, in a small pond) because of it.<br><br>\n\n  Eventual, normal game started gaining popularity and with the start of league its popularity exploded. Each generation or wormers seams to have the benefit of trial, error and discovery's of the players before. I find myself now being a rather small fish in an ocean.<br><br>\n\n  I have always liked fast pace exiting games.  I again find myself again going against what is popular as most now have developed (or started as) slow, tactical & careful playing stile. A stile born of constant competition and one I have never adopted.",
+      "userStats": {
+        "userId": 18,
+        "timeline": "[1,2002,0,5,3],[2,2003,0,5,3],[3,2004,0,5,2],[4,2005,0,5,3],[5,2006,0,5,1],[6,2007,0,5,2],[7,2008,0,5,2],[8,2009,0,5,2],[9,2010,0,5,1],[10,2011,0,5,2],[11,2012,0,5,1],[12,2013,0,5,2],[13,2014,0,5,1],[14,2015,0,5,1],[15,2016,0,5,1],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 15
+      },
+      "created": "2011-10-01T14:53:39.000+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "awayUser": {
+      "id": 136,
+      "username": "Spike",
+      "email": null,
+      "activated": true,
+      "resetKey": null,
+      "resetDate": null,
+      "authorities": [],
+      "country": "United States",
+      "about": "",
+      "userStats": {
+        "userId": 136,
+        "timeline": "[1,2002,0,5,2],[2,2003,0,5,1],[3,2004,0,5,0],[4,2005,0,5,0],[5,2006,0,5,0],[6,2007,0,5,0],[7,2008,0,5,0],[8,2009,0,5,0],[9,2010,0,5,0],[10,2011,0,5,0],[11,2012,0,5,0],[12,2013,0,5,0],[13,2014,0,5,0],[14,2015,0,5,0],[15,2016,0,5,0],[16,2019,0,5,0]",
+        "trophyPoints": 0,
+        "participations": 2
+      },
+      "created": "2019-05-07T18:23:00.971+0000",
+      "modified": "2019-05-07T18:23:00.971+0000"
+    },
+    "reporter": null,
+    "ratings": [],
+    "comments": [],
+    "commentsSize": 0,
+    "ratingsSize": 0,
+    "voided": false
+  }
+]
