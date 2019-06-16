@@ -4,3 +4,4 @@ npm-debug.log
 *.scssc
 yarn-error.log
 
+/src/test/e2e/screenshots/
