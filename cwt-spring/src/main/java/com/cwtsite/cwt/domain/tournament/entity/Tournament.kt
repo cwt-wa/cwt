@@ -22,6 +22,12 @@ data class Tournament(
         @Column(columnDefinition = "text")
         var review: String? = null,
 
+        /**
+         * During the tournament the value can be calculated from the configuration values
+         * but once the tournament is [finished][TournamentStatus.FINISHED] the value should be remembered in this column.
+         *
+         * [Calculation of the value][com.cwtsite.cwt.domain.playoffs.service.PlayoffService.getNumberOfPlayoffRoundsInTournament]
+         */
         @Column
         var maxRounds: Int? = null,
 
