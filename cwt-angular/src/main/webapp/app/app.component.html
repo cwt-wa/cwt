@@ -48,8 +48,9 @@
                 </a>
             </div>
             <div class="col text-right user-panel all-petite-caps" ngbDropdown>
-                <i class="fa fa-lg cwt-user-panel-icon no-caret" [ngClass]="authenticatedUser ? 'fa-user' : 'fa-user-o'"
-                   [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
+                <i class="fa fa-lg cwt-user-panel-icon no-caret"
+                   [ngClass]="{'vanish': !isNavCollapsed, 'fa-user': authenticatedUser, 'fa-user-o': !authenticatedUser}"
+                   ngbDropdownToggle>
                 </i>
                 <div class="dropdown-menu" *ngIf="!authenticatedUser" ngbDropdownMenu>
                     <a routerLink="/login" class="dropdown-item">Log in</a>
