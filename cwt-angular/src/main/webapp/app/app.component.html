@@ -19,9 +19,9 @@
                 <a routerLink="/admin" class="btn" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                     Admin
                 </a>
-                <button class="btn" (click)="logOut()">
+                <a href="" class="btn" (click)="logOut()">
                     Log out
-                </button>
+                </a>
                 <a routerLink="/" class="btn" style="overflow: hidden;">
                     {{authenticatedUser.username}} <!-- TODO Care for longer usernames -->
                 </a>

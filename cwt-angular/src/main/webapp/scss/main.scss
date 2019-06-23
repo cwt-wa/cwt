@@ -2,12 +2,18 @@
 @import "~bootstrap/scss/bootstrap";
 @import "tree";
 
-html, body {
+html {
+  background: linear-gradient(to bottom right, rgba(theme-color('primary'), 0.02) 60%, rgba(theme-color('primary'), 0.5) 210%);
+  min-height: 100%;
+}
+
+body {
+  background: transparent;
   color: theme-color('secondary');
 }
 
 .cwt-top-bar {
-  background-color: darken(theme-color('primary'), 10);
+  background-color: theme-color('primary');
   color: white;
   font-size: 14px;
   height: 30px;
@@ -18,23 +24,21 @@ html, body {
   padding-top: 4px;
 }
 
-.cwt-top-bar .btn {
+.cwt-top-bar a {
   height: 30px;
-  width: 90px;
   color: white;
   border: none;
   border-radius: 0;
   cursor: pointer;
-  background-color: theme-color('primary');
-  padding-top: 6px;
   font-size: 14px;
   margin-left: 5px;
+  padding: 6px 0 0 25px;
 }
 
-.cwt-top-bar .btn:hover,
-.cwt-top-bar .btn:focus {
-  background-color: theme-color('danger');
-  outline: none;
+.cwt-top-bar a:hover,
+.cwt-top-bar a:focus {
+  color: white;
+  text-decoration: underline;
 }
 
 .cwt-nav-container .cwt-navbar {
@@ -78,10 +82,7 @@ html, body {
 .cwt-mobile-nav {
   padding: 16px 16px 10px;
   width: 100%;
-}
-
-.cwt-nav-container .navbar .fa-user {
-  color: theme-color('secondary') !important;
+  color: rgba(white, .9);
 }
 
 .fa-user.cwt-user-panel-icon {
@@ -372,6 +373,10 @@ html, body {
   right: -10px;
 }
 
+.text-white {
+  color: rgba(white, .9);
+}
+
 .hamburger {
   padding: 0;
   display: inline-block;
@@ -408,7 +413,7 @@ html, body {
 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
   width: 30px;
   height: 4px;
-  background-color: theme-color('secondary');
+  background-color: rgba(white, .9);
   border-radius: 4px;
   position: absolute;
   transition-property: transform;
