@@ -6,10 +6,7 @@ import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
-import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
-import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
-import com.cwtsite.cwt.domain.game.view.model.ReportDto
+import com.cwtsite.cwt.domain.game.view.model.*
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
@@ -179,5 +176,21 @@ constructor(private val gameService: GameService, private val userService: UserS
         val users = userService.findByIds(dto.winner, dto.loser)
         return ResponseEntity.ok(GameCreationDto.toDto(
                 gameService.addTechWin(users.find { it.id == dto.winner }!!, users.find { it.id == dto.loser }!!)))
+    }
+
+    @RequestMapping("/{id}/bet")
+    fun placeBetOnGame(@PathVariable("id") id: Long, @RequestBody dto: BetCreationDto, request: HttpServletRequest): ResponseEntity<BetDto> {
+        val game = gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
+        val user = userService.getById(dto.user).orElseThrow { RestException("User ${dto.user} not found", HttpStatus.NOT_FOUND, null) }
+
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != dto.user) {
+            throw RestException("You must not impersonate your bet.", HttpStatus.FORBIDDEN, null);
+        }
+
+        if (game.wasPlayed()) {
+            throw RestException("The game has already been played.", HttpStatus.BAD_REQUEST, null);
+        }
+
+        return ResponseEntity.ok(BetDto.toDto(gameService.placeBet(game, user, dto.betOnHome)))
     }
 }

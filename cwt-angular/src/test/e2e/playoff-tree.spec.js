@@ -1,10 +1,9 @@
 const fs = require('fs');
 const httpMock = require('@zemke/http-mock')(9000);
 
+const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOjEsInVzZXJuYW1lIjoiWmVta2UiLCJlbWFpbCI6ImZsb3JpYW5AemVta2UuaW8iLCJyb2xlcyI6IlVTRVIiLCJlbmFibGVkIjp0cnVlfX19.yF22wLYh8NUWL7HQE347uSg8-VO8rNY9FuOa36HqQhw";
+
 const baseData = {
-    "reporter": {
-        "username": "Zemke"
-    },
     "techWin": false,
     "ratings": [],
     "comments": [],
@@ -13,10 +12,13 @@ const baseData = {
     "voided": false
 };
 
+function rnd100() {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
 function instantiateGame(spot) {
     return {
-        "scoreHome": 2,
-        "scoreAway": 0,
+        "id": rnd100(),
         "playoff": {
             "round": 1,
             "spot": spot
@@ -26,7 +28,20 @@ function instantiateGame(spot) {
         },
         "awayUser": {
             "username": `AwayR1S${spot}`
-        }
+        },
+        "bets": [{
+            "id": rnd100(),
+            "user": {id: rnd100(), username: "Zemke"},
+            "betOnHome": false
+        }, {
+            "id": rnd100(),
+            "user": {id: rnd100(), username: "Alfred"},
+            "betOnHome": true
+        }, {
+            "id": rnd100(),
+            "user": {id: rnd100(), username: "Bert"},
+            "betOnHome": false
+        }]
     };
 }
 
@@ -47,7 +62,7 @@ function writeScreenShot(data, filename) {
     stream.end();
 }
 
-describe('Playoff tree', function () {
+describe('Playoff tree in different sizes', function () {
 
     const fn = function (players) {
         httpMock.add('/api/tournament/current/game/playoff', JSON.stringify(createTree(players)));
@@ -69,4 +84,22 @@ describe('Playoff tree', function () {
     it('24', () => fn(24));
     it('48', () => fn(48));
     it('96', () => fn(96));
+});
+
+describe('Playoff tree bets', function () {
+
+    it('16', function () {
+        const tree = createTree(16);
+        httpMock.add('/api/tournament/current/game/playoff', tree);
+        httpMock.add('/api/auth/refresh', {token: TOKEN});
+        httpMock.add(/^\/api\/game\/\d+\/bet$/, (_, data) =>
+            ({
+                id: rnd100(),
+                game: data.game,
+                user: data.user,
+                betOnHome: data.betOnHome,
+            }));
+        browser.get('http://localhost:4300/playoffs');
+        browser.sleep(2147483647);
+    });
 });

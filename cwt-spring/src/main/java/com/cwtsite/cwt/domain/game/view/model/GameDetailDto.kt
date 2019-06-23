@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.view.model
 
+import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.entity.Rating
@@ -9,7 +10,8 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Comment
 import java.util.*
 
-class GameDetailDto(
+@DataTransferObject
+data class GameDetailDto(
         val id: Long,
         val scoreHome: Int,
         val scoreAway: Int,

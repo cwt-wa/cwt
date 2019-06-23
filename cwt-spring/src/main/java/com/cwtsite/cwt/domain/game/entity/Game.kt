@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.entity
 
+import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -64,6 +65,9 @@ data class Game(
 
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
         val comments: List<Comment> = mutableListOf(),
+
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+        val bets: List<Bet> = mutableListOf(),
 
         @JsonIgnore
         @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)

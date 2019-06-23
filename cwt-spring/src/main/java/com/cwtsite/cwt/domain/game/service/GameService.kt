@@ -1,6 +1,8 @@
 package com.cwtsite.cwt.domain.game.service
 
 import com.cwtsite.cwt.core.FileValidator
+import com.cwtsite.cwt.domain.bet.entity.Bet
+import com.cwtsite.cwt.domain.bet.service.BetRepository
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
@@ -34,7 +36,7 @@ class GameService @Autowired
 constructor(private val gameRepository: GameRepository, private val tournamentService: TournamentService, private val groupRepository: GroupRepository,
             private val userRepository: UserRepository, private val groupService: GroupService, private val ratingRepository: RatingRepository,
             private val commentRepository: CommentRepository, private val configurationService: ConfigurationService, private val userService: UserService,
-            private val playoffService: PlayoffService) {
+            private val playoffService: PlayoffService, private val betRepository: BetRepository) {
 
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class, FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class, IOException::class)
@@ -179,6 +181,10 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 winner.id!!, loser.id!!,
                 Math.ceil(getBestOfValue(tournamentService.getCurrentTournament().status).value.toDouble() / 2).toInt(), 0)
     }
+
+    fun placeBet(game: Game, user: User, betOnHome: Boolean): Bet = betRepository.save(
+            with(betRepository.findByUserAndGame(user, game)!!) { this.betOnHome = betOnHome; this })
+            ?: betRepository.save(Bet(user = user, game = game, betOnHome = betOnHome))
 
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)
 

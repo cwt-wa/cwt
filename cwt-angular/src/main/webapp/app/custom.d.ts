@@ -148,6 +148,39 @@ export interface GameDetailDto {
     playoffRoundLocalized: string;
 }
 
+export interface PlayoffGameDto {
+    id: number;
+    homeUser: User;
+    awayUser: User;
+    playoff: {
+        round: number;
+        spot: number;
+    },
+    scoreHome?: number;
+    scoreAway?: number;
+    group?: Group;
+    comments?: Comment[];
+    reporter?: User;
+    ratings?: Rating[];
+    tournament: Tournament;
+    replayExists: boolean;
+    bets: PlayoffTreeBetDto[];
+    playoffRoundLocalized: string;
+}
+
+export interface PlayoffTreeBetDto {
+    id: number;
+    user: UserMinimalDto;
+    betOnHome: Boolean;
+}
+
+export interface BetDto {
+    id: number;
+    user: UserMinimalDto;
+    game: GameDetailDto;
+    betOnHome: Boolean;
+}
+
 export interface GameCreationDto {
     id: number;
     homeUser: number;

@@ -26,8 +26,13 @@
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </td>
+                <td class="playoff-bet" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
+                    <label class="sr-only" for="betForHome{{game.id}}">Bet for {{game.homeUser.username}}</label>
+                    <input type="radio" id="betForHome{{game.id}}" (click)="placeBet(true, game)" name="betGame{{game.id}}"
+                    [checked]="game.betResult.userBet?.betOnHome === true" [disabled]="game.betResult.userBet?.betOnHome === true">
+                </td>
                 <td class="playoff-bet rounded-top-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
-                    <input type="radio"> <!-- TODO Betting. -->
+                    {{game.betResult.homeUser.length}}
                 </td>
             </tr>
             <tr>
@@ -37,8 +42,13 @@
                 <td class="playoff-score" *ngIf="game?.reporter">
                     {{game?.scoreAway}}
                 </td>
+                <td class="playoff-bet" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
+                    <label class="sr-only" for="betForAway{{game.id}}">Bet for {{game.homeUser.username}}</label>
+                    <input type="radio" id="betForAway{{game.id}}" (click)="placeBet(false, game)" name="betGame{{game.id}}"
+                           [checked]="game.betResult.userBet?.betOnHome === false" [disabled]="game.betResult.userBet?.betOnHome === false">
+                </td>
                 <td class="playoff-bet rounded-bottom-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
-                    <input type="radio">
+                    {{game.betResult.awayUser.length}}
                 </td>
             </tr>
             </tbody>
