@@ -1,15 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {BetDto, PlayoffGameDto, PlayoffTreeBetDto} from "../custom";
+import {BetDto, PlayoffGameDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
+import {BetResult, BetService} from "../_services/bet.service";
 
 interface PlayoffTreeBetDtoWithBetResults extends PlayoffGameDto {
-    betResult?: {
-        homeUser: PlayoffTreeBetDto[],
-        awayUser: PlayoffTreeBetDto[]
-        userBet: PlayoffTreeBetDto | null
-    }
+    betResult?: BetResult
 }
 
 @Component({
@@ -25,7 +22,7 @@ export class PlayoffsTreeComponent implements OnInit {
     isThreeWayFinalTree: boolean;
 
     public constructor(private requestService: RequestService, private authService: AuthService,
-                       private toastr: Toastr) {
+                       private toastr: Toastr, private betService: BetService) {
     }
 
     public ngOnInit(): void {
@@ -45,7 +42,7 @@ export class PlayoffsTreeComponent implements OnInit {
                         const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round, gamesInFirstRound);
                         const existingGamesInRound: PlayoffTreeBetDtoWithBetResults[] = this.getExistingGamesInRound(round, res)
                             .map<PlayoffTreeBetDtoWithBetResults>(g => {
-                                (g as PlayoffTreeBetDtoWithBetResults).betResult = this.createBetResult(g);
+                                (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets);
                                 return g as PlayoffTreeBetDtoWithBetResults;
                             });
 
@@ -94,17 +91,8 @@ export class PlayoffsTreeComponent implements OnInit {
                     game.bets[idxOfPreviousBet] = res;
                     this.toastr.success("Bet successfully updated.");
                 }
-                game.betResult = this.createBetResult(game);
+                game.betResult = this.betService.createBetResult(game.bets);
             });
-    }
-
-    private createBetResult(game: PlayoffGameDto) {
-        const authUser = this.authService.getUserFromTokenPayload();
-        return {
-            homeUser: game.bets.filter(b => b.betOnHome),
-            awayUser: game.bets.filter(b => !b.betOnHome),
-            userBet: authUser ? (game.bets.find(b => b.user.id === authUser.id) || null) : null
-        };
     }
 
     private calcRequiredNumberOfGamesInRound(round: number, gamesInFirstRound: number): number {
