@@ -1,5 +1,6 @@
 const fs = require('fs');
 const httpMock = require('@zemke/http-mock')(9000);
+const screenshot = require('./screenshot');
 
 const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOjEsInVzZXJuYW1lIjoiWmVta2UiLCJlbWFpbCI6ImZsb3JpYW5AemVta2UuaW8iLCJyb2xlcyI6IlVTRVIiLCJlbmFibGVkIjp0cnVlfX19.yF22wLYh8NUWL7HQE347uSg8-VO8rNY9FuOa36HqQhw";
 
@@ -56,18 +57,12 @@ function createTree(numberOfPlayersInFirstRound) {
     return games;
 }
 
-function writeScreenShot(data, filename) {
-    var stream = fs.createWriteStream(filename);
-    stream.write(new Buffer(data, 'base64'));
-    stream.end();
-}
-
 describe('Playoff tree in different sizes', function () {
 
     const fn = function (players) {
         httpMock.add('/api/tournament/current/game/playoff', JSON.stringify(createTree(players)));
         browser.get('http://localhost:4300/playoffs');
-        browser.takeScreenshot().then(data => fs.writeFile(`${__dirname}/screenshots/${players}.png`, data, 'base64', console.error));
+        screenshot(players);
     };
 
     // One-way finals
