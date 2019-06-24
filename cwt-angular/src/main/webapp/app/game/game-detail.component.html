@@ -38,6 +38,15 @@
         This game is from a past tournament.
     </div>
 
+    <div class="bet-result mt-4" *ngIf="betResult">
+        <div class="bet-result-home" [ngStyle]="{'width': betResult.homeUserPercent + '%'}">
+            <span class="circle-around">{{betResult.homeUser.length}}</span>
+        </div>
+        <div class="bet-result-away" [ngStyle]="{'width': betResult.awayUserPercent + '%'}">
+            <span class="circle-around">{{betResult.awayUser.length}}</span>
+        </div>
+    </div>
+
     <div class="row mt-4 no-gutters">
         <div class="col-12 col-md-5 col-lg-4 mb-1 mb-md-0 pr-md-0">
             <div class="btn-group w-100">

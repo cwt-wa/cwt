@@ -1,10 +1,11 @@
 import {Component, Inject} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
-import {Comment, CommentDto, GameDetailDto, JwtUser, Rating, RatingDto, RatingType, User} from "../custom";
+import {Comment, CommentDto, GameDetailDto, JwtUser, PlayoffTreeBetDto, Rating, RatingDto, RatingType, User} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
 import {APP_CONFIG, AppConfig} from "../app.config";
+import {BetResult, BetService} from "../_services/bet.service";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -18,9 +19,11 @@ export class GameDetailComponent {
     newComment: CommentDto;
     authenticatedUser: JwtUser;
     replayUrl: string;
+    betResult: BetResult;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
-                private authService: AuthService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
+                private authService: AuthService, private betService: BetService,
+                @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     public get winningUser(): User {
@@ -51,6 +54,9 @@ export class GameDetailComponent {
                     this.game = res;
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);
                 });
+
+            this.requestService.get<PlayoffTreeBetDto[]>(`game/${+res.get('id')}/bets`)
+                .subscribe(res => this.betResult = this.betService.createBetResult(res));
         });
 
         this.authenticatedUser = this.authService.getUserFromTokenPayload();

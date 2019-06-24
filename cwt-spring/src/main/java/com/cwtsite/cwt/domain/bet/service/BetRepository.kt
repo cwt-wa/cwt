@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository
 interface BetRepository : JpaRepository<Bet, Long> {
 
     fun findByUserAndGame(user: User, game: Game): Bet?
+    fun findByGame(game: Game): List<Bet>
 }

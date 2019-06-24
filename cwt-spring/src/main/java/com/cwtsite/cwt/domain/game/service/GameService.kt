@@ -186,6 +186,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             with(betRepository.findByUserAndGame(user, game)!!) { this.betOnHome = betOnHome; this })
             ?: betRepository.save(Bet(user = user, game = game, betOnHome = betOnHome))
 
+    fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
+
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)
 
     inner class InvalidOpponentException internal constructor(message: String) : RuntimeException(message)

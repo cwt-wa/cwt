@@ -10,6 +10,7 @@ import com.cwtsite.cwt.domain.game.view.model.*
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
@@ -193,4 +194,9 @@ constructor(private val gameService: GameService, private val userService: UserS
 
         return ResponseEntity.ok(BetDto.toDto(gameService.placeBet(game, user, dto.betOnHome)))
     }
+
+    @RequestMapping("/{id}/bets", method = [RequestMethod.GET])
+    fun queryBetsForGame(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffTreeBetDto>> = ResponseEntity.ok(
+            gameService.findBetsByGame(gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) })
+                    .map { PlayoffTreeBetDto.toDto(it) })
 }
