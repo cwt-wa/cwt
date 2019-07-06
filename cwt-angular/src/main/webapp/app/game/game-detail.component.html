@@ -40,10 +40,10 @@
 
     <div class="bet-result mt-4" *ngIf="betResult">
         <div class="bet-result-home" [ngStyle]="{'width': betResult.homeUserPercent + '%'}">
-            <span class="circle-around">{{betResult.homeUser.length}}</span>
+            {{betResult.homeUser.length}}
         </div>
         <div class="bet-result-away" [ngStyle]="{'width': betResult.awayUserPercent + '%'}">
-            <span class="circle-around">{{betResult.awayUser.length}}</span>
+            {{betResult.awayUser.length}}
         </div>
     </div>
 
