@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {BetDto, PlayoffGameDto, PlayoffTreeBetDto} from "../custom";
+import {PlayoffGameDto, PlayoffTreeBetDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {BetResult, BetService} from "../_services/bet.service";
