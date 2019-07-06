@@ -32,7 +32,12 @@
                     [checked]="game.betResult.userBet?.betOnHome === true" [disabled]="game.betResult.userBet?.betOnHome === true">
                 </td>
                 <td class="playoff-bet rounded-top-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
-                    {{game.betResult.homeUser.length}}
+                    <ng-template #betsForHome>
+                        <span *ngFor="let user of game.betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                    </ng-template>
+                    <a [routerLink]="" [ngbPopover]="betsForHome" container="body" placement="right">
+                        {{game.betResult.homeUser.length}}
+                    </a>
                 </td>
             </tr>
             <tr>
@@ -48,7 +53,12 @@
                            [checked]="game.betResult.userBet?.betOnHome === false" [disabled]="game.betResult.userBet?.betOnHome === false">
                 </td>
                 <td class="playoff-bet rounded-bottom-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
-                    {{game.betResult.awayUser.length}}
+                    <ng-template #betsForAway>
+                        <span *ngFor="let user of game.betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                    </ng-template>
+                    <a [routerLink]="" [ngbPopover]="betsForAway" container="body" placement="right">
+                        {{game.betResult.awayUser.length}}
+                    </a>
                 </td>
             </tr>
             </tbody>
