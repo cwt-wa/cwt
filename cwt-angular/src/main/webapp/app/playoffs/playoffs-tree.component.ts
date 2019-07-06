@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {BetDto, PlayoffGameDto} from "../custom";
+import {BetDto, PlayoffGameDto, PlayoffTreeBetDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {BetResult, BetService} from "../_services/bet.service";
+import {finalize} from "rxjs/operators";
 
 interface PlayoffTreeBetDtoWithBetResults extends PlayoffGameDto {
     betResult?: BetResult
@@ -20,6 +21,7 @@ export class PlayoffsTreeComponent implements OnInit {
 
     playoffGames: PlayoffTreeBetDtoWithBetResults[][];
     isThreeWayFinalTree: boolean;
+    placingBet: number[] = [];
 
     public constructor(private requestService: RequestService, private authService: AuthService,
                        private toastr: Toastr, private betService: BetService) {
@@ -79,9 +81,11 @@ export class PlayoffsTreeComponent implements OnInit {
 
     public placeBet(betOnHome: boolean, game: PlayoffTreeBetDtoWithBetResults) {
         const authUserId = this.authService.getUserFromTokenPayload().id;
-        this.requestService.post<BetDto>(
+        this.placingBet.push(game.id);
+        this.requestService.post<PlayoffTreeBetDto>(
             `game/${game.id}/bet`,
             {user: authUserId, game: game.id, betOnHome})
+            .pipe(finalize(() => this.placingBet.splice(this.placingBet.findIndex(gId => gId === game.id), 1)))
             .subscribe(res => {
                 const idxOfPreviousBet = game.bets.findIndex(b => b.user.id === authUserId);
                 if (idxOfPreviousBet === -1) {
