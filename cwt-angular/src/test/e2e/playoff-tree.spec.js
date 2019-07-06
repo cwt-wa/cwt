@@ -2,6 +2,13 @@ const fs = require('fs');
 const httpMock = require('@zemke/http-mock')(9000);
 const screenshot = require('./screenshot');
 
+const tokenPayload = {
+    "id": 1,
+    "username": "Zemke",
+    "email": "florian@zemke.io",
+    "roles": "USER",
+    "enabled": true
+};
 const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOjEsInVzZXJuYW1lIjoiWmVta2UiLCJlbWFpbCI6ImZsb3JpYW5AemVta2UuaW8iLCJyb2xlcyI6IlVTRVIiLCJlbmFibGVkIjp0cnVlfX19.yF22wLYh8NUWL7HQE347uSg8-VO8rNY9FuOa36HqQhw";
 
 const baseData = {
@@ -90,8 +97,10 @@ describe('Playoff tree bets', function () {
         httpMock.add(/^\/api\/game\/\d+\/bet$/, (_, data) =>
             ({
                 id: rnd100(),
-                game: data.game,
-                user: data.user,
+                user: {
+                    id: data.user,
+                    username: tokenPayload.username
+                },
                 betOnHome: data.betOnHome,
             }));
         browser.get('http://localhost:4300/playoffs');
