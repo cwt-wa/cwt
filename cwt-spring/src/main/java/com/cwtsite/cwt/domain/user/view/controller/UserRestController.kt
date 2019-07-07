@@ -108,7 +108,7 @@ constructor(private val userService: UserService, private val applicationService
                         "userStats.trophyPoints,Trophies",
                         "userStats.participations,Participations",
                         "username,Username",
-                        "userProfile.country,Country")))
+                        "country.name,Country")))
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.POST])
@@ -122,7 +122,9 @@ constructor(private val userService: UserService, private val applicationService
         }
 
         try {
-            user = userService.changeUser(user, userChangeDto.about, userChangeDto.username, userChangeDto.country)
+            user = userService.changeUser(
+                    user, userChangeDto.about, userChangeDto.username,
+                    if (userChangeDto.country != null) userService.findCountryById(userChangeDto.country).orElse(null) else null)
         } catch (e: UserService.InvalidUsernameException) {
             throw RestException("Username invalid.", HttpStatus.BAD_REQUEST, null)
         }

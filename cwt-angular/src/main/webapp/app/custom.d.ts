@@ -51,10 +51,16 @@ export interface User {
     username: string;
 }
 
+export interface CountryDto {
+    id: number,
+    flag: string;
+    name: string;
+}
+
 export interface UserOverviewDto {
     id: number;
     username: string;
-    country: string;
+    country: CountryDto;
     participations: number;
     userStats: UserStatsDto[];
 }
@@ -71,7 +77,7 @@ export interface UserStatsDto {
 export interface UserDetailDto {
     id: number;
     username: string;
-    country: string;
+    country: CountryDto;
     about: string;
     hasPic: boolean;
     userStats: UserStatsDto[];

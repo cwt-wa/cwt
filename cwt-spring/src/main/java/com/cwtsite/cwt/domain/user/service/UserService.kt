@@ -8,7 +8,9 @@ import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.user.repository.CountryRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.Country
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -27,7 +29,8 @@ constructor(private val userRepository: UserRepository,
             private val applicationRepository: ApplicationRepository,
             private val groupRepository: GroupRepository,
             private val playoffService: PlayoffService,
-            private val gameRepository: GameRepository) {
+            private val gameRepository: GameRepository,
+            private val countryRepository: CountryRepository) {
 
     @Transactional
     @Throws(UserService.UserExistsByEmailOrUsernameException::class, UserService.InvalidUsernameException::class, UserService.InvalidEmailException::class)
@@ -131,7 +134,7 @@ constructor(private val userRepository: UserRepository,
     }
 
     @Throws(UserService.InvalidUsernameException::class)
-    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: String? = null): User {
+    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: Country? = null): User {
         if (newUsername != null) {
             if (validateUsername(newUsername)) user.username = newUsername
             else throw InvalidUsernameException()
@@ -162,6 +165,8 @@ constructor(private val userRepository: UserRepository,
     fun findByIds(vararg userId: Long): List<User> = userRepository.findAllById(userId.toList())
 
     fun findByUsernameContaining(term: String): List<User> = userRepository.findByUsernameContaining(term)
+
+    fun findCountryById(countryId: Long) = countryRepository.findById(countryId)
 
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 

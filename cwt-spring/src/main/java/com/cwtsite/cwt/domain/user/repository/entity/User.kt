@@ -56,7 +56,8 @@ data class User(
                 inverseJoinColumns = [JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")])
         var authorities: MutableList<Authority> = mutableListOf(Authority.fromName(AuthorityName.ROLE_USER)),
 
-        var country: String? = null,
+        @ManyToOne(optional = false)
+        var country: Country = Country.unknown(),
 
         @Column(columnDefinition = "text")
         var about: String? = null,

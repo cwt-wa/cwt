@@ -7,7 +7,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 data class UserOverviewDto(
         val id: Long,
         val username: String,
-        val country: String?,
+        val country: CountryDto,
         val participations: Int,
         val userStats: List<UserStatsDto>
 ) {
@@ -17,7 +17,7 @@ data class UserOverviewDto(
         fun toDto(user: User, userStatsDtos: List<UserStatsDto>): UserOverviewDto = UserOverviewDto(
                 id = user.id!!,
                 username = user.username,
-                country = user.country,
+                country = CountryDto.toDto(user.country),
                 participations = user.userStats?.participations ?: 0,
                 userStats = userStatsDtos
         )

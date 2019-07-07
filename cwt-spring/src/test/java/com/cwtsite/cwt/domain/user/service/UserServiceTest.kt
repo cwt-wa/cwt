@@ -10,7 +10,9 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.user.repository.CountryRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.Country
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.GroupStanding
 import com.cwtsite.cwt.test.EntityDefaults
@@ -39,6 +41,7 @@ class UserServiceTest {
     @Mock private lateinit var groupRepository: GroupRepository
     @Mock private lateinit var playoffService: PlayoffService
     @Mock private lateinit var gameRepository: GameRepository
+    @Mock private lateinit var countryRepository: CountryRepository
 
     @Test
     fun getRemainingOpponents() {
@@ -174,24 +177,30 @@ class UserServiceTest {
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, null, null, "germany");
-        Assert.assertEquals("germany", newUser.country);
+        val newUser = userService.changeUser(user, null, null, createCountry("Germany"));
+        Assert.assertEquals("Germany", newUser.country.name);
     }
 
     @Test
     fun changeUser_complete() {
         val user = EntityDefaults.user();
         user.about = "old about text"
-        user.country = "england"
+        user.country = createCountry("England")
         user.username = "oldUsername"
 
         Mockito
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", "germany");
+        val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", createCountry("Germany"));
         Assert.assertEquals("new about text", newUser.about);
         Assert.assertEquals("newUsernameXoXo", newUser.username);
-        Assert.assertEquals("germany", newUser.country);
+        Assert.assertEquals("Germany", newUser.country .name);
     }
+
+    private fun createCountry(name: String) = Country(
+            id = 1,
+            name = name,
+            flag = "${name.toLowerCase().replace(" ", "_")}.png"
+    )
 }
