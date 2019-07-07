@@ -1,14 +1,17 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
 import {CountryDto, JwtUser, PasswordChangeDto, UserChangeDto, UserDetailDto} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
+import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
     selector: 'cwt-user-panel',
     template: require('./user-panel.component.html')
 })
 export class UserPanelComponent implements OnInit {
+
+    @ViewChild('photoFile') photoFile: ElementRef<HTMLInputElement>;
 
     possibleCountries: CountryDto[] = [];
     profile: UserChangeDto;
@@ -20,8 +23,8 @@ export class UserPanelComponent implements OnInit {
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
-                private toastr: Toastr) {
-
+                private toastr: Toastr,
+                @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     ngOnInit(): void {
@@ -41,6 +44,11 @@ export class UserPanelComponent implements OnInit {
             .subscribe(res => this.possibleCountries = res);
     }
 
+    showCurrentPhoto() {
+        this.photoUrl = `${this.appConfig.apiEndpoint}/user/${this.authUser.id}/photo`;
+        // TOOD
+    }
+
     submitProfile() {
         this.requestService.post<{token: string}>(`user/${this.authUser.id}`, this.profile)
             .subscribe(res => {
@@ -57,5 +65,15 @@ export class UserPanelComponent implements OnInit {
     submitPasswordChange() {
         this.requestService.post(`user/${this.authUser.id}/change-password`, this.passwordChange)
             .subscribe(() => this.toastr.success("Successfully changed password."));
+    }
+
+    submitPhoto() {
+        const formData = new FormData();
+        formData.append('photo', this.photoFile.nativeElement.files[0]);
+
+        this.requestService.formDataPost(`user/${this.authUser.id}/change-photo`, formData)
+            .subscribe(() => {
+                this.toastr.success("Successfully saved photo.");
+            });
     }
 }

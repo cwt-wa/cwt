@@ -66,6 +66,9 @@ data class User(
         @PrimaryKeyJoinColumn
         var userStats: UserStats? = null,
 
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        var photo: Photo? = null,
+
         @field:CreationTimestamp
         var created: Timestamp? = null,
 

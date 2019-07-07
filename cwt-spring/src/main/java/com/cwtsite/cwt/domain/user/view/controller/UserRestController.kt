@@ -14,11 +14,17 @@ import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.model.*
 import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.io.ByteArrayResource
+import org.springframework.core.io.Resource
 import org.springframework.data.domain.Sort
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.io.IOException
 import java.util.*
 import javax.security.auth.login.CredentialException
 import javax.servlet.http.HttpServletRequest
@@ -164,6 +170,35 @@ constructor(private val userService: UserService, private val applicationService
         } catch (e: CredentialException) {
             throw RestException("Wrong password.", HttpStatus.BAD_REQUEST, e);
         }
+    }
+
+    @RequestMapping("{id}/change-photo", method = [RequestMethod.POST], consumes = ["multipart/form-data"])
+    fun changePhoto(@RequestParam("photo") photo: MultipartFile, @PathVariable("id") userId: Long, request: HttpServletRequest) {
+        val user = assertUser(userId)
+
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
+            throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
+        }
+
+        userService.changePhoto(user, photo)
+    }
+
+    @RequestMapping("/{userId}/photo", method = [RequestMethod.GET])
+    @Throws(IOException::class)
+    fun getUserPhoto(@PathVariable("userId") userId: Long): ResponseEntity<Resource> {
+        val user = assertUser(userId)
+
+        if (user.photo == null) {
+            throw RestException("There is no photo from this user.", HttpStatus.NOT_FOUND, null)
+        }
+
+        val resource = ByteArrayResource(user.photo!!.file)
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=${user.username}.${user.photo!!.extension}")
+                .contentLength(resource.contentLength())
+                .contentType(MediaType.parseMediaType(user.photo!!.mediaType))
+                .body(resource)
     }
 
 

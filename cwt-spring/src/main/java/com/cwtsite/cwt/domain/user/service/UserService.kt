@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.user.service
 
+import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.core.toInt
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.service.GameRepository
@@ -11,6 +12,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.CountryRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.Country
+import com.cwtsite.cwt.domain.user.repository.entity.Photo
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -18,6 +20,8 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.StringUtils
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 import javax.security.auth.login.CredentialException
 
@@ -178,6 +182,17 @@ constructor(private val userRepository: UserRepository,
     fun findByUsernameContaining(term: String): List<User> = userRepository.findByUsernameContaining(term)
 
     fun findCountryById(countryId: Long) = countryRepository.findById(countryId)
+
+    @Throws(FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class)
+    fun changePhoto(user: User, photo: MultipartFile) {
+        FileValidator.validate(
+                photo, 3000000,
+                listOf("image/jpeg", "image/png", "image/gif"), // Yes, image/jpg is invalid.
+                listOf("jpg", "jpeg", "png", "gif"))
+
+        user.photo = Photo(file = photo.bytes, mediaType = photo.contentType, extension = StringUtils.getFilenameExtension(photo.originalFilename))
+        userRepository.save(user)
+    }
 
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 

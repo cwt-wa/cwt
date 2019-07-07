@@ -44,10 +44,13 @@
     <div class="col-md-5">
         <h2 class="mt-4 mt-md-0">Photo</h2>
 
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus aspernatur consequatur doloremque excepturi laboriosam magni nisi, omnis pariatur, repellat sed suscipit tempore.
-            Earum error mollitia obcaecati reiciendis repellat! Rerum!
-        </p>
+        <button class="btn btn-secondary btn-sm mb-3" (click)="showCurrentPhoto()">Show current photo</button>
+        <form (ngSubmit)="submitPhoto()">
+            <label for="photoFile" class="sr-only">Photo</label>
+            <input type="file" #photoFile class="form-control-file" id="photoFile"
+                   required name="photoFile" accept=".jpeg,.jpg,.png,.gif">
+            <input type="submit" value="Upload photo" class="btn btn-primary mt-1">
+        </form>
     </div>
 </div>
 
