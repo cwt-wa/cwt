@@ -88,6 +88,17 @@ export interface UserMinimalDto {
     username: string;
 }
 
+export interface UserChangeDto {
+    username: string;
+    country: number;
+    about: string;
+}
+
+export interface PasswordChangeDto {
+    currentPassword: string;
+    newPassword: string;
+}
+
 export type GroupLabel = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
 
 export interface GroupStanding {

@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
+import javax.security.auth.login.CredentialException
 
 @Component
 class UserService @Autowired
@@ -133,17 +134,27 @@ constructor(private val userRepository: UserRepository,
         return userRepository.findAll(PageRequest.of(page, size, extendedSort))
     }
 
-    @Throws(UserService.InvalidUsernameException::class)
+    @Throws(UserService.InvalidUsernameException::class, UsernameTakenException::class)
+    @Transactional
     fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: Country? = null): User {
         if (newUsername != null) {
             if (validateUsername(newUsername)) user.username = newUsername
             else throw InvalidUsernameException()
+
+            if (userRepository.findByUsernameIgnoreCase(newUsername).any { it != user }) throw UsernameTakenException()
         }
 
         if (newAboutText != null) user.about = newAboutText;
         if (newCountry != null) user.country = newCountry;
 
         return userRepository.save(user)
+    }
+
+    @Throws(CredentialException::class)
+    fun changePassword(user: User, currentPassword: String, newPassword: String) {
+        val newPasswordHashed = authService.createHash(newPassword)
+        if (user.password != authService.createHash(currentPassword)) throw CredentialException()
+        userRepository.save(with(user) { password = newPasswordHashed; this })
     }
 
     fun findAllOrderedByUsername(): List<User> = userRepository.findAll(Sort.by(Sort.Direction.ASC, "username"))
@@ -171,6 +182,8 @@ constructor(private val userRepository: UserRepository,
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 
     inner class InvalidUsernameException : RuntimeException()
+
+    inner class UsernameTakenException : RuntimeException()
 
     inner class InvalidEmailException : RuntimeException()
 }

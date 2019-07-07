@@ -9,6 +9,7 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
+import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.model.*
 import com.cwtsite.cwt.entity.Application
@@ -16,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.security.auth.login.CredentialException
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -25,7 +28,8 @@ import javax.servlet.http.HttpServletRequest
 class UserRestController @Autowired
 constructor(private val userService: UserService, private val applicationService: ApplicationService,
             private val authService: AuthService, private val tournamentService: TournamentService,
-            private val groupService: GroupService, private val playoffService: PlayoffService) {
+            private val groupService: GroupService, private val playoffService: PlayoffService,
+            private val jwtTokenUtil: JwtTokenUtil, private val userDetailsService: UserDetailsService) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun findAll(@RequestParam("term") term: String?): ResponseEntity<List<User>> {
@@ -42,14 +46,20 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     @RequestMapping("/{usernameOrId}", method = [RequestMethod.GET])
-    fun getOne(@PathVariable("usernameOrId") usernameOrId: Any): ResponseEntity<UserDetailDto> {
-        return if (usernameOrId is String) {
+    fun getOne(@PathVariable("usernameOrId") usernameOrId: String): ResponseEntity<UserDetailDto> {
+        val isId = try {
+            usernameOrId.toLong()
+            true
+        } catch (e: NumberFormatException) {
+            false
+        }
+
+        return if (!isId) {
             val user = userService.findByUsername(usernameOrId)
             ResponseEntity.ok(UserDetailDto.toDto(
                     user, UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
         } else {
-            usernameOrId as Long
-            val user = assertUser(usernameOrId)
+            val user = assertUser(usernameOrId.toLong())
             ResponseEntity.ok(UserDetailDto.toDto(
                     user,
                     UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
@@ -114,8 +124,9 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/{id}", method = [RequestMethod.POST])
     fun changeUser(@RequestBody userChangeDto: UserChangeDto,
                    @PathVariable("id") id: Long,
-                   request: HttpServletRequest): ResponseEntity<UserChangeDto> {
+                   request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse>? {
         var user = assertUser(id)
+        val upcomingUsernameChange = userChangeDto.username != user.username
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
             throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
@@ -125,12 +136,36 @@ constructor(private val userService: UserService, private val applicationService
             user = userService.changeUser(
                     user, userChangeDto.about, userChangeDto.username,
                     if (userChangeDto.country != null) userService.findCountryById(userChangeDto.country).orElse(null) else null)
+
+            if (upcomingUsernameChange) {
+                val userDetails = userDetailsService.loadUserByUsername(user.username)
+                val token = jwtTokenUtil.generateToken(userDetails)
+
+                return ResponseEntity.ok<JwtAuthenticationResponse>(JwtAuthenticationResponse(token))
+            }
         } catch (e: UserService.InvalidUsernameException) {
             throw RestException("Username invalid.", HttpStatus.BAD_REQUEST, null)
+        } catch (e: UserService.UsernameTakenException) {
+            throw RestException("Username already taken.", HttpStatus.BAD_REQUEST, null)
         }
 
-        return ResponseEntity.ok(UserChangeDto.toDto(user))
+        return null
     }
+
+    @RequestMapping("/{id}/change-password", method = [RequestMethod.POST])
+    fun changePassword(@RequestBody passwordChangeDto: PasswordChangeDto,
+                       @PathVariable("id") id: Long,
+                       request: HttpServletRequest) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != assertUser(id).id) {
+            throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
+        }
+        try {
+            userService.changePassword(assertUser(id), passwordChangeDto.currentPassword, passwordChangeDto.newPassword)
+        } catch (e: CredentialException) {
+            throw RestException("Wrong password.", HttpStatus.BAD_REQUEST, e);
+        }
+    }
+
 
     private fun assertUser(id: Long): User = userService.getById(id)
             .orElseThrow { RestException("User $id not found", HttpStatus.NOT_FOUND, null) }

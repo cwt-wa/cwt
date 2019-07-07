@@ -65,6 +65,8 @@ import {CanDeactivateGuard} from "./_services/can-deactivate-guard";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
 import {BetService} from "./_services/bet.service";
+import {UserPanelComponent} from "./user-panel/user-panel.component";
+import {ConfirmValidator} from "./_util/confirm.validator";
 
 const appRoutes: Routes = [
     {
@@ -169,6 +171,10 @@ const appRoutes: Routes = [
         canDeactivate: [CanDeactivateGuard]
     },
     {
+        path: 'user-panel',
+        component: UserPanelComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -224,13 +230,15 @@ const appRoutes: Routes = [
         UserDetailComponent,
         ReachComponent,
         ConfirmDirective,
+        ConfirmValidator,
         ValidateResultDirective,
         TypeaheadOpenOnFocusDirective,
         AddTechWinComponent,
         ReplacePlayerComponent,
         MarkdownComponent,
         AdminSettingsComponent,
-        AdminTournamentReviewComponent
+        AdminTournamentReviewComponent,
+        UserPanelComponent,
     ],
     providers: [
         WebAppViewService,
