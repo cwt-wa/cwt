@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.service
 
+import com.cwtsite.cwt.domain.bet.service.BetRepository
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
@@ -65,6 +66,9 @@ class GameServiceTest {
 
     @Mock
     private lateinit var commentRepository: CommentRepository
+
+    @Mock
+    private lateinit var betRepostiry: BetRepository
 
     @Test
     fun reportGameForGroupStage() {
