@@ -1,9 +1,9 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {CountryDto, JwtUser, PasswordChangeDto, UserChangeDto, UserDetailDto} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
-import {APP_CONFIG, AppConfig} from "../app.config";
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: 'cwt-user-panel',
@@ -12,19 +12,22 @@ import {APP_CONFIG, AppConfig} from "../app.config";
 export class UserPanelComponent implements OnInit {
 
     @ViewChild('photoFile') photoFile: ElementRef<HTMLInputElement>;
+    @ViewChild('photoPreview') photoPreview: ElementRef<HTMLImageElement>;
 
     possibleCountries: CountryDto[] = [];
     profile: UserChangeDto;
     passwordChange: PasswordChangeDto = {} as PasswordChangeDto;
     confirmPassword: string;
+    showPhoto = false;
+    loadingPhoto: boolean = false;
+
     private authUser: JwtUser;
     // @ts-ignore
     private user: UserDetailDto;
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
-                private toastr: Toastr,
-                @Inject(APP_CONFIG) private appConfig: AppConfig) {
+                private toastr: Toastr) {
     }
 
     ngOnInit(): void {
@@ -45,8 +48,14 @@ export class UserPanelComponent implements OnInit {
     }
 
     showCurrentPhoto() {
-        this.photoUrl = `${this.appConfig.apiEndpoint}/user/${this.authUser.id}/photo`;
-        // TOOD
+        this.loadingPhoto = true;
+        this.showPhoto = true;
+        this.requestService.getBlob(`user/${this.authUser.id}/photo`)
+            .pipe(finalize(() => this.loadingPhoto = false))
+            .subscribe(res => {
+                // @ts-ignore
+                this.photoPreview.nativeElement.src = (window.URL || window.webkitURL).createObjectURL(res);
+            });
     }
 
     submitProfile() {
@@ -74,6 +83,7 @@ export class UserPanelComponent implements OnInit {
         this.requestService.formDataPost(`user/${this.authUser.id}/change-photo`, formData)
             .subscribe(() => {
                 this.toastr.success("Successfully saved photo.");
+                this.showPhoto = false;
             });
     }
 }

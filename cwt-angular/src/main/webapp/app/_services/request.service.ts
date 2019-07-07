@@ -24,6 +24,14 @@ export class RequestService {
                 catchError(this.catch.bind(this)));
     }
 
+    public getBlob(relativePath: string): Observable<Blob> {
+        return this.httpClient
+            .get(
+                this.appConfig.apiEndpoint + relativePath,
+                {responseType: 'blob', observe: 'body', headers: this.generateDefaultHeaders()}).pipe(
+                catchError(this.catch.bind(this)));
+    }
+
     public getPaged<T>(relativePath: string, params?: PageDto<T>): Observable<PageDto<T, ValueLabel>> {
         params.content != null && delete params.content;
         params.sortables != null && delete params.sortables;

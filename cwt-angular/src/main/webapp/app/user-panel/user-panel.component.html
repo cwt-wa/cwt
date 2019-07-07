@@ -44,7 +44,12 @@
     <div class="col-md-5">
         <h2 class="mt-4 mt-md-0">Photo</h2>
 
-        <button class="btn btn-secondary btn-sm mb-3" (click)="showCurrentPhoto()">Show current photo</button>
+        <div class="mb-3">
+            <img *ngIf="loadingPhoto" src="../../img/loading.gif"/>
+            <img #photoPreview alt="Current photo" [hidden]="!showPhoto" class="w-100">
+            <button class="btn btn-secondary btn-sm" (click)="showCurrentPhoto()" [hidden]="showPhoto">Show current photo</button>
+        </div>
+
         <form (ngSubmit)="submitPhoto()">
             <label for="photoFile" class="sr-only">Photo</label>
             <input type="file" #photoFile class="form-control-file" id="photoFile"
