@@ -17,7 +17,7 @@ data class UserDetailDto(
                 id = user.id!!,
                 username = user.username,
                 country = CountryDto.toDto(user.country),
-                hasPic = false,
+                hasPic = user.photo != null,
                 about = user.about,
                 userStats = userStatsDtos
         )

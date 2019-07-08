@@ -3,9 +3,9 @@
     {{user.username}}
 </h1>
 
-<div class="row" *ngIf="user">
+<div class="row">
     <div class="col-6 col-sm-4 col-md-3 col-lg-3">
-        <div class="card bg-secondary border-0">
+        <div class="card bg-secondary border-0" *ngIf="user">
             <div class="card-body text-center" *ngFor="let reach of user.userStats;"
                  style="border-bottom: 1px solid white !important;">
                 <div class="text-white">
@@ -21,17 +21,13 @@
     </div>
     <div class="col">
         <div class="row">
-            <div class="row">
-                <div class="col-12">
-                    <img [src]="appConfig.apiEndpoint + '/user/' + user.id + '/pic'" alt="Profile pic" *ngIf="user.hasPic"
-                         class="rounded" style="width: inherit;">
-                    <img [src]="randomPic" alt="Random profile pic" *ngIf="!user.hasPic" class="rounded" style="width: inherit;">
-                </div>
-                <div class="col-12">
-                    <div class="card bg-secondary mt-3">
-                        <div class="card-body text-white rendered-text">
-                            {{user.about}}
-                        </div>
+            <div class="col-12">
+                <img #userPhoto class="rounded" style="width: 100%">
+            </div>
+            <div class="col-12">
+                <div class="card bg-secondary mt-3">
+                    <div class="card-body text-white rendered-text">
+                        {{user?.about}}
                     </div>
                 </div>
             </div>
