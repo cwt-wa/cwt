@@ -2,6 +2,7 @@
     <div class="col-xs-6 col-sm-6 col-md-5">
         <form #registerForm="ngForm" (ngSubmit)="submit()">
             <div class="form-group">
+                <label class="sr-only" for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Username"
                        [(ngModel)]="userRegistration.username" name="username" #username="ngModel"
                        pattern="^[a-zA-Z0-9]+$" required maxlength="16">
@@ -21,6 +22,7 @@
                 </small>
             </div>
             <div class="form-group">
+                <label class="sr-only" for="email">Email</label>
                 <input type="email" class="form-control" id="email" placeholder="Email"
                        [(ngModel)]="userRegistration.email" name="email" #email="ngModel" email required>
                 <div class="text-danger" *ngIf="email.errors && email.dirty">
@@ -39,6 +41,7 @@
                 </small>
             </div>
             <div class="form-group">
+                <label class="sr-only" for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password"
                        [(ngModel)]="userRegistration.password" name="password" required #password="ngModel">
                 <div class="text-danger" *ngIf="password.errors && password.dirty">
