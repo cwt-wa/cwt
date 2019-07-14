@@ -120,3 +120,99 @@ Do [“User visits streams overview page”](#user-visits-streams-overview-page)
 - Link streams to games in the database. (part of CWT 5)
 - When a channel goes live, put an alert on the CWT page.  (part of CWT 5)
 
+# Current channels
+
+```json
+{
+  "data" : [
+    {
+      "display_name" : "Khamski",
+      "type" : "",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/jtv_user_pictures/khamski-profile_image-10dc902e62492108-300x300.jpeg",
+      "view_count" : 11039,
+      "broadcaster_type" : "",
+      "offline_image_url" : "",
+      "login" : "khamski",
+      "id" : "26027047",
+      "description" : "Kickass normal worms television with good quality and awesome commentators!"
+    },
+    {
+      "type" : "",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/jtv_user_pictures/wormykayz-profile_image-831bf59e2fde620f-300x300.jpeg",
+      "display_name" : "WormyKayz",
+      "description" : "",
+      "id" : "45204800",
+      "login" : "wormykayz",
+      "view_count" : 2114,
+      "offline_image_url" : "",
+      "broadcaster_type" : ""
+    },
+    {
+      "type" : "",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/jtv_user_pictures/mrtpenguin-profile_image-80e6c3b1141506ff-300x300.jpeg",
+      "display_name" : "MrTPenguin",
+      "id" : "77989017",
+      "login" : "mrtpenguin",
+      "description" : "I play normal games of Worms Armageddon, mostly the intermediate scheme and mostly 1v1. I broadcast CWT and other significant games if the main broadcasters aren't.",
+      "view_count" : 467,
+      "broadcaster_type" : "",
+      "offline_image_url" : ""
+    },
+    {
+      "type" : "",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/user-default-pictures/0ecbb6c3-fecb-4016-8115-aa467b7c36ed-profile_image-300x300.jpg",
+      "display_name" : "DocOne42",
+      "id" : "25468719",
+      "login" : "docone42",
+      "description" : "",
+      "offline_image_url" : "",
+      "view_count" : 362,
+      "broadcaster_type" : ""
+    },
+    {
+      "login" : "drabegod",
+      "id" : "141982436",
+      "description" : "",
+      "offline_image_url" : "",
+      "view_count" : 359,
+      "broadcaster_type" : "",
+      "type" : "",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/user-default-pictures/27103734-3cda-44d6-a384-f2ab71e4bb85-profile_image-300x300.jpg",
+      "display_name" : "DrAbegod"
+    },
+    {
+      "display_name" : "WhiteRqbbit",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/user-default-pictures/0ecbb6c3-fecb-4016-8115-aa467b7c36ed-profile_image-300x300.jpg",
+      "type" : "",
+      "broadcaster_type" : "",
+      "view_count" : 105,
+      "offline_image_url" : "",
+      "description" : "",
+      "login" : "whiterqbbit",
+      "id" : "136606718"
+    },
+    {
+      "view_count" : 17475,
+      "offline_image_url" : "https://static-cdn.jtvnw.net/jtv_user_pictures/4d5ae5f6-4d16-476a-ab52-b308176060e9-channel_offline_image-1920x1080.jpg",
+      "broadcaster_type" : "affiliate",
+      "description" : "Croatian's finest.",
+      "login" : "senseiofworms",
+      "id" : "104501736",
+      "display_name" : "senseiofworms",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/jtv_user_pictures/ea3528da-2944-402f-8a40-0f93a226c0e9-profile_image-300x300.png",
+      "type" : ""
+    },
+    {
+      "display_name" : "SiDwa",
+      "type" : "",
+      "profile_image_url" : "https://static-cdn.jtvnw.net/jtv_user_pictures/c93502e6-805d-4439-a6b6-e412976fc86c-profile_image-300x300.png",
+      "view_count" : 14,
+      "offline_image_url" : "",
+      "broadcaster_type" : "",
+      "description" : "",
+      "login" : "sidwa",
+      "id" : "94422047"
+    }
+  ]
+}
+```
