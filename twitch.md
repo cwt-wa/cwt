@@ -9,7 +9,7 @@
 ## Getting
 
 ```
-curl -X POST 'https://id.twitch.tv/oauth2/token?client_id=4ggjz4prikptue46lcwzsbakzp9twym&client_secret=107lhm4ctuxygxrku9v67mxa89m1np&grant_type=client_credentials'
+curl -X POST 'https://id.twitch.tv/oauth2/token?client_id=yourClientId&client_secret=yourSecret&grant_type=client_credentials'
 ```
 
 Example response:
