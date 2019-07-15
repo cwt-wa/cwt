@@ -12,7 +12,7 @@ import javax.persistence.*
 data class Bet(
 
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_seq")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bet_seq")
         var id: Long? = null,
 
         @ManyToOne(optional = false, cascade = [CascadeType.MERGE, CascadeType.PERSIST])
