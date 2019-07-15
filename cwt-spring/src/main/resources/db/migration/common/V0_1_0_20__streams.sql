@@ -1,6 +1,7 @@
 create table channel
 (
     id                text      not null,
+    user_id           bigint    not null,
     display_name      text,
     type              text,
     profile_image_url text,
@@ -12,16 +13,16 @@ create table channel
     modified          timestamp not null default now(),
     created           timestamp not null default now(),
     primary key (id),
-    foreign key (id) references "user" (id)
+    foreign key (user_id) references "user" (id)
 );
 
-create unique index uidx_fk_channel_user on channel (id);
+create unique index uidx_fk_channel_user on channel (user_id);
 
 create table stream
 (
     id            bigint not null,
     user_id       text,
-    channel_id    bigint not null,
+    channel_id    text not null,
     user_name     text,
     title         text,
     description   text,
