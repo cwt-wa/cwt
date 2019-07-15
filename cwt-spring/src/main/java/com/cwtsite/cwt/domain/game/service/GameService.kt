@@ -179,7 +179,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun addTechWin(winner: User, loser: User): Game {
         return reportGame(
                 winner.id!!, loser.id!!,
-                Math.ceil(getBestOfValue(tournamentService.getCurrentTournament().status).value.toDouble() / 2).toInt(), 0)
+                Math.ceil(getBestOfValue(tournamentService.getCurrentTournament().status).value!!.toDouble() / 2).toInt(), 0)
     }
 
     fun placeBet(game: Game, user: User, betOnHome: Boolean): Bet = betRepository.save(

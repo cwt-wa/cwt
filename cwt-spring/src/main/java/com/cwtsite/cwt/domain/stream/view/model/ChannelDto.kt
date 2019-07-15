@@ -7,7 +7,7 @@ import java.util.*
 
 @DataTransferObject
 data class ChannelDto(
-        val id: Long? = null,
+        val id: String? = null,
         val user: UserMinimalDto,
         val displayName: String? = null,
         val type: String? = null,
