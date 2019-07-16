@@ -31,21 +31,14 @@ class TwitchServiceProdImpl : TwitchService {
 
     private lateinit var restTemplate: RestTemplate
     private var authToken: String? = null
-    private val RESULT_LIMIT = 100
+    private val resultLimit = 100
 
     @PostConstruct
     fun postConstruct() {
         restTemplate = RestTemplateBuilder()
                 .interceptors(
                         ClientHttpRequestInterceptor { request, body, execution ->
-                            // TODO I have no idea if this works from within the interceptor.
-
-                            when (authToken) {
-                                null -> authToken = authenticate()
-                                else -> if (!validateAuthentication().statusCode.is2xxSuccessful) authToken = authenticate()
-                            }
-
-                            request.headers.add(twitchProperties.authorizationHeaderName!!, authToken)
+                            request.headers.add(twitchProperties.authorizationHeaderName!!, "Bearer $authToken")
                             execution.execute(request, body)
                         })
                 .messageConverters(
@@ -58,6 +51,13 @@ class TwitchServiceProdImpl : TwitchService {
                             this
                         })
                 .build()
+    }
+
+    fun authorize() {
+        when (authToken) {
+            null -> authToken = authenticate()
+            else -> if (!validateAuthentication().statusCode.is2xxSuccessful) authToken = authenticate()
+        }
     }
 
     private fun validateAuthentication() = restTemplate
@@ -85,6 +85,7 @@ class TwitchServiceProdImpl : TwitchService {
 
 
     override fun requestVideos(channelIds: List<String>): List<TwitchVideoDto> {
+        authorize()
         val videosToPaginationCursor = recursivelyRequestNewVideos(
                 channelIds,
                 configurationService.getOne(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API).value ?: "")
@@ -97,12 +98,12 @@ class TwitchServiceProdImpl : TwitchService {
             paginationCursor: String,
             videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String> {
         val res = restTemplate.getForObject<TwitchWrappedDto<TwitchVideoDto>>(
-                "${twitchProperties.url}/${twitchProperties.videosEndpoint!!}?first=$RESULT_LIMIT&after=$paginationCursor${channelIds.joinToString { "&user_id=$it" }}",
+                "${twitchProperties.url}/${twitchProperties.videosEndpoint!!}?first=$resultLimit&after=$paginationCursor${channelIds.joinToString { "&user_id=$it" }}",
                 TwitchWrappedDto::class.java)!!
 
         videos.addAll(res.data)
 
-        if (res.data.size == RESULT_LIMIT) {
+        if (res.data.size == resultLimit) {
             val videosToCursor = recursivelyRequestNewVideos(channelIds, res.pagination.cursor, videos)
             return Pair(videosToCursor.first, videosToCursor.second)
         }
@@ -111,6 +112,7 @@ class TwitchServiceProdImpl : TwitchService {
     }
 
     override fun requestStreams(): List<TwitchStreamDto> {
+        authorize()
         return restTemplate.getForObject<TwitchWrappedDto<TwitchStreamDto>>(
                 "${twitchProperties.url}/${twitchProperties.streamsEndpoint!!}",
                 TwitchWrappedDto::class.java)!!.data
