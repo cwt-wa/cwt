@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @DataTransferObject
 data class TwitchAuthValidationDto(
-        @JsonProperty("client_id") val clientid: String,
-        @JsonProperty("scopes") val scopes: List<String>
+        @JsonProperty("client_id") val clientid: String?,
+        @JsonProperty("scopes") val scopes: List<String>?
 )
