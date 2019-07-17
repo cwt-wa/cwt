@@ -22,6 +22,7 @@ import javax.annotation.PostConstruct
 @Service
 class RestTemplateProvider {
 
+    val resultLimit: Int get() = twitchProperties.resultLimit!!
     var authToken: String? = null
 
     private lateinit var restTemplate: RestTemplate

@@ -17,8 +17,6 @@ class TwitchServiceProdImpl : TwitchService {
     @Autowired private lateinit var configurationService: ConfigurationService
     @Autowired private lateinit var restTemplateProvider: RestTemplateProvider
 
-    private val resultLimit = 100
-
     @PostConstruct
     fun postConstruct() {
         restTemplateProvider.addAuthTokenHeaderInterceptor()
@@ -48,11 +46,11 @@ class TwitchServiceProdImpl : TwitchService {
             channelIds: List<String>,
             paginationCursor: String,
             videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String> {
-        val res = restTemplateProvider.fetchVideos(paginationCursor, channelIds, resultLimit)!!
+        val res = restTemplateProvider. fetchVideos(paginationCursor, channelIds, restTemplateProvider.resultLimit)!!
 
         videos.addAll(res.data)
 
-        if (res.data.size == resultLimit) {
+        if (res.data.size == restTemplateProvider.resultLimit) {
             val videosToCursor = recursivelyRequestNewVideos(channelIds, res.pagination.cursor, videos)
             return Pair(videosToCursor.first, videosToCursor.second)
         }

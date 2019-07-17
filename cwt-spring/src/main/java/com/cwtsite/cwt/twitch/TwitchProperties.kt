@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component
 class TwitchProperties {
 
     /**
+     * Max reults per pagination cursor.
+     */
+    val resultLimit: Int? = 100
+
+    /**
      * The URL tot the Twitch API.
      */
     var url: String? = "https://api.twitch.tv/helix/"
