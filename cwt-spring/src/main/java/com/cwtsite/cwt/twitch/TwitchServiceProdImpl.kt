@@ -5,21 +5,14 @@ import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.twitch.model.*
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
 import org.springframework.http.RequestEntity
 import org.springframework.http.client.ClientHttpRequestInterceptor
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import org.springframework.web.client.getForObject
 import java.net.URI
-import java.text.SimpleDateFormat
 import javax.annotation.PostConstruct
 
 @Prod
@@ -28,39 +21,28 @@ class TwitchServiceProdImpl : TwitchService {
 
     @Autowired private lateinit var twitchProperties: TwitchProperties
     @Autowired private lateinit var configurationService: ConfigurationService
+    @Autowired private lateinit var restTemplateProvider: RestTemplateProvider
 
-    private lateinit var restTemplate: RestTemplate
     private var authToken: String? = null
     private val resultLimit = 100
 
     @PostConstruct
     fun postConstruct() {
-        restTemplate = RestTemplateBuilder()
-                .interceptors(
-                        ClientHttpRequestInterceptor { request, body, execution ->
-                            request.headers.add(twitchProperties.authorizationHeaderName!!, "Bearer $authToken")
-                            execution.execute(request, body)
-                        })
-                .messageConverters(
-                        with(MappingJackson2HttpMessageConverter()) {
-                            supportedMediaTypes = listOf(MediaType.APPLICATION_JSON)
-                            objectMapper = with(ObjectMapper()) {
-                                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                                setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"))
-                            }
-                            this
-                        })
-                .build()
+        restTemplateProvider.restTemplate.interceptors.add(
+                ClientHttpRequestInterceptor { request, body, execution ->
+                    request.headers.add(twitchProperties.authorizationHeaderName!!, "Bearer $authToken")
+                    execution.execute(request, body)
+                })
     }
 
-    fun authorize() {
+    private fun authorize() {
         when (authToken) {
             null -> authToken = authenticate()
             else -> if (!validateAuthentication().statusCode.is2xxSuccessful) authToken = authenticate()
         }
     }
 
-    private fun validateAuthentication() = restTemplate
+    private fun validateAuthentication() = restTemplateProvider.restTemplate
             .exchange<TwitchAuthValidationDto>(
                     RequestEntity(
                             mapOf("${twitchProperties.authorizationHeaderName}" to "OAuth $authToken"),
@@ -69,7 +51,7 @@ class TwitchServiceProdImpl : TwitchService {
             )
 
 
-    private fun authenticate() = restTemplate
+    private fun authenticate() = restTemplateProvider.restTemplate
             .postForObject(
                     "${twitchProperties.authUrl}" +
                             "?client_id={clientId}" +
@@ -97,7 +79,7 @@ class TwitchServiceProdImpl : TwitchService {
             channelIds: List<String>,
             paginationCursor: String,
             videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String> {
-        val res = restTemplate.getForObject<TwitchWrappedDto<TwitchVideoDto>>(
+        val res = restTemplateProvider.restTemplate.getForObject<TwitchWrappedDto<TwitchVideoDto>>(
                 "${twitchProperties.url}/${twitchProperties.videosEndpoint!!}?first=$resultLimit&after=$paginationCursor${channelIds.joinToString { "&user_id=$it" }}",
                 TwitchWrappedDto::class.java)!!
 
@@ -113,7 +95,7 @@ class TwitchServiceProdImpl : TwitchService {
 
     override fun requestStreams(): List<TwitchStreamDto> {
         authorize()
-        return restTemplate.getForObject<TwitchWrappedDto<TwitchStreamDto>>(
+        return restTemplateProvider.restTemplate.getForObject<TwitchWrappedDto<TwitchStreamDto>>(
                 "${twitchProperties.url}/${twitchProperties.streamsEndpoint!!}",
                 TwitchWrappedDto::class.java)!!.data
     }
