@@ -4,67 +4,36 @@ import com.cwtsite.cwt.core.profile.Prod
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
-import com.cwtsite.cwt.twitch.model.*
+import com.cwtsite.cwt.twitch.model.TwitchStreamDto
+import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpMethod
-import org.springframework.http.RequestEntity
-import org.springframework.http.client.ClientHttpRequestInterceptor
 import org.springframework.stereotype.Service
-import org.springframework.web.client.exchange
-import org.springframework.web.client.getForObject
-import java.net.URI
 import javax.annotation.PostConstruct
 
 @Prod
 @Service
 class TwitchServiceProdImpl : TwitchService {
 
-    @Autowired private lateinit var twitchProperties: TwitchProperties
     @Autowired private lateinit var configurationService: ConfigurationService
     @Autowired private lateinit var restTemplateProvider: RestTemplateProvider
 
-    private var authToken: String? = null
     private val resultLimit = 100
 
     @PostConstruct
     fun postConstruct() {
-        restTemplateProvider.restTemplate.interceptors.add(
-                ClientHttpRequestInterceptor { request, body, execution ->
-                    request.headers.add(twitchProperties.authorizationHeaderName!!, "Bearer $authToken")
-                    execution.execute(request, body)
-                })
+        restTemplateProvider.addAuthTokenHeaderInterceptor()
     }
 
     private fun authorize() {
-        when (authToken) {
-            null -> authToken = authenticate()
-            else -> if (!validateAuthentication().statusCode.is2xxSuccessful) authToken = authenticate()
+        when (restTemplateProvider.authToken) {
+            null -> restTemplateProvider.authToken = authenticate()
+            else -> if (!validateAuthentication().statusCode.is2xxSuccessful) restTemplateProvider.authToken = authenticate()
         }
     }
 
-    private fun validateAuthentication() = restTemplateProvider.restTemplate
-            .exchange<TwitchAuthValidationDto>(
-                    RequestEntity(
-                            mapOf("${twitchProperties.authorizationHeaderName}" to "OAuth $authToken"),
-                            HttpMethod.GET,
-                            URI.create("${twitchProperties.authValidateUrl}"))
-            )
+    private fun validateAuthentication() = restTemplateProvider.validateAuthentication()
 
-
-    private fun authenticate() = restTemplateProvider.restTemplate
-            .postForObject(
-                    "${twitchProperties.authUrl}" +
-                            "?client_id={clientId}" +
-                            "&client_secret={clientSecret}" +
-                            "&grant_type=client_credentials",
-                    null,
-                    TwitchAuthDto::class.java,
-                    mapOf(
-                            "clientId" to twitchProperties.clientId,
-                            "clientSecret" to twitchProperties.clientSecret
-                    ))
-            .accessToken
-
+    private fun authenticate() = restTemplateProvider.authenticate()
 
     override fun requestVideos(channelIds: List<String>): List<TwitchVideoDto> {
         authorize()
@@ -79,9 +48,7 @@ class TwitchServiceProdImpl : TwitchService {
             channelIds: List<String>,
             paginationCursor: String,
             videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String> {
-        val res = restTemplateProvider.restTemplate.getForObject<TwitchWrappedDto<TwitchVideoDto>>(
-                "${twitchProperties.url}/${twitchProperties.videosEndpoint!!}?first=$resultLimit&after=$paginationCursor${channelIds.joinToString { "&user_id=$it" }}",
-                TwitchWrappedDto::class.java)!!
+        val res = restTemplateProvider.fetchVideos(paginationCursor, channelIds, resultLimit)!!
 
         videos.addAll(res.data)
 
@@ -95,8 +62,6 @@ class TwitchServiceProdImpl : TwitchService {
 
     override fun requestStreams(): List<TwitchStreamDto> {
         authorize()
-        return restTemplateProvider.restTemplate.getForObject<TwitchWrappedDto<TwitchStreamDto>>(
-                "${twitchProperties.url}/${twitchProperties.streamsEndpoint!!}",
-                TwitchWrappedDto::class.java)!!.data
+        return restTemplateProvider.fetchStreams()
     }
 }

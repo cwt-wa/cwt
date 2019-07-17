@@ -13,20 +13,22 @@ class TwitchServiceProdImplTest {
     @InjectMocks private lateinit var twitchService: TwitchServiceProdImpl
     @Spy private val twitchProperties: TwitchProperties = TwitchProperties()
     @Mock private lateinit var configurationService: ConfigurationService
-    @Spy private val restTemplateProvider: RestTemplateProvider = RestTemplateProvider()
+    @InjectMocks private lateinit var restTemplateProvider: RestTemplateProvider
 
     @BeforeTest
     fun constructRestTemplate() {
-        restTemplateProvider.postConstruct()
-        MockitoAnnotations.initMocks(this)
-        twitchService.postConstruct()
-
-        Mockito.doReturn("succesfullyHidThisInformation").`when`(twitchProperties).clientId
-        Mockito.doReturn("succesfullyHidThisInformation").`when`(twitchProperties).clientSecret
     }
 
     @Test
     fun test() {
+        restTemplateProvider = Mockito.spy(with(RestTemplateProvider()) { postConstruct(); this })
+
+        MockitoAnnotations.initMocks(this)
+        twitchService.postConstruct()
+
+        Mockito.doReturn("successfullyHidThisInformation").`when`(twitchProperties).clientId
+        Mockito.doReturn("successfullyHidThisInformation").`when`(twitchProperties).clientSecret
+
         Mockito
                 .`when`(configurationService.getOne(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API))
                 .thenReturn(Configuration(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API, null))
