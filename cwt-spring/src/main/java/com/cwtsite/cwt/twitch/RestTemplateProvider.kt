@@ -76,9 +76,9 @@ class RestTemplateProvider {
             .accessToken
 
 
-    fun fetchVideos(paginationCursor: String, channelIds: List<String>, resultLimit: Int): TwitchWrappedDto<TwitchVideoDto>? =
+    fun fetchVideos(paginationCursor: String, channelIds: List<String>): TwitchWrappedDto<TwitchVideoDto>? =
             restTemplate.getForObject<TwitchWrappedDto<TwitchVideoDto>>(
-                    "${twitchProperties.url}/${twitchProperties.videosEndpoint}?first=$resultLimit&after=$paginationCursor${channelIds.joinToString { "&user_id=$it" }}",
+                    "${twitchProperties.url}/${twitchProperties.videosEndpoint}?first=${twitchProperties.resultLimit}&after=$paginationCursor${channelIds.joinToString { "&user_id=$it" }}",
                     TwitchWrappedDto::class.java)
 
     fun fetchStreams(): List<TwitchStreamDto> =
