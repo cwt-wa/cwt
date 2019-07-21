@@ -46,7 +46,7 @@ class TwitchServiceProdImpl : TwitchService {
             channelIds: List<String>,
             paginationCursor: String,
             videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String> {
-            val res = restTemplateProvider.fetchVideos(paginationCursor, channelIds)!!
+        val res = restTemplateProvider.fetchVideos(paginationCursor, channelIds)!!
 
         videos.addAll(res.data)
 
