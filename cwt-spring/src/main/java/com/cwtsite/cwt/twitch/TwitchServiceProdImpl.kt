@@ -8,11 +8,15 @@ import com.cwtsite.cwt.twitch.model.TwitchStreamDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import javax.annotation.PostConstruct
 
 @Prod
 @Service
 class TwitchServiceProdImpl : TwitchService {
+
+    override var lastVideosRequest: LocalDateTime? = null
+    override var lastStreamsRequest: LocalDateTime? = null
 
     @Autowired private lateinit var configurationService: ConfigurationService
     @Autowired private lateinit var restTemplateProvider: RestTemplateProvider
@@ -39,6 +43,7 @@ class TwitchServiceProdImpl : TwitchService {
                 channelIds,
                 configurationService.getOne(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API).value ?: "")
         configurationService.save(Configuration(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API, videosToPaginationCursor.second))
+        lastVideosRequest = LocalDateTime.now()
         return videosToPaginationCursor.first
     }
 
@@ -60,6 +65,8 @@ class TwitchServiceProdImpl : TwitchService {
 
     override fun requestStreams(): List<TwitchStreamDto> {
         authorize()
-        return restTemplateProvider.fetchStreams()
+        val streams = restTemplateProvider.fetchStreams()
+        lastStreamsRequest = LocalDateTime.now()
+        return streams
     }
 }
