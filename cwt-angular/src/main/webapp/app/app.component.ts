@@ -8,6 +8,7 @@ import {JwtUser, TetrisDto} from "./custom";
 import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
+import * as p5 from "p5";
 
 @Component({
     selector: 'my-app',

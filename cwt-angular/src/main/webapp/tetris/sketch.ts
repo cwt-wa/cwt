@@ -10,6 +10,7 @@ import {JFigure} from "./figures/j-figure";
 import {SFigure} from "./figures/s-figure";
 import {ZFigure} from "./figures/z-figure";
 import 'p5/lib/p5.js';
+import * as p5 from "p5";
 
 export class Tetris {
 

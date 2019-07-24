@@ -1,4 +1,5 @@
 import {Cell} from "./cell";
+import * as p5 from "p5";
 
 export class Grid {
 
