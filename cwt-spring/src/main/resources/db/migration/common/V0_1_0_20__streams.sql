@@ -20,7 +20,7 @@ create unique index uidx_fk_channel_user on channel (user_id);
 
 create table stream
 (
-    id            bigint not null,
+    id            text not null,
     user_id       text,
     channel_id    text not null,
     user_name     text,
