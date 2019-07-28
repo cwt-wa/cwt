@@ -10,6 +10,9 @@ import javax.persistence.*
 @Table(name = "channel")
 data class Channel(
 
+        /**
+         * The channel ID derived from the user ID from the Twitch API.
+         */
         @Id
         var id: String,
 
