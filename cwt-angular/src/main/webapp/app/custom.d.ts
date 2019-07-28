@@ -83,6 +83,24 @@ export interface UserDetailDto {
     userStats: UserStatsDto[];
 }
 
+export interface StreamDto {
+    id: string;
+    channel: string;
+    userId: string;
+    userName: string;
+    title: string;
+    description: string;
+    createdAt: string;
+    publishedAt: string;
+    url: string;
+    thumbnailUrl: string;
+    viewable: string;
+    viewCount: number;
+    language: string;
+    type: string;
+    duration: string;
+}
+
 export interface UserMinimalDto {
     id: number;
     username: string;

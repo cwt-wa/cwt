@@ -22,4 +22,17 @@ export class Utils {
 
         return array;
     }
+
+    /**
+     * Merge two arrays distinctively by their discriminator.
+     * In case of duplicates, the item from the first array is kept.
+     */
+    public mergeDistinctBy<T extends ({[key: string]: any})>(arr1: T[], arr2: T[], discriminator: string): T[] {
+        return arr2.reduce((mergerArr, candidateItem) => {
+            if (mergerArr.find(mergeArrItem => mergeArrItem[discriminator] === candidateItem[discriminator]) == null) {
+                mergerArr.push(candidateItem);
+            }
+            return mergerArr;
+        }, arr1);
+    }
 }
