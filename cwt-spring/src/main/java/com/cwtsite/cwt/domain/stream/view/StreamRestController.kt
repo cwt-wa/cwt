@@ -21,7 +21,7 @@ class StreamRestController {
     @Autowired private lateinit var streamService: StreamService
     @Autowired private lateinit var twitchService: TwitchService
 
-    @Value("\${twitch.result-interval}") private val requestInterval: Int? = null
+    @Value("\${twitch.request-interval}") private val requestInterval: Int? = null
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryAll(@RequestParam("new", defaultValue = "false") new: Boolean): ResponseEntity<List<StreamDto>> {
