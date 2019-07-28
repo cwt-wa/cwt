@@ -25,7 +25,7 @@ class StreamRestController {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryAll(@RequestParam("new", defaultValue = "false") new: Boolean): ResponseEntity<List<StreamDto>> {
-        if (!new || Duration.between(LocalDateTime.now(), twitchService.lastVideosRequest).seconds < requestInterval!!) {
+        if (!new || (twitchService.lastVideosRequest != null && Duration.between(twitchService.lastVideosRequest, LocalDateTime.now()).seconds < requestInterval!!)) {
             return ResponseEntity.ok(streamService.findAll().map { StreamDto.toDto(it) })
         }
 
