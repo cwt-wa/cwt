@@ -2,6 +2,7 @@ create table channel
 (
     id                text      not null,
     user_id           bigint    not null,
+    title             text      not null,
     display_name      text,
     type              text,
     profile_image_url text,
@@ -17,6 +18,7 @@ create table channel
 );
 
 create unique index uidx_fk_channel_user on channel (user_id);
+create unique index uidx_channel_title on channel (title);
 
 create table stream
 (

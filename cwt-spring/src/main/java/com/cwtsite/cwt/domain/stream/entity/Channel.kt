@@ -20,6 +20,12 @@ data class Channel(
         @JoinColumn(nullable = false)
         val user: User,
 
+        /**
+         * On CWT users can give their channel a unique name independent from what it's called on Twitch.
+         */
+        @Column(name = "title", nullable = false, unique = true)
+        val title: String,
+
         @Column(name = "display_name")
         var displayName: String? = null,
 
