@@ -36,7 +36,7 @@ data class Channel(
         var broadcasterType: String? = null,
 
         @Column(name = "offline_image_url")
-        var offlineUmageUrl: String? = null,
+        var offlineImageUrl: String? = null,
 
         @Column(name = "login")
         var login: String? = null,

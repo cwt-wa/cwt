@@ -30,7 +30,7 @@ data class ChannelDto(
                 profileImageUrl = channel.profileImageUrl,
                 viewCount = channel.viewCount,
                 broadcasterType = channel.broadcasterType,
-                offlineUmageUrl = channel.offlineUmageUrl,
+                offlineUmageUrl = channel.offlineImageUrl,
                 login = channel.login,
                 description = channel.description,
                 modified = channel.modified,
