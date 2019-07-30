@@ -29,7 +29,7 @@
                             viewCount = 102,
                             language = "en",
                             type = "archive",
-                            duration = "1h830m2s"
+                            duration = "1h43m2s"
                     ),
                     TwitchVideoDto(
                             id = "123",
