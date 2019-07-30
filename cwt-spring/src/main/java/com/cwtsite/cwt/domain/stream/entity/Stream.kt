@@ -66,4 +66,6 @@ data class Stream(
     override fun hashCode(): Int {
         return id.hashCode() ?: 0
     }
+
+    fun hasCwtInTitle(): Boolean = title?.contains(Regex("""\bcwt\b""", RegexOption.IGNORE_CASE)) ?: false
 }
