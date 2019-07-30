@@ -21,15 +21,15 @@
                             userName = "Khamski",
                             title = "CWT Finale Deluxe",
                             description = "This is the awesome CWT finale stream.",
-                            createdAt = "2018-03-02T20:53:41Z",
-                            publishedAt = "2018-03-02T20:53:41Z",
+                            createdAt = "2017-03-02T20:53:41Z",
+                            publishedAt = "2017-03-03T20:53:41Z",
                             url = "https://www.twitch.tv/videos/234482848",
                             thumbnailUrl = "https://static-cdn.jtvnw.net/s3_vods/bebc8cba2926d1967418_chewiemelodies_27786761696_805342775/thumb/thumb0-%{width}x%{height}.jpg",
                             viewable = "public",
-                            viewCount = 10,
+                            viewCount = 102,
                             language = "en",
                             type = "archive",
-                            duration = "3h8m33s"
+                            duration = "1h830m2s"
                     ),
                     TwitchVideoDto(
                             id = "123",

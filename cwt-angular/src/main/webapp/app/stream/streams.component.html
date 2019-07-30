@@ -1,1 +1,52 @@
-<h1>Streams</h1>
+<h1 class="mb-4">Streams</h1>
+
+<img *ngIf="loading" src="../../img/loading.gif"/>
+
+<div class="alert alert-info" *ngIf="!streams.length && !loading">
+    There are no streams unfortunately.
+</div>
+
+<table class="table" *ngIf="streams.length && !loading">
+    <thead class="thead-dark">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th class="text-center cursor-pointer" (click)="sortBy('viewCount')">
+            Views
+            <i *ngIf="sortColumn === 'viewCount'" class="fa" [ngClass]="sortAscending ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+        </th>
+        <th class="text-center cursor-pointer" (click)="sortBy('duration')">
+            Duration
+            <i *ngIf="sortColumn === 'duration'" class="fa" [ngClass]="sortAscending ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+        </th>
+        <th class="text-center cursor-pointer" (click)="sortBy('channel')">
+            Channel
+            <i *ngIf="sortColumn === 'channel'" class="fa" [ngClass]="sortAscending ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+        </th>
+        <th class="text-center cursor-pointer" (click)="sortBy('createdAt')">
+            Created at
+            <i *ngIf="sortColumn === 'createdAt'" class="fa" [ngClass]="sortAscending ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let stream of streams">
+        <td>
+            {{stream.title}}
+        </td>
+        <td class="text-center">
+            {{stream.viewCount}}
+        </td>
+        <td class="text-center">
+            {{stream.duration}}
+        </td>
+        <td class="text-center">
+            {{stream.channel.title}}
+        </td>
+        <td class="text-center">
+            {{stream.createdAt | date:'short'}}
+        </td>
+    </tr>
+    </tbody>
+</table>
