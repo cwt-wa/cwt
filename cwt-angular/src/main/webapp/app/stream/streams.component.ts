@@ -48,7 +48,7 @@ export class StreamsComponent implements OnInit {
         } else if (this.sortColumn === 'viewCount') {
             this.streams.sort((a, b) => a.viewCount > b.viewCount ? 1 : -1);
         } else if (this.sortColumn === 'duration') {
-            this.streams.sort((a, b) => b.channel.title.localeCompare(a.channel.title));
+            this.streams.sort((a, b) => this.utils.parseTwitchDurationFormat(a.duration) > this.utils.parseTwitchDurationFormat(b.duration) ? 1 : -1);
         }
 
         if (!this.sortAscending) this.streams.reverse();

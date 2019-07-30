@@ -35,4 +35,16 @@ export class Utils {
             return mergerArr;
         }, arr1);
     }
+
+    /**
+     * Parse a Twitch duration which looks like 2h30m45s to just a seconds number.
+     */
+    public parseTwitchDurationFormat(str: string) {
+        const split = str.split(/[^\d]/).filter(s => s).map(s => parseInt(s));
+        let seconds = 0;
+        seconds += split[split.length - 1]; // seconds
+        if (split[split.length - 2] != null) seconds += split[split.length - 2] * 60; // minutes
+        if (split[split.length - 3] != null) seconds += split[split.length - 3] * 60 * 60; // hours
+        return seconds;
+    }
 }

@@ -22,4 +22,11 @@ describe('Utils', () => {
         console.log(actual2);
         expect(actual2).toEqual([{id: 1, text: 'Example for 1'}, {id: 1, text: 'Example for 1 again'}, {id: 2, text: 'Example for 2'}])
     });
+
+    it('can parse Twitch duration formats', () => {
+        const utils = new Utils();
+        expect(utils.parseTwitchDurationFormat('1m13s')).toBe(73);
+        expect(utils.parseTwitchDurationFormat('3h12m9s')).toBe(11529);
+        expect(utils.parseTwitchDurationFormat('40m13s')).toBe(2413);
+    });
 });
