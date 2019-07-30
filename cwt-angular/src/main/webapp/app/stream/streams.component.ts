@@ -27,7 +27,10 @@ export class StreamsComponent implements OnInit {
             this.requestService.get<StreamDto[]>('stream', {'new': 'true'}),
         )
             .pipe(finalize(() => this.loading = false))
-            .subscribe(res => this.streams = this.utils.mergeDistinctBy<StreamDto>(this.streams, res, 'id'));
+            .subscribe(res => {
+                this.streams = this.utils.mergeDistinctBy<StreamDto>(this.streams, res, 'id');
+                this.sortBy(this.sortColumn);
+            });
     }
 
     sortBy(sortColumn: keyof StreamDto) {
