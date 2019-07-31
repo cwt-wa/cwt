@@ -67,6 +67,7 @@ import {Toastr} from "./_services/toastr";
 import {BetService} from "./_services/bet.service";
 import {UserPanelComponent} from "./user-panel/user-panel.component";
 import {ConfirmValidator} from "./_util/confirm.validator";
+import {StreamDetailComponent} from "./stream/stream-detail.component";
 
 const appRoutes: Routes = [
     {
@@ -144,6 +145,10 @@ const appRoutes: Routes = [
     {
         path: 'streams',
         component: StreamsComponent
+    },
+    {
+        path: 'streams/:id',
+        component: StreamDetailComponent
     },
     {
         path: 'archive/:idOrYear',
@@ -239,6 +244,7 @@ const appRoutes: Routes = [
         AdminSettingsComponent,
         AdminTournamentReviewComponent,
         UserPanelComponent,
+        StreamDetailComponent
     ],
     providers: [
         WebAppViewService,

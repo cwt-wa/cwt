@@ -1,15 +1,15 @@
 package com.cwtsite.cwt.domain.stream.view
 
+import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.twitch.TwitchService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -37,6 +37,13 @@ class StreamRestController {
                         .map { StreamDto.fromDto(it, allChannelsById[it.userId] ?: error("No channel with id ${it.userId}")) }
                         .filter { it.hasCwtInTitle() })
         return ResponseEntity.ok(newVideos)
+    }
+
+    @RequestMapping("/{id}", method = [RequestMethod.GET])
+    fun getOne(@PathVariable("id") id: String): ResponseEntity<Stream> {
+        return ResponseEntity.ok(
+                streamService.findOne(id)
+                        .orElseThrow { RestException("Stream not found.", HttpStatus.NOT_FOUND, null) })
     }
 }
 

@@ -33,7 +33,9 @@
     <tbody>
     <tr *ngFor="let stream of streams">
         <td>
-            {{stream.title}}
+            <a [routerLink]="['/streams', stream.id]">
+                {{stream.title}}
+            </a>
         </td>
         <td class="text-center">
             {{stream.viewCount}}
