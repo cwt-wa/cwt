@@ -68,6 +68,7 @@ import {BetService} from "./_services/bet.service";
 import {UserPanelComponent} from "./user-panel/user-panel.component";
 import {ConfirmValidator} from "./_util/confirm.validator";
 import {StreamDetailComponent} from "./stream/stream-detail.component";
+import {ChannelCreateComponent} from "./stream/channel-create.component";
 
 const appRoutes: Routes = [
     {
@@ -149,6 +150,10 @@ const appRoutes: Routes = [
     {
         path: 'streams/:id',
         component: StreamDetailComponent
+    },
+    {
+        path: 'channels/create',
+        component: ChannelCreateComponent
     },
     {
         path: 'archive/:idOrYear',
@@ -244,7 +249,8 @@ const appRoutes: Routes = [
         AdminSettingsComponent,
         AdminTournamentReviewComponent,
         UserPanelComponent,
-        StreamDetailComponent
+        StreamDetailComponent,
+        ChannelCreateComponent
     ],
     providers: [
         WebAppViewService,
