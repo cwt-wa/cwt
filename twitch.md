@@ -52,7 +52,7 @@ curl -H "Authorization: Bearer <access token>" https://api.twitch.tv/helix/
 ```
 
 
-# [Endpoint](https://dev.twitch.tv/docs/api/reference/#get-videos)
+# [Videos endpoint](https://dev.twitch.tv/docs/api/reference/#get-videos)
 
 ```
 curl -H "Authorization: Bearer yourbearertokenhere" https://api.twitch.tv/helix/videos?user_id=12345
@@ -83,6 +83,34 @@ Example response:
 ```
 
 In subsequent examples the `Authorization` header is omitted for brevity.
+
+# [Users endpoint](https://dev.twitch.tv/docs/api/reference/#get-users)
+
+Upon registration of a channel from a user on CWT the user is providing his Twitch username by which the user is searched by using the Twitch API.
+
+```
+curl -H "Authorization: Bearer yourbearertokenhere" https://api.twitch.tv/helix/users?login=khamski
+```
+
+Example response:
+
+```json
+{
+   "data" : [
+      {
+         "login" : "khamski",
+         "view_count" : 11040,
+         "id" : "26027047",
+         "broadcaster_type" : "",
+         "type" : "",
+         "offline_image_url" : "",
+         "profile_image_url" : "https://static-cdn.jtvnw.net/jtv_user_pictures/khamski-profile_image-10dc902e62492108-300x300.jpeg",
+         "description" : "Kickass normal worms television with good quality and awesome commentators!",
+         "display_name" : "Khamski"
+      }
+   ]
+}
+```
 
 # API request events
 
