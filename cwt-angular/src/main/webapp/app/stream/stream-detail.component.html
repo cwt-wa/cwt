@@ -11,3 +11,11 @@
         </iframe>
     </div>
 </div>
+<p class="text-right">
+    Recorded on <strong>{{stream.createdAt | date:'EEEE, MMMM d, y, HH:mm:ss':'GMT'}}</strong>
+    by <strong>{{stream.channel.title}}</strong>
+    and viewed by <strong>{{stream.viewCount}}</strong> people. <strong>Thanks!</strong>
+</p>
+<p class="text-left" *ngIf="stream.description">
+    {{stream.description}}
+</p>
