@@ -164,6 +164,7 @@ export class Tetris {
     private gameOver() {
         this.p5.noLoop();
         this.onGameOver != null && this.onGameOver(this.highscore);
+        clearInterval(this.fallenDownInterval);
         this.p5.noCanvas();
     }
 
@@ -227,5 +228,10 @@ export class Tetris {
 
     public close() : void {
         this.p5.noCanvas();
+    }
+
+    public tearDown() : void {
+        this.p5.keyReleased = null;
+        this.p5.keyPressed = null;
     }
 }

@@ -112,5 +112,6 @@ export class AppComponent implements AfterViewInit, OnInit {
         document.getElementById('tetris').classList.remove('tetris-visible');
         document.body.classList.remove('tetris');
         document.body.classList.remove('gameOver');
+        this.tetris.tearDown();
     }
 }
