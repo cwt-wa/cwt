@@ -78,17 +78,17 @@ class RestTemplateProvider {
 
     fun fetchVideos(paginationCursor: String, channelIds: List<String>): TwitchWrappedDto<TwitchVideoDto>? =
             restTemplate.getForObject<TwitchWrappedDto<TwitchVideoDto>>(
-                    "${twitchProperties.url}/${twitchProperties.videosEndpoint}?first=${twitchProperties.resultLimit}&after=$paginationCursor${channelIds.joinToString(separator = "") { "&user_id=$it" }}",
+                    "${twitchProperties.url}${twitchProperties.videosEndpoint}?first=${twitchProperties.resultLimit}&after=$paginationCursor${channelIds.joinToString(separator = "") { "&user_id=$it" }}",
                     TwitchWrappedDto::class.java)
 
     fun fetchStreams(): List<TwitchStreamDto> =
             restTemplate.getForObject<TwitchWrappedDto<TwitchStreamDto>>(
-                    "${twitchProperties.url}/${twitchProperties.streamsEndpoint}",
+                    "${twitchProperties.url}${twitchProperties.streamsEndpoint}",
                     TwitchWrappedDto::class.java)!!.data
 
     fun fetchUsers(vararg loginNames: String): List<TwitchUserDto> {
         return restTemplate.getForObject<TwitchWrappedDto<TwitchUserDto>>(
-                "${twitchProperties.url}/${twitchProperties.usersEndpoint}",
+                "${twitchProperties.url}${twitchProperties.usersEndpoint}?${loginNames.joinToString(separator = "") { "&login=$it" }}",
                 TwitchWrappedDto::class.java)!!.data
 
     }
