@@ -151,7 +151,7 @@
                     <th>Highscore</th>
                     <th>Created</th>
                 </tr>
-                <tr *ngFor="let highscore of highscores">
+                <tr *ngFor="let highscore of highscores" [ngClass]="{'tetris-game-over-table-new-entry' : highscore.id == newTetrisEntryId}">
                     <td>{{highscore.user?.username}}</td>
                     <td>{{highscore.highscore}}</td>
                     <td>{{highscore.created | date: 'dd.MM.yy hh:mm:ss'}}</td>

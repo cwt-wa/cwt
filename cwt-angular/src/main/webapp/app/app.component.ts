@@ -20,9 +20,11 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
-    public highscores: TetrisDto[];
+    public highscores: TetrisDto[] = [];
     private authenticatedUser: JwtUser;
     private tetris: Tetris;
+    //@ts-ignore
+    private newTetrisEntryId: number;
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
                 private router: Router, private authService: AuthService, private canReportService: CanReportService,
@@ -75,15 +77,23 @@ export class AppComponent implements AfterViewInit, OnInit {
                 const authenticatedUser: JwtUser = this.authService.getUserFromTokenPayload();
 
                 if (authenticatedUser != null) {
-                    this.requestService.post<number>(`user/${authenticatedUser.id}/tetris`, highscore)
-                        .subscribe(() => this.toastr.success("Highscore saved."));
+                    this.requestService.post<TetrisDto>(`user/${authenticatedUser.id}/tetris`, highscore)
+                        .subscribe(res => {
+                            this.toastr.success("Highscore saved.");
+                            this.highscores.push(res);
+                            this.newTetrisEntryId = res.id;
+                        });
                 } else {
-                    this.requestService.post<number>(`tetris`, highscore)
-                        .subscribe(() => this.toastr.success("Highscore saved."));
+                    this.requestService.post<TetrisDto>(`tetris`, highscore)
+                        .subscribe(res => {
+                            this.toastr.success("Highscore saved.");
+                            this.highscores.push(res);
+                            this.newTetrisEntryId = res.id;
+                        });
                 }
 
                 this.requestService.get<TetrisDto[]>(`tetris`)
-                    .subscribe(res => this.highscores = res);
+                    .subscribe(res => this.highscores = this.highscores.concat(res));
             };
 
             p.setup = () => {
