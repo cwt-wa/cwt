@@ -11,7 +11,6 @@ import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.mockito.*
 import kotlin.math.roundToInt
-import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 
 class TwitchServiceProdImplTest {
@@ -21,20 +20,10 @@ class TwitchServiceProdImplTest {
     @Mock private lateinit var configurationService: ConfigurationService
     @InjectMocks private lateinit var restTemplateProvider: RestTemplateProvider
 
-    @BeforeTest
-    fun constructRestTemplate() {
-    }
-
     @Test
     @Ignore("Performs actual not mocked request to the Twitch API")
-    fun integrationTest() {
-        restTemplateProvider = Mockito.spy(with(RestTemplateProvider()) { postConstruct(); this })
-
-        MockitoAnnotations.initMocks(this)
-        twitchService.postConstruct()
-
-        Mockito.doReturn("yourClientId").`when`(twitchProperties).clientId
-        Mockito.doReturn("yourClientSecret").`when`(twitchProperties).clientSecret
+    fun integrationTestVideoRequest() {
+        setupIntegrationTest()
 
         Mockito
                 .`when`(configurationService.getOne(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API))
@@ -45,6 +34,23 @@ class TwitchServiceProdImplTest {
                 .thenAnswer { it.getArgument(0) }
 
         twitchService.requestVideos(listOf("1", "2", "3"))
+    }
+
+    @Test
+    @Ignore("Performs actual not mocked request to the Twitch API")
+    fun integrationTestUserRequest() {
+        setupIntegrationTest()
+        twitchService.requestUsers("khamski", "mrtpenguin")
+    }
+
+    private fun setupIntegrationTest() {
+        restTemplateProvider = Mockito.spy(with(RestTemplateProvider()) { postConstruct(); this })
+
+        MockitoAnnotations.initMocks(this)
+        twitchService.postConstruct()
+
+        Mockito.doReturn("yourClientId").`when`(twitchProperties).clientId
+        Mockito.doReturn("yourClientSecret").`when`(twitchProperties).clientSecret
     }
 
     @Test
