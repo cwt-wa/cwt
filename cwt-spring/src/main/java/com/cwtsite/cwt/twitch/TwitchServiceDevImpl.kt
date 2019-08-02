@@ -2,6 +2,7 @@
 
     import com.cwtsite.cwt.core.profile.Dev
     import com.cwtsite.cwt.twitch.model.TwitchStreamDto
+    import com.cwtsite.cwt.twitch.model.TwitchUserDto
     import com.cwtsite.cwt.twitch.model.TwitchVideoDto
     import org.springframework.stereotype.Service
     import java.time.LocalDateTime
@@ -52,5 +53,21 @@
 
         override fun requestStreams(): List<TwitchStreamDto> {
             TODO("not implemented")
+        }
+
+        override fun requestUsers(vararg loginNames: String): List<TwitchUserDto> {
+            return listOf(
+                    TwitchUserDto(
+                            login = "khamski",
+                            viewCount = 11040,
+                            id = "26027047",
+                            broadcasterType = "",
+                            type = "",
+                            offlineImageUrl = "",
+                            profileImageUrl = "https://static-cdn.jtvnw.net/jtv_user_pictures/khamski-profile_image-10dc902e62492108-300x300.jpeg",
+                            description = "Kickass normal worms television with good quality and awesome commentators!",
+                            displayName = "Khamski"
+                    )
+            )
         }
     }

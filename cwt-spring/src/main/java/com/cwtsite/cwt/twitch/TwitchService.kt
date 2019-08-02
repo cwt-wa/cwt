@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.twitch
 
 import com.cwtsite.cwt.twitch.model.TwitchStreamDto
+import com.cwtsite.cwt.twitch.model.TwitchUserDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import java.time.LocalDateTime
 
@@ -15,4 +16,6 @@ interface TwitchService {
     fun requestVideos(channelIds: List<String>): List<TwitchVideoDto>
 
     fun requestStreams(): List<TwitchStreamDto>
+
+    fun requestUsers(vararg loginNames: String): List<TwitchUserDto>
 }

@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.stream.service
 
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
+import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -22,4 +23,8 @@ class StreamService {
     fun saveStreams(streams: List<Stream>): List<Stream> = streamRepository.saveAll(streams)
 
     fun findOne(id: String): Optional<Stream> = streamRepository.findById(id)
+
+    fun saveChannel(channel: Channel): Channel = channelRepository.save(channel)
+
+    fun findChannelByUsers(users: List<User>): List<Channel> = channelRepository.findByUser(users)
 }

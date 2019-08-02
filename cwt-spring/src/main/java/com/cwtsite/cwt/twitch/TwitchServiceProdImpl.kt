@@ -5,6 +5,7 @@ import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.twitch.model.TwitchStreamDto
+import com.cwtsite.cwt.twitch.model.TwitchUserDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -68,5 +69,10 @@ class TwitchServiceProdImpl : TwitchService {
         val streams = restTemplateProvider.fetchStreams()
         lastStreamsRequest = LocalDateTime.now()
         return streams
+    }
+
+    override fun requestUsers(vararg loginNames: String): List<TwitchUserDto> {
+        authorize()
+        return restTemplateProvider.fetchUsers(*loginNames)
     }
 }

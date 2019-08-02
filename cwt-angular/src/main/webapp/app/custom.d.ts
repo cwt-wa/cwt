@@ -99,6 +99,12 @@ export interface ChannelDto {
     created: Date;
 }
 
+export interface ChannelCreationDto {
+    twitchLoginName: string;
+    title: string;
+    user: number;
+}
+
 export interface StreamDto {
     id: string;
     channel: ChannelDto;

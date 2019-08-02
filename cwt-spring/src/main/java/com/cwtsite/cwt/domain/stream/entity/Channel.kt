@@ -36,7 +36,7 @@ data class Channel(
         var profileImageUrl: String? = null,
 
         @Column(name = "view_count")
-        var viewCount: String? = null,
+        var viewCount: Long? = null,
 
         @Column(name = "broadcaster_type")
         var broadcasterType: String? = null,
@@ -55,7 +55,7 @@ data class Channel(
         var modified: Timestamp? = null,
 
         @field:CreationTimestamp
-        @Column(nullable = false)
+        @Column(nullable = false, insertable = false, updatable = false)
         var created: Timestamp? = null
 ) {
     override fun equals(other: Any?): Boolean {

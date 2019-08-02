@@ -58,6 +58,11 @@ class TwitchProperties {
     var streamsEndpoint: String? = "streams"
 
     /**
+     * The endpoint for what the Twitch API calls `users`.
+     */
+    var usersEndpoint: String? = "users"
+
+    /**
      * Milliseconds that must have gone by until new data is queried from Twitch.
      */
     var millisToRequest: Long? = 5000

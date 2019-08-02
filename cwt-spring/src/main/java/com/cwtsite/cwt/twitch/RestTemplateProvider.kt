@@ -86,4 +86,11 @@ class RestTemplateProvider {
                     "${twitchProperties.url}/${twitchProperties.streamsEndpoint}",
                     TwitchWrappedDto::class.java)!!.data
 
+    fun fetchUsers(vararg loginNames: String): List<TwitchUserDto> {
+        return restTemplate.getForObject<TwitchWrappedDto<TwitchUserDto>>(
+                "${twitchProperties.url}/${twitchProperties.usersEndpoint}",
+                TwitchWrappedDto::class.java)!!.data
+
+    }
+
 }
