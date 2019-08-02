@@ -1,6 +1,8 @@
-<h1 class="mb-4 float-left">Streams</h1>
+<h1 class="float-left">Streams</h1>
 
-<a class="btn btn-primary float-right" routerLink="/channels/create">Create your own channel</a>
+<a class="btn btn-lg btn-primary float-right" routerLink="/channels/create" *ngIf="displayChannelCreationButton">
+    Register channel
+</a>
 
 <div class="clearfix"></div>
 
@@ -10,21 +12,21 @@
     There are no streams unfortunately.
 </div>
 
-<table class="table" *ngIf="streams.length && !loading">
+<table class="table mt-4" *ngIf="streams.length && !loading">
     <thead class="thead-dark">
     <tr>
         <th>
             Title
         </th>
-        <th class="text-center cursor-pointer" (click)="sortBy('viewCount')">
+        <th class="text-center cursor-pointer d-none d-md-table-cell" (click)="sortBy('viewCount')">
             Views
             <i *ngIf="sortColumn === 'viewCount'" class="fa" [ngClass]="sortAscending ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
         </th>
-        <th class="text-center cursor-pointer" (click)="sortBy('duration')">
+        <th class="text-center cursor-pointer d-none d-md-table-cell" (click)="sortBy('duration')">
             Duration
             <i *ngIf="sortColumn === 'duration'" class="fa" [ngClass]="sortAscending ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
         </th>
-        <th class="text-center cursor-pointer" (click)="sortBy('channel')">
+        <th class="text-center cursor-pointer d-none d-md-table-cell" (click)="sortBy('channel')">
             Channel
             <i *ngIf="sortColumn === 'channel'" class="fa" [ngClass]="sortAscending ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
         </th>
@@ -41,13 +43,13 @@
                 {{stream.title}}
             </a>
         </td>
-        <td class="text-center">
+        <td class="text-center d-none d-md-table-cell">
             {{stream.viewCount}}
         </td>
-        <td class="text-center">
+        <td class="text-center d-none d-md-table-cell">
             {{stream.duration}}
         </td>
-        <td class="text-center">
+        <td class="text-center d-none d-md-table-cell">
             {{stream.channel.title}}
         </td>
         <td class="text-center">

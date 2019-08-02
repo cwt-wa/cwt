@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {StreamDto} from "../custom";
+import {ChannelDto, StreamDto} from "../custom";
 import {Utils} from "../_util/utils";
 import {merge} from "rxjs";
 import {finalize} from "rxjs/operators";
+import {AuthService} from "../_services/auth.service";
 
 @Component({
     selector: 'cwt-streams',
@@ -15,8 +16,9 @@ export class StreamsComponent implements OnInit {
     loading: boolean;
     sortColumn: keyof StreamDto = "createdAt";
     sortAscending: boolean = false;
+    displayChannelCreationButton: boolean = false;
 
-    constructor(private requestService: RequestService, private utils: Utils) {
+    constructor(private requestService: RequestService, private utils: Utils, private authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -31,6 +33,13 @@ export class StreamsComponent implements OnInit {
                 this.streams = this.utils.mergeDistinctBy<StreamDto>(this.streams, res, 'id');
                 this.sortBy(this.sortColumn);
             });
+
+        const authUser = this.authService.getUserFromTokenPayload();
+        if (authUser) {
+            this.requestService.get<ChannelDto[]>('channel', {user: `${authUser.id}`})
+                .pipe(finalize(() => this.loading = false))
+                .subscribe(res => this.displayChannelCreationButton = !res.length);
+        }
     }
 
     sortBy(sortColumn: keyof StreamDto) {
