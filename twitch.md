@@ -117,7 +117,7 @@ Example response:
 Twitch API is to be requested when either of two events occur:
 
 1. User visits streams overview page
-2. New Twitch user account registered on CWT
+~~2. New Twitch user account registered on CWT~~
 
 **Save all data from the responses in the DB for future need.**
 
