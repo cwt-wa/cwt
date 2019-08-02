@@ -37,15 +37,22 @@ canvas {
   border-color: $pink;
   margin: 5px 5px 5px 5px;
   color: white;
-  float:right;
+  position: absolute;
+  right: 0;
 }
 
 #tetris-gameover {
   display: none;
 }
 
+
+#tetris-game-over-lbl {
+  color: $pink;
+  alignment: center;
+}
+
 #tetris-gameover.tetris-visible {
-  display:inline;
+  display:block;
   text-align:center;
 }
 
@@ -53,7 +60,16 @@ canvas {
   display:block;
 }
 
-#tetris-table-heading {
-  background-color: #FFDCE1;
+#tetris-highscore-table {
+  background-color: white;
+  border-color: #303030;
+  width: 40%;
+}
 
+#tetris-highscore-table td {
+  width: 30%;
+}
+
+#tetris-highscore-table th {
+  background-color: pink;
 }
