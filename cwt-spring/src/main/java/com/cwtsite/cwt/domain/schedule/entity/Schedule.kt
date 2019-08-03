@@ -35,7 +35,7 @@ data class Schedule(
         val streams: Set<Channel> = mutableSetOf(),
 
         @field:CreationTimestamp
-        val created: Timestamp
+        val created: Timestamp? = null
 ) {
 
     override fun equals(other: Any?): Boolean {

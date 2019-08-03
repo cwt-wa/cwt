@@ -25,7 +25,7 @@ data class ScheduleDto(
                 appointment = schedule.appointment,
                 author = UserMinimalDto.toDto(schedule.author),
                 streams = schedule.streams.map { ChannelDto.toDto(it) },
-                created = schedule.created
+                created = Date.from(schedule.created!!.toInstant())
         )
     }
 }
