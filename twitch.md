@@ -146,7 +146,8 @@ Do [“User visits streams overview page”](#user-visits-streams-overview-page)
 # Future plans
 
 - Link streams to games in the database. (part of CWT 5)
-- When a channel goes live, put an alert on the CWT page.  (part of CWT 5)
+- When a channel goes live, put an alert on the CWT page ([there is a webhook for that](https://dev.twitch.tv/docs/api/webhooks-reference/#topic-stream-changed)).  (part of CWT 5)
+- Work with webhook to keep `channel` table up-to-date.
 
 # Current channels
 
