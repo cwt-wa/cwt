@@ -71,6 +71,7 @@ import {StreamDetailComponent} from "./stream/stream-detail.component";
 import {SchedulerComponent} from "./scheduler/scheduler.component";
 import {ChannelCreateComponent} from "./stream/channel-create.component";
 import {DateTimeInputDirective} from "./_util/date-time-input.directive";
+import {ValidateDatetimeInputAfterDirective} from "./_util/date-time-input-after.validator";
 
 const appRoutes: Routes = [
     {
@@ -244,6 +245,7 @@ const appRoutes: Routes = [
         ConfirmDirective,
         ConfirmValidator,
         ValidateResultDirective,
+        ValidateDatetimeInputAfterDirective,
         TypeaheadOpenOnFocusDirective,
         AddTechWinComponent,
         ReplacePlayerComponent,
