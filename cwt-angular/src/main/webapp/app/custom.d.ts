@@ -123,6 +123,22 @@ export interface StreamDto {
     duration: string;
 }
 
+export interface ScheduleDto {
+    id: number;
+    homeUser: UserMinimalDto;
+    awayUser: UserMinimalDto;
+    appointment: Date;
+    author: UserMinimalDto;
+    streams: ChannelDto[];
+    created: Date;
+}
+
+export interface ScheduleCreationDto {
+    author: number;
+    opponent: number;
+    appointment: Date;
+}
+
 export interface UserMinimalDto {
     id: number;
     username: string;

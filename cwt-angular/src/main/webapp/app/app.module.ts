@@ -253,7 +253,8 @@ const appRoutes: Routes = [
         UserPanelComponent,
         StreamDetailComponent,
         ChannelCreateComponent,
-        DateTimeInputDirective
+        DateTimeInputDirective,
+        SchedulerComponent,
     ],
     providers: [
         WebAppViewService,
