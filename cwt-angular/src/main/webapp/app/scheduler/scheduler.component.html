@@ -13,19 +13,25 @@
     <div class="col-12 col-md-6 col-lg-6">
         <div class="card bg-secondary align-items-center">
             <div class="card-body text-white">
-                <form class="form-inline">
+                <form class="form-inline" (ngSubmit)="submit(scheduleForm.valid)" #scheduleForm="ngForm">
                     <label class="sr-only" for="yourOpponent">Your opponent</label>
                     <select class="form-control form-control-sm mr-1" id="yourOpponent" name="yourOpponent" required
-                            [(ngModel)]="newSchedule.opponent">
-                        <option disabled selected [value]="null">Your opponent</option>
+                            [(ngModel)]="newSchedule.opponent" #opponent="ngModel">
+                        <option disabled selected [value]="null" *ngIf="remainingOpponents?.length > 1">
+                            Your opponent
+                        </option>
+                        <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
+                            {{opponent.username}}
+                        </option>
                     </select>
 
                     <label class="sr-only" for="appointment">Date and time of appointment</label>
                     <input type="text" id="appointment" name="appointment" required
                            placeholder="YYYY-MM-DD HH:mm" class="form-control form-control-sm mr-1"
-                           [(ngModel)]="newSchedule.appointment" cwtDateTimeInput>
+                           [(ngModel)]="newSchedule.appointment" #appointment="ngModel" cwtDateTimeInput [cwtDateTimeInputAfter]="minAppointmentDateTime">
 
-                    <input type="submit" class="btn btn-sm btn-primary" value="Submit">
+                    <input type="submit" class="btn btn-sm btn-primary" value="Submit"
+                           [disabled]="opponent.errors?.required || appointment.errors?.required">
                 </form>
             </div>
         </div>
