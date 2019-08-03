@@ -68,7 +68,9 @@ import {BetService} from "./_services/bet.service";
 import {UserPanelComponent} from "./user-panel/user-panel.component";
 import {ConfirmValidator} from "./_util/confirm.validator";
 import {StreamDetailComponent} from "./stream/stream-detail.component";
+import {SchedulerComponent} from "./scheduler/scheduler.component";
 import {ChannelCreateComponent} from "./stream/channel-create.component";
+import {DateTimeInputDirective} from "./_util/date-time-input.directive";
 
 const appRoutes: Routes = [
     {
@@ -250,7 +252,8 @@ const appRoutes: Routes = [
         AdminTournamentReviewComponent,
         UserPanelComponent,
         StreamDetailComponent,
-        ChannelCreateComponent
+        ChannelCreateComponent,
+        DateTimeInputDirective
     ],
     providers: [
         WebAppViewService,
