@@ -81,6 +81,7 @@ export class AppComponent implements AfterViewInit, OnInit {
                         .subscribe(res => {
                             this.toastr.success("Highscore saved.");
                             this.highscores.push(res);
+                            this.highscores = this.sortTetrisHighscore(this.highscores);
                             this.newTetrisEntryId = res.id;
                         });
                 } else {
@@ -88,12 +89,16 @@ export class AppComponent implements AfterViewInit, OnInit {
                         .subscribe(res => {
                             this.toastr.success("Highscore saved.");
                             this.highscores.push(res);
+                            this.highscores = this.sortTetrisHighscore(this.highscores);
                             this.newTetrisEntryId = res.id;
                         });
                 }
 
                 this.requestService.get<TetrisDto[]>(`tetris`)
-                    .subscribe(res => this.highscores = this.highscores.concat(res));
+                    .subscribe(res => {
+                        this.highscores = this.highscores.concat(res);
+                        this.highscores = this.sortTetrisHighscore(this.highscores);
+                    });
             };
 
             p.setup = () => {
@@ -113,6 +118,12 @@ export class AppComponent implements AfterViewInit, OnInit {
             }
         }, document.getElementById('tetris'));
    }
+
+    private sortTetrisHighscore(highscore: TetrisDto[]): TetrisDto[] {
+        return highscore.sort(
+            (n1, n2) => n1.highscore - n2.highscore || new Date(n1.created).getTime() - new Date(n2.created).getTime()
+        ).reverse();
+    }
 
     closeTetris() {
         if (document.querySelector('canvas')) {
