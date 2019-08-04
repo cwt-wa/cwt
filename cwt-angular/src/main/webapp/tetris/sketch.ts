@@ -165,7 +165,9 @@ export class Tetris {
         this.p5.noLoop();
         this.onGameOver != null && this.onGameOver(this.highscore);
         clearInterval(this.fallenDownInterval);
-        this.p5.noCanvas();
+        if (document.querySelector('canvas')) {
+            this.p5.noCanvas();
+        }
     }
 
     private nextFigure() {
