@@ -12,7 +12,7 @@
     </div>
 </div>
 <p class="text-right">
-    Recorded on <strong>{{stream.createdAt | date:'EEEE, MMMM d, y, HH:mm:ss':'GMT'}}</strong>
+    Recorded on <strong>{{stream.createdAt | cwtDate}}</strong>
     by <strong>{{stream.channel.title}}</strong>
     and viewed by <strong>{{stream.viewCount}}</strong> people. <strong>Thanks!</strong>
 </p>

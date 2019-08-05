@@ -581,3 +581,7 @@ select.custom-select-sm {
 .aspect-ratio-16x10 {
   @include aspect-ratio(16, 10);
 }
+
+.font-variant-numeric-tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

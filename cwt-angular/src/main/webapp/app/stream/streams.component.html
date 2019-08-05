@@ -53,7 +53,18 @@
             {{stream.channel.title}}
         </td>
         <td class="text-center">
-            {{stream.createdAt | date:'short'}}
+            <div class="d-sm-none">
+                {{stream.createdAt | cwtDate:'MMM'}}&nbsp;{{stream.createdAt | cwtDate:'d'}},
+                {{stream.createdAt | cwtDate:'y'}},<br>
+                {{stream.createdAt | cwtDate:'time'}}
+            </div>
+            <div class="d-none d-sm-inline d-md-none">
+                {{stream.createdAt | cwtDate:'MMM'}}&nbsp;{{stream.createdAt | cwtDate:'d'}},&nbsp;{{stream.createdAt | cwtDate:'y'}},
+                {{stream.createdAt | cwtDate:'time'}}
+            </div>
+            <div class="d-none d-md-inline text-nowrap">
+                {{stream.createdAt | cwtDate}}
+            </div>
         </td>
     </tr>
     </tbody>

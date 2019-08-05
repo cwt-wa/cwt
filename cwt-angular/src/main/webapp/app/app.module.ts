@@ -72,6 +72,8 @@ import {SchedulerComponent} from "./scheduler/scheduler.component";
 import {ChannelCreateComponent} from "./stream/channel-create.component";
 import {DateTimeInputDirective} from "./_util/date-time-input.directive";
 import {ValidateDatetimeInputAfterDirective} from "./_util/date-time-input-after.validator";
+import {CwtDatePipe} from "./_util/cwt-date.pipe";
+import {DatePipe} from "@angular/common";
 
 const appRoutes: Routes = [
     {
@@ -221,6 +223,7 @@ const appRoutes: Routes = [
         ReportGameComponent,
         AdminPlayoffsStartComponent,
         StandingsOrderPipe,
+        CwtDatePipe,
         PlayoffsTreeComponent,
         GameDetailComponent,
         RatingComponent,
@@ -264,6 +267,8 @@ const appRoutes: Routes = [
         RequestService,
         ConfigurationService,
         StandingsOrderPipe,
+        CwtDatePipe,
+        DatePipe,
         TimeAgoService,
         PreviousRouteService,
         Utils,

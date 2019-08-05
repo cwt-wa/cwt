@@ -10,7 +10,7 @@
                 (change)="selectTournament($event.target.value)">
             <option value="" *ngIf="tournaments?.length > 1" disabled selected>Select tournament…</option>
             <option *ngFor="let tournament of tournaments;" [value]="tournament.id">
-                {{tournament.created | date:'y'}}
+                {{tournament.created | cwtDate:'y'}}
             </option>
         </select>
     </div>
