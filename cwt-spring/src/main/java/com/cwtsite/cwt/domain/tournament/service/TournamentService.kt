@@ -3,9 +3,11 @@ package com.cwtsite.cwt.domain.tournament.service
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
+import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -13,19 +15,31 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Component
-class TournamentService @Autowired
-constructor(private val userRepository: UserRepository, private val tournamentRepository: TournamentRepository,
-            private val applicationRepository: ApplicationRepository, private val gameRepository: GameRepository) {
+class TournamentService {
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
+    @Autowired
+    private lateinit var tournamentRepository: TournamentRepository
+
+    @Autowired
+    private lateinit var applicationRepository: ApplicationRepository
+
+    @Autowired
+    private lateinit var gameRepository: GameRepository
+
+    @Autowired
+    private lateinit var playoffService: PlayoffService
+
 
     /**
-     * @throws IllegalStateException When there are other unarchived tournaments.
+     * @throws IllegalStateException When there are unfinished tournaments.
      */
     @Throws(IllegalStateException::class)
     fun startNewTournament(moderatorIds: List<Long>): Tournament {
-        val numberOfUnarchivedTournaments = tournamentRepository.countByStatusNot(TournamentStatus.ARCHIVED)
-
-        if (numberOfUnarchivedTournaments > 0) {
-            throw IllegalStateException("For a new tournament to start it is required that all tournaments are archived.")
+        if (tournamentRepository.countByStatusNot(TournamentStatus.FINISHED) > 0) {
+            throw IllegalStateException("For a new tournament to start it is required that all tournaments are finished.")
         }
 
         val tournament = Tournament()
@@ -39,8 +53,24 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
     fun startPlayoffs(games: List<Game>): List<Game> {
         val currentTournament = getCurrentTournament()
         currentTournament.status = TournamentStatus.PLAYOFFS
+        currentTournament.maxRounds = playoffService.getNumberOfPlayoffRoundsInTournament(currentTournament)
+        currentTournament.threeWay = playoffService.isPlayoffTreeWithThreeWayFinal(currentTournament)
         tournamentRepository.save(currentTournament)
         return gameRepository.saveAll(games)
+    }
+
+    @Transactional
+    fun finish(gold: User, silver: User, bronze: User, maxRounds: Int, threeWay: Boolean): Tournament {
+        val currentTournament = getCurrentTournament()
+        currentTournament.goldWinner = gold
+        currentTournament.silverWinner = silver
+        currentTournament.bronzeWinner = bronze
+        currentTournament.status = TournamentStatus.FINISHED
+        currentTournament.maxRounds = maxRounds;
+        currentTournament.threeWay = threeWay;
+        val savedTournament = tournamentRepository.save(currentTournament)
+        userRepository.refreshUserStats()
+        return savedTournament
     }
 
     fun getTournament(id: Long): Optional<Tournament> {
@@ -55,8 +85,10 @@ constructor(private val userRepository: UserRepository, private val tournamentRe
         return tournamentRepository.findByYear(year.toInt())
     }
 
-    fun getCurrentTournament(): Tournament = tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED)
-            ?: throw RuntimeException("There is currently no tournament.")
+    @Throws(RuntimeException::class)
+    fun getCurrentTournament(): Tournament =
+            tournamentRepository.findByStatusNot(TournamentStatus.FINISHED)
+                    ?: throw RuntimeException("There is currently no tournament.")
 
     fun getAll(): List<Tournament> = tournamentRepository.findAll()
 }

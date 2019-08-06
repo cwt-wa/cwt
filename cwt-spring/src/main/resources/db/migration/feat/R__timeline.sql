@@ -5,8 +5,8 @@ LANGUAGE SQL AS
 $$
 select string_agg(cast(round as text), ',') as timeline
 from (select TO_CHAR(t.CREATED, 'yyyy') as year,
-             '[' || t.id || ',' || TO_CHAR(t.CREATED, 'yyyy') || ',' || t.max_rounds || ',' ||
-             least(greatest((case coalesce(g.g_id, 0) when 0 then 0 else 1 end), max(po.round) + 1), t.max_rounds - 1) +
+             '[' || t.id || ',' || TO_CHAR(t.CREATED, 'yyyy') || ',' || coalesce(t.three_way::int, 0) || ',' || t.max_rounds || ',' ||
+             least(greatest((case coalesce(g.g_id, 0) when 0 then 0 else 1 end), max(po.round) + 1), t.max_rounds - (case when t.three_way then 0 else 1 end)) +
              (case
                 when t.GOLD_WINNER_ID = $1
                         then 3

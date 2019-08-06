@@ -22,8 +22,17 @@ data class Tournament(
         @Column(columnDefinition = "text")
         var review: String? = null,
 
+        /**
+         * During the tournament the value can be calculated from the configuration values
+         * but once the tournament is [finished][TournamentStatus.FINISHED] the value should be remembered in this column.
+         *
+         * [Calculation of the value][com.cwtsite.cwt.domain.playoffs.service.PlayoffService.getNumberOfPlayoffRoundsInTournament]
+         */
         @Column
         var maxRounds: Int? = null,
+
+        @Column
+        var threeWay: Boolean? = null,
 
         @Column(name = "created", nullable = false)
         @field:CreationTimestamp
@@ -43,4 +52,19 @@ data class Tournament(
                 joinColumns = [JoinColumn(name = "tournaments_id", referencedColumnName = "ID")],
                 inverseJoinColumns = [JoinColumn(name = "moderators_id", referencedColumnName = "ID")])
         var moderators: Set<User> = HashSet()
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Tournament
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+}

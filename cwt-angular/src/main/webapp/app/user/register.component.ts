@@ -10,6 +10,7 @@ import {PreviousRouteService} from "../_services/previous-route.service";
 })
 export class RegisterComponent {
     userRegistration: UserRegistration = new UserRegistration('', '', '');
+    passwordConfirm: string;
 
     constructor(private requestService: RequestService, private authService: AuthService,
                 private previousRouteService: PreviousRouteService) {

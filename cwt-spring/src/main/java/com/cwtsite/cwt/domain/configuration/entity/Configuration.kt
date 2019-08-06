@@ -17,7 +17,7 @@ data class Configuration(
         var key: ConfigurationKey,
 
         @Column(name = "value", columnDefinition = "text")
-        var value: String,
+        var value: String?,
 
         @Column(name = "description", columnDefinition = "text")
         var description: String? = null,
@@ -28,5 +28,20 @@ data class Configuration(
 
         @ManyToOne(optional = false, fetch = FetchType.LAZY)
         @JoinColumn(nullable = false)
-        var author: User
-)
+        var author: User? = null
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Configuration
+
+        if (key != other.key) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return key.hashCode()
+    }
+}

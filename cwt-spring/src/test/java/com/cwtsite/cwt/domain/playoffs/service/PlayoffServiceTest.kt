@@ -13,6 +13,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
+import org.assertj.core.api.Assertions
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -91,8 +92,8 @@ class PlayoffServiceTest {
                 .thenAnswer { invocation ->
                     val actualGame = invocation.getArgument<Game>(0)
 
-                    Assert.assertEquals(2, (actualGame.playoff!!.round as Int).toLong())
-                    Assert.assertEquals(1, (actualGame.playoff!!.spot as Int).toLong())
+                    Assert.assertEquals(2, actualGame.playoff!!.round.toLong())
+                    Assert.assertEquals(1, actualGame.playoff!!.spot.toLong())
                     Assert.assertEquals(game.tournament, actualGame.tournament)
                     Assert.assertEquals(game.awayUser, actualGame.awayUser)
                     Assert.assertNull(actualGame.homeUser)
@@ -121,6 +122,10 @@ class PlayoffServiceTest {
                 .thenAnswer { invocation -> assertRoundSpot(invocation, 4, 1, tournament) } // Coming from round 3 and spot 1.
                 .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 1, tournament) } // Coming from round 2 and spot 2.
                 .thenAnswer { invocation -> assertRoundSpot(invocation, 3, 2, tournament) } // Coming from round 2 and spot 4.
+
+        Mockito
+                .`when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
+                .thenAnswer { it.getArgument(0) }
 
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(1, 6), tournament))
         playoffService.advanceByGame(createGame(gameId, homeUser, awayUser, 2, 3, createPlayoffGame(3, 1), tournament))
@@ -192,8 +197,20 @@ class PlayoffServiceTest {
         mockCountByTournament(MockitoUtils.anyObject())
         mockNumberOfGroupMembersAdvancing()
 
-        Assert.assertNull(playoffService.advanceByGame(
-                createGame(1L, EntityDefaults.user(1L), EntityDefaults.user(2L), 2, 3, createPlayoffGame(4, 1), EntityDefaults.tournament())))
+        val game = createGame(1L, EntityDefaults.user(1L), EntityDefaults.user(2L), 2, 3, createPlayoffGame(4, 1), EntityDefaults.tournament())
+
+        Assertions
+                .assertThatThrownBy { playoffService.advanceByGame(game) }
+                .isExactlyInstanceOf(RuntimeException::class.java)
+                .hasMessage("There's no one-way final game although there's already a third place game.")
+
+        Mockito
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round + 1))
+                .thenReturn(listOf(game.copy(id = 2, reporter = null, scoreAway = null, scoreHome = null)))
+
+        Assertions
+                .assertThat(playoffService.advanceByGame(game))
+                .isEmpty()
     }
 
     @Test
@@ -222,6 +239,76 @@ class PlayoffServiceTest {
         Assert.assertFalse(playoffService.onlyFinalGamesAreLeftToPlay())
     }
 
+    @Test
+    fun isPlayoffTreeWithThreeWayFinal() {
+        val tournament = EntityDefaults.tournament()
+        val fn = { listSize: Int ->
+            Mockito
+                    .`when`(Mockito.mock(List::class.java).size)
+                    .thenReturn(listSize)
+                    .getMock<List<Any>>()
+        }
+
+        Mockito
+                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
+                .thenAnswer { fn(4 / 2) }
+                .thenAnswer { fn(6 / 2) }
+                .thenAnswer { fn(8 / 2) }
+                .thenAnswer { fn(12 / 2) }
+                .thenAnswer { fn(16 / 2) }
+                .thenAnswer { fn(24 / 2) }
+                .thenAnswer { fn(32 / 2) }
+                .thenAnswer { fn(48 / 2) }
+                .thenAnswer { fn(64 / 2) }
+                .thenAnswer { fn(96 / 2) }
+                .thenAnswer { fn(128 / 2) }
+
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        Assertions.assertThat(playoffService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+    }
+
+    @Test
+    fun getNumberOfPlayoffRoundsInTournament() {
+        val tournament = EntityDefaults.tournament()
+
+        mockNumberOfGroupMembersAdvancing()
+
+        Mockito
+                .`when`(groupRepository.countByTournament(tournament))
+                .thenReturn(4 / 2)
+                .thenReturn(6 / 2)
+                .thenReturn(8 / 2)
+                .thenReturn(12 / 2)
+                .thenReturn(16 / 2)
+                .thenReturn(24 / 2)
+                .thenReturn(32 / 2)
+                .thenReturn(48 / 2)
+                .thenReturn(64 / 2)
+                .thenReturn(96 / 2)
+                .thenReturn(128 / 2)
+
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
+        Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(7)
+    }
+
     private fun mockNumberOfGroupMembersAdvancing() {
         Mockito
                 .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
@@ -243,22 +330,19 @@ class PlayoffServiceTest {
     private fun createGame(id: Long?,
                            homeUser: User?, awayUser: User,
                            scoreHome: Int?, scoreAway: Int?,
-                           playoffGame: PlayoffGame, tournament: Tournament): Game {
-        val game = Game(tournament = tournament)
-        game.id = id
-        game.homeUser = homeUser
-        game.awayUser = awayUser
-        game.scoreHome = scoreHome
-        game.scoreAway = scoreAway
-        game.playoff = playoffGame
-        return game
-    }
+                           playoffGame: PlayoffGame, tournament: Tournament) = Game(
+            id = id,
+            homeUser = homeUser,
+            awayUser = awayUser,
+            scoreHome = scoreHome,
+            scoreAway = scoreAway,
+            playoff = playoffGame,
+            tournament = tournament
+    )
 
-    private fun createPlayoffGame(round: Int, spot: Int): PlayoffGame {
-        val playoffGame = PlayoffGame()
-        playoffGame.round = round
-        playoffGame.spot = spot
-        return playoffGame
-    }
+    private fun createPlayoffGame(round: Int, spot: Int) = PlayoffGame(
+            round = round,
+            spot = spot
+    )
 }
 

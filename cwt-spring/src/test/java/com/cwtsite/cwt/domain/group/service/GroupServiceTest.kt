@@ -207,7 +207,7 @@ class GroupServiceTest {
         Assertions.assertThat(groupAfterReplacement.standings.find { it.user == newUser }).isNotNull
 
         games
-                .filter { it.wasPlayedBy(obsoleteUser) }
+                .filter { it.pairingInvolves(obsoleteUser) }
                 .forEach { Mockito.verify(it).voided = true }
 
         Assertions.assertThat(groupAfterReplacement.standings.find { it.user == newUser }).isEqualTo(GroupStanding(

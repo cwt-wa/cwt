@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.entity
 
+import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -65,6 +66,9 @@ data class Game(
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
         val comments: List<Comment> = mutableListOf(),
 
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+        val bets: List<Bet> = mutableListOf(),
+
         @JsonIgnore
         @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
         @JoinColumn(unique = true)
@@ -81,5 +85,41 @@ data class Game(
         var voided: Boolean = false
 ) {
 
-    fun wasPlayedBy(user: User) = homeUser == user || awayUser == user
+    fun pairingInvolves(user: User?) = (user != null) && (homeUser == user || awayUser == user)
+
+    fun pairingCompleted() = homeUser != null && awayUser != null
+
+    fun pairingHalfCompleted() = (homeUser == null) xor (awayUser == null)
+
+    fun pairingEmpty() = homeUser == null && awayUser == null
+
+    fun pairUser(user: User) {
+        if (!pairingHalfCompleted()) throw RuntimeException("Game is not half paired.")
+        if (homeUser == null) homeUser = user else awayUser = user
+    }
+
+    fun wasPlayed() = scoreHome != null && scoreAway != null && homeUser != null && awayUser != null
+
+    fun winner() = (if (scoreHome!! > scoreAway!!) homeUser else awayUser)!!
+
+    fun loser() = (if (scoreHome!! > scoreAway!!) awayUser else homeUser)!!
+
+    fun playoff() = playoff != null && group == null
+
+    fun group() = !playoff()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Game
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
 }

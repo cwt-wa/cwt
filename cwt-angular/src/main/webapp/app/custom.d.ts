@@ -29,7 +29,7 @@ interface Application {
     applicant: User;
 }
 
-export type ConfigurationKey = "RULES" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING" | "GROUP_GAMES_BEST_OF" | "PLAYOFF_GAMES_BEST_OF" | "FINALE_GAME_BEST_OF" | "NEWS";
+export type ConfigurationKey = "RULES" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING" | "GROUP_GAMES_BEST_OF" | "PLAYOFF_GAMES_BEST_OF" | "FINALE_GAME_BEST_OF" | "NEWS" | "USERS_PER_GROUP" | "NUMBER_OF_GROUPS";
 
 export interface Configuration {
     key: ConfigurationKey;
@@ -51,10 +51,16 @@ export interface User {
     username: string;
 }
 
+export interface CountryDto {
+    id: number,
+    flag: string;
+    name: string;
+}
+
 export interface UserOverviewDto {
     id: number;
     username: string;
-    country: string;
+    country: CountryDto;
     participations: number;
     userStats: UserStatsDto[];
 }
@@ -71,15 +77,82 @@ export interface UserStatsDto {
 export interface UserDetailDto {
     id: number;
     username: string;
-    country: string;
+    country: CountryDto;
     about: string;
     hasPic: boolean;
     userStats: UserStatsDto[];
 }
 
+export interface ChannelDto {
+    id: string;
+    title: string;
+    user: UserMinimalDto;
+    displayName: string;
+    type: string;
+    profileImageUrl: string;
+    viewCount: number;
+    broadcasterType: string;
+    offlineUmageUrl: string;
+    login: string;
+    description: string;
+    modified: Date;
+    created: Date;
+}
+
+export interface ChannelCreationDto {
+    twitchLoginName: string;
+    title: string;
+    user: number;
+}
+
+export interface StreamDto {
+    id: string;
+    channel: ChannelDto;
+    userId: string;
+    userName: string;
+    title: string;
+    description: string;
+    createdAt: string;
+    publishedAt: string;
+    url: string;
+    thumbnailUrl: string;
+    viewable: string;
+    viewCount: number;
+    language: string;
+    type: string;
+    duration: string;
+}
+
+export interface ScheduleDto {
+    id: number;
+    homeUser: UserMinimalDto;
+    awayUser: UserMinimalDto;
+    appointment: Date;
+    author: UserMinimalDto;
+    streams: ChannelDto[];
+    created: Date;
+}
+
+export interface ScheduleCreationDto {
+    author: number;
+    opponent: number;
+    appointment: Date;
+}
+
 export interface UserMinimalDto {
     id: number;
     username: string;
+}
+
+export interface UserChangeDto {
+    username: string;
+    country: number;
+    about: string;
+}
+
+export interface PasswordChangeDto {
+    currentPassword: string;
+    newPassword: string;
 }
 
 export type GroupLabel = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
@@ -145,6 +218,40 @@ export interface GameDetailDto {
     ratings?: Rating[];
     tournament: Tournament;
     replayExists: boolean;
+    playoffRoundLocalized: string;
+}
+
+export interface PlayoffGameDto {
+    id: number;
+    homeUser: User;
+    awayUser: User;
+    playoff: {
+        round: number;
+        spot: number;
+    },
+    scoreHome?: number;
+    scoreAway?: number;
+    group?: Group;
+    comments?: Comment[];
+    reporter?: User;
+    ratings?: Rating[];
+    tournament: Tournament;
+    replayExists: boolean;
+    bets: PlayoffTreeBetDto[];
+    playoffRoundLocalized: string;
+}
+
+export interface PlayoffTreeBetDto {
+    id: number;
+    user: UserMinimalDto;
+    betOnHome: Boolean;
+}
+
+export interface BetDto {
+    id: number;
+    user: UserMinimalDto;
+    game: GameDetailDto;
+    betOnHome: Boolean;
 }
 
 export interface GameCreationDto {
@@ -177,7 +284,7 @@ export interface CommentDto {
     body: string;
 }
 
-export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED" | "ARCHIVED";
+export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED";
 
 export interface Tournament {
     id: number;

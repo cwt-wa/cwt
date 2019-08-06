@@ -56,7 +56,8 @@ data class User(
                 inverseJoinColumns = [JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")])
         var authorities: MutableList<Authority> = mutableListOf(Authority.fromName(AuthorityName.ROLE_USER)),
 
-        var country: String? = null,
+        @ManyToOne(optional = false)
+        var country: Country = Country.unknown(),
 
         @Column(columnDefinition = "text")
         var about: String? = null,
@@ -65,9 +66,27 @@ data class User(
         @PrimaryKeyJoinColumn
         var userStats: UserStats? = null,
 
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        var photo: Photo? = null,
+
         @field:CreationTimestamp
         var created: Timestamp? = null,
 
         @field:UpdateTimestamp
         var modified: Timestamp? = null
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as User
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+}

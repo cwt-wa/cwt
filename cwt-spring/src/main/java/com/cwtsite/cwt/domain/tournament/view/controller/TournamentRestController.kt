@@ -9,6 +9,7 @@ import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.tournament.view.model.PlayoffGameDto
 import com.cwtsite.cwt.domain.tournament.view.model.StartNewTournamentDto
 import com.cwtsite.cwt.domain.tournament.view.model.TournamentUpdateDto
 import com.cwtsite.cwt.domain.user.service.UserService
@@ -46,9 +47,14 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("current/game/playoff", method = [RequestMethod.GET])
-    fun getPlayoffGamesOfCurrentTournament(): ResponseEntity<List<Game>> {
-        val (id) = tournamentService.getCurrentTournament()
-        return getPlayoffGames(id!!)
+    fun getPlayoffGamesOfCurrentTournament(): ResponseEntity<List<PlayoffGameDto>> {
+        val currentTournament = try {
+            tournamentService.getCurrentTournament()
+        } catch (e: RuntimeException) {
+            throw RestException("There is currently no tournament.", HttpStatus.BAD_REQUEST, e)
+        }
+
+        return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { PlayoffGameDto.toDto(it) })
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
@@ -59,7 +65,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
         try {
             return tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)
         } catch (e: IllegalStateException) {
-            throw RestException("There are other unarchived tournaments.", HttpStatus.BAD_REQUEST, e)
+            throw RestException("There are other unfinished tournaments.", HttpStatus.BAD_REQUEST, e)
         }
     }
 
@@ -110,13 +116,6 @@ constructor(private val tournamentService: TournamentService, private val userSe
                 .map { t -> ResponseEntity.ok(groupService.getGroupsForTournament(t)) }
                 .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
 
-    }
-
-    @RequestMapping("{id}/game/playoff", method = [RequestMethod.GET])
-    fun getPlayoffGames(@PathVariable("id") id: Long): ResponseEntity<List<Game>> {
-        return tournamentService.getTournament(id)
-                .map { t -> ResponseEntity.ok(playoffService.getGamesOfTournament(t)) }
-                .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
     }
 
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])

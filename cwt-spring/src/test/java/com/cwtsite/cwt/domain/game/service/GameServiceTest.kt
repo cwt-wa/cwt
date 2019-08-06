@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.service
 
+import com.cwtsite.cwt.domain.bet.service.BetRepository
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
@@ -66,6 +67,9 @@ class GameServiceTest {
     @Mock
     private lateinit var commentRepository: CommentRepository
 
+    @Mock
+    private lateinit var betRepostiry: BetRepository
+
     @Test
     fun reportGameForGroupStage() {
         val homeUserId: Long = 1
@@ -126,21 +130,21 @@ class GameServiceTest {
                     val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = invocation.getArgument(1)
                     game.awayUser = awayUser
-                    game.playoff = PlayoffGame()
+                    game.playoff = PlayoffGame(round = 1, spot = 1)
                     game
                 }
                 .thenAnswer { invocation ->
                     val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = awayUser
                     game.awayUser = invocation.getArgument(1)
-                    game.playoff = PlayoffGame()
+                    game.playoff = PlayoffGame(round = 1, spot = 1)
                     game
                 }
                 .thenAnswer { invocation ->
                     val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = invocation.getArgument(1)
                     game.awayUser = EntityDefaults.user(19)
-                    game.playoff = PlayoffGame()
+                    game.playoff = PlayoffGame(round = 1, spot = 1)
                     game
                 }
 

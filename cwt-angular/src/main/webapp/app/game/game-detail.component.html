@@ -13,36 +13,48 @@
 
     <div class="row mt-1">
         <div class="col-12">
-            <a [routerLink]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? ['/archive', (game.tournament.created | date:'y')] : ['/playoffs']"
-               [fragment]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? 'playoffs': undefined"
+            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/playoffs']"
+               [fragment]="game.tournament.status === 'FINISHED' ? 'playoffs': undefined"
                *ngIf="game.playoff" class="btn btn-primary btn text-white w-100 all-petite-caps " i18n>
                 <span class="font-weight-bold">
-                    {game.playoff.round, plural,
-                    =1 {Last Sixteen}
-                    =2 {Quarterfinal}
-                    =3 {Semifinal}
-                    =4 {Little Final}
-                    =5 {Final}
-                    other {Playoffs}
-                    }
+                    {{game.playoffRoundLocalized}}
                 </span>
-                {{game.tournament.created | date:'y'}}
+                {{game.tournament.created | cwtDate:'y'}}
             </a>
-            <a [routerLink]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? ['/archive', (game.tournament.created | date:'y')] : ['/group']"
-               [fragment]="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1 ? game.group.label : undefined"
+            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/group']"
+               [fragment]="game.tournament.status === 'FINISHED' ? game.group.label : undefined"
                class="btn btn-secondary btn text-white w-100 all-petite-caps" *ngIf="game.group">
                 <span class="font-weight-bold">
                     Group {{game.group.label}}
                 </span>
-                {{game.tournament.created | date:'y'}}
+                {{game.tournament.created | cwtDate:'y'}}
             </a>
         </div>
     </div>
 
     <div class="alert alert-warning  mt-1" role="alert"
-         *ngIf="['FINISHED', 'ARCHIVED'].indexOf(game.tournament.status) !== -1">
+         *ngIf="game.tournament.status === 'FINISHED'">
         <i class="fa fa-warning"></i>
         This game is from a past tournament.
+    </div>
+
+    <div class="bet-result mt-4" *ngIf="betResult">
+        <div class="bet-result-home" [ngStyle]="{'width': betResult.homeUserPercent + '%'}">
+            <ng-template #betsForHome>
+                <span *ngFor="let user of betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+            </ng-template>
+            <a [routerLink]="" [ngbPopover]="betsForHome" placement="left">
+                {{betResult.homeUser.length}}
+            </a>
+        </div>
+        <div class="bet-result-away" [ngStyle]="{'width': betResult.awayUserPercent + '%'}">
+            <ng-template #betsForAway>
+                <span *ngFor="let user of betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+            </ng-template>
+            <a [routerLink]="" [ngbPopover]="betsForAway" placement="right">
+                {{betResult.awayUser.length}}
+            </a>
+        </div>
     </div>
 
     <div class="row mt-4 no-gutters">

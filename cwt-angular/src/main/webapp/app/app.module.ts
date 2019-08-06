@@ -64,6 +64,16 @@ import {AdminTournamentReviewComponent} from "./admin/admin-tournament-review.co
 import {CanDeactivateGuard} from "./_services/can-deactivate-guard";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
+import {BetService} from "./_services/bet.service";
+import {UserPanelComponent} from "./user-panel/user-panel.component";
+import {ConfirmValidator} from "./_util/confirm.validator";
+import {StreamDetailComponent} from "./stream/stream-detail.component";
+import {SchedulerComponent} from "./scheduler/scheduler.component";
+import {ChannelCreateComponent} from "./stream/channel-create.component";
+import {DateTimeInputDirective} from "./_util/date-time-input.directive";
+import {ValidateDatetimeInputAfterDirective} from "./_util/date-time-input-after.validator";
+import {CwtDatePipe} from "./_util/cwt-date.pipe";
+import {DatePipe} from "@angular/common";
 
 const appRoutes: Routes = [
     {
@@ -143,6 +153,14 @@ const appRoutes: Routes = [
         component: StreamsComponent
     },
     {
+        path: 'streams/:id',
+        component: StreamDetailComponent
+    },
+    {
+        path: 'channels/create',
+        component: ChannelCreateComponent
+    },
+    {
         path: 'archive/:idOrYear',
         component: ArchiveDetailComponent
     },
@@ -166,6 +184,10 @@ const appRoutes: Routes = [
         path: 'admin/tournaments/review',
         component: AdminTournamentReviewComponent,
         canDeactivate: [CanDeactivateGuard]
+    },
+    {
+        path: 'user-panel',
+        component: UserPanelComponent
     },
     {
         path: '**',
@@ -201,6 +223,7 @@ const appRoutes: Routes = [
         ReportGameComponent,
         AdminPlayoffsStartComponent,
         StandingsOrderPipe,
+        CwtDatePipe,
         PlayoffsTreeComponent,
         GameDetailComponent,
         RatingComponent,
@@ -223,13 +246,20 @@ const appRoutes: Routes = [
         UserDetailComponent,
         ReachComponent,
         ConfirmDirective,
+        ConfirmValidator,
         ValidateResultDirective,
+        ValidateDatetimeInputAfterDirective,
         TypeaheadOpenOnFocusDirective,
         AddTechWinComponent,
         ReplacePlayerComponent,
         MarkdownComponent,
         AdminSettingsComponent,
-        AdminTournamentReviewComponent
+        AdminTournamentReviewComponent,
+        UserPanelComponent,
+        StreamDetailComponent,
+        ChannelCreateComponent,
+        DateTimeInputDirective,
+        SchedulerComponent,
     ],
     providers: [
         WebAppViewService,
@@ -237,10 +267,13 @@ const appRoutes: Routes = [
         RequestService,
         ConfigurationService,
         StandingsOrderPipe,
+        CwtDatePipe,
+        DatePipe,
         TimeAgoService,
         PreviousRouteService,
         Utils,
         PlayoffsService,
+        BetService,
         CanReportService,
         CanDeactivateGuard,
         Toastr,

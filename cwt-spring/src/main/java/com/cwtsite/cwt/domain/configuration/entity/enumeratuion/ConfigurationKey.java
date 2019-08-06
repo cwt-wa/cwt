@@ -41,7 +41,22 @@ public enum ConfigurationKey {
      * (3, 3), (2, 1)</pre>
      * Three points for three won rounds, one point for two won rounds. Anything else is zero points.
      */
-    POINTS_PATTERN(ConfigurationValueType.STRING);
+    POINTS_PATTERN(ConfigurationValueType.STRING),
+
+    /**
+     * The number of groups.
+     */
+    NUMBER_OF_GROUPS(ConfigurationValueType.INTEGER),
+
+    /**
+     * Number of users per group. There can still be fewer in some groups.
+     */
+    USERS_PER_GROUP(ConfigurationValueType.INTEGER),
+
+    /**
+     * Last pagination cursor for Twitch API `videos` endpoint.
+     */
+    PAGINATION_CURSOR_VIDEOS_TWITCH_API(ConfigurationValueType.INTEGER);
 
 
     private final ConfigurationValueType type;

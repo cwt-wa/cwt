@@ -2,8 +2,8 @@
 
 <div class="card bg-primary text-white border-0 mt-1">
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
-         [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}">
-        {{message.created | date:'shortTime'}}
+         [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}" ngPreserveWhitespaces>
+        <span class="font-variant-numeric-tabular-nums">{{message.created | cwtDate:'time'}}</span>
         <cwt-user *ngIf="message.author" [username]="message.author?.username" class="text-white font-weight-bold"></cwt-user>
 
         <ng-container *ngIf="message.category === 'NEWS'">

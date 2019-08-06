@@ -38,5 +38,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("select g from Game g where g.playoff.round >= :finalRound and g.homeUser is not null and g.awayUser is not null")
     List<Game> findReadyGamesInRoundEqualOrGreaterThan(@Param("finalRound") int finalRound);
 
+    @Query("select g from Game g where g.playoff.round >= :round and g.tournament = :tournament and g.voided = false")
+    List<Game> findByTournamentAndRoundAndNotVoided(@Param("tournament") Tournament tournament,
+                                                    @Param("round") Integer round);
+
     List<Game> findByGroup(Group group);
 }

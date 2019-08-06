@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.test
 
+import com.cwtsite.cwt.domain.game.entity.Game
+import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -16,11 +18,24 @@ object EntityDefaults {
     )
 
     fun tournament(created: LocalDateTime = LocalDateTime.now(), id: Long = 1, maxRounds: Int = 5, moderators: Set<User> = setOf(user()),
-                   status: TournamentStatus = TournamentStatus.ARCHIVED) = Tournament(
+                   threeWay: Boolean  = false, status: TournamentStatus = TournamentStatus.FINISHED) = Tournament(
             id = id,
             created = Timestamp.valueOf(created),
             maxRounds = maxRounds,
             moderators = moderators,
+            threeWay = threeWay,
             status = status
+    )
+
+    fun game(id: Long = 1, homeUser: User? = user(id = 1, username = "home"), awayUser: User? = user(id = 2, username = "away"),
+             scoreHome: Int? = 3, scoreAway: Int? = 1, tournament: Tournament = tournament(), playoff: PlayoffGame? = null) = Game(
+            id = id,
+            homeUser = homeUser,
+            awayUser = awayUser,
+            scoreHome = scoreHome,
+            scoreAway = scoreAway,
+            reporter = homeUser,
+            playoff = playoff,
+            tournament = tournament
     )
 }

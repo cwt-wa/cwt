@@ -1,12 +1,12 @@
 import {distinctUntilChanged, map} from 'rxjs/operators';
-import {Component, Inject, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {Application, Group, GroupDto, User} from "../custom";
-import {APP_CONFIG, AppConfig} from "../app.config";
 import {Observable} from "rxjs";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
 import {Utils} from "../_util/utils";
 import {Toastr} from "../_services/toastr";
+import {ConfigurationService} from "../_services/configuration.service";
 
 @Component({
     selector: 'cwt-admin-groups-start-automatic-draw',
@@ -21,18 +21,16 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
     applications: Application[];
 
     pots: User[][];
-    usersPerGroup: 4;
-    numberOfGroups: 8;
+    usersPerGroup: number;
+    numberOfGroups: number;
 
     typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
     typeAheadInputFormatter: (value: User) => string;
     typeAheadResultFormatter: (value: User) => string;
 
-    constructor(@Inject(APP_CONFIG) private appConfig: AppConfig, private requestService: RequestService,
-                private router: Router, private utils: Utils, private toastr: Toastr) {
-        this.numberOfGroups = this.appConfig.tournament.numberOfGroups;
-        this.usersPerGroup = this.appConfig.tournament.usersPerGroup;
-
+    constructor(private requestService: RequestService,
+                private router: Router, private utils: Utils, private toastr: Toastr,
+                private configurationService: ConfigurationService) {
         this.typeAheadForGroupMember = (text$: Observable<string>) =>
             text$
                 .pipe(distinctUntilChanged()).pipe(
@@ -49,16 +47,16 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
         const randomlyDrawnGroups: GroupDto[] = this.groups.map(g => ({label: g.label, users: []}));
 
         let i;
-        for (i = 0; i < this.appConfig.tournament.usersPerGroup; i++) {
+        for (i = 0; i < this.usersPerGroup; i++) {
             const indicesOfGroupsAlreadyDrawnAUserOfCurrentPot = [];
 
             let j;
-            for (j = 0; j < this.appConfig.tournament.numberOfGroups; j++) {
+            for (j = 0; j < this.numberOfGroups; j++) {
                 const user = this.pots[i][j];
 
                 let randomIndexOfGroup: number;
                 do {
-                    randomIndexOfGroup = Math.floor(Math.random() * this.appConfig.tournament.numberOfGroups);
+                    randomIndexOfGroup = Math.floor(Math.random() * this.numberOfGroups);
                 } while (indicesOfGroupsAlreadyDrawnAUserOfCurrentPot.indexOf(randomIndexOfGroup) !== -1);
 
                 randomlyDrawnGroups[randomIndexOfGroup].users.push(user.id);
@@ -89,19 +87,25 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.pots = [];
+        this.configurationService.requestByKeys("NUMBER_OF_GROUPS", "USERS_PER_GROUP")
+            .subscribe(res => {
+                this.numberOfGroups = parseInt(res.find(c => c.key === "NUMBER_OF_GROUPS").value);
+                this.usersPerGroup = parseInt(res.find(c => c.key === "USERS_PER_GROUP").value);;
 
-        let i;
-        for (i = 0; i < this.appConfig.tournament.usersPerGroup; i++) {
-            const newPot = [];
+                this.pots = [];
 
-            let j;
-            for (j = 0; j < this.appConfig.tournament.numberOfGroups; j++) {
-                newPot.push(<User>{});
-            }
+                let i;
+                for (i = 0; i < this.usersPerGroup; i++) {
+                    const newPot = [];
 
-            this.pots.push(newPot);
-        }
+                    let j;
+                    for (j = 0; j < this.numberOfGroups; j++) {
+                        newPot.push(<User>{});
+                    }
+
+                    this.pots.push(newPot);
+                }
+            })
     }
 
     private userIsDrawn(user: User): boolean {

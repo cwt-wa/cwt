@@ -40,7 +40,7 @@ constructor(private val groupRepository: GroupRepository,
         val gamesOfGroup = gameRepository.findByGroup(group)
 
         gamesOfGroup
-                .filter { it.wasPlayedBy(obsoleteUser) }
+                .filter { it.pairingInvolves(obsoleteUser) }
                 .onEach { it.voided = true }
 
         gamesOfGroup

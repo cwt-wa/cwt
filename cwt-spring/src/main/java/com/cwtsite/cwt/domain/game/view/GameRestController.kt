@@ -6,12 +6,11 @@ import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
-import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
-import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
-import com.cwtsite.cwt.domain.game.view.model.ReportDto
+import com.cwtsite.cwt.domain.game.view.model.*
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
+import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
@@ -35,13 +34,25 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("api/game")
 class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService, private val messageService: MessageService,
-            private val authService: AuthService) {
+            private val authService: AuthService, private val playoffService: PlayoffService) {
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
         return gameService.findById(id)
-                .map { body -> ResponseEntity.ok(GameDetailDto.toDto(body)) }
+                .map { ResponseEntity.ok(mapToDtoWithTitle(it)) }
                 .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
+    }
+
+    private fun mapToDtoWithTitle(game: Game): GameDetailDto {
+        return GameDetailDto.toDto(
+                game,
+                when {
+                    game.playoff() -> GameDetailDto.localizePlayoffRound(
+                            game.tournament.threeWay!!,
+                            playoffService.getNumberOfPlayoffRoundsInTournament(game.tournament),
+                            game.playoff!!.round)
+                    else -> null
+                })
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
@@ -120,7 +131,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         return ResponseEntity.ok(PageDto.toDto(
                 gameService.findPaginated(
                         pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map { GameDetailDto.toDto(it) },
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map { mapToDtoWithTitle(it) },
                 Arrays.asList("created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")))
     }
 
@@ -167,4 +178,25 @@ constructor(private val gameService: GameService, private val userService: UserS
         return ResponseEntity.ok(GameCreationDto.toDto(
                 gameService.addTechWin(users.find { it.id == dto.winner }!!, users.find { it.id == dto.loser }!!)))
     }
+
+    @RequestMapping("/{id}/bet")
+    fun placeBetOnGame(@PathVariable("id") id: Long, @RequestBody dto: BetCreationDto, request: HttpServletRequest): ResponseEntity<BetDto> {
+        val game = gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
+        val user = userService.getById(dto.user).orElseThrow { RestException("User ${dto.user} not found", HttpStatus.NOT_FOUND, null) }
+
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != dto.user) {
+            throw RestException("You must not impersonate your bet.", HttpStatus.FORBIDDEN, null);
+        }
+
+        if (game.wasPlayed()) {
+            throw RestException("The game has already been played.", HttpStatus.BAD_REQUEST, null);
+        }
+
+        return ResponseEntity.ok(BetDto.toDto(gameService.placeBet(game, user, dto.betOnHome)))
+    }
+
+    @RequestMapping("/{id}/bets", method = [RequestMethod.GET])
+    fun queryBetsForGame(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffTreeBetDto>> = ResponseEntity.ok(
+            gameService.findBetsByGame(gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) })
+                    .map { PlayoffTreeBetDto.toDto(it) })
 }

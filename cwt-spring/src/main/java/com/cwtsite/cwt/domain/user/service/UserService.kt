@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.domain.user.service
 
+import com.cwtsite.cwt.core.FileValidator
+import com.cwtsite.cwt.core.toInt
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
@@ -7,7 +9,10 @@ import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.user.repository.CountryRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.Country
+import com.cwtsite.cwt.domain.user.repository.entity.Photo
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -15,7 +20,10 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.StringUtils
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
+import javax.security.auth.login.CredentialException
 
 @Component
 class UserService @Autowired
@@ -26,7 +34,8 @@ constructor(private val userRepository: UserRepository,
             private val applicationRepository: ApplicationRepository,
             private val groupRepository: GroupRepository,
             private val playoffService: PlayoffService,
-            private val gameRepository: GameRepository) {
+            private val gameRepository: GameRepository,
+            private val countryRepository: CountryRepository) {
 
     @Transactional
     @Throws(UserService.UserExistsByEmailOrUsernameException::class, UserService.InvalidUsernameException::class, UserService.InvalidEmailException::class)
@@ -55,7 +64,11 @@ constructor(private val userRepository: UserRepository,
 
     fun userCanReportForCurrentTournament(user: User): Boolean {
         val userCanReportForCurrentTournament: Boolean
-        val currentTournament = tournamentService.getCurrentTournament() ?: return false
+        val currentTournament = try {
+            tournamentService.getCurrentTournament()
+        } catch (e: RuntimeException) {
+            return false
+        }
 
         if (currentTournament.status == TournamentStatus.GROUP) {
             val group = this.groupRepository.findByTournamentAndUser(currentTournament, user)
@@ -113,7 +126,7 @@ constructor(private val userRepository: UserRepository,
     }
 
     fun createDefaultUserStatsTimeline(): String = tournamentRepository.findAll()
-            .joinToString(separator = ",") { "[${it.id},${it.created!!.toLocalDateTime().year},${it.maxRounds},0]" }
+            .joinToString(separator = ",") { "[${it.id},${it.created!!.toLocalDateTime().year},${it.threeWay?.toInt() ?: 0},${it.maxRounds},0]" }
 
     fun findPaginated(page: Int, size: Int, sort: Sort): Page<User> {
         var extendedSort = sort
@@ -125,17 +138,27 @@ constructor(private val userRepository: UserRepository,
         return userRepository.findAll(PageRequest.of(page, size, extendedSort))
     }
 
-    @Throws(UserService.InvalidUsernameException::class)
-    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: String? = null): User {
+    @Throws(UserService.InvalidUsernameException::class, UsernameTakenException::class)
+    @Transactional
+    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: Country? = null): User {
         if (newUsername != null) {
             if (validateUsername(newUsername)) user.username = newUsername
             else throw InvalidUsernameException()
+
+            if (userRepository.findByUsernameIgnoreCase(newUsername).any { it != user }) throw UsernameTakenException()
         }
 
         if (newAboutText != null) user.about = newAboutText;
         if (newCountry != null) user.country = newCountry;
 
         return userRepository.save(user)
+    }
+
+    @Throws(CredentialException::class)
+    fun changePassword(user: User, currentPassword: String, newPassword: String) {
+        val newPasswordHashed = authService.createHash(newPassword)
+        if (user.password != authService.createHash(currentPassword)) throw CredentialException()
+        userRepository.save(with(user) { password = newPasswordHashed; this })
     }
 
     fun findAllOrderedByUsername(): List<User> = userRepository.findAll(Sort.by(Sort.Direction.ASC, "username"))
@@ -158,9 +181,24 @@ constructor(private val userRepository: UserRepository,
 
     fun findByUsernameContaining(term: String): List<User> = userRepository.findByUsernameContaining(term)
 
+    fun findCountryById(countryId: Long) = countryRepository.findById(countryId)
+
+    @Throws(FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class)
+    fun changePhoto(user: User, photo: MultipartFile) {
+        FileValidator.validate(
+                photo, 3000000,
+                listOf("image/jpeg", "image/png", "image/gif"), // Yes, image/jpg is invalid.
+                listOf("jpg", "jpeg", "png", "gif"))
+
+        user.photo = Photo(file = photo.bytes, mediaType = photo.contentType, extension = StringUtils.getFilenameExtension(photo.originalFilename))
+        userRepository.save(user)
+    }
+
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 
     inner class InvalidUsernameException : RuntimeException()
+
+    inner class UsernameTakenException : RuntimeException()
 
     inner class InvalidEmailException : RuntimeException()
 }

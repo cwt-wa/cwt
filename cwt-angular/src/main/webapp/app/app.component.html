@@ -19,10 +19,10 @@
                 <a routerLink="/admin" class="btn" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                     Admin
                 </a>
-                <button class="btn" (click)="logOut()">
+                <a href="" class="btn" (click)="logOut()">
                     Log out
-                </button>
-                <a routerLink="/" class="btn" style="overflow: hidden;">
+                </a>
+                <a routerLink="/user-panel" class="btn" style="overflow: hidden;">
                     {{authenticatedUser.username}} <!-- TODO Care for longer usernames -->
                 </a>
             </div>
@@ -48,8 +48,9 @@
                 </a>
             </div>
             <div class="col text-right user-panel all-petite-caps" ngbDropdown>
-                <i class="fa fa-lg cwt-user-panel-icon no-caret" [ngClass]="authenticatedUser ? 'fa-user' : 'fa-user-o'"
-                   [ngClass]="{'vanish': !isNavCollapsed}" ngbDropdownToggle>
+                <i class="fa fa-lg cwt-user-panel-icon no-caret"
+                   [ngClass]="{'vanish': !isNavCollapsed, 'fa-user': authenticatedUser, 'fa-user-o': !authenticatedUser}"
+                   ngbDropdownToggle>
                 </i>
                 <div class="dropdown-menu" *ngIf="!authenticatedUser" ngbDropdownMenu>
                     <a routerLink="/login" class="dropdown-item">Log in</a>
@@ -57,13 +58,13 @@
                     <a routerLink="/register" class="dropdown-item">Register</a>
                 </div>
                 <div class="dropdown-menu" *ngIf="authenticatedUser" ngbDropdownMenu>
-                    <a routerLink="/" class="dropdown-item">
+                    <a routerLink="/user-panel" class="dropdown-item">
                         {{authenticatedUser.username}}
                     </a>
                     <button class="dropdown-item" (click)="logOut()">
                         Log out
                     </button>
-                    <a routerLink="/" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
+                    <a routerLink="/admin" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
                         Admin
                     </a>
                 </div>

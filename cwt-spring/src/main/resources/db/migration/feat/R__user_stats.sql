@@ -20,3 +20,6 @@ create materialized view user_stats AS
                             join GROUP_STANDING s on g.ID = s.GROUP_ID
                      group by s.USER_ID) participations on participations.USER_ID = u.ID
    order by trophy_points desc, participations desc, username desc);
+
+-- Required for concurrent refresh.
+create unique index if not exists idx_user_stats on user_stats (user_id);

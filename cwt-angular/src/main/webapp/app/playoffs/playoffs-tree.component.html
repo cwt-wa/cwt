@@ -1,12 +1,12 @@
 <div class="playoff-tree" *ngIf="playoffGames">
-    <div *ngFor="let gamesInRound of playoffGames; let indexOfRound = index; let lastRound = last" class="playoff-round">
-        <table *ngFor="let game of gamesInRound; let odd = odd; let indexOfGameInRound = index; let lastGameOfRound = last" class="playoff-spot" [ngClass]="{'odd': odd}"
-               [ngStyle]="{'margin-top': indexOfRound !== 0 ? ([[0, 81, 81, 81], [118, 236], [196, 12]])[indexOfRound - 1][indexOfGameInRound] + 'px' : 'inherit'}">
+    <div *ngFor="let gamesInRound of playoffGames; let indexOfRound = index; let lastRound = last" class="playoff-round" [ngClass]="{'three-way-final': lastRound && isThreeWayFinalTree}">
+        <table *ngFor="let game of gamesInRound; let odd = odd; let indexOfGameInRound = index; let lastGameOfRound = last" class="playoff-spot" [ngClass]="{'odd': odd}">
             <thead *ngIf="lastRound">
             <tr>
                 <td colspan="3" class="text-center rounded-top">
-                    <h6 class="m-0" *ngIf="lastGameOfRound">Little Final</h6>
-                    <h5 class="m-0" *ngIf="!lastGameOfRound">Final</h5>
+                    <h6 class="m-0" *ngIf="lastGameOfRound && !isThreeWayFinalTree">Little Final</h6>
+                    <h5 class="m-0" *ngIf="!lastGameOfRound && !isThreeWayFinalTree">Final</h5>
+                    <h5 class="m-0" *ngIf="isThreeWayFinalTree">Three-Way Final</h5>
                 </td>
             </tr>
             </thead>
@@ -26,8 +26,18 @@
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </td>
+                <td class="playoff-bet" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
+                    <label class="sr-only" for="betForHome{{game.id}}">Bet for {{game.homeUser.username}}</label>
+                    <input type="radio" id="betForHome{{game.id}}" (click)="placeBet(true, game)" name="betGame{{game.id}}"
+                    [checked]="game.betResult.userBet?.betOnHome === true" [disabled]="game.betResult.userBet?.betOnHome === true || placingBet.indexOf(game.id) !== -1">
+                </td>
                 <td class="playoff-bet rounded-top-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
-                    <input type="radio"> <!-- TODO Betting. -->
+                    <ng-template #betsForHome>
+                        <span *ngFor="let user of game.betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                    </ng-template>
+                    <a [routerLink]="" [ngbPopover]="betsForHome" container="body" placement="right">
+                        {{game.betResult.homeUser.length}}
+                    </a>
                 </td>
             </tr>
             <tr>
@@ -37,8 +47,18 @@
                 <td class="playoff-score" *ngIf="game?.reporter">
                     {{game?.scoreAway}}
                 </td>
+                <td class="playoff-bet" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
+                    <label class="sr-only" for="betForAway{{game.id}}">Bet for {{game.homeUser.username}}</label>
+                    <input type="radio" id="betForAway{{game.id}}" (click)="placeBet(false, game)" name="betGame{{game.id}}"
+                           [checked]="game.betResult.userBet?.betOnHome === false" [disabled]="game.betResult.userBet?.betOnHome === false || placingBet.indexOf(game.id) !== -1">
+                </td>
                 <td class="playoff-bet rounded-bottom-right" *ngIf="!game?.reporter && game?.homeUser && game?.awayUser">
-                    <input type="radio">
+                    <ng-template #betsForAway>
+                        <span *ngFor="let user of game.betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                    </ng-template>
+                    <a [routerLink]="" [ngbPopover]="betsForAway" container="body" placement="right">
+                        {{game.betResult.awayUser.length}}
+                    </a>
                 </td>
             </tr>
             </tbody>
