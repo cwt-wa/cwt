@@ -17,9 +17,9 @@ class TetrisRestController @Autowired
 constructor(private val tetrisService: TetrisService) {
 
     @RequestMapping("", method = [RequestMethod.POST])
-    fun saveTetris(@RequestBody highscore: Long): ResponseEntity<TetrisDto> {
+    fun saveTetris(@RequestBody tetrisDto: TetrisDto): ResponseEntity<TetrisDto> {
         val timestamp = Timestamp(System.currentTimeMillis());
-        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(null, highscore, timestamp)))
+        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(null, tetrisDto.highscore, timestamp, tetrisDto.guestname)))
     }
 
     @RequestMapping("", method = [RequestMethod.GET])

@@ -16,6 +16,8 @@ data class Tetris(
         @JoinColumn(nullable = true)
         val user: User?,
 
+        val guestname : String?,
+
         val highscore: Long,
 
         val created: Timestamp

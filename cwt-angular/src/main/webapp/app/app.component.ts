@@ -9,6 +9,7 @@ import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
 import * as p5 from "p5";
+import {TetrisGuest} from "../tetris/tetrisguest";
 
 @Component({
     selector: 'my-app',
@@ -24,6 +25,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     private authenticatedUser: JwtUser;
     private tetris: Tetris;
     private tetrisGuestName: string;
+    private highscore: number;
     //@ts-ignore
     private newTetrisEntryId: number;
 
@@ -72,6 +74,7 @@ export class AppComponent implements AfterViewInit, OnInit {
             this.tetris = new Tetris(p);
 
             this.tetris.onGameOver = (highscore: number) => {
+                this.highscore = highscore;
                 document.getElementById("tetris-gameover").classList.add("tetris-visible");
                 document.body.classList.add('gameOver');
 
@@ -117,15 +120,14 @@ export class AppComponent implements AfterViewInit, OnInit {
     //@ts-ignore
     private saveTetrisGuest() {
         if (this.tetrisGuestName) {
-            //do something
-            console.log(this.tetrisGuestName);
-            /*this.requestService.post<TetrisDto>(`tetris`, new TetrisGuest(this.highscore, this.tetrisGuestName))
+            this.requestService.post<TetrisDto>(`tetris`, new TetrisGuest(this.highscore, this.tetrisGuestName))
             .subscribe(res => {
                 this.toastr.success("Highscore saved.");
                 this.highscores.push(res);
                 this.highscores = this.sortTetrisHighscore(this.highscores);
                 this.newTetrisEntryId = res.id;
-            });*/
+                document.getElementById("tetris-game-over-entry").style.display = "none";
+            });
         }
     }
 

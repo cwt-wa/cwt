@@ -9,6 +9,7 @@ import java.sql.Timestamp
 data class TetrisDto(
         val highscore: Long,
         val user: UserMinimalDto?,
+        val guestname : String?,
         val created: Timestamp) {
 
     companion object {
@@ -18,12 +19,14 @@ data class TetrisDto(
                 return TetrisDto(
                         highscore = tetris.highscore,
                         user = null,
+                        guestname = tetris.guestname,
                         created = tetris.created
                 )
             } else {
                 return TetrisDto(
                         highscore = tetris.highscore,
                         user = UserMinimalDto.toDto(tetris.user),
+                        guestname = null,
                         created = tetris.created
                 )
             }

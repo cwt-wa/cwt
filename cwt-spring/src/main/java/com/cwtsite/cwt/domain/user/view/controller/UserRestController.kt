@@ -138,7 +138,7 @@ constructor(private val userService: UserService, private val applicationService
     fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long): ResponseEntity<TetrisDto> {
         val user = userService.getById(userId).orElseThrow { RestException("User $userId not found.", HttpStatus.NOT_FOUND, null) }
         val timestamp = Timestamp(System.currentTimeMillis());
-        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, timestamp)))
+        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, timestamp, null)))
     }
 
     private fun assertUser(id: Long): User = userService.getById(id)
