@@ -3,7 +3,7 @@
         <div class="bg-secondary text-white rounded h-100 text-center">
             <div class="d-flex justify-content-center h-100 align-items-center">
                 <button type="button" class="btn btn-danger btn-sm  position-absolute" style="left: .5rem"
-                        (click)="deleteSchedule(schedule)" *ngIf="schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id">
+                        (click)="deleteSchedule(schedule)" *ngIf="authUser && (schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id)">
                     <i class="fa fa-trash"></i>
                 </button>
                 <div>
