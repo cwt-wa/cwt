@@ -1,39 +1,43 @@
-<div class="row">
-    <div class="col-12 col-md-4 col-lg-3 bg-secondary" *ngFor="let schedule of schedules;">
-        <div class="card bg-secondary">
-            <div class="card-body text-white">
-                <cwt-user [username]="schedule.homeUser.username"></cwt-user>
-                vs.
-                <cwt-user [username]="schedule.awayUser.username"></cwt-user>
-                at
-                {{schedule.appointment | cwtDate:'MMM d, HH:ss'}}
+<div class="row no-gutters align-items-stretch align-content-center" *ngIf="schedules">
+    <div class="col-12 col-md-6 col-lg-6 pb-1" [ngClass]="{'pr-1': even}" style="height: 3.2rem" *ngFor="let schedule of schedules; let even = even;">
+        <div class="bg-secondary text-white rounded h-100 text-center">
+            <div class="d-flex justify-content-center h-100 align-items-center">
+                <div class="text-nowrap">
+                    <b>
+                        <cwt-user [username]="schedule.homeUser.username"></cwt-user>
+                    </b>
+                    vs.
+                    <b>
+                        <cwt-user [username]="schedule.awayUser.username"></cwt-user>
+                    </b>
+                    on
+                    <b>{{schedule.appointment | cwtDate:'MMM d, HH:ss'}}</b>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-6">
-        <div class="card bg-secondary align-items-center">
-            <div class="card-body text-white">
-                <form class="form-inline" (ngSubmit)="submit(scheduleForm.valid)" #scheduleForm="ngForm">
-                    <label class="sr-only" for="yourOpponent">Your opponent</label>
-                    <select class="form-control form-control-sm mr-1" id="yourOpponent" name="yourOpponent" required
-                            [(ngModel)]="newSchedule.opponent" #opponent="ngModel">
-                        <option disabled selected [value]="null" *ngIf="remainingOpponents?.length > 1">
-                            Your opponent
-                        </option>
-                        <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
-                            {{opponent.username}}
-                        </option>
-                    </select>
+    <div class="col-12 col-md-6 col-lg-6 pb-1" style="height: 3.2rem" [ngClass]="{'pr-1': schedules.length % 2 === 0}">
+        <div class="bg-secondary rounded h-100 p-2">
+            <form class="form-inline justify-content-center h-100 align-items-center" (ngSubmit)="submit(scheduleForm.valid)" #scheduleForm="ngForm">
+                <label class="sr-only" for="yourOpponent">Your opponent</label>
+                <select class="form-control form-control-sm mr-1" id="yourOpponent" name="yourOpponent" required
+                        [(ngModel)]="newSchedule.opponent" #opponent="ngModel">
+                    <option disabled selected [value]="null" *ngIf="remainingOpponents?.length > 1">
+                        Your opponent
+                    </option>
+                    <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
+                        {{opponent.username}}
+                    </option>
+                </select>
 
-                    <label class="sr-only" for="appointment">Date and time of appointment</label>
-                    <input type="text" id="appointment" name="appointment" required
-                           placeholder="YYYY-MM-DD HH:mm" class="form-control form-control-sm mr-1"
-                           [(ngModel)]="newSchedule.appointment" #appointment="ngModel" cwtDateTimeInput [cwtDateTimeInputAfter]="minAppointmentDateTime">
+                <label class="sr-only" for="appointment">Date and time of appointment</label>
+                <input type="text" id="appointment" name="appointment" required
+                       placeholder="YYYY-MM-DD HH:mm" class="form-control form-control-sm mr-1"
+                       [(ngModel)]="newSchedule.appointment" #appointment="ngModel" cwtDateTimeInput [cwtDateTimeInputAfter]="minAppointmentDateTime">
 
-                    <input type="submit" class="btn btn-sm btn-primary" value="Submit"
-                           [disabled]="opponent.errors?.required || appointment.errors?.required">
-                </form>
-            </div>
+                <input type="submit" class="btn btn-sm btn-primary" value="Submit"
+                       [disabled]="opponent.errors?.required || appointment.errors?.required">
+            </form>
         </div>
     </div>
 </div>
