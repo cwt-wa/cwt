@@ -26,21 +26,13 @@ export class SchedulerComponent implements OnInit {
     public ngOnInit(): void {
         this.authUser = this.authService.getUserFromTokenPayload();
 
-        const remainingOpponentsObservable = this.requestService
-            .get<User[]>(`user/${this.authUser.id}/remaining-opponents`);
-
         this.requestService.get<ScheduleDto[]>('schedule').subscribe(res => {
             this.schedules = res;
 
-            remainingOpponentsObservable.subscribe(remainingOpponents =>
-                this.filterByAlreadyScheduledAgainst(remainingOpponents));
+            this.requestService
+                .get<User[]>(`user/${this.authUser.id}/remaining-opponents`)
+                .subscribe(remainingOpponents => this.filterByAlreadyScheduledAgainst(remainingOpponents));
         });
-
-        remainingOpponentsObservable
-            .subscribe(res => {
-                this.filterByAlreadyScheduledAgainst(res);
-                this.remainingOpponents.length === 1 && (this.newSchedule.opponent = this.remainingOpponents[0].id);
-            });
     }
 
     public submit(valid: boolean) {
@@ -83,5 +75,6 @@ export class SchedulerComponent implements OnInit {
             return prev;
         }, []);
         this.remainingOpponents = remainingOpponents.filter(rO => opponentsAlreadyScheduledAgainst.indexOf(rO.id) === -1);
+        this.remainingOpponents.length === 1 && (this.newSchedule.opponent = this.remainingOpponents[0].id);
     }
 }
