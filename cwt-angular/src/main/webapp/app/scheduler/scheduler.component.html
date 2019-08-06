@@ -2,6 +2,10 @@
     <div class="col-12 col-md-6 col-lg-6 pb-1" [ngClass]="{'pr-1': even}" style="height: 3.2rem" *ngFor="let schedule of schedules; let even = even;">
         <div class="bg-secondary text-white rounded h-100 text-center">
             <div class="d-flex justify-content-center h-100 align-items-center">
+                <button type="button" class="btn btn-danger btn-sm  position-absolute" style="left: .5rem"
+                        (click)="deleteSchedule(schedule)" *ngIf="schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id">
+                    <i class="fa fa-trash"></i>
+                </button>
                 <div class="text-nowrap">
                     <b>
                         <cwt-user [username]="schedule.homeUser.username"></cwt-user>
@@ -16,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-6 pb-1" style="height: 3.2rem" [ngClass]="{'pr-1': schedules.length % 2 === 0}">
+    <div class="col-12 col-md-6 col-lg-6 pb-1" style="height: 3.2rem" [ngClass]="{'pr-1': schedules.length % 2 === 0}" *ngIf="remainingOpponents?.length">
         <div class="bg-secondary rounded h-100 p-2">
             <form class="form-inline justify-content-center h-100 align-items-center" (ngSubmit)="submit(scheduleForm.valid)" #scheduleForm="ngForm">
                 <label class="sr-only" for="yourOpponent">Your opponent</label>
