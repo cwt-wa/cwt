@@ -23,6 +23,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public highscores: TetrisDto[] = [];
     private authenticatedUser: JwtUser;
     private tetris: Tetris;
+    private tetrisGuestName: string;
     //@ts-ignore
     private newTetrisEntryId: number;
 
@@ -85,13 +86,7 @@ export class AppComponent implements AfterViewInit, OnInit {
                             this.newTetrisEntryId = res.id;
                         });
                 } else {
-                    this.requestService.post<TetrisDto>(`tetris`, highscore)
-                        .subscribe(res => {
-                            this.toastr.success("Highscore saved.");
-                            this.highscores.push(res);
-                            this.highscores = this.sortTetrisHighscore(this.highscores);
-                            this.newTetrisEntryId = res.id;
-                        });
+                    document.getElementById("tetris-game-over-entry").classList.add("tetris-visible");
                 }
 
                 this.requestService.get<TetrisDto[]>(`tetris`)
@@ -118,6 +113,21 @@ export class AppComponent implements AfterViewInit, OnInit {
             }
         }, document.getElementById('tetris'));
    }
+
+    //@ts-ignore
+    private saveTetrisGuest() {
+        if (this.tetrisGuestName) {
+            //do something
+            console.log(this.tetrisGuestName);
+            /*this.requestService.post<TetrisDto>(`tetris`, new TetrisGuest(this.highscore, this.tetrisGuestName))
+            .subscribe(res => {
+                this.toastr.success("Highscore saved.");
+                this.highscores.push(res);
+                this.highscores = this.sortTetrisHighscore(this.highscores);
+                this.newTetrisEntryId = res.id;
+            });*/
+        }
+    }
 
     private sortTetrisHighscore(highscore: TetrisDto[]): TetrisDto[] {
         return highscore.sort(

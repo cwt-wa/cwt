@@ -144,6 +144,12 @@
                 <h2>GAME OVER</h2>
         </label>
         </div>
+        <div id="tetris-game-over-entry">
+            <form (ngSubmit)="saveTetrisGuest()">
+                <label id="lbl-tetris-guest-entry">Type in your name to save your score</label>
+                <input id="input-tetris-guest-entry" type="text" [(ngModel)]="tetrisGuestName" name="tetrisGuestName">
+            </form>
+        </div>
         <div id="tetris-game-over-table">
             <table border="1" id="tetris-highscore-table" align="center">
                 <tr>

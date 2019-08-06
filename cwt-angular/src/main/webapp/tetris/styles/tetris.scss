@@ -78,3 +78,15 @@ canvas {
   color: $pink;
   font-weight: bold;
 }
+
+#tetris-game-over-entry {
+  display:none;
+}
+#tetris-game-over-entry.tetris-visible {
+  display:block;
+  color:white;
+}
+
+#lbl-tetris-guest-entry {
+  margin: 10px;
+}
