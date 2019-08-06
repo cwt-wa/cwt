@@ -1,102 +1,84 @@
-package com.cwtsite.cwt.domain.user.view.controller;
+package com.cwtsite.cwt.domain.user.view.controller
 
-import com.cwtsite.cwt.controller.RestException;
-import com.cwtsite.cwt.domain.user.repository.entity.User;
-import com.cwtsite.cwt.domain.user.service.AuthService;
-import com.cwtsite.cwt.domain.user.service.JwtTokenUtil;
-import com.cwtsite.cwt.domain.user.service.UserService;
-import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationRequest;
-import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse;
-import com.cwtsite.cwt.domain.user.view.model.JwtUser;
-import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.domain.user.repository.entity.User
+import com.cwtsite.cwt.domain.user.service.AuthService
+import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
+import com.cwtsite.cwt.domain.user.service.UserService
+import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationRequest
+import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse
+import com.cwtsite.cwt.domain.user.view.model.JwtUser
+import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping(value = "api/auth")
-public class AuthenticationRestController {
+@RequestMapping("api/auth")
+class AuthenticationRestController @Autowired
+constructor(private val authenticationManager: AuthenticationManager, private val jwtTokenUtil: JwtTokenUtil,
+            private val userDetailsService: UserDetailsService, private val userService: UserService,
+            private val authService: AuthService) {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final UserDetailsService userDetailsService;
-    private final UserService userService;
-    private final AuthService authService;
-
-    @Autowired
-    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                                        UserDetailsService userDetailsService, UserService userService,
-                                        AuthService authService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.userDetailsService = userDetailsService;
-        this.userService = userService;
-        this.authService = authService;
-    }
-
-    @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody UserRegistrationDto userRegistrationDto) {
-        final User user;
+    @RequestMapping(path = ["/register"], method = [RequestMethod.POST])
+    fun register(@RequestBody userRegistrationDto: UserRegistrationDto): ResponseEntity<*> {
+        val user: User
         try {
             user = userService.registerUser(
-                    userRegistrationDto.getUsername(), userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
-        } catch (UserService.UserExistsByEmailOrUsernameException e) {
-            throw new RestException("User already exists.", HttpStatus.BAD_REQUEST, e);
-        } catch (UserService.InvalidUsernameException e) {
-            throw new RestException("Username invalid.", HttpStatus.BAD_REQUEST, e);
-        } catch (UserService.InvalidEmailException e) {
-            throw new RestException("Email invalid.", HttpStatus.BAD_REQUEST, e);
+                    userRegistrationDto.username, userRegistrationDto.email, userRegistrationDto.password)
+        } catch (e: UserService.UserExistsByEmailOrUsernameException) {
+            throw RestException("User already exists.", HttpStatus.BAD_REQUEST, e)
+        } catch (e: UserService.InvalidUsernameException) {
+            throw RestException("Username invalid.", HttpStatus.BAD_REQUEST, e)
+        } catch (e: UserService.InvalidEmailException) {
+            throw RestException("Email invalid.", HttpStatus.BAD_REQUEST, e)
         }
+
         return createAuthenticationToken(
-                new JwtAuthenticationRequest(user.getUsername(), userRegistrationDto.getPassword()));
+                JwtAuthenticationRequest(user.username, userRegistrationDto.password))
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(
-            @RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword()
+    @RequestMapping("/login", method = [RequestMethod.POST])
+    @Throws(AuthenticationException::class)
+    fun createAuthenticationToken(
+            @RequestBody authenticationRequest: JwtAuthenticationRequest): ResponseEntity<*> {
+        val authentication = authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                        authenticationRequest.username,
+                        authenticationRequest.password
                 )
-        );
+        )
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().authentication = authentication
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        val userDetails = userDetailsService.loadUserByUsername(authenticationRequest.username)
+        val token = jwtTokenUtil.generateToken(userDetails)
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        return ResponseEntity.ok(JwtAuthenticationResponse(token))
     }
 
-    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
-    public ResponseEntity<JwtAuthenticationResponse> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-        String token = request.getHeader(authService.getTokenHeaderName());
-        if (token == null) {
-            return ResponseEntity.ok(null);
-        }
+    @RequestMapping("/refresh", method = [RequestMethod.GET])
+    fun refreshAndGetAuthenticationToken(request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse> {
+        val token = request.getHeader(authService.tokenHeaderName) ?: return ResponseEntity.ok(null)
 
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
+        val username = jwtTokenUtil.getUsernameFromToken(token)
+        val user = userDetailsService.loadUserByUsername(username) as JwtUser<*>
 
-        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getResetDate())) {
-            String refreshedToken = jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+        return if (jwtTokenUtil.canTokenBeRefreshed(token, user.resetDate)!!) {
+            val refreshedToken = jwtTokenUtil.refreshToken(token)
+            ResponseEntity.ok(JwtAuthenticationResponse(refreshedToken))
         } else {
-            return ResponseEntity.badRequest().body(null);
+            ResponseEntity.badRequest().body(null)
         }
     }
 }
