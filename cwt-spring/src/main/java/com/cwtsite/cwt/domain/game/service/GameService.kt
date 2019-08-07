@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.util.*
+import kotlin.math.ceil
 
 @Component
 class GameService @Autowired
@@ -62,7 +63,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int, persist: Boolean = true): Game {
         val currentTournament = tournamentService.getCurrentTournament()
         val bestOfValue = Integer.valueOf(getBestOfValue(currentTournament.status).value)
-        val winnerScore = Math.ceil(java.lang.Double.valueOf(bestOfValue.toDouble()) / 2)
+        val winnerScore = ceil(bestOfValue.toDouble() / 2)
 
         if (homeScore.toDouble() != winnerScore && awayScore.toDouble() != winnerScore || homeScore + awayScore > bestOfValue) {
             throw InvalidScoreException(String.format(
