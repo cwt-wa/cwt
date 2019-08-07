@@ -118,6 +118,13 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     }
 
+    @RequestMapping("{id}/game/playoff", method = [RequestMethod.GET])
+    fun getPlayoffGames(@PathVariable("id") id: Long): ResponseEntity<List<Game>> {
+        return tournamentService.getTournament(id)
+                .map { t -> ResponseEntity.ok(playoffService.getGamesOfTournament(t)) }
+                .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
+    }
+
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])
     fun startPlayoffs(@RequestBody gameCreationDtoList: List<GameCreationDto>): ResponseEntity<List<Game>> {
         val userIds = gameCreationDtoList.stream()
