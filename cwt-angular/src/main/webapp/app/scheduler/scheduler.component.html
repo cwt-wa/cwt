@@ -23,7 +23,7 @@
                 <div>
                     <b><cwt-user [username]="schedule.homeUser.username"></cwt-user></b>&nbsp;vs.&nbsp;<b><cwt-user [username]="schedule.awayUser.username"></cwt-user></b>
                     <br class="d-sm-none">
-                    on&nbsp;<b>{{schedule.appointment | cwtDate:'MMM d, HH:ss'}}</b>
+                    on&nbsp;<b>{{schedule.appointment | cwtDate:'MMM d, HH:mm'}}</b>
                 </div>
                 <div class="btn btn-sm rounded-circle position-absolute bg-success text-center text-white" style="right: .5rem"
                      [ngbTooltip]="streamTooltip" placement="top" *ngIf="schedule.streams.length">
