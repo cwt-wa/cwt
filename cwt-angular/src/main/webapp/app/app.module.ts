@@ -75,6 +75,7 @@ import {ValidateDatetimeInputAfterDirective} from "./_util/date-time-input-after
 import {CwtDatePipe} from "./_util/cwt-date.pipe";
 import {DatePipe} from "@angular/common";
 import {WriteRulesComponent} from "./rules/write-rules.component";
+import {HelpComponent} from "./rules/help.component";
 
 const appRoutes: Routes = [
     {
@@ -152,6 +153,10 @@ const appRoutes: Routes = [
     {
         path: 'streams',
         component: StreamsComponent
+    },
+    {
+        path: 'help',
+        component: HelpComponent
     },
     {
         path: 'streams/:id',
@@ -266,6 +271,7 @@ const appRoutes: Routes = [
         DateTimeInputDirective,
         SchedulerComponent,
         WriteRulesComponent,
+        HelpComponent,
     ],
     providers: [
         WebAppViewService,
