@@ -74,6 +74,7 @@ import {DateTimeInputDirective} from "./_util/date-time-input.directive";
 import {ValidateDatetimeInputAfterDirective} from "./_util/date-time-input-after.validator";
 import {CwtDatePipe} from "./_util/cwt-date.pipe";
 import {DatePipe} from "@angular/common";
+import {WriteRulesComponent} from "./rules/write-rules.component";
 
 const appRoutes: Routes = [
     {
@@ -169,6 +170,10 @@ const appRoutes: Routes = [
         component: WriteAdminNewsComponent
     },
     {
+        path: 'admin/rules',
+        component: WriteRulesComponent
+    },
+    {
         path: 'admin/tech-win',
         component: AddTechWinComponent
     },
@@ -260,6 +265,7 @@ const appRoutes: Routes = [
         ChannelCreateComponent,
         DateTimeInputDirective,
         SchedulerComponent,
+        WriteRulesComponent,
     ],
     providers: [
         WebAppViewService,
