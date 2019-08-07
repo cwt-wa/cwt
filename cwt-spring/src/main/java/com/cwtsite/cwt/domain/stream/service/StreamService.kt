@@ -16,7 +16,7 @@ class StreamService {
 
     fun findAll(): List<Stream> = streamRepository.findAll()
 
-    fun findChannel(userId: String): Optional<Channel> = channelRepository.findById(userId)
+    fun findChannel(channelId: String): Optional<Channel> = channelRepository.findById(channelId)
 
     fun findAllChannels(): List<Channel> = channelRepository.findAll()
 
