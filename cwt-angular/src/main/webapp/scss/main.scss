@@ -533,6 +533,8 @@ select.custom-select-sm {
   & > .bet-result-home,
   & > .bet-result-away {
     display: inline-block;
+    max-width: 90%;
+    min-width: 10%;
   }
 
   & > .bet-result-home {
