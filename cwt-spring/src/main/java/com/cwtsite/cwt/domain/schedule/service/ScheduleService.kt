@@ -24,6 +24,8 @@ class ScheduleService {
         scheduleRepository.delete(schedule)
     }
 
+    fun findByPairing(user1: User, user2: User): Schedule? = scheduleRepository.findByPairing(user1, user2)
+
     fun findAll(): MutableList<Schedule> = scheduleRepository.findAll()
 
     fun findById(id: Long): Optional<Schedule> = scheduleRepository.findById(id)
