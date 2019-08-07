@@ -28,7 +28,7 @@ export class SchedulerComponent implements OnInit {
         this.authUser = this.authService.getUserFromTokenPayload();
 
         this.requestService.get<ScheduleDto[]>('schedule').subscribe(res => {
-            this.schedules = res;
+            this.schedules = res.sort((a, b) => new Date(a.appointment).getTime() - new Date(b.appointment).getTime());
 
             this.requestService
                 .get<User[]>(`user/${this.authUser.id}/remaining-opponents`)
@@ -54,6 +54,7 @@ export class SchedulerComponent implements OnInit {
         this.requestService.post<ScheduleDto>('schedule', this.newSchedule)
             .subscribe(res => {
                 this.schedules.push(res);
+                this.schedules.sort((a, b) => new Date(a.appointment).getTime() - new Date(b.appointment).getTime());
                 this.newSchedule = {opponent: null} as ScheduleCreationDto;
                 this.filterByAlreadyScheduledAgainst(this.remainingOpponents);
             });
