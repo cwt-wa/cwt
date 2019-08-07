@@ -42,6 +42,7 @@
         <div class="bet-result-home" [ngStyle]="{'width': betResult.homeUserPercent + '%'}">
             <ng-template #betsForHome>
                 <span *ngFor="let user of betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                <span *ngIf="!betResult.homeUser.length">No bets were placed.</span>
             </ng-template>
             <a [routerLink]="" [ngbPopover]="betsForHome" placement="left">
                 {{betResult.homeUser.length}}
@@ -50,6 +51,7 @@
         <div class="bet-result-away" [ngStyle]="{'width': betResult.awayUserPercent + '%'}">
             <ng-template #betsForAway>
                 <span *ngFor="let user of betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                <span *ngIf="!betResult.awayUser.length">No bets were placed.</span>
             </ng-template>
             <a [routerLink]="" [ngbPopover]="betsForAway" placement="right">
                 {{betResult.awayUser.length}}
