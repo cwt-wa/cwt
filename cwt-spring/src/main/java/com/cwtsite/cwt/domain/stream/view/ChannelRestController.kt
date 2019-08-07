@@ -23,10 +23,11 @@ class ChannelRestController {
 
     @RequestMapping("", method = [RequestMethod.POST])
     fun saveChannel(@RequestBody dto: ChannelCreationDto): ResponseEntity<ChannelDto> {
-        val usersFromTwitch = twitchService.requestUsers(dto.twitchLoginName)
-        if (usersFromTwitch.isEmpty()) throw RestException("Channel was not found at Twitch.", HttpStatus.BAD_REQUEST, null)
         val user = userService.getById(dto.user).orElseThrow { RestException("Invalid user.", HttpStatus.BAD_REQUEST, null) }
         if (streamService.findChannelByUsers(listOf(user)).isNotEmpty()) throw RestException("You already own a channel.", HttpStatus.BAD_REQUEST, null)
+        val usersFromTwitch = twitchService.requestUsers(dto.twitchLoginName)
+        if (usersFromTwitch.isEmpty()) throw RestException("Channel was not found at Twitch.", HttpStatus.BAD_REQUEST, null)
+        if (streamService.findChannel(usersFromTwitch[0].id!!).isPresent) throw RestException("Channel already registered.", HttpStatus.BAD_REQUEST, null)
         return ResponseEntity.ok(ChannelDto.toDto(streamService.saveChannel(TwitchUserDto.fromDto(usersFromTwitch[0], user, dto.title))))
     }
 
