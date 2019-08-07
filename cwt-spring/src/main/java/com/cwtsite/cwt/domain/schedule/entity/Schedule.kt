@@ -32,7 +32,7 @@ data class Schedule(
         @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         @JoinTable(name = "schedule_channel", joinColumns = [JoinColumn(name = "schedule_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "channel_id", referencedColumnName = "id")])
-        val streams: Set<Channel> = mutableSetOf(),
+        val streams: MutableSet<Channel> = mutableSetOf(),
 
         @field:CreationTimestamp
         val created: Timestamp? = null

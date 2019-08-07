@@ -27,4 +27,6 @@ class ScheduleService {
     fun findAll(): MutableList<Schedule> = scheduleRepository.findAll()
 
     fun findById(id: Long): Optional<Schedule> = scheduleRepository.findById(id)
+
+    fun save(schedule: Schedule): Schedule = scheduleRepository.save(schedule)
 }

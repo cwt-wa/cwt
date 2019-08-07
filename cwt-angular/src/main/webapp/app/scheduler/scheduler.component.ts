@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {AuthService} from "../_services/auth.service";
 import {RequestService} from "../_services/request.service";
-import {JwtUser, ScheduleCreationDto, ScheduleDto, User} from "../custom";
+import {ChannelDto, JwtUser, ScheduleCreationDto, ScheduleDto, User} from "../custom";
 import {NgForm} from "@angular/forms";
 import {Toastr} from "../_services/toastr";
 
@@ -18,6 +18,7 @@ export class SchedulerComponent implements OnInit {
     newSchedule: ScheduleCreationDto = {opponent: null} as ScheduleCreationDto;
     remainingOpponents: User[];
     readonly minAppointmentDateTime: Date = new Date();
+    authUserChannel: ChannelDto;
 
     constructor(private authService: AuthService, private requestService: RequestService,
                 private toastr: Toastr) {
@@ -33,6 +34,9 @@ export class SchedulerComponent implements OnInit {
                 .get<User[]>(`user/${this.authUser.id}/remaining-opponents`)
                 .subscribe(remainingOpponents => this.filterByAlreadyScheduledAgainst(remainingOpponents));
         });
+
+        this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
+            .subscribe(res => this.authUserChannel = res[0])
     }
 
     public submit(valid: boolean) {
@@ -76,5 +80,27 @@ export class SchedulerComponent implements OnInit {
         }, []);
         this.remainingOpponents = remainingOpponents.filter(rO => opponentsAlreadyScheduledAgainst.indexOf(rO.id) === -1);
         this.remainingOpponents.length === 1 && (this.newSchedule.opponent = this.remainingOpponents[0].id);
+    }
+
+    scheduleStream(schedule: ScheduleDto) {
+        const idxOfAlreadyScheduledStream = schedule.streams.findIndex(s => s.id === this.authUserChannel.id);
+        const channelAlreadyScheduled = idxOfAlreadyScheduledStream !== -1;
+
+        if (channelAlreadyScheduled) {
+            this.requestService
+                .delete<ChannelDto>(`schedule/${schedule.id}/channel/${this.authUserChannel.id}`)
+                .subscribe(() => {
+                    this.toastr.success("Successfully deleted scheduled stream.");
+                    schedule.streams.splice(idxOfAlreadyScheduledStream, 1);
+                    // this.schedules[this.schedules.findIndex(s => s.id === schedule.id)].streams.push(res);
+                });
+        } else {
+            this.requestService
+                .post<ChannelDto>(`schedule/${schedule.id}/channel/${this.authUserChannel.id}`)
+                .subscribe(res => {
+                    this.toastr.success("Successfully scheduled stream for game.");
+                    schedule.streams.push(res);
+                });
+        }
     }
 }

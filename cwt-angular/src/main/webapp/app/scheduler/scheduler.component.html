@@ -25,9 +25,13 @@
                     <br class="d-sm-none">
                     on&nbsp;<b>{{schedule.appointment | cwtDate:'MMM d, HH:ss'}}</b>
                 </div>
-                <div class="btn btn-sm rounded-circle position-absolute bg-success text-center text-white" ngbTooltip="List channels here." placement="top" style="right: .5rem"> <!--*ngIf="schedule.streams.length"-->
+                <div class="btn btn-sm rounded-circle position-absolute bg-success text-center text-white" style="right: .5rem"
+                     [ngbTooltip]="streamTooltip" placement="top" *ngIf="schedule.streams.length">
                     <i class="fa fa-twitch"></i>
                 </div>
+                <ng-template #streamTooltip>
+                    <span *ngFor="let channel of schedule.streams, let last = last;">{{channel.title}}<span *ngIf="!last">, </span></span>
+                </ng-template>
             </div>
         </div>
     </div>
