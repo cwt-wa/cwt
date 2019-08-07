@@ -8,7 +8,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "\"group\"")
 @SequenceGenerator(name = "group_seq", sequenceName = "group_seq", allocationSize = 1)
-data class Group(
+data class Group (
 
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_seq")
@@ -25,9 +25,6 @@ data class Group(
         @OneToMany(cascade = [CascadeType.ALL])
         @JoinColumn(name = "group_id")
         val standings: MutableList<GroupStanding> = mutableListOf()
-
-//        @OneToMany(cascade = [CascadeType.ALL])
-//        val games: MutableList<Game> = mutableListOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
