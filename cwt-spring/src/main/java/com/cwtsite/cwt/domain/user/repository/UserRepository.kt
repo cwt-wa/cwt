@@ -17,6 +17,8 @@ interface UserRepository : JpaRepository<User, Long> {
 
     fun findByUsernameContaining(username: String): List<User>
 
+    fun findByUsernameIn(usernames: List<String>): List<User>
+
     @Modifying
     @Query("REFRESH MATERIALIZED VIEW CONCURRENTLY user_stats", nativeQuery = true)
     fun refreshUserStats()

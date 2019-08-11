@@ -4,7 +4,7 @@ import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
-import {JwtUser, TetrisDto} from "./custom";
+import {JwtUser, TetrisDto, UserMinimalDto} from "./custom";
 import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
@@ -119,16 +119,23 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     //@ts-ignore
     private saveTetrisGuest() {
-        if (this.tetrisGuestName) {
-            this.requestService.post<TetrisDto>(`tetris`, new TetrisGuest(this.highscore, this.tetrisGuestName))
-            .subscribe(res => {
-                this.toastr.success("Highscore saved.");
-                this.highscores.push(res);
-                this.highscores = this.sortTetrisHighscore(this.highscores);
-                this.newTetrisEntryId = res.id;
-                document.getElementById("tetris-game-over-entry").style.display = "none";
-            });
+        if (!this.tetrisGuestName) {
+            return;
         }
+        this.requestService.get<UserMinimalDto[]>(`user`, {"username": this.tetrisGuestName}).subscribe(res => {
+            if (res.length !== 0) {
+                this.toastr.error("Username is registered. Please use another one.");
+                return;
+            }
+            this.requestService.post<TetrisDto>(`tetris`, new TetrisGuest(this.highscore, this.tetrisGuestName))
+                .subscribe(res => {
+                    this.toastr.success("Highscore saved.");
+                    this.highscores.push(res);
+                    this.highscores = this.sortTetrisHighscore(this.highscores);
+                    this.newTetrisEntryId = res.id;
+                    document.getElementById("tetris-game-over-entry").style.display = "none";
+                });
+        });
     }
 
     private sortTetrisHighscore(highscore: TetrisDto[]): TetrisDto[] {

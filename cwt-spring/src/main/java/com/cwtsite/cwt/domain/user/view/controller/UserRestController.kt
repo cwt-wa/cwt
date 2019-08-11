@@ -25,9 +25,9 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
-import java.sql.Timestamp
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
+import java.sql.Timestamp
 import java.util.*
 import javax.security.auth.login.CredentialException
 import javax.servlet.http.HttpServletRequest
@@ -42,12 +42,12 @@ constructor(private val userService: UserService, private val applicationService
             private val tetrisService: TetrisService) {
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun findAll(@RequestParam("term") term: String?): ResponseEntity<List<User>> {
-        if (term == null) {
-            return ResponseEntity.ok(userService.findAllOrderedByUsername())
+    fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
+        return when {
+            term != null -> ResponseEntity.ok(userService.findByUsernameContaining(term))
+            usernames != null -> ResponseEntity.ok(userService.findByUsernames(usernames))
+            else -> ResponseEntity.ok(userService.findAllOrderedByUsername())
         }
-
-        return ResponseEntity.ok(userService.findByUsernameContaining(term))
     }
 
     @RequestMapping("/{id}/can-apply", method = [RequestMethod.GET])

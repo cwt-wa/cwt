@@ -194,6 +194,8 @@ constructor(private val userRepository: UserRepository,
         userRepository.save(user)
     }
 
+    fun findByUsernames(usernames: List<String>): List<User> = userRepository.findByUsernameIn(usernames)
+
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 
     inner class InvalidUsernameException : RuntimeException()
