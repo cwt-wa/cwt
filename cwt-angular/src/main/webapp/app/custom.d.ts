@@ -23,7 +23,7 @@ export interface JwtTokenPayload {
 
 interface Application {
     id: number;
-    created: Date;
+    created: string;
     revoked: boolean;
     tournament: any;
     applicant: User;
@@ -34,7 +34,7 @@ export type ConfigurationKey = "RULES" | "NUMBER_OF_GROUP_MEMBERS_ADVANCING" | "
 export interface Configuration {
     key: ConfigurationKey;
     value: string;
-    modified: Date;
+    modified: string;
     author?: User;
 }
 
@@ -44,7 +44,7 @@ export interface User {
     authorities: Role[];
     email: string;
     id: number;
-    resetDate: Date;
+    resetDate: string;
     resetKey: string;
     userProfile: any;
     userSetting: any;
@@ -95,8 +95,8 @@ export interface ChannelDto {
     offlineUmageUrl: string;
     login: string;
     description: string;
-    modified: Date;
-    created: Date;
+    modified: string;
+    created: string;
 }
 
 export interface ChannelCreationDto {
@@ -136,7 +136,7 @@ export interface ScheduleDto {
 export interface ScheduleCreationDto {
     author: number;
     opponent: number;
-    appointment: Date;
+    appointment: string;
 }
 
 export interface UserMinimalDto {
@@ -190,8 +190,8 @@ export interface Comment {
     id: number;
     body: string;
     deleted: boolean;
-    created: Date;
-    modified: Date;
+    created: string;
+    modified: string;
     author: User;
 }
 
@@ -338,7 +338,7 @@ export interface ServerError extends HttpErrorResponse {
         message: string;
         path: string;
         status: number;
-        timestamp: Date;
+        timestamp: string;
     }
 }
 
