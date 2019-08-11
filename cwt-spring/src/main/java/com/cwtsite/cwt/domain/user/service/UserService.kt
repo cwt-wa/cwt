@@ -169,7 +169,7 @@ constructor(private val userRepository: UserRepository,
 
     fun saveUser(user: User): User = userRepository.save(user)
 
-    fun findByUsername(username: String): User = userRepository.findByUsername(username)
+    fun findByUsername(username: String): User? = userRepository.findByUsername(username)
 
     fun getById(id: Long): Optional<User> = userRepository.findById(id)
 

@@ -61,7 +61,7 @@ constructor(private val userService: UserService, private val applicationService
         }
 
         return if (!isId) {
-            val user = userService.findByUsername(usernameOrId)
+            val user = userService.findByUsername(usernameOrId) ?: throw RestException("User not found.", HttpStatus.NOT_FOUND, null)
             ResponseEntity.ok(UserDetailDto.toDto(
                     user, UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
         } else {
