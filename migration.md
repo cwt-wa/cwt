@@ -73,7 +73,7 @@ Next up is writing some SQL to migrate data from the old tables into the new.
 
 #### Troubleshooting
 
-The following errors occur cause the affected tables to be empty.
+The following errors occur causing the affected tables to be empty.
 
 ```
 2019-08-11T17:36:48.053000+01:00 ERROR Database error 23502: null value in column "modified" violates not-null constraint
@@ -111,9 +111,6 @@ where modified is null;
 update restores
 set reported = '2010-01-01 00:00:00'
 where reported is null;
-
-select distinct created
-from games;
 
 update users
 set created = '2002-01-01 00:00:00'
