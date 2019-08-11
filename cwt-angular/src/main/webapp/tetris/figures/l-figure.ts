@@ -17,10 +17,10 @@ export class LFigure extends Figure {
 
         for (let i = 0; i < 4; i++) {
             if (i == 3) {
-                cells.push(new Cell(middleOfGrid, i - 1, this.getColor()));
+                cells.push(new Cell(middleOfGrid, i - 1, this.getColor(), grid.getCellWidth()));
                 break;
             }
-            cells.push(new Cell(middleOfGrid - 1, i, this.getColor()));
+            cells.push(new Cell(middleOfGrid - 1, i, this.getColor(), grid.getCellWidth()));
         }
 
 

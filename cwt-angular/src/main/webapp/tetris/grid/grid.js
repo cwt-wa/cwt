@@ -20,7 +20,7 @@ var Grid = /** @class */ (function () {
             }
         }
     };
-    Grid.prototype.updateGrid = function () {
+    Grid.prototype.updateFallenCellsInGrid = function () {
         for (var _i = 0, _a = this.grid; _i < _a.length; _i++) {
             var matrix = _a[_i];
             for (var _b = 0, matrix_1 = matrix; _b < matrix_1.length; _b++) {

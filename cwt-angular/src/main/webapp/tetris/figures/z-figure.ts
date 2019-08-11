@@ -8,10 +8,10 @@ export class ZFigure extends Figure {
         let cells = new Array();
         let middleOfGrid = Math.ceil(grid.getNumberOfCellsHorizontal() / 2);
 
-        cells.push(new Cell(middleOfGrid, 0, this.getColor()));
-        cells.push(new Cell(middleOfGrid - 1, 0, this.getColor()));
-        cells.push(new Cell(middleOfGrid, 1, this.getColor()));
-        cells.push(new Cell(middleOfGrid + 1, 1, this.getColor()));
+        cells.push(new Cell(middleOfGrid, 0, this.getColor(), grid.getCellWidth()));
+        cells.push(new Cell(middleOfGrid - 1, 0, this.getColor(), grid.getCellWidth()));
+        cells.push(new Cell(middleOfGrid, 1, this.getColor(), grid.getCellWidth()));
+        cells.push(new Cell(middleOfGrid + 1, 1, this.getColor(), grid.getCellWidth()));
 
         return cells;
     }

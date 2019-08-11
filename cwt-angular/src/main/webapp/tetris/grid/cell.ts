@@ -1,15 +1,22 @@
 export class Cell {
-
-    static readonly WIDTH = 40;
-
     private xPos: number;
     private yPos: number;
     private color: String;
+    private width: number;
 
-    constructor(xPos: number, yPos: number, color: String) {
+    constructor(xPos: number, yPos: number, color: String, width: number) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
+        this.width = width;
+    }
+
+    getWidth() : number {
+        return this.width;
+    }
+
+    setWidth(width: number) {
+        this.width = width;
     }
 
     getXPos() {

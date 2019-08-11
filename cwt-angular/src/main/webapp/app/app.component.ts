@@ -69,9 +69,9 @@ export class AppComponent implements AfterViewInit, OnInit {
         tetrisDiv.style.height = window.innerHeight + document.body.scrollHeight + "px";
         document.body.classList.add("tetris");
 
-
         new p5((p: p5) => {
             this.tetris = new Tetris(p);
+            window.onresize = () => this.tetris.resize();
 
             this.tetris.onGameOver = (highscore: number) => {
                 this.highscore = highscore;

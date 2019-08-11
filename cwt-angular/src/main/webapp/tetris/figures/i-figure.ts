@@ -9,7 +9,7 @@ export class IFigure extends Figure {
         let middleOfGrid = Math.ceil(grid.getNumberOfCellsHorizontal() / 2);
 
         for (let i = 0; i < 4; i++) {
-            cells.push(new Cell(middleOfGrid -1, i, this.getColor()));
+            cells.push(new Cell(middleOfGrid -1, i, this.getColor(), grid.getCellWidth()));
         }
         return cells;
     }

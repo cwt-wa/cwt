@@ -19,18 +19,22 @@ export class Tetris {
     private fallenCells: Cell[];
     private fallenDownInterval: number;
     private highscore: number = 0;
-    private canvasWidth = Cell.WIDTH * 10 + 1;
-    private canvasHeight = window.innerHeight-85; //@TODO richtige Höhe berechnen (oder die Navigation ausblenden?)
+    private canvasWidth : number;
+    private canvasHeight : number;
     private levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
+    private cellWidth: number;
+
     onGameOver?: (highscore: number) => void;
 
     constructor(private p5: p5) {
     }
 
     setup() {
+        this.calculateCanvasSize();
+
         this.p5.createCanvas(this.canvasWidth, this.canvasHeight);
 
-        this.grid = new Grid(this.canvasWidth, this.canvasHeight);
+        this.grid = new Grid(this.canvasWidth, this.canvasHeight, this.cellWidth);
         this.grid.draw(this.p5);
 
         this.fallenCells = [];
@@ -45,6 +49,15 @@ export class Tetris {
         window.addEventListener("keydown", (event) => {
             this.randomFigure.move(event.key, this.grid, this.fallenCells);
         });
+    }
+
+    private calculateCanvasSize() : void {
+        let tmpCellWidth = (window.innerWidth / Grid.CELL_LINES_HORIZONTAL) * 0.5;
+        let tmpCellHeight = (window.innerHeight / Grid.CELL_LINES_VERTICAL) * 0.9;
+        this.cellWidth = tmpCellHeight > tmpCellWidth ? tmpCellWidth : tmpCellHeight;
+
+        this.canvasWidth = Grid.CELL_LINES_HORIZONTAL * this.cellWidth + 1;
+        this.canvasHeight = (Grid.CELL_LINES_VERTICAL * this.cellWidth + 1);
     }
 
 
@@ -62,7 +75,7 @@ export class Tetris {
 
         this.changeLevels();
 
-        this.grid.updateGrid(this.fallenCells);
+        this.grid.updateFallenCellsInGrid(this.fallenCells);
 
         this.randomFigure.draw(this.grid);
     }
@@ -235,5 +248,16 @@ export class Tetris {
     public tearDown() : void {
         this.p5.keyReleased = null;
         this.p5.keyPressed = null;
+        window.onresize = null;
+    }
+
+    public resize() {
+        let tetrisDiv = document.getElementById('tetris');
+        tetrisDiv.style.width = window.innerWidth.toString() + "px";
+        tetrisDiv.style.height = window.innerHeight + document.body.scrollHeight + "px";
+
+        this.calculateCanvasSize();
+        this.grid.updateGridSize(this.cellWidth);
+        this.p5.resizeCanvas(this.canvasWidth, this.canvasHeight);
     }
 }

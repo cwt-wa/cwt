@@ -3,21 +3,25 @@ import * as p5 from "p5";
 
 export class Grid {
 
+    public static readonly CELL_LINES_HORIZONTAL = 10;
+    public static readonly CELL_LINES_VERTICAL = 16;
+
     private width: number;
     private height: number;
     private grid: Array<Array<Cell>>;
+    private cellWidth: number;
 
-    constructor(width: number, height: number) {
+    constructor(width: number, height: number, cellWidth: number) {
+        this.cellWidth = cellWidth;
+        this.width = Math.floor(width / cellWidth);
+        this.height = Math.floor(height / cellWidth);
 
-        this.width = Math.floor(width / Cell.WIDTH);
-        this.height = Math.floor(height / Cell.WIDTH);
+        this.grid = [];
 
-        this.grid = new Array();
-
-        for (var heightIndex = 0; heightIndex < this.height; heightIndex++) { //so hoch
-            this.grid.push(new Array());
+        for (var heightIndex = 0; heightIndex < this.height; heightIndex++) {
+            this.grid.push([]);
             for (var widthIndex = 0; widthIndex < this.width; widthIndex++) {
-                this.grid[heightIndex].push(new Cell(widthIndex, heightIndex, "white")); //x-, y, color
+                this.grid[heightIndex].push(new Cell(widthIndex, heightIndex, "white", cellWidth));
             }
         }
     }
@@ -28,12 +32,12 @@ export class Grid {
             for (let j = 0; j < this.grid[i].length; j++) {
                 canvas.fill(this.grid[i][j].getColor().toString());
                 canvas.stroke("#303030");
-                canvas.rect(j * Cell.WIDTH, i * Cell.WIDTH, Cell.WIDTH, Cell.WIDTH);
+                canvas.rect(j * this.cellWidth, i * this.cellWidth, this.cellWidth, this.cellWidth);
             }
         }
     }
 
-    updateGrid(fallenCells : Cell[]) : Cell[] {
+    updateFallenCellsInGrid(fallenCells : Cell[]) : Cell[] {
 
         for (let matrix of this.grid) {
             for (let cell of matrix) {
@@ -59,5 +63,18 @@ export class Grid {
 
     getNumberOfCellsVertical(): number {
         return this.height;
+    }
+
+    getCellWidth(): number {
+        return this.cellWidth;
+    }
+
+    updateGridSize(cellWidth: number) {
+        this.cellWidth = cellWidth;
+        for (let cells of this.grid) {
+            for (let cell of cells) {
+                cell.setWidth(cellWidth);
+            }
+        }
     }
 }

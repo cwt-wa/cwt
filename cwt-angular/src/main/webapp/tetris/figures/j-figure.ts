@@ -18,9 +18,9 @@ export class JFigure extends Figure {
 
         for (let i = 0; i < 4; i++) {
             if (i == 3) {
-                cells.push(new Cell(middleOfGrid - 1, i - 1, this.getColor()));
+                cells.push(new Cell(middleOfGrid - 1, i - 1, this.getColor(), grid.getCellWidth()));
             } else {
-                cells.push(new Cell(middleOfGrid, i, this.getColor()));
+                cells.push(new Cell(middleOfGrid, i, this.getColor(), grid.getCellWidth()));
             }
         }
         return cells;
