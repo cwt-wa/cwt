@@ -1,26 +1,41 @@
 <div class="row no-gutters align-items-stretch align-content-center" *ngIf="schedules">
-    <div class="col-12 col-md-6 col-lg-6 pb-1" [ngClass]="{'pr-1': even}" style="height: 3.2rem" *ngFor="let schedule of schedules; let even = even;">
+    <div class="col-12 col-lg-6 pb-1" [ngClass]="{'pr-lg-1': even}" style="min-height: 3.2rem" *ngFor="let schedule of schedules; let even = even;">
         <div class="bg-secondary text-white rounded h-100 text-center">
             <div class="d-flex justify-content-center h-100 align-items-center">
-                <button type="button" class="btn btn-danger btn-sm  position-absolute" style="left: .5rem"
-                        (click)="deleteSchedule(schedule)" *ngIf="schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id">
-                    <i class="fa fa-trash"></i>
-                </button>
-                <div class="text-nowrap">
-                    <b>
-                        <cwt-user [username]="schedule.homeUser.username"></cwt-user>
-                    </b>
-                    vs.
-                    <b>
-                        <cwt-user [username]="schedule.awayUser.username"></cwt-user>
-                    </b>
-                    on
-                    <b>{{schedule.appointment | cwtDate:'MMM d, HH:ss'}}</b>
+                <div class="d-inline-block position-absolute" style="left: .5rem" ngbDropdown
+                     *ngIf="(authUserChannel != null) || (authUser && (schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id))">
+                    <button type="button" class="btn btn-danger btn-sm no-caret" ngbDropdownToggle>
+                        <i class="fa fa-ellipsis-v"></i>
+                    </button>
+                    <div ngbDropdownMenu class="text-center" style="min-width: auto">
+                        <button ngbDropdownItem title="Delete this game from the schedule"
+                                *ngIf="authUser && (schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id)"
+                                (click)="deleteSchedule(schedule)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <button ngbDropdownItem title="Schedule a live stream"
+                                *ngIf="authUserChannel != null"
+                                (click)="scheduleStream(schedule)">
+                            <i class="fa fa-twitch"></i>
+                        </button>
+                    </div>
                 </div>
+                <div>
+                    <b><cwt-user [username]="schedule.homeUser.username"></cwt-user></b>&nbsp;vs.&nbsp;<b><cwt-user [username]="schedule.awayUser.username"></cwt-user></b>
+                    <br class="d-sm-none">
+                    on&nbsp;<b>{{schedule.appointment | cwtDate:'MMM d, HH:mm'}}</b>
+                </div>
+                <div class="btn btn-sm rounded-circle position-absolute bg-success text-center text-white" style="right: .5rem"
+                     [ngbTooltip]="streamTooltip" placement="top" *ngIf="schedule.streams.length">
+                    <i class="fa fa-twitch"></i>
+                </div>
+                <ng-template #streamTooltip>
+                    <span *ngFor="let channel of schedule.streams, let last = last;">{{channel.title}}<span *ngIf="!last">, </span></span>
+                </ng-template>
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-6 pb-1" style="height: 3.2rem" [ngClass]="{'pr-1': schedules.length % 2 === 0}" *ngIf="remainingOpponents?.length">
+    <div class="col-12 col-lg-6 pb-1" style="min-height: 3.2rem" [ngClass]="{'pr-lg-1': schedules.length % 2 === 0}" *ngIf="remainingOpponents?.length">
         <div class="bg-secondary rounded h-100 p-2">
             <form class="form-inline justify-content-center h-100 align-items-center" (ngSubmit)="submit(scheduleForm.valid)" #scheduleForm="ngForm">
                 <label class="sr-only" for="yourOpponent">Your opponent</label>
@@ -39,7 +54,7 @@
                        placeholder="YYYY-MM-DD HH:mm" class="form-control form-control-sm mr-1"
                        [(ngModel)]="newSchedule.appointment" #appointment="ngModel" cwtDateTimeInput [cwtDateTimeInputAfter]="minAppointmentDateTime">
 
-                <input type="submit" class="btn btn-sm btn-primary" value="Submit"
+                <input type="submit" class="btn btn-sm btn-primary mt-1 mt-sm-0" value="Submit"
                        [disabled]="opponent.errors?.required || appointment.errors?.required">
             </form>
         </div>

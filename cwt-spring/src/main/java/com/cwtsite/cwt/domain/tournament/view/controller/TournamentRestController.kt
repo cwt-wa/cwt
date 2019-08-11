@@ -2,13 +2,14 @@ package com.cwtsite.cwt.domain.tournament.view.controller
 
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.game.entity.Game
+import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
-import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.tournament.view.model.GroupWithGamesDto
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffGameDto
 import com.cwtsite.cwt.domain.tournament.view.model.StartNewTournamentDto
 import com.cwtsite.cwt.domain.tournament.view.model.TournamentUpdateDto
@@ -27,7 +28,8 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("api/tournament")
 class TournamentRestController @Autowired
 constructor(private val tournamentService: TournamentService, private val userService: UserService,
-            private val groupService: GroupService, private val playoffService: PlayoffService) {
+            private val groupService: GroupService, private val playoffService: PlayoffService,
+            private val gameService: GameService) {
 
     @RequestMapping("/current", method = [RequestMethod.GET])
     fun findCurrentTournament(): ResponseEntity<Tournament> {
@@ -41,7 +43,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("current/group", method = [RequestMethod.GET])
-    fun getGroupsForCurrentTournament(): ResponseEntity<List<Group>> {
+    fun getGroupsForCurrentTournament(): ResponseEntity<List<GroupWithGamesDto>> {
         val (id) = tournamentService.getCurrentTournament()
         return getGroupsForTournament(id!!)
     }
@@ -111,11 +113,19 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("{id}/group", method = [RequestMethod.GET])
-    fun getGroupsForTournament(@PathVariable("id") id: Long): ResponseEntity<List<Group>> {
-        return tournamentService.getTournament(id)
-                .map { t -> ResponseEntity.ok(groupService.getGroupsForTournament(t)) }
-                .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
+    fun getGroupsForTournament(@PathVariable("id") id: Long): ResponseEntity<List<GroupWithGamesDto>> {
+        val tournament = tournamentService.getTournament(id)
+                .orElseThrow { RestException("No such tournament.", HttpStatus.NOT_FOUND, null) }
+        val games = gameService.findGroupGames(tournament)
+        val groups = groupService.getGroupsForTournament(tournament)
+        return ResponseEntity.ok(groups.map { GroupWithGamesDto.toDto(it, games.filter { game -> game.group == it }) })
+    }
 
+    @RequestMapping("{id}/game/playoff", method = [RequestMethod.GET])
+    fun getPlayoffGames(@PathVariable("id") id: Long): ResponseEntity<List<Game>> {
+        return tournamentService.getTournament(id)
+                .map { t -> ResponseEntity.ok(playoffService.getGamesOfTournament(t)) }
+                .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
     }
 
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])

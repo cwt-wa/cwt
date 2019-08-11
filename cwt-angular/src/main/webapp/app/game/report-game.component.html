@@ -1,7 +1,6 @@
-<h1 class="mb-4">Report</h1>
-
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-lg-6 col-md-8 col-sm-10">
+        <h1 class="mb-4">Report</h1>
         <form #reportForm="ngForm" (submit)="submit()" enctype="multipart/form-data"
               [cwtValidateResult]="[scoreOfUserElem, scoreOfOpponentElem]">
             <div class="form-row">
@@ -57,8 +56,3 @@
         </form>
     </div>
 </div>
-
-
-<pre class="mt-5">{{scoreOfUserElem.name}}</pre>
-<pre class="mt-5">{{report | json}}</pre>
-<pre>{{remainingOpponents | json}}</pre>

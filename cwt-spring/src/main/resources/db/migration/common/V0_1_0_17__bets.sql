@@ -1,9 +1,10 @@
 create table bet
 (
-        id          bigint  not null,
-    user_id     bigint  not null,
-    game_id     bigint  not null,
-    bet_on_home boolean not null,
+    id          bigint    not null,
+    user_id     bigint    not null,
+    game_id     bigint    not null,
+    bet_on_home boolean   not null,
+    modified    timestamp not null default now(),
     foreign key (user_id) references "user" (id),
     foreign key (game_id) references game (id),
     primary key (id)

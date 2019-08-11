@@ -58,15 +58,15 @@
         override fun requestUsers(vararg loginNames: String): List<TwitchUserDto> {
             return listOf(
                     TwitchUserDto(
-                            login = "khamski",
+                            login = "zemkecwt",
                             viewCount = 11040,
-                            id = "26027047",
+                            id = "018054646",
                             broadcasterType = "",
                             type = "",
                             offlineImageUrl = "",
                             profileImageUrl = "https://static-cdn.jtvnw.net/jtv_user_pictures/khamski-profile_image-10dc902e62492108-300x300.jpeg",
-                            description = "Kickass normal worms television with good quality and awesome commentators!",
-                            displayName = "Khamski"
+                            description = "Mocked stream channel.",
+                            displayName = "ZemkeCWT"
                     )
             )
         }

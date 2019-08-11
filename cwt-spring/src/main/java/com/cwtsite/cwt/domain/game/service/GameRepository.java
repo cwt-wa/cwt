@@ -43,4 +43,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
                                                     @Param("round") Integer round);
 
     List<Game> findByGroup(Group group);
+
+    List<Game> findByGroupNotNullAndTournament(Tournament tournament);
 }

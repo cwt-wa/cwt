@@ -3,7 +3,7 @@ import 'marked/lib/marked.js';
 
 @Component({
     selector: 'cwt-markdown',
-    template: `<span class="markdown rendered-text" [innerHTML]="compiled"></span>`
+    template: `<span class="markdown" [innerHTML]="compiled"></span>`
 })
 export class MarkdownComponent implements OnInit {
     @Input()

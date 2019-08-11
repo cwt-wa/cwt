@@ -25,8 +25,15 @@ export class BetService {
             awayUser: bets.filter(b => !b.betOnHome),
             userBet: authUser ? (bets.find(b => b.user.id === authUser.id) || null) : null
         } as BetResult;
-        preliminaryBetResult.homeUserPercent = preliminaryBetResult.homeUser.length / preliminaryBetResult.total * 100;
-        preliminaryBetResult.awayUserPercent = preliminaryBetResult.awayUser.length / preliminaryBetResult.total * 100;
+
+        if (preliminaryBetResult.total === 0) {
+            preliminaryBetResult.homeUserPercent = 50;
+            preliminaryBetResult.awayUserPercent = 50;
+        } else {
+            preliminaryBetResult.homeUserPercent = preliminaryBetResult.homeUser.length / preliminaryBetResult.total * 100;
+            preliminaryBetResult.awayUserPercent = preliminaryBetResult.awayUser.length / preliminaryBetResult.total * 100;
+        }
+
         return preliminaryBetResult;
     }
 }

@@ -46,17 +46,19 @@ export class GameDetailComponent {
     }
 
     public ngOnInit(): void {
-        this.route.paramMap.subscribe(res => {
-            this.replayUrl = this.appConfig.apiEndpoint + `game/${res.get('id')}/replay`;
+        this.route.paramMap.subscribe(routeParam => {
+            this.replayUrl = this.appConfig.apiEndpoint + `game/${routeParam.get('id')}/replay`;
 
-            this.requestService.get<GameDetailDto>(`game/${+res.get('id')}`)
+            this.requestService.get<GameDetailDto>(`game/${+routeParam.get('id')}`)
                 .subscribe(res => {
                     this.game = res;
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);
-                });
 
-            this.requestService.get<PlayoffTreeBetDto[]>(`game/${+res.get('id')}/bets`)
-                .subscribe(res => this.betResult = this.betService.createBetResult(res));
+                    if (this.game.playoff != null) {
+                        this.requestService.get<PlayoffTreeBetDto[]>(`game/${+routeParam.get('id')}/bets`)
+                            .subscribe(res => this.betResult = this.betService.createBetResult(res));
+                    }
+                });
         });
 
         this.authenticatedUser = this.authService.getUserFromTokenPayload();

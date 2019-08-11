@@ -29,10 +29,10 @@ data class Schedule(
         @JoinColumn(name = "author_id", nullable = false)
         val author: User,
 
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST], fetch = FetchType.EAGER)
         @JoinTable(name = "schedule_channel", joinColumns = [JoinColumn(name = "schedule_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "channel_id", referencedColumnName = "id")])
-        val streams: Set<Channel> = mutableSetOf(),
+        val streams: MutableSet<Channel> = mutableSetOf(),
 
         @field:CreationTimestamp
         val created: Timestamp? = null

@@ -4,6 +4,8 @@ import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
 import com.cwtsite.cwt.domain.schedule.view.model.ScheduleCreationDto
 import com.cwtsite.cwt.domain.schedule.view.model.ScheduleDto
+import com.cwtsite.cwt.domain.stream.entity.Channel
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest
 class ScheduleRestController {
 
     @Autowired private lateinit var scheduleService: ScheduleService
+    @Autowired private lateinit var streamService: StreamService
     @Autowired private lateinit var userService: UserService
     @Autowired private lateinit var authService: AuthService
 
@@ -45,5 +48,36 @@ class ScheduleRestController {
         }
 
         scheduleService.delete(schedule)
+    }
+
+    @RequestMapping("/{scheduleId}/channel/{channelId}", method = [RequestMethod.POST])
+    fun scheduleStream(
+            @PathVariable("scheduleId") scheduleId: Long,
+            @PathVariable("channelId") channelId: String): ResponseEntity<Channel> {
+        val schedule = scheduleService.findById(scheduleId)
+                .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
+        val channel = streamService.findChannel(channelId)
+                .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
+
+        if (schedule.streams.contains(channel)) throw RestException(
+                "Channel is already scheduled to stream this game", HttpStatus.BAD_REQUEST, null)
+
+        schedule.streams.add(channel)
+        scheduleService.save(schedule)
+
+        return ResponseEntity.ok(channel)
+    }
+
+    @RequestMapping("/{scheduleId}/channel/{channelId}", method = [RequestMethod.DELETE])
+    fun removeScheduledStream(
+            @PathVariable("scheduleId") scheduleId: Long,
+            @PathVariable("channelId") channelId: String) {
+        val schedule = scheduleService.findById(scheduleId)
+                .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
+        val channel = streamService.findChannel(channelId)
+                .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
+
+        schedule.streams.remove(channel)
+        scheduleService.save(schedule)
     }
 }

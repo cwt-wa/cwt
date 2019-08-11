@@ -13,6 +13,8 @@ import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.schedule.service.ScheduleService
+import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusException
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -20,23 +22,28 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronizationAdapter
+import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.util.*
+import kotlin.math.ceil
 
 @Component
 class GameService @Autowired
 constructor(private val gameRepository: GameRepository, private val tournamentService: TournamentService, private val groupRepository: GroupRepository,
             private val userRepository: UserRepository, private val groupService: GroupService, private val ratingRepository: RatingRepository,
             private val commentRepository: CommentRepository, private val configurationService: ConfigurationService, private val userService: UserService,
-            private val playoffService: PlayoffService, private val betRepository: BetRepository) {
+            private val playoffService: PlayoffService, private val betRepository: BetRepository, private val scheduleService: ScheduleService) {
 
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class, FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class, IOException::class)
@@ -62,7 +69,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int, persist: Boolean = true): Game {
         val currentTournament = tournamentService.getCurrentTournament()
         val bestOfValue = Integer.valueOf(getBestOfValue(currentTournament.status).value)
-        val winnerScore = Math.ceil(java.lang.Double.valueOf(bestOfValue.toDouble()) / 2)
+        val winnerScore = ceil(bestOfValue.toDouble() / 2)
 
         if (homeScore.toDouble() != winnerScore && awayScore.toDouble() != winnerScore || homeScore + awayScore > bestOfValue) {
             throw InvalidScoreException(String.format(
@@ -127,6 +134,15 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             throw IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS)
         }
 
+        TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronizationAdapter() {
+            override fun afterCommit() {
+                GlobalScope.launch {
+                    scheduleService.delete(
+                            scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!) ?: return@launch)
+                }
+            }
+        })
+
         return reportedGame
     }
 
@@ -187,6 +203,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             ?: betRepository.save(Bet(user = user, game = game, betOnHome = betOnHome))
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
+
+    fun findGroupGames(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndTournament(tournament)
 
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)
 
