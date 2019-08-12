@@ -144,4 +144,11 @@ set created = '2002-01-01 00:00:00'
 where created is null;
 ``` 
 
-The last error which is a syntax error has yet to be observed.
+The last error which is a syntax error has vanished during the process. So, no further issues expected.
+
+There are some rows in `games` and `restores` with invalid dates containing invalid months and/or dates such as `2018-00-00 00:00:00`. Those have been fixed:
+
+```sql
+update restores set reported=replace(reported, '-00', '-01') where reported like '%-00%';
+update games set created=replace(created, '-00', '-01') where created like '%-00%';
+```
