@@ -52,6 +52,33 @@ There's a database view of that query called `inactive_users`.
 
 So, now these users could be deleted. Hopefully it won't hurt the referential integrity. I wouldn't notice because there actually is no such thing in CWT 5.
 
+The following statements caused deletion. The temporary table was necessary because the View by which user IDs are retrieved references the table from which to delete which is a conflicting operation.
+
+```sql
+delete from profiles where user_id in (select id from inactive_users);
+
+create temporary table temp_inactive_users(    id bigint not null
+);
+
+insert into temp_inactive_users (select id from inactive_users);
+delete from users where id in (select id from temp_inactive_users);
+```
+
+```
+sql> delete from profiles where user_id in (select id from inactive_users)
+[2019-08-12 20:54:19] 7300 rows affected in 42 s 2 ms
+sql> create temporary table temp_inactive_users(    id bigint not null
+     )
+[2019-08-12 20:54:20] completed in 115 ms
+sql> insert into temp_inactive_users (select id from inactive_users)
+[2019-08-12 20:55:03] 7301 rows affected in 43 s 82 ms
+sql> delete from users where id in (select id from temp_inactive_users)
+[2019-08-12 20:55:15] 7301 rows affected in 11 s 817 ms
+[2019-08-12 20:55:35] transaction committed: @spam users [CWT [PROD]]
+```
+
+Remaining number of users is 256.
+
 ### MySQL to PostgreSQL
 
 The migration from MySQL to PostgreSQL is as easy as executing a command-line command. [`pgloader`](https://pgloader.io) is the great help here.
