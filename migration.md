@@ -96,7 +96,26 @@ flyway.user=postgres
 flyway.password=postgres
 flyway.locations=filesystem:/Users/Zemke/Code/cwt-evolution/cwt-spring/src/main/resources/db/migration/common,filesystem:/Users/Zemke/Code/cwt-evolution/cwt-spring/src/main/resources/db/migration/feat
 ```
-Next up is writing some SQL to migrate data from the old tables into the new.
+
+Run the migration and create the `flyway_schema_history` table using the `baselineOnMigrate` flag.
+
+```
+flyway migrate -configFiles=/Users/Zemke/Desktop/migration.properties -baselineOnMigrate=true
+```
+
+Then delete rows from the table to signal an unmigrated database:
+
+```sql
+delete from flyway_schema_history;
+```
+
+Then run the migration again without the flag.
+
+```
+flyway migrate -configFiles=/Users/Zemke/Desktop/migration.properties -baselineOnMigrate=true
+```
+
+Next up is writing some SQL to migrate data from the old tables into the new. This would be the actual migration.
 
 #### Troubleshooting
 
