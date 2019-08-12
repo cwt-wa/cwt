@@ -112,7 +112,7 @@ delete from flyway_schema_history;
 Then run the migration again without the flag.
 
 ```
-flyway migrate -configFiles=/Users/Zemke/Desktop/migration.properties -baselineOnMigrate=true
+flyway migrate -configFiles=/Users/Zemke/Desktop/migration.properties
 ```
 
 Next up is writing some SQL to migrate data from the old tables into the new. This would be the actual migration.
