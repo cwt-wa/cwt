@@ -117,6 +117,27 @@ flyway migrate -configFiles=/Users/Zemke/Desktop/migration.properties
 
 Next up is writing some SQL to migrate data from the old tables into the new. This would be the actual migration.
 
+The following users won't be able to log in anymore because their passwords use a backward-incompatible encryption strategy. In CWT 5 there two password encryption strategies and CWT 6 will introduce a third one. Some users have been migrated to the seconds and they will be migrated to the third by CWT 6 but the oldest passwords will be neglected.
+
+Email addresses have been added to the list because they could potentially reset their passwords using that email address (currently there's no password forgotten feature).
+
+|username|email|
+|---|---|
+|domi||
+|Alex13||
+|Fonseca||
+|Jakka|gi-jakka@hotmail.de|
+|HaXeN||
+|Jigsaw|lukexs@o2.pl|
+|Antares|antares614@yahoo.com|
+|NormalPRO|badkoff@mail.ru|
+|SirGorash|sirgorash1@hotmail.com|
+|Jule||
+|Thurbo|thurbo@gmx.net|
+|xDragonfirex||
+|pandello||
+|Pipinasso||
+
 #### Troubleshooting
 
 The following errors occur causing the affected tables to be empty.
