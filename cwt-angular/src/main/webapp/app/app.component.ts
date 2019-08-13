@@ -68,6 +68,13 @@ export class AppComponent implements AfterViewInit, OnInit {
         tetrisDiv.style.width = window.innerWidth.toString() + "px";
         tetrisDiv.style.height = window.innerHeight + document.body.scrollHeight + "px";
         document.body.classList.add("tetris");
+        //@ts-ignore
+        let listener = document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                this.closeTetris();
+                listener = null;
+            }
+        });
 
         new p5((p: p5) => {
             this.tetris = new Tetris(p);
