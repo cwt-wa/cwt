@@ -138,6 +138,14 @@ Email addresses have been added to the list because they could potentially reset
 |pandello||
 |Pipinasso||
 
+United Kingdom had two mappings in the DB the one with underscore being the correct.
+
+```sql
+update profiles
+set country='United Kingdom'
+where country = 'United_Kingdom';
+```
+
 #### Troubleshooting
 
 The following errors occur causing the affected tables to be empty.
