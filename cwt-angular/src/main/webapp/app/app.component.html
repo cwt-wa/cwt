@@ -139,11 +139,12 @@
     <button id="btn-close-tetris" (click)="closeTetris()">
         <i class="fa fa-times"></i>
     </button>
+    <div id="tetris-heading">
+        <img src="../tetris/img/tetris.png" height="50px">
+    </div>
     <div id="tetris-gameover">
         <div id="tetris-game-over-heading">
-            <label id="tetris-game-over-lbl">
-                <h2>GAME OVER</h2>
-        </label>
+            <img src="../tetris/img/gameover.png" height="50px">
         </div>
         <div id="tetris-game-over-entry">
             <form (ngSubmit)="saveTetrisGuest()">
@@ -152,17 +153,21 @@
             </form>
         </div>
         <div id="tetris-game-over-table">
-            <table border="1" id="tetris-highscore-table" align="center">
+            <table class="table" id="tetris-highscore-table">
+                <thead class="thead-dark">
                 <tr>
-                    <th>User</th>
-                    <th>Highscore</th>
-                    <th>Created</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Highscore</th>
+                    <th scope="col">Created</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr *ngFor="let highscore of highscores" [ngClass]="{'tetris-game-over-table-new-entry' : highscore.id == newTetrisEntryId}">
                     <td>{{highscore.user == null ? highscore.guestname : highscore.user.username}}</td>
                     <td>{{highscore.highscore}}</td>
-                    <td>{{highscore.created | date: 'dd.MM.yy hh:mm:ss'}}</td>
+                    <td>{{highscore.created | cwtDate}}</td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </div>

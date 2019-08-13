@@ -68,6 +68,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         tetrisDiv.style.width = window.innerWidth.toString() + "px";
         tetrisDiv.style.height = window.innerHeight + document.body.scrollHeight + "px";
         document.body.classList.add("tetris");
+        document.getElementById("tetris-heading").classList.add("tetris-visible");
         //@ts-ignore
         let listener = document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") {
@@ -83,6 +84,7 @@ export class AppComponent implements AfterViewInit, OnInit {
             this.tetris.onGameOver = (highscore: number) => {
                 this.highscore = highscore;
                 document.getElementById("tetris-gameover").classList.add("tetris-visible");
+                document.getElementById("tetris-heading").classList.remove("tetris-visible");
                 document.body.classList.add('gameOver');
 
                 const authenticatedUser: JwtUser = this.authService.getUserFromTokenPayload();

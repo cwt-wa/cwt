@@ -31,7 +31,7 @@ export class Grid {
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[i].length; j++) {
                 canvas.fill(this.grid[i][j].getColor().toString());
-                canvas.stroke("#303030");
+                canvas.stroke("#343a40");
                 canvas.rect(j * this.cellWidth, i * this.cellWidth, this.cellWidth, this.cellWidth);
             }
         }
