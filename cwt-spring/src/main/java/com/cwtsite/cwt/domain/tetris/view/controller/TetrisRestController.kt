@@ -1,9 +1,12 @@
 package com.cwtsite.cwt.domain.tetris.view.controller
 
+import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.tetris.repository.entity.Tetris
 import com.cwtsite.cwt.domain.tetris.service.TetrisService
 import com.cwtsite.cwt.domain.tetris.view.model.TetrisDto
+import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,11 +17,12 @@ import java.sql.Timestamp
 @RestController
 @RequestMapping("/api/tetris")
 class TetrisRestController @Autowired
-constructor(private val tetrisService: TetrisService) {
+constructor(private val tetrisService: TetrisService, private val userService: UserService) {
 
     @RequestMapping("", method = [RequestMethod.POST])
     fun saveTetris(@RequestBody tetrisDto: TetrisDto): ResponseEntity<TetrisDto> {
-        val timestamp = Timestamp(System.currentTimeMillis());
+        if (tetrisDto.guestname != null && !userService.validateUsername(tetrisDto.guestname)) throw RestException("Invalid Username.", HttpStatus.BAD_REQUEST, null);
+        val timestamp = Timestamp(System.currentTimeMillis())
         return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(null, tetrisDto.highscore, timestamp, tetrisDto.guestname)))
     }
 
