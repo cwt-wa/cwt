@@ -39,7 +39,7 @@ from applications;
 INSERT INTO authority (id, name)
 VALUES (1, 'ROLE_USER');
 INSERT INTO authority (id, name)
-VALUES (1, 'ROLE_ADMIN');
+VALUES (2, 'ROLE_ADMIN');
 
 -- TODO Set sequence.
 INSERT INTO user_authority (user_id, authority_id)
@@ -47,9 +47,9 @@ select id, 1
 from "user";
 
 INSERT INTO user_authority (user_id, authority_id)
-VALUES (2, 1); -- Zemke
+VALUES (2, 2); -- Zemke
 INSERT INTO user_authority (user_id, authority_id)
-VALUES (10, 1); -- Kayz
+VALUES (10, 2); -- Kayz
 
 insert into comment (id, body, created, modified, author_id, game_id)
 select id, message, created, modified, user_id, game_id
@@ -102,3 +102,4 @@ from infoboards;
 -- todo bet, configuration, rating
 -- todo drop tables
 -- todo create streams and channels by using CWT REST API
+-- todo set sequences
