@@ -99,7 +99,33 @@ from infoboards;
 
 -- todo message_recipient
 
--- todo bet, configuration, rating
--- todo drop tables
+
+-- traces
+
+insert into rating (id, type, game_id, user_id, modified)
+select nextval('rating_seq'),
+       (case
+            when additional = 'likes' then 'LIKE'
+            when additional = 'dislikes' then 'DISLIKE'
+            when additional = 'lightside' then 'LIGHTSIDE'
+            when additional = 'darkside' then 'DARKSIDE'
+           end),
+       "on",
+       user_id,
+       created
+from traces
+where controller = 'Rating';
+
+insert into bet (id, user_id, game_id, bet_on_home, modified)
+select nextval('bet_seq'),
+       user_id,
+       "on",
+       case when additional = 'bet_h' then true else false end,
+       created
+from traces
+where controller = 'Bet';
+
+-- todo configuration
 -- todo create streams and channels by using CWT REST API
 -- todo set sequences
+-- todo drop tables
