@@ -21,7 +21,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
-    public highscores: TetrisDto[] = [];
+    public highscores: TetrisDto[];
     private authenticatedUser: JwtUser;
     private tetris: Tetris;
     private tetrisGuestName: string;
@@ -62,6 +62,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     easterEgg() {
         require('../tetris/styles/tetris.scss');
         const p5 = require('p5/lib/p5.js');
+        this.highscores = [];
 
         let tetrisDiv = document.getElementById('tetris');
         tetrisDiv.classList.add("tetris-visible");
@@ -149,7 +150,7 @@ export class AppComponent implements AfterViewInit, OnInit {
                     this.highscores.push(res);
                     this.highscores = this.sortTetrisHighscore(this.highscores);
                     this.newTetrisEntryId = res.id;
-                    document.getElementById("tetris-game-over-entry").style.display = "none";
+                    document.getElementById("tetris-game-over-entry").classList.remove("tetris-visible");
                 });
         });
     }
@@ -169,5 +170,6 @@ export class AppComponent implements AfterViewInit, OnInit {
         document.body.classList.remove('tetris');
         document.body.classList.remove('gameOver');
         this.tetris.tearDown();
+        this.highscores = null;
     }
 }
