@@ -4,10 +4,14 @@
 body.tetris > my-app > div:not(#tetris) {
   filter: blur(4px);
   transition: 1s -webkit-filter linear;
-
 }
-body.tetris {
-  overflow:hidden
+
+html.tetris {
+  height: 100%;
+}
+
+body.tetris{
+  height: 100%
 }
 
 body.gameOver {
@@ -23,6 +27,8 @@ canvas {
 
 #tetris.tetris-visible {
   display:block;
+  width: 100%;
+  overflow: hidden;
 }
 
 #tetris {
@@ -48,6 +54,7 @@ canvas {
 #tetris-gameover.tetris-visible {
   display:block;
   text-align:center;
+  overflow: auto !important;
 }
 
 #tetris-highscore-table.tetris-visible {

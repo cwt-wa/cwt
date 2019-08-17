@@ -64,12 +64,11 @@ export class AppComponent implements AfterViewInit, OnInit {
         const p5 = require('p5/lib/p5.js');
         this.highscores = [];
 
-        let tetrisDiv = document.getElementById('tetris');
-        tetrisDiv.classList.add("tetris-visible");
-        tetrisDiv.style.width = window.innerWidth.toString() + "px";
-        tetrisDiv.style.height = window.innerHeight + document.body.scrollHeight + "px";
         document.body.classList.add("tetris");
+        document.documentElement.classList.add("tetris");
+        document.getElementById('tetris').classList.add("tetris-visible");
         document.getElementById("tetris-heading").classList.add("tetris-visible");
+
         //@ts-ignore
         let listener = document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") {
@@ -84,6 +83,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
             this.tetris.onGameOver = (highscore: number) => {
                 this.highscore = highscore;
+                this.tetris.tearDown();
                 document.getElementById("tetris-gameover").classList.add("tetris-visible");
                 document.getElementById("tetris-heading").classList.remove("tetris-visible");
                 document.body.classList.add('gameOver');
@@ -161,8 +161,8 @@ export class AppComponent implements AfterViewInit, OnInit {
         document.getElementById("tetris-gameover").classList.remove("tetris-visible");
         document.getElementById('tetris').classList.remove('tetris-visible');
         document.body.classList.remove('tetris');
+        document.documentElement.classList.remove('tetris');
         document.body.classList.remove('gameOver');
-        this.tetris.tearDown();
         this.highscores = null;
     }
 }
