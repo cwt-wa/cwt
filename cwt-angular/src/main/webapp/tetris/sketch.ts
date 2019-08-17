@@ -188,6 +188,7 @@ export class Tetris {
             for (let cell of this.randomFigure.getCells()) {
                 if (cell.getYPos() <= 0) {
                     this.gameOver();
+                    return;
                 }
             }
             for (let cell of this.randomFigure.getCells()) {
@@ -258,6 +259,5 @@ export class Tetris {
 
         this.calculateCanvasSize();
         this.grid.updateGridSize(this.cellWidth);
-        this.p5.resizeCanvas(this.canvasWidth, this.canvasHeight);
     }
 }

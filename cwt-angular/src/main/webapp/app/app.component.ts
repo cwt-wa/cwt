@@ -106,13 +106,6 @@ export class AppComponent implements AfterViewInit, OnInit {
                     .subscribe(res => {
                         this.highscores = this.highscores.concat(res);
                         this.highscores = this.sortTetrisHighscore(this.highscores);
-                        this.highscores = this.highscores.filter(function(elem, index, array) {
-                            if ((index+1 < array.length)) {
-                                return elem.id != array[index+1].id
-                            } else {
-                                return null;
-                            }
-                        });
                     });
             };
 
