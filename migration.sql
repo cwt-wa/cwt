@@ -19,7 +19,7 @@ from users u
 
 insert into tournament (id, created, review, status, bronze_winner_id, gold_winner_id, silver_winner_id, max_rounds, three_way)
 select id,
-       concat(year, '-01-01 00:00:00'),
+       concat(year, '-01-01 00:00:00')::timestamp,
        review,
        status,
        nullif(bronze_id, 0),
