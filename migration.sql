@@ -49,6 +49,10 @@ VALUES (2, 2); -- Zemke
 INSERT INTO user_authority (user_id, authority_id)
 VALUES (10, 2); -- Kayz
 
+insert into "group" (id, label, tournament_id)
+select id, label, tournament_id
+from "groups";
+
 insert into game (id, created, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, replay_id, reporter_id,
                   tournament_id, voided)
 select id,
@@ -76,10 +80,6 @@ select id,
        group_id,
        user_id
 from standings;
-
-insert into "group" (id, label, tournament_id)
-select id, label, tournament_id
-from "groups";
 
 insert into comment (id, body, created, modified, author_id, game_id)
 select id, message, created, modified, user_id, game_id
