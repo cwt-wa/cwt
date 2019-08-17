@@ -35,13 +35,11 @@ from applications;
 
 ---
 
--- TODO Set sequence.
 INSERT INTO authority (id, name)
 VALUES (1, 'ROLE_USER');
 INSERT INTO authority (id, name)
 VALUES (2, 'ROLE_ADMIN');
 
--- TODO Set sequence.
 INSERT INTO user_authority (user_id, authority_id)
 select id, 1
 from "user";
