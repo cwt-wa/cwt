@@ -79,6 +79,8 @@ sql> delete from users where id in (select id from temp_inactive_users)
 
 Remaining number of users is 256.
 
+Additionally user Jakk0 has been merged into Jakka, MIGHTYtaner into tanerr and Afinaaa into Afina using a feature that was implemented in [#90](https://github.com/Zemke/cwt/issues/90). 
+
 ### MySQL to PostgreSQL
 
 The migration from MySQL to PostgreSQL is as easy as executing a command-line command. [`pgloader`](https://pgloader.io) is the great help here.
