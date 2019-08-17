@@ -81,6 +81,10 @@ Remaining number of users is 256.
 
 Additionally user Jakk0 has been merged into Jakka, MIGHTYtaner into tanerr and Afinaaa into Afina using a feature that was implemented in [#90](https://github.com/Zemke/cwt/issues/90). 
 
+User “NouS” has been reinstated from the inactive users because he appears tobe an actual user who is also registered on TUS and he is in the `applications` table which is not taken into account by the `inactive_users` view.
+
+Other entries in the `applications` table whose user relation had been removed have been removed 
+
 ### MySQL to PostgreSQL
 
 The migration from MySQL to PostgreSQL is as easy as executing a command-line command. [`pgloader`](https://pgloader.io) is the great help here.
