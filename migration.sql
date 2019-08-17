@@ -125,7 +125,25 @@ select nextval('bet_seq'),
 from traces
 where controller = 'Bet';
 
--- todo configuration
+
+-- configuration
+
+update configuration
+set value     = r.text,
+    modified  = r.modified,
+    author_id = r.user_id
+from (select * from rules) as r
+where id = 'RULES';
+
+update configuration
+set value     = n.text,
+    modified  = n.modified,
+    author_id = n.user_id
+from (select * from news) as n
+where id = 'NEWS';
+
+
 -- todo create streams and channels by using CWT REST API
 -- todo set sequences
 -- todo drop tables
+-- todo BBCode (configuration.rules, configuration.news, comments etc.) to markdown (or no formatting) GH-155
