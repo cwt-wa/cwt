@@ -50,7 +50,7 @@ INSERT INTO user_authority (user_id, authority_id)
 VALUES (10, 2); -- Kayz
 
 insert into "group" (id, label, tournament_id)
-select id, label, tournament_id
+select id, replace(replace(label::text, '{', ''), '}', ''), tournament_id
 from "groups";
 
 insert into game (id, created, modified, score_away, score_home, tech_win, away_user_id, group_id, home_user_id, playoff_id, replay_id, reporter_id,
