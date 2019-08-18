@@ -92,14 +92,12 @@ from comments;
 insert into message (id, body, category, created, author_id, news_type)
 select id,
        message,
-       (case when category = 3 then 'NEWS' when category = 2 then 'PRIVATE' else 'SHOUTBOX' end),
+       'SHOUTBOX',
        created,
        user_id,
-       null -- todo news types can be REPORT, RATING, COMMENT
-from infoboards;
-
--- todo message_recipient
-
+       null
+from infoboards
+where category = 1;
 
 -- traces
 
