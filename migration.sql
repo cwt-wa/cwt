@@ -128,14 +128,14 @@ where controller = 'Bet';
 -- configuration
 
 update configuration
-set value     = r.text,
+set value     = encode(r.text, 'escape'),
     modified  = r.modified,
     author_id = r.user_id
 from (select * from rules) as r
 where key = 'RULES';
 
 update configuration
-set value     = n.text,
+set value     = encode(n.text, 'escape'),
     modified  = n.modified,
     author_id = n.user_id
 from (select * from news) as n
