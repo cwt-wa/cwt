@@ -49,6 +49,10 @@ VALUES (2, 2); -- Zemke
 INSERT INTO user_authority (user_id, authority_id)
 VALUES (10, 2); -- Kayz
 
+insert into playoff_game (id, round, spot)
+select id, step, spot
+from playoffs;
+
 insert into "group" (id, label, tournament_id)
 select id, replace(replace(label::text, '{', ''), '}', ''), tournament_id
 from "groups";
