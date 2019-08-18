@@ -13,7 +13,7 @@ select p.id,
        username,
        p.about,
        coalesce((select id from country c where c.name = p.country), 1),
-       null -- todo photo
+       null
 from users u
          join profiles p on u.id = p.user_id;
 
@@ -69,7 +69,7 @@ select id,
        nullif(group_id, 0),
        home_id,
        nullif(playoff_id, 0),
-       null, -- todo replay
+       null,
        nullif(reporter_id, 0),
        tournament_id,
        false
@@ -141,6 +141,7 @@ set value     = encode(n.text, 'escape'),
 from (select * from news) as n
 where key = 'NEWS';
 
+-- todo binaries for game replay and user photo
 -- todo create streams and channels by using CWT REST API
 -- todo set sequences
 -- todo drop tables
