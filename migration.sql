@@ -132,15 +132,14 @@ set value     = r.text,
     modified  = r.modified,
     author_id = r.user_id
 from (select * from rules) as r
-where id = 'RULES';
+where key = 'RULES';
 
 update configuration
 set value     = n.text,
     modified  = n.modified,
     author_id = n.user_id
 from (select * from news) as n
-where id = 'NEWS';
-
+where key = 'NEWS';
 
 -- todo create streams and channels by using CWT REST API
 -- todo set sequences
