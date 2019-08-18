@@ -70,7 +70,7 @@ select id,
        home_id,
        nullif(playoff_id, 0),
        null, -- todo replay
-       reporter_id,
+       nullif(reporter_id, 0),
        tournament_id,
        false
 from games;
