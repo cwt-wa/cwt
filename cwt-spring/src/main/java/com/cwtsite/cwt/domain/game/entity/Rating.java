@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "rating")
-@SequenceGenerator(name = "rating_seq", sequenceName = "rating_seq", allocationSize = 1)
+@SequenceGenerator(name = "rating_seq", sequenceName = "rating_id_seq")
 public class Rating {
 
     @Id

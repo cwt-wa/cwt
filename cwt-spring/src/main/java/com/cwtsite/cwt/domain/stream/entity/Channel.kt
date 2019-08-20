@@ -14,6 +14,8 @@ data class Channel(
          * The channel ID derived from the user ID from the Twitch API.
          */
         @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "channel_id_seq")
+        @SequenceGenerator(name = "channel_id_seq", sequenceName = "channel_id_seq")
         var id: String,
 
         @OneToOne(optional = false)

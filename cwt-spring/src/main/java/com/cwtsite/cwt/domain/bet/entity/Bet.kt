@@ -8,7 +8,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "bet")
-@SequenceGenerator(name = "bet_seq", sequenceName = "bet_seq", allocationSize = 1)
+@SequenceGenerator(name = "bet_seq", sequenceName = "bet_id_seq")
 data class Bet(
 
         @Id

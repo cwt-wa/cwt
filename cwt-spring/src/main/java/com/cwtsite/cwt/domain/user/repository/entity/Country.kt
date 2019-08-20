@@ -2,15 +2,14 @@ package com.cwtsite.cwt.domain.user.repository.entity
 
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Timestamp
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "country")
 data class Country(
         @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_seq")
+        @SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq")
         val id: Long? = null,
 
         @Column(nullable = false)

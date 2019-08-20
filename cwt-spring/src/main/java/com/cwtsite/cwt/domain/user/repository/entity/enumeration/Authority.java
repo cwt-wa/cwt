@@ -12,6 +12,7 @@ public class Authority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "authority_id_seq", sequenceName = "authority_id_seq")
     private Long id;
 
     @Column(length = 50)
