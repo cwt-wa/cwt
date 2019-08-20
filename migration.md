@@ -93,7 +93,9 @@ The migration from MySQL to PostgreSQL is as easy as executing a command-line co
 pgloader mysql://root:cwt@localhost/db10838396-cwt pgsql://postgres:postgres@localhost/migration
 ```
 
-Once that's done and the issues logged by `pgloader` have been resolved, one can proceed by running the CWT 6 Flyway migration. This thankfully work on top of the existing CWT 5 schema without conflicting. The Flyway configuration could look like this:
+Once that's done and the issues logged by `pgloader` have been resolved, one can proceed by running the CWT 6 Flyway migration. This thankfully almost entirely works on top of the existing CWT 5 schema without conflicting. You only must not run the `V0_1_0_23__serial.sql` migration.
+
+The Flyway configuration could look like this:
 
 ```properties
 flyway.url=jdbc:postgresql://127.0.0.1:5432/migration
