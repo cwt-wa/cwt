@@ -89,8 +89,10 @@ insert into comment (id, body, created, modified, author_id, game_id)
 select id, message, created, modified, user_id, game_id
 from comments;
 
+create sequence tmp_message_seq;
+
 insert into message (id, body, category, created, author_id, news_type)
-select id,
+select nextval('tmp_message_seq'),
        message,
        'SHOUTBOX',
        created,
@@ -98,6 +100,8 @@ select id,
        null
 from infoboards
 where category = 1;
+
+drop sequence tmp_message_seq;
 
 -- traces
 
@@ -148,16 +152,14 @@ set value     = encode(n.text, 'escape'),
 from (select * from news) as n
 where key = 'NEWS';
 
--- todo set sequences
+-- Sequences
 
 create sequence authority_id_seq increment by 50;
 create sequence bet_id_seq increment by 50;
 create sequence channel_id_seq increment by 50;
 create sequence country_id_seq increment by 50;
-create sequence group_standing_id_seq increment by 50;
 create sequence message_id_seq increment by 50;
 create sequence photo_id_seq increment by 50;
-create sequence playoff_game_id_seq increment by 50;
 create sequence replay_id_seq increment by 50;
 
 alter sequence applications_id_seq rename to application_id_seq;
@@ -169,6 +171,8 @@ alter sequence schedules_id_seq rename to schedule_id_seq;
 alter sequence streams_id_seq rename to stream_id_seq;
 alter sequence tournaments_id_seq rename to tournament_id_seq;
 alter sequence users_id_seq rename to user_id_seq;
+alter sequence playoffs_id_seq rename to playoff_game_id_seq;
+alter sequence standings_id_seq rename to group_standing_id_seq;
 
 alter sequence authority_id_seq increment by 50;
 alter sequence bet_id_seq increment by 50;
@@ -211,6 +215,9 @@ alter table "user" alter column id set default nextval('user_id_seq');
 select setval('user_id_seq', (select max(id) + 1 from "user"), false); -- Since IDs greater than that were taken by spam accounts.
 select setval('rating_id_seq', (select max(id) + 1 from rating), false); -- Sequence did not exist in CWT 5.
 select setval('bet_id_seq', (select max(id) + 1 from bet), false); -- Sequence did not exist in CWT 5.
+select setval('authority_id_seq', (select max(id) + 1 from authority), false); -- Sequence did not exist in CWT 5.
+select setval('country_id_seq', (select max(id) + 1 from country), false); -- Sequence did not exist in CWT 5.
+select setval('message_id_seq', (select max(id) + 1 from message), false); -- Sequence did not exist in CWT 5.
 
 
 -- todo binaries for game replay and user photo
