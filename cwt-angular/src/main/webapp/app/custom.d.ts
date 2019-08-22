@@ -326,12 +326,21 @@ export interface Message {
 export type MessageNewsType = "REPORT" | "RATING" | "COMMENT"
 
 
-export interface MessageDto {
+export interface MessageCreationDto {
     body: string;
     category: MessageCategory;
     recipients: number[];
 }
 
+export interface MessageDto {
+    id: number;
+    created: string;
+    body: string;
+    recipients: UserMinimalDto[];
+    author: UserMinimalDto;
+    newsType?: MessageNewsType;
+    category: MessageCategory;
+}
 
 export interface ServerError extends HttpErrorResponse {
     error: {

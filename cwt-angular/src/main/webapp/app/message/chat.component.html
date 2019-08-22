@@ -23,5 +23,9 @@
             {{message.body}}
         </ng-container>
     </div>
+    <button type="button" class="btn btn-primary"
+            (click)="more()" *ngIf="messageTotalElements !== messages.length">
+        More…
+    </button>
 </div>
 
