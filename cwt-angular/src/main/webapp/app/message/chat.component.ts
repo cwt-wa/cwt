@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Message, MessageCreationDto, MessageDto, PageDto} from "../custom";
+import {JwtUser, Message, MessageCreationDto, MessageDto, PageDto} from "../custom";
+import {AuthService} from "../_services/auth.service";
 
 @Component({
     selector: 'cwt-chat',
@@ -12,11 +13,14 @@ export class ChatComponent implements OnInit {
     messagePagingStart: number = 0;
     messageTotalElements: number;
     private readonly messagesSize = 15;
+    authUser: JwtUser;
 
-    constructor(private requestService: RequestService) {
+    constructor(private requestService: RequestService,
+                private authService: AuthService) {
     }
 
     ngOnInit(): void {
+        this.authUser = this.authService.getUserFromTokenPayload();
         this.fetchMessages();
     }
 
