@@ -7,8 +7,6 @@ import javax.persistence.*
 data class Stream(
 
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stream_id_seq")
-        @SequenceGenerator(name = "stream_id_seq", sequenceName = "stream_id_seq")
         var id: String,
 
         @ManyToOne(optional = false)
