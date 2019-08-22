@@ -1,3 +1,10 @@
+<ng-container *ngIf="!playoffGames">
+    <h1 class="mb-4">Playoffs</h1>
+    <div class="alert alert-info">
+        There are no playoffs currently.
+    </div>
+</ng-container>
+
 <div class="playoff-tree" *ngIf="playoffGames">
     <div *ngFor="let gamesInRound of playoffGames; let indexOfRound = index; let lastRound = last" class="playoff-round" [ngClass]="{'three-way-final': lastRound && isThreeWayFinalTree}">
         <table *ngFor="let game of gamesInRound; let odd = odd; let indexOfGameInRound = index; let lastGameOfRound = last" class="playoff-spot" [ngClass]="{'odd': odd}">

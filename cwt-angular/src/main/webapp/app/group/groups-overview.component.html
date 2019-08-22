@@ -1,34 +1,47 @@
-<div class="btn-group btn-group-toggle float-right" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
-    <label ngbButtonLabel class="btn-light">
-        <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
-        <i class="fa fa-th-list"></i>
-    </label>
-    <label ngbButtonLabel class="btn-light">
-        <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
-        <i class="fa fa-th-large"></i>
-    </label>
-</div>
+<ng-container *ngIf="!groups.length">
+    <h1 class="mb-4" *ngIf="title !== null">
+        {{title}}
+    </h1>
 
-<h1 class="mb-4" *ngIf="title !== null">
-    {{title}}
-</h1>
+    <div class="alert alert-info">
+        There are no groups currently.
+    </div>
+</ng-container>
 
-<div class="clearfix mb-4" *ngIf="title === null"></div>
+<ng-container *ngIf="groups.length">
+    <div class="btn-group btn-group-toggle float-right" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
+        <label ngbButtonLabel class="btn-light">
+            <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
+            <i class="fa fa-th-list"></i>
+        </label>
+        <label ngbButtonLabel class="btn-light">
+            <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
+            <i class="fa fa-th-large"></i>
+        </label>
+    </div>
 
-<div class="row" *ngIf="viewMode === 'square' && groups">
-    <cwt-group-table class="col-md-12 col-lg-6"
-                     *ngFor="let group of groups" [group]="group"
-                     [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
-    </cwt-group-table>
-</div>
+    <h1 class="mb-4" *ngIf="title !== null">
+        {{title}}
+    </h1>
 
-<div *ngIf="viewMode === 'list' && groups">
-    <div class="row mb-3 pt-4" *ngFor="let group of groups; let odd = odd" [ngClass]="{'bg-light': odd}">
+    <div class="clearfix mb-4" *ngIf="title === null"></div>
+
+    <div class="row" *ngIf="viewMode === 'square' && groups">
         <cwt-group-table class="col-md-12 col-lg-6"
-                         [group]="group"
+                         *ngFor="let group of groups" [group]="group"
                          [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
         </cwt-group-table>
-        <cwt-group-games class="col-md-12 col-lg-6" [games]="group.games">
-        </cwt-group-games>
     </div>
-</div>
+
+    <div *ngIf="viewMode === 'list' && groups">
+        <div class="row mb-3 pt-4" *ngFor="let group of groups; let odd = odd" [ngClass]="{'bg-light': odd}">
+            <cwt-group-table class="col-md-12 col-lg-6"
+                             [group]="group"
+                             [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
+            </cwt-group-table>
+            <cwt-group-games class="col-md-12 col-lg-6" [games]="group.games">
+            </cwt-group-games>
+        </div>
+    </div>
+
+</ng-container>
