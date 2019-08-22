@@ -6,11 +6,13 @@ import com.cwtsite.cwt.domain.schedule.view.model.ScheduleCreationDto
 import com.cwtsite.cwt.domain.schedule.view.model.ScheduleDto
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.service.StreamService
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
@@ -30,6 +32,7 @@ class ScheduleRestController {
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun save(@RequestBody dto: ScheduleCreationDto): ResponseEntity<ScheduleDto> {
         val author = userService.getById(dto.author).orElseThrow { RestException("No such author", HttpStatus.BAD_REQUEST, null) }
         val opponent = userService.getById(dto.opponent).orElseThrow { RestException("No such opponent", HttpStatus.BAD_REQUEST, null) }
@@ -37,6 +40,7 @@ class ScheduleRestController {
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])
+    @Secured(AuthorityRole.ROLE_USER)
     fun delete(@PathVariable("id") id: Long, request: HttpServletRequest) {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
 
@@ -51,6 +55,7 @@ class ScheduleRestController {
     }
 
     @RequestMapping("/{scheduleId}/channel/{channelId}", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun scheduleStream(
             @PathVariable("scheduleId") scheduleId: Long,
             @PathVariable("channelId") channelId: String): ResponseEntity<Channel> {
@@ -69,6 +74,7 @@ class ScheduleRestController {
     }
 
     @RequestMapping("/{scheduleId}/channel/{channelId}", method = [RequestMethod.DELETE])
+    @Secured(AuthorityRole.ROLE_USER)
     fun removeScheduledStream(
             @PathVariable("scheduleId") scheduleId: Long,
             @PathVariable("channelId") channelId: String) {

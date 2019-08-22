@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
@@ -21,6 +22,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -100,6 +102,7 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     @RequestMapping("/{id}/application", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun applyForTournament(@PathVariable("id") id: Long): ResponseEntity<Application> {
         return ResponseEntity.ok(this.applicationService.apply(assertUser(id)))
     }
@@ -128,6 +131,7 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun changeUser(@RequestBody userChangeDto: UserChangeDto,
                    @PathVariable("id") id: Long,
                    request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse>? {
@@ -159,6 +163,7 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     @RequestMapping("/{id}/change-password", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun changePassword(@RequestBody passwordChangeDto: PasswordChangeDto,
                        @PathVariable("id") id: Long,
                        request: HttpServletRequest) {
@@ -173,6 +178,7 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     @RequestMapping("{id}/change-photo", method = [RequestMethod.POST], consumes = ["multipart/form-data"])
+    @Secured(AuthorityRole.ROLE_USER)
     fun changePhoto(@RequestParam("photo") photo: MultipartFile, @PathVariable("id") userId: Long, request: HttpServletRequest) {
         val user = assertUser(userId)
 

@@ -5,11 +5,13 @@ import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -39,6 +41,7 @@ class MessageRestController {
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun addMessage(@RequestBody dto: MessageCreationDto, request: HttpServletRequest): ResponseEntity<MessageDto> {
         val authenticatedUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         val savedMessage = messageService.save(MessageCreationDto.fromDto(
