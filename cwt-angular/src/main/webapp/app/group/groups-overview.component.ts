@@ -11,10 +11,8 @@ type ViewMode = "list" | "square";
 })
 export class GroupsOverviewComponent implements OnInit {
 
-    @Input()
-    tournamentId: number;
-    @Input()
-    title: string; // TODO Normally I'd say the header shouldn't be part of the component, but since it isn't at the start but the second element—because of CSS float—this can't be done. Maybe one day I'll find a way to realize this.
+    @Input() tournamentId: number;
+    @Input() title: string;
 
     public viewMode: ViewMode;
     public groups: Group[];
