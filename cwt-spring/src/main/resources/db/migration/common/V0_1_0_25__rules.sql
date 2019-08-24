@@ -1,4 +1,4 @@
-INSERT INTO configuration (key, modified, value, author_id, description) VALUES ('RULES', '2019-08-24 17:59:45.233000', '# Spirit of CWT
+update configuration set value='# Spirit of CWT
 
 First of all, the rules listed below can’t cover every possible problem. Crespo’s Worms Tournament thrives on its good atmosphere. So every participant is commanded to respect his opponent and find a solution for any given problem by means of discussion. If a problem occurs, please take responsibility to come to an agreement with your opponent, using the rules as a guideline. In case of a conflict, the admin team will determine the solution.
 
@@ -60,4 +60,4 @@ We’re always happy to see people live stream games of CWT. Experience has show
 - Participants don’t have the power and are also not allowed to keep their games from being live streamed
 
 If you can set up a slight delay in your live stream it would be appreciated. That way the opponents cannot derive any knowledge from the live stream that is normally not available to them in-game (i.e. rope stock).
-', 1, null);
+' where key = 'RULES';
