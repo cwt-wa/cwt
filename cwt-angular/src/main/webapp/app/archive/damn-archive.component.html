@@ -1,43 +1,30 @@
-<div *ngIf="tournaments">
-    <h1 class="mb-4">Archive</h1>
+<h1 class="mb-5">Archive</h1>
 
-    <div *ngFor="let tournament of tournaments" class="card mb-2">
-        <img class="card-img-top" src="../../img/icon.png" height="148"> <!-- TODO Collages matching that CWT edition. -->
-        <div class="card-body">
-            <h4 class="card-title">
-                <a [routerLink]="['/archive', tournament.created | cwtDate:'y']">
-                    {{tournament.created | cwtDate:'y'}}
-                    –
-                    The Epic Headline <!-- TODO Create some kind of headline for that CWT edition. -->
-                </a>
-            </h4>
-            <div class="row">
-                <div class="col-md-8">
-                    <p class="card-text">
-                        <cwt-read-more *ngIf="tournament.review" length="70" [text]="tournament.review">
-                        </cwt-read-more>
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <ul class="cwt-podest">
-                        <li *ngIf="tournament.goldWinner">
-                            <cwt-user [username]="tournament.goldWinner.username"></cwt-user>
-                        </li>
-                        <li *ngIf="tournament.silverWinner">
-                            <cwt-user [username]="tournament.silverWinner.username"></cwt-user>
-                        </li>
-                        <li *ngIf="tournament.bronzeWinner">
-                            <cwt-user [username]="tournament.bronzeWinner.username"></cwt-user>
-                        </li>
-                    </ul>
-
-                    <small class="text-muted">
-                        Organized by:<br>
-                        <a href="">Zemke</a>,
-                        <a href="">Kayz</a>,
-                        <a href="">Joschi</a>
-                    </small>
-                </div>
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 mb-sm-4" *ngFor="let tournament of tournaments">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <a [routerLink]="['/archive', tournament.year | cwtDate:'y']">
+                        {{tournament.year}}
+                    </a>
+                </h2>
+                <ul class="cwt-podest mt-4">
+                    <li [ngStyle]="tournament.goldWinner == null ? {'visibility': 'hidden'} : {}">
+                        <cwt-user [username]="tournament.goldWinner.username" *ngIf="tournament.goldWinner"></cwt-user>
+                    </li>
+                    <li [ngStyle]="tournament.silverWinner == null ? {'visibility': 'hidden'} : {}">
+                        <cwt-user [username]="tournament.silverWinner.username" *ngIf="tournament.silverWinner"></cwt-user>
+                    </li>
+                    <li [ngStyle]="tournament.bronzeWinner == null ? {'visibility': 'hidden'} : {}">
+                        <cwt-user [username]="tournament.bronzeWinner.username" *ngIf="tournament.bronzeWinner"></cwt-user>
+                    </li>
+                </ul>
+                <small class="text-muted">
+                    Organized by:
+                    <br>
+                    <span *ngFor="let mod of tournament.moderators; let last = last"><cwt-user [username]="mod.username"></cwt-user><span *ngIf="!last">, </span></span>
+                </small>
             </div>
         </div>
     </div>

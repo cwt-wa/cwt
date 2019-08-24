@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Tournament} from "../custom";
+import {TournamentDto} from "../custom";
 
 @Component({
     selector: 'cwt-damn-archive',
@@ -8,13 +8,13 @@ import {Tournament} from "../custom";
 })
 export class DamnArchiveComponent implements OnInit {
 
-    public tournaments: Tournament[];
+    public tournaments: TournamentDto[];
 
     constructor(private requestService: RequestService) {
     }
 
     ngOnInit(): void {
-        this.requestService.get<Tournament[]>('tournament')
+        this.requestService.get<TournamentDto[]>('tournament/archive')
             .subscribe(res => this.tournaments = res);
     }
 }

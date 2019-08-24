@@ -9,10 +9,7 @@ import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
-import com.cwtsite.cwt.domain.tournament.view.model.GroupWithGamesDto
-import com.cwtsite.cwt.domain.tournament.view.model.PlayoffGameDto
-import com.cwtsite.cwt.domain.tournament.view.model.StartNewTournamentDto
-import com.cwtsite.cwt.domain.tournament.view.model.TournamentUpdateDto
+import com.cwtsite.cwt.domain.tournament.view.model.*
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
@@ -63,6 +60,12 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun getAllTournaments(): ResponseEntity<List<Tournament>> = ResponseEntity.ok(tournamentService.getAll())
+
+    @RequestMapping("/archive", method = [RequestMethod.GET])
+    fun getTournamentsForArchive(): ResponseEntity<List<TournamentDto>> =
+            ResponseEntity.ok(tournamentService.getAllFinished()
+                    .map { TournamentDto.toDto(it) }
+                    .sortedByDescending { it.year })
 
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)

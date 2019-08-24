@@ -298,6 +298,14 @@ export interface Tournament {
     goldWinner: User;
 }
 
+export interface TournamentDto {
+    id: number;
+    year: number;
+    goldWinner: UserMinimalDto;
+    silverWinner: UserMinimalDto;
+    bronzeWinner: UserMinimalDto;
+    moderators: UserMinimalDto[];
+}
 
 export interface ConfigurationDto {
     value: string;
