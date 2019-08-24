@@ -1,8 +1,11 @@
-<chatInput (message)="submit($event[0], $event[1])" *ngIf="authUser"></chatInput>
+<chatInput (message)="submit($event[0], $event[1])" *ngIf="authUser && !hideInput"></chatInput>
 
 <div class="card bg-primary text-white border-0 mt-1">
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"
          [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}" ngPreserveWhitespaces>
+        <button class="btn btn-dark btn-sm" *ngIf="admin" type="button" (click)="deleteMessage(message)">
+            <i class="fa fa-trash"></i>
+        </button>
         <span class="font-variant-numeric-tabular-nums" [ngbTooltip]="message.created | cwtDate">{{message.created | cwtDate:'time'}}</span>
         <cwt-user *ngIf="message.author" [username]="message.author?.username" class="text-white font-weight-bold"></cwt-user>
 

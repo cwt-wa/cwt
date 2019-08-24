@@ -1,13 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {JwtUser, Message, MessageCreationDto, MessageDto, PageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
+import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-chat',
     template: require('./chat.component.html')
 })
 export class ChatComponent implements OnInit {
+
+    @Input() hideInput: boolean = false;
+    @Input() admin: boolean = false;
 
     messages: MessageDto[] = [];
     messagePagingStart: number = 0;
@@ -16,7 +20,8 @@ export class ChatComponent implements OnInit {
     authUser: JwtUser;
 
     constructor(private requestService: RequestService,
-                private authService: AuthService) {
+                private authService: AuthService,
+                private toastr: Toastr) {
     }
 
     ngOnInit(): void {
@@ -44,8 +49,24 @@ export class ChatComponent implements OnInit {
             }, () => cb(false));
     }
 
+    deleteMessage(message: MessageDto) {
+        const text = `Are you sure to delete this message?
+
+${message.author.username}: ${message.body}`;
+
+        if (!confirm(text)) return;
+
+        this.requestService.delete(`message/${message.id}`)
+            .subscribe(() => {
+                this.toastr.success("Message has been deleted.");
+                this.messages.splice(this.messages.findIndex(m => m.id === message.id), 1);
+            })
+    }
+
     private fetchMessages() {
-        this.requestService.getPaged<MessageDto>('message', {size: this.messagesSize, start: this.messagePagingStart} as PageDto<MessageDto>)
+        const relativePath = this.admin ? 'message/admin' : 'message';
+        this.requestService.getPaged<MessageDto>(relativePath, {size: this.messagesSize, start: this.messagePagingStart} as PageDto<MessageDto>)
+        this.requestService.getPaged<MessageDto>(relativePath, {size: this.messagesSize, start: this.messagePagingStart} as PageDto<MessageDto>)
             .subscribe(res => {
                 this.messageTotalElements = res.totalElements;
                 this.messagePagingStart = res.start;

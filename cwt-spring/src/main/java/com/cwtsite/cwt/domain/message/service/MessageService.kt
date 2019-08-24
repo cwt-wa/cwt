@@ -34,4 +34,11 @@ constructor(private val messageRepository: MessageRepository) {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun publishNews(type: MessageNewsType, author: User, vararg data: Any?) =
             messageRepository.save(Message(category = MessageCategory.NEWS, author = author, newsType = type, body = data.joinToString(separator = ",")))
+
+    fun findMessagesForAdmin(start: Int, size: Int) =
+            messageRepository.findAll(PageRequest.of(start, size, Sort.by(Sort.Direction.DESC, "created")))
+
+    fun deleteMessage(id: Long) {
+        messageRepository.deleteById(id)
+    }
 }

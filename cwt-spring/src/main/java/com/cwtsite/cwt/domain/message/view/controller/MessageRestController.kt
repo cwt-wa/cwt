@@ -12,10 +12,7 @@ import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -39,6 +36,17 @@ class MessageRestController {
 
         return ResponseEntity.ok(PageDto.toDto(messages, listOf<String>()))
     }
+
+    @RequestMapping("/admin", method = [RequestMethod.GET])
+    @Secured(AuthorityRole.ROLE_ADMIN)
+    fun getMessagesForAdmin(pageDto: PageDto<MessageDto>): ResponseEntity<PageDto<Message>> {
+        val messages = messageService.findMessagesForAdmin(pageDto.start, pageDto.size)
+        return ResponseEntity.ok(PageDto.toDto(messages, listOf<String>()))
+    }
+
+    @RequestMapping("/{id}", method = [RequestMethod.DELETE])
+    @Secured(AuthorityRole.ROLE_ADMIN)
+    fun deleteMessage(@PathVariable("id") id: Long) = messageService.deleteMessage(id)
 
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)

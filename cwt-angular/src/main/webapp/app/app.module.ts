@@ -76,6 +76,7 @@ import {CwtDatePipe} from "./_util/cwt-date.pipe";
 import {DatePipe} from "@angular/common";
 import {WriteRulesComponent} from "./rules/write-rules.component";
 import {HelpComponent} from "./rules/help.component";
+import {AdminChatComponent} from "./message/admin-chat.component";
 
 const appRoutes: Routes = [
     {
@@ -196,6 +197,10 @@ const appRoutes: Routes = [
         canDeactivate: [CanDeactivateGuard]
     },
     {
+        path: 'admin/chat',
+        component: AdminChatComponent
+    },
+    {
         path: 'user-panel',
         component: UserPanelComponent
     },
@@ -272,6 +277,7 @@ const appRoutes: Routes = [
         SchedulerComponent,
         WriteRulesComponent,
         HelpComponent,
+        AdminChatComponent,
     ],
     providers: [
         WebAppViewService,
