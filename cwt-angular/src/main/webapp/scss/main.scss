@@ -48,7 +48,7 @@ body {
 
 .cwt-nav-container .nav-item {
   background-color: theme-color('primary');
-  margin: 0 2px;
+  margin: 0 3px;
   text-align: center;
 }
 
@@ -275,16 +275,6 @@ body {
     transition: all 0.3s linear 500ms;
   }
 
-  .cwt-nav-container .collapse.show > ul.navbar-nav > li.nav-item:nth-child(9) > a.nav-link {
-    opacity: 1;
-    transition: all 0.3s linear 550ms;
-  }
-
-  .cwt-nav-container .collapse.show > ul.navbar-nav > li.nav-item:nth-child(10) > a.nav-link {
-    opacity: 1;
-    transition: all 0.3s linear 600ms;
-  }
-
   .container.content {
     padding-top: 15px;
   }
@@ -344,13 +334,13 @@ body {
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .cwt-nav-container .nav-item {
-    width: 94.3px;
+    width: 120.3px;
   }
 }
 
 @media (min-width: 1200px) {
   .cwt-nav-container .nav-item {
-    width: 114.3px;
+    width: 146px;
   }
 }
 
