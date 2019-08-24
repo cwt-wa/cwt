@@ -57,7 +57,8 @@ data class Game(
         @ManyToOne
         var awayUser: User? = null,
 
-        @ManyToOne
+        @ManyToOne(optional = false)
+        @JoinColumn(nullable = false)
         var reporter: User? = null,
 
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
