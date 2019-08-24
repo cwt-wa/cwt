@@ -1,14 +1,14 @@
-<ng-container *ngIf="!groups.length">
-    <h1 class="mb-4" *ngIf="title !== null">
-        {{title}}
-    </h1>
-
-    <div class="alert alert-info">
-        There are no groups currently.
-    </div>
+<ng-container *ngIf="loading">
+    <h1 class="mb-4" *ngIf="!hideTitle">Groups</h1>
+    <img  src="../../img/loading.gif" *ngIf="!hideLoadingIndicator"/>
 </ng-container>
 
-<ng-container *ngIf="groups.length">
+<ng-container *ngIf="!loading && !groups.length">
+    <h1 class="mb-4" *ngIf="!hideTitle">Groups</h1>
+    <div class="alert alert-info">There are no groups currently.</div>
+</ng-container>
+
+<ng-container *ngIf="!loading &&  groups.length">
     <div class="btn-group btn-group-toggle float-right" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
         <label ngbButtonLabel class="btn-light">
             <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
@@ -20,11 +20,8 @@
         </label>
     </div>
 
-    <h1 class="mb-4" *ngIf="title !== null">
-        {{title}}
-    </h1>
-
-    <div class="clearfix mb-4" *ngIf="title === null"></div>
+    <h1 class="mb-4" *ngIf="!hideTitle">Groups</h1>
+    <div class="clearfix mb-4" *ngIf="hideTitle"></div>
 
     <div class="row" *ngIf="viewMode === 'square' && groups">
         <cwt-group-table class="col-md-12 col-lg-6"
