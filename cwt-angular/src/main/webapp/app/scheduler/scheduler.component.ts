@@ -30,13 +30,17 @@ export class SchedulerComponent implements OnInit {
         this.requestService.get<ScheduleDto[]>('schedule').subscribe(res => {
             this.schedules = res.sort((a, b) => new Date(a.appointment).getTime() - new Date(b.appointment).getTime());
 
-            this.requestService
-                .get<User[]>(`user/${this.authUser.id}/remaining-opponents`)
-                .subscribe(remainingOpponents => this.filterByAlreadyScheduledAgainst(remainingOpponents));
+            if (this.authUser != null) {
+                this.requestService
+                    .get<User[]>(`user/${this.authUser.id}/remaining-opponents`)
+                    .subscribe(remainingOpponents => this.filterByAlreadyScheduledAgainst(remainingOpponents));
+            }
         });
 
-        this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
-            .subscribe(res => this.authUserChannel = res[0])
+        if (this.authUser != null) {
+            this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
+                .subscribe(res => this.authUserChannel = res[0])
+        }
     }
 
     public submit(valid: boolean) {
