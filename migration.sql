@@ -35,11 +35,6 @@ from applications;
 
 ---
 
-INSERT INTO authority (id, name)
-VALUES (1, 'ROLE_USER');
-INSERT INTO authority (id, name)
-VALUES (2, 'ROLE_ADMIN');
-
 INSERT INTO user_authority (user_id, authority_id)
 select id, 1
 from "user";
@@ -154,7 +149,6 @@ where key = 'NEWS';
 
 -- Sequences
 
-create sequence authority_id_seq increment by 50;
 create sequence bet_id_seq increment by 50;
 create sequence channel_id_seq increment by 50;
 create sequence country_id_seq increment by 50;
@@ -174,7 +168,6 @@ alter sequence users_id_seq rename to user_id_seq;
 alter sequence playoffs_id_seq rename to playoff_game_id_seq;
 alter sequence standings_id_seq rename to group_standing_id_seq;
 
-alter sequence authority_id_seq increment by 50;
 alter sequence bet_id_seq increment by 50;
 alter sequence channel_id_seq increment by 50;
 alter sequence country_id_seq increment by 50;
@@ -194,7 +187,6 @@ alter sequence tournament_id_seq increment by 50;
 alter sequence user_id_seq increment by 50;
 
 alter table application alter column id set default nextval('application_id_seq');
-alter table authority alter column id set default nextval('authority_id_seq');
 alter table bet alter column id set default nextval('bet_id_seq');
 alter table channel alter column id set default nextval('channel_id_seq');
 alter table comment alter column id set default nextval('comment_id_seq');
@@ -215,7 +207,6 @@ alter table "user" alter column id set default nextval('user_id_seq');
 select setval('user_id_seq', (select max(id) + 1 from "user"), false); -- Since IDs greater than that were taken by spam accounts.
 select setval('rating_id_seq', (select max(id) + 1 from rating), false); -- Sequence did not exist in CWT 5.
 select setval('bet_id_seq', (select max(id) + 1 from bet), false); -- Sequence did not exist in CWT 5.
-select setval('authority_id_seq', (select max(id) + 1 from authority), false); -- Sequence did not exist in CWT 5.
 select setval('country_id_seq', (select max(id) + 1 from country), false); -- Sequence did not exist in CWT 5.
 select setval('message_id_seq', (select max(id) + 1 from message), false); -- Sequence did not exist in CWT 5.
 

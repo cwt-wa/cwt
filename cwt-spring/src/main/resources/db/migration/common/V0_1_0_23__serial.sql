@@ -5,11 +5,9 @@ create sequence photo_id_seq increment by 50;
 create sequence playoff_game_id_seq increment by 50;
 create sequence replay_id_seq increment by 50;
 create sequence schedule_seq increment by 50;
-create sequence authority_seq increment by 50;
 
 alter sequence bet_seq rename to bet_id_seq;
 alter sequence application_seq rename to application_id_seq;
-alter sequence authority_seq rename to authority_id_seq;
 alter sequence comment_seq rename to comment_id_seq;
 alter sequence game_seq rename to game_id_seq;
 alter sequence group_seq rename to group_id_seq;
@@ -19,7 +17,6 @@ alter sequence tournament_seq rename to tournament_id_seq;
 alter sequence user_seq rename to user_id_seq;
 
 alter sequence application_id_seq increment by 50;
-alter sequence authority_id_seq increment by 50;
 alter sequence bet_id_seq increment by 50;
 alter sequence comment_id_seq increment by 50;
 alter sequence country_id_seq increment by 50;
@@ -36,7 +33,6 @@ alter sequence tournament_id_seq increment by 50;
 alter sequence user_id_seq increment by 50;
 
 alter table application alter column id set default nextval('application_id_seq');
-alter table authority alter column id set default nextval('authority_id_seq');
 alter table bet alter column id set default nextval('bet_id_seq');
 alter table comment alter column id set default nextval('comment_id_seq');
 alter table country alter column id set default nextval('country_id_seq');

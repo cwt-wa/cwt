@@ -51,7 +51,7 @@ data class User(
         @Column(name = "reset_date", length = 20)
         var resetDate: Timestamp? = null,
 
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name = "USER_AUTHORITY", joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
                 inverseJoinColumns = [JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")])
         var authorities: MutableList<Authority> = mutableListOf(Authority.fromName(AuthorityName.ROLE_USER)),

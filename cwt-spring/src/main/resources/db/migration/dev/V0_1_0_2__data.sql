@@ -6012,12 +6012,11 @@ INSERT INTO application (id, applicant_id, created, tournament_id) VALUES (99, 2
 INSERT INTO application (id, applicant_id, created, tournament_id) VALUES (100, 4, timestamp '2016-10-14 23:57:20', 15);
 INSERT INTO application (id, applicant_id, created, tournament_id) VALUES (101, 36, timestamp '2016-10-18 09:42:44', 15);
 
-INSERT INTO authority (id, name) VALUES (40, 'ROLE_USER');
-INSERT INTO authority (id, name) VALUES (41, 'ROLE_ADMIN');
+insert into user_authority (user_id, authority_id)
+select id, 1 from "user";
 
-INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 40);
-INSERT INTO public.user_authority (user_id, authority_id) VALUES (1, 41);
-
+insert into user_authority (user_id, authority_id)
+values (1, 2);
 
 INSERT INTO rating (id, user_id, game_id, type) VALUES (1, 13, 55, 'DARKSIDE');
 INSERT INTO rating (id, user_id, game_id, type) VALUES (2, 13, 986, 'DARKSIDE');
