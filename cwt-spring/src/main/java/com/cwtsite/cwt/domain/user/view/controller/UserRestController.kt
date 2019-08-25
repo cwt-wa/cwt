@@ -103,8 +103,15 @@ constructor(private val userService: UserService, private val applicationService
 
     @RequestMapping("/{id}/application", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun applyForTournament(@PathVariable("id") id: Long): ResponseEntity<Application> {
-        return ResponseEntity.ok(this.applicationService.apply(assertUser(id)))
+    fun applyForTournament(@PathVariable("id") id: Long, request: HttpServletRequest): ResponseEntity<Application> {
+        val userToApply = assertUser(id)
+        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+        if (authUser != userToApply && !authUser.isAdmin()) throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
+        try {
+            return ResponseEntity.ok(this.applicationService.apply(userToApply))
+        } catch (e: ApplicationService.AlreadyAppliedException) {
+            throw RestException("You have already applied.", HttpStatus.BAD_REQUEST, e)
+        }
     }
 
     @RequestMapping("/{id}/remaining-opponents", method = [RequestMethod.GET])

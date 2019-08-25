@@ -59,7 +59,7 @@ constructor(private val userRepository: UserRepository,
         val currentTournament = tournamentService.getCurrentTournament()
 
         return (TournamentStatus.OPEN == currentTournament.status
-                && applicationRepository.findByApplicantAndTournament(user, currentTournament) == null)
+                && !applicationRepository.findByApplicantAndTournament(user, currentTournament).isPresent)
     }
 
     fun userCanReportForCurrentTournament(user: User): Boolean {
