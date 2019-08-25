@@ -584,3 +584,29 @@ code {
   border-radius: .25rem;
   color: inherit;
 }
+
+#toast-container > .toast-error {
+  background-image: none !important;
+  background-color: theme-color('danger');
+}
+
+#toast-container > .toast-success {
+  background-image: none !important;
+  background-color: theme-color('success');
+}
+
+#toast-container > div {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  padding: 15px 20px;
+}
+
+#toast-container {
+  top: 65px;
+}
+
+@media (min-width: 992px) {
+  #toast-container {
+    top: 95px;
+  }
+}
