@@ -20,7 +20,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     authUser: JwtUser;
 
     private readonly fetchIntervalMillis = 10000;
-    private fetchInterval: NodeJS.Timeout;
+    private fetchInterval: number;
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        clearInterval(this.fetchInterval);
+        window.clearInterval(this.fetchInterval);
     }
 
     more(): void {
@@ -91,7 +91,7 @@ ${message.author.username}: ${message.body}`;
             .subscribe(res => {
                 this.messageTotalElements += res.length;
                 this.messages.unshift(...res);
-                if (this.fetchInterval == null) this.fetchInterval = setInterval(this.fetchNewMessages.bind(this), this.fetchIntervalMillis);
+                if (this.fetchInterval == null) this.fetchInterval = window.setInterval(this.fetchNewMessages.bind(this), this.fetchIntervalMillis);
             });
     }
 }
