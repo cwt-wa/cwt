@@ -4,7 +4,7 @@
 @import "hamburger";
 
 html {
-  background: linear-gradient(to bottom right, rgba(theme-color('primary'), 0.02) 60%, rgba(theme-color('primary'), 0.5) 210%);
+  background: linear-gradient(to bottom right, rgba(theme-color('primary'), 0.02) 60%, rgba(theme-color('primary'), 0.5) 210%) fixed;
   min-height: 100%;
 }
 
