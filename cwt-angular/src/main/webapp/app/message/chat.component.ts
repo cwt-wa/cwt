@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {JwtUser, Message, MessageCreationDto, MessageDto, PageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
@@ -8,7 +8,7 @@ import {Toastr} from "../_services/toastr";
     selector: 'cwt-chat',
     template: require('./chat.component.html')
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
@@ -19,6 +19,9 @@ export class ChatComponent implements OnInit {
     private readonly messagesSize = 15;
     authUser: JwtUser;
 
+    private readonly fetchIntervalMillis = 10000;
+    private fetchInterval: NodeJS.Timeout;
+
     constructor(private requestService: RequestService,
                 private authService: AuthService,
                 private toastr: Toastr) {
@@ -27,6 +30,10 @@ export class ChatComponent implements OnInit {
     ngOnInit(): void {
         this.authUser = this.authService.getUserFromTokenPayload();
         this.fetchMessages();
+    }
+
+    ngOnDestroy(): void {
+        clearInterval(this.fetchInterval);
     }
 
     more(): void {
@@ -66,11 +73,25 @@ ${message.author.username}: ${message.body}`;
     private fetchMessages() {
         const relativePath = this.admin ? 'message/admin' : 'message';
         this.requestService.getPaged<MessageDto>(relativePath, {size: this.messagesSize, start: this.messagePagingStart} as PageDto<MessageDto>)
-        this.requestService.getPaged<MessageDto>(relativePath, {size: this.messagesSize, start: this.messagePagingStart} as PageDto<MessageDto>)
             .subscribe(res => {
                 this.messageTotalElements = res.totalElements;
                 this.messagePagingStart = res.start;
                 this.messages.push(...res.content);
+                if (this.fetchInterval == null) this.fetchNewMessages();
+            });
+    }
+
+    private fetchNewMessages() {
+        const relativePath = this.admin ? 'message/admin/new' : 'message/new';
+
+        const newestMessageCreated = this.messages
+            .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())[0].created;
+
+        this.requestService.get<MessageDto[]>(relativePath, {after: Date.parse(newestMessageCreated).toString()})
+            .subscribe(res => {
+                this.messageTotalElements += res.length;
+                this.messages.unshift(...res);
+                if (this.fetchInterval == null) this.fetchInterval = setInterval(this.fetchNewMessages.bind(this), this.fetchIntervalMillis);
             });
     }
 }

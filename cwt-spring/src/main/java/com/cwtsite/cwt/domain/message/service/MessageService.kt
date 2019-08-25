@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Timestamp
 
 @Component
 class MessageService @Autowired
@@ -21,11 +22,19 @@ constructor(private val messageRepository: MessageRepository) {
                 MessageCategory.guestCategories())
     }
 
+    fun findNewMessagesForGuest(created: Timestamp): List<Message> =
+            messageRepository.findAllByCategoryInAndCreatedAfterOrderByCreatedDesc(
+                    MessageCategory.guestCategories(), created)
+
     fun findMessagesForUser(user: User, start: Int, size: Int): Page<Message> {
         return messageRepository.findAllByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(
                 PageRequest.of(start, size, Sort.by(Sort.Direction.DESC, "created")),
                 user, listOf(user), MessageCategory.guestCategories());
     }
+
+    fun findNewMessagesForUser(user: User, created: Timestamp): List<Message> =
+            messageRepository.findNewByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(
+                    user, MessageCategory.guestCategories(), created)
 
     fun save(message: Message): Message {
         return messageRepository.save(message)
@@ -37,6 +46,8 @@ constructor(private val messageRepository: MessageRepository) {
 
     fun findMessagesForAdmin(start: Int, size: Int) =
             messageRepository.findAll(PageRequest.of(start, size, Sort.by(Sort.Direction.DESC, "created")))
+
+    fun findNewMessagesForAdmin(after: Timestamp): List<Message> = messageRepository.findAllByCreatedAfter(after)
 
     fun deleteMessage(id: Long) {
         messageRepository.deleteById(id)
