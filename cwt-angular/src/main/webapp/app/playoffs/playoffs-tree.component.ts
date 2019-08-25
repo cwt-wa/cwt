@@ -33,6 +33,8 @@ export class PlayoffsTreeComponent implements OnInit {
         this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId || 'current'}/game/playoff`)
             .pipe(finalize(() => this.loading = false))
             .subscribe(res => {
+                if (!res || !res.length) return;
+
                 const gamesInFirstRound = res
                     .filter(g => g.playoff.round === 1)
                     .length;
