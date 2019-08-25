@@ -1,4 +1,4 @@
-<div *ngIf="applications">
+<div *ngIf="applications && !loading">
     <h6>Drawn applicants</h6>
     <p>
         <span *ngFor="let applicant of drawnApplicants; let last = last">
@@ -16,7 +16,7 @@
     </p>
 </div>
 
-<form #groupDrawForm="ngForm" (submit)="submit()" *ngIf="applications">
+<form #groupDrawForm="ngForm" (submit)="submit()" *ngIf="applications && !loading">
     <div class="row mt-4">
         <div class="col-md-6 mb-4" *ngFor="let pot of pots; let potIndex = index">
             <div class="card">
