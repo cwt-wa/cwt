@@ -9,7 +9,7 @@
         {{tournament?.created | cwtDate:'y'}}
     </p>
 
-    <div class="mb-2">
+    <div class="mb-4">
         <cwt-groups-overview *ngIf="tournament" [tournamentId]="tournament.id"
                              [hideTitle]="true" [hideLoadingIndicator]="true"></cwt-groups-overview>
     </div>
