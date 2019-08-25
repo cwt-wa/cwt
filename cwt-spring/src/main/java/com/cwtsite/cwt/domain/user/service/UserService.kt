@@ -46,7 +46,7 @@ constructor(private val userRepository: UserRepository,
         if (!validateUsername(trimmedUsername)) throw InvalidUsernameException()
         if (!validateEmail(trimmedEmail)) throw InvalidEmailException()
 
-        if (userRepository.findByEmailEqualsOrUsernameEquals(trimmedEmail, trimmedUsername) != null) {
+        if (userRepository.findByEmailEqualsOrUsernameEquals(trimmedEmail, trimmedUsername).isPresent) {
             throw UserExistsByEmailOrUsernameException()
         }
         return userRepository.save(User(

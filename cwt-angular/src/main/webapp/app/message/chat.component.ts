@@ -8,7 +8,7 @@ import {Toastr} from "../_services/toastr";
     selector: 'cwt-chat',
     template: require('./chat.component.html')
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class    ChatComponent implements OnInit, OnDestroy {
 
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
