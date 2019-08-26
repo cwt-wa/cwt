@@ -37,8 +37,15 @@ export class Grid {
         }
     }
 
-    updateFallenCellsInGrid(fallenCells : Cell[]) : Cell[] {
+    updateFallenCellsAndFallenAnimationCellsInGrid(fallenCells: Cell[], fallenAnimationCells: Cell[]) {
+        this.updateFallenCellsInGrid(fallenCells);
+        for (let i = 0; i < fallenAnimationCells.length; i++) {
+            this.grid[fallenAnimationCells[i].getYPos()][fallenAnimationCells[i].getXPos()].setColor(fallenAnimationCells[i].getColor());
+        }
 
+    }
+
+    updateFallenCellsInGrid(fallenCells : Cell[]) : Cell[] {
         for (let matrix of this.grid) {
             for (let cell of matrix) {
                 cell.setColor("white");

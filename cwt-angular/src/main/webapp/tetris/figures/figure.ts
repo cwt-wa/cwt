@@ -68,7 +68,6 @@ export abstract class Figure {
     }
 
     public fallDown(grid: Grid, fallenCells: Cell[]) {
-
         for (let fallenCell of fallenCells) {
             for (let cell of this.getCells()) {
                 if ((fallenCell.getYPos() - 1) == cell.getYPos()) {

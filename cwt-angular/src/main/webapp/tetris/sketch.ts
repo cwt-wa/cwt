@@ -11,18 +11,23 @@ import {SFigure} from "./figures/s-figure";
 import {ZFigure} from "./figures/z-figure";
 import 'p5/lib/p5.js';
 import * as p5 from "p5";
+import {LittleSquareFigure} from "./figures/little-square-figure";
 
 export class Tetris {
 
     private grid: Grid;
     private randomFigure: Figure;
+    private animationFigures: Figure[][] = [];
     private fallenCells: Cell[];
+    private fallenAnimationCells: Cell[] = [];
     private fallenDownInterval: number;
     private highscore: number = 0;
     private canvasWidth : number;
     private canvasHeight : number;
     private levelVelocity: LevelVelocity = LevelVelocity.LEVEL_1;
     private cellWidth: number;
+    private end: boolean = false;
+    private intervals: any = [];
 
     onGameOver?: (highscore: number) => void;
 
@@ -63,21 +68,29 @@ export class Tetris {
 
     draw() {
         this.p5.clear();
-
-        this.nextFigure();
-
         this.grid.draw(this.p5);
-
-        this.dropFigures(this.deleteFullRows());
-
         this.showHighscore();
         this.showLevel("black");
 
-        this.changeLevels();
-
-        this.grid.updateFallenCellsInGrid(this.fallenCells);
-
-        this.randomFigure.draw(this.grid);
+        if (this.end) {
+            this.nextAnimationFigures();
+            this.grid.updateFallenCellsAndFallenAnimationCellsInGrid(this.fallenCells, this.fallenAnimationCells);
+            for (let figures of this.animationFigures) {
+                for (let figure of figures) {
+                    figure.draw(this.grid);
+                }
+            }
+            if (this.animationEnded()) {
+                this.p5.noLoop();
+                window.setTimeout(() => this.gameOver(), 500);
+            }
+        } else {
+            this.nextFigure();
+            this.changeLevels();
+            this.dropFigures(this.deleteFullRows());
+            this.grid.updateFallenCellsInGrid(this.fallenCells);
+            this.randomFigure.draw(this.grid);
+        }
     }
 
     private changeLevels() {
@@ -175,7 +188,6 @@ export class Tetris {
     }
 
     private gameOver() {
-        this.p5.noLoop();
         this.onGameOver != null && this.onGameOver(this.highscore);
         clearInterval(this.fallenDownInterval);
         if (document.querySelector('canvas')) {
@@ -183,12 +195,70 @@ export class Tetris {
         }
     }
 
+    private nextAnimationFigures() {
+        let removableFigures = [];
+
+        for (let figures of this.animationFigures) {
+            for (let figure of figures) {
+                if (figure.isLanded()) {
+                    for (let cell of figure.getCells()) {
+                        this.fallenAnimationCells.push(cell);
+                        removableFigures.push(figure);
+                    }
+                }
+            }
+        }
+        for (let removableFigure of removableFigures) {
+            for (let figures of this.animationFigures) {
+                figures = figures.filter(fig => fig != removableFigure);
+            }
+        }
+
+        for (let figures of this.animationFigures) {
+            let counter = 0;
+            for (let figure of figures) {
+                if (figure.isLanded()) {
+                    counter++;
+                }
+            }
+            if (counter === figures.length) {
+                let tmp = new LittleSquareFigure("#6D8093", this.grid);
+                for (let cell of tmp.getCells()) {
+                    cell.setXPos(figures[0].getCells()[0].getXPos());
+                }
+                figures.push(tmp);
+            }
+        }
+    }
+
+    private initAnimationCells() {
+        for (let i = 0; i < Grid.CELL_LINES_HORIZONTAL; i++) {
+            let tmp = new LittleSquareFigure("#6D8093", this.grid);
+            for (let cell of tmp.getCells()) {
+                cell.setXPos(i);
+            }
+            let array = [];
+            array.push(tmp);
+            this.animationFigures.push(array);
+        }
+
+        for (let figures of this.animationFigures) {
+            this.intervals.push(
+                window.setInterval(() => {
+                    for (let figure of figures) {
+                        figure.fallDown(this.grid, this.fallenAnimationCells);
+                    }
+                }, Math.random() * (35 - 25) + 25)
+            )
+        }
+    }
+
     private nextFigure() {
         if (this.randomFigure.isLanded()) {
             for (let cell of this.randomFigure.getCells()) {
                 if (cell.getYPos() <= 0) {
-                    this.gameOver();
-                    return;
+                    this.end = true;
+                    this.initAnimationCells();
                 }
             }
             for (let cell of this.randomFigure.getCells()) {
@@ -259,5 +329,24 @@ export class Tetris {
 
         this.calculateCanvasSize();
         this.grid.updateGridSize(this.cellWidth);
+    }
+
+    private animationEnded() {
+        let tmp: Cell[] = [];
+
+        for (let cell of this.fallenAnimationCells) {
+            if (cell.getYPos() === 0) {
+                tmp[cell.getXPos()] = cell;
+            }
+        }
+
+        if (tmp.length <= 9) return false;
+
+        for (let cell of tmp) {
+            if (!cell) {
+                return false;
+            }
+        }
+        return true;
     }
 }
