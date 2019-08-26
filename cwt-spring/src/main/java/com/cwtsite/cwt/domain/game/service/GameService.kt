@@ -134,14 +134,16 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             throw IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS)
         }
 
-        TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronizationAdapter() {
-            override fun afterCommit() {
-                GlobalScope.launch {
-                    scheduleService.delete(
-                            scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!) ?: return@launch)
+        if (TransactionSynchronizationManager.isSynchronizationActive()) {
+            TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronizationAdapter() {
+                override fun afterCommit() {
+                    GlobalScope.launch {
+                        scheduleService.delete(
+                                scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!) ?: return@launch)
+                    }
                 }
-            }
-        })
+            })
+        }
 
         return reportedGame
     }

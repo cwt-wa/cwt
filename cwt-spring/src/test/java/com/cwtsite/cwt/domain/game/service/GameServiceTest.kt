@@ -11,6 +11,7 @@ import com.cwtsite.cwt.domain.group.entity.enumeration.GroupLabel
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.schedule.service.ScheduleService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -69,6 +70,9 @@ class GameServiceTest {
 
     @Mock
     private lateinit var betRepostiry: BetRepository
+
+    @Mock
+    private lateinit var scheduleService: ScheduleService
 
     @Test
     fun reportGameForGroupStage() {
