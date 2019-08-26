@@ -204,12 +204,6 @@ select setval('bet_id_seq', (select max(id) + 1 from bet), false); -- Sequence d
 select setval('country_id_seq', (select max(id) + 1 from country), false); -- Sequence did not exist in CWT 5.
 select setval('message_id_seq', (select max(id) + 1 from message), false); -- Sequence did not exist in CWT 5.
 
-
--- todo binaries for game replay and user photo
--- todo create streams and channels by using CWT REST API
--- todo drop tables and sequences
--- todo BBCode (configuration.rules, configuration.news, comments etc.) to markdown (or no formatting) GH-155
-
 alter sequence streams_id_seq owned by none;
 alter sequence bet_seq owned by none;
 alter sequence game_seq owned by none;
@@ -302,3 +296,8 @@ alter sequence restores_id_seq owned by restores.id;
 alter sequence schedule_id_seq owned by schedule.id;
 alter sequence tournament_id_seq owned by tournament.id;
 alter sequence user_id_seq owned by "user".id;
+
+
+-- todo binaries for game replay and user photo
+-- todo create streams and channels by using CWT REST API
+-- todo BBCode (configuration.rules, configuration.news, comments etc.) to markdown (or no formatting) GH-155
