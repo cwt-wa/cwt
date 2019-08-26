@@ -58,7 +58,7 @@ export class Tetris {
 
     private calculateCanvasSize() : void {
         let tmpCellWidth = (window.innerWidth / Grid.CELL_LINES_HORIZONTAL) * 0.5;
-        let tmpCellHeight = (window.innerHeight / Grid.CELL_LINES_VERTICAL) * 0.85;
+        let tmpCellHeight = (window.innerHeight / Grid.CELL_LINES_VERTICAL) * 0.82;
         this.cellWidth = tmpCellHeight > tmpCellWidth ? tmpCellWidth : tmpCellHeight;
 
         this.canvasWidth = Grid.CELL_LINES_HORIZONTAL * this.cellWidth + 1;
