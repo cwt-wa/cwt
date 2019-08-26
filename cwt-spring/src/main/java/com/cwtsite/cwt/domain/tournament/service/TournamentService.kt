@@ -91,4 +91,6 @@ class TournamentService {
                     ?: throw RuntimeException("There is currently no tournament.")
 
     fun getAll(): List<Tournament> = tournamentRepository.findAll()
+
+    fun getAllFinished(): List<Tournament> = tournamentRepository.findByStatus(TournamentStatus.FINISHED)
 }

@@ -46,7 +46,7 @@ constructor(private val userRepository: UserRepository,
         if (!validateUsername(trimmedUsername)) throw InvalidUsernameException()
         if (!validateEmail(trimmedEmail)) throw InvalidEmailException()
 
-        if (userRepository.findByEmailEqualsOrUsernameEquals(trimmedEmail, trimmedUsername) != null) {
+        if (userRepository.findByEmailEqualsOrUsernameEquals(trimmedEmail, trimmedUsername).isPresent) {
             throw UserExistsByEmailOrUsernameException()
         }
         return userRepository.save(User(
@@ -59,7 +59,7 @@ constructor(private val userRepository: UserRepository,
         val currentTournament = tournamentService.getCurrentTournament()
 
         return (TournamentStatus.OPEN == currentTournament.status
-                && applicationRepository.findByApplicantAndTournament(user, currentTournament) == null)
+                && !applicationRepository.findByApplicantAndTournament(user, currentTournament).isPresent)
     }
 
     fun userCanReportForCurrentTournament(user: User): Boolean {

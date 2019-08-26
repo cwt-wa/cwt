@@ -298,6 +298,14 @@ export interface Tournament {
     goldWinner: User;
 }
 
+export interface TournamentDto {
+    id: number;
+    year: number;
+    goldWinner: UserMinimalDto;
+    silverWinner: UserMinimalDto;
+    bronzeWinner: UserMinimalDto;
+    moderators: UserMinimalDto[];
+}
 
 export interface ConfigurationDto {
     value: string;
@@ -326,12 +334,21 @@ export interface Message {
 export type MessageNewsType = "REPORT" | "RATING" | "COMMENT"
 
 
-export interface MessageDto {
+export interface MessageCreationDto {
     body: string;
     category: MessageCategory;
     recipients: number[];
 }
 
+export interface MessageDto {
+    id: number;
+    created: string;
+    body: string;
+    recipients: UserMinimalDto[];
+    author: UserMinimalDto;
+    newsType?: MessageNewsType;
+    category: MessageCategory;
+}
 
 export interface ServerError extends HttpErrorResponse {
     error: {

@@ -1,12 +1,19 @@
 <h1>
     Archive
 </h1>
-<p class="lead">
-    {{tournament?.created | cwtDate:'y'}}
-</p>
 
-<div class="mb-2">
-    <cwt-groups-overview *ngIf="tournament" [tournamentId]="tournament.id" [title]="null"></cwt-groups-overview>
-</div>
+<img *ngIf="loading" src="../../img/loading.gif"/>
 
-<cwt-playoffs-tree *ngIf="tournament" [tournamentId]="tournament.id"></cwt-playoffs-tree>
+<ng-container *ngIf="!loading">
+    <p class="lead">
+        {{tournament?.created | cwtDate:'y'}}
+    </p>
+
+    <div class="mb-4">
+        <cwt-groups-overview *ngIf="tournament" [tournamentId]="tournament.id"
+                             [hideTitle]="true" [hideLoadingIndicator]="true"></cwt-groups-overview>
+    </div>
+
+    <cwt-playoffs-tree *ngIf="tournament" [tournamentId]="tournament.id"
+                       [hideTitle]="true" [hideLoadingIndicator]="true"></cwt-playoffs-tree>
+</ng-container>

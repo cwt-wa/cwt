@@ -3,13 +3,15 @@ package com.cwtsite.cwt.domain.game.entity;
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "rating")
-@SequenceGenerator(name = "rating_seq", sequenceName = "rating_seq", allocationSize = 1)
+@SequenceGenerator(name = "rating_seq", sequenceName = "rating_id_seq")
 public class Rating {
 
     @Id
@@ -28,6 +30,10 @@ public class Rating {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Game game;
+
+    @Column(name = "modified", nullable = false)
+    @UpdateTimestamp
+    private Timestamp modified;
 
     public Rating(RatingType type, User user, Game game) {
         this.type = type;

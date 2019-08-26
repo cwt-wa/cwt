@@ -22,6 +22,11 @@
                     Write tournament reviews
                 </a>
             </li>
+            <li>
+                <a routerLink="/admin/chat">
+                    Administer Chat
+                </a>
+            </li>
         </ul>
     </div>
     <div class="col-10 col-sm-6 col-md-5">
@@ -42,12 +47,12 @@
                     Start playoffs
                 </a>
             </li>
-            <li>
+            <li *ngIf="tournament?.status === 'GROUP' || tournament?.status === 'PLAYOFFS'">
                 <a routerLink="/admin/tech-win">
                     Add tech win
                 </a>
             </li>
-            <li>
+            <li *ngIf="tournament?.status === 'GROUP'">
                 <a routerLink="/admin/replace-player">
                     Replace player
                 </a>

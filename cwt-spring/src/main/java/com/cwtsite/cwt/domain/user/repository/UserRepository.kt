@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 interface UserRepository : JpaRepository<User, Long> {
@@ -13,7 +14,7 @@ interface UserRepository : JpaRepository<User, Long> {
 
     fun findByUsernameIgnoreCase(username: String): List<User>
 
-    fun findByEmailEqualsOrUsernameEquals(email: String, username: String): User
+    fun findByEmailEqualsOrUsernameEquals(email: String, username: String): Optional<User>
 
     fun findByUsernameContaining(username: String): List<User>
 

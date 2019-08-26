@@ -1,4 +1,19 @@
-<div class="playoff-tree" *ngIf="playoffGames">
+<ng-container *ngIf="loading">
+    <h1 class="mb-4" *ngIf="!hideTitle">Playoffs</h1>
+    <img  src="../../img/loading.gif" *ngIf="!hideLoadingIndicator"/>
+</ng-container>
+
+<ng-container *ngIf="!loading && !playoffGames">
+    <h1 class="mb-4" *ngIf="!hideTitle">Playoffs</h1>
+    <div class="alert alert-info">There are no playoffs currently.</div>
+</ng-container>
+
+<ng-container *ngIf="!loading && playoffGames">
+    <h1 class="mb-4" *ngIf="!hideTitle">Playoffs</h1>
+    <div class="clearfix mb-4" *ngIf="!hideTitle"></div>
+</ng-container>
+
+<div class="playoff-tree" *ngIf="!loading && playoffGames">
     <div *ngFor="let gamesInRound of playoffGames; let indexOfRound = index; let lastRound = last" class="playoff-round" [ngClass]="{'three-way-final': lastRound && isThreeWayFinalTree}">
         <table *ngFor="let game of gamesInRound; let odd = odd; let indexOfGameInRound = index; let lastGameOfRound = last" class="playoff-spot" [ngClass]="{'odd': odd}">
             <thead *ngIf="lastRound">

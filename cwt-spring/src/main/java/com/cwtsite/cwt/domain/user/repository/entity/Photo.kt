@@ -6,7 +6,8 @@ import javax.persistence.*
 data class Photo(
 
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "photo_id_seq")
+        @SequenceGenerator(name = "photo_id_seq", sequenceName = "photo_id_seq")
         var id: Long? = null,
 
         @Column(nullable = false)

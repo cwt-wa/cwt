@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {Group} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
+import {finalize} from "rxjs/operators";
 
 type ViewMode = "list" | "square";
 
@@ -11,14 +12,14 @@ type ViewMode = "list" | "square";
 })
 export class GroupsOverviewComponent implements OnInit {
 
-    @Input()
-    tournamentId: number;
-    @Input()
-    title: string; // TODO Normally I'd say the header shouldn't be part of the component, but since it isn't at the start but the second element—because of CSS float—this can't be done. Maybe one day I'll find a way to realize this.
+    @Input() tournamentId: number;
+    @Input() hideTitle: boolean;
+    @Input() hideLoadingIndicator: boolean;
 
     public viewMode: ViewMode;
     public groups: Group[];
     public numberOfGroupMembersAdvancing: number;
+    public loading: boolean = true;
     private readonly VIEW_MODE_STORAGE_KEY: 'groups-overview-view-mode' = 'groups-overview-view-mode';
 
     constructor(private requestService: RequestService, private configurationService: ConfigurationService) {
@@ -26,9 +27,8 @@ export class GroupsOverviewComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.title = this.title === undefined ? 'Groups' : this.title;
-
         this.requestService.get<Group[]>(`tournament/${this.tournamentId || 'current'}/group`)
+            .pipe(finalize(() => this.loading = false))
             .subscribe(res => this.groups = res);
 
         this.configurationService.requestByKeys("NUMBER_OF_GROUP_MEMBERS_ADVANCING")

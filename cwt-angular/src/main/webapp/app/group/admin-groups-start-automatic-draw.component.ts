@@ -1,4 +1,4 @@
-import {distinctUntilChanged, map} from 'rxjs/operators';
+import {distinctUntilChanged, finalize, map} from 'rxjs/operators';
 import {Component, Input, OnInit} from "@angular/core";
 import {Application, Group, GroupDto, User} from "../custom";
 import {Observable} from "rxjs";
@@ -14,15 +14,13 @@ import {ConfigurationService} from "../_services/configuration.service";
 })
 export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
 
-    @Input()
-    groups: Group[];
-
-    @Input()
-    applications: Application[];
+    @Input() groups: Group[];
+    @Input() applications: Application[];
 
     pots: User[][];
     usersPerGroup: number;
     numberOfGroups: number;
+    loading: boolean = true;
 
     typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
     typeAheadInputFormatter: (value: User) => string;
@@ -88,6 +86,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
 
     public ngOnInit(): void {
         this.configurationService.requestByKeys("NUMBER_OF_GROUPS", "USERS_PER_GROUP")
+            .pipe(finalize(() => this.loading = false))
             .subscribe(res => {
                 this.numberOfGroups = parseInt(res.find(c => c.key === "NUMBER_OF_GROUPS").value);
                 this.usersPerGroup = parseInt(res.find(c => c.key === "USERS_PER_GROUP").value);;

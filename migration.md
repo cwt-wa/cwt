@@ -79,6 +79,12 @@ sql> delete from users where id in (select id from temp_inactive_users)
 
 Remaining number of users is 256.
 
+Additionally user Jakk0 has been merged into Jakka, MIGHTYtaner into tanerr and Afinaaa into Afina using a feature that was implemented in [#90](https://github.com/Zemke/cwt/issues/90). 
+
+User “NouS” has been reinstated from the inactive users because he appears tobe an actual user who is also registered on TUS and he is in the `applications` table which is not taken into account by the `inactive_users` view.
+
+Other entries in the `applications` table whose user relation had been removed have been removed 
+
 ### MySQL to PostgreSQL
 
 The migration from MySQL to PostgreSQL is as easy as executing a command-line command. [`pgloader`](https://pgloader.io) is the great help here.
@@ -87,7 +93,9 @@ The migration from MySQL to PostgreSQL is as easy as executing a command-line co
 pgloader mysql://root:cwt@localhost/db10838396-cwt pgsql://postgres:postgres@localhost/migration
 ```
 
-Once that's done and the issues logged by `pgloader` have been resolved, one can proceed by running the CWT 6 Flyway migration. This thankfully work on top of the existing CWT 5 schema without conflicting. The Flyway configuration could look like this:
+Once that's done and the issues logged by `pgloader` have been resolved, one can proceed by running the CWT 6 Flyway migration. This thankfully almost entirely works on top of the existing CWT 5 schema without conflicting. You only must not run the `V0_1_0_23__serial.sql` migration.
+
+The Flyway configuration could look like this:
 
 ```properties
 flyway.url=jdbc:postgresql://127.0.0.1:5432/migration
@@ -199,4 +207,66 @@ There are some rows in `games` and `restores` with invalid dates containing inva
 ```sql
 update restores set reported=replace(reported, '-00', '-01') where reported like '%-00%';
 update games set created=replace(created, '-00', '-01') where created like '%-00%';
+```
+
+##### Various fixes in the production database
+
+```sql
+-- Re-add previously deleted user.
+INSERT INTO users (id, username, password, md5password, admin, stage, timeline, participations, achievements, trophies, reset_key, created)
+VALUES (6109, 'NouS', '47d260137b9efac923fb0cbfec9f3a99ce2f08ac', '', false, 'retired', '0000000000000000', 0, 0.00, 0, '', '2018-10-03 01:09:17');
+
+insert into profiles (id, user_id, modified, country, clan, email, skype, icq, facebook, googlep, twitter, about, hideprofile, hideemail)
+values (6109, 6109, now(), '', '', '', '', '', '', '', '', '', true, true);
+
+-- Delete applicants whose user reference had been deleted.
+delete
+from applications
+where user_id in (select * from (select a.user_id
+
+                                 from applications a
+                                          left join users u on u.id = a.user_id
+                                 where u.username is null
+                                 order by user_id desc) as x
+);
+
+-- The playoff–game relation is bi-directional and the game side sometimes had it mapped erroneously, but the playoff side was correct.
+update games set playoff_id=13 where id=61;
+update games set playoff_id=12 where id=59;
+update games set playoff_id=14 where id=62;
+update games set playoff_id=15 where id=63;
+update games set playoff_id=16 where id=64;
+update games set playoff_id=27 where id=943;
+update games set playoff_id=28 where id=944;
+update games set playoff_id=29 where id=945;
+
+-- Group D in 2006 missing some data
+update standings set user_id=39 where id =214;
+update games set home_id=39 where home_id=214;
+update games set away_id=39 where away_id=214;
+insert into standings (group_id, user_id, points, games, game_ratio, round_ratio) values(52, 149, 0, 0, 0, 0);
+insert into games (tournament_id, group_id, playoff_id, home_id, away_id, score_h, score_a, techwin, downloads, created, reporter_id)
+    values (5, 52, 0, 155, 39, 2, 0, 0, 0, now(), 1);
+update standings set games=(games + 1), game_ratio=(game_ratio - 1), round_ratio=(round_ratio - 2) where id = 214; -- DreamTrance
+update standings set games=(games + 1), round_ratio=(round_ratio + 2), game_ratio=(game_ratio + 1), points=(points + 3) where id = 212; -- XWorm
+
+-- There are some games in the vaccum CWT space.
+delete from games where home_id = 0 and away_id = 0 and group_id = 0 and playoff_id = 0;
+
+-- There is one profile missing.
+insert into profiles (id, user_id, modified, country, clan, email, skype, icq, facebook, googlep, twitter, about, hideprofile, hideemail)
+values (215, 215, now(), '', '', '', '', '', '', '', '', '', true, true);
+
+-- Comment on non-existent game.
+delete from comments where id = 1377;
+
+-- Comments and ratings whose game reference had been removed.
+delete from comments where game_id=1221 or game_id=1201 or game_id=1290;
+delete from ratings where game_id=1221 or game_id=1201 or game_id=1290 or game_id=980;
+
+-- Comments and ratings whose game reference had been removed.
+delete from traces where id in (select * from (select t.id from traces t left join games g on g.id = t.on where g.id is null) as x);
+
+-- Delete first of two bets.
+delete from traces where id = 2831;
 ```

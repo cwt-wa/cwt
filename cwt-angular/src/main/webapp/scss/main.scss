@@ -4,7 +4,7 @@
 @import "hamburger";
 
 html {
-  background: linear-gradient(to bottom right, rgba(theme-color('primary'), 0.02) 60%, rgba(theme-color('primary'), 0.5) 210%);
+  background: linear-gradient(to bottom right, rgba(theme-color('primary'), 0.02) 60%, rgba(theme-color('primary'), 0.5) 210%) fixed;
   min-height: 100%;
 }
 
@@ -48,7 +48,7 @@ body {
 
 .cwt-nav-container .nav-item {
   background-color: theme-color('primary');
-  margin: 0 2px;
+  margin: 0 3px;
   text-align: center;
 }
 
@@ -275,16 +275,6 @@ body {
     transition: all 0.3s linear 500ms;
   }
 
-  .cwt-nav-container .collapse.show > ul.navbar-nav > li.nav-item:nth-child(9) > a.nav-link {
-    opacity: 1;
-    transition: all 0.3s linear 550ms;
-  }
-
-  .cwt-nav-container .collapse.show > ul.navbar-nav > li.nav-item:nth-child(10) > a.nav-link {
-    opacity: 1;
-    transition: all 0.3s linear 600ms;
-  }
-
   .container.content {
     padding-top: 15px;
   }
@@ -344,13 +334,13 @@ body {
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .cwt-nav-container .nav-item {
-    width: 94.3px;
+    width: 120.3px;
   }
 }
 
 @media (min-width: 1200px) {
   .cwt-nav-container .nav-item {
-    width: 114.3px;
+    width: 146px;
   }
 }
 
@@ -370,8 +360,8 @@ body {
 }
 
 .user-panel > .dropdown-menu {
-  left: auto;
-  right: -10px;
+  left: -130px !important;
+  width: 160px;
 }
 
 .text-white {
@@ -586,4 +576,37 @@ select.custom-select-sm {
 
 .font-variant-numeric-tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+code {
+  background-color: #d8d8d8;
+  padding: .2rem;
+  border-radius: .25rem;
+  color: inherit;
+}
+
+#toast-container > .toast-error {
+  background-image: none !important;
+  background-color: theme-color('danger');
+}
+
+#toast-container > .toast-success {
+  background-image: none !important;
+  background-color: theme-color('success');
+}
+
+#toast-container > div {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  padding: 15px 20px;
+}
+
+#toast-container {
+  top: 65px;
+}
+
+@media (min-width: 992px) {
+  #toast-container {
+    top: 95px;
+  }
 }

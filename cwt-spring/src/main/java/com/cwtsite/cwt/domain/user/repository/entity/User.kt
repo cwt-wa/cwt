@@ -11,7 +11,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @Table(name = "\"user\"")
-@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+@SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq")
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
@@ -51,7 +51,7 @@ data class User(
         @Column(name = "reset_date", length = 20)
         var resetDate: Timestamp? = null,
 
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name = "USER_AUTHORITY", joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
                 inverseJoinColumns = [JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")])
         var authorities: MutableList<Authority> = mutableListOf(Authority.fromName(AuthorityName.ROLE_USER)),
@@ -75,6 +75,8 @@ data class User(
         @field:UpdateTimestamp
         var modified: Timestamp? = null
 ) {
+    fun isAdmin() = this.authorities.map { it.name }.contains(AuthorityName.ROLE_ADMIN)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

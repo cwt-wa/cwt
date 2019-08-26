@@ -11,10 +11,9 @@ import java.util.Objects;
 public class Authority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(length = 50)
+    @Column
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
@@ -22,7 +21,8 @@ public class Authority {
     public Authority() {
     }
 
-    public Authority(AuthorityName name) {
+    public Authority(Long id, @NotNull AuthorityName name) {
+        this.id = id;
         this.name = name;
     }
 
@@ -48,7 +48,7 @@ public class Authority {
     }
 
     public static Authority fromName(AuthorityName authorityName) {
-        return new Authority(authorityName);
+        return new Authority(authorityName.getId(), authorityName);
     }
 
     @Override

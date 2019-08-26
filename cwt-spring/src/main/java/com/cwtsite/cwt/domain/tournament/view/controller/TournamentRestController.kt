@@ -9,16 +9,15 @@ import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
-import com.cwtsite.cwt.domain.tournament.view.model.GroupWithGamesDto
-import com.cwtsite.cwt.domain.tournament.view.model.PlayoffGameDto
-import com.cwtsite.cwt.domain.tournament.view.model.StartNewTournamentDto
-import com.cwtsite.cwt.domain.tournament.view.model.TournamentUpdateDto
+import com.cwtsite.cwt.domain.tournament.view.model.*
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -62,7 +61,14 @@ constructor(private val tournamentService: TournamentService, private val userSe
     @RequestMapping("", method = [RequestMethod.GET])
     fun getAllTournaments(): ResponseEntity<List<Tournament>> = ResponseEntity.ok(tournamentService.getAll())
 
+    @RequestMapping("/archive", method = [RequestMethod.GET])
+    fun getTournamentsForArchive(): ResponseEntity<List<TournamentDto>> =
+            ResponseEntity.ok(tournamentService.getAllFinished()
+                    .map { TournamentDto.toDto(it) }
+                    .sortedByDescending { it.year })
+
     @RequestMapping("", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun createTournament(request: HttpServletRequest, @RequestBody startNewTournamentDto: StartNewTournamentDto): Tournament {
         try {
             return tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)
@@ -83,6 +89,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("{id}/group/many", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun addManyGroups(@PathVariable("id") id: Long, @RequestBody groupDtoList: List<GroupDto>): ResponseEntity<*> {
         val tournament = tournamentService.getTournament(id)
 
@@ -106,6 +113,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("current/group/many", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun addManyGroups(@RequestBody groupDtoList: List<GroupDto>): ResponseEntity<*> {
         // TODO Change tournament status
         val (id) = tournamentService.getCurrentTournament()
@@ -129,6 +137,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun startPlayoffs(@RequestBody gameCreationDtoList: List<GameCreationDto>): ResponseEntity<List<Game>> {
         val userIds = gameCreationDtoList.stream()
                 .map { gameCreationDto -> Arrays.asList(gameCreationDto.homeUser, gameCreationDto.awayUser) }
@@ -164,6 +173,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     @RequestMapping("{id}", method = [RequestMethod.PUT])
     @Transactional
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun updateTournament(@PathVariable("id") id: Long, @RequestBody dto: TournamentUpdateDto): ResponseEntity<Tournament> {
         val tournament = tournamentService.getTournament(id).orElseThrow { RestException("Tournament not found", HttpStatus.NOT_FOUND, null) }
         return ResponseEntity.ok(dto.update(tournament) { if (it == null) null else userService.getById(it).orElse(null) })

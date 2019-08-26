@@ -11,7 +11,8 @@ import javax.persistence.*
 data class Schedule(
 
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_id_seq")
+        @SequenceGenerator(name = "schedule_id_seq", sequenceName = "schedule_id_seq")
         val id: Long? = null,
 
         @ManyToOne(optional = false)

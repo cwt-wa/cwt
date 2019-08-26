@@ -72,4 +72,7 @@ alter table user_setting add constraint FKlq80s6ksgbgsm6qxr5xkqpob foreign key (
 
 
 alter table tournament
-  add column max_rounds int not null default 5;
+    add column max_rounds int not null default 5;
+
+INSERT INTO authority (id, name) VALUES (1, 'ROLE_USER');
+INSERT INTO authority (id, name) VALUES (2, 'ROLE_ADMIN');

@@ -16,12 +16,14 @@ interface PlayoffTreeBetDtoWithBetResults extends PlayoffGameDto {
 })
 export class PlayoffsTreeComponent implements OnInit {
 
-    @Input()
-    tournamentId: number;
+    @Input() tournamentId: number;
+    @Input() hideTitle: boolean;
+    @Input() hideLoadingIndicator: boolean;
 
     playoffGames: PlayoffTreeBetDtoWithBetResults[][];
     isThreeWayFinalTree: boolean;
     placingBet: number[] = [];
+    loading: boolean = true;
 
     public constructor(private requestService: RequestService, private authService: AuthService,
                        private toastr: Toastr, private betService: BetService) {
@@ -29,7 +31,10 @@ export class PlayoffsTreeComponent implements OnInit {
 
     public ngOnInit(): void {
         this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId || 'current'}/game/playoff`)
+            .pipe(finalize(() => this.loading = false))
             .subscribe(res => {
+                if (!res || !res.length) return;
+
                 const gamesInFirstRound = res
                     .filter(g => g.playoff.round === 1)
                     .length;
@@ -90,7 +95,7 @@ export class PlayoffsTreeComponent implements OnInit {
                 const idxOfPreviousBet = game.bets.findIndex(b => b.user.id === authUserId);
                 if (idxOfPreviousBet === -1) {
                     game.bets.push(res);
-                    this.toastr.success("Bet successfully placed.");
+                    this.toastr.success("Bet successfully placed    .");
                 } else {
                     game.bets[idxOfPreviousBet] = res;
                     this.toastr.success("Bet successfully updated.");

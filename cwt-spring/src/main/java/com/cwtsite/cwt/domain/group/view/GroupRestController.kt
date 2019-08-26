@@ -5,10 +5,12 @@ import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.group.view.model.ReplacePlayerDto
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -28,6 +30,7 @@ class GroupRestController {
     }
 
     @RequestMapping("/replace")
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun replacePlayer(@RequestBody dto: ReplacePlayerDto): ResponseEntity<Void> {
         if (tournamentService.getCurrentTournament().status != TournamentStatus.GROUP) {
             throw RestException("The tournament is not in group stage.", HttpStatus.BAD_REQUEST, null)

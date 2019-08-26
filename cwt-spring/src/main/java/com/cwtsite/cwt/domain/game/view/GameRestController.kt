@@ -11,6 +11,7 @@ import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
@@ -24,6 +25,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
@@ -56,6 +58,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun reportGameWithoutReplay(@RequestBody reportDto: ReportDto, request: HttpServletRequest): ResponseEntity<GameCreationDto> {
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != reportDto.user) {
             throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null);
@@ -69,6 +72,7 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("", method = [RequestMethod.POST], consumes = ["multipart/form-data"])
     @Throws(IOException::class)
+    @Secured(AuthorityRole.ROLE_USER)
     fun reportGameWithReplayFile(
             @RequestParam("replay") replay: MultipartFile,
             @RequestParam("score-home") scoreHome: Int,
@@ -136,6 +140,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     }
 
     @RequestMapping("/{id}/rating", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun rateGame(@PathVariable("id") id: Long, @RequestBody rating: RatingDto, request: HttpServletRequest): Rating {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser.id != rating.user) {
@@ -154,6 +159,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     }
 
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun commentGame(@PathVariable("id") id: Long, @RequestBody comment: CommentDto, request: HttpServletRequest): Comment {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser.id != comment.user) {
@@ -173,13 +179,15 @@ constructor(private val gameService: GameService, private val userService: UserS
     }
 
     @RequestMapping("/tech-win", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun addTechWin(@RequestBody dto: GameTechWinDto): ResponseEntity<GameCreationDto> {
         val users = userService.findByIds(dto.winner, dto.loser)
         return ResponseEntity.ok(GameCreationDto.toDto(
                 gameService.addTechWin(users.find { it.id == dto.winner }!!, users.find { it.id == dto.loser }!!)))
     }
 
-    @RequestMapping("/{id}/bet")
+    @RequestMapping("/{id}/bet", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
     fun placeBetOnGame(@PathVariable("id") id: Long, @RequestBody dto: BetCreationDto, request: HttpServletRequest): ResponseEntity<BetDto> {
         val game = gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
         val user = userService.getById(dto.user).orElseThrow { RestException("User ${dto.user} not found", HttpStatus.NOT_FOUND, null) }
