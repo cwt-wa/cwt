@@ -209,3 +209,96 @@ select setval('message_id_seq', (select max(id) + 1 from message), false); -- Se
 -- todo create streams and channels by using CWT REST API
 -- todo drop tables and sequences
 -- todo BBCode (configuration.rules, configuration.news, comments etc.) to markdown (or no formatting) GH-155
+
+alter sequence streams_id_seq owned by none;
+alter sequence bet_seq owned by none;
+alter sequence game_seq owned by none;
+alter sequence group_standing_seq owned by none;
+alter sequence group_seq owned by none;
+alter sequence comment_seq owned by none;
+alter sequence application_seq owned by none;
+alter sequence hibernate_sequence owned by none;
+alter sequence infoboards_id_seq owned by none;
+alter sequence message_seq owned by none;
+alter sequence news_id_seq owned by none;
+alter sequence playoff_game_seq owned by none;
+alter sequence profiles_id_seq owned by none;
+alter sequence rating_seq owned by none;
+alter sequence rules_id_seq owned by none;
+alter sequence tournament_seq owned by none;
+alter sequence traces_id_seq owned by none;
+alter sequence user_profile_seq owned by none;
+alter sequence user_seq owned by none;
+alter sequence user_setting_seq owned by none;
+
+alter sequence application_id_seq owned by none;
+alter sequence comment_id_seq owned by none;
+alter sequence game_id_seq owned by none;
+alter sequence group_id_seq owned by none;
+alter sequence playoff_id_seq owned by none;
+alter sequence rating_id_seq owned by none;
+alter sequence schedule_id_seq owned by none;
+alter sequence standing_id_seq owned by none;
+alter sequence stream_id_seq owned by none;
+alter sequence tournament_id_seq owned by none;
+alter sequence user_id_seq owned by none;
+alter sequence playoff_game_id_seq owned by none;
+alter sequence group_standing_id_seq owned by none;
+
+drop table infoboards;
+drop table rules;
+drop table news;
+drop table profiles;
+drop table traces;
+
+drop sequence streams_id_seq;
+drop sequence bet_seq;
+drop sequence game_seq;
+drop sequence group_standing_seq;
+drop sequence group_seq;
+drop sequence comment_seq;
+drop sequence application_seq;
+drop sequence hibernate_sequence;
+drop sequence infoboards_id_seq;
+drop sequence message_seq;
+drop sequence news_id_seq;
+drop sequence playoff_game_seq;
+drop sequence profiles_id_seq;
+drop sequence rating_seq;
+drop sequence rules_id_seq;
+drop sequence tournament_seq;
+drop sequence traces_id_seq;
+drop sequence user_profile_seq;
+drop sequence user_seq;
+drop sequence user_setting_seq;
+
+drop table applications;
+drop table comments;
+drop table games;
+drop table playoffs;
+drop table standings;
+drop table groups;
+drop table ratings;
+drop table schedules;
+drop table streams;
+drop table tetris;
+drop table tournaments;
+drop table tournaments_moderators;
+drop table users;
+
+alter sequence application_id_seq owned by application.id;
+alter sequence bet_id_seq owned by bet.id;
+alter sequence comment_id_seq owned by comment.id;
+alter sequence country_id_seq owned by country.id;
+alter sequence game_id_seq owned by game.id;
+alter sequence group_id_seq owned by "group".id;
+alter sequence group_standing_id_seq owned by group_standing.id;
+alter sequence message_id_seq owned by message.id;
+alter sequence photo_id_seq owned by photo.id;
+alter sequence playoff_game_id_seq owned by playoff_game.id;
+alter sequence rating_id_seq owned by rating.id;
+alter sequence replay_id_seq owned by replay.id;
+alter sequence restores_id_seq owned by restores.id;
+alter sequence schedule_id_seq owned by schedule.id;
+alter sequence tournament_id_seq owned by tournament.id;
+alter sequence user_id_seq owned by "user".id;
