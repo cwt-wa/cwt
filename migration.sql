@@ -1,6 +1,6 @@
 insert into "user" (id, activated, activation_key, created, email, modified, password_hash, password_legacy_hash, reset_date, reset_key, username, about,
                     country_id, photo_id)
-select p.id,
+select u.id,
        true,
        null,
        created,
