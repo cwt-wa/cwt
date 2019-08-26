@@ -269,4 +269,14 @@ delete from traces where id in (select * from (select t.id from traces t left jo
 
 -- Delete first of two bets.
 delete from traces where id = 2831;
+
+-- Apparently there had been two profiles for user with ID 226 (tanerrr).
+delete from profiles where id = 288; -- taner
+delete from profiles where id = 34; -- jakka
+delete from profiles where id = 740; -- afina
+
+-- United Kingdom had two mappings in the DB the one with underscore being the correct.
+update profiles
+set country='United Kingdom'
+where country = 'United_Kingdom';
 ```
