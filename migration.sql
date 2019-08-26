@@ -150,7 +150,6 @@ where key = 'NEWS';
 -- Sequences
 
 create sequence bet_id_seq increment by 50;
-create sequence channel_id_seq increment by 50;
 create sequence country_id_seq increment by 50;
 create sequence message_id_seq increment by 50;
 create sequence photo_id_seq increment by 50;
@@ -162,14 +161,12 @@ alter sequence games_id_seq rename to game_id_seq;
 alter sequence groups_id_seq rename to group_id_seq;
 alter sequence ratings_id_seq rename to rating_id_seq;
 alter sequence schedules_id_seq rename to schedule_id_seq;
-alter sequence streams_id_seq rename to stream_id_seq;
 alter sequence tournaments_id_seq rename to tournament_id_seq;
 alter sequence users_id_seq rename to user_id_seq;
 alter sequence playoffs_id_seq rename to playoff_game_id_seq;
 alter sequence standings_id_seq rename to group_standing_id_seq;
 
 alter sequence bet_id_seq increment by 50;
-alter sequence channel_id_seq increment by 50;
 alter sequence country_id_seq increment by 50;
 alter sequence group_standing_id_seq increment by 50;
 alter sequence message_id_seq increment by 50;
@@ -182,13 +179,11 @@ alter sequence game_id_seq increment by 50;
 alter sequence group_id_seq increment by 50;
 alter sequence rating_id_seq increment by 50;
 alter sequence schedule_id_seq increment by 50;
-alter sequence stream_id_seq increment by 50;
 alter sequence tournament_id_seq increment by 50;
 alter sequence user_id_seq increment by 50;
 
 alter table application alter column id set default nextval('application_id_seq');
 alter table bet alter column id set default nextval('bet_id_seq');
-alter table channel alter column id set default nextval('channel_id_seq');
 alter table comment alter column id set default nextval('comment_id_seq');
 alter table country alter column id set default nextval('country_id_seq');
 alter table game alter column id set default nextval('game_id_seq');
@@ -200,7 +195,6 @@ alter table playoff_game alter column id set default nextval('playoff_game_id_se
 alter table rating alter column id set default nextval('rating_id_seq');
 alter table replay alter column id set default nextval('replay_id_seq');
 alter table schedule alter column id set default nextval('schedule_id_seq');
-alter table stream alter column id set default nextval('stream_id_seq');
 alter table tournament alter column id set default nextval('tournament_id_seq');
 alter table "user" alter column id set default nextval('user_id_seq');
 
