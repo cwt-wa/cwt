@@ -158,6 +158,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         if (document.querySelector('canvas')) {
             this.tetris.close();
         }
+        window.onresize = null;
         document.getElementById("tetris-gameover").classList.remove("tetris-visible");
         document.getElementById('tetris').classList.remove('tetris-visible');
         document.body.classList.remove('tetris');

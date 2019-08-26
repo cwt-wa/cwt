@@ -63,6 +63,8 @@ export class Tetris {
 
         this.canvasWidth = Grid.CELL_LINES_HORIZONTAL * this.cellWidth + 1;
         this.canvasHeight = (Grid.CELL_LINES_VERTICAL * this.cellWidth + 1);
+
+        this.p5.resizeCanvas(this.canvasWidth, this.canvasHeight, true);
     }
 
 
@@ -318,13 +320,11 @@ export class Tetris {
     public tearDown() : void {
         this.p5.keyReleased = null;
         this.p5.keyPressed = null;
-        window.onresize = null;
     }
 
     public resize() {
         let tetrisDiv = document.getElementById('tetris');
         tetrisDiv.style.width = window.innerWidth.toString() + "px";
-        tetrisDiv.style.height = window.innerHeight + document.body.scrollHeight + "px";
 
         this.calculateCanvasSize();
         this.grid.updateGridSize(this.cellWidth);
