@@ -65,7 +65,7 @@ select id,
        home_id,
        nullif(playoff_id, 0),
        null,
-       nullif(reporter_id, 0),
+       coalesce(nullif(reporter_id, 0), 1),
        tournament_id,
        false
 from games;
