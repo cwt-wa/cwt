@@ -296,8 +296,3 @@ alter sequence restores_id_seq owned by restores.id;
 alter sequence schedule_id_seq owned by schedule.id;
 alter sequence tournament_id_seq owned by tournament.id;
 alter sequence user_id_seq owned by "user".id;
-
-
--- todo binaries for game replay and user photo
--- todo create streams and channels by using CWT REST API
--- todo BBCode (configuration.rules, configuration.news, comments etc.) to markdown (or no formatting) GH-155
