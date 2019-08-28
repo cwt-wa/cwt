@@ -125,6 +125,8 @@ flyway migrate -configFiles=/Users/Zemke/Desktop/migration.properties
 
 Next up is writing some SQL to migrate data from the old tables into the new. This would be the actual migration.
 
+#### Users without password
+
 The following users won't be able to log in anymore because their passwords use a backward-incompatible encryption strategy. In CWT 5 there two password encryption strategies and CWT 6 will introduce a third one. Some users have been migrated to the seconds and they will be migrated to the third by CWT 6 but the oldest passwords will be neglected.
 
 Email addresses have been added to the list because they could potentially reset their passwords using that email address (currently there's no password forgotten feature).
@@ -145,14 +147,6 @@ Email addresses have been added to the list because they could potentially reset
 |xDragonfirex||
 |pandello||
 |Pipinasso||
-
-United Kingdom had two mappings in the DB the one with underscore being the correct.
-
-```sql
-update profiles
-set country='United Kingdom'
-where country = 'United_Kingdom';
-```
 
 #### Troubleshooting
 
@@ -209,7 +203,7 @@ update restores set reported=replace(reported, '-00', '-01') where reported like
 update games set created=replace(created, '-00', '-01') where created like '%-00%';
 ```
 
-##### Various fixes in the production database
+#### Various fixes in the production database
 
 ```sql
 -- Re-add previously deleted user.
@@ -269,4 +263,14 @@ delete from traces where id in (select * from (select t.id from traces t left jo
 
 -- Delete first of two bets.
 delete from traces where id = 2831;
+
+-- Apparently there had been two profiles for user with ID 226 (tanerrr).
+delete from profiles where id = 288; -- taner
+delete from profiles where id = 34; -- jakka
+delete from profiles where id = 740; -- afina
+
+-- United Kingdom had two mappings in the DB the one with underscore being the correct.
+update profiles
+set country='United Kingdom'
+where country = 'United_Kingdom';
 ```

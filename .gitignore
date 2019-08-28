@@ -5,3 +5,5 @@ target/
 *.iws
 *.iml
 *.ipr
+
+cwt-spring/src/main/resources/static/
