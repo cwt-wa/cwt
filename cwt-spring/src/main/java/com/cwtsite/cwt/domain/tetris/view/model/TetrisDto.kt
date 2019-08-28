@@ -10,20 +10,20 @@ data class TetrisDto(
         val highscore: Long,
         val user: UserMinimalDto?,
         val guestname : String?,
-        val created: Timestamp) {
+        val created: Timestamp?) {
 
     companion object {
 
         fun toDto(tetris: Tetris) : TetrisDto {
-            if (tetris.user == null) {
-                return TetrisDto(
+            return if (tetris.user == null) {
+                TetrisDto(
                         highscore = tetris.highscore,
                         user = null,
                         guestname = tetris.guestname,
                         created = tetris.created
                 )
             } else {
-                return TetrisDto(
+                TetrisDto(
                         highscore = tetris.highscore,
                         user = UserMinimalDto.toDto(tetris.user),
                         guestname = null,
