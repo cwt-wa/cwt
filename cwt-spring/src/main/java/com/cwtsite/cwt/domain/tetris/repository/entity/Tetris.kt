@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.domain.tetris.repository.entity
 
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import org.hibernate.annotations.CreationTimestamp
 import java.sql.Timestamp
 import javax.persistence.*
 
@@ -9,7 +10,8 @@ import javax.persistence.*
 data class Tetris(
 
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tetris_id_seq")
+        @SequenceGenerator(name = "tetris_id_seq", sequenceName = "tetris_id_seq")
         val id: Long? = null,
 
         @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
@@ -20,5 +22,6 @@ data class Tetris(
 
         val highscore: Long,
 
-        val created: Timestamp
+        @field:CreationTimestamp
+        val created: Timestamp? = null
 )

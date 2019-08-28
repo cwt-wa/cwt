@@ -22,8 +22,7 @@ constructor(private val tetrisService: TetrisService, private val userService: U
     @RequestMapping("", method = [RequestMethod.POST])
     fun saveTetris(@RequestBody tetrisDto: TetrisDto): ResponseEntity<TetrisDto> {
         if (tetrisDto.guestname != null && !userService.validateUsername(tetrisDto.guestname)) throw RestException("Invalid Username.", HttpStatus.BAD_REQUEST, null);
-        val timestamp = Timestamp(System.currentTimeMillis())
-        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(null, tetrisDto.highscore, timestamp, tetrisDto.guestname)))
+        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(null, tetrisDto.highscore, tetrisDto.guestname)))
     }
 
     @RequestMapping("", method = [RequestMethod.GET])

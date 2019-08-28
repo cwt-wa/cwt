@@ -218,12 +218,15 @@ constructor(private val userService: UserService, private val applicationService
                 .body(resource)
     }
 
-
     @RequestMapping("/{id}/tetris", method = [RequestMethod.POST])
-    fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long): ResponseEntity<TetrisDto> {
+    @Secured(AuthorityRole.ROLE_USER)
+    fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long, request: HttpServletRequest): ResponseEntity<TetrisDto> {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != userId) {
+            throw RestException("Forbidden", HttpStatus.FORBIDDEN, null)
+        }
+
         val user = userService.getById(userId).orElseThrow { RestException("User $userId not found.", HttpStatus.NOT_FOUND, null) }
-        val timestamp = Timestamp(System.currentTimeMillis());
-        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, timestamp, null)))
+        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, null)))
     }
 
     private fun assertUser(id: Long): User = userService.getById(id)
