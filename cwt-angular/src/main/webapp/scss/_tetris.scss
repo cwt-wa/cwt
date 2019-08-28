@@ -1,7 +1,5 @@
-@import "../../scss/_custom.scss";
-@import "~bootstrap/scss/bootstrap";
-
-body.tetris > my-app > div:not(#tetris) {
+body.tetris > my-app > div:not(#tetris),
+body.tetris > footer {
   filter: blur(4px);
   transition: 1s -webkit-filter linear;
 }
@@ -10,12 +8,13 @@ html.tetris {
   height: 100%;
 }
 
-body.tetris{
-  height: 100%
+body.gameOver {
+  overflow: hidden;
 }
 
-body.gameOver {
-  overflow: auto !important;
+body.tetris:not(.gameOver){
+  height: 100%;
+  overflow: hidden;
 }
 
 canvas {
@@ -26,8 +25,19 @@ canvas {
 }
 
 #tetris.tetris-visible {
-  display:block;
+  display: block;
   width: 100%;
+  height: 100%;
+  padding-bottom: 50px;
+  z-index: 9;
+}
+
+body.gameOver #tetris.tetris-visible {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+body.tetris:not(.gameOver) #tetris.tetris-visible  {
   overflow: hidden;
 }
 
@@ -41,7 +51,7 @@ canvas {
 #btn-close-tetris{
   background-color: #343a40;
   border-color: white;
-  margin: 5px 5px 5px 5px;
+  margin: 10px 25px;
   color: white;
   position: absolute;
   right: 0;
@@ -76,7 +86,7 @@ canvas {
   width: 100%;
   display:none;
   text-align:center;
-  margin: 10px;
+  margin: 30px 0;
 }
 
 #tetris-game-over-heading{

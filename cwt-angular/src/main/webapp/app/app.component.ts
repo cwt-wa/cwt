@@ -60,7 +60,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     easterEgg() {
-        require('../tetris/styles/tetris.scss');
         const p5 = require('p5/lib/p5.js');
         this.highscores = [];
 

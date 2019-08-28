@@ -2,6 +2,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import "tree";
 @import "hamburger";
+@import "tetris";
 
 html {
   background: linear-gradient(to bottom right, rgba(theme-color('primary'), 0.02) 60%, rgba(theme-color('primary'), 0.5) 210%) fixed;
