@@ -20,7 +20,7 @@ open class ConfigurationRepositoryTest : AbstractDbTest() {
             val configuration = configurations
                     .find { it.key == configurationKey } ?: throw RuntimeException()
 
-            parseValue(configuration.value, configuration.key.type)
+            parseValue(configuration.value!!, configuration.key.type)
         }
     }
 
