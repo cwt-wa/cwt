@@ -47,7 +47,7 @@ constructor(private val userService: UserService, private val applicationService
     fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
         return when {
             term != null -> ResponseEntity.ok(userService.findByUsernameContaining(term))
-            usernames != null -> ResponseEntity.ok(userService.findByUsernames(usernames))
+            usernames != null -> ResponseEntity.ok(userService.findByUsernamesIgnoreCase(usernames))
             else -> ResponseEntity.ok(userService.findAllOrderedByUsername())
         }
     }
