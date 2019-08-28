@@ -296,21 +296,21 @@ export class Tetris {
 
         switch (randomNumber) {
             case 0:
-                return new SquareFigure("#6610f2", this.grid);
+                return new SquareFigure("#2A9D8F", this.grid);
             case 1:
-                return new TFigure("#e83e8c", this.grid);
+                return new TFigure("#4e4133", this.grid);
             case 2:
-                return new IFigure("#fd7e14", this.grid);
+                return new IFigure("#473042", this.grid);
             case 3:
-                return new LFigure("#ffc107", this.grid);
+                return new LFigure("#E9C46A", this.grid);
             case 4:
-                return new JFigure("#28a745", this.grid);
+                return new JFigure("#89023E", this.grid);
             case 5:
-                return new SFigure("#20c997", this.grid);
+                return new SFigure("#C4C3C6", this.grid);
             case 6:
-                return new ZFigure("#17a2b8", this.grid);
+                return new ZFigure("#1B2021", this.grid);
         }
-        return new SquareFigure("#6610f2", this.grid);
+        return new SquareFigure("#2A9D8F", this.grid);
     }
 
     public close() : void {
