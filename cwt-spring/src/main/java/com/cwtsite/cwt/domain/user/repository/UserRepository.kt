@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -17,6 +18,11 @@ interface UserRepository : JpaRepository<User, Long> {
     fun findByEmailEqualsOrUsernameEquals(email: String, username: String): Optional<User>
 
     fun findByUsernameContaining(username: String): List<User>
+
+    fun findByUsernameIn(usernames: List<String>): List<User>
+
+    @Query("select u from User u where lower(u.username) in (:usernames)")
+    fun findByUsernameLowercaseIn(@Param("usernames") username: List<String>): List<User>
 
     @Modifying
     @Query("REFRESH MATERIALIZED VIEW CONCURRENTLY user_stats", nativeQuery = true)

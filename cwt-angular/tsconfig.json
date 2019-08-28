@@ -25,7 +25,7 @@
   },
   "include": [
     "src/main/webapp/app/**/*",
-    "src/test/webapp/app/**/*"
-
+    "src/test/webapp/app/**/*",
+    "node_modules/p5/lib/p5.d.ts"
   ]
 }

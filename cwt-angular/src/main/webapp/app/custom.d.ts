@@ -374,3 +374,10 @@ export interface PageDto<T, S = string | ValueLabel> {
     totalElements: number;
     sortables: S[];
 }
+
+export interface TetrisDto {
+    id: number,
+    user: number,
+    highscore: number,
+    created: Date
+}

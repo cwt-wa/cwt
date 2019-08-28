@@ -5,6 +5,8 @@ import com.cwtsite.cwt.domain.application.service.ApplicationService
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.tetris.service.TetrisService
+import com.cwtsite.cwt.domain.tetris.view.model.TetrisDto
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
@@ -27,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
+import java.sql.Timestamp
 import java.util.*
 import javax.security.auth.login.CredentialException
 import javax.servlet.http.HttpServletRequest
@@ -37,15 +40,16 @@ class UserRestController @Autowired
 constructor(private val userService: UserService, private val applicationService: ApplicationService,
             private val authService: AuthService, private val tournamentService: TournamentService,
             private val groupService: GroupService, private val playoffService: PlayoffService,
-            private val jwtTokenUtil: JwtTokenUtil, private val userDetailsService: UserDetailsService) {
+            private val jwtTokenUtil: JwtTokenUtil, private val userDetailsService: UserDetailsService,
+            private val tetrisService: TetrisService) {
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun findAll(@RequestParam("term") term: String?): ResponseEntity<List<User>> {
-        if (term == null) {
-            return ResponseEntity.ok(userService.findAllOrderedByUsername())
+    fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
+        return when {
+            term != null -> ResponseEntity.ok(userService.findByUsernameContaining(term))
+            usernames != null -> ResponseEntity.ok(userService.findByUsernamesIgnoreCase(usernames))
+            else -> ResponseEntity.ok(userService.findAllOrderedByUsername())
         }
-
-        return ResponseEntity.ok(userService.findByUsernameContaining(term))
     }
 
     @RequestMapping("/{id}/can-apply", method = [RequestMethod.GET])
@@ -214,6 +218,16 @@ constructor(private val userService: UserService, private val applicationService
                 .body(resource)
     }
 
+    @RequestMapping("/{id}/tetris", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_USER)
+    fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long, request: HttpServletRequest): ResponseEntity<TetrisDto> {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != userId) {
+            throw RestException("Forbidden", HttpStatus.FORBIDDEN, null)
+        }
+
+        val user = userService.getById(userId).orElseThrow { RestException("User $userId not found.", HttpStatus.NOT_FOUND, null) }
+        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, null)))
+    }
 
     private fun assertUser(id: Long): User = userService.getById(id)
             .orElseThrow { RestException("User $id not found", HttpStatus.NOT_FOUND, null) }
