@@ -124,6 +124,6 @@ body.tetris:not(.gameOver) #tetris.tetris-visible  {
   width: 55%;
   margin: 0 auto 10px;
   color: theme-color('secondary') !important;
-  border: 1px solid theme-color('primary');
-  border-left: 6px solid theme-color('primary');
+  border: 1px solid theme-color('danger');
+  border-left: 6px solid theme-color('danger');
 }
