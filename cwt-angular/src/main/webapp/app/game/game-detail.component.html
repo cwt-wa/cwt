@@ -136,7 +136,10 @@
         <div class="row">
             <div class="col-12 col-md-8 offset-md-3 col-lg-7">
                 <div class="card bg-light">
-                    <div class="card-body">
+                    <div class="card-body" *ngIf="!game.ratings.length">
+                        There are no ratings.
+                    </div>
+                    <div class="card-body" *ngIf="game.ratings.length">
                         <div *ngIf="ratings.LIKE.length" class="mb-1">
                             Liked by
                             <span *ngFor="let rating of ratings.LIKE; let last = last">
