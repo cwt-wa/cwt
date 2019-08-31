@@ -49,6 +49,10 @@
             <img #photoPreview alt="Current photo" [hidden]="!showPhoto || thereIsNoPhoto" class="w-100">
             <div class="alert alert-info" *ngIf="showPhoto && thereIsNoPhoto">You don’t have a photo.</div>
             <button class="btn btn-secondary btn-sm" (click)="showCurrentPhoto()" [hidden]="showPhoto">Show current photo</button>
+            <button type="button" class="btn btn-danger btn-sm" [ngClass]="{'ml-1': !showPhoto}"
+                    (click)="deletePhoto()" *ngIf="!thereIsNoPhoto">
+                <i class="fa fa-trash"></i>
+            </button>
         </div>
 
         <form (ngSubmit)="submitPhoto()">

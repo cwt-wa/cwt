@@ -51,6 +51,13 @@ export class BinaryService {
                 {headers: {'Authorization': this.authService.getToken()}, reportProgress: true});
     }
 
+    deleteUserPhoto(userId: number): Observable<void> {
+        const opts = {headers: {'Authorization': this.authService.getToken()}};
+        return this.useDatabaseStorage()
+            ? this.httpClient.delete<void>(`${this.appConfig.apiEndpoint}user/${userId}/photo`, opts)
+            : this.httpClient.delete<void>(`${this.appConfig.binaryDataStoreEndpoint}user/${userId}/photo`, opts);
+    }
+
     private useDatabaseStorage() {
         return this.appConfig.binaryDataStoreEndpoint == null;
     }

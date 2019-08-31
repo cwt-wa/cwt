@@ -57,7 +57,10 @@ export class UserPanelComponent implements OnInit {
         this.binaryService.getUserPhoto(this.authUser.id, this.user.hasPic)
             .pipe(finalize(() => this.loadingPhoto = false))
             .subscribe(
-                res => this.photoPreview.nativeElement.src = res,
+                res => {
+                    this.photoPreview.nativeElement.src = res;
+                    this.thereIsNoPhoto = false;
+                },
                 () => this.thereIsNoPhoto = true);
     }
 
@@ -85,5 +88,12 @@ export class UserPanelComponent implements OnInit {
                 this.toastr.success("Successfully saved photo.");
                 this.showPhoto = false;
             });
+    }
+
+    deletePhoto() {
+        this.binaryService.deleteUserPhoto(this.authUser.id).subscribe(() => {
+            this.toastr.success("Successfully deleted photo.");
+            this.showPhoto = false;
+        }, () => this.toastr.error("An unknown error occurred."));
     }
 }
