@@ -77,6 +77,7 @@ import {DatePipe} from "@angular/common";
 import {WriteRulesComponent} from "./rules/write-rules.component";
 import {HelpComponent} from "./rules/help.component";
 import {AdminChatComponent} from "./message/admin-chat.component";
+import {BinaryService} from "./_services/binary.service";
 
 const appRoutes: Routes = [
     {
@@ -293,6 +294,7 @@ const appRoutes: Routes = [
         PlayoffsService,
         BetService,
         CanReportService,
+        BinaryService,
         CanDeactivateGuard,
         Toastr,
         {provide: APP_CONFIG, useValue: appConfig}

@@ -4,6 +4,7 @@ import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {finalize} from "rxjs/operators";
+import {BinaryService} from "../_services/binary.service";
 
 @Component({
     selector: 'cwt-user-panel',
@@ -28,7 +29,8 @@ export class UserPanelComponent implements OnInit {
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
-                private toastr: Toastr) {
+                private toastr: Toastr,
+                private binaryService: BinaryService) {
     }
 
     ngOnInit(): void {
@@ -51,12 +53,12 @@ export class UserPanelComponent implements OnInit {
     showCurrentPhoto() {
         this.loadingPhoto = true;
         this.showPhoto = true;
-        this.requestService.getBlob(`user/${this.authUser.id}/photo`)
+
+        this.binaryService.getUserPhoto(this.authUser.id, this.user.hasPic)
             .pipe(finalize(() => this.loadingPhoto = false))
-            .subscribe(res => {
-                // @ts-ignore
-                this.photoPreview.nativeElement.src = (window.URL || window.webkitURL).createObjectURL(res);
-            }, () => this.thereIsNoPhoto = true);
+            .subscribe(
+                res => this.photoPreview.nativeElement.src = res,
+                () => this.thereIsNoPhoto = true);
     }
 
     submitProfile() {
@@ -78,10 +80,7 @@ export class UserPanelComponent implements OnInit {
     }
 
     submitPhoto() {
-        const formData = new FormData();
-        formData.append('photo', this.photoFile.nativeElement.files[0]);
-
-        this.requestService.formDataPost(`user/${this.authUser.id}/change-photo`, formData)
+        this.binaryService.saveUserPhoto(this.authUser.id, this.photoFile.nativeElement.files[0])
             .subscribe(() => {
                 this.toastr.success("Successfully saved photo.");
                 this.showPhoto = false;

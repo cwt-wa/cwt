@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {ActivatedRoute} from "@angular/router";
 import {UserDetailDto} from "../custom";
+import {BinaryService} from "../_services/binary.service";
 
 @Component({
     selector: 'cwt-user-detail',
@@ -14,7 +15,8 @@ export class UserDetailComponent implements OnInit {
     user: UserDetailDto;
     randomPic: any;
 
-    constructor(private requestService: RequestService, private route: ActivatedRoute) {
+    constructor(private requestService: RequestService, private route: ActivatedRoute,
+                private binaryService: BinaryService) {
     }
 
     ngOnInit(): void {
@@ -24,16 +26,11 @@ export class UserDetailComponent implements OnInit {
                     res.userStats = res.userStats.sort((a, b) => b.year - a.year);
                     this.user = res;
 
-                    if (!this.user.hasPic) {
-                        this.userPhoto.nativeElement.src = require('../../img/albino/' + Math.ceil(Math.random() * 14) + '.jpg');
-                        this.userPhoto.nativeElement.alt = 'Random profile photo';
-                    } else {
-                        this.requestService.getBlob(`user/${this.user.id}/photo`).subscribe(res => {
-                            // @ts-ignore
-                            this.userPhoto.nativeElement.src = (window.URL || window.webkitURL).createObjectURL(res);
-                            this.userPhoto.nativeElement.alt = 'Profile photo of ' + this.user.username;
-                        });
-                    }
+                    this.binaryService.getUserPhoto(this.user.id, this.user.hasPic)
+                        .subscribe(
+                            res => this.userPhoto.nativeElement.src = res,
+                            () => this.userPhoto.nativeElement.src = this.binaryService.randomPic());
+                    this.userPhoto.nativeElement.alt = 'Profile photo of ' + this.user.username;
                 });
         });
     }
