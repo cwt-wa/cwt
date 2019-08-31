@@ -188,7 +188,7 @@ constructor(private val userService: UserService, private val applicationService
         }
     }
 
-    @RequestMapping("{id}/change-photo", method = [RequestMethod.POST], consumes = ["multipart/form-data"])
+    @RequestMapping("{id}/photo", method = [RequestMethod.POST], consumes = ["multipart/form-data"])
     @Secured(AuthorityRole.ROLE_USER)
     fun changePhoto(@RequestParam("photo") photo: MultipartFile, @PathVariable("id") userId: Long, request: HttpServletRequest) {
         val user = assertUser(userId)

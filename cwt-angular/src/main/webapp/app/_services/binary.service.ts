@@ -42,7 +42,7 @@ export class BinaryService {
         formData.append('photo', file);
 
         if (this.useDatabaseStorage()) {
-            return this.requestService.formDataPost(`user/${userId}/change-photo`, formData);
+            return this.requestService.formDataPost(`user/${userId}/photo`, formData);
         }
 
         return this.httpClient
