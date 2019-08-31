@@ -31,11 +31,12 @@ module.exports = webpackMerge(commonConfig, {
             filename: "[name].[hash].css",
             disable: false,
             allChunks: true
-        })
-        ,
+        }),
         new webpack.DefinePlugin({
             'process.env': {
-                'ENV': JSON.stringify(ENV)
+                'ENV': JSON.stringify(ENV),
+                'apiEndpoint': JSON.stringify("/api"),
+                'binaryDataStoreEndpoint': JSON.stringify("http://binary.cwtsite.com/api/"),
             }
         })
     ]

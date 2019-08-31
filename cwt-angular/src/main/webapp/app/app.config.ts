@@ -8,8 +8,8 @@ export interface AppConfig {
 }
 
 export const appConfig: AppConfig = {
-    apiEndpoint: 'http://localhost:9000/api/',
-    binaryDataStoreEndpoint: null,
+    apiEndpoint: process.env.apiEndpoint,
+    binaryDataStoreEndpoint: process.env.binaryDataStoreEndpoint,
 };
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
