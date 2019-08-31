@@ -218,6 +218,21 @@ constructor(private val userService: UserService, private val applicationService
                 .body(resource)
     }
 
+    @RequestMapping("/{userId}/photo", method = [RequestMethod.DELETE])
+    @Secured(AuthorityRole.ROLE_USER)
+    fun deleteUserPhoto(@PathVariable("userId") userId: Long, request: HttpServletRequest) {
+        val user = assertUser(userId)
+
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
+            throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
+        }
+
+        if (user.photo == null) return
+
+        user.photo = null
+        userService.saveUser(user)
+    }
+
     @RequestMapping("/{id}/tetris", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long, request: HttpServletRequest): ResponseEntity<TetrisDto> {
