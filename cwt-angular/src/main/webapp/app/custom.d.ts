@@ -206,6 +206,7 @@ export interface GameDetailDto {
     id: number;
     homeUser: User;
     awayUser: User;
+    techWin: boolean;
     playoff: {
         round: number;
         spot: number;
