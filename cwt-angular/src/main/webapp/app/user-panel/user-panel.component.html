@@ -46,7 +46,8 @@
 
         <div class="mb-3">
             <img *ngIf="loadingPhoto" src="../../img/loading.gif"/>
-            <img #photoPreview alt="Current photo" [hidden]="!showPhoto" class="w-100">
+            <img #photoPreview alt="Current photo" [hidden]="!showPhoto || thereIsNoPhoto" class="w-100">
+            <div class="alert alert-info" *ngIf="showPhoto && thereIsNoPhoto">You don’t have a photo.</div>
             <button class="btn btn-secondary btn-sm" (click)="showCurrentPhoto()" [hidden]="showPhoto">Show current photo</button>
         </div>
 

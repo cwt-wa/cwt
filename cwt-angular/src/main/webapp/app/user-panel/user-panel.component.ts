@@ -20,6 +20,7 @@ export class UserPanelComponent implements OnInit {
     confirmPassword: string;
     showPhoto = false;
     loadingPhoto: boolean = false;
+    thereIsNoPhoto: boolean;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -55,7 +56,7 @@ export class UserPanelComponent implements OnInit {
             .subscribe(res => {
                 // @ts-ignore
                 this.photoPreview.nativeElement.src = (window.URL || window.webkitURL).createObjectURL(res);
-            });
+            }, () => this.thereIsNoPhoto = true);
     }
 
     submitProfile() {
