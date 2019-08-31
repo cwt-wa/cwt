@@ -37,7 +37,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     public ngOnInit(): void {
-        this.easterEgg();
         this.requestService.get<{ token: string }>('auth/refresh').subscribe(
             res => {
                 if (res == null || res.token == null) return this.authService.voidToken();
