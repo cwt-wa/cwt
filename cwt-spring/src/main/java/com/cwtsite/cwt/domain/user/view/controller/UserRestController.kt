@@ -194,7 +194,7 @@ constructor(private val userService: UserService, private val applicationService
         val user = assertUser(userId)
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
-            throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
+            throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
         userService.changePhoto(user, photo)
