@@ -55,7 +55,7 @@
             <label for="photoFile" class="sr-only">Photo</label>
             <input type="file" #photoFile class="form-control-file" id="photoFile"
                    required name="photoFile" accept=".jpeg,.jpg,.png,.gif">
-            <input type="submit" value="Upload photo" class="btn btn-primary mt-1">
+            <input type="submit" value="Upload photo" class="btn btn-primary mt-1" [disabled]="photoFile?.files?.length !== 1">
         </form>
     </div>
 </div>
