@@ -6,7 +6,7 @@
 
 <div class="card bg-secondary text-white mt-3 mb-3" *ngIf="news">
     <div class="card-body">
-        <cwt-markdown [raw]="news.value"></cwt-markdown>
+        <cwt-markdown [raw]="news.value" class="links-red"></cwt-markdown>
         <p class="card-text float-right">
             <small class="text-muted">
                 <cwt-time-ago [date]="news.modified"></cwt-time-ago>

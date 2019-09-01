@@ -615,3 +615,12 @@ code {
 my-app.nav-is-expanded + footer {
   display: none;
 }
+
+
+.links-red a {
+  color: #ff0071 !important;
+}
+
+.links-black a {
+  color: theme-color('secondary') !important;
+}
