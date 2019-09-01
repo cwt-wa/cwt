@@ -30,7 +30,7 @@ data class GameMinimalDto(
 
     companion object {
 
-        fun toDto(game: Game, playoffRoundLocalized: String?): GameMinimalDto {
+        fun toDto(game: Game): GameMinimalDto {
             return GameMinimalDto(
                     id = game.id!!,
                     scoreHome = game.scoreHome!!,
