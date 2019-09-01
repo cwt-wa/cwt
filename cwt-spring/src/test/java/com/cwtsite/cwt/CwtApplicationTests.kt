@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
+import kotlin.test.Ignore
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner
     "spring.datasource.url=jdbc:postgresql://127.0.0.1:5433/postgres",
     "spring.flyway.locations=classpath:db/migration/common,classpath:db/migration/test"
 ])
+@Ignore
 class CwtApplicationTests {
 
     @Test
