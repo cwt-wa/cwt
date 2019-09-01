@@ -28,8 +28,8 @@ data class Tournament(
          *
          * [Calculation of the value][com.cwtsite.cwt.domain.playoffs.service.PlayoffService.getNumberOfPlayoffRoundsInTournament]
          */
-        @Column
-        var maxRounds: Int? = null,
+        @Column(nullable = false)
+        var maxRounds: Int = 5,
 
         @Column
         var threeWay: Boolean? = null,
