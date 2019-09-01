@@ -23,7 +23,7 @@
         </ng-container>
 
         <ng-container *ngIf="message.category !== 'NEWS'">
-            {{message.body}}
+            <span [innerHTML]="message.body | cwtConvertLinks:['text-light']"></span>
         </ng-container>
     </div>
     <button type="button" class="btn btn-sm btn-primary"

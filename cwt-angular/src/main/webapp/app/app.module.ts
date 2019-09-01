@@ -78,6 +78,7 @@ import {WriteRulesComponent} from "./rules/write-rules.component";
 import {HelpComponent} from "./rules/help.component";
 import {AdminChatComponent} from "./message/admin-chat.component";
 import {BinaryService} from "./_services/binary.service";
+import {ConvertLinksPipe} from "./_util/convert-links.pipe";
 
 const appRoutes: Routes = [
     {
@@ -239,6 +240,7 @@ const appRoutes: Routes = [
         ReportGameComponent,
         AdminPlayoffsStartComponent,
         StandingsOrderPipe,
+        ConvertLinksPipe,
         CwtDatePipe,
         PlayoffsTreeComponent,
         GameDetailComponent,
@@ -286,6 +288,7 @@ const appRoutes: Routes = [
         RequestService,
         ConfigurationService,
         StandingsOrderPipe,
+        ConvertLinksPipe,
         CwtDatePipe,
         DatePipe,
         TimeAgoService,
