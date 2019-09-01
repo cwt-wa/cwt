@@ -40,7 +40,7 @@ select id, 1
 from "user";
 
 INSERT INTO user_authority (user_id, authority_id)
-VALUES (2, 2); -- Zemke
+VALUES (1, 2); -- Zemke
 INSERT INTO user_authority (user_id, authority_id)
 VALUES (10, 2); -- Kayz
 
