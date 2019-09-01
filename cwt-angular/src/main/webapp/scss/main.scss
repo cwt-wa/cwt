@@ -611,3 +611,7 @@ code {
     top: 95px;
   }
 }
+
+my-app.nav-is-expanded + footer {
+  display: none;
+}

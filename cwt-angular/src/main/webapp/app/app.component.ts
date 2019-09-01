@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from "@angular/core";
+import {AfterViewInit, Component, EventEmitter, HostBinding, OnInit, Output} from "@angular/core";
 import {WebAppViewService} from "./_services/web-app-view.service";
 import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
@@ -17,6 +17,8 @@ import {TetrisGuest} from "../tetris/tetrisguest";
     providers: [GmtClockComponent]
 })
 export class AppComponent implements AfterViewInit, OnInit {
+
+    @HostBinding('class.nav-is-expanded') navIsExpandedHostClass: boolean = false;
 
     public isNavCollapsed: boolean = true;
     public isAppleStandalone: boolean;
@@ -163,5 +165,10 @@ export class AppComponent implements AfterViewInit, OnInit {
         document.documentElement.classList.remove('tetris');
         document.body.classList.remove('gameOver');
         this.highscores = null;
+    }
+
+    collapseNav() {
+        this.isNavCollapsed = !this.isNavCollapsed;
+        this.navIsExpandedHostClass = !this.isNavCollapsed;
     }
 }
