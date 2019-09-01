@@ -296,3 +296,8 @@ alter sequence restores_id_seq owned by restores.id;
 alter sequence schedule_id_seq owned by schedule.id;
 alter sequence tournament_id_seq owned by tournament.id;
 alter sequence user_id_seq owned by "user".id;
+
+insert into flyway_schema_history (installed_rank, version, description, type, script, checksum, installed_by, execution_time, success)
+values (26, '0.1.0.23', 'serial', 'SQL', 'V0_1_0_23__serial.sql', -1959097147, 'Zemke', 0, true);
+
+update tournament set status='FINISHED';
