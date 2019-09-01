@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, HostBinding, OnInit, Output} from "@angular/core";
+import {AfterViewInit, Component, HostBinding, OnInit} from "@angular/core";
 import {WebAppViewService} from "./_services/web-app-view.service";
 import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
