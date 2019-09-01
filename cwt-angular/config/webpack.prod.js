@@ -35,7 +35,7 @@ module.exports = webpackMerge(commonConfig, {
         new webpack.DefinePlugin({
             'process.env': {
                 'ENV': JSON.stringify(ENV),
-                'apiEndpoint': JSON.stringify("/api"),
+                'apiEndpoint': JSON.stringify("/api/"),
                 'binaryDataStoreEndpoint': JSON.stringify("http://binary.cwtsite.com/api/"),
             }
         })
