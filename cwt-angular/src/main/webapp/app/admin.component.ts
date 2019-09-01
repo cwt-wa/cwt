@@ -9,7 +9,7 @@ import {Tournament} from "./custom";
 
 export class AdminComponent implements OnInit {
 
-    tournament: Tournament;
+    tournament?: Tournament;
 
     constructor(private requestService: RequestService) {
     }

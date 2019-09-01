@@ -32,7 +32,11 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     @RequestMapping("/current", method = [RequestMethod.GET])
     fun findCurrentTournament(): ResponseEntity<Tournament> {
-        return ResponseEntity.ok(tournamentService.getCurrentTournament())
+        return try {
+            ResponseEntity.ok(tournamentService.getCurrentTournament())
+        } catch (e: RuntimeException) {
+            ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        }
     }
 
     @RequestMapping("/current/applications", method = [RequestMethod.GET])

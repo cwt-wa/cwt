@@ -11,7 +11,7 @@ import {RequestService} from "../_services/request.service";
 export class HomeComponent implements OnInit {
     news: Configuration;
     authenticatedUser: JwtUser;
-    tournament: Tournament;
+    tournament?: Tournament;
 
     constructor(private authService: AuthService, private configurationService: ConfigurationService,
                 private requestService: RequestService) {
