@@ -15,9 +15,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>cwt-angular</module>
         <module>cwt-spring</module>
 <!--        <module>cwt-spring-db-tests</module>-->
-        <module>cwt-angular</module>
     </modules>
 
     <name>CWT</name>
