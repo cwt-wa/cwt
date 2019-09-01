@@ -198,11 +198,11 @@ alter table schedule alter column id set default nextval('schedule_id_seq');
 alter table tournament alter column id set default nextval('tournament_id_seq');
 alter table "user" alter column id set default nextval('user_id_seq');
 
-select setval('user_id_seq', (select max(id) + 1 from "user"), false); -- Since IDs greater than that were taken by spam accounts.
-select setval('rating_id_seq', (select max(id) + 1 from rating), false); -- Sequence did not exist in CWT 5.
-select setval('bet_id_seq', (select max(id) + 1 from bet), false); -- Sequence did not exist in CWT 5.
-select setval('country_id_seq', (select max(id) + 1 from country), false); -- Sequence did not exist in CWT 5.
-select setval('message_id_seq', (select max(id) + 1 from message), false); -- Sequence did not exist in CWT 5.
+select setval('user_id_seq', (select max(id) from "user"), true); -- Since IDs greater than that were taken by spam accounts.
+select setval('rating_id_seq', (select max(id) from rating), true); -- Sequence did not exist in CWT 5.
+select setval('bet_id_seq', (select max(id) from bet), true); -- Sequence did not exist in CWT 5.
+select setval('country_id_seq', (select max(id) from country), true); -- Sequence did not exist in CWT 5.
+select setval('message_id_seq', (select max(id) from message), true); -- Sequence did not exist in CWT 5.
 
 alter sequence streams_id_seq owned by none;
 alter sequence bet_seq owned by none;
