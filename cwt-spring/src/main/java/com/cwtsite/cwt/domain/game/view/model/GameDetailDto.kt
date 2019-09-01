@@ -47,7 +47,7 @@ data class GameDetailDto(
                     awayUser = game.awayUser!!,
                     reporter = game.reporter!!,
                     ratings = game.ratings,
-                    comments = game.comments,
+                    comments = game.comments.sortedBy { it.created },
                     isReplayExists = game.replay != null,
                     playoffRoundLocalized = playoffRoundLocalized
             )
