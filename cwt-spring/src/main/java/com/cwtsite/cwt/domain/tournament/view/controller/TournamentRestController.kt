@@ -1,9 +1,9 @@
 package com.cwtsite.cwt.domain.tournament.view.controller
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
+import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
@@ -142,7 +142,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun startPlayoffs(@RequestBody gameCreationDtoList: List<GameCreationDto>): ResponseEntity<List<Game>> {
+    fun startPlayoffs(@RequestBody gameCreationDtoList: List<GameCreationDto>): ResponseEntity<List<GameMinimalDto>> {
         val userIds = gameCreationDtoList.stream()
                 .map { gameCreationDto -> Arrays.asList(gameCreationDto.homeUser, gameCreationDto.awayUser) }
                 .reduce { longs, longs2 ->
@@ -165,7 +165,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
                     )
                 }
 
-        return ResponseEntity.ok(tournamentService.startPlayoffs(games))
+        return ResponseEntity.ok(tournamentService.startPlayoffs(games).map { GameMinimalDto.toDto(it) })
     }
 
     @RequestMapping("current/group/users")

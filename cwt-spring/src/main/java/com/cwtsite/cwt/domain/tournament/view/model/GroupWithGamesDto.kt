@@ -23,7 +23,7 @@ data class GroupWithGamesDto(
                 label = group.label!!,
                 tournament = group.tournament!!,
                 standings = group.standings.map { StandingDto.toDto(it) },
-                games = games.map { GameMinimalDto.toDto(it, null) }
+                games = games.map { GameMinimalDto.toDto(it) }
         )
     }
 }
