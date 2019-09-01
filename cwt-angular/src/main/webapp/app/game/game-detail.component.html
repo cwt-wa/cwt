@@ -202,7 +202,7 @@
                     <h4 class="card-title">
                         <cwt-user [username]="comment.author.username"></cwt-user>
                     </h4>
-                    <p class="card-text rendered-text">{{comment.body}}</p>
+                    <p class="card-text rendered-text links-red" [innerHTML]="comment.body | cwtConvertLinks"></p>
                 </div>
             </div>
             <div class="alert alert-info" role="alert" *ngIf="!game.comments.length">
