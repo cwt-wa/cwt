@@ -134,10 +134,10 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("{id}/game/playoff", method = [RequestMethod.GET])
-    fun getPlayoffGames(@PathVariable("id") id: Long): ResponseEntity<List<Game>> {
-        return tournamentService.getTournament(id)
-                .map { t -> ResponseEntity.ok(playoffService.getGamesOfTournament(t)) }
-                .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
+    fun getPlayoffGames(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffGameDto>> {
+        val tournament = tournamentService.getTournament(id)
+                .orElseThrow { RestException("No such tournament", HttpStatus.NOT_FOUND, null) }
+        return ResponseEntity.ok(playoffService.getGamesOfTournament(tournament).map { PlayoffGameDto.toDto(it) })
     }
 
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])
