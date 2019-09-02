@@ -3,19 +3,18 @@ package com.cwtsite.cwt.twitch
 import com.cwtsite.cwt.twitch.model.*
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.client.RestTemplateBuilder
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
-import org.springframework.http.RequestEntity
-import org.springframework.http.ResponseEntity
-import org.springframework.http.client.ClientHttpRequestInterceptor
+import org.springframework.http.*
+import org.springframework.http.client.*
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import org.springframework.web.client.getForObject
 import java.net.URI
+import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import javax.annotation.PostConstruct
 
@@ -29,9 +28,27 @@ class RestTemplateProvider {
 
     @Autowired private lateinit var twitchProperties: TwitchProperties
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @PostConstruct
     fun postConstruct() {
         restTemplate = RestTemplateBuilder()
+                .interceptors(object : ClientHttpRequestInterceptor {
+                    override fun intercept(request: HttpRequest, body: ByteArray, execution: ClientHttpRequestExecution): ClientHttpResponse {
+                        logger.info("""
+                            method: ${request.method} 
+                            uri: ${request.uri} 
+                            headers: ${request.headers} 
+                            body: ${body.toString(Charset.defaultCharset())}""".trimIndent())
+                        val response = execution.execute(request, body)
+                        logger.info("""
+                            statusCode: ${response.statusCode}
+                            headers: ${response.headers} 
+                            body: ${response.body.bufferedReader().use { it.readText() }}""".trimIndent())
+                        return response
+                    }
+                })
+                .requestFactory { BufferingClientHttpRequestFactory(SimpleClientHttpRequestFactory()) }
                 .messageConverters(
                         with(MappingJackson2HttpMessageConverter()) {
                             supportedMediaTypes = listOf(MediaType.APPLICATION_JSON)
