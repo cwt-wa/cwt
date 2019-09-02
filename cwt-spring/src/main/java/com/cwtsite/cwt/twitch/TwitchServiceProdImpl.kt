@@ -30,7 +30,13 @@ class TwitchServiceProdImpl : TwitchService {
     private fun authorize() {
         when (restTemplateProvider.authToken) {
             null -> restTemplateProvider.authToken = authenticate()
-            else -> if (!validateAuthentication().statusCode.is2xxSuccessful) restTemplateProvider.authToken = authenticate()
+            else -> {
+                try {
+                    validateAuthentication()
+                } catch (e: Exception) {
+                    restTemplateProvider.authToken = authenticate()
+                }
+            }
         }
     }
 
