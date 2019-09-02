@@ -45,6 +45,7 @@ class TwitchServiceProdImpl : TwitchService {
     private fun authenticate() = restTemplateProvider.authenticate()
 
     override fun requestVideos(channelIds: List<String>): List<TwitchVideoDto> {
+        if (channelIds.isEmpty()) return emptyList()
         authorize()
         val videosToPaginationCursor = recursivelyRequestNewVideos(
                 channelIds,
@@ -78,6 +79,7 @@ class TwitchServiceProdImpl : TwitchService {
     }
 
     override fun requestUsers(vararg loginNames: String): List<TwitchUserDto> {
+        if (loginNames.isEmpty()) return emptyList()
         authorize()
         return restTemplateProvider.fetchUsers(*loginNames)
     }
