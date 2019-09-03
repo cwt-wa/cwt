@@ -103,11 +103,12 @@ class RestTemplateProvider {
                                     channelIds.joinToString(separator = "") { "&user_id=$it" })),
                     object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body
 
-    fun fetchStreams(): List<TwitchStreamDto> =
+    fun fetchStreams(channelIds: List<String>): List<TwitchStreamDto> =
             restTemplate.exchange(
                     RequestEntity<TwitchWrappedDto<TwitchStreamDto>>(
                             HttpMethod.GET,
-                            URI.create("${twitchProperties.url}${twitchProperties.streamsEndpoint}")),
+                            URI.create("${twitchProperties.url}${twitchProperties.streamsEndpoint}" +
+                                    channelIds.joinToString(separator = "") { "&user_id=$it" })),
                     object : ParameterizedTypeReference<TwitchWrappedDto<TwitchStreamDto>>() {})!!.body.data
 
     fun fetchUsers(vararg loginNames: String): List<TwitchUserDto> {

@@ -71,9 +71,9 @@ class TwitchServiceProdImpl : TwitchService {
         return Pair(videos, res.pagination!!.cursor)
     }
 
-    override fun requestStreams(): List<TwitchStreamDto> {
+    override fun requestStreams(channelIds: List<String>): List<TwitchStreamDto> {
         authorize()
-        val streams = restTemplateProvider.fetchStreams()
+        val streams = restTemplateProvider.fetchStreams(channelIds)
         lastStreamsRequest = LocalDateTime.now()
         return streams
     }

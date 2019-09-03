@@ -15,7 +15,7 @@ interface TwitchService {
      */
     fun requestVideos(channelIds: List<String>): List<TwitchVideoDto>
 
-    fun requestStreams(): List<TwitchStreamDto>
+    fun requestStreams(channelIds: List<String>): List<TwitchStreamDto>
 
     fun requestUsers(vararg loginNames: String): List<TwitchUserDto>
 }

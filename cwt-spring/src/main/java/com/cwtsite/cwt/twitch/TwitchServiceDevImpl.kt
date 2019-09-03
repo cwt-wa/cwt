@@ -51,7 +51,7 @@
             )
         }
 
-        override fun requestStreams(): List<TwitchStreamDto> {
+        override fun requestStreams(channelIds: List<String>): List<TwitchStreamDto> {
             TODO("not implemented")
         }
 
