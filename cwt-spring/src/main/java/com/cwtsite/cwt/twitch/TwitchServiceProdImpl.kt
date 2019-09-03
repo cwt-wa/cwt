@@ -1,9 +1,8 @@
 package com.cwtsite.cwt.twitch
 
 import com.cwtsite.cwt.core.profile.Prod
-import com.cwtsite.cwt.domain.configuration.entity.Configuration
-import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
-import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
+import com.cwtsite.cwt.domain.stream.entity.Channel
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.twitch.model.TwitchStreamDto
 import com.cwtsite.cwt.twitch.model.TwitchUserDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
@@ -19,7 +18,7 @@ class TwitchServiceProdImpl : TwitchService {
     override var lastVideosRequest: LocalDateTime? = null
     override var lastStreamsRequest: LocalDateTime? = null
 
-    @Autowired private lateinit var configurationService: ConfigurationService
+    @Autowired private lateinit var streamService: StreamService
     @Autowired private lateinit var restTemplateProvider: RestTemplateProvider
 
     @PostConstruct
@@ -44,27 +43,30 @@ class TwitchServiceProdImpl : TwitchService {
 
     private fun authenticate() = restTemplateProvider.authenticate()
 
-    override fun requestVideos(channelIds: List<String>): List<TwitchVideoDto> {
-        if (channelIds.isEmpty()) return emptyList()
+    override fun requestVideos(channels: List<Channel>): List<TwitchVideoDto> {
+        if (channels.isEmpty()) return emptyList()
         authorize()
-        val videosToPaginationCursor = recursivelyRequestNewVideos(
-                channelIds,
-                configurationService.getOne(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API).value ?: "")
-        configurationService.save(Configuration(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API, videosToPaginationCursor.second))
-        lastVideosRequest = LocalDateTime.now()
-        return videosToPaginationCursor.first
+
+        return channels
+                .map {
+                    val videosToPaginationCursor = recursivelyRequestNewVideos(it.id, it.videoCursor ?: "")
+                    streamService.saveVideoCursor(it, videosToPaginationCursor.second)
+                    lastVideosRequest = LocalDateTime.now()
+                    return@map videosToPaginationCursor.first
+                }
+                .flatten()
     }
 
     private fun recursivelyRequestNewVideos(
-            channelIds: List<String>,
+            channelId: String,
             paginationCursor: String,
             videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String> {
-        val res = restTemplateProvider.fetchVideos(paginationCursor, channelIds)
+        val res = restTemplateProvider.fetchVideos(paginationCursor, channelId)
 
         videos.addAll(res.data)
 
         if (res.data.size == restTemplateProvider.resultLimit) {
-            val videosToCursor = recursivelyRequestNewVideos(channelIds, res.pagination!!.cursor, videos)
+            val videosToCursor = recursivelyRequestNewVideos(channelId, res.pagination!!.cursor, videos)
             return Pair(videosToCursor.first, videosToCursor.second)
         }
 

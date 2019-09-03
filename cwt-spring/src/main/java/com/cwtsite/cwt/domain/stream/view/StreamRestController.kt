@@ -30,7 +30,7 @@ class StreamRestController {
         }
 
         val allChannelsById = streamService.findAllChannels().associateBy { it.id }
-        val newVideos = twitchService.requestVideos(allChannelsById.keys.toList())
+        val newVideos = twitchService.requestVideos(allChannelsById.values.toList())
                 .map { StreamDto.toDto(it, allChannelsById[it.userId] ?: error("No channel with id ${it.userId}")) }
         streamService.saveStreams(
                 newVideos

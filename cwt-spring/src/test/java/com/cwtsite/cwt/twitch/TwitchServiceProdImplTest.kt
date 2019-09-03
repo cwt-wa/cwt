@@ -1,8 +1,7 @@
 package com.cwtsite.cwt.twitch
 
-import com.cwtsite.cwt.domain.configuration.entity.Configuration
-import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
-import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
+import com.cwtsite.cwt.domain.stream.entity.Channel
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
@@ -20,7 +19,7 @@ class TwitchServiceProdImplTest {
 
     @InjectMocks private lateinit var twitchService: TwitchServiceProdImpl
     @Spy private val twitchProperties: TwitchProperties = TwitchProperties()
-    @Mock private lateinit var configurationService: ConfigurationService
+    @Mock private lateinit var streamService: StreamService
     @InjectMocks private lateinit var restTemplateProvider: RestTemplateProvider
 
     @Test
@@ -29,21 +28,15 @@ class TwitchServiceProdImplTest {
         setupIntegrationTest()
 
         Mockito
-                .`when`(configurationService.getOne(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API))
-                .thenReturn(Configuration(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API, null))
-
-        Mockito
-                .`when`(configurationService.save(MockitoUtils.anyObject<Configuration>()))
+                .`when`(streamService.saveVideoCursor(MockitoUtils.anyObject<Channel>(), Mockito.anyString()))
                 .thenAnswer { it.getArgument(0) }
 
-        twitchService.requestVideos(listOf("26027047"))
-                .map {
-                    StreamDto.toDto(it, com.cwtsite.cwt.domain.stream.entity.Channel(
-                            id = "26027047",
-                            user = EntityDefaults.user(),
-                            title = "GloriousTV"
-                    ))
-                }
+        val channels = listOf(
+                EntityDefaults.channel("26027047", "Khamski"),
+                EntityDefaults.channel("25468719", "DarkOne"))
+
+        twitchService.requestVideos(channels)
+                .map { StreamDto.toDto(it, channels.find { c -> c.id == it.id }!!) }
     }
 
     @Test
@@ -78,75 +71,110 @@ class TwitchServiceProdImplTest {
         Mockito.doReturn("schokoClientId").`when`(twitchProperties).clientId
         Mockito.doReturn("schokoClientSecret").`when`(twitchProperties).clientSecret
 
-        val paginationCursorValues = listOf("thisIsPaginationCursor1", "thisIsPaginationCursor2")
+        val paginationCursorValues = listOf(
+                "thisIsPaginationCursor1",
+                "thisIsPaginationCursor2",
+                "thisIsPaginationCursor3")
         val channels = listOf(
-                object : ChannelHolder {
-                    override val id = "372891"
-                    override val username = "KhamsTV"
-                },
-                object : ChannelHolder {
-                    override val id = "5304627"
-                    override val username = "Delucia"
-                })
+                Mockito.spy(EntityDefaults.channel("26027047", "Khamski")),
+                Mockito.spy(EntityDefaults.channel("25468719", "DarkOne")))
         val expectedVideos = listOf(
                 createVideoDto(channels[0], "The First Video"),
                 createVideoDto(channels[1], "The Second Video"),
-                createVideoDto(channels[0], "The Third And Last Video")
+                createVideoDto(channels[0], "The Third Video"),
+                createVideoDto(channels[0], "The Fourth And Last Video")
         )
 
         Mockito
-                .`when`(configurationService.getOne(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API))
-                .thenReturn(Configuration(ConfigurationKey.PAGINATION_CURSOR_VIDEOS_TWITCH_API, null))
-
-        Mockito
-                .`when`(restTemplateProvider.fetchVideos(Mockito.anyString(), Mockito.anyList<String>()))
+                .`when`(restTemplateProvider.fetchVideos(Mockito.anyString(), Mockito.anyString()))
                 .thenAnswer {
                     val paginationCursorArg = it.getArgument<String>(0)
-                    val channelIdsArg = it.getArgument<List<String>>(1)
+                    val channelIdArg = it.getArgument<String>(1)
 
                     Assertions.assertThat(paginationCursorArg).isEmpty()
-                    Assertions.assertThat(channelIdsArg).containsExactlyInAnyOrder(*channels.map { c -> c.id }.toTypedArray())
+                    Assertions.assertThat(channelIdArg).isEqualTo(channels[0].id)
 
                     return@thenAnswer TwitchWrappedDto(
                             data = listOf(
                                     expectedVideos[0],
-                                    expectedVideos[1]
+                                    expectedVideos[2]
                             ),
                             pagination = TwitchPaginationDto(paginationCursorValues[0])
                     )
                 }
                 .thenAnswer {
                     val paginationCursorArg = it.getArgument<String>(0)
-                    val channelIdsArg = it.getArgument<List<String>>(1)
+                    val channelIdArg = it.getArgument<String>(1)
 
                     Assertions.assertThat(paginationCursorArg).isEqualTo(paginationCursorValues[0])
-                    Assertions.assertThat(channelIdsArg).containsExactlyInAnyOrder(*channels.map { c -> c.id }.toTypedArray())
+                    Assertions.assertThat(channelIdArg).isEqualTo(channels[0].id)
 
                     return@thenAnswer TwitchWrappedDto(
                             data = listOf(
-                                    expectedVideos[2]
+                                    expectedVideos[3]
                             ),
                             pagination = TwitchPaginationDto(paginationCursorValues[1])
                     )
                 }
-
-        Mockito
-                .`when`(configurationService.save(MockitoUtils.anyObject<Configuration>()))
                 .thenAnswer {
-                    val paginationCursorArg = it.getArgument<Configuration>(0)
-                    Assertions.assertThat(paginationCursorArg.value).isEqualTo(paginationCursorValues[1])
-                    return@thenAnswer paginationCursorArg
+                    val paginationCursorArg = it.getArgument<String>(0)
+                    val channelIdArg = it.getArgument<String>(1)
+
+                    Assertions.assertThat(paginationCursorArg).isEmpty()
+                    Assertions.assertThat(channelIdArg).isEqualTo(channels[1].id)
+
+                    return@thenAnswer TwitchWrappedDto(
+                            data = listOf(
+                                    expectedVideos[1]
+                            ),
+                            pagination = TwitchPaginationDto(paginationCursorValues[2])
+                    )
                 }
 
+        Mockito
+                .`when`(streamService.saveVideoCursor(MockitoUtils.anyObject(), Mockito.anyString()))
+                .thenAnswer {
+                    val channelArg = it.getArgument<Channel>(0)
+
+                    Assertions.assertThat(channelArg).isEqualTo(channels[0])
+                    Assertions.assertThat(it.getArgument<String>(1)).isEqualTo(paginationCursorValues[1])
+
+                    channels[0].videoCursor = paginationCursorValues[1]
+                    channelArg.videoCursor = paginationCursorValues[1]
+
+                    return@thenAnswer channelArg
+                }
+                .thenAnswer {
+                    val channelArg = it.getArgument<Channel>(0)
+
+                    Assertions.assertThat(channelArg).isEqualTo(channels[1])
+                    Assertions.assertThat(it.getArgument<String>(1)).isEqualTo(paginationCursorValues[2])
+
+                    channels[0].videoCursor = paginationCursorValues[2]
+                    channelArg.videoCursor = paginationCursorValues[2]
+
+                    return@thenAnswer channelArg
+                }
+
+        val actualVideos = twitchService.requestVideos(channels)
+
+        Mockito
+                .verify(restTemplateProvider, Mockito.times(3))
+                .fetchVideos(Mockito.anyString(), Mockito.anyString())
+
+        Mockito
+                .verify(streamService, Mockito.times(2))
+                .saveVideoCursor(MockitoUtils.anyObject(), MockitoUtils.anyObject())
+
         Assertions
-                .assertThat(twitchService.requestVideos(channels.map { it.id }))
+                .assertThat(actualVideos)
                 .containsExactlyInAnyOrder(*expectedVideos.toTypedArray())
     }
 
-    private fun createVideoDto(channelHolder: ChannelHolder, videoTitle: String) = TwitchVideoDto(
+    private fun createVideoDto(channel: Channel, videoTitle: String) = TwitchVideoDto(
             id = Math.random().times(1000).roundToInt().toString(),
-            userId = channelHolder.id,
-            userName = channelHolder.username,
+            userId = channel.id,
+            userName = channel.displayName,
             title = videoTitle,
             description = "Video Description",
             createdAt = "2019-07-21T14:25:59Z",
@@ -159,10 +187,5 @@ class TwitchServiceProdImplTest {
             type = "archive",
             duration = "3h8m33s"
     )
-
-    private interface ChannelHolder {
-        val id: String;
-        val username: String
-    }
 }
 

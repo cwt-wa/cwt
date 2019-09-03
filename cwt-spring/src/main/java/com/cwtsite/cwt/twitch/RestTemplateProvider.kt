@@ -93,14 +93,14 @@ class RestTemplateProvider {
             .accessToken
 
 
-    fun fetchVideos(paginationCursor: String, channelIds: List<String>): TwitchWrappedDto<TwitchVideoDto> =
+    fun fetchVideos(paginationCursor: String, channelId: String): TwitchWrappedDto<TwitchVideoDto> =
             restTemplate.exchange(
                     RequestEntity<TwitchWrappedDto<TwitchVideoDto>>(
                             HttpMethod.GET,
                             URI.create("${twitchProperties.url}${twitchProperties.videosEndpoint}" +
                                     "?first=${twitchProperties.resultLimit}" +
                                     "&after=$paginationCursor" +
-                                    channelIds.joinToString(separator = "") { "&user_id=$it" })),
+                                    "&user_id=$channelId")),
                     object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body
 
     fun fetchStreams(channelIds: List<String>): List<TwitchStreamDto> =

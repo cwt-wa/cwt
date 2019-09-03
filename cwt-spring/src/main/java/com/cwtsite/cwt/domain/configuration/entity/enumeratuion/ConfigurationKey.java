@@ -51,13 +51,7 @@ public enum ConfigurationKey {
     /**
      * Number of users per group. There can still be fewer in some groups.
      */
-    USERS_PER_GROUP(ConfigurationValueType.INTEGER),
-
-    /**
-     * Last pagination cursor for Twitch API `videos` endpoint.
-     */
-    PAGINATION_CURSOR_VIDEOS_TWITCH_API(ConfigurationValueType.INTEGER);
-
+    USERS_PER_GROUP(ConfigurationValueType.INTEGER);
 
     private final ConfigurationValueType type;
 

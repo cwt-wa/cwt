@@ -21,6 +21,12 @@ data class Channel(
         val user: User,
 
         /**
+         * The latest pagination cursor for the videos endpoint from the Twitch API.
+         */
+        @Column(name = "video_cursor")
+        var videoCursor: String? = null,
+
+        /**
          * On CWT users can give their channel a unique name independent from what it's called on Twitch.
          */
         @Column(name = "title", nullable = false, unique = true)

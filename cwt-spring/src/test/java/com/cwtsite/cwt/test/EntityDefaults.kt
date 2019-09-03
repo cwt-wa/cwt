@@ -2,6 +2,7 @@ package com.cwtsite.cwt.test
 
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
+import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -37,5 +38,11 @@ object EntityDefaults {
             reporter = homeUser,
             playoff = playoff,
             tournament = tournament
+    )
+
+    fun channel(id: String = "1111", title: String = "TitleTV", user: User = user()) = Channel(
+            id = id,
+            title = title,
+            user = user
     )
 }

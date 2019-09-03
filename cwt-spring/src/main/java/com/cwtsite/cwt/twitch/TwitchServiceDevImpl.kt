@@ -1,6 +1,7 @@
     package com.cwtsite.cwt.twitch
 
     import com.cwtsite.cwt.core.profile.Dev
+    import com.cwtsite.cwt.domain.stream.entity.Channel
     import com.cwtsite.cwt.twitch.model.TwitchStreamDto
     import com.cwtsite.cwt.twitch.model.TwitchUserDto
     import com.cwtsite.cwt.twitch.model.TwitchVideoDto
@@ -13,7 +14,7 @@
         override var lastVideosRequest: LocalDateTime? = null
         override var lastStreamsRequest: LocalDateTime? = null
 
-        override fun requestVideos(channelIds: List<String>): List<TwitchVideoDto> {
+        override fun requestVideos(channels: List<Channel>): List<TwitchVideoDto> {
             lastVideosRequest = LocalDateTime.now()
             return listOf(
                     TwitchVideoDto(
