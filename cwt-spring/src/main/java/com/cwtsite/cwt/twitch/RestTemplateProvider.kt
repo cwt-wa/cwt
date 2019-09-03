@@ -13,7 +13,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
-import org.springframework.web.client.getForObject
 import java.net.URI
 import java.nio.charset.Charset
 import java.text.SimpleDateFormat
@@ -100,19 +99,23 @@ class RestTemplateProvider {
                             HttpMethod.GET,
                             URI.create("${twitchProperties.url}${twitchProperties.videosEndpoint}" +
                                     "?first=${twitchProperties.resultLimit}" +
-                                    "&after=$paginationCursor${channelIds.joinToString(separator = "") { "&user_id=$it" }}")),
+                                    "&after=$paginationCursor" +
+                                    channelIds.joinToString(separator = "") { "&user_id=$it" })),
                     object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body
 
     fun fetchStreams(): List<TwitchStreamDto> =
-            restTemplate.getForObject<TwitchWrappedDto<TwitchStreamDto>>(
-                    "${twitchProperties.url}${twitchProperties.streamsEndpoint}",
-                    TwitchWrappedDto::class.java)!!.data
+            restTemplate.exchange(
+                    RequestEntity<TwitchWrappedDto<TwitchStreamDto>>(
+                            HttpMethod.GET,
+                            URI.create("${twitchProperties.url}${twitchProperties.streamsEndpoint}")),
+                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchStreamDto>>() {})!!.body.data
 
     fun fetchUsers(vararg loginNames: String): List<TwitchUserDto> {
-        return restTemplate.getForObject<TwitchWrappedDto<TwitchUserDto>>(
-                "${twitchProperties.url}${twitchProperties.usersEndpoint}?${loginNames.joinToString(separator = "") { "&login=$it" }}",
-                TwitchWrappedDto::class.java)!!.data
-
+        return restTemplate.exchange(
+                RequestEntity<TwitchWrappedDto<TwitchUserDto>>(
+                        HttpMethod.GET,
+                        URI.create("${twitchProperties.url}${twitchProperties.usersEndpoint}" +
+                                "?${loginNames.joinToString(separator = "") { "&login=$it" }}")),
+                object : ParameterizedTypeReference<TwitchWrappedDto<TwitchUserDto>>() {})!!.body.data
     }
-
 }

@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import com.cwtsite.cwt.twitch.model.TwitchPaginationDto
+import com.cwtsite.cwt.twitch.model.TwitchUserDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import com.cwtsite.cwt.twitch.model.TwitchWrappedDto
 import org.assertj.core.api.Assertions
@@ -50,6 +51,7 @@ class TwitchServiceProdImplTest {
     fun integrationTestUserRequest() {
         setupIntegrationTest()
         twitchService.requestUsers("khamski", "mrtpenguin")
+                .map { TwitchUserDto.fromDto(it, EntityDefaults.user(), "EpicTV") }
     }
 
     private fun setupIntegrationTest() {
