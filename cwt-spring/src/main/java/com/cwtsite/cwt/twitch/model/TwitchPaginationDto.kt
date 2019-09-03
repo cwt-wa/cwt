@@ -4,5 +4,5 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 
 @DataTransferObject
 data class TwitchPaginationDto (
-        val cursor: String
+        val cursor: String?
 )

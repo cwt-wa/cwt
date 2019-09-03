@@ -60,13 +60,13 @@ class TwitchServiceProdImpl : TwitchService {
     private fun recursivelyRequestNewVideos(
             channelId: String,
             paginationCursor: String,
-            videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String> {
+            videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String?> {
         val res = restTemplateProvider.fetchVideos(paginationCursor, channelId)
 
         videos.addAll(res.data)
 
         if (res.data.size == restTemplateProvider.resultLimit) {
-            val videosToCursor = recursivelyRequestNewVideos(channelId, res.pagination!!.cursor, videos)
+            val videosToCursor = recursivelyRequestNewVideos(channelId, res.pagination!!.cursor ?: "", videos)
             return Pair(videosToCursor.first, videosToCursor.second)
         }
 
