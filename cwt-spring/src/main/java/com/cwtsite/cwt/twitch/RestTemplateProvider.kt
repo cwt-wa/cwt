@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
 import org.springframework.http.client.*
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -93,10 +94,14 @@ class RestTemplateProvider {
             .accessToken
 
 
-    fun fetchVideos(paginationCursor: String, channelIds: List<String>): TwitchWrappedDto<TwitchVideoDto>? =
-            restTemplate.getForObject<TwitchWrappedDto<TwitchVideoDto>>(
-                    "${twitchProperties.url}${twitchProperties.videosEndpoint}?first=${twitchProperties.resultLimit}&after=$paginationCursor${channelIds.joinToString(separator = "") { "&user_id=$it" }}",
-                    TwitchWrappedDto::class.java)
+    fun fetchVideos(paginationCursor: String, channelIds: List<String>): TwitchWrappedDto<TwitchVideoDto> =
+            restTemplate.exchange(
+                    RequestEntity<TwitchWrappedDto<TwitchVideoDto>>(
+                            HttpMethod.GET,
+                            URI.create("${twitchProperties.url}${twitchProperties.videosEndpoint}" +
+                                    "?first=${twitchProperties.resultLimit}" +
+                                    "&after=$paginationCursor${channelIds.joinToString(separator = "") { "&user_id=$it" }}")),
+                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body
 
     fun fetchStreams(): List<TwitchStreamDto> =
             restTemplate.getForObject<TwitchWrappedDto<TwitchStreamDto>>(

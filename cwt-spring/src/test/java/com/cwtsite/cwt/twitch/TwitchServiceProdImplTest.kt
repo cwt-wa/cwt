@@ -3,6 +3,8 @@ package com.cwtsite.cwt.twitch
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
+import com.cwtsite.cwt.domain.stream.view.model.StreamDto
+import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import com.cwtsite.cwt.twitch.model.TwitchPaginationDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
@@ -33,7 +35,14 @@ class TwitchServiceProdImplTest {
                 .`when`(configurationService.save(MockitoUtils.anyObject<Configuration>()))
                 .thenAnswer { it.getArgument(0) }
 
-        twitchService.requestVideos(listOf("1", "2", "3"))
+        twitchService.requestVideos(listOf("26027047"))
+                .map {
+                    StreamDto.toDto(it, com.cwtsite.cwt.domain.stream.entity.Channel(
+                            id = "26027047",
+                            user = EntityDefaults.user(),
+                            title = "GloriousTV"
+                    ))
+                }
     }
 
     @Test
