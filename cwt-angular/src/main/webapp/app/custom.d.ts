@@ -20,6 +20,12 @@ export interface JwtTokenPayload {
     exp: number;
 }
 
+export interface UserRegistrationDto {
+    username: string;
+    email: string;
+    password: string;
+    captchaToken: string;
+}
 
 interface Application {
     id: number;

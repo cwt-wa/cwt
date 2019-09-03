@@ -24,6 +24,10 @@
             <id>spring-transaction</id>
             <url>https://dl.bintray.com/kotlin/exposed/</url>
         </repository>
+        <repository>
+            <id>central</id>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -101,6 +105,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>khttp</groupId>
+            <artifactId>khttp</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

@@ -3787,6 +3787,13 @@ next-tick@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
+ngx-captcha@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-captcha/-/ngx-captcha-7.0.0.tgz#a7aa9f4338435f4efb8be21296685a4a4dadb944"
+  integrity sha512-L9lX9ZHgMwl0brm1Vw45bxkqMOwCLAEjD+Cs7GHZW/3FVIBb/yJ7qVEgIIOOI29+95Fkaxbc585vgQCdnnwQAQ==
+  dependencies:
+    tslib "^1.9.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

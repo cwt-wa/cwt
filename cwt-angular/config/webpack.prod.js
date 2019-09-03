@@ -37,6 +37,7 @@ module.exports = webpackMerge(commonConfig, {
                 'ENV': JSON.stringify(ENV),
                 'apiEndpoint': JSON.stringify("/api/"),
                 'binaryDataStoreEndpoint': JSON.stringify("http://cwt-binary.normalnonoobs.com/api/"),
+                'captchaKey': JSON.stringify('6LcWgLYUAAAAAOvJrsE-KX2ZZNgHqkd9tBwm-tq4'),
             }
         })
     ]

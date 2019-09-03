@@ -9,6 +9,7 @@ import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationRequest
 import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse
 import com.cwtsite.cwt.domain.user.view.model.JwtUser
 import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto
+import com.cwtsite.cwt.security.CaptchaService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -28,10 +29,14 @@ import javax.servlet.http.HttpServletRequest
 class AuthenticationRestController @Autowired
 constructor(private val authenticationManager: AuthenticationManager, private val jwtTokenUtil: JwtTokenUtil,
             private val userDetailsService: UserDetailsService, private val userService: UserService,
-            private val authService: AuthService) {
+            private val authService: AuthService, private val captchaService: CaptchaService) {
 
     @RequestMapping(path = ["/register"], method = [RequestMethod.POST])
     fun register(@RequestBody userRegistrationDto: UserRegistrationDto): ResponseEntity<*> {
+        if (!captchaService.verifyToken(userRegistrationDto.captchaToken)) {
+            throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null);
+        }
+
         val user: User
         try {
             user = userService.registerUser(

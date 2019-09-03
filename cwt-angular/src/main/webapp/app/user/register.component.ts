@@ -1,19 +1,24 @@
-import {Component} from "@angular/core";
+import {Component, Inject} from "@angular/core";
 import {RequestService} from "../_services/request.service";
-import {UserRegistration} from "./model/user-registration";
 import {AuthService} from "../_services/auth.service";
 import {PreviousRouteService} from "../_services/previous-route.service";
+import {APP_CONFIG, AppConfig} from "../app.config";
+import {UserRegistrationDto} from "../custom";
 
 @Component({
     selector: 'cwt-register',
     template: require('./register.component.html')
 })
 export class RegisterComponent {
-    userRegistration: UserRegistration = new UserRegistration('', '', '');
+    userRegistration: UserRegistrationDto = {} as UserRegistrationDto;
     passwordConfirm: string;
+    captchaKey: string;
 
-    constructor(private requestService: RequestService, private authService: AuthService,
-                private previousRouteService: PreviousRouteService) {
+    constructor(private requestService: RequestService,
+                private authService: AuthService,
+                private previousRouteService: PreviousRouteService,
+                @Inject(APP_CONFIG) private appConfig: AppConfig) {
+        this.captchaKey = this.appConfig.captchaKey;
     }
 
     submit() {
@@ -24,5 +29,4 @@ export class RegisterComponent {
                 }
             );
     }
-
 }

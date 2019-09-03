@@ -5,11 +5,13 @@ import {InjectionToken} from "@angular/core";
 export interface AppConfig {
     binaryDataStoreEndpoint: string | null;
     apiEndpoint: string;
+    captchaKey: string;
 }
 
 export const appConfig: AppConfig = {
     apiEndpoint: process.env.apiEndpoint,
     binaryDataStoreEndpoint: process.env.binaryDataStoreEndpoint,
+    captchaKey: process.env.captchaKey,
 };
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');

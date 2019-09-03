@@ -79,6 +79,7 @@ import {HelpComponent} from "./rules/help.component";
 import {AdminChatComponent} from "./message/admin-chat.component";
 import {BinaryService} from "./_services/binary.service";
 import {ConvertLinksPipe} from "./_util/convert-links.pipe";
+import {NgxCaptchaModule} from 'ngx-captcha';
 
 const appRoutes: Routes = [
     {
@@ -218,7 +219,8 @@ const appRoutes: Routes = [
         FormsModule,
         HttpClientModule,
         NgbModule,
-        RouterModule.forRoot(appRoutes)
+        RouterModule.forRoot(appRoutes),
+        NgxCaptchaModule
     ],
     declarations: [
         AppComponent,

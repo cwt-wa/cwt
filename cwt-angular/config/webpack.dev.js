@@ -26,6 +26,7 @@ module.exports = webpackMerge(commonConfig, {
             'process.env': {
                 'apiEndpoint': JSON.stringify('http://localhost:9000/api/'),
                 'binaryDataStoreEndpoint': null,
+                'captchaKey': JSON.stringify('6LdAgLYUAAAAAJp86PhBUHQA33EQeJrDHBi-iWNR'),
             }
         })
     ]
