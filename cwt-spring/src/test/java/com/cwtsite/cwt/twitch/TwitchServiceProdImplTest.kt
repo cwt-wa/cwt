@@ -80,11 +80,11 @@ class TwitchServiceProdImplTest {
 
         val paginationCursorValues = listOf("thisIsPaginationCursor1", "thisIsPaginationCursor2")
         val channels = listOf(
-                object : Channel {
+                object : ChannelHolder {
                     override val id = "372891"
                     override val username = "KhamsTV"
                 },
-                object : Channel {
+                object : ChannelHolder {
                     override val id = "5304627"
                     override val username = "Delucia"
                 })
@@ -143,10 +143,10 @@ class TwitchServiceProdImplTest {
                 .containsExactlyInAnyOrder(*expectedVideos.toTypedArray())
     }
 
-    private fun createVideoDto(channel: Channel, videoTitle: String) = TwitchVideoDto(
+    private fun createVideoDto(channelHolder: ChannelHolder, videoTitle: String) = TwitchVideoDto(
             id = Math.random().times(1000).roundToInt().toString(),
-            userId = channel.id,
-            userName = channel.username,
+            userId = channelHolder.id,
+            userName = channelHolder.username,
             title = videoTitle,
             description = "Video Description",
             createdAt = "2019-07-21T14:25:59Z",
@@ -159,9 +159,10 @@ class TwitchServiceProdImplTest {
             type = "archive",
             duration = "3h8m33s"
     )
+
+    private interface ChannelHolder {
+        val id: String;
+        val username: String
+    }
 }
 
-interface Channel {
-    val id: String;
-    val username: String
-}
