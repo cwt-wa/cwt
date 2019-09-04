@@ -24,10 +24,10 @@
             <div class="col-12">
                 <img #userPhoto class="rounded" style="width: 100%">
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="user?.about">
                 <div class="card bg-secondary mt-3">
                     <div class="card-body text-white rendered-text">
-                        {{user?.about}}
+                        {{user.about}}
                     </div>
                 </div>
             </div>
