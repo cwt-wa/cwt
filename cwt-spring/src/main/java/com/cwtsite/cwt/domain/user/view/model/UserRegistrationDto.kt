@@ -7,5 +7,6 @@ data class UserRegistrationDto (
         val username: String,
         val email: String,
         val password: String,
-        val captchaToken: String
+        val captchaToken: String,
+        val wormnetChannel: String
 )

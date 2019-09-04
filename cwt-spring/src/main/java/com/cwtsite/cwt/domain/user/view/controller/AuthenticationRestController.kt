@@ -33,6 +33,10 @@ constructor(private val authenticationManager: AuthenticationManager, private va
 
     @RequestMapping(path = ["/register"], method = [RequestMethod.POST])
     fun register(@RequestBody userRegistrationDto: UserRegistrationDto): ResponseEntity<*> {
+        if (!captchaService.verifySecretWord(userRegistrationDto.wormnetChannel)) {
+            throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null);
+        }
+
         if (!captchaService.verifyToken(userRegistrationDto.captchaToken)) {
             throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null);
         }

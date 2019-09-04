@@ -9,6 +9,7 @@ import java.nio.charset.Charset
 class CaptchaService {
 
     @Value("\${captcha-secret}") private lateinit var captchaSecret: String
+    @Value("\${wormnet-channel}") private lateinit var wormnetChannel: String
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -28,4 +29,8 @@ class CaptchaService {
         logger.info(jsonObject.toString())
         return jsonObject.getBoolean("success")
     }
+
+    fun verifySecretWord(secretWordFromUser: String) =
+            wormnetChannel.split(",").map { it.toLowerCase() }
+                    .contains(secretWordFromUser.replace("#", "").toLowerCase())
 }

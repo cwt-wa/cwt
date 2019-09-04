@@ -25,6 +25,7 @@ export interface UserRegistrationDto {
     email: string;
     password: string;
     captchaToken: string;
+    wormnetChannel: string;
 }
 
 interface Application {
