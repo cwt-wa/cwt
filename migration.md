@@ -274,3 +274,70 @@ update profiles
 set country='United Kingdom'
 where country = 'United_Kingdom';
 ```
+
+## Binary
+
+When it became apparent that I can only get a free Postgres installation with database volume of less than 20MB I decided to keep files saved to the disk.
+
+Although a Digital Ocean droplet is persistent I still wanted to have the binaries in an explicit data store. In a Cloud world it makes sense to have these not be part of the deployed application.
+
+I therefore set up a data store application [Zemke/cwt-binary](https://github.com/Zemke/cwt-binary) in PHP Lumen with POST and GET endpoints for replays and user photos. \
+The application relies on the filenames to be the ID of the user or game respectively and then the file extension. I therefore had to perform some batch renaming which I did using Bash scripts.
+
+### Remove spam account photos
+
+First of all I removed all profile photo of spam accounts. I therefore created a list of usernames which are real and removed any photo of a user that is not included in that list. \
+Given is a directory `users/` containing users named after the username.
+
+```bash
+#!/bin/bash
+
+NAMES=(
+"Dario" "Zemke" "Joschi" "Korydex" "khamski" "zoky" "Alex13" "Ivo" "DarKxXxLorD" "Kayz" "franz" "KBA3u" "Mablak" "Tade" "Koras" "Fonseca" "Thouson" "viks" "Johnmir" "Bytor" "nickynick" "Stripe" "kilobyte" "Gopnick" "Tomek" "Crespo" "Zolodu" "K4Tsis" "Rafka" "Random00" "SirGorash" "kalababa" "FaD" "LittleBiatch" "Fenrys" "Chicken23" "Free" "WeeM4n" "pandello" "BetongAsna" "dsa" "Pipinasso" "Hussar" "kukumber" "euenahub" "pizzasheet" "Peja" "barman" "nOox" "LeTotalKiller" "Manolo" "Uzurpator" "SiD" "hldd3n" "Kyho" "Goro" "Wormslayer" "Tajniak" "SuperPipo" "j0hny" "13" "HwoarangCS" "Siwy" "Kano" "kain" "Akt" "Dmitry" "cangaceiro" "Marjano" "tanerrr" "Pellefot" "Chelsea" "DarkOne" "KRD" "TOMT" "Piki1802" "Husk" "Chilitolindo" "Senator" "c00L" "tita" "StepS" "combo" "Zexorz" "Felo" "StJimmy" "spyvsspyfan123" "tadeuszek" "MIGHTYtaner" "thewalrus" "Asbest" "KungPow" "kins" "Jakk0" "CoolMan" "ArtecTheFox" "pavlepavle" "Triad" "floydmilleraustr" "Aladdin" "Vojske" "Abegod" "Afina" "WhiteRqbbit" "DVD" "Afinaaa" "goosey" "WormingGirl" "Deadbeat" "Lagamba" "MegaAdnan" "SaaN" "vok90" "AduN" "daiNa" "Street" "Instantly" "Krivoy" "MemberBerries" "Kory" "mielu" "domi" "oz" "Jellenio" "Cinek" "Maze" "Jakka" "HaXeN" "Master" "WorldMaster" "TerRoR" "Automatico" "AquaWorm" "Chaos1187" "Chew" "Clay" "cOOL" "CrimsonScourge" "Darasek" "DustedTrooper" "Dani" "David" "Dvorkin" "Dan" "Doubletime" "DreamTrance" "Jigsaw" "KinslayeR" "lacoste" "Antares" "lales" "Albino" "chuvash" "Fantomas" "NormalPRO" "Jule" "MrTPenguin" "Boolc" "aSh" "akkad" "Ashmallum" "Eebu" "Feiticeiro" "fury" "Franpetas" "GeLeTe" "GeneralHorn" "Goku" "HHC" "GForce" "Hallq" "Hatequitter" "Intrepid" "Inspire" "Javito" "jessbaec" "Konrad" "Kortren" "Kisiro" "linusb" "Ljungberg" "LostBoy" "Luisinho" "Leoric" "Makimura" "MexicanGeneral" "MBonheur" "m0nk" "MajesticJara" "MasterTool" "Misirac" "Mattekale" "Nut" "Nachwein" "Optymus" "Papabizkitpark" "PitBacardi" "Phartknocker" "PaRaNoIcO" "PeTaZeTa" "Philippo" "RatoonSoft" "Retcerahc" "Rigga" "Raven" "Rafalus" "Ramone" "Spike" "Simon" "Saibot" "Semaphore" "Salda" "Sniper" "tixas" "Teletubbies" "Trixsk8" "UrbanSpaceman" "UncleDave" "UCantseeMe" "Ukrop" "Voodoo" "Vodkoff" "Vuk" "Wormsik" "Wriggler" "Xaositect" "XWorm" "Zero" "Drakken"
+)
+
+echo ${NAMES[*]}
+
+containsElement () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
+for file in users/* 
+do
+  filename=$(echo "${file}" | sed -r 's/users\/(.+)\..*/\1/')
+  containsElement "${filename}" "${NAMES[@]}" && mv "${file}" final/
+done
+```
+
+### Rename photos from username to ID
+
+```bash
+#!/bin/bash
+
+declare -A arr
+arr=(["Zemke"]=1 ["Joschi"]=2 ["domi"]=3 ["Korydex"]=4 ["khamski"]=5 ["zoky"]=6 ["Alex13"]=7 ["Ivo"]=8 ["DarKxXxLorD"]=9 ["Kayz"]=10 ["Mablak"]=11 ["Tade"]=12 ["Koras"]=13 ["Fonseca"]=14 ["Thouson"]=15 ["viks"]=16 ["Johnmir"]=17 ["Bytor"]=18 ["Waffle"]=19 ["nickynick"]=20 ["Stripe"]=21 ["kilobyte"]=22 ["Gopnick"]=23 ["Tomek"]=24 ["Crespo"]=25 ["Zolodu"]=26 ["Dario"]=27 ["K4Tsis"]=28 ["Rafka"]=29 ["Random00"]=30 ["Jellenio"]=31 ["Cinek"]=32 ["Maze"]=33 ["HaXeN"]=35 ["Master"]=36 ["RatoonSoft"]=130 ["WorldMaster"]=37 ["TerRoR"]=38 ["Phantom"]=63 ["pandello"]=64 ["BetongAsna"]=65 ["DreamTrance"]=39 ["Jigsaw"]=40 ["KinslayeR"]=41 ["lacoste"]=42 ["Antares"]=43 ["lales"]=44 ["Albino"]=45 ["chuvash"]=46 ["Fantomas"]=47 ["NormalPRO"]=48 ["SirGorash"]=49 ["Jule"]=50 ["Thurbo"]=51 ["MrTPenguin"]=52 ["Boolc"]=53 ["Retcerahc"]=131 ["Rigga"]=132 ["kalababa"]=54 ["FaD"]=55 ["LittleBiatch"]=56 ["Fenrys"]=57 ["Chicken23"]=58 ["xDragonfirex"]=59 ["Diablovt"]=60 ["Free"]=61 ["WeeM4n"]=62 ["dsa"]=66 ["Pipinasso"]=67 ["aSh"]=68 ["akkad"]=69 ["Ashmallum"]=70 ["Automatico"]=71 ["AquaWorm"]=72 ["Chaos1187"]=73 ["Chew"]=74 ["Clay"]=75 ["cOOL"]=76 ["CrimsonScourge"]=77 ["Drakken"]=78 ["Darasek"]=79 ["DustedTrooper"]=80 ["Dani"]=81 ["David"]=82 ["Dvorkin"]=83 ["Dan"]=84 ["Doubletime"]=85 ["euenahub"]=86 ["Eebu"]=87 ["Feiticeiro"]=88 ["fury"]=89 ["Franpetas"]=90 ["GeLeTe"]=91 ["GeneralHorn"]=92 ["Goku"]=93 ["HHC"]=94 ["GForce"]=95 ["Hallq"]=96 ["Hatequitter"]=97 ["Intrepid"]=98 ["Inspire"]=99 ["Javito"]=100 ["jessbaec"]=101 ["Konrad"]=102 ["Kortren"]=103 ["Kisiro"]=104 ["linusb"]=105 ["Ljungberg"]=106 ["LostBoy"]=107 ["Luisinho"]=108 ["Leoric"]=109 ["Makimura"]=110 ["MexicanGeneral"]=111 ["MBonheur"]=112 ["mielu"]=113 ["Manolo"]=114 ["m0nk"]=115 ["MajesticJara"]=116 ["MasterTool"]=117 ["Misirac"]=118 ["Mattekale"]=119 ["Nut"]=120 ["Nachwein"]=121 ["Optymus"]=122 ["oz"]=123 ["Papabizkitpark"]=124 ["PitBacardi"]=125 ["Phartknocker"]=126 ["PaRaNoIcO"]=127 ["PeTaZeTa"]=128 ["Philippo"]=129 ["Raven"]=133 ["Rafalus"]=134 ["Ramone"]=135 ["Spike"]=136 ["Simon"]=137 ["Saibot"]=138 ["Semaphore"]=139 ["Salda"]=140 ["Sniper"]=141 ["tixas"]=142 ["Teletubbies"]=143 ["Trixsk8"]=144 ["UrbanSpaceman"]=145 ["UncleDave"]=146 ["UCantseeMe"]=147 ["Ukrop"]=148 ["Voodoo"]=149 ["Vodkoff"]=150 ["Vuk"]=151 ["Wormsik"]=152 ["Wriggler"]=153 ["Xaositect"]=154 ["XWorm"]=155 ["Zero"]=156 ["Hussar"]=157 ["kukumber"]=158 ["franz"]=159 ["KBA3u"]=160 ["pizzasheet"]=161 ["Casso"]=162 ["Peja"]=163 ["Gabriel"]=164 ["caniman"]=171 ["barman"]=174 ["nOox"]=178 ["LeTotalKiller"]=179 ["Uzurpator"]=180 ["Jago"]=181 ["Sbaffo"]=182 ["Crazy"]=186 ["SiD"]=187 ["hldd3n"]=192 ["Kyho"]=194 ["Goro"]=198 ["Wormslayer"]=199 ["Tajniak"]=200 ["SuperPipo"]=201 ["j0hny"]=202 ["13"]=208 ["HwoarangCS"]=209 ["Siwy"]=210 ["KnightTemplar"]=211 ["Kano"]=212 ["kain"]=213 ["WormingGirl"]=215 ["Akt"]=217 ["Dmitry"]=223 ["cangaceiro"]=224 ["Marjano"]=225 ["tanerrr"]=226 ["Pellefot"]=230 ["Evito"]=231 ["tadeusz"]=232 ["Szoszo"]=234 ["Chelsea"]=237 ["DarkOne"]=238 ["KRD"]=240 ["HenryCS"]=246 ["TOMT"]=248 ["vesuvio"]=250 ["Piki1802"]=251 ["Husk"]=252 ["Chilitolindo"]=253 ["Kaleu"]=254 ["Senator"]=256 ["c00L"]=258 ["tita"]=262 ["VoK"]=263 ["StepS"]=265 ["combo"]=266 ["Phanton"]=268 ["Zexorz"]=269 ["Felo"]=274 ["StJimmy"]=275 ["spyvsspyfan123"]=276 ["tadeuszek"]=287 ["thewalrus"]=290 ["Asbest"]=291 ["KungPow"]=292 ["kins"]=295 ["Jakka"]=34 ["CoolMan"]=298 ["ArtecTheFox"]=299 ["pavlepavle"]=312 ["Triad"]=329 ["MegaAdnan"]=331 ["floydmilleraustr"]=512 ["Aladdin"]=528 ["Vojske"]=625 ["Abegod"]=628 ["Afina"]=629 ["Atr0x"]=630 ["vok90"]=631 ["AduN"]=632 ["daiNa"]=633 ["Street"]=634 ["Instantly"]=637 ["WhiteRqbbit"]=639 ["DVD"]=685 ["Eray"]=1061 ["goosey"]=1331 ["Bhaal"]=1457 ["THYX"]=1460 ["FuSi"]=1810 ["Nunca"]=2284 ["PavelBistrov"]=6100 ["NouS"]=6109 ["Silaneo"]=6118 ["KingKong"]=6119 ["Stoner"]=6128 ["Kievz"]=6168 ["Sensei"]=6193 ["Campbell659"]=6787)
+
+echo "${arr['Aladdin']}";
+
+for file in final/*
+do
+  filename=$(echo "${file}" | sed -r 's/final\/(.+)\..*/\1/')
+  #echo "$filename" 
+  mv "$file" "final/${arr[$filename]}$(echo $file | sed -r 's/.*(\..*)$/\1/')"
+done
+```
+
+#### Rename replays to just ID.WAgame
+
+```bash
+#!/bin/bash
+
+for file in replays/*
+do
+  id=$(echo "$file" | sed -r 's/replays\/\[([0-9]+?)\].*/\1/')
+  mv "$file" "final/${id}$(echo $file | sed -r 's/.*(\..*)$/\1/')";
+done
+```
