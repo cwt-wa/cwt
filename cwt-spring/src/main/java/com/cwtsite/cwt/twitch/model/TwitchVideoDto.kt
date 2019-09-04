@@ -19,4 +19,7 @@ data class TwitchVideoDto(
         @JsonProperty("language") var language: String?,
         @JsonProperty("type") var type: String?,
         @JsonProperty("duration") var duration: String?
-)
+) {
+
+    fun hasCwtInTitle(): Boolean = title?.contains(Regex("""\bcwt\b""", RegexOption.IGNORE_CASE)) ?: false
+}

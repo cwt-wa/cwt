@@ -31,11 +31,10 @@ class StreamRestController {
 
         val allChannelsById = streamService.findAllChannels().associateBy { it.id }
         val newVideos = twitchService.requestVideos(allChannelsById.values.toList())
+                .filter { it.hasCwtInTitle() }
                 .map { StreamDto.toDto(it, allChannelsById[it.userId] ?: error("No channel with id ${it.userId}")) }
-        streamService.saveStreams(
-                newVideos
-                        .map { StreamDto.fromDto(it, allChannelsById[it.userId] ?: error("No channel with id ${it.userId}")) }
-                        .filter { it.hasCwtInTitle() })
+        streamService.saveStreams(newVideos.map { StreamDto.fromDto(it, allChannelsById[it.userId]!!) })
+
         return ResponseEntity.ok(newVideos)
     }
 
