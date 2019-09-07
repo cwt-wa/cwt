@@ -111,6 +111,11 @@
             <artifactId>khttp</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>6.10.0</version>
+        </dependency>
     </dependencies>
 
     <build>

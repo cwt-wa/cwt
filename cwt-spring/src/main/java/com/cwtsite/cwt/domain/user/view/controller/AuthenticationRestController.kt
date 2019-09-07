@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.domain.user.view.controller
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
@@ -10,7 +11,13 @@ import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse
 import com.cwtsite.cwt.domain.user.view.model.JwtUser
 import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto
 import com.cwtsite.cwt.security.SecurityService
+import com.cwtsite.cwt.security.FirebaseIdentityTokenDto
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import com.google.firebase.auth.FirebaseAuth
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -18,11 +25,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.io.File
+import java.util.*
 import javax.servlet.http.HttpServletRequest
+
 
 @RestController
 @RequestMapping("api/auth")
@@ -31,14 +38,16 @@ constructor(private val authenticationManager: AuthenticationManager, private va
             private val userDetailsService: UserDetailsService, private val userService: UserService,
             private val authService: AuthService, private val securityService: SecurityService) {
 
+    @Value("\${firebase-credentials-location}") private val firebaseCredentialsLocation: String? = null
+
     @RequestMapping(path = ["/register"], method = [RequestMethod.POST])
     fun register(@RequestBody userRegistrationDto: UserRegistrationDto): ResponseEntity<*> {
         if (!securityService.verifySecretWord(userRegistrationDto.wormnetChannel)) {
-            throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null);
+            throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null)
         }
 
         if (!securityService.verifyToken(userRegistrationDto.captchaToken)) {
-            throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null);
+            throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null)
         }
 
         val user: User
@@ -60,7 +69,7 @@ constructor(private val authenticationManager: AuthenticationManager, private va
     @RequestMapping("/login", method = [RequestMethod.POST])
     @Throws(AuthenticationException::class)
     fun createAuthenticationToken(
-            @RequestBody authenticationRequest: JwtAuthenticationRequest): ResponseEntity<*> {
+            @RequestBody authenticationRequest: JwtAuthenticationRequest): ResponseEntity<JwtAuthenticationResponse> {
         val authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(
                         authenticationRequest.username,
@@ -74,6 +83,46 @@ constructor(private val authenticationManager: AuthenticationManager, private va
         val token = jwtTokenUtil.generateToken(userDetails)
 
         return ResponseEntity.ok(JwtAuthenticationResponse(token))
+    }
+
+    @RequestMapping("/firebase-login", method = [RequestMethod.POST])
+    @Throws(AuthenticationException::class)
+    fun createAuthenticationTokenForFirebase(
+            @RequestBody authRequest: JwtAuthenticationRequest): ResponseEntity<FirebaseIdentityTokenDto> {
+        if (firebaseCredentialsLocation == null) throw RestException("Not configured.", HttpStatus.NOT_FOUND, null)
+
+        authenticationManager.authenticate(UsernamePasswordAuthenticationToken(
+                authRequest.username, authRequest.password))
+
+        val firebaseApp = when (FirebaseApp.getApps().isEmpty()) {
+            false -> FirebaseApp.getInstance()
+            true -> File(firebaseCredentialsLocation).inputStream().use {
+                FirebaseApp.initializeApp(FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(it))
+                        .build())
+            }
+        }
+
+        val userDetails = userDetailsService.loadUserByUsername(authRequest.username) as JwtUser<*>
+
+        val additionalClaims = HashMap<String, Any>()
+        additionalClaims["username"] = userDetails.username
+        additionalClaims["email"] = userDetails.email
+        additionalClaims["isAdmin"] = userDetails.roles.contains(AuthorityRole.ROLE_ADMIN)
+        val customToken = FirebaseAuth.getInstance(firebaseApp!!).createCustomToken(
+                authRequest.username, additionalClaims)
+
+        return ResponseEntity.ok(securityService.exchangeFirebaseCustomTokenForIdToken(customToken))
+    }
+
+    @RequestMapping("/firebase-refresh", method = [RequestMethod.POST])
+    fun refreshAndGetAuthenticationTokenForFirebase(
+            @RequestBody jwtAuthenticationResponse: JwtAuthenticationResponse): ResponseEntity<FirebaseIdentityTokenDto> {
+        try {
+            return ResponseEntity.ok(securityService.refreshFirebaseToken(jwtAuthenticationResponse.token))
+        } catch (e: Exception) {
+            throw RestException(e.message ?: "Undetermined authorization error.", HttpStatus.UNAUTHORIZED, e)
+        }
     }
 
     @RequestMapping("/refresh", method = [RequestMethod.GET])

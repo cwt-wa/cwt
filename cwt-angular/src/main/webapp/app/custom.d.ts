@@ -384,8 +384,9 @@ export interface PageDto<T, S = string | ValueLabel> {
 }
 
 export interface TetrisDto {
-    id: number,
-    user: number,
-    highscore: number,
-    created: Date
+    id?: number;
+    highscore: number;
+    user: UserMinimalDto;
+    guestname: String;
+    created: string;
 }
