@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import java.nio.charset.Charset
 
 @Service
-class CaptchaService {
+class SecurityService {
 
     @Value("\${captcha-secret}") private lateinit var captchaSecret: String
     @Value("\${wormnet-channel}") private lateinit var wormnetChannel: String
