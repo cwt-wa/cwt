@@ -72,6 +72,11 @@ module.exports = {
                 use: ['file-loader?name=assets/favicon.png']
             },
             {
+                type: 'javascript/auto',
+                test: /manifest.json$/,
+                use: ['file-loader?name=manifest.json']
+            },
+            {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'main', 'webapp', 'app'),
                 use: appCssExtractTextPlugin.extract({

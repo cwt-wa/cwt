@@ -12,6 +12,7 @@ import "../tetris/sketch";
 
 import '../img/favicon.png'; // for the icon in manifest.json
 import '../img/favicon.ico'; // for the favicon
+import '../manifest.json';
 
 if (process.env.ENV === 'production') {
     enableProdMode();
