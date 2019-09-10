@@ -10,8 +10,8 @@ import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationRequest
 import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse
 import com.cwtsite.cwt.domain.user.view.model.JwtUser
 import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto
-import com.cwtsite.cwt.security.SecurityService
 import com.cwtsite.cwt.security.FirebaseIdentityTokenDto
+import com.cwtsite.cwt.security.SecurityService
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
@@ -25,9 +25,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
 import java.io.File
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 
@@ -105,12 +107,13 @@ constructor(private val authenticationManager: AuthenticationManager, private va
 
         val userDetails = userDetailsService.loadUserByUsername(authRequest.username) as JwtUser<*>
 
-        val additionalClaims = HashMap<String, Any>()
-        additionalClaims["username"] = userDetails.username
-        additionalClaims["email"] = userDetails.email
-        additionalClaims["isAdmin"] = userDetails.roles.contains(AuthorityRole.ROLE_ADMIN)
+        val additionalClaims = mapOf<String, Any?>(
+                "username" to userDetails.username,
+                "id" to userDetails.id,
+                "email" to userDetails.email,
+                "isAdmin" to userDetails.roles.contains(AuthorityRole.ROLE_ADMIN))
         val customToken = FirebaseAuth.getInstance(firebaseApp!!).createCustomToken(
-                authRequest.username, additionalClaims)
+                "${authRequest.username}_${userDetails.id}", additionalClaims)
 
         return ResponseEntity.ok(securityService.exchangeFirebaseCustomTokenForIdToken(customToken))
     }
