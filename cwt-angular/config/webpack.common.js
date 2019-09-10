@@ -56,12 +56,20 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                exclude: /flags\/.*?.png$/,
+                exclude: /(favicon.ico|favicon.png|flags\/.*?.png)$/,
                 use: ['file-loader?name=assets/[name].[hash].[ext]']
             },
             {
                 test: /flags\/.*?.png$/,
                 use: ['file-loader?name=assets/[name].[ext]']
+            },
+            {
+                test: /favicon.ico$/,
+                use: ['file-loader?name=favicon.ico']
+            },
+            {
+                test: /favicon.png$/,
+                use: ['file-loader?name=assets/favicon.png']
             },
             {
                 test: /\.css$/,

@@ -10,6 +10,9 @@ import {AppModule} from "./app.module";
 import "../tetris/grid/grid";
 import "../tetris/sketch";
 
+import '../img/favicon.png'; // for the icon in manifest.json
+import '../img/favicon.ico'; // for the favicon
+
 if (process.env.ENV === 'production') {
     enableProdMode();
 }
