@@ -5,7 +5,6 @@ import {Comment, CommentDto, GameDetailDto, JwtUser, PlayoffTreeBetDto, Rating, 
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
 import {BetResult, BetService} from "../_services/bet.service";
-import {BinaryService} from "../_services/binary.service";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -18,12 +17,10 @@ export class GameDetailComponent {
     game: GameDetailDto;
     newComment: CommentDto;
     authenticatedUser: JwtUser;
-    replayUrl: string;
     betResult: BetResult;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
-                private authService: AuthService, private betService: BetService,
-                private binaryService: BinaryService) {
+                private authService: AuthService, private betService: BetService) {
     }
 
     public get winningUser(): User {
@@ -51,7 +48,6 @@ export class GameDetailComponent {
                 .subscribe(res => {
                     this.game = res;
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);
-                    this.replayUrl = this.binaryService.getReplay(this.game.id, this.game.replayExists);
 
                     if (this.game.playoff != null) {
                         this.requestService.get<PlayoffTreeBetDto[]>(`game/${+routeParam.get('id')}/bets`)

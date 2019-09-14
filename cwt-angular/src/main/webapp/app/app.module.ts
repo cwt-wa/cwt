@@ -80,6 +80,7 @@ import {AdminChatComponent} from "./message/admin-chat.component";
 import {BinaryService} from "./_services/binary.service";
 import {ConvertLinksPipe} from "./_util/convert-links.pipe";
 import {NgxCaptchaModule} from 'ngx-captcha';
+import {ReplayLinkPipe} from "./_util/replay-link.pipe";
 
 const appRoutes: Routes = [
     {
@@ -241,6 +242,7 @@ const appRoutes: Routes = [
         GroupTableComponent,
         ReportGameComponent,
         AdminPlayoffsStartComponent,
+        ReplayLinkPipe,
         StandingsOrderPipe,
         ConvertLinksPipe,
         CwtDatePipe,
@@ -289,6 +291,7 @@ const appRoutes: Routes = [
         AuthService,
         RequestService,
         ConfigurationService,
+        ReplayLinkPipe,
         StandingsOrderPipe,
         ConvertLinksPipe,
         CwtDatePipe,
