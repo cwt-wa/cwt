@@ -249,6 +249,23 @@ export interface PlayoffGameDto {
     playoffRoundLocalized: string;
 }
 
+export interface GroupWithGamesDto {
+    id: number;
+    label: GroupLabel;
+    tournament: Tournament;
+    standings: StandingDto[];
+    games: GameMinimalDto[];
+}
+
+export interface StandingDto {
+    id: number;
+    points: number;
+    games: number;
+    gameRatio: number;
+    roundRatio: number;
+    user: UserMinimalDto;
+}
+
 export interface PlayoffTreeBetDto {
     id: number;
     user: UserMinimalDto;

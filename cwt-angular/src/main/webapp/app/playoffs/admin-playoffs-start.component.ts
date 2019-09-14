@@ -3,7 +3,7 @@ import {forkJoin as observableForkJoin, Observable} from 'rxjs';
 
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Configuration, GameCreationDto, Group} from "../custom";
+import {Configuration, GameCreationDto, GroupWithGamesDto} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 import {PlayoffsService} from "../_services/playoffs.service";
@@ -16,7 +16,7 @@ import {Toastr} from "../_services/toastr";
 })
 export class AdminPlayoffsStartComponent implements OnInit {
 
-    public groups: Group[];
+    public groups: GroupWithGamesDto[];
     public numberOfGroupMembersAdvancing: number;
     public games: GameCreationDto[];
     typeAheadForPlayoffsUser: (text$: Observable<string>) => Observable<number[]>;
@@ -57,10 +57,10 @@ export class AdminPlayoffsStartComponent implements OnInit {
 
     public ngOnInit(): void {
         observableForkJoin(
-            this.requestService.get<Group[]>('tournament/current/group'),
+            this.requestService.get<GroupWithGamesDto[]>('tournament/current/group'),
             this.configurationService.requestByKeys("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
             )
-            .subscribe((res: [Group[], Configuration[]]) => {
+            .subscribe((res: [GroupWithGamesDto[], Configuration[]]) => {
                     this.groups = res[0];
                     this.numberOfGroupMembersAdvancing = parseInt(res[1][0].value);
 
@@ -81,7 +81,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
     }
 
     autoDraw() {
-        const usersByPlaceAsc = this.groups.reduce<number[][]>((usersByPlaceAsc: number[][], group: Group, groupIndex: number) => {
+        const usersByPlaceAsc = this.groups.reduce<number[][]>((usersByPlaceAsc: number[][], group: GroupWithGamesDto, groupIndex: number) => {
             const sortedUsers = this.standingsOrderPipe.transform(group.standings).map(s => s.user.id);
             for (let place = 1; place <= this.numberOfGroupMembersAdvancing; place++) {
                 usersByPlaceAsc[place - 1][groupIndex] = sortedUsers[place - 1]

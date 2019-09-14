@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {GroupStanding} from "../custom";
+import {GroupStanding, StandingDto} from "../custom";
 
 /**
  * Order standings by points > game ratio > round ratio > head-to-head record.
@@ -11,7 +11,7 @@ import {GroupStanding} from "../custom";
 })
 export class StandingsOrderPipe implements PipeTransform {
 
-    transform(standings: GroupStanding[]): GroupStanding[] {
+    transform(standings: StandingDto[]): StandingDto[] {
         return standings.sort()
             .sort((a, b) => a.roundRatio > b.roundRatio ? -1 : +1)
             .sort((a, b) => a.gameRatio > b.gameRatio ? -1 : +1)
