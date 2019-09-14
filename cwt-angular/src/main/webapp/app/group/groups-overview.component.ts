@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Group} from "../custom";
+import {GroupWithGamesDto} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {finalize} from "rxjs/operators";
 
@@ -17,7 +17,7 @@ export class GroupsOverviewComponent implements OnInit {
     @Input() hideLoadingIndicator: boolean;
 
     public viewMode: ViewMode;
-    public groups: Group[];
+    public groups: GroupWithGamesDto[];
     public numberOfGroupMembersAdvancing: number;
     public loading: boolean = true;
     private readonly VIEW_MODE_STORAGE_KEY: 'groups-overview-view-mode' = 'groups-overview-view-mode';
@@ -27,7 +27,7 @@ export class GroupsOverviewComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.requestService.get<Group[]>(`tournament/${this.tournamentId || 'current'}/group`)
+        this.requestService.get<GroupWithGamesDto[]>(`tournament/${this.tournamentId || 'current'}/group`)
             .pipe(finalize(() => this.loading = false))
             .subscribe(res => this.groups = res);
 

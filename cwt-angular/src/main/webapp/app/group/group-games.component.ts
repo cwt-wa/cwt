@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {GameDetailDto} from "../custom";
+import {GameMinimalDto} from "../custom";
 
 @Component({
     selector: 'cwt-group-games',
@@ -8,5 +8,5 @@ import {GameDetailDto} from "../custom";
 export class GroupGamesComponent {
 
     @Input()
-    games: GameDetailDto[];
+    games: GameMinimalDto[];
 }
