@@ -97,7 +97,7 @@ constructor(private val userRepository: UserRepository,
 
         when (currentTournament.status) {
             TournamentStatus.GROUP -> {
-                val group = groupRepository.findByTournamentAndUser(currentTournament, user)
+                val group = groupRepository.findByTournamentAndUser(currentTournament, user) ?: return emptyList()
                 val games = gameRepository.findPlayedByUserInGroup(user, group)
 
                 remainingOpponents = group.standings
