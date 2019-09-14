@@ -2,12 +2,7 @@ package com.cwtsite.cwt.domain.game.view.model
 
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.game.entity.Game
-import com.cwtsite.cwt.domain.game.entity.PlayoffGame
-import com.cwtsite.cwt.domain.game.entity.Rating
-import com.cwtsite.cwt.domain.group.entity.Group
-import com.cwtsite.cwt.domain.tournament.entity.Tournament
-import com.cwtsite.cwt.domain.user.repository.entity.User
-import com.cwtsite.cwt.entity.Comment
+import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import java.util.*
 
 @DataTransferObject
@@ -18,14 +13,9 @@ data class GameMinimalDto(
         val techWin: Boolean,
         val created: Date,
         val modified: Date,
-        val playoff: PlayoffGame?,
-        val group: Group?,
-        val tournament: Tournament,
-        val homeUser: User,
-        val awayUser: User,
-        val reporter: User,
-        val ratings: List<Rating>,
-        val comments: List<Comment>
+        val homeUser: UserMinimalDto,
+        val awayUser: UserMinimalDto,
+        val replayExists: Boolean
 ) {
 
     companion object {
@@ -38,14 +28,9 @@ data class GameMinimalDto(
                     techWin = game.techWin,
                     created = game.created!!,
                     modified = game.modified!!,
-                    playoff = game.playoff,
-                    group = game.group,
-                    tournament = game.tournament,
-                    homeUser = game.homeUser!!,
-                    awayUser = game.awayUser!!,
-                    reporter = game.reporter!!,
-                    ratings = game.ratings,
-                    comments = game.comments
+                    homeUser = UserMinimalDto(game.homeUser!!.id!!, game.homeUser!!.username),
+                    awayUser = UserMinimalDto(game.awayUser!!.id!!, game.awayUser!!.username),
+                    replayExists = game.replay != null
             )
         }
     }

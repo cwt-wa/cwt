@@ -257,6 +257,18 @@ export interface GroupWithGamesDto {
     games: GameMinimalDto[];
 }
 
+export interface GameMinimalDto {
+    id: number;
+    scoreHome: number;
+    scoreAway: number;
+    techWin: boolean;
+    created: string;
+    modified: string;
+    homeUser: User;
+    awayUser: User;
+    replayExists: Boolean;
+}
+
 export interface StandingDto {
     id: number;
     points: number;

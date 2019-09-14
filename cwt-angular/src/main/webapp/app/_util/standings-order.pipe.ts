@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {GroupStanding, StandingDto} from "../custom";
+import {StandingDto} from "../custom";
 
 /**
  * Order standings by points > game ratio > round ratio > head-to-head record.
