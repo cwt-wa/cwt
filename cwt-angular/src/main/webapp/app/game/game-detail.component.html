@@ -21,7 +21,7 @@
                 </span>
                 {{game.tournament.created | cwtDate:'y'}}
             </a>
-            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/group']"
+            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/groups']"
                [fragment]="game.tournament.status === 'FINISHED' ? game.group.label : undefined"
                class="btn btn-secondary btn text-white w-100 all-petite-caps" *ngIf="game.group">
                 <span class="font-weight-bold">
