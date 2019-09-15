@@ -81,6 +81,7 @@ import {BinaryService} from "./_services/binary.service";
 import {ConvertLinksPipe} from "./_util/convert-links.pipe";
 import {NgxCaptchaModule} from 'ngx-captcha';
 import {ReplayLinkPipe} from "./_util/replay-link.pipe";
+import {LiveStreamComponent} from "./stream/live-stream.component";
 
 const appRoutes: Routes = [
     {
@@ -246,6 +247,7 @@ const appRoutes: Routes = [
         StandingsOrderPipe,
         ConvertLinksPipe,
         CwtDatePipe,
+        LiveStreamComponent,
         PlayoffsTreeComponent,
         GameDetailComponent,
         RatingComponent,

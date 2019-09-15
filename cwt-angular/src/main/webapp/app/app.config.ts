@@ -6,12 +6,14 @@ export interface AppConfig {
     binaryDataStoreEndpoint: string | null;
     apiEndpoint: string;
     captchaKey: string;
+    liveStreamProducer: string;
 }
 
 export const appConfig: AppConfig = {
     apiEndpoint: process.env.apiEndpoint,
     binaryDataStoreEndpoint: process.env.binaryDataStoreEndpoint,
     captchaKey: process.env.captchaKey,
+    liveStreamProducer: process.env.liveStreamProducer
 };
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
