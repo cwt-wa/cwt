@@ -48,7 +48,10 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class, FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class, IOException::class)
     fun reportGame(homeUser: Long, awayUser: Long, scoreHome: Int, scoreAway: Int, replay: MultipartFile): Game {
-        FileValidator.validate(replay, 150000, Arrays.asList("application/x-rar", "application/zip"), Arrays.asList("rar", "zip"))
+        FileValidator.validate(
+            replay, 150000,
+            Arrays.asList("application/x-rar", "application/x-rar-compressed", "application/octet-stream", "application/zip"),
+            Arrays.asList("rar", "zip"))
         val reportedGame = reportGame(homeUser, awayUser, scoreHome, scoreAway, false)
         reportedGame.replay = Replay(replay.bytes, replay.contentType, StringUtils.getFilenameExtension(replay.originalFilename))
         return gameRepository.save(reportedGame)
