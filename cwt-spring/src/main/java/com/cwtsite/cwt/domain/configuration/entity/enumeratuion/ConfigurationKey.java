@@ -51,7 +51,12 @@ public enum ConfigurationKey {
     /**
      * Number of users per group. There can still be fewer in some groups.
      */
-    USERS_PER_GROUP(ConfigurationValueType.INTEGER);
+    USERS_PER_GROUP(ConfigurationValueType.INTEGER),
+
+    /**
+     * Used to tell the client whether or not it makes to attempt event sourcing the Twitch Webhook server.
+     */
+    EVENT_SOURCE_TWITCH_WEBHOOK(ConfigurationValueType.BOOLEAN);
 
     private final ConfigurationValueType type;
 
@@ -64,7 +69,7 @@ public enum ConfigurationKey {
     }
 
     public enum ConfigurationValueType {
-        INTEGER, STRING;
+        INTEGER, STRING, BOOLEAN
     }
 }
 

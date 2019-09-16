@@ -123,7 +123,7 @@
 <div [hidden]="!isNavCollapsed"
      [ngClass]="{'standalone-container': isStandalone && !isAppleStandalone, 'apple-standalone-container': isAppleStandalone}"
      class="container content">
-    <cwt-live-stream></cwt-live-stream>
+    <cwt-live-stream *ngIf="eventSourceTwitchWebhook"></cwt-live-stream>
     <router-outlet></router-outlet>
 </div>
 <div id="tetris">

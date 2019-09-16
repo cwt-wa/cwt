@@ -10,6 +10,7 @@ import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
 import * as p5 from "p5";
 import {TetrisGuest} from "../tetris/tetrisguest";
+import {ConfigurationService} from "./_services/configuration.service";
 
 @Component({
     selector: 'my-app',
@@ -24,6 +25,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     public isAppleStandalone: boolean;
     public isStandalone: boolean;
     public highscores: TetrisDto[];
+    public eventSourceTwitchWebhook: boolean;
     private authenticatedUser: JwtUser;
     private tetris: Tetris;
     private tetrisGuestName: string;
@@ -33,7 +35,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
                 private router: Router, private authService: AuthService, private canReportService: CanReportService,
-                private toastr: Toastr) {
+                private toastr: Toastr, private configurationService: ConfigurationService) {
         this.isAppleStandalone = this.webAppViewService.isAppleStandalone;
         this.isStandalone = this.webAppViewService.isStandalone;
     }
@@ -48,6 +50,9 @@ export class AppComponent implements AfterViewInit, OnInit {
             },
             () => this.authService.voidToken()
         );
+
+        this.configurationService.requestByKeys('EVENT_SOURCE_TWITCH_WEBHOOK')
+            .subscribe(res => this.eventSourceTwitchWebhook = res[0].value === 'true');
     }
 
     public ngAfterViewInit(): void {
