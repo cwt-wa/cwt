@@ -57,8 +57,13 @@
                         </div>
                         <div class="all-petite-caps">
                             {{game.comments.length}} Comments
-                            <ng-container *ngIf="game.replayExists">•</ng-container>
-                            <a [href]="appConfig.apiEndpoint + 'games/' + game.id + '/replay'" *ngIf="game.replayExists">Download</a>
+                            <ng-container
+                              *ngIf="(game.id | cwtReplayLink:game.replayExists) != null"
+                              ngPreserveWhitespaces>•</ng-container>
+                            <a [href]="game.id | cwtReplayLink:game.replayExists"
+                               *ngIf="game.replayExists">
+                                Download
+                            </a>
                         </div>
                     </div>
                 </div>
