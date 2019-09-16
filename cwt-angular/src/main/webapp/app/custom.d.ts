@@ -264,8 +264,8 @@ export interface GameMinimalDto {
     techWin: boolean;
     created: string;
     modified: string;
-    homeUser: User;
-    awayUser: User;
+    homeUser: UserMinimalDto;
+    awayUser: UserMinimalDto;
     replayExists: Boolean;
 }
 
