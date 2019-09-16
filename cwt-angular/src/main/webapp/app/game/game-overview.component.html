@@ -60,8 +60,7 @@
                             <ng-container
                               *ngIf="(game.id | cwtReplayLink:game.replayExists) != null"
                               ngPreserveWhitespaces>•</ng-container>
-                            <a [href]="game.id | cwtReplayLink:game.replayExists"
-                               *ngIf="game.replayExists">
+                            <a [href]="game.id | cwtReplayLink:game.replayExists">
                                 Download
                             </a>
                         </div>
