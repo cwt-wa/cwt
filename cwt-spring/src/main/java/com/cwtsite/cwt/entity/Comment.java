@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "comment")
-@SequenceGenerator(name = "comment_seq", sequenceName = "comment_id_seq")
+@SequenceGenerator(name = "comment_seq", sequenceName = "comment_id_seq", allocationSize = 10)
 public class Comment {
 
     @Id

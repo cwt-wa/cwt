@@ -11,7 +11,7 @@ data class Tetris(
 
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tetris_id_seq")
-        @SequenceGenerator(name = "tetris_id_seq", sequenceName = "tetris_id_seq")
+        @SequenceGenerator(name = "tetris_id_seq", sequenceName = "tetris_id_seq", allocationSize = 15)
         val id: Long? = null,
 
         @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST])

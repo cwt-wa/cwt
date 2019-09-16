@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "application")
-@SequenceGenerator(name = "application_seq", sequenceName = "application_id_seq")
+@SequenceGenerator(name = "application_seq", sequenceName = "application_id_seq", allocationSize = 1)
 public class Application {
 
     @Id

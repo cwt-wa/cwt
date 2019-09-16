@@ -9,7 +9,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "message")
-@SequenceGenerator(name = "message_seq", sequenceName = "message_id_seq")
+@SequenceGenerator(name = "message_seq", sequenceName = "message_id_seq", allocationSize = 10)
 data class Message(
 
         @Id

@@ -11,7 +11,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @Table(name = "\"user\"")
-@SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq")
+@SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq", allocationSize = 1)
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")

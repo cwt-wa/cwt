@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "playoff_game")
-@SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_id_seq")
+@SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_id_seq", allocationSize = 8)
 data class PlayoffGame(
 
         @Id
