@@ -12,4 +12,8 @@ export class Toastr {
     success(message: string) {
         return this.toastr.success(message)
     }
+
+    info(message: string) {
+        return this.toastr.info(message)
+    }
 }

@@ -596,6 +596,16 @@ code {
   background-color: theme-color('success');
 }
 
+#toast-container > .toast-error {
+  background-image: none !important;
+  background-color: theme-color('danger');
+}
+
+#toast-container > .toast-info {
+  background-image: none !important;
+  background-color: theme-color('info');
+}
+
 #toast-container > div {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;

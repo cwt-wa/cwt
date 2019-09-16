@@ -47,4 +47,8 @@ export class Utils {
         if (split[split.length - 3] != null) seconds += split[split.length - 3] * 60 * 60; // hours
         return seconds;
     }
+
+    public isEmpty(obj: object) {
+        return Object.keys(obj).length === 0 && obj.constructor === Object;
+    }
 }
