@@ -39,7 +39,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
 
     private getPlayoffUsers() {
         return this.groups
-            .map(g => this.standingsOrderPipe.transform(g.standings).slice(0, this.numberOfGroupMembersAdvancing))
+            .map(g => this.standingsOrderPipe.transform(g.standings, g.games).slice(0, this.numberOfGroupMembersAdvancing))
             .reduce((previousStanding, currentStanding) => previousStanding.concat(currentStanding))
             .map(s => s.user);
     }
@@ -82,7 +82,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
 
     autoDraw() {
         const usersByPlaceAsc = this.groups.reduce<number[][]>((usersByPlaceAsc: number[][], group: GroupWithGamesDto, groupIndex: number) => {
-            const sortedUsers = this.standingsOrderPipe.transform(group.standings).map(s => s.user.id);
+            const sortedUsers = this.standingsOrderPipe.transform(group.standings, group.games).map(s => s.user.id);
             for (let place = 1; place <= this.numberOfGroupMembersAdvancing; place++) {
                 usersByPlaceAsc[place - 1][groupIndex] = sortedUsers[place - 1]
             }
