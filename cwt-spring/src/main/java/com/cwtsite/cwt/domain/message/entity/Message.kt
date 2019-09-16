@@ -9,7 +9,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "message")
-@SequenceGenerator(name = "message_seq", sequenceName = "message_id_seq")
+@SequenceGenerator(name = "message_seq", sequenceName = "message_id_seq", allocationSize = 10)
 data class Message(
 
         @Id
@@ -26,8 +26,8 @@ data class Message(
         @ManyToMany
         @JoinTable(
                 name = "message_recipient",
-                joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
-                inverseJoinColumns = [JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID")])
+                joinColumns = [JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID")],
+                inverseJoinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")])
         var recipients: MutableList<User> = mutableListOf(),
 
         @Enumerated(EnumType.STRING)

@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "\"group\"")
-@SequenceGenerator(name = "group_seq", sequenceName = "group_id_seq")
+@SequenceGenerator(name = "group_seq", sequenceName = "group_id_seq", allocationSize = 8)
 data class Group (
 
         @Id

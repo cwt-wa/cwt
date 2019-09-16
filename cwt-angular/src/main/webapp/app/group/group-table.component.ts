@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Group} from "../custom";
+import {GroupWithGamesDto} from "../custom";
 
 @Component({
     selector: 'cwt-group-table',
@@ -7,7 +7,7 @@ import {Group} from "../custom";
 })
 export class GroupTableComponent {
     @Input()
-    public group: Group;
+    public group: GroupWithGamesDto;
 
     @Input()
     public numberOfGroupMembersAdvancing: number;

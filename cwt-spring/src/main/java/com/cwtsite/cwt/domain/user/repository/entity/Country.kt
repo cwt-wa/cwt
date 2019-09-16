@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Country(
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_seq")
-        @SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq")
+        @SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq", allocationSize = 1)
         val id: Long? = null,
 
         @Column(nullable = false)

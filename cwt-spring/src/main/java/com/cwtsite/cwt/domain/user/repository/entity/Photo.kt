@@ -7,7 +7,7 @@ data class Photo(
 
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "photo_id_seq")
-        @SequenceGenerator(name = "photo_id_seq", sequenceName = "photo_id_seq")
+        @SequenceGenerator(name = "photo_id_seq", sequenceName = "photo_id_seq", allocationSize = 1)
         var id: Long? = null,
 
         @Column(nullable = false)

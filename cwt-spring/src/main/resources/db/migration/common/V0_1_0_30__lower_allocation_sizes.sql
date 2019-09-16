@@ -1,0 +1,16 @@
+alter sequence application_id_seq increment by 1;
+alter sequence bet_id_seq increment by 10;
+alter sequence comment_id_seq increment by 10;
+alter sequence country_id_seq increment by 1;
+alter sequence game_id_seq increment by 5;
+alter sequence group_id_seq increment by 8;
+alter sequence group_standing_id_seq increment by 32;
+alter sequence message_id_seq increment by 10;
+alter sequence photo_id_seq increment by 1;
+alter sequence playoff_game_id_seq increment by 8;
+alter sequence rating_id_seq increment by 10;
+alter sequence tetris_id_seq increment by 15;
+alter sequence replay_id_seq increment by 5;
+alter sequence schedule_id_seq increment by 3;
+alter sequence tournament_id_seq increment by 1;
+alter sequence user_id_seq increment by 1;

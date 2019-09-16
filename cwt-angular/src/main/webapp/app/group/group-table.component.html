@@ -22,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let standing of group.standings | cwtStandingsOrder; let index = index;">
+    <tr *ngFor="let standing of group.standings | cwtStandingsOrder:group.games; let index = index;">
         <td class="text-center text-white" [ngClass]="index + 1 <= numberOfGroupMembersAdvancing ? 'bg-success' : 'bg-danger'">
             {{index + 1}}
         </td>
