@@ -634,3 +634,7 @@ my-app.nav-is-expanded + footer {
 .links-black a {
   color: theme-color('secondary') !important;
 }
+
+li.page-item:not(.active) a.page-link {
+  cursor: pointer;
+}
