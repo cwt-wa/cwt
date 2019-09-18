@@ -50,7 +50,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun reportGame(homeUser: Long, awayUser: Long, scoreHome: Int, scoreAway: Int, replay: MultipartFile): Game {
         FileValidator.validate(
             replay, 150000,
-            Arrays.asList("application/x-rar", "application/x-rar-compressed", "application/octet-stream", "application/zip"),
+            Arrays.asList("application/x-rar", "application/x-rar-compressed", "application/octet-stream", "application/zip", "application/x-zip-compressed"),
             Arrays.asList("rar", "zip"))
         val reportedGame = reportGame(homeUser, awayUser, scoreHome, scoreAway, false)
         reportedGame.replay = Replay(replay.bytes, replay.contentType, StringUtils.getFilenameExtension(replay.originalFilename))
