@@ -134,6 +134,11 @@ export class ChatInputComponent implements OnInit {
         this.instantiateMention();
     }
 
+    public onPaste(e: ClipboardEvent) {
+        document.execCommand("insertHTML", false, e.clipboardData.getData('text/plain'));
+        e.preventDefault();
+    }
+
     public onCopy(e: ClipboardEvent) {
         e.clipboardData.setData('text/plain', this.selectionToTextContent());
         e.preventDefault();
