@@ -84,7 +84,8 @@ export class MentionComponent {
         if (possibleUsers.length === 1) {
             this.mentionedUser = possibleUsers[0];
             this.onSelectTypeAheadSuggestionItem();
-        } else {
+            this.mentionHasJustBeenSelected = false;
+        } else if (!this.mentionHasJustBeenSelected) {
             this.removeMention.emit();
         }
     }
