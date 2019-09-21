@@ -135,12 +135,68 @@ export class ChatInputComponent implements OnInit {
     }
 
     public onCopy(e: ClipboardEvent) {
-        e.clipboardData.setData('text/plain', this.convertContentEditableToRawTextContent());
+        e.clipboardData.setData('text/plain', this.selectionToTextContent());
         e.preventDefault();
     }
 
-    private convertContentEditableToRawTextContent(): string {
-        let body: string = this.chatInput.nativeElement.textContent;
+    public onCut(e: ClipboardEvent) {
+        e.clipboardData.setData('text/plain', this.selectionToTextContent(true));
+        e.preventDefault();
+    }
+
+    private selectionToTextContent(cut: boolean = false) {
+        const selection = window.getSelection();
+        const range = selection.getRangeAt(0);
+        const rememberedStartOffset = range.startOffset;
+        const rangeIsOneContainerOnly = range.startContainer === range.endContainer;
+        const middleNodes = [];
+        let textToCut = '';
+
+        let node: Node = null;
+        do {
+            node = node === null ? range.startContainer : node.nextSibling;
+
+            if (rangeIsOneContainerOnly) {
+                textToCut += node.textContent.split('').splice(range.startOffset, range.endOffset - range.startOffset).join('');
+            } else if (node === range.startContainer) {
+                textToCut += node.textContent.split('').splice(range.startOffset).join('');
+            } else if (node === range.endContainer) {
+                textToCut += node.textContent.split('').splice(0, range.endOffset).join('');
+            } else {
+                textToCut += node.textContent;
+                middleNodes.push(node);
+            }
+
+        } while (node !== range.endContainer);
+
+        function cutFromNodes(textContent: string, cutStart: number, cutCount?: number) {
+            const charArr = textContent.split('');
+            cutCount != null ? charArr.splice(cutStart, cutCount): charArr.splice(cutStart);
+            return charArr.join('');
+        }
+
+        if (cut) {
+            middleNodes.forEach(n => n.parentNode.removeChild(n));
+            if (rangeIsOneContainerOnly) {
+                range.startContainer.textContent = cutFromNodes(
+                    range.startContainer.textContent, range.startOffset, range.endOffset - range.startOffset);
+            } else {
+                range.startContainer.textContent = cutFromNodes(range.startContainer.textContent, range.startOffset);
+                range.endContainer.textContent = cutFromNodes(range.endContainer.textContent, 0, range.endOffset);
+            }
+
+            const newRange = document.createRange();
+            newRange.collapse(true);
+            newRange.setStart(range.startContainer, rememberedStartOffset);
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+        }
+
+        return this.convertContentEditableToRawTextContent(textToCut);
+    }
+
+    private convertContentEditableToRawTextContent(textContent: string = this.chatInput.nativeElement.textContent): string {
+        let body: string = textContent;
 
         body = body.trim();
         body = body.replace(/(\[m.*?m])\n/g, "$1"); // Remove carriage return after mention.
