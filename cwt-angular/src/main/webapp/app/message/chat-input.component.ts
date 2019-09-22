@@ -89,9 +89,9 @@ export class ChatInputComponent implements OnInit {
     }
 
     public sendMessage(): void {
-        const mentionHasJustBeenAdded = this.mentions.find(m => m.instance.mentionHasJustBeenSelected);
+        const mentionHasJustBeenAdded = this.mentions.find(m => m.instance.enterKeyDown);
         if (mentionHasJustBeenAdded != null) {
-            mentionHasJustBeenAdded.instance.mentionHasJustBeenSelected = false;
+            mentionHasJustBeenAdded.instance.enterKeyDown = false;
             return;
         }
 

@@ -44,6 +44,7 @@ export class MentionComponent {
     typeAheadResultFormatter = (value: User) => value.username || null;
     disabled: boolean;
     mentionHasJustBeenSelected: boolean;
+    enterKeyDown: boolean;
 
     @ViewChild('nameInput') private nameInput: ElementRef;
     @ViewChild('ngbTypeaheadInstance') private ngbTypeaheadInstance: NgbTypeahead;
@@ -75,17 +76,19 @@ export class MentionComponent {
             this.removeMention.emit();
         } else if ($event.key === ' ') {
             ($event.target as HTMLInputElement).blur();
+        } else if ($event.key === 'Enter') {
+            this.enterKeyDown = true;
         }
     }
 
     public onBlur() {
+        if (this.mentionHasJustBeenSelected) return;
         this.ngbTypeaheadInstance.dismissPopup();
         const possibleUsers = this.filterByTerm();
         if (possibleUsers.length === 1) {
             this.mentionedUser = possibleUsers[0];
-            this.onSelectTypeAheadSuggestionItem();
-            this.mentionHasJustBeenSelected = false;
-        } else if (!this.mentionHasJustBeenSelected) {
+            this.putCursorAfterMention();
+        } else {
             this.removeMention.emit();
         }
     }
