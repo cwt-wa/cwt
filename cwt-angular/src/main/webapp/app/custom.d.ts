@@ -88,6 +88,7 @@ export interface UserDetailDto {
     about: string;
     hasPic: boolean;
     userStats: UserStatsDto[];
+    email?: string;
 }
 
 export interface ChannelDto {
@@ -155,6 +156,7 @@ export interface UserChangeDto {
     username: string;
     country: number;
     about: string;
+    email: string;
 }
 
 export interface PasswordChangeDto {

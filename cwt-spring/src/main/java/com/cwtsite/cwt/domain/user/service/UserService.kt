@@ -138,9 +138,10 @@ constructor(private val userRepository: UserRepository,
         return userRepository.findAll(PageRequest.of(page, size, extendedSort))
     }
 
-    @Throws(UserService.InvalidUsernameException::class, UsernameTakenException::class)
+    @Throws(UserService.InvalidUsernameException::class, UsernameTakenException::class, InvalidEmailException::class, EmailExistsException::class)
     @Transactional
-    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: Country? = null): User {
+    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: Country? = null,
+                   newEmail: String? = null): User {
         if (newUsername != null) {
             if (validateUsername(newUsername)) user.username = newUsername
             else throw InvalidUsernameException()
@@ -150,6 +151,12 @@ constructor(private val userRepository: UserRepository,
 
         if (newAboutText != null) user.about = newAboutText;
         if (newCountry != null) user.country = newCountry;
+        if (newEmail != null) {
+            val newEmailTrimmed = newEmail.trim { it <= ' ' }
+            if (!validateEmail(newEmailTrimmed)) throw InvalidEmailException()
+            if (userRepository.findByEmailIgnoreCase(newEmailTrimmed).any { it != user }) throw EmailExistsException()
+            user.email = newEmailTrimmed
+        }
 
         return userRepository.save(user)
     }
@@ -203,6 +210,8 @@ constructor(private val userRepository: UserRepository,
     inner class InvalidUsernameException : RuntimeException()
 
     inner class UsernameTakenException : RuntimeException()
+
+    inner class EmailExistsException : RuntimeException()
 
     inner class InvalidEmailException : RuntimeException()
 }

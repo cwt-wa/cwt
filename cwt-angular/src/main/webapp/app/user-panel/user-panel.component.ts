@@ -36,12 +36,13 @@ export class UserPanelComponent implements OnInit {
     ngOnInit(): void {
         this.authUser = this.authService.getUserFromTokenPayload();
 
-        this.requestService.get<UserDetailDto>(`user/${this.authUser.id}`)
+        this.requestService.get<UserDetailDto>(`user/${this.authUser.id}`, {'include-email': "true"})
             .subscribe(res => {
                 this.profile = {
                     username: res.username,
                     country: res.country.id,
                     about: res.about,
+                    email: res.email,
                 };
                 this.user = res;
             });

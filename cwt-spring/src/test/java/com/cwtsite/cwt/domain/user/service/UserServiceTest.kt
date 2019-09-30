@@ -169,6 +169,19 @@ class UserServiceTest {
     }
 
     @Test
+    fun changeUser_email() {
+        val user = EntityDefaults.user();
+        user.email = "lea@flori";
+
+        Mockito
+                .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
+                .thenAnswer { it.getArgument(0) }
+
+        val newUser = userService.changeUser(user, null, null, null, "flori@lea");
+        Assert.assertEquals("flori@lea", newUser.email);
+    }
+
+    @Test
     fun changeUser_country() {
         val user = EntityDefaults.user();
         user.about = "england";
@@ -187,15 +200,17 @@ class UserServiceTest {
         user.about = "old about text"
         user.country = createCountry("England")
         user.username = "oldUsername"
+        user.email = "old@email"
 
         Mockito
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", createCountry("Germany"));
+        val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", createCountry("Germany"), "new@email");
         Assert.assertEquals("new about text", newUser.about);
         Assert.assertEquals("newUsernameXoXo", newUser.username);
         Assert.assertEquals("Germany", newUser.country .name);
+        Assert.assertEquals("new@email", newUser.email);
     }
 
     private fun createCountry(name: String) = Country(

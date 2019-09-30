@@ -33,11 +33,7 @@
                         Your email address is mandatory.
                     </div>
                 </div>
-                <small class="form-text text-muted">
-                    We use this as a source of identification. You can reset your password with it if you happen to forget it, for
-                    instance.<br>
-                    In spite of that and if at all, we might send you an email once a year to inform you about the upcoming
-                    edition of CWT.
+                <small class="form-text text-muted" [innerHTML]="null | cwtEmailNote">
                 </small>
             </div>
             <div class="form-group">

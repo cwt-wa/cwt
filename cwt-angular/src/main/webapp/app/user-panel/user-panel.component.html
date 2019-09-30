@@ -13,6 +13,21 @@
                                name="username" id="username">
                     </div>
                     <div class="form-group">
+                        <label class="sr-only" for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email"
+                               [(ngModel)]="profile.email" name="email" #email="ngModel" email required>
+                        <div class="text-danger" *ngIf="email.errors && email.dirty">
+                            <div [hidden]="!email.errors.email">
+                                The email address is invalid.
+                            </div>
+                            <div [hidden]="!email.errors.required">
+                                Your email address is mandatory.
+                            </div>
+                        </div>
+                        <small class="form-text text-muted" [innerHTML]="null | cwtEmailNote">
+                        </small>
+                    </div>
+                    <div class="form-group">
                         <label for="country">Country</label>
                         <select id="country" class="form-control" [(ngModel)]="profile.country"
                                 name="country">

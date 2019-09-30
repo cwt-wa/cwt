@@ -29,7 +29,6 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
-import java.sql.Timestamp
 import java.util.*
 import javax.security.auth.login.CredentialException
 import javax.servlet.http.HttpServletRequest
@@ -58,7 +57,9 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     @RequestMapping("/{usernameOrId}", method = [RequestMethod.GET])
-    fun getOne(@PathVariable("usernameOrId") usernameOrId: String): ResponseEntity<UserDetailDto> {
+    fun getOne(@PathVariable("usernameOrId") usernameOrId: String,
+               @RequestParam("include-email", defaultValue = "false") includeEmail: Boolean,
+               request: HttpServletRequest): ResponseEntity<UserDetailDto> {
         val isId = try {
             usernameOrId.toLong()
             true
@@ -66,16 +67,21 @@ constructor(private val userService: UserService, private val applicationService
             false
         }
 
-        return if (!isId) {
-            val user = userService.findByUsername(usernameOrId) ?: throw RestException("User not found.", HttpStatus.NOT_FOUND, null)
-            ResponseEntity.ok(UserDetailDto.toDto(
-                    user, UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
-        } else {
-            val user = assertUser(usernameOrId.toLong())
-            ResponseEntity.ok(UserDetailDto.toDto(
-                    user,
-                    UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
+        val user = when {
+            isId -> assertUser(usernameOrId.toLong())
+            else -> userService.findByUsername(usernameOrId)
+                    ?: throw RestException("User not found.", HttpStatus.NOT_FOUND, null)
         }
+
+        if (includeEmail) {
+            val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+            if (authUser.id != user.id) throw RestException("Email address inclusion forbidden.", HttpStatus.BAD_REQUEST, null)
+        }
+
+        return ResponseEntity.ok(UserDetailDto.toDto(
+                user,
+                UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline()),
+                if (includeEmail) user.email else null))
     }
 
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
@@ -156,7 +162,8 @@ constructor(private val userService: UserService, private val applicationService
         try {
             user = userService.changeUser(
                     user, userChangeDto.about, userChangeDto.username,
-                    if (userChangeDto.country != null) userService.findCountryById(userChangeDto.country).orElse(null) else null)
+                    if (userChangeDto.country != null) userService.findCountryById(userChangeDto.country).orElse(null) else null,
+                    userChangeDto.email)
 
             if (upcomingUsernameChange) {
                 val userDetails = userDetailsService.loadUserByUsername(user.username)
@@ -168,6 +175,10 @@ constructor(private val userService: UserService, private val applicationService
             throw RestException("Username invalid.", HttpStatus.BAD_REQUEST, null)
         } catch (e: UserService.UsernameTakenException) {
             throw RestException("Username already taken.", HttpStatus.BAD_REQUEST, null)
+        } catch (e: UserService.InvalidEmailException) {
+            throw RestException("Email address is invalid.", HttpStatus.BAD_REQUEST, null)
+        } catch (e: UserService.EmailExistsException) {
+            throw RestException("Email address is already in use.", HttpStatus.BAD_REQUEST, null)
         }
 
         return null
