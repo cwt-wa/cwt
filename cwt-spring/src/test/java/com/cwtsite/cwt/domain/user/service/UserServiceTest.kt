@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.user.service
 
+import com.cwtsite.cwt.core.EmailService
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
@@ -42,6 +43,7 @@ class UserServiceTest {
     @Mock private lateinit var playoffService: PlayoffService
     @Mock private lateinit var gameRepository: GameRepository
     @Mock private lateinit var countryRepository: CountryRepository
+    @Mock private lateinit var emailService: EmailService
 
     @Test
     fun getRemainingOpponents() {
