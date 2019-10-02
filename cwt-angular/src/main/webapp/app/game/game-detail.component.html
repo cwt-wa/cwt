@@ -33,6 +33,12 @@
     </div>
 
     <div class="alert alert-warning  mt-1" role="alert"
+         *ngIf="game.voided">
+        <i class="fa fa-warning"></i>
+        This game has been voided.
+    </div>
+
+    <div class="alert alert-warning  mt-1" role="alert"
          *ngIf="game.tournament.status === 'FINISHED'">
         <i class="fa fa-warning"></i>
         This game is from a past tournament.

@@ -232,8 +232,10 @@ export interface GameDetailDto {
     reporter?: User;
     ratings?: Rating[];
     tournament: Tournament;
+    voided: boolean;
     replayExists: boolean;
     playoffRoundLocalized: string;
+    created: string;
 }
 
 export interface PlayoffGameDto {

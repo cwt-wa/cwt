@@ -26,6 +26,7 @@ data class GameDetailDto(
         val reporter: User,
         val ratings: List<Rating>,
         val comments: List<Comment>,
+        val voided: Boolean,
         val isReplayExists: Boolean,
         val playoffRoundLocalized: String?
 ) {
@@ -48,6 +49,7 @@ data class GameDetailDto(
                     reporter = game.reporter!!,
                     ratings = game.ratings,
                     comments = game.comments.sortedBy { it.created },
+                    voided = game.voided,
                     isReplayExists = game.replay != null,
                     playoffRoundLocalized = playoffRoundLocalized
             )
