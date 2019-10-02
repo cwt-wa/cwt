@@ -377,8 +377,7 @@ export interface Message {
     category: MessageCategory;
 }
 
-export type MessageNewsType = "REPORT" | "RATING" | "COMMENT"
-
+export type MessageNewsType = "REPORT" | "RATING" | "COMMENT" | "VOIDED"
 
 export interface MessageCreationDto {
     body: string;

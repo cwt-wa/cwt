@@ -1,5 +1,5 @@
 package com.cwtsite.cwt.domain.message.service
 
 enum class MessageNewsType {
-    REPORT, RATING, COMMENT
+    REPORT, RATING, COMMENT, VOIDED
 }

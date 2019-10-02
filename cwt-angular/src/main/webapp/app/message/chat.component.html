@@ -15,6 +15,7 @@
                     <ng-container *ngSwitchCase="'REPORT'">reported</ng-container>
                     <ng-container *ngSwitchCase="'RATING'">{{messageData[5]}}d</ng-container>
                     <ng-container *ngSwitchCase="'COMMENT'">commented</ng-container>
+                    <ng-container *ngSwitchCase="'VOID'">voided</ng-container>
                 </ng-container>
                 <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>
                 <a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[3]}}–{{messageData[4]}}</a>
