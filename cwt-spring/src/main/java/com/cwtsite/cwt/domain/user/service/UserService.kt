@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.user.service
 
+import com.cwtsite.cwt.core.EmailService
 import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.core.toInt
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
@@ -14,14 +15,22 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.Country
 import com.cwtsite.cwt.domain.user.repository.entity.Photo
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Lazy
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronizationAdapter
+import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
+import java.sql.Timestamp
+import java.time.Duration
+import java.time.Instant
 import java.util.*
 import javax.security.auth.login.CredentialException
 
@@ -35,7 +44,10 @@ constructor(private val userRepository: UserRepository,
             private val groupRepository: GroupRepository,
             private val playoffService: PlayoffService,
             private val gameRepository: GameRepository,
-            private val countryRepository: CountryRepository) {
+            private val countryRepository: CountryRepository,
+            @Lazy private val emailService: EmailService) {
+
+    @Value("\${reset-key-expiration-minutes}") private val resetKeyExpirationMinutes: Int? = null
 
     @Transactional
     @Throws(UserService.UserExistsByEmailOrUsernameException::class, UserService.InvalidUsernameException::class, UserService.InvalidEmailException::class)
@@ -168,6 +180,36 @@ constructor(private val userRepository: UserRepository,
         userRepository.save(with(user) { password = newPasswordHashed; this })
     }
 
+    @Transactional
+    fun initiatePasswordReset(user: User) {
+        user.resetKey = RandomStringUtils.random(20, true, true)
+        user.resetDate = Timestamp.from(Instant.now())
+
+        if (TransactionSynchronizationManager.isSynchronizationActive()) {
+            TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronizationAdapter() {
+                override fun afterCommit() {
+                    val message = """
+            Hello ${user.username},
+            
+            you have requested to reset your password and you can do so by clicking the following link:
+            
+            http://cwtsite.com/password-reset?key=${user.resetKey}
+            
+            If you did not request this, please ignore this email.
+            
+            If you have questions, please do not answer to this email but rather contact our support via support@cwtsite.com.
+            
+            Kind regards
+        """.trimIndent()
+
+                    emailService.sendMail(
+                            message, "Password reset", user.email,
+                            EmailService.EMAIL_ADDRESS.NOREPLY)
+                }
+            })
+        }
+    }
+
     fun findAllOrderedByUsername(): List<User> = userRepository.findAll(Sort.by(Sort.Direction.ASC, "username"))
 
     fun validateUsername(username: String): Boolean = username.length <= 16 && username.matches("^[a-zA-Z0-9]+$".toRegex())
@@ -204,6 +246,36 @@ constructor(private val userRepository: UserRepository,
     fun findByUsernames(usernames: List<String>): List<User> = userRepository.findByUsernameIn(usernames)
 
     fun findByUsernamesIgnoreCase(usernames: List<String>): List<User> = userRepository.findByUsernameLowercaseIn(usernames.map {it.toLowerCase()})
+
+    fun findByEmail(email: String): User? {
+        val users = userRepository.findByEmailIgnoreCase(email)
+        if (users.isEmpty()) return null
+        else if (users.size > 1) throw IllegalStateException()
+        return users[0]
+    }
+
+    /**
+     * @throws IllegalArgumentException The reset key is invalid.
+     * @throws IllegalStateException The reset key has expired.
+     */
+    @Transactional
+    @Throws(IllegalArgumentException::class, IllegalStateException::class)
+    fun executePasswordReset(user: User, resetKey: String, password: String): User {
+        if (user.resetKey != resetKey)
+            throw IllegalArgumentException("The reset key is wrong.")
+
+        if (Duration.between(Instant.now(), user.resetDate!!.toInstant()).toMinutes() > resetKeyExpirationMinutes!!)
+            throw IllegalStateException("The reset key has expired.")
+
+        return with(user) {
+            this.password = authService.createHash(password)
+            this.resetKey = null
+            this.resetDate = null
+            this
+        }
+    }
+
+    fun findByResetKey(resetKey: String): User? = userRepository.findByResetKey(resetKey)
 
     inner class UserExistsByEmailOrUsernameException : RuntimeException()
 

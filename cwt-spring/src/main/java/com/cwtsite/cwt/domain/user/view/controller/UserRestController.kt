@@ -25,6 +25,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -40,7 +43,7 @@ constructor(private val userService: UserService, private val applicationService
             private val authService: AuthService, private val tournamentService: TournamentService,
             private val groupService: GroupService, private val playoffService: PlayoffService,
             private val jwtTokenUtil: JwtTokenUtil, private val userDetailsService: UserDetailsService,
-            private val tetrisService: TetrisService) {
+            private val tetrisService: TetrisService, private val authenticationManager: AuthenticationManager) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
@@ -253,6 +256,36 @@ constructor(private val userService: UserService, private val applicationService
 
         val user = userService.getById(userId).orElseThrow { RestException("User $userId not found.", HttpStatus.NOT_FOUND, null) }
         return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, null)))
+    }
+
+    @RequestMapping("/password-forgotten", method = [RequestMethod.POST])
+    fun passwordForgotten(@RequestBody body: Map<String, String>) {
+        val user = body["email"]?.let { userService.findByEmail(it) }
+                ?: throw RestException("Bad request", HttpStatus.BAD_REQUEST, null)
+        userService.initiatePasswordReset(user)
+    }
+
+    @RequestMapping("/reset-password", method = [RequestMethod.POST])
+    fun resetPassword(@RequestBody dto: PasswordResetDto): ResponseEntity<JwtAuthenticationResponse>? {
+        val user = userService.findByResetKey(dto.resetKey)
+                ?: throw RestException("Bad request", HttpStatus.BAD_REQUEST, null)
+        try {
+            userService.executePasswordReset(user, dto.resetKey, dto.password)
+
+            val authentication = authenticationManager.authenticate(
+                    UsernamePasswordAuthenticationToken(user.username, dto.password))
+
+            SecurityContextHolder.getContext().authentication = authentication
+
+            val userDetails = userDetailsService.loadUserByUsername(user.username)
+            val token = jwtTokenUtil.generateToken(userDetails)
+
+            return ResponseEntity.ok(JwtAuthenticationResponse(token))
+        } catch (e: IllegalArgumentException) {
+            throw RestException("This didn't work out.", HttpStatus.BAD_REQUEST, e)
+        } catch (e: IllegalStateException) {
+            throw RestException("Your reset key has expired.", HttpStatus.BAD_REQUEST, e)
+        }
     }
 
     private fun assertUser(id: Long): User = userService.getById(id)

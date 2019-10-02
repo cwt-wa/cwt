@@ -83,6 +83,8 @@ import {NgxCaptchaModule} from 'ngx-captcha';
 import {ReplayLinkPipe} from "./_util/replay-link.pipe";
 import {LiveStreamComponent} from "./stream/live-stream.component";
 import {EmailNote} from "./_util/email-note.pipe";
+import {PasswordForgottenComponent} from "./user/password-forgotten.component";
+import {PasswordResetComponent} from "./user/password-reset.component";
 
 const appRoutes: Routes = [
     {
@@ -211,6 +213,14 @@ const appRoutes: Routes = [
         component: UserPanelComponent
     },
     {
+        path: 'password-forgotten',
+        component: PasswordForgottenComponent
+    },
+    {
+        path: 'password-reset',
+        component: PasswordResetComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -289,6 +299,8 @@ const appRoutes: Routes = [
         WriteRulesComponent,
         HelpComponent,
         AdminChatComponent,
+        PasswordForgottenComponent,
+        PasswordResetComponent,
     ],
     providers: [
         WebAppViewService,
