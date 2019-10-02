@@ -45,4 +45,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByGroup(Group group);
 
     List<Game> findByGroupNotNullAndTournament(Tournament tournament);
+
+    List<Game> findByGroupNotNullAndVoidedFalseAndTournament(Tournament tournament);
 }

@@ -209,7 +209,9 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
 
-    fun findGroupGames(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndTournament(tournament)
+    fun findGroupGamesInclVoided(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndTournament(tournament)
+
+    fun findGroupGames(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndVoidedFalseAndTournament(tournament)
 
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)
 
