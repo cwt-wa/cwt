@@ -1,0 +1,35 @@
+<h1>Void Game</h1>
+
+<p class="lead mb-4">
+    Void a game of this year’s tournament. Group stage standings would be rolled back according to the voided game.
+    The game itself won’t be deleted but it will not affect the standings anymore in case of group stage games.
+    In case of playoffs games the game will be removed from the tree but also still be available via the “Games” tab.
+    The advancing of the voided game’s winner would be rolled back as the game has to be repeated. Conclusively it’s not
+    possible to void playoff games where the following game has already been played.
+</p>
+
+<div class="alert alert-warning" role="alert">
+    <i class="fa fa-warning"></i>
+    Voiding playoff games is currently not supported.
+</div>
+
+<img src="../img/loading.gif" *ngIf="loading"/>
+
+<div class="row justify-content-center mt-4" *ngIf="!loading">
+    <form class="col-12 col-sm-6 col-md-4" (ngSubmit)="onSubmit()" #gameVoidForm="ngForm">
+        <label for="gameToVoid">Game to void</label>
+        <select name="gameToVoid" id="gameToVoid" class="form-control"
+                [(ngModel)]="gameToVoid" required>
+            <optgroup [label]="'Group ' + group.label" *ngFor="let group of groups">
+                <option [value]="game.id" *ngFor="let game of group.games">
+                    {{game.homeUser.username}}
+                    {{game.scoreHome}}–{{game.scoreAway}}
+                    {{game.awayUser.username}}
+                </option>
+            </optgroup>
+        </select>
+        <button type="submit" class="btn btn-primary pull-right mt-1" [disabled]="!gameVoidForm.form.valid">
+            Void Game
+        </button>
+    </form>
+</div>

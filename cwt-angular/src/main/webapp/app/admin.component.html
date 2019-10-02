@@ -57,6 +57,11 @@
                     Replace player
                 </a>
             </li>
+            <li *ngIf="tournament?.status === 'GROUP' || tournament?.status === 'PLAYOFFS'">
+                <a routerLink="/admin/void-game">
+                    Void game
+                </a>
+            </li>
         </ul>
     </div>
 </div>

@@ -85,6 +85,7 @@ import {LiveStreamComponent} from "./stream/live-stream.component";
 import {EmailNote} from "./_util/email-note.pipe";
 import {PasswordForgottenComponent} from "./user/password-forgotten.component";
 import {PasswordResetComponent} from "./user/password-reset.component";
+import {AdminVoidGameComponent} from "./admin-void-game.component";
 
 const appRoutes: Routes = [
     {
@@ -209,6 +210,10 @@ const appRoutes: Routes = [
         component: AdminChatComponent
     },
     {
+        path: 'admin/void-game',
+        component: AdminVoidGameComponent
+    },
+    {
         path: 'user-panel',
         component: UserPanelComponent
     },
@@ -301,6 +306,7 @@ const appRoutes: Routes = [
         AdminChatComponent,
         PasswordForgottenComponent,
         PasswordResetComponent,
+        AdminVoidGameComponent,
     ],
     providers: [
         WebAppViewService,
