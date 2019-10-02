@@ -168,6 +168,22 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return configurationService.getOne(configurationKey)
     }
 
+    @Transactional
+    @Throws(UnsupportedOperationException::class)
+    fun voidGame(game: Game): Game {
+        val currentTournament = tournamentService.getCurrentTournament()
+
+        if (game.tournament.status != TournamentStatus.GROUP)
+            throw UnsupportedOperationException("Currently only group stage games can be reported.")
+
+        if (game.tournament != currentTournament)
+            throw IllegalStateException("Can only void games of current tournament.")
+
+        game.voided = true
+
+        return groupService.reverseStandingsByGame(game)
+    }
+
     fun saveAll(games: List<Game>): List<Game> {
         return gameRepository.saveAll(games)
     }

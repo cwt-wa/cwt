@@ -207,4 +207,11 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun queryBetsForGame(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffTreeBetDto>> = ResponseEntity.ok(
             gameService.findBetsByGame(gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) })
                     .map { PlayoffTreeBetDto.toDto(it) })
+
+    @RequestMapping("/{id}/void", method = [RequestMethod.POST])
+    @Secured(AuthorityRole.ROLE_ADMIN)
+    fun voidGame(@PathVariable("id") id: Long): ResponseEntity<Game> =
+            ResponseEntity.ok(gameService.voidGame(gameService.findById(id)
+                    .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }))
+
 }

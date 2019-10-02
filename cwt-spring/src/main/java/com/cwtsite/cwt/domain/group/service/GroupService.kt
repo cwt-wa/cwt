@@ -101,6 +101,51 @@ constructor(private val groupRepository: GroupRepository,
         return groupRepository.saveAll(groups)
     }
 
+    @Transactional
+    fun reverseStandingsByGame(game: Game): Game {
+        if (game.group == null) throw IllegalArgumentException("Not a group stage game.")
+
+        val pointsPattern = configurationService.parsedPointsPatternConfiguration
+
+        val standingOfHomeUser = game.group!!.standings
+                .find { it.user == game.homeUser } ?: throw IllegalArgumentException()
+
+        val standingOfAwayUser = game.group!!.standings
+                .find { it.user == game.awayUser } ?: throw IllegalArgumentException()
+
+        val standingOfWinner: GroupStanding
+        val standingOfLoser: GroupStanding
+
+        if (game.scoreHome!! > game.scoreAway!!) {
+            standingOfWinner = standingOfHomeUser
+            standingOfLoser = standingOfAwayUser
+
+            standingOfWinner.points = standingOfWinner.points - getPointsForScore(pointsPattern, game.scoreHome!!)
+            standingOfLoser.points = standingOfLoser.points - getPointsForScore(pointsPattern, game.scoreAway!!)
+
+            standingOfWinner.roundRatio = standingOfWinner.roundRatio - (game.scoreHome!! - game.scoreAway!!)
+            standingOfLoser.roundRatio = standingOfLoser.roundRatio + (game.scoreAway!! - game.scoreHome!!)
+        } else {
+            standingOfWinner = standingOfAwayUser
+            standingOfLoser = standingOfHomeUser
+
+            standingOfWinner.points = standingOfWinner.points - getPointsForScore(pointsPattern, game.scoreAway!!)
+            standingOfLoser.points = standingOfLoser.points - getPointsForScore(pointsPattern, game.scoreHome!!)
+
+            standingOfWinner.roundRatio = standingOfWinner.roundRatio - (game.scoreAway!! - game.scoreHome!!)
+            standingOfLoser.roundRatio = standingOfLoser.roundRatio + (game.scoreHome!! - game.scoreAway!!)
+        }
+
+        standingOfWinner.gameRatio = standingOfWinner.gameRatio - 1
+        standingOfLoser.gameRatio = standingOfLoser.gameRatio + 1
+
+        standingOfWinner.games = standingOfWinner.games - 1
+        standingOfLoser.games = standingOfLoser.games - 1
+
+        groupStandingRepository.saveAll(listOf(standingOfWinner, standingOfLoser))
+        return game
+    }
+
     fun save(groups: List<Group>): List<Group> = groupRepository.saveAll(groups)
 
     fun findAllGroupMembers(tournament: Tournament): List<User> = groupRepository.findAllGroupMembers(tournament)
