@@ -25,6 +25,12 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and (g.homeUser is not null " +
             "and g.awayUser is not null) and g.reporter is not null and g.group = :group")
+    List<Game> findPlayedByUserInGroupInclVoided(
+            @Param("user") User user,
+            @Param("group") Group group);
+
+    @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and (g.homeUser is not null " +
+            "and g.awayUser is not null) and g.reporter is not null and g.group = :group and g.voided = false")
     List<Game> findPlayedByUserInGroup(
             @Param("user") User user,
             @Param("group") Group group);

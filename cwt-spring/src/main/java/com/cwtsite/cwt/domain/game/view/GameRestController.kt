@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.util.*
 import javax.servlet.http.HttpServletRequest
+import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("api/game")
@@ -210,8 +211,18 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("/{id}/void", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun voidGame(@PathVariable("id") id: Long): ResponseEntity<Game> =
-            ResponseEntity.ok(gameService.voidGame(gameService.findById(id)
-                    .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }))
+    @Transactional
+    fun voidGame(@PathVariable("id") id: Long, request: HttpServletRequest): ResponseEntity<Game> {
+        val voidedGame = gameService.voidGame(gameService.findById(id)
+                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) })
+
+        messageService.publishNews(
+                MessageNewsType.VOIDED,
+                authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)),
+                voidedGame.id, voidedGame.homeUser!!.username, voidedGame.awayUser!!.username,
+                voidedGame.scoreHome, voidedGame.scoreAway)
+
+        return ResponseEntity.ok(voidedGame)
+    }
 
 }
