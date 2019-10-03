@@ -124,7 +124,7 @@ constructor(private val groupRepository: GroupRepository,
             standingOfLoser.points = standingOfLoser.points - getPointsForScore(pointsPattern, game.scoreAway!!)
 
             standingOfWinner.roundRatio = standingOfWinner.roundRatio - (game.scoreHome!! - game.scoreAway!!)
-            standingOfLoser.roundRatio = standingOfLoser.roundRatio + (game.scoreAway!! - game.scoreHome!!)
+            standingOfLoser.roundRatio = standingOfLoser.roundRatio - (game.scoreAway!! - game.scoreHome!!)
         } else {
             standingOfWinner = standingOfAwayUser
             standingOfLoser = standingOfHomeUser
@@ -133,7 +133,7 @@ constructor(private val groupRepository: GroupRepository,
             standingOfLoser.points = standingOfLoser.points - getPointsForScore(pointsPattern, game.scoreHome!!)
 
             standingOfWinner.roundRatio = standingOfWinner.roundRatio - (game.scoreAway!! - game.scoreHome!!)
-            standingOfLoser.roundRatio = standingOfLoser.roundRatio + (game.scoreHome!! - game.scoreAway!!)
+            standingOfLoser.roundRatio = standingOfLoser.roundRatio - (game.scoreHome!! - game.scoreAway!!)
         }
 
         standingOfWinner.gameRatio = standingOfWinner.gameRatio - 1

@@ -2,6 +2,7 @@ package com.cwtsite.cwt.test
 
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
+import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
@@ -29,7 +30,8 @@ object EntityDefaults {
     )
 
     fun game(id: Long = 1, homeUser: User? = user(id = 1, username = "home"), awayUser: User? = user(id = 2, username = "away"),
-             scoreHome: Int? = 3, scoreAway: Int? = 1, tournament: Tournament = tournament(), playoff: PlayoffGame? = null) = Game(
+             scoreHome: Int? = 3, scoreAway: Int? = 1, tournament: Tournament = tournament(),
+             playoff: PlayoffGame? = null, group: Group? = null) = Game(
             id = id,
             homeUser = homeUser,
             awayUser = awayUser,
@@ -37,6 +39,7 @@ object EntityDefaults {
             scoreAway = scoreAway,
             reporter = homeUser,
             playoff = playoff,
+            group = group,
             tournament = tournament
     )
 

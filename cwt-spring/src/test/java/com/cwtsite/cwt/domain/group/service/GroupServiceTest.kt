@@ -210,6 +210,7 @@ class GroupServiceTest {
                 .filter { it.pairingInvolves(obsoleteUser) }
                 .forEach { Mockito.verify(it).voided = true }
 
+        // TODO These assertions don't make sense since their equals impl. compare only IDs.
         Assertions.assertThat(groupAfterReplacement.standings.find { it.user == newUser }).isEqualTo(GroupStanding(
                 id = 1,
                 user = newUser,
@@ -242,5 +243,99 @@ class GroupServiceTest {
                 roundRatio = -3,
                 points = 0
         ))
+    }
+
+    @Test
+    fun reverseStandingsByGame() {
+        val tournament = EntityDefaults.tournament(status = TournamentStatus.GROUP)
+        val homeUser = EntityDefaults.user(id = 3, username = "Abegod")
+        val awayUser = EntityDefaults.user(id = 2, username = "Kano")
+        val group = with(Group(id = 1, tournament = tournament)) {
+            standings.addAll(listOf(
+                    GroupStanding(
+                            id = 1,
+                            user = EntityDefaults.user(id = 1, username = "Kayz"),
+                            points = 6,
+                            games = 2,
+                            gameRatio = 2,
+                            roundRatio = 4
+                    ),
+                    GroupStanding(
+                            id = 2,
+                            user = awayUser,
+                            points = 6,
+                            games = 3,
+                            gameRatio = 1,
+                            roundRatio = 3
+                    ),
+                    GroupStanding(
+                            id = 3,
+                            user = homeUser,
+                            points = 4,
+                            games = 2,
+                            gameRatio = 0,
+                            roundRatio = 1
+                    ),
+                    GroupStanding(
+                            id = 4,
+                            user = EntityDefaults.user(id = 4, username = "Siwy"),
+                            points = 0,
+                            games = 0,
+                            gameRatio = 0,
+                            roundRatio = 0
+                    ),
+                    GroupStanding(
+                            id = 5,
+                            user = EntityDefaults.user(id = 5, username = "kilobyte"),
+                            points = 0,
+                            games = 1,
+                            gameRatio = -1,
+                            roundRatio = -2
+                    ),
+                    GroupStanding(
+                            id = 6,
+                            user = EntityDefaults.user(id = 6, username = "TheExtremist"),
+                            points = 0,
+                            games = 2,
+                            gameRatio = -2,
+                            roundRatio = -6
+                    )
+            ))
+            this
+        }
+        val game = EntityDefaults.game(
+                homeUser = homeUser, awayUser = awayUser,
+                scoreHome = 3, scoreAway = 1, group = group)
+
+        Mockito
+                .`when`(configurationService.parsedPointsPatternConfiguration)
+                .thenReturn(listOf(intArrayOf(3, 3), intArrayOf(2, 1)))
+
+        Mockito
+                .`when`(groupStandingRepository.saveAll(Mockito.anyIterable<GroupStanding>() as MutableIterable<GroupStanding>))
+                .thenAnswer {
+                    val arg = it.getArgument<List<GroupStanding>>(0)
+                    val standingOfWinner = arg[0]
+                    val standingOfLoser = arg[1]
+
+                    Assertions.assertThat(standingOfWinner.user).isEqualTo(homeUser)
+                    Assertions.assertThat(standingOfLoser.user).isEqualTo(awayUser)
+
+                    Assertions.assertThat(standingOfWinner.points).isEqualTo(1)
+                    Assertions.assertThat(standingOfLoser.points).isEqualTo(6)
+
+                    Assertions.assertThat(standingOfWinner.games).isEqualTo(1)
+                    Assertions.assertThat(standingOfLoser.games).isEqualTo(2)
+
+                    Assertions.assertThat(standingOfWinner.gameRatio).isEqualTo(-1)
+                    Assertions.assertThat(standingOfLoser.gameRatio).isEqualTo(2)
+
+                    Assertions.assertThat(standingOfWinner.roundRatio).isEqualTo(-1)
+                    Assertions.assertThat(standingOfLoser.roundRatio).isEqualTo(5)
+
+                    arg
+                }
+
+        groupService.reverseStandingsByGame(game)
     }
 }
