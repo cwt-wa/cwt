@@ -216,8 +216,10 @@ constructor(private val gameService: GameService, private val userService: UserS
         val voidedGame = try {
             gameService.voidGame(gameService.findById(id)
                     .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) })
-        } catch (e: GameService.GameNotVoidableException) {
+        } catch (e: PlayoffService.PlayoffGameNotVoidableException) {
             throw RestException("The game is not voidable.", HttpStatus.BAD_REQUEST, e)
+        } catch (e: IllegalStateException) {
+            throw RestException(e.message ?: "Could not void game.", HttpStatus.BAD_REQUEST, e)
         }
 
         messageService.publishNews(

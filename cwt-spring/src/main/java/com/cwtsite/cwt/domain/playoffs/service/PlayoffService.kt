@@ -250,4 +250,35 @@ class PlayoffService {
         }
         return Pair(nextRound, nextSpot)
     }
+
+    @Transactional
+    @Throws(PlayoffGameNotVoidableException::class, IllegalStateException::class)
+    fun voidPlayoffGame(game: Game): Game {
+        if (!getVoidableGames().contains(game)) throw PlayoffGameNotVoidableException("Game ${game.id} must not be voided.")
+
+        game.voided = true
+
+        if (!isSomeKindOfFinalGame(game)) {
+            val (nextRound, nextSpot) = determineNextPlayoffSpot(game.playoff!!.round, game.playoff!!.spot)
+            val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
+
+            if (gameToAdvanceTo.isPresent) {
+                if (gameToAdvanceTo.get().wasPlayed()) {
+                    throw IllegalStateException("Cannot void playoff game whose following game has already been played.")
+                }
+                gameRepository.delete(gameToAdvanceTo.get())
+            } else {
+                this.logger.warn("Playoff game ${game.id} has been played but a subsequent game has not been found in the playoff tree.")
+            }
+        }
+
+        return gameRepository.save(Game(
+                homeUser = game.homeUser,
+                awayUser = game.awayUser,
+                tournament = game.tournament,
+                playoff = game.playoff!!.copy(id = null)
+        ))
+    }
+
+    inner class PlayoffGameNotVoidableException internal constructor(message: String) : RuntimeException(message)
 }

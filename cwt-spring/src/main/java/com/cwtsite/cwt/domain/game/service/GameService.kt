@@ -12,7 +12,6 @@ import com.cwtsite.cwt.domain.game.entity.Replay
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
-import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
@@ -170,19 +169,20 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     }
 
     @Transactional
-    @Throws(UnsupportedOperationException::class)
+    @Throws(PlayoffService.PlayoffGameNotVoidableException::class, IllegalStateException::class)
     fun voidGame(game: Game): Game {
         val currentTournament = tournamentService.getCurrentTournament()
 
         if (game.tournament != currentTournament)
             throw IllegalStateException("Can only void games of current tournament.")
 
-        if (game.tournament.status == TournamentStatus.PLAYOFFS && !playoffService.getVoidableGames().contains(game))
-            throw GameNotVoidableException("Game ${game.id} must not be voided.")
-
         game.voided = true
 
-        return groupService.reverseStandingsByGame(game)
+        return when (game.tournament.status) {
+            TournamentStatus.GROUP -> groupService.reverseStandingsByGame(game)
+            TournamentStatus.PLAYOFFS -> playoffService.voidPlayoffGame(game)
+            else -> throw IllegalStateException("Game status must be either group or playoff.")
+        }
     }
 
     fun saveAll(games: List<Game>): List<Game> {
@@ -233,6 +233,4 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)
 
     inner class InvalidOpponentException internal constructor(message: String) : RuntimeException(message)
-
-    inner class GameNotVoidableException internal constructor(message: String) : RuntimeException(message)
 }
