@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "./_services/request.service";
-import {GroupWithGamesDto} from "./custom";
+import {GroupWithGamesDto, PlayoffGameDto, Tournament} from "./custom";
 import {finalize} from "rxjs/operators";
 import {Toastr} from "./_services/toastr";
 import {Router} from "@angular/router";
@@ -15,6 +15,10 @@ export class AdminVoidGameComponent implements OnInit {
     loading: boolean = false;
     groups: GroupWithGamesDto[];
     gameToVoid: string;
+    tournament: Tournament;
+    playoffs: PlayoffGameDto[];
+    isNeitherTournamentStatus: boolean = false;
+    noCurrentTournament: boolean;
 
     constructor(private requestService: RequestService,
                 private toastr: Toastr,
@@ -24,9 +28,24 @@ export class AdminVoidGameComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
 
-        this.requestService.get<GroupWithGamesDto[]>(`tournament/current/group`)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe(res => this.groups = res);
+        this.requestService.get<Tournament>('tournament/current')
+            .subscribe(res => {
+                this.tournament = res;
+
+                if (this.tournament == null) {
+                    this.noCurrentTournament = true;
+                } else if (this.tournament.status === "GROUP") {
+                    this.requestService.get<GroupWithGamesDto[]>(`tournament/current/group`)
+                        .pipe(finalize(() => this.loading = false))
+                        .subscribe(res => this.groups = res);
+                } else if (this.tournament.status === "PLAYOFFS") {
+                    this.requestService.get<PlayoffGameDto[]>(`tournament/current/game/playoff`, {voidable: "true"})
+                        .pipe(finalize(() => this.loading = false))
+                        .subscribe(res => this.playoffs = res);
+                } else {
+                    this.isNeitherTournamentStatus = true;
+                }
+            });
     }
 
     onSubmit() {

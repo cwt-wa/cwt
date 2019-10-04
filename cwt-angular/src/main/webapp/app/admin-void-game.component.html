@@ -8,15 +8,32 @@
     possible to void playoff games where the following game has already been played.
 </p>
 
-<div class="alert alert-warning" role="alert">
-    <i class="fa fa-warning"></i>
-    Voiding playoff games is currently not supported.
+<div class="alert alert-danger" *ngIf="(isNeitherTournamentStatus || noCurrentTournament) && !loading">
+    <i class="fa fa-exclamation-triangle"></i>
+    <span *ngIf="isNeitherTournamentStatus">You can only void games when you’re currently in either group or playoff stage.</span>
+    <span *ngIf="noCurrentTournament">You can only void games of the current tournament</span>
 </div>
 
 <img src="../img/loading.gif" *ngIf="loading"/>
 
-<div class="row justify-content-center mt-4" *ngIf="!loading">
-    <form class="col-12 col-sm-6 col-md-4" (ngSubmit)="onSubmit()" #gameVoidForm="ngForm">
+<div class="row justify-content-center mt-4" *ngIf="!loading && !(isNeitherTournamentStatus || noCurrentTournament)">
+    <form class="col-12 col-sm-6 col-md-4" (ngSubmit)="onSubmit()" #gameVoidForm="ngForm" *ngIf="groups">
+        <label for="gameToVoid">Game to void</label>
+        <select name="gameToVoid" id="gameToVoid" class="form-control"
+                [(ngModel)]="gameToVoid" required>
+            <optgroup [label]="'Group ' + group.label" *ngFor="let group of groups">
+                <option [value]="game.id" *ngFor="let game of group.games">
+                    {{game.homeUser.username}}
+                    {{game.scoreHome}}–{{game.scoreAway}}
+                    {{game.awayUser.username}}
+                </option>
+            </optgroup>
+        </select>
+        <button type="submit" class="btn btn-primary pull-right mt-1" [disabled]="!gameVoidForm.form.valid">
+            Void Game
+        </button>
+    </form>
+    <form class="col-12 col-sm-6 col-md-4" (ngSubmit)="onSubmit()" #gameVoidForm="ngForm" *ngIf="playoffs">
         <label for="gameToVoid">Game to void</label>
         <select name="gameToVoid" id="gameToVoid" class="form-control"
                 [(ngModel)]="gameToVoid" required>

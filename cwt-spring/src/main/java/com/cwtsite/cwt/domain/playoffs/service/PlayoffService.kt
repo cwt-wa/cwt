@@ -12,6 +12,7 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -32,9 +33,37 @@ class PlayoffService {
     @Autowired
     private lateinit var configurationService: ConfigurationService
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     fun getGamesOfTournament(tournament: Tournament): List<Game> {
         return gameRepository.findByTournamentAndPlayoffIsNotNull(tournament)
     }
+
+    fun getVoidableGames(): List<Game> {
+        return gameRepository.findByTournamentAndPlayoffIsNotNull(tournamentService.getCurrentTournament())
+                .filter {
+                    if (!it.wasPlayed()) return@filter false
+                    if (isSomeKindOfFinalGame(it)) return@filter true
+                    val (nextRound, nextSpot) = determineNextPlayoffSpot(it.playoff!!.round, it.playoff!!.spot)
+                    val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(it.tournament, nextRound, nextSpot)
+
+                    if (!gameToAdvanceTo.isPresent) {
+                        this.logger.warn("Playoff game ${it.id} has been played but a subsequent game has not been found in the playoff tree.")
+                        return@filter true
+                    }
+
+                    if (isThreeWayFinalGame(gameToAdvanceTo.get().tournament, gameToAdvanceTo.get().playoff!!.round)) {
+                        return@filter true
+                    }
+
+                    return@filter !gameToAdvanceTo.get().wasPlayed()
+                }
+    }
+
+    private fun isSomeKindOfFinalGame(game: Game): Boolean =
+            isFinalGame(game.tournament, game.playoff!!.round)
+                    || isThirdPlaceGame(game.tournament, game.playoff!!.round)
+                    || isThreeWayFinalGame(game.tournament, game.playoff!!.round)
 
     fun getNextGameForUser(user: User): Game? {
         return gameRepository.findNextPlayoffGameForUser(tournamentService.getCurrentTournament(), user)
@@ -152,16 +181,12 @@ class PlayoffService {
             return emptyList()
         }
 
-        val nextRound = game.playoff!!.round + 1
-        val nextSpot: Int
-        val nextGameAsHomeUser: Boolean
+        val (nextRound, nextSpot: Int) = determineNextPlayoffSpot(game.playoff!!.round, game.playoff!!.spot)
+
         val nextRoundIsThreeWayFinal = isThreeWayFinalGame(game.tournament, nextRound)
-        if (game.playoff!!.spot % 2 != 0) {
-            nextSpot = (game.playoff!!.spot + 1) / 2
-            nextGameAsHomeUser = true
-        } else {
-            nextSpot = game.playoff!!.spot / 2
-            nextGameAsHomeUser = nextRoundIsThreeWayFinal
+        val nextGameAsHomeUser = when (game.playoff!!.spot % 2 != 0) {
+            true -> true
+            false -> nextRoundIsThreeWayFinal
         }
 
         val affectedGames = mutableListOf<Game>()
@@ -213,5 +238,16 @@ class PlayoffService {
         }
 
         return affectedGames
+    }
+
+    private fun determineNextPlayoffSpot(currentRound: Int, currentSpot: Int): Pair<Int, Int> {
+        val nextRound = currentRound + 1
+        val nextSpot: Int
+        if (currentSpot % 2 != 0) {
+            nextSpot = (currentSpot + 1) / 2
+        } else {
+            nextSpot = currentSpot / 2
+        }
+        return Pair(nextRound, nextSpot)
     }
 }

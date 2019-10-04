@@ -309,6 +309,87 @@ class PlayoffServiceTest {
         Assertions.assertThat(playoffService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(7)
     }
 
+    @Test
+    fun getVoidableGames() {
+        val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
+
+        Mockito
+                .`when`(tournamentService.getCurrentTournament())
+                .thenReturn(tournament)
+
+        Mockito
+                .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
+                .thenReturn(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2"))
+
+        val allPlayoffGames = listOf(
+                EntityDefaults.game(
+                        id = 1, tournament = tournament,
+                        homeUser = EntityDefaults.user(id = 1),
+                        awayUser = EntityDefaults.user(id = 2),
+                        scoreHome = null, scoreAway = null,
+                        playoff = PlayoffGame(id = 1, round = 1, spot = 1)
+                ),
+                EntityDefaults.game(
+                        id = 2, tournament = tournament,
+                        homeUser = EntityDefaults.user(id = 3),
+                        awayUser = EntityDefaults.user(id = 4),
+                        scoreHome = null, scoreAway = null,
+                        playoff = PlayoffGame(id = 2, round = 1, spot = 2)
+                ),
+                EntityDefaults.game(
+                        id = 3, tournament = tournament,
+                        homeUser = EntityDefaults.user(id = 4),
+                        awayUser = EntityDefaults.user(id = 5),
+                        scoreHome = null, scoreAway = null,
+                        playoff = PlayoffGame(id = 3, round = 1, spot = 3)
+                ),
+                EntityDefaults.game(
+                        id = 4, tournament = tournament,
+                        homeUser = EntityDefaults.user(id = 6),
+                        awayUser = EntityDefaults.user(id = 7),
+                        scoreHome = null, scoreAway = null,
+                        playoff = PlayoffGame(id = 4, round = 1, spot = 4)
+                ),
+                EntityDefaults.game( // semifinal
+                        id = 5, tournament = tournament,
+                        homeUser = EntityDefaults.user(id = 4),
+                        awayUser = EntityDefaults.user(id = 7),
+                        scoreHome = 3, scoreAway = 0,
+                        playoff = PlayoffGame(id = 5, round = 2, spot = 2)
+                ),
+                EntityDefaults.game( // little final
+                        id = 6, tournament = tournament,
+                        homeUser = null,
+                        awayUser = EntityDefaults.user(id = 7),
+                        scoreHome = null, scoreAway = null,
+                        playoff = PlayoffGame(id = 6, round = 3, spot = 1)
+                ),
+                EntityDefaults.game( // final
+                        id = 7, tournament = tournament,
+                        homeUser = null,
+                        awayUser = EntityDefaults.user(id = 4),
+                        scoreHome = null, scoreAway = null,
+                        playoff = PlayoffGame(id = 7, round = 4, spot = 1)
+                )
+        )
+
+        Mockito
+                .`when`(gameRepository.findByTournamentAndPlayoffIsNotNull(tournament))
+                .thenReturn(allPlayoffGames)
+
+        Mockito
+                .`when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject(), Mockito.anyInt(), Mockito.anyInt()))
+                .thenAnswer {
+                    val round = it.getArgument<Int>(1)
+                    val spot = it.getArgument<Int>(2)
+                    Optional.of(allPlayoffGames.find { pG -> pG.playoff!!.round == round && pG.playoff!!.spot == spot }!!)
+                }
+
+        Assertions
+                .assertThat(playoffService.getVoidableGames())
+                .containsExactlyInAnyOrder(allPlayoffGames.find { it.id == 5L }!!)
+    }
+
     private fun mockNumberOfGroupMembersAdvancing() {
         Mockito
                 .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))

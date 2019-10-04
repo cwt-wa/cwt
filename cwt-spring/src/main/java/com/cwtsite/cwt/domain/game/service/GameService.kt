@@ -174,11 +174,11 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun voidGame(game: Game): Game {
         val currentTournament = tournamentService.getCurrentTournament()
 
-        if (game.tournament.status != TournamentStatus.GROUP)
-            throw UnsupportedOperationException("Currently only group stage games can be reported.")
-
         if (game.tournament != currentTournament)
             throw IllegalStateException("Can only void games of current tournament.")
+
+        if (game.tournament.status == TournamentStatus.PLAYOFFS && !playoffService.getVoidableGames().contains(game))
+            throw GameNotVoidableException("Game ${game.id} must not be voided.")
 
         game.voided = true
 
@@ -233,4 +233,6 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     inner class InvalidScoreException internal constructor(message: String) : RuntimeException(message)
 
     inner class InvalidOpponentException internal constructor(message: String) : RuntimeException(message)
+
+    inner class GameNotVoidableException internal constructor(message: String) : RuntimeException(message)
 }

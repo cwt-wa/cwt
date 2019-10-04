@@ -213,8 +213,12 @@ constructor(private val gameService: GameService, private val userService: UserS
     @Secured(AuthorityRole.ROLE_ADMIN)
     @Transactional
     fun voidGame(@PathVariable("id") id: Long, request: HttpServletRequest): ResponseEntity<Game> {
-        val voidedGame = gameService.voidGame(gameService.findById(id)
-                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) })
+        val voidedGame = try {
+            gameService.voidGame(gameService.findById(id)
+                    .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) })
+        } catch (e: GameService.GameNotVoidableException) {
+            throw RestException("The game is not voidable.", HttpStatus.BAD_REQUEST, e)
+        }
 
         messageService.publishNews(
                 MessageNewsType.VOIDED,

@@ -52,13 +52,14 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("current/game/playoff", method = [RequestMethod.GET])
-    fun getPlayoffGamesOfCurrentTournament(): ResponseEntity<List<PlayoffGameDto>> {
+    fun getPlayoffGamesOfCurrentTournament(@RequestParam("voidable", defaultValue = "false") voidable: Boolean): ResponseEntity<List<PlayoffGameDto>> {
         val currentTournament = try {
             tournamentService.getCurrentTournament()
         } catch (e: RuntimeException) {
             throw RestException("There is currently no tournament.", HttpStatus.BAD_REQUEST, e)
         }
 
+        if (voidable) return ResponseEntity.ok(playoffService.getVoidableGames().map { PlayoffGameDto.toDto(it) })
         return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { PlayoffGameDto.toDto(it) })
     }
 
