@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,6 +41,14 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             @Param("tournament") Tournament tournament,
             @Param("round") int round,
             @Param("spot") int spot);
+
+    @Query("select g from Game g where tournament = :tournament and g.playoff.round = :round " +
+            "and (g.homeUser = :user or g.awayUser = :user)")
+    List<Game> findGameInPlayoffTree(
+            @Param("tournament") Tournament tournament,
+            @Param("user") User user,
+            @Param("round") int round);
+
 
     @Query("select g from Game g where g.playoff.round >= :finalRound and g.homeUser is not null and g.awayUser is not null")
     List<Game> findReadyGamesInRoundEqualOrGreaterThan(@Param("finalRound") int finalRound);

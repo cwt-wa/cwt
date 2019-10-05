@@ -260,28 +260,34 @@ class PlayoffService {
 
         if (!isSomeKindOfFinalGame(game)) {
             val (nextRound, nextSpot) = nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot)
-            val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
 
-            if (gameToAdvanceTo.isPresent) {
-                if (gameToAdvanceTo.get().wasPlayed()) {
-                    throw IllegalStateException("Cannot void playoff game whose following game has already been played.")
-                }
+            if (isThreeWayFinalGame(game.tournament, nextRound)) {
+                val threeWayGamesToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, game.winner(), nextRound)
+                threeWayGamesToAdvanceTo.forEach { gameRepository.delete(it) }
+            } else {
+                val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
 
-                gameRepository.delete(gameToAdvanceTo.get())
-
-                if (isThirdPlaceGame(gameToAdvanceTo.get().tournament, gameToAdvanceTo.get().playoff!!.round)) {
-                    val finalGame = gameRepository.findGameInPlayoffTree(
-                            gameToAdvanceTo.get().tournament,
-                            gameToAdvanceTo.get().playoff!!.round + 1, 1) // final
-
-                    if (finalGame.get().wasPlayed()) {
-                        throw IllegalStateException("Cannot void playoff semifinal game whose following final game has already been played.")
+                if (gameToAdvanceTo.isPresent) {
+                    if (gameToAdvanceTo.get().wasPlayed()) {
+                        throw IllegalStateException("Cannot void playoff game whose following game has already been played.")
                     }
 
-                    gameRepository.delete(finalGame.get())
+                    gameRepository.delete(gameToAdvanceTo.get())
+
+                    if (isThirdPlaceGame(gameToAdvanceTo.get().tournament, gameToAdvanceTo.get().playoff!!.round)) {
+                        val finalGame = gameRepository.findGameInPlayoffTree(
+                                gameToAdvanceTo.get().tournament,
+                                gameToAdvanceTo.get().playoff!!.round + 1, 1) // final
+
+                        if (finalGame.get().wasPlayed()) {
+                            throw IllegalStateException("Cannot void playoff semifinal game whose following final game has already been played.")
+                        }
+
+                        gameRepository.delete(finalGame.get())
+                    }
+                } else {
+                    this.logger.warn("Playoff game ${game.id} has been played but a subsequent game has not been found in the playoff tree.")
                 }
-            } else {
-                this.logger.warn("Playoff game ${game.id} has been played but a subsequent game has not been found in the playoff tree.")
             }
         }
 
