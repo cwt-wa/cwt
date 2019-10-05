@@ -44,7 +44,7 @@ class PlayoffService {
                 .filter {
                     if (!it.wasPlayed()) return@filter false
                     if (isSomeKindOfFinalGame(it)) return@filter true
-                    val (nextRound, nextSpot) = determineNextPlayoffSpot(it.playoff!!.round, it.playoff!!.spot)
+                    val (nextRound, nextSpot) = nextPlayoffSpotForOneWayFinalTree(it.playoff!!.round, it.playoff!!.spot)
                     val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(it.tournament, nextRound, nextSpot)
 
                     if (!gameToAdvanceTo.isPresent) {
@@ -181,7 +181,7 @@ class PlayoffService {
             return emptyList()
         }
 
-        val (nextRound, nextSpot: Int) = determineNextPlayoffSpot(game.playoff!!.round, game.playoff!!.spot)
+        val (nextRound, nextSpot: Int) = nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot)
 
         val nextRoundIsThreeWayFinal = isThreeWayFinalGame(game.tournament, nextRound)
         val nextGameAsHomeUser = when (game.playoff!!.spot % 2 != 0) {
@@ -240,7 +240,7 @@ class PlayoffService {
         return affectedGames
     }
 
-    private fun determineNextPlayoffSpot(currentRound: Int, currentSpot: Int): Pair<Int, Int> {
+    private fun nextPlayoffSpotForOneWayFinalTree(currentRound: Int, currentSpot: Int): Pair<Int, Int> {
         val nextRound = currentRound + 1
         val nextSpot: Int
         if (currentSpot % 2 != 0) {
@@ -259,7 +259,7 @@ class PlayoffService {
         game.voided = true
 
         if (!isSomeKindOfFinalGame(game)) {
-            val (nextRound, nextSpot) = determineNextPlayoffSpot(game.playoff!!.round, game.playoff!!.spot)
+            val (nextRound, nextSpot) = nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot)
             val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
 
             if (gameToAdvanceTo.isPresent) {
