@@ -386,7 +386,7 @@ class PlayoffServiceTest {
                 }
 
         Assertions
-                .assertThat(playoffService.getVoidableGames())
+                .assertThat(playoffService.getVoidablePlayoffGames())
                 .containsExactlyInAnyOrder(allPlayoffGames.find { it.id == 5L }!!)
     }
 

@@ -39,7 +39,7 @@ class PlayoffService {
         return gameRepository.findByTournamentAndPlayoffIsNotNull(tournament)
     }
 
-    fun getVoidableGames(): List<Game> {
+    fun getVoidablePlayoffGames(): List<Game> {
         return gameRepository.findByTournamentAndPlayoffIsNotNull(tournamentService.getCurrentTournament())
                 .filter {
                     if (!it.wasPlayed()) return@filter false
@@ -254,7 +254,7 @@ class PlayoffService {
     @Transactional
     @Throws(PlayoffGameNotVoidableException::class, IllegalStateException::class)
     fun voidPlayoffGame(game: Game): Game {
-        if (!getVoidableGames().contains(game)) throw PlayoffGameNotVoidableException("Game ${game.id} must not be voided.")
+        if (!getVoidablePlayoffGames().contains(game)) throw PlayoffGameNotVoidableException("Game ${game.id} must not be voided.")
 
         game.voided = true
 

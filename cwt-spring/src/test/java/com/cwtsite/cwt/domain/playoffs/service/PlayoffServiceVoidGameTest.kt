@@ -48,7 +48,7 @@ class PlayoffServiceVoidGameTest {
 
         Mockito
                 .doReturn(listOf(voidableGame))
-                .`when`(spiedPlayoffService).getVoidableGames()
+                .`when`(spiedPlayoffService).getVoidablePlayoffGames()
 
         mockNumberOfPlayoffRoundsInTournament(spiedPlayoffService, tournament, 3)
 
@@ -112,7 +112,7 @@ class PlayoffServiceVoidGameTest {
 
         Mockito
                 .doReturn(listOf(voidableGame))
-                .`when`(spiedPlayoffService).getVoidableGames()
+                .`when`(spiedPlayoffService).getVoidablePlayoffGames()
 
         mockNumberOfPlayoffRoundsInTournament(spiedPlayoffService, tournament, 2)
 

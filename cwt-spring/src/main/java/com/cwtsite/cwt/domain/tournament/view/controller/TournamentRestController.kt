@@ -59,7 +59,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
             throw RestException("There is currently no tournament.", HttpStatus.BAD_REQUEST, e)
         }
 
-        if (voidable) return ResponseEntity.ok(playoffService.getVoidableGames().map { PlayoffGameDto.toDto(it) })
+        if (voidable) return ResponseEntity.ok(playoffService.getVoidablePlayoffGames().map { PlayoffGameDto.toDto(it) })
         return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { PlayoffGameDto.toDto(it) })
     }
 
