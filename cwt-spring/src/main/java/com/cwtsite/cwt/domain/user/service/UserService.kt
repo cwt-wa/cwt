@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -42,7 +43,7 @@ constructor(private val userRepository: UserRepository,
             private val tournamentRepository: TournamentRepository,
             private val applicationRepository: ApplicationRepository,
             private val groupRepository: GroupRepository,
-            private val playoffService: PlayoffService,
+            private val treeService: TreeService,
             private val gameRepository: GameRepository,
             private val countryRepository: CountryRepository,
             @Lazy private val emailService: EmailService) {
@@ -95,7 +96,7 @@ constructor(private val userRepository: UserRepository,
                 userCanReportForCurrentTournament = numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed
             }
         } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
-            userCanReportForCurrentTournament = playoffService.getNextGameForUser(user) != null
+            userCanReportForCurrentTournament = treeService.getNextGameForUser(user) != null
         } else {
             userCanReportForCurrentTournament = false
         }
@@ -124,7 +125,7 @@ constructor(private val userRepository: UserRepository,
                         .filter { u -> u != user }
             }
             TournamentStatus.PLAYOFFS -> {
-                val nextPlayoffGameForUser = playoffService.getNextGameForUser(user)
+                val nextPlayoffGameForUser = treeService.getNextGameForUser(user)
 
                 remainingOpponents = if (nextPlayoffGameForUser == null) emptyList() else {
                     if (nextPlayoffGameForUser.homeUser == user) listOf(nextPlayoffGameForUser.awayUser!!)

@@ -10,6 +10,7 @@ import com.cwtsite.cwt.domain.game.view.model.*
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -37,7 +38,7 @@ import javax.transaction.Transactional
 @RequestMapping("api/game")
 class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService, private val messageService: MessageService,
-            private val authService: AuthService, private val playoffService: PlayoffService) {
+            private val authService: AuthService, private val playoffService: PlayoffService, private val treeService: TreeService) {
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
@@ -52,7 +53,7 @@ constructor(private val gameService: GameService, private val userService: UserS
                 when {
                     game.playoff() -> GameDetailDto.localizePlayoffRound(
                             game.tournament.threeWay!!,
-                            playoffService.getNumberOfPlayoffRoundsInTournament(game.tournament),
+                            treeService.getNumberOfPlayoffRoundsInTournament(game.tournament),
                             game.playoff!!.round)
                     else -> null
                 })

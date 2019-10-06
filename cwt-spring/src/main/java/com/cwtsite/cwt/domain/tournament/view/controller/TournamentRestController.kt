@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.tournament.view.model.*
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpServletRequest
 class TournamentRestController @Autowired
 constructor(private val tournamentService: TournamentService, private val userService: UserService,
             private val groupService: GroupService, private val playoffService: PlayoffService,
-            private val gameService: GameService) {
+            private val gameService: GameService, private val treeService: TreeService) {
 
     @RequestMapping("/current", method = [RequestMethod.GET])
     fun findCurrentTournament(): ResponseEntity<Tournament> {
@@ -59,7 +60,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
             throw RestException("There is currently no tournament.", HttpStatus.BAD_REQUEST, e)
         }
 
-        if (voidable) return ResponseEntity.ok(playoffService.getVoidablePlayoffGames().map { PlayoffGameDto.toDto(it) })
+        if (voidable) return ResponseEntity.ok(treeService.getVoidablePlayoffGames().map { PlayoffGameDto.toDto(it) })
         return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { PlayoffGameDto.toDto(it) })
     }
 

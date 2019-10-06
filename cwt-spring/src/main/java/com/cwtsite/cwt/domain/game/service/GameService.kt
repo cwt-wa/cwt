@@ -13,6 +13,7 @@ import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
@@ -38,12 +39,15 @@ import java.io.IOException
 import java.util.*
 import kotlin.math.ceil
 
+// todo wtf deps?!
+
 @Component
 class GameService @Autowired
 constructor(private val gameRepository: GameRepository, private val tournamentService: TournamentService, private val groupRepository: GroupRepository,
             private val userRepository: UserRepository, private val groupService: GroupService, private val ratingRepository: RatingRepository,
             private val commentRepository: CommentRepository, private val configurationService: ConfigurationService, private val userService: UserService,
-            private val playoffService: PlayoffService, private val betRepository: BetRepository, private val scheduleService: ScheduleService) {
+            private val playoffService: PlayoffService, private val betRepository: BetRepository, private val scheduleService: ScheduleService,
+            private val treeService: TreeService) {
 
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class, FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class, IOException::class)
@@ -157,7 +161,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         if (tournamentStatus == TournamentStatus.GROUP) {
             configurationKey = ConfigurationKey.GROUP_GAMES_BEST_OF
         } else if (tournamentStatus == TournamentStatus.PLAYOFFS) {
-            configurationKey = if (playoffService.onlyFinalGamesAreLeftToPlay())
+            configurationKey = if (treeService.onlyFinalGamesAreLeftToPlay())
                 ConfigurationKey.FINAL_GAME_BEST_OF
             else
                 ConfigurationKey.PLAYOFF_GAMES_BEST_OF

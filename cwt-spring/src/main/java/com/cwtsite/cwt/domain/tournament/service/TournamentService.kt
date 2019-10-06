@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.UserRepository
@@ -30,7 +31,7 @@ class TournamentService {
     private lateinit var gameRepository: GameRepository
 
     @Autowired
-    private lateinit var playoffService: PlayoffService
+    private lateinit var treeService: TreeService
 
 
     /**
@@ -53,8 +54,8 @@ class TournamentService {
     fun startPlayoffs(games: List<Game>): List<Game> {
         val currentTournament = getCurrentTournament()
         currentTournament.status = TournamentStatus.PLAYOFFS
-        currentTournament.maxRounds = playoffService.getNumberOfPlayoffRoundsInTournament(currentTournament)
-        currentTournament.threeWay = playoffService.isPlayoffTreeWithThreeWayFinal(currentTournament)
+        currentTournament.maxRounds = treeService.getNumberOfPlayoffRoundsInTournament(currentTournament)
+        currentTournament.threeWay = treeService.isPlayoffTreeWithThreeWayFinal(currentTournament)
         tournamentRepository.save(currentTournament)
         return gameRepository.saveAll(games)
     }

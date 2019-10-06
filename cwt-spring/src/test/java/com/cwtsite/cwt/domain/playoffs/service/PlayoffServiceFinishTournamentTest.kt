@@ -18,68 +18,58 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class PlayoffServiceFinishTournamentTest {
 
-    @InjectMocks
-    private lateinit var playoffService: PlayoffService
-
-    @Mock
-    private lateinit var gameRepository: GameRepository
-
-    @Mock
-    private lateinit var configurationService: ConfigurationService
-
-    @Mock
-    private lateinit var groupRepository: GroupRepository
-
-    @Mock
-    private lateinit var tournamentService: TournamentService
-
-    @Mock
-    private lateinit var tournamentRepository: TournamentRepository
+    @InjectMocks private lateinit var playoffService: PlayoffService
+    @Mock private lateinit var gameRepository: GameRepository
+    @Mock private lateinit var configurationService: ConfigurationService
+    @Mock private lateinit var groupRepository: GroupRepository
+    @Mock private lateinit var tournamentService: TournamentService
+    @Mock private lateinit var tournamentRepository: TournamentRepository
+    @Mock private lateinit var treeService: TreeService
 
     private val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
 
     @Test
     fun advanceByGame_isFinalGame() {
-        initOneWayFinal()
         val (finalGame, thirdPlaceGame) = createOneWayFinalGames()
 
-        Mockito
-                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, finalGame.playoff!!.round - 1))
+        lenient().`when`(treeService.isFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(true)
+        lenient().`when`(treeService.isThirdPlaceGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+        lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+
+        `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, finalGame.playoff!!.round - 1))
                 .thenReturn(listOf(thirdPlaceGame))
 
         playoffService.advanceByGame(finalGame)
 
-        Mockito
-                .verify(tournamentService)
+        verify(tournamentService)
                 .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, false)
     }
 
     @Test
     fun advanceByGame_isThirdPlaceGame() {
-        initOneWayFinal()
         val (finalGame, thirdPlaceGame) = createOneWayFinalGames()
 
-        Mockito
-                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, thirdPlaceGame.playoff!!.round + 1))
+        lenient().`when`(treeService.isFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+        lenient().`when`(treeService.isThirdPlaceGame(MockitoUtils.anyObject(), anyInt())).thenReturn(true)
+        lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+
+        `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, thirdPlaceGame.playoff!!.round + 1))
                 .thenReturn(listOf(finalGame))
 
         playoffService.advanceByGame(thirdPlaceGame)
 
-        Mockito
-                .verify(tournamentService)
+        verify(tournamentService)
                 .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, false)
     }
 
     @Test
     fun advanceByGame_isThreeWayFinalGame() {
-        initThreeWayFinal()
-
         val user1 = EntityDefaults.user(id = 1, username = "user1")
         val user2 = EntityDefaults.user(id = 2, username = "user2")
         val user3 = EntityDefaults.user(id = 3, username = "user3")
@@ -94,8 +84,11 @@ class PlayoffServiceFinishTournamentTest {
                 tournament = tournament
         )
 
-        Mockito
-                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
+        lenient().`when`(treeService.isFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+        lenient().`when`(treeService.isThirdPlaceGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+        lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(true)
+
+        `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
                 .thenReturn(listOf(
                         EntityDefaults.game(
                                 id = 1,
@@ -118,13 +111,11 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(game)
 
-        Mockito.verify(tournamentService).finish(user1, user3, user2, game.playoff!!.round, true)
+        verify(tournamentService).finish(user1, user3, user2, game.playoff!!.round, true)
     }
 
     @Test
     fun advanceByGame_isTiedThreeWayFinalGame() {
-        initThreeWayFinal()
-
         val user1 = EntityDefaults.user(id = 1, username = "user1")
         val user2 = EntityDefaults.user(id = 2, username = "user2")
         val user3 = EntityDefaults.user(id = 3, username = "user3")
@@ -166,12 +157,14 @@ class PlayoffServiceFinishTournamentTest {
                         tournament = tournament)
         )
 
-        Mockito
-                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
+        lenient().`when`(treeService.isFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+        lenient().`when`(treeService.isThirdPlaceGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
+        lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(true)
+
+        `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
                 .thenReturn(threeWayFinalGames)
 
-        Mockito
-                .`when`(gameRepository.saveAll(MockitoUtils.anyObject<MutableIterable<Game>>()))
+        `when`(gameRepository.saveAll(MockitoUtils.anyObject<MutableIterable<Game>>()))
                 .thenAnswer { answer ->
                     val games = answer.getArgument<MutableIterable<Game>>(0)
                     Assertions.assertThat(games).containsExactlyInAnyOrder(*threeWayFinalGames.toTypedArray())
@@ -189,41 +182,6 @@ class PlayoffServiceFinishTournamentTest {
                 }
 
         playoffService.advanceByGame(game)
-    }
-
-    private fun initThreeWayFinal() {
-        Mockito
-                .`when`(groupRepository.countByTournament(MockitoUtils.anyObject<Tournament>()))
-                .thenReturn(3)
-
-        Mockito
-                .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
-                .thenReturn(Configuration(
-                        key = ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING,
-                        value = "2",
-                        author = EntityDefaults.user()
-                ))
-
-        Mockito
-                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
-                .thenReturn(Mockito.spy<ArrayList<Game>>(object : ArrayList<Game>() {
-                    override val size: Int
-                        get() = 3
-                }))
-    }
-
-    private fun initOneWayFinal() {
-        Mockito
-                .`when`(groupRepository.countByTournament(MockitoUtils.anyObject<Tournament>()))
-                .thenReturn(8)
-
-        Mockito
-                .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
-                .thenReturn(Configuration(
-                        key = ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING,
-                        value = "2",
-                        author = EntityDefaults.user()
-                ))
     }
 
     private fun createOneWayFinalGames(): Pair<Game, Game> {

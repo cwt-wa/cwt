@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
+import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
@@ -44,6 +45,7 @@ class UserServiceTest {
     @Mock private lateinit var gameRepository: GameRepository
     @Mock private lateinit var countryRepository: CountryRepository
     @Mock private lateinit var emailService: EmailService
+    @Mock private lateinit var treeService: TreeService
 
     @Test
     fun getRemainingOpponents() {
