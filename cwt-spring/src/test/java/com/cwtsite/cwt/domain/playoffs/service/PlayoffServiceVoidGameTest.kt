@@ -52,10 +52,6 @@ class PlayoffServiceVoidGameTest {
         mockNumberOfPlayoffRoundsInTournament(spiedPlayoffService, tournament, 3)
 
         Mockito
-                .`when`(gameRepository.findByTournamentAndPlayoffIsNotNull(tournament))
-                .thenReturn(playoffGames)
-
-        Mockito
                 .`when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject<Tournament>(), Mockito.anyInt(), Mockito.anyInt()))
                 .thenAnswer {
                     Optional.of(playoffGames.find { pG ->
