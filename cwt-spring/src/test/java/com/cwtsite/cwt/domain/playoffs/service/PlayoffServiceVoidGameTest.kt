@@ -11,6 +11,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions
+import org.junit.ComparisonFailure
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -124,6 +125,7 @@ class PlayoffServiceVoidGameTest {
         val mockThreeWayFinalGame = { playoffId: Long, round: Int, spot: Int ->
             val gameMock = Mockito.mock(Game::class.java)
             Mockito.`when`(gameMock.playoff).thenReturn(PlayoffGame(id = playoffId, round = round, spot = spot))
+            Mockito.`when`(gameMock.homeUser).thenReturn(voidableGame.awayUser)
             gameMock
         }
 
@@ -134,16 +136,27 @@ class PlayoffServiceVoidGameTest {
                 .thenReturn(threeWayFinalGames)
 
         Mockito
+                .`when`(gameRepository.delete(MockitoUtils.anyObject<Game>()))
+                .thenAnswer {
+                    val gameToBeDeleted = it.getArgument<Game>(0)
+                    Assertions.assertThat(gameToBeDeleted.playoff!!.round).isEqualTo(2)
+                    try {
+                        Assertions.assertThat(gameToBeDeleted.homeUser).isEqualTo(voidableGame.awayUser)
+                    } catch (e: ComparisonFailure) {
+                        Assertions.assertThat(gameToBeDeleted.awayUser).isEqualTo(voidableGame.awayUser)
+                    }
+                }
+
+        Mockito
                 .`when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
                 .thenAnswer { it.getArgument<Game>(0) }
 
         val replacementGame = spiedPlayoffService.voidPlayoffGame(voidableGame)
-
         assertReplacementGame(replacementGame, voidableGame)
 
-        Mockito.verify(gameRepository).findGameInPlayoffTree(threeWayFinalGames[0].tournament, voidableGame.awayUser, 2)
-        Mockito.verify(gameRepository).findGameInPlayoffTree(threeWayFinalGames[1].tournament, voidableGame.awayUser, 2)
+        Mockito.verify(gameRepository, Mockito.times(2)).delete(MockitoUtils.anyObject<Game>())
     }
+
 
     private fun assertReplacementGame(replacementPlayoffGame: Game, voidableGame: Game) {
         Assertions.assertThat(replacementPlayoffGame.id).isNull()
