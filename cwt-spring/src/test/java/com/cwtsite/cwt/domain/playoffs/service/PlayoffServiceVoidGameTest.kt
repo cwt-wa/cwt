@@ -11,7 +11,6 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions
-import org.junit.ComparisonFailure
 import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -21,7 +20,6 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 import kotlin.test.Test
 
-@Ignore("Mocking has gotta be fixed.")
 @RunWith(MockitoJUnitRunner::class)
 class PlayoffServiceVoidGameTest {
 
@@ -85,58 +83,74 @@ class PlayoffServiceVoidGameTest {
 
         val replacementPlayoffGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementPlayoffGame, game)
+        verify(gameRepository, times(2)).delete(MockitoUtils.anyObject<Game>())
         Assertions.assertThat(game.voided).isTrue()
     }
 
     @Test
-    fun `delete affected three-way final games when semifinal game is to be voided`() {
-        val spiedPlayoffService = spy(playoffService)
-        val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
-        val voidableGame = EntityDefaults.game(
-                homeUser = EntityDefaults.user(id = 1, username = "Zemke"),
-                awayUser = EntityDefaults.user(id = 2, username = "Koras"),
-                scoreHome = 2,
-                scoreAway = 3,
-                playoff = PlayoffGame(id = 1, round = 1, spot = 2),
-                tournament = tournament
+    fun `delete affected three-way final games when semifinal game is voided`() {
+        val game = Game(
+                id = 1,
+                tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                homeUser = EntityDefaults.user(),
+                awayUser = EntityDefaults.user(id = 2, username = "Kayz"),
+                scoreHome = 3,
+                scoreAway = 2,
+                playoff = PlayoffGame(id = 1, round = 1, spot = 2)
+        )
+        val threeWayFinals = listOf(
+                Game(
+                        id = 2,
+                        tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                        homeUser = game.winner(),
+                        awayUser = null,
+                        playoff = PlayoffGame(id = 1, round = 3, spot = 1)
+                ),
+                Game(
+                        id = 3,
+                        tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                        homeUser = game.winner(),
+                        awayUser = null,
+                        playoff = PlayoffGame(id = 1, round = 3, spot = 2)
+                ),
+                Game(
+                        id = 4,
+                        tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                        homeUser = null,
+                        awayUser = null,
+                        playoff = PlayoffGame(id = 1, round = 3, spot = 3)
+                )
         )
 
-        `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(voidableGame))
 
-        val spiedList = spy(List::class.java); doReturn(3).`when`(spiedList).size
-        doReturn(spiedList).`when`(gameRepository).findByTournamentAndRoundAndNotVoided(tournament, 1)
+        `when`(treeService.getVoidablePlayoffGames())
+                .thenReturn(listOf(game))
 
-        val mockThreeWayFinalGame = { playoffId: Long, round: Int, spot: Int ->
-            val gameMock = mock(Game::class.java)
-            `when`(gameMock.playoff).thenReturn(PlayoffGame(id = playoffId, round = round, spot = spot))
-            `when`(gameMock.homeUser).thenReturn(voidableGame.awayUser)
-            gameMock
-        }
+        `when`(treeService.isSomeKindOfFinalGame(game))
+                .thenReturn(false)
 
-        val threeWayFinalGames = listOf(mockThreeWayFinalGame(2, 2, 1), mockThreeWayFinalGame(3, 2, 2))
+        `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
+                .thenReturn(Pair(game.playoff!!.round + 1, 1))
 
-        `when`(gameRepository.findGameInPlayoffTree(voidableGame.tournament, voidableGame.awayUser, voidableGame.playoff!!.round + 1))
-                .thenReturn(threeWayFinalGames)
+        `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round + 1))
+                .thenReturn(true)
 
-        `when`(gameRepository.delete(MockitoUtils.anyObject<Game>()))
-                .thenAnswer {
-                    val gameToBeDeleted = it.getArgument<Game>(0)
-                    Assertions.assertThat(gameToBeDeleted.playoff!!.round).isEqualTo(2)
-                    try {
-                        Assertions.assertThat(gameToBeDeleted.homeUser).isEqualTo(voidableGame.awayUser)
-                    } catch (e: ComparisonFailure) {
-                        Assertions.assertThat(gameToBeDeleted.awayUser).isEqualTo(voidableGame.awayUser)
-                    }
-                }
+        `when`(gameRepository.findGameInPlayoffTree(game.tournament, game.winner(), game.playoff!!.round + 1))
+                .thenReturn(threeWayFinals)
 
-        `when`(gameRepository.save(MockitoUtils.anyObject<Game>())).thenAnswer { it.getArgument<Game>(0) }
+        `when`(gameRepository.delete(MockitoUtils.anyObject()))
+                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[0]) }
+                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[1]) }
+                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[2]) }
 
-        val replacementGame = spiedPlayoffService.voidPlayoffGame(voidableGame)
-        assertReplacementGame(replacementGame, voidableGame)
+        `when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
+                .thenAnswer { it.getArgument<Game>(0) }
 
-        verify(gameRepository, times(2)).delete(MockitoUtils.anyObject<Game>())
+        val replacementGame = playoffService.voidPlayoffGame(game)
+        assertReplacementGame(replacementGame, game)
+        verify(gameRepository, times(3)).delete(MockitoUtils.anyObject<Game>())
+        Assertions.assertThat(game.voided).isTrue()
     }
-
 
     private fun assertReplacementGame(replacementPlayoffGame: Game, voidableGame: Game) {
         Assertions.assertThat(replacementPlayoffGame.id).isNull()
@@ -151,59 +165,5 @@ class PlayoffServiceVoidGameTest {
         Assertions.assertThat(replacementPlayoffGame.reporter).isNull()
         Assertions.assertThat(replacementPlayoffGame.voided).isFalse()
         Assertions.assertThat(replacementPlayoffGame.created).isNull()
-    }
-
-    private fun createExamplePlayoffTree(tournament: Tournament): List<Game> {
-        return listOf(
-                EntityDefaults.game(
-                        id = 1, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 1),
-                        awayUser = EntityDefaults.user(id = 2),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 1, round = 1, spot = 1)
-                ),
-                EntityDefaults.game(
-                        id = 2, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 3),
-                        awayUser = EntityDefaults.user(id = 4),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 2, round = 1, spot = 2)
-                ),
-                EntityDefaults.game(
-                        id = 3, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 4),
-                        awayUser = EntityDefaults.user(id = 5),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 3, round = 1, spot = 3)
-                ),
-                EntityDefaults.game(
-                        id = 4, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 6),
-                        awayUser = EntityDefaults.user(id = 7),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 4, round = 1, spot = 4)
-                ),
-                EntityDefaults.game( // semifinal
-                        id = 5, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 4),
-                        awayUser = EntityDefaults.user(id = 7),
-                        scoreHome = 3, scoreAway = 0,
-                        playoff = PlayoffGame(id = 5, round = 2, spot = 2)
-                ),
-                EntityDefaults.game( // little final
-                        id = 6, tournament = tournament,
-                        homeUser = null,
-                        awayUser = EntityDefaults.user(id = 7),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 6, round = 3, spot = 1)
-                ),
-                EntityDefaults.game( // final
-                        id = 7, tournament = tournament,
-                        homeUser = null,
-                        awayUser = EntityDefaults.user(id = 4),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 7, round = 4, spot = 1)
-                )
-        )
     }
 }
