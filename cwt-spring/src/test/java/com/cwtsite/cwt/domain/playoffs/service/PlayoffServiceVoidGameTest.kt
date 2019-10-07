@@ -16,7 +16,6 @@ import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
@@ -34,48 +33,59 @@ class PlayoffServiceVoidGameTest {
     @Mock private lateinit var treeService: TreeService
 
     @Test
-    fun `delete little final and final games when semifinal is to be voided`() {
+    fun `delete one-way final games when semifinal is voided`() {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
-        val playoffGames = createExamplePlayoffTree(tournament)
-        val voidableGame = spy(playoffGames.find { it.id == 5L }!!)
+        val game = EntityDefaults.game( // semifinal game to be voided
+                id = 5, tournament = tournament,
+                homeUser = EntityDefaults.user(id = 4),
+                awayUser = EntityDefaults.user(id = 7),
+                scoreHome = 3, scoreAway = 0,
+                playoff = PlayoffGame(id = 5, round = 2, spot = 2)
+        )
+        val littleFinal = EntityDefaults.game(
+                id = 2,
+                homeUser = game.loser(),
+                awayUser = null,
+                playoff = PlayoffGame(id = 2, round = game.playoff!!.round + 1, spot = 1)
+        )
+        val final = EntityDefaults.game(
+                id = 2,
+                homeUser = game.winner(),
+                awayUser = null,
+                playoff = PlayoffGame(id = 2, round = littleFinal.playoff!!.round + 1, spot = 1)
+        )
 
-        val spiedPlayoffService = spy(playoffService)
+        `when`(treeService.getVoidablePlayoffGames())
+                .thenReturn(listOf(game))
 
-        `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(voidableGame))
+        `when`(treeService.isSomeKindOfFinalGame(game))
+                .thenReturn(false)
+
+        `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
+                .thenReturn(Pair(game.playoff!!.round + 1, 1))
+
+        `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round))
+                .thenReturn(false)
 
         `when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject<Tournament>(), anyInt(), anyInt()))
-                .thenAnswer {
-                    Optional.of(playoffGames.find { pG ->
-                        pG.playoff!!.round == it.getArgument<Int>(1)
-                                && pG.playoff!!.spot == it.getArgument<Int>(2)
-                    }!!)
-                }
+                .thenReturn(Optional.of(littleFinal))
 
-        `when`(gameRepository.save(MockitoUtils.anyObject<Game>())).thenAnswer { it.getArgument<Game>(0) }
+        `when`(treeService.isThirdPlaceGame(littleFinal.tournament, littleFinal.playoff!!.round))
+                .thenReturn(true)
 
-        `when`(gameRepository.delete(MockitoUtils.anyObject<Game>()))
-                .thenAnswer {
-                    val littleFinalGameToDelete = it.getArgument<Game>(0)
-                    Assertions.assertThat(littleFinalGameToDelete.playoff!!.round).isEqualTo(3)
-                    Assertions.assertThat(littleFinalGameToDelete.playoff!!.spot).isEqualTo(1)
-                    littleFinalGameToDelete
-                }
-                .thenAnswer {
-                    val finalGameToDelete = it.getArgument<Game>(0)
-                    Assertions.assertThat(finalGameToDelete.playoff!!.round).isEqualTo(4)
-                    Assertions.assertThat(finalGameToDelete.playoff!!.spot).isEqualTo(1)
-                    finalGameToDelete
-                }
+        `when`(gameRepository.findGameInPlayoffTree(littleFinal.tournament, littleFinal.playoff!!.round + 1, 1))
+                .thenReturn(Optional.of(final))
 
-        val replacementPlayoffGame = spiedPlayoffService.voidPlayoffGame(voidableGame)
+        `when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
+                .thenAnswer { it.getArgument<Game>(0) }
 
-        Assertions.assertThat(voidableGame.voided).isTrue()
+        `when`(gameRepository.delete(MockitoUtils.anyObject()))
+                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(littleFinal) }
+                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(final) }
 
-        assertReplacementGame(replacementPlayoffGame, voidableGame)
-
-        verify(gameRepository, times(2)).delete(MockitoUtils.anyObject<Game>())
-        verify(gameRepository).findGameInPlayoffTree(tournament, 3, 1)
-        verify(gameRepository).findGameInPlayoffTree(tournament, 4, 1)
+        val replacementPlayoffGame = playoffService.voidPlayoffGame(game)
+        assertReplacementGame(replacementPlayoffGame, game)
+        Assertions.assertThat(game.voided).isTrue()
     }
 
     @Test
