@@ -11,7 +11,6 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions
-import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -150,6 +149,21 @@ class PlayoffServiceVoidGameTest {
         assertReplacementGame(replacementGame, game)
         verify(gameRepository, times(3)).delete(MockitoUtils.anyObject<Game>())
         Assertions.assertThat(game.voided).isTrue()
+    }
+
+    @Test
+    fun `update affected three-way finals when semifinal is voided`() {
+        TODO()
+    }
+
+    @Test
+    fun `delete game to advance to when it's not a final`() {
+        TODO()
+    }
+
+    @Test
+    fun `delete game no game when there's none to advance to`() {
+        TODO()
     }
 
     private fun assertReplacementGame(replacementPlayoffGame: Game, voidableGame: Game) {
