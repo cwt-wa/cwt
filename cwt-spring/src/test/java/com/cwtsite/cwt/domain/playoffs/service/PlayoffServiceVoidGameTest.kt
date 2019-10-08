@@ -53,7 +53,7 @@ class PlayoffServiceVoidGameTest {
         )
 
         `when`(treeService.getVoidablePlayoffGames())
-                .thenReturn(listOf(game))
+                .thenReturn(listOf(game, final, littleFinal))
 
         `when`(treeService.isSomeKindOfFinalGame(game))
                 .thenReturn(false)
@@ -123,7 +123,7 @@ class PlayoffServiceVoidGameTest {
 
 
         `when`(treeService.getVoidablePlayoffGames())
-                .thenReturn(listOf(game))
+                .thenReturn(listOf(game, *threeWayFinals.toTypedArray()))
 
         `when`(treeService.isSomeKindOfFinalGame(game))
                 .thenReturn(false)
