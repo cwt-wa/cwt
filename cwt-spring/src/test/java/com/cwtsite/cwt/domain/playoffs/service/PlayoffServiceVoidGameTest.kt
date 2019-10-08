@@ -138,7 +138,29 @@ class PlayoffServiceVoidGameTest {
 
     @Test
     fun `delete game to advance to when it's not a final`() {
-        TODO()
+        val game = createVoidableGame()
+        val gameToAdvanceTo = Game(
+                id = 2,
+                homeUser = EntityDefaults.user(id = 20, username = "AdvanceGameOpponent"),
+                awayUser = game.winner(),
+                scoreHome = null,
+                scoreAway = null,
+                reporter = null,
+                playoff = PlayoffGame(id = 99, round = game.playoff!!.round + 1, spot = 1),
+                tournament = game.tournament
+        )
+        `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(game))
+        `when`(treeService.isSomeKindOfFinalGame(game)).thenReturn(false)
+        `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
+                .thenReturn(2 to 1)
+        `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round + 1)).thenReturn(false)
+        `when`(gameRepository.findGameInPlayoffTree(game.tournament, game.playoff!!.round + 1, 1))
+                .thenReturn(Optional.of(gameToAdvanceTo))
+        `when`(gameRepository.save(MockitoUtils.anyObject<Game>())).thenAnswer { it.getArgument<Game>(0) }
+
+        val replacementGame = playoffService.voidPlayoffGame(game)
+        assertReplacementGame(replacementGame, game)
+        verify(gameRepository).delete(gameToAdvanceTo)
     }
 
     @Test
