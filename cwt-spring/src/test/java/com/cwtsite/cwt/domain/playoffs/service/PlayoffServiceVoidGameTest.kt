@@ -77,7 +77,6 @@ class PlayoffServiceVoidGameTest {
         val replacementPlayoffGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementPlayoffGame, game)
         verify(gameRepository, times(2)).delete(MockitoUtils.anyObject<Game>())
-        Assertions.assertThat(game.voided).isTrue()
     }
 
     @Test
@@ -135,7 +134,6 @@ class PlayoffServiceVoidGameTest {
         assertReplacementGame(replacementGame, game)
         verify(gameRepository).delete(threeWayFinals.find { it.pairingInvolves(game.winner()) }!!)
         verify(gameRepository).delete(threeWayFinals.findLast { it.pairingInvolves(game.winner()) }!!)
-        Assertions.assertThat(game.voided).isTrue()
     }
 
     @Test
@@ -166,6 +164,8 @@ class PlayoffServiceVoidGameTest {
     }
 
     private fun assertReplacementGame(replacementPlayoffGame: Game, voidableGame: Game) {
+        Assertions.assertThat(voidableGame.voided).isTrue()
+
         Assertions.assertThat(replacementPlayoffGame.id).isNull()
         Assertions.assertThat(replacementPlayoffGame.homeUser).isEqualTo(voidableGame.homeUser)
         Assertions.assertThat(replacementPlayoffGame.awayUser).isEqualTo(voidableGame.awayUser)
