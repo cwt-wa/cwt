@@ -53,7 +53,7 @@ class PlayoffServiceVoidGameTest {
                 .thenReturn(false)
 
         `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
-                .thenReturn(Pair(game.playoff!!.round + 1, 1))
+                .thenReturn(game.playoff!!.round + 1 to 1)
 
         `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round))
                 .thenReturn(false)
@@ -115,7 +115,7 @@ class PlayoffServiceVoidGameTest {
                 .thenReturn(false)
 
         `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
-                .thenReturn(Pair(game.playoff!!.round + 1, 1))
+                .thenReturn(game.playoff!!.round + 1 to 1)
 
         `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round + 1))
                 .thenReturn(true)
