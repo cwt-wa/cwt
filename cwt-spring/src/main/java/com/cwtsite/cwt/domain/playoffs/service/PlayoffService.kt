@@ -169,6 +169,9 @@ class PlayoffService {
 
             if (treeService.isThreeWayFinalGame(game.tournament, nextRound)) {
                 val threeWayGamesToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, game.winner(), nextRound)
+                if (threeWayGamesToAdvanceTo.any { it.wasPlayed() && it.pairingInvolves(game.winner()) }) {
+                    throw IllegalStateException("Cannot void playoff game whose following game has already been played.")
+                }
                 threeWayGamesToAdvanceTo.forEach { gameRepository.delete(it) }
             } else {
                 val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
