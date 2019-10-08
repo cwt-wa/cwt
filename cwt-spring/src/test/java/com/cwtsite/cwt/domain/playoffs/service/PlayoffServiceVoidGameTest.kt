@@ -147,7 +147,8 @@ class PlayoffServiceVoidGameTest {
 
         val replacementGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementGame, game)
-        verify(gameRepository, times(3)).delete(MockitoUtils.anyObject<Game>())
+        verify(gameRepository).delete(threeWayFinals.find { it.pairingInvolves(game.winner()) }!!)
+        verify(gameRepository).delete(threeWayFinals.findLast { it.pairingInvolves(game.winner()) }!!)
         Assertions.assertThat(game.voided).isTrue()
     }
 
