@@ -165,7 +165,13 @@ class PlayoffServiceVoidGameTest {
 
     @Test
     fun `delete no game when there's none to advance to`() {
-        TODO()
+        val game = createVoidableGame()
+        `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(game))
+        `when`(treeService.isSomeKindOfFinalGame(game)).thenReturn(true)
+        verify(gameRepository, never()).delete(MockitoUtils.anyObject())
+        `when`(gameRepository.save(MockitoUtils.anyObject<Game>())).thenAnswer { it.getArgument<Game>(0) }
+        val replacementGame = playoffService.voidPlayoffGame(game)
+        assertReplacementGame(replacementGame, game)
     }
 
     @Test
