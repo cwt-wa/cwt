@@ -153,17 +153,17 @@ class PlayoffServiceVoidGameTest {
     }
 
     @Test
-    fun `update affected three-way finals when semifinal is voided`() {
-        TODO()
-    }
-
-    @Test
     fun `delete game to advance to when it's not a final`() {
         TODO()
     }
 
     @Test
-    fun `delete game no game when there's none to advance to`() {
+    fun `delete no game when there's none to advance to`() {
+        TODO()
+    }
+
+    @Test
+    fun `crash when game to be voided has a game to advance to which has already been played`() {
         TODO()
     }
 
