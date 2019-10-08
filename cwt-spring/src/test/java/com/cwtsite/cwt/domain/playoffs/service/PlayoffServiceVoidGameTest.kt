@@ -32,13 +32,7 @@ class PlayoffServiceVoidGameTest {
     @Test
     fun `delete one-way final games when semifinal is voided`() {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
-        val game = EntityDefaults.game( // semifinal game to be voided
-                id = 5, tournament = tournament,
-                homeUser = EntityDefaults.user(id = 4),
-                awayUser = EntityDefaults.user(id = 7),
-                scoreHome = 3, scoreAway = 0,
-                playoff = PlayoffGame(id = 5, round = 2, spot = 2)
-        )
+        val game = createVoidableGame() // semifinal game to be voided
         val littleFinal = EntityDefaults.game(
                 id = 2,
                 homeUser = game.loser(),
@@ -88,15 +82,7 @@ class PlayoffServiceVoidGameTest {
 
     @Test
     fun `delete affected three-way final games when semifinal game is voided`() {
-        val game = Game(
-                id = 1,
-                tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 2, username = "Kayz"),
-                scoreHome = 3,
-                scoreAway = 2,
-                playoff = PlayoffGame(id = 1, round = 1, spot = 2)
-        )
+        val game = createVoidableGame()
         val threeWayFinals = listOf(
                 Game(
                         id = 2,
@@ -165,6 +151,18 @@ class PlayoffServiceVoidGameTest {
     @Test
     fun `crash when game to be voided has a game to advance to which has already been played`() {
         TODO()
+    }
+
+    private fun createVoidableGame(): Game {
+        return Game(
+                id = 1,
+                tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                homeUser = EntityDefaults.user(),
+                awayUser = EntityDefaults.user(id = 2, username = "Kayz"),
+                scoreHome = 3,
+                scoreAway = 2,
+                playoff = PlayoffGame(id = 1, round = 1, spot = 2)
+        )
     }
 
     private fun assertReplacementGame(replacementPlayoffGame: Game, voidableGame: Game) {
