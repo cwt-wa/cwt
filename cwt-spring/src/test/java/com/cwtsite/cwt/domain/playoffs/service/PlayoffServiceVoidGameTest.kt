@@ -12,6 +12,8 @@ import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions.*
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -31,7 +33,6 @@ class PlayoffServiceVoidGameTest {
 
     @Test
     fun `delete one-way final games when semifinal is voided`() {
-        val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
         val game = createVoidableGame() // semifinal game to be voided
         val littleFinal = EntityDefaults.game(
                 id = 2,
@@ -55,7 +56,7 @@ class PlayoffServiceVoidGameTest {
         `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
                 .thenReturn(game.playoff!!.round + 1 to 1)
 
-        `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round))
+        `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round + 1))
                 .thenReturn(false)
 
         `when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject<Tournament>(), anyInt(), anyInt()))
@@ -70,13 +71,10 @@ class PlayoffServiceVoidGameTest {
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
                 .thenAnswer { it.getArgument<Game>(0) }
 
-        `when`(gameRepository.delete(MockitoUtils.anyObject()))
-                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(littleFinal) }
-                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(final) }
-
         val replacementPlayoffGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementPlayoffGame, game)
-        verify(gameRepository, times(2)).delete(MockitoUtils.anyObject<Game>())
+        verify(treeService).removePartOfPlayoffGame(final, game.winner(), false)
+        verify(treeService).removePartOfPlayoffGame(littleFinal, game.loser(), false)
     }
 
     @Test
@@ -122,18 +120,13 @@ class PlayoffServiceVoidGameTest {
         `when`(gameRepository.findGameInPlayoffTree(game.tournament, game.winner(), game.playoff!!.round + 1))
                 .thenReturn(threeWayFinals)
 
-        `when`(gameRepository.delete(MockitoUtils.anyObject()))
-                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[0]) }
-                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[1]) }
-                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[2]) }
-
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
                 .thenAnswer { it.getArgument<Game>(0) }
 
         val replacementGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementGame, game)
-        verify(gameRepository).delete(threeWayFinals.find { it.pairingInvolves(game.winner()) }!!)
-        verify(gameRepository).delete(threeWayFinals.findLast { it.pairingInvolves(game.winner()) }!!)
+        verify(treeService).removePartOfPlayoffGame(threeWayFinals[0], game.winner(), true)
+        verify(treeService).removePartOfPlayoffGame(threeWayFinals[1], game.winner(), true)
     }
 
     @Test
@@ -160,7 +153,7 @@ class PlayoffServiceVoidGameTest {
 
         val replacementGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementGame, game)
-        verify(gameRepository).delete(gameToAdvanceTo)
+        verify(treeService).removePartOfPlayoffGame(gameToAdvanceTo, game.winner(), false)
     }
 
     @Test
@@ -168,7 +161,7 @@ class PlayoffServiceVoidGameTest {
         val game = createVoidableGame()
         `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(game))
         `when`(treeService.isSomeKindOfFinalGame(game)).thenReturn(true)
-        verify(gameRepository, never()).delete(MockitoUtils.anyObject())
+        verify(treeService, never()).removePartOfPlayoffGame(MockitoUtils.anyObject(), MockitoUtils.anyObject(), anyBoolean())
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>())).thenAnswer { it.getArgument<Game>(0) }
         val replacementGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementGame, game)
@@ -179,43 +172,6 @@ class PlayoffServiceVoidGameTest {
         `when`(treeService.getVoidablePlayoffGames()).thenReturn(emptyList())
         assertThatThrownBy { playoffService.voidPlayoffGame(mock(Game::class.java)) }
                 .isInstanceOf(PlayoffService.PlayoffGameNotVoidableException::class.java)
-    }
-
-    @Test
-    fun `crash when game to be voided has a game to advance to which has already been played`() {
-        val game = createVoidableGame()
-        val gameToAdvanceTo = EntityDefaults.game(
-                id = 1,
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 2, username = "OpponentUser"),
-                scoreHome = 3,
-                scoreAway = 2,
-                playoff = PlayoffGame(id = 2, round = game.playoff!!.round, spot = 1)
-        )
-
-        `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(game))
-        `when`(treeService.isSomeKindOfFinalGame(game)).thenReturn(false)
-
-        `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
-                .thenReturn(2 to 1)
-
-        `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round))
-                .thenReturn(false)
-                .thenReturn(true) // todo maybe
-
-        `when`(gameRepository.findGameInPlayoffTree(game.tournament, game.playoff!!.round + 1, 1))
-                .thenReturn(Optional.of(gameToAdvanceTo))
-
-        assertThatThrownBy { playoffService.voidPlayoffGame(game) }
-                .isInstanceOf(IllegalStateException::class.java)
-                .hasMessageMatching(".*already.*played.*")
-
-        verify(gameRepository, never()).delete(MockitoUtils.anyObject())
-    }
-
-    @Test
-    fun `delete game to advance to when pairing is half complete, otherwise nullify the voided game's winner`() {
-        TODO()
     }
 
     private fun createVoidableGame(): Game {

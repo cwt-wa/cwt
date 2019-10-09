@@ -169,30 +169,22 @@ class PlayoffService {
 
             if (treeService.isThreeWayFinalGame(game.tournament, nextRound)) {
                 val threeWayGamesToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, game.winner(), nextRound)
-                if (threeWayGamesToAdvanceTo.any { it.wasPlayed() && it.pairingInvolves(game.winner()) }) {
-                    throw IllegalStateException("Cannot void playoff game whose following game has already been played.")
-                }
-                threeWayGamesToAdvanceTo.filter { it.pairingInvolves(game.winner()) }.forEach { gameRepository.delete(it) }
+                threeWayGamesToAdvanceTo
+                        .filter { !it.wasPlayed() }
+                        .filter { it.pairingInvolves(game.winner()) }
+                        .forEach { treeService.removePartOfPlayoffGame(it, game.winner(), true) }
             } else {
                 val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
 
                 if (gameToAdvanceTo.isPresent) {
-                    if (gameToAdvanceTo.get().wasPlayed()) {
-                        throw IllegalStateException("Cannot void playoff game whose following game has already been played.")
-                    }
-
-                    gameRepository.delete(gameToAdvanceTo.get())
+                    treeService.removePartOfPlayoffGame(gameToAdvanceTo.get(), game.winner(), false)
 
                     if (treeService.isThirdPlaceGame(gameToAdvanceTo.get().tournament, gameToAdvanceTo.get().playoff!!.round)) {
                         val finalGame = gameRepository.findGameInPlayoffTree(
                                 gameToAdvanceTo.get().tournament,
                                 gameToAdvanceTo.get().playoff!!.round + 1, 1) // final
 
-                        if (finalGame.get().wasPlayed()) {
-                            throw IllegalStateException("Cannot void playoff semifinal game whose following final game has already been played.")
-                        }
-
-                        gameRepository.delete(finalGame.get())
+                        treeService.removePartOfPlayoffGame(finalGame.get(), game.loser(), false)
                     }
                 } else {
                     this.logger.warn("Playoff game ${game.id} has been played but a subsequent game has not been found in the playoff tree.")
