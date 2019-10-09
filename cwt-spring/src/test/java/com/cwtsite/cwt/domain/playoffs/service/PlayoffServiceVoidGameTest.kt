@@ -175,6 +175,13 @@ class PlayoffServiceVoidGameTest {
     }
 
     @Test
+    fun `crash when voiding a playoff game which is not voidable`() {
+        `when`(treeService.getVoidablePlayoffGames()).thenReturn(emptyList())
+        assertThatThrownBy { playoffService.voidPlayoffGame(mock(Game::class.java)) }
+                .isInstanceOf(PlayoffService.PlayoffGameNotVoidableException::class.java)
+    }
+
+    @Test
     fun `crash when game to be voided has a game to advance to which has already been played`() {
         val game = createVoidableGame()
         val gameToAdvanceTo = EntityDefaults.game(
