@@ -10,7 +10,7 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -71,8 +71,8 @@ class PlayoffServiceVoidGameTest {
                 .thenAnswer { it.getArgument<Game>(0) }
 
         `when`(gameRepository.delete(MockitoUtils.anyObject()))
-                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(littleFinal) }
-                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(final) }
+                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(littleFinal) }
+                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(final) }
 
         val replacementPlayoffGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementPlayoffGame, game)
@@ -123,9 +123,9 @@ class PlayoffServiceVoidGameTest {
                 .thenReturn(threeWayFinals)
 
         `when`(gameRepository.delete(MockitoUtils.anyObject()))
-                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[0]) }
-                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[1]) }
-                .thenAnswer { Assertions.assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[2]) }
+                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[0]) }
+                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[1]) }
+                .thenAnswer { assertThat(it.getArgument<Game>(0)).isEqualTo(threeWayFinals[2]) }
 
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
                 .thenAnswer { it.getArgument<Game>(0) }
@@ -192,19 +192,19 @@ class PlayoffServiceVoidGameTest {
     }
 
     private fun assertReplacementGame(replacementPlayoffGame: Game, voidableGame: Game) {
-        Assertions.assertThat(voidableGame.voided).isTrue()
+        assertThat(voidableGame.voided).isTrue()
 
-        Assertions.assertThat(replacementPlayoffGame.id).isNull()
-        Assertions.assertThat(replacementPlayoffGame.homeUser).isEqualTo(voidableGame.homeUser)
-        Assertions.assertThat(replacementPlayoffGame.awayUser).isEqualTo(voidableGame.awayUser)
-        Assertions.assertThat(replacementPlayoffGame.tournament).isEqualTo(voidableGame.tournament)
+        assertThat(replacementPlayoffGame.id).isNull()
+        assertThat(replacementPlayoffGame.homeUser).isEqualTo(voidableGame.homeUser)
+        assertThat(replacementPlayoffGame.awayUser).isEqualTo(voidableGame.awayUser)
+        assertThat(replacementPlayoffGame.tournament).isEqualTo(voidableGame.tournament)
 
-        Assertions.assertThat(replacementPlayoffGame.playoff!!.spot).isEqualTo(voidableGame.playoff!!.spot)
-        Assertions.assertThat(replacementPlayoffGame.playoff!!.round).isEqualTo(voidableGame.playoff!!.round)
-        Assertions.assertThat(replacementPlayoffGame.playoff!!.id).isNull()
+        assertThat(replacementPlayoffGame.playoff!!.spot).isEqualTo(voidableGame.playoff!!.spot)
+        assertThat(replacementPlayoffGame.playoff!!.round).isEqualTo(voidableGame.playoff!!.round)
+        assertThat(replacementPlayoffGame.playoff!!.id).isNull()
 
-        Assertions.assertThat(replacementPlayoffGame.reporter).isNull()
-        Assertions.assertThat(replacementPlayoffGame.voided).isFalse()
-        Assertions.assertThat(replacementPlayoffGame.created).isNull()
+        assertThat(replacementPlayoffGame.reporter).isNull()
+        assertThat(replacementPlayoffGame.voided).isFalse()
+        assertThat(replacementPlayoffGame.created).isNull()
     }
 }
