@@ -176,7 +176,34 @@ class PlayoffServiceVoidGameTest {
 
     @Test
     fun `crash when game to be voided has a game to advance to which has already been played`() {
-        TODO()
+        val game = createVoidableGame()
+        val gameToAdvanceTo = EntityDefaults.game(
+                id = 1,
+                homeUser = EntityDefaults.user(),
+                awayUser = EntityDefaults.user(id = 2, username = "OpponentUser"),
+                scoreHome = 3,
+                scoreAway = 2,
+                playoff = PlayoffGame(id = 2, round = game.playoff!!.round, spot = 1)
+        )
+
+        `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(game))
+        `when`(treeService.isSomeKindOfFinalGame(game)).thenReturn(false)
+
+        `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
+                .thenReturn(2 to 1)
+
+        `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round))
+                .thenReturn(false)
+                .thenReturn(true) // todo maybe
+
+        `when`(gameRepository.findGameInPlayoffTree(game.tournament, game.playoff!!.round + 1, 1))
+                .thenReturn(Optional.of(gameToAdvanceTo))
+
+        assertThatThrownBy { playoffService.voidPlayoffGame(game) }
+                .isInstanceOf(IllegalStateException::class.java)
+                .hasMessageMatching(".*already.*played.*")
+
+        verify(gameRepository, never()).delete(MockitoUtils.anyObject())
     }
 
     @Test
