@@ -12,6 +12,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import kotlin.math.floor
 import kotlin.math.ln
 import kotlin.math.log2
@@ -95,6 +96,26 @@ class TreeService {
             false
         }
     }
+
+    @Transactional
+    @Throws(IllegalArgumentException::class, IllegalStateException::class)
+    fun removePartOfPlayoffGame(game: Game, user: User, threeWayFinalGame: Boolean): Game? {
+        if (!game.pairingInvolves(user)) throw IllegalArgumentException("User ${user.id} is not involved.")
+        if (game.wasPlayed()) throw IllegalStateException("Cannot change game once it's been played.")
+
+        return if (threeWayFinalGame || game.pairingCompleted()) {
+            if (game.homeUser == user) game.homeUser = null
+            else game.awayUser = null
+            game
+        } else if (game.pairingHalfCompleted()) {
+            gameRepository.delete(game)
+            null
+        } else {
+            logger.warn("Cannot remove part of game that has no parts.")
+            null
+        }
+    }
+
 
     fun isPlayoffTreeWithThreeWayFinal(tournament: Tournament) =
             isPlayoffTreeWithThreeWayFinal(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1).size * 2)
