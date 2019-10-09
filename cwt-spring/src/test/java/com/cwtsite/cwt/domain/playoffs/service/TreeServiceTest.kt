@@ -18,7 +18,7 @@ import org.junit.Assert
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.Test
@@ -37,12 +37,10 @@ class TreeServiceTest {
     fun getVoidableGames() {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
 
-        Mockito
-                .`when`(tournamentService.getCurrentTournament())
+        `when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
 
-        Mockito
-                .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
+        `when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
                 .thenReturn(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2"))
 
         val allPlayoffGames = listOf(
@@ -97,12 +95,10 @@ class TreeServiceTest {
                 )
         )
 
-        Mockito
-                .`when`(gameRepository.findByTournamentAndPlayoffIsNotNull(tournament))
+        `when`(gameRepository.findByTournamentAndPlayoffIsNotNull(tournament))
                 .thenReturn(allPlayoffGames)
 
-        Mockito
-                .`when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject(), Mockito.anyInt(), Mockito.anyInt()))
+        `when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject(), anyInt(), anyInt()))
                 .thenAnswer {
                     val round = it.getArgument<Int>(1)
                     val spot = it.getArgument<Int>(2)
@@ -117,8 +113,7 @@ class TreeServiceTest {
     fun getNumberOfPlayoffRoundsInTournament() {
         val tournament = EntityDefaults.tournament()
 
-        Mockito
-                .`when`(groupRepository.countByTournament(tournament))
+        `when`(groupRepository.countByTournament(tournament))
                 .thenReturn(4 / 2)
                 .thenReturn(6 / 2)
                 .thenReturn(8 / 2)
@@ -131,8 +126,7 @@ class TreeServiceTest {
                 .thenReturn(96 / 2)
                 .thenReturn(128 / 2)
 
-        Mockito
-                .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
+        `when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
                 .thenAnswer {
                     Configuration(
                             value = "2",
@@ -156,8 +150,7 @@ class TreeServiceTest {
 
     @Test
     fun onlyFinalGamesAreLeftToPlay() {
-        Mockito
-                .`when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
+        `when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
                 .thenAnswer {
                     Configuration(
                             value = "2",
@@ -166,23 +159,20 @@ class TreeServiceTest {
                     )
                 }
 
-        Mockito
-                .`when`(groupRepository.countByTournament(MockitoUtils.anyObject<Tournament>()))
+        `when`(groupRepository.countByTournament(MockitoUtils.anyObject<Tournament>()))
                 .thenReturn(8)
 
         val findReadyGamesInRoundEqualOrGreaterThanAnswer = { _: InvocationOnMock, listSize: Int ->
-            val list = Mockito.mock(List::class.java)
-            Mockito.`when`(list.size).thenReturn(listSize)
+            val list = mock(List::class.java)
+            `when`(list.size).thenReturn(listSize)
             list
         }
 
-        Mockito
-                .`when`(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4))
+        `when`(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4))
                 .thenAnswer { invocation -> findReadyGamesInRoundEqualOrGreaterThanAnswer(invocation, 2) }
                 .thenAnswer { invocation -> findReadyGamesInRoundEqualOrGreaterThanAnswer(invocation, 0) }
 
-        Mockito
-                .`when`(tournamentService.getCurrentTournament())
+        `when`(tournamentService.getCurrentTournament())
                 .thenAnswer { EntityDefaults.tournament(status = TournamentStatus.GROUP) }
                 .thenAnswer { EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS) }
 
@@ -195,14 +185,12 @@ class TreeServiceTest {
     fun isPlayoffTreeWithThreeWayFinal() {
         val tournament = EntityDefaults.tournament()
         val fn = { listSize: Int ->
-            Mockito
-                    .`when`(Mockito.mock(List::class.java).size)
+            `when`(mock(List::class.java).size)
                     .thenReturn(listSize)
                     .getMock<List<Any>>()
         }
 
-        Mockito
-                .`when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
+        `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
                 .thenAnswer { fn(4 / 2) }
                 .thenAnswer { fn(6 / 2) }
                 .thenAnswer { fn(8 / 2) }
