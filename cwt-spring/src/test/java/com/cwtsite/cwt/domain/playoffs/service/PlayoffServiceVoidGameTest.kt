@@ -179,6 +179,11 @@ class PlayoffServiceVoidGameTest {
         TODO()
     }
 
+    @Test
+    fun `delete game to advance to when pairing is half complete, otherwise nullify the voided game's winner`() {
+        TODO()
+    }
+
     private fun createVoidableGame(): Game {
         return Game(
                 id = 1,
