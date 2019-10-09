@@ -13,6 +13,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
 import org.junit.Assert
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -108,8 +109,7 @@ class TreeServiceTest {
                     Optional.of(allPlayoffGames.find { pG -> pG.playoff!!.round == round && pG.playoff!!.spot == spot }!!)
                 }
 
-        Assertions
-                .assertThat(treeService.getVoidablePlayoffGames())
+        assertThat(treeService.getVoidablePlayoffGames())
                 .containsExactlyInAnyOrder(allPlayoffGames.find { it.id == 5L }!!)
     }
 
@@ -141,17 +141,17 @@ class TreeServiceTest {
                     )
                 }
 
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
-        Assertions.assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(7)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(4)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(5)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(6)
+        assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(7)
     }
 
     @Test
@@ -215,24 +215,24 @@ class TreeServiceTest {
                 .thenAnswer { fn(96 / 2) }
                 .thenAnswer { fn(128 / 2) }
 
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        Assertions.assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
     }
 
     @Test
     fun nextPlayoffSpotForOneWayFinalTree() {
-        Assertions.assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(1, 6)).isEqualTo(Pair(2, 3))
-        Assertions.assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(3, 1)).isEqualTo(Pair(4, 1))
-        Assertions.assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(2, 2)).isEqualTo(Pair(3, 1))
-        Assertions.assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(2, 4)).isEqualTo(Pair(3, 2))
+        assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(1, 6)).isEqualTo(Pair(2, 3))
+        assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(3, 1)).isEqualTo(Pair(4, 1))
+        assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(2, 2)).isEqualTo(Pair(3, 1))
+        assertThat(treeService.nextPlayoffSpotForOneWayFinalTree(2, 4)).isEqualTo(Pair(3, 2))
     }
 }
