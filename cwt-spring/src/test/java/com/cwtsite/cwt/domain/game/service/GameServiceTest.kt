@@ -71,9 +71,6 @@ class GameServiceTest {
     private lateinit var commentRepository: CommentRepository
 
     @Mock
-    private lateinit var betRepostiry: BetRepository
-
-    @Mock
     private lateinit var scheduleService: ScheduleService
 
     @Mock
