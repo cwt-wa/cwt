@@ -237,6 +237,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <executable>true</executable>
+                    <mainClass>com.cwtsite.cwt.CwtApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
