@@ -87,6 +87,7 @@ body {
   color: rgba(white, .9);
 }
 
+.fa-user-o.cwt-user-panel-icon,
 .fa-user.cwt-user-panel-icon {
   font-size: 1.8em;
   line-height: 0.75em;
@@ -95,6 +96,7 @@ body {
   transition: transform 0.25s 0.55s ease-out;
 }
 
+.fa-user-o.cwt-user-panel-icon.vanish,
 .fa-user.cwt-user-panel-icon.vanish {
   transform: translateX(200%);
   transition: transform 0.55s 0.25s ease-out;
