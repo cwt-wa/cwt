@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.service
 
+import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.bet.service.BetRepository
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
@@ -77,6 +78,9 @@ class GameServiceTest {
 
     @Mock
     private lateinit var treeService: TreeService
+
+    @Mock
+    private lateinit var betRepository: BetRepository
 
     @Test
     fun reportGameForGroupStage() {
@@ -243,6 +247,48 @@ class GameServiceTest {
 
         Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 1, 2) }
                 .isExactlyInstanceOf(GameService.InvalidOpponentException::class.java)
+    }
+
+    @Test
+    fun `place bet with existing bet`() {
+        val game = EntityDefaults.game()
+        val user = EntityDefaults.user()
+        val bet = Bet(id = 1, betOnHome = true, game = game, user = user)
+
+        Mockito
+                .`when`(betRepository.findByUserAndGame(user, game))
+                .thenReturn(Optional.of(bet))
+
+        Mockito
+                .`when`(betRepository.save(bet))
+                .thenAnswer { it.arguments[0] }
+
+
+        val actualPlacedBet = gameService.placeBet(game, user, false)
+
+        Assertions.assertThat(actualPlacedBet).isEqualTo(bet)
+        Assertions.assertThat(actualPlacedBet.betOnHome).isEqualTo(false)
+    }
+
+    @Test
+    fun `place new bet`() {
+        val game = EntityDefaults.game()
+        val user = EntityDefaults.user()
+
+        Mockito
+                .`when`(betRepository.findByUserAndGame(user, game))
+                .thenReturn(Optional.empty())
+
+        Mockito
+                .`when`(betRepository.save(MockitoUtils.anyObject<Bet>()))
+                .thenAnswer { with(it.getArgument<Bet>(0)) { this.id = 42; this } }
+
+        val actualPlacedBet = gameService.placeBet(game, user, false)
+
+        Assertions.assertThat(actualPlacedBet.id).isEqualTo(42)
+        Assertions.assertThat(actualPlacedBet.betOnHome).isEqualTo(false)
+        Assertions.assertThat(actualPlacedBet.game).isEqualTo(game)
+        Assertions.assertThat(actualPlacedBet.user).isEqualTo(user)
     }
 
     private fun createGroup(tournament: Tournament): Group {

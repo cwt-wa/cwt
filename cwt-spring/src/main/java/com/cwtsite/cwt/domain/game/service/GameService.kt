@@ -224,9 +224,12 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 Math.ceil(getBestOfValue(tournamentService.getCurrentTournament().status).value!!.toDouble() / 2).toInt(), 0)
     }
 
-    fun placeBet(game: Game, user: User, betOnHome: Boolean): Bet = betRepository.save(
-            with(betRepository.findByUserAndGame(user, game)!!) { this.betOnHome = betOnHome; this })
-            ?: betRepository.save(Bet(user = user, game = game, betOnHome = betOnHome))
+    fun placeBet(game: Game, user: User, betOnHome: Boolean): Bet {
+        val bet = betRepository.findByUserAndGame(user, game)
+                .map { with(it) { it.betOnHome = betOnHome; it } }
+                .orElse(Bet(user = user, game = game, betOnHome = betOnHome))
+        return betRepository.save(bet)
+    }
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
 
