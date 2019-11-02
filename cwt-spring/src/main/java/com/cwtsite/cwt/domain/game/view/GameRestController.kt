@@ -30,7 +30,6 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 
@@ -135,10 +134,10 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryGamesPaged(pageDto: PageDto<Game>): ResponseEntity<PageDto<GameDetailDto>> {
         return ResponseEntity.ok(PageDto.toDto(
-                gameService.findPaginated(
+                gameService.findPaginatedPlayedGames(
                         pageDto.start, pageDto.size,
                         pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map { mapToDtoWithTitle(it) },
-                Arrays.asList("created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")))
+                listOf("created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")))
     }
 
     @RequestMapping("/{id}/rating", method = [RequestMethod.POST])

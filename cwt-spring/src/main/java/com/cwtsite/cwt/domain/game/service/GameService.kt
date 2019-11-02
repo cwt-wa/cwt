@@ -213,9 +213,12 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return commentRepository.save(Comment(body, user, game))
     }
 
-    fun findPaginated(page: Int, size: Int, sort: Sort): Page<Game> {
-        return gameRepository.findAll(PageRequest.of(page, size, sort))
-    }
+    fun findPaginated(page: Int, size: Int, sort: Sort): Page<Game> =
+            gameRepository.findAll(PageRequest.of(page, size, sort))
+
+    fun findPaginatedPlayedGames(page: Int, size: Int, sort: Sort): Page<Game> =
+            gameRepository.findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(
+                    PageRequest.of(page, size, sort))
 
     @Transactional
     fun addTechWin(winner: User, loser: User): Game {

@@ -4,7 +4,8 @@ import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
-import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -62,4 +63,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByGroupNotNullAndTournament(Tournament tournament);
 
     List<Game> findByGroupNotNullAndVoidedFalseAndTournament(Tournament tournament);
+
+    Page<Game> findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(Pageable pageable);
 }
