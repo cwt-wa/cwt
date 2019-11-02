@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {GameCreationDto} from "../custom";
+import {GameCreationDto, GameDetailDto, PlayoffGameDto} from "../custom";
 import {Utils} from "../_util/utils";
 
 @Injectable()
@@ -47,5 +47,10 @@ export class PlayoffsService {
                 };
                 return g;
             });
+    }
+
+    public gameWasPlayed(game: GameDetailDto | PlayoffGameDto) {
+        return game.scoreHome != null && game.scoreAway != null
+            && game.homeUser != null && game.awayUser != null
     }
 }

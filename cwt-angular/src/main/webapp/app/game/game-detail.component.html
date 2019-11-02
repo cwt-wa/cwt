@@ -1,4 +1,8 @@
-<div *ngIf="game">
+<div *ngIf="!gameWasPlayed" class="alert alert-info">
+    This game hasn’t been played yet.
+</div>
+
+<div *ngIf="game && gameWasPlayed">
     <span class="float-right text-right">
         Reported by
         <cwt-user [username]="game.reporter.username"></cwt-user><br>
