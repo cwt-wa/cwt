@@ -240,8 +240,8 @@ export interface GameDetailDto {
 
 export interface PlayoffGameDto {
     id: number;
-    homeUser: User;
-    awayUser: User;
+    homeUser?: User;
+    awayUser?: User;
     playoff: {
         round: number;
         spot: number;

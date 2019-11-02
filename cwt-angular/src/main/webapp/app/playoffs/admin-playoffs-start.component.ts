@@ -3,7 +3,7 @@ import {forkJoin as observableForkJoin, Observable} from 'rxjs';
 
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Configuration, GameCreationDto, GroupWithGamesDto} from "../custom";
+import {Configuration, GameCreationDto, GroupWithGamesDto, PlayoffGameDto} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 import {PlayoffsService} from "../_services/playoffs.service";
@@ -100,7 +100,7 @@ export class AdminPlayoffsStartComponent implements OnInit {
     }
 
     public submit(): void {
-        this.requestService.post<GameCreationDto[]>('tournament/current/playoffs/start', this.games)
+        this.requestService.post<PlayoffGameDto[]>('tournament/current/playoffs/start', this.games)
             .subscribe(() => {
                 this.toastr.success("Successfully started playoffs.");
                 this.router.navigateByUrl('/playoffs');

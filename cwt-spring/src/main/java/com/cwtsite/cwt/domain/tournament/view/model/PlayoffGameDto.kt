@@ -14,17 +14,17 @@ import java.util.*
 @DataTransferObject
 data class PlayoffGameDto(
         val id: Long,
-        val scoreHome: Int,
-        val scoreAway: Int,
+        val scoreHome: Int?,
+        val scoreAway: Int?,
         val techWin: Boolean,
         val created: Date,
         val modified: Date,
         val playoff: PlayoffGame?,
         val group: Group?,
         val tournament: Tournament,
-        val homeUser: User,
-        val awayUser: User,
-        val reporter: User,
+        val homeUser: User?,
+        val awayUser: User?,
+        val reporter: User?,
         val ratings: List<Rating>,
         val comments: List<Comment>,
         val isReplayExists: Boolean,
@@ -36,23 +36,23 @@ data class PlayoffGameDto(
 
         fun toDto(game: Game) = PlayoffGameDto(
                 id = game.id!!,
-                scoreHome = game.scoreHome!!,
-                scoreAway = game.scoreAway!!,
+                scoreHome = game.scoreHome,
+                scoreAway = game.scoreAway,
                 techWin = game.techWin,
                 created = game.created!!,
                 modified = game.modified!!,
                 playoff = game.playoff,
                 group = game.group,
                 tournament = game.tournament,
-                homeUser = game.homeUser!!,
-                awayUser = game.awayUser!!,
-                reporter = game.reporter!!,
+                homeUser = game.homeUser,
+                awayUser = game.awayUser,
+                reporter = game.reporter,
                 ratings = game.ratings,
                 comments = game.comments,
                 isReplayExists = game.replay != null,
                 bets = game.bets.map { PlayoffTreeBetDto.toDto(it) },
                 playoffRoundLocalized = GameDetailDto.localizePlayoffRound(
-                        game.tournament.threeWay!!, game.tournament.maxRounds!!, game.playoff!!.round)
+                        game.tournament.threeWay!!, game.tournament.maxRounds, game.playoff!!.round)
         )
     }
 }
