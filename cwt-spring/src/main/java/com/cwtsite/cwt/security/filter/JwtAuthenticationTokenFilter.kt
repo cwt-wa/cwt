@@ -1,62 +1,57 @@
-package com.cwtsite.cwt.security.filter;
+package com.cwtsite.cwt.security.filter
 
-import com.cwtsite.cwt.domain.user.service.JwtTokenUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.web.filter.OncePerRequestFilter;
+import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
+import org.springframework.web.filter.OncePerRequestFilter
+import java.io.IOException
+import javax.servlet.FilterChain
+import javax.servlet.ServletException
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private lateinit var userDetailsService: UserDetailsService
+    @Autowired
+    private lateinit var jwtTokenUtil: JwtTokenUtil
+    @Value("\${jwt.header}")
+    private lateinit var tokenHeader: String
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        if ("OPTIONS".equals(request.getMethod())) {
-            chain.doFilter(request, response);
-            return;
+    @Throws(ServletException::class, IOException::class)
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
+        if ("OPTIONS" == request.method) {
+            chain.doFilter(request, response)
+            return
         }
 
-        String authToken = request.getHeader(this.tokenHeader);
-        String username = jwtTokenUtil.getUsernameFromToken(authToken);
+        val authToken = request.getHeader(tokenHeader)
+        val username = jwtTokenUtil.getUsernameFromToken(authToken)
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = null;
+        if (username != null && SecurityContextHolder.getContext().authentication == null) {
+            val userDetails: UserDetails
             try {
-                userDetails = this.userDetailsService.loadUserByUsername(username);
-            } catch (UsernameNotFoundException e) {
-                logger.info(e.getMessage());
-                chain.doFilter(request, response);
-                return;
+                userDetails = this.userDetailsService.loadUserByUsername(username)
+            } catch (e: UsernameNotFoundException) {
+                logger.info(e.message)
+                chain.doFilter(request, response)
+                return
             }
 
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
+                authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+                SecurityContextHolder.getContext().authentication = authentication
             }
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(request, response)
     }
 }

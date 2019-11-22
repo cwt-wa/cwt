@@ -1,70 +1,61 @@
-package com.cwtsite.cwt.domain.user.service;
+package com.cwtsite.cwt.domain.user.service
 
-import com.cwtsite.cwt.domain.user.repository.UserRepository;
-import com.cwtsite.cwt.domain.user.repository.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.stereotype.Component;
+import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.User
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.crypto.bcrypt.BCrypt
+import org.springframework.stereotype.Component
 
-import java.security.MessageDigest;
+import java.security.MessageDigest
 
 @Component
-public class AuthService {
-
-    @Value("${jwt.header}")
-    private String tokenHeaderName;
-
-    @Value("${password.salt}")
-    private String salt;
-
-    @Value("${password.bcrypt-salt}")
-    private String bCryptSalt;
-
-    private final UserRepository userRepository;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final JwtUserDetailsServiceImpl userDetailsService;
+class AuthService {
 
     @Autowired
-    public AuthService(JwtTokenUtil jwtTokenUtil, JwtUserDetailsServiceImpl userDetailsService, UserRepository userRepository) {
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.userDetailsService = userDetailsService;
-        this.userRepository = userRepository;
+    private lateinit var jwtTokenUtil: JwtTokenUtil
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
+    @Value("\${jwt.header}")
+    val tokenHeaderName: String? = null
+
+    @Value("\${password.salt}")
+    private val salt: String? = null
+
+    @Value("\${password.bcrypt-salt}")
+    private val bCryptSalt: String? = null
+
+
+    fun getUserFromToken(token: String): User? {
+        val usernameFromToken = jwtTokenUtil.getUsernameFromToken(token) ?: return null
+        return userRepository.findByUsername(usernameFromToken)
     }
 
-
-    public User getUserFromToken(String token) {
-        return userRepository.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+    fun createHash(plainPassword: String?): String {
+        return if (plainPassword == null) "" else BCrypt.hashpw(plainPassword, bCryptSalt!!)
     }
 
-    public String createHash(String plainPassword) {
-        return plainPassword == null ? "" : BCrypt.hashpw(plainPassword, bCryptSalt);
-    }
+    fun createLegacyHash(plainPassword: String?): String {
+        var plainPassword: String? = plainPassword ?: return ""
 
-    public String createLegacyHash(String plainPassword) {
-        if (plainPassword == null) {
-            return "";
-        }
-
-        plainPassword = salt + plainPassword;
-        char[] chars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        plainPassword = salt!! + plainPassword!!
+        val chars = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
 
         try {
-            MessageDigest engine = MessageDigest.getInstance("SHA-1");
-            byte[] result = engine.digest(plainPassword.getBytes("UTF-8"));
-            StringBuilder buffer = new StringBuilder(result.length * 2);
-            for (byte aData : result) {
-                int value1 = (int) aData & 0xFF;
-                buffer.append(chars[value1 / 16]);
-                buffer.append(chars[value1 & 0x0F]);
+            val engine = MessageDigest.getInstance("SHA-1")
+            val result = engine.digest(plainPassword.toByteArray(charset("UTF-8")))
+            val buffer = StringBuilder(result.size * 2)
+            for (aData in result) {
+                val value1 = aData.toInt() and 0xFF
+                buffer.append(chars[value1 / 16])
+                buffer.append(chars[value1 and 0x0F])
             }
-            return buffer.toString().toLowerCase();
-        } catch (Exception e) {
-            throw new RuntimeException("No hash implementation.", e);
+            return buffer.toString().toLowerCase()
+        } catch (e: Exception) {
+            throw RuntimeException("No hash implementation.", e)
         }
-    }
 
-    public String getTokenHeaderName() {
-        return tokenHeaderName;
     }
 }

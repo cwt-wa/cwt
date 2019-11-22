@@ -16,6 +16,7 @@ import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
@@ -40,7 +41,11 @@ constructor(private val authenticationManager: AuthenticationManager, private va
             private val userDetailsService: UserDetailsService, private val userService: UserService,
             private val authService: AuthService, private val securityService: SecurityService) {
 
-    @Value("\${firebase-credentials-location}") private val firebaseCredentialsLocation: String? = null
+    @Value("\${firebase-credentials-location}")
+    private lateinit var firebaseCredentialsLocation: String
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
 
     @RequestMapping(path = ["/register"], method = [RequestMethod.POST])
     fun register(@RequestBody userRegistrationDto: UserRegistrationDto): ResponseEntity<*> {
@@ -136,10 +141,11 @@ constructor(private val authenticationManager: AuthenticationManager, private va
         val user = userDetailsService.loadUserByUsername(username) as JwtUser<*>
 
         return if (jwtTokenUtil.canTokenBeRefreshed(token, user.resetDate)!!) {
-            val refreshedToken = jwtTokenUtil.refreshToken(token)
+            val refreshedToken = jwtTokenUtil.refreshToken(token) ?: return ResponseEntity.ok(null)
             ResponseEntity.ok(JwtAuthenticationResponse(refreshedToken))
         } else {
-            ResponseEntity.badRequest().body(null)
+            logger.warn("Token could not be refreshed.")
+            return ResponseEntity.ok(null)
         }
     }
 }

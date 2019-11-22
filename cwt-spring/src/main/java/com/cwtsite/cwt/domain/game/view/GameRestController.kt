@@ -61,7 +61,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun reportGameWithoutReplay(@RequestBody reportDto: ReportDto, request: HttpServletRequest): ResponseEntity<GameCreationDto> {
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != reportDto.user) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != reportDto.user) {
             throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null);
         }
 
@@ -82,7 +82,9 @@ constructor(private val gameService: GameService, private val userService: UserS
             @RequestParam("away-user") awayUser: Long,
             request: HttpServletRequest): ResponseEntity<GameCreationDto> {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-        if (authUser.id != homeUser && authUser.id != awayUser) throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
+        if (authUser!!.id != homeUser && authUser.id != awayUser) {
+            throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
+        }
 
         val game: Game
         try {
@@ -144,7 +146,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @Secured(AuthorityRole.ROLE_USER)
     fun rateGame(@PathVariable("id") id: Long, @RequestBody rating: RatingDto, request: HttpServletRequest): Rating {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-        if (authUser.id != rating.user) {
+        if (authUser!!.id != rating.user) {
             throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null);
         }
         val persistedRating = gameService.rateGame(id, rating.user, rating.type)
@@ -163,7 +165,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @Secured(AuthorityRole.ROLE_USER)
     fun commentGame(@PathVariable("id") id: Long, @RequestBody comment: CommentDto, request: HttpServletRequest): Comment {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-        if (authUser.id != comment.user) {
+        if (authUser!!.id != comment.user) {
             throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null);
         }
 
@@ -193,7 +195,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         val game = gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
         val user = userService.getById(dto.user).orElseThrow { RestException("User ${dto.user} not found", HttpStatus.NOT_FOUND, null) }
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != dto.user) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != dto.user) {
             throw RestException("You must not impersonate your bet.", HttpStatus.FORBIDDEN, null);
         }
 
@@ -224,7 +226,7 @@ constructor(private val gameService: GameService, private val userService: UserS
 
         messageService.publishNews(
                 MessageNewsType.VOIDED,
-                authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)),
+                authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!,
                 voidedGame.id, voidedGame.homeUser!!.username, voidedGame.awayUser!!.username,
                 voidedGame.scoreHome, voidedGame.scoreAway)
 

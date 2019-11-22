@@ -73,7 +73,7 @@ class MessageRestController {
     fun addMessage(@RequestBody dto: MessageCreationDto, request: HttpServletRequest): ResponseEntity<MessageDto> {
         val authenticatedUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         val savedMessage = messageService.save(MessageCreationDto.fromDto(
-                dto, authenticatedUser, userService.getByIds(dto.recipients!!)))
+                dto, authenticatedUser!!, userService.getByIds(dto.recipients!!)))
         return ResponseEntity.ok(MessageDto.toDto(savedMessage))
     }
 }

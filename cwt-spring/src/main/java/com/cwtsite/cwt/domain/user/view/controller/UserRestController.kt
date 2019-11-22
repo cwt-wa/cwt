@@ -78,7 +78,9 @@ constructor(private val userService: UserService, private val applicationService
 
         if (includeEmail) {
             val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-            if (authUser.id != user.id) throw RestException("Email address inclusion forbidden.", HttpStatus.BAD_REQUEST, null)
+            if (authUser != null && authUser.id != user.id) {
+                throw RestException("Email address inclusion forbidden.", HttpStatus.BAD_REQUEST, null)
+            }
         }
 
         return ResponseEntity.ok(UserDetailDto.toDto(
@@ -118,7 +120,7 @@ constructor(private val userService: UserService, private val applicationService
     @Secured(AuthorityRole.ROLE_USER)
     fun applyForTournament(@PathVariable("id") id: Long, request: HttpServletRequest): ResponseEntity<Application> {
         val userToApply = assertUser(id)
-        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!
         if (authUser != userToApply && !authUser.isAdmin()) throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         try {
             return ResponseEntity.ok(this.applicationService.apply(userToApply))
@@ -158,7 +160,7 @@ constructor(private val userService: UserService, private val applicationService
         var user = assertUser(id)
         val upcomingUsernameChange = userChangeDto.username != user.username
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != user.id) {
             throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
         }
 
@@ -192,13 +194,13 @@ constructor(private val userService: UserService, private val applicationService
     fun changePassword(@RequestBody passwordChangeDto: PasswordChangeDto,
                        @PathVariable("id") id: Long,
                        request: HttpServletRequest) {
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != assertUser(id).id) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != assertUser(id).id) {
             throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
         }
         try {
             userService.changePassword(assertUser(id), passwordChangeDto.currentPassword, passwordChangeDto.newPassword)
         } catch (e: CredentialException) {
-            throw RestException("Wrong password.", HttpStatus.BAD_REQUEST, e);
+            throw RestException("Wrong password.", HttpStatus.BAD_REQUEST, e)
         }
     }
 
@@ -207,7 +209,7 @@ constructor(private val userService: UserService, private val applicationService
     fun changePhoto(@RequestParam("photo") photo: MultipartFile, @PathVariable("id") userId: Long, request: HttpServletRequest) {
         val user = assertUser(userId)
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != user.id) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
@@ -237,7 +239,7 @@ constructor(private val userService: UserService, private val applicationService
     fun deleteUserPhoto(@PathVariable("userId") userId: Long, request: HttpServletRequest) {
         val user = assertUser(userId)
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != user.id) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != user.id) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
@@ -250,7 +252,7 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/{id}/tetris", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun saveTetris(@PathVariable("id") userId: Long, @RequestBody highscore: Long, request: HttpServletRequest): ResponseEntity<TetrisDto> {
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName)).id != userId) {
+        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
             throw RestException("Forbidden", HttpStatus.FORBIDDEN, null)
         }
 

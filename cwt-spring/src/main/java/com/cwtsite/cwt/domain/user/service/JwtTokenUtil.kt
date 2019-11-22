@@ -1,169 +1,158 @@
-package com.cwtsite.cwt.domain.user.service;
+package com.cwtsite.cwt.domain.user.service
 
-import com.cwtsite.cwt.domain.user.repository.UserRepository;
-import com.cwtsite.cwt.domain.user.view.model.JwtUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import com.cwtsite.cwt.domain.user.view.model.JwtUser
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
-public class JwtTokenUtil implements Serializable {
+class JwtTokenUtil {
 
-    private static final long serialVersionUID = -3301605591108950415L;
+    @Value("\${jwt.secret}")
+    private val secret: String? = null
 
-    private static final String CLAIM_KEY_USERNAME = "sub";
-    private static final String CLAIM_KEY_AUDIENCE = "audience";
-    private static final String CLAIM_KEY_CREATED = "created";
-    private static final String PUBLIC_CLAIM_KEY_CONTEXT = "context";
+    @Value("\${jwt.expiration}")
+    private val expiration: Long? = null
 
-    private static final String AUDIENCE_UNKNOWN = "unknown";
-    private static final String AUDIENCE_WEB = "web";
-    private static final String AUDIENCE_MOBILE = "mobile";
-    private static final String AUDIENCE_TABLET = "tablet";
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @Value("${jwt.secret}")
-    private String secret;
-
-    @Value("${jwt.expiration}")
-    private Long expiration;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    private final UserRepository userRepository;
-
-    @Autowired
-    public JwtTokenUtil(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-
-    public String getUsernameFromToken(String token) {
-        String username;
+    fun getUsernameFromToken(token: String): String? {
+        var username: String?
         try {
-            final Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
-        } catch (Exception e) {
-            username = null;
+            val claims = getClaimsFromToken(token)
+            username = claims!!.subject
+        } catch (e: Exception) {
+            username = null
         }
-        return username;
+
+        return username
     }
 
-    public Date getCreatedDateFromToken(String token) {
-        Date created;
+    fun getCreatedDateFromToken(token: String): Date? {
+        var created: Date?
         try {
-            final Claims claims = getClaimsFromToken(token);
-            created = new Date((Long) claims.get(CLAIM_KEY_CREATED));
-        } catch (Exception e) {
-            created = null;
+            val claims = getClaimsFromToken(token)
+            created = Date(claims!![CLAIM_KEY_CREATED] as Long)
+        } catch (e: Exception) {
+            created = null
         }
-        return created;
+
+        return created
     }
 
-    public Date getExpirationDateFromToken(String token) {
-        Date expiration;
+    fun getExpirationDateFromToken(token: String): Date? {
+        var expiration: Date?
         try {
-            final Claims claims = getClaimsFromToken(token);
-            expiration = claims.getExpiration();
-        } catch (Exception e) {
-            expiration = null;
+            val claims = getClaimsFromToken(token)
+            expiration = claims!!.expiration
+        } catch (e: Exception) {
+            expiration = null
         }
-        return expiration;
+
+        return expiration
     }
 
-    public String getAudienceFromToken(String token) {
-        String audience;
+    fun getAudienceFromToken(token: String): String? {
+        var audience: String?
         try {
-            final Claims claims = getClaimsFromToken(token);
-            audience = (String) claims.get(CLAIM_KEY_AUDIENCE);
-        } catch (Exception e) {
-            audience = null;
+            val claims = getClaimsFromToken(token)
+            audience = claims!![CLAIM_KEY_AUDIENCE] as String
+        } catch (e: Exception) {
+            audience = null
         }
-        return audience;
+
+        return audience
     }
 
-    private Claims getClaimsFromToken(String token) {
-        Claims claims;
+    private fun getClaimsFromToken(token: String): Claims? {
+        var claims: Claims?
         try {
             claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
-                    .getBody();
-        } catch (Exception e) {
-            claims = null;
+                    .body
+        } catch (e: Exception) {
+            claims = null
         }
-        return claims;
+
+        return claims
     }
 
-    private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+    private fun generateExpirationDate(): Date {
+        return Date(System.currentTimeMillis() + expiration!! * 1000)
     }
 
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+    private fun isTokenExpired(token: String): Boolean {
+        val expiration = getExpirationDateFromToken(token)
+        return expiration!!.before(Date())
     }
 
-    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-        return (lastPasswordReset != null && created.before(lastPasswordReset));
+    private fun isCreatedBeforeLastPasswordReset(created: Date?, lastPasswordReset: Date?): Boolean {
+        return lastPasswordReset != null && created!!.before(lastPasswordReset)
     }
 
-    private Boolean ignoreTokenExpiration(String token) {
-        String audience = getAudienceFromToken(token);
-        return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
+    private fun ignoreTokenExpiration(token: String): Boolean {
+        val audience = getAudienceFromToken(token)
+        return AUDIENCE_TABLET == audience || AUDIENCE_MOBILE == audience
     }
 
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        claims.put(CLAIM_KEY_CREATED, new Date());
-        claims.put(PUBLIC_CLAIM_KEY_CONTEXT, new JwtTokenContext((JwtUser) userDetails));
-        return generateToken(claims);
+    fun generateToken(userDetails: UserDetails): String {
+        val claims = HashMap<String, Any>()
+        claims[CLAIM_KEY_USERNAME] = userDetails.username
+        claims[CLAIM_KEY_CREATED] = Date()
+        claims[PUBLIC_CLAIM_KEY_CONTEXT] = JwtTokenContext(userDetails as JwtUser<*>)
+        return generateToken(claims)
     }
 
-    private String generateToken(Map<String, Object> claims) {
+    private fun generateToken(claims: Map<String, Any>): String {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate())
                 .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
+                .compact()
     }
 
-    public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-        final Date created = getCreatedDateFromToken(token);
-        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
-                && (!isTokenExpired(token) || ignoreTokenExpiration(token));
+    fun canTokenBeRefreshed(token: String, lastPasswordReset: Date): Boolean? {
+        val created = getCreatedDateFromToken(token)
+        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && (!isTokenExpired(token) || ignoreTokenExpiration(token))
     }
 
-    public String refreshToken(String token) {
-        String refreshedToken;
+    fun refreshToken(token: String): String? {
+        var refreshedToken: String?
         try {
-            final Claims claims = getClaimsFromToken(token);
-            claims.put(CLAIM_KEY_CREATED, new Date());
-            refreshedToken = generateToken(claims);
-        } catch (Exception e) {
-            refreshedToken = null;
+            val claims = getClaimsFromToken(token)
+            claims!![CLAIM_KEY_CREATED] = Date()
+            refreshedToken = generateToken(claims)
+        } catch (e: Exception) {
+            logger.warn("Token refresh failed", e)
+            refreshedToken = null
         }
-        return refreshedToken;
+
+        return refreshedToken
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        JwtUser user = (JwtUser) userDetails;
-        final String username = getUsernameFromToken(token);
-        final Date created = getCreatedDateFromToken(token);
-        //final Date expiration = getExpirationDateFromToken(token);
-        return (
-                username.equals(user.getUsername())
-                        && !isTokenExpired(token)
-                        && !isCreatedBeforeLastPasswordReset(created, user.getResetDate()));
+    fun validateToken(token: String, userDetails: UserDetails): Boolean {
+        val user = userDetails as JwtUser<*>
+        val username = getUsernameFromToken(token)
+        val created = getCreatedDateFromToken(token)
+        return (username == user.username
+                && !isTokenExpired(token)
+                && !isCreatedBeforeLastPasswordReset(created, user.resetDate))
+    }
+
+    companion object {
+
+        private const val CLAIM_KEY_USERNAME = "sub"
+        private const val CLAIM_KEY_AUDIENCE = "audience"
+        private const val CLAIM_KEY_CREATED = "created"
+        private const val PUBLIC_CLAIM_KEY_CONTEXT = "context"
+
+        private const val AUDIENCE_MOBILE = "mobile"
+        private const val AUDIENCE_TABLET = "tablet"
     }
 }
