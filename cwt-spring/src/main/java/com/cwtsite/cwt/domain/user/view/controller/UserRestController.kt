@@ -77,8 +77,8 @@ constructor(private val userService: UserService, private val applicationService
         }
 
         if (includeEmail) {
-            val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-            if (authUser != null && authUser.id != user.id) {
+            val token: String? = request.getHeader(authService.tokenHeaderName)
+            if (token == null || authService.getUserFromToken(token)?.id != user.id) {
                 throw RestException("Email address inclusion forbidden.", HttpStatus.BAD_REQUEST, null)
             }
         }

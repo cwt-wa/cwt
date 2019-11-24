@@ -32,7 +32,13 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
             return
         }
 
-        val authToken = request.getHeader(tokenHeader)
+        val authToken: String? = request.getHeader(tokenHeader)
+
+        if (authToken == null) {
+            chain.doFilter(request, response)
+            return
+        }
+
         val username = jwtTokenUtil.getUsernameFromToken(authToken)
 
         if (username != null && SecurityContextHolder.getContext().authentication == null) {
