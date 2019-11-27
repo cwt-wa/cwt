@@ -6,8 +6,6 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.zonky.test.db.AutoConfigureEmbeddedDatabase
-import org.flywaydb.test.annotation.FlywayTest
 import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -21,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType.APPLICATION_JSON_UTF8
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -36,12 +33,7 @@ import kotlin.test.Test
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@FlywayTest(locationsForMigrate = ["classpath:db/migration/common", "classpath:db/migration/test"], overrideLocations = true)
-@TestPropertySource(properties = [
-    "spring.flyway.locations=classpath:db/migration/common,classpath:db/migration/test",
-    "spring.jpa.properties.hibernate.default_schema=public"
-])
-@AutoConfigureEmbeddedDatabase
+@EmbeddedPostgres
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class NewMessagesIntegration {
 
