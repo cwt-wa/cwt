@@ -199,9 +199,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <args>
-                        <arg>-Xcoroutines=enable</arg>
-                    </args>
                     <jvmTarget>1.8</jvmTarget>
                     <compilerPlugins>
                         <plugin>jpa</plugin>

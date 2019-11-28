@@ -17,7 +17,6 @@
     <modules>
         <module>cwt-angular</module>
         <module>cwt-spring</module>
-<!--        <module>cwt-spring-db-tests</module>-->
     </modules>
 
     <name>CWT</name>
