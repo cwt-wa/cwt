@@ -31,7 +31,7 @@ data class Game(
         var techWin: Boolean = false,
 
         @field:CreationTimestamp
-        @Column(name = "created", nullable = false)
+        @Column(name = "created", nullable = false, updatable = false)
         var created: Timestamp? = null,
 
         @field:UpdateTimestamp

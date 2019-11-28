@@ -173,9 +173,9 @@ constructor(private val gameService: GameService, private val userService: UserS
 
         GlobalScope.launch {
             messageService.publishNews(
-                    MessageNewsType.COMMENT, authUser, persistedComment.game.id,
-                    persistedComment.game.homeUser!!.username, persistedComment.game.awayUser!!.username,
-                    persistedComment.game.scoreHome, persistedComment.game.scoreAway)
+                    MessageNewsType.COMMENT, authUser, persistedComment.game!!.id!!,
+                    persistedComment.game!!.homeUser!!.username, persistedComment.game!!.awayUser!!.username,
+                    persistedComment.game!!.scoreHome, persistedComment.game!!.scoreAway)
         }
 
         return persistedComment
