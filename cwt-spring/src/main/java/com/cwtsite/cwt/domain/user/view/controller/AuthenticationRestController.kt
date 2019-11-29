@@ -96,8 +96,6 @@ constructor(private val authenticationManager: AuthenticationManager, private va
     @Throws(AuthenticationException::class)
     fun createAuthenticationTokenForFirebase(
             @RequestBody authRequest: JwtAuthenticationRequest): ResponseEntity<FirebaseIdentityTokenDto> {
-        if (firebaseCredentialsLocation == null) throw RestException("Not configured.", HttpStatus.NOT_FOUND, null)
-
         authenticationManager.authenticate(UsernamePasswordAuthenticationToken(
                 authRequest.username, authRequest.password))
 
