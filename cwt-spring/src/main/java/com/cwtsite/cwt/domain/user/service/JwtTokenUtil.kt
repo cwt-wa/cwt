@@ -117,7 +117,7 @@ class JwtTokenUtil {
                 .compact()
     }
 
-    fun canTokenBeRefreshed(token: String, lastPasswordReset: Date): Boolean? {
+    fun canTokenBeRefreshed(token: String, lastPasswordReset: Date?): Boolean? {
         val created = getCreatedDateFromToken(token)
         return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && (!isTokenExpired(token) || ignoreTokenExpiration(token))
     }
