@@ -93,7 +93,7 @@ constructor(private val gameService: GameService, private val userService: UserS
                 messageService.publishNews(
                         MessageNewsType.REPORT, authUser, game.id,
                         game.homeUser!!.username, game.awayUser!!.username,
-                        scoreHome, scoreAway)
+                        game.scoreHome, game.scoreAway)
             }
         } catch (e: GameService.InvalidOpponentException) {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
