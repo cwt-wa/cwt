@@ -62,9 +62,6 @@ describe('ConvertLinksPipe can convert a string', () => {
 
     // TODO Current failures:
     //
-    // 'A page called http://www.<a href="http://2009.cwtsite.com" target="_blank">2009.cwtsite.com</a> is a nice page.'
-    // 'A page called <a href="http://www.2009.cwtsite.com" target="_blank">http://www.2009.cwtsite.com</a> is a nice page.'.
-    //
     // 'Emails at support@<a href="http://cwtsite.com" target="_blank">cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.'
     // 'Emails at <a href="mailto:support@cwtsite.com" target="_blank">support@cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.'.
     //
