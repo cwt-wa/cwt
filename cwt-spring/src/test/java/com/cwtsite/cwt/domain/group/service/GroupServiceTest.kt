@@ -210,39 +210,42 @@ class GroupServiceTest {
                 .filter { it.pairingInvolves(obsoleteUser) }
                 .forEach { Mockito.verify(it).voided = true }
 
-        // TODO These assertions don't make sense since their equals impl. compare only IDs.
-        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == newUser }).isEqualTo(GroupStanding(
-                id = 1,
-                user = newUser,
-                games = 0,
-                gameRatio = 0,
-                roundRatio = 0,
-                points = 0
-        ))
-        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == user22 }).isEqualTo(GroupStanding(
-                id = 2,
-                user = user22,
-                games = 2,
-                gameRatio = 0,
-                roundRatio = 2,
-                points = 4
-        ))
-        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == user33 }).isEqualTo(GroupStanding(
-                id = 3,
-                user = user33,
-                games = 1,
-                gameRatio = 1,
-                roundRatio = 1,
-                points = 3
-        ))
-        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == user44 }).isEqualTo(GroupStanding(
-                id = 4,
-                user = user44,
-                games = 1,
-                gameRatio = -1,
-                roundRatio = -3,
-                points = 0
-        ))
+        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == newUser })
+                .isEqualToComparingFieldByField(GroupStanding(
+                        id = 1,
+                        user = newUser,
+                        games = 0,
+                        gameRatio = 0,
+                        roundRatio = 0,
+                        points = 0
+                ))
+        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == user22 })
+                .isEqualToComparingFieldByField(GroupStanding(
+                        id = 2,
+                        user = user22,
+                        games = 2,
+                        gameRatio = 0,
+                        roundRatio = 2,
+                        points = 4
+                ))
+        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == user33 })
+                .isEqualToComparingFieldByField(GroupStanding(
+                        id = 3,
+                        user = user33,
+                        games = 1,
+                        gameRatio = 1,
+                        roundRatio = 1,
+                        points = 3
+                ))
+        Assertions.assertThat(groupAfterReplacement.standings.find { it.user == user44 })
+                .isEqualToComparingFieldByField(GroupStanding(
+                        id = 4,
+                        user = user44,
+                        games = 1,
+                        gameRatio = -1,
+                        roundRatio = -3,
+                        points = 0
+                ))
     }
 
     @Test
