@@ -51,7 +51,7 @@ export class AdminGroupsStartManualDrawComponent {
         const body: GroupDto[] = this.groups
             .map(g => <GroupDto> {label: g.label, users: g.standings.map(s => s.user.id)});
 
-        this.requestService.post('tournament/current/group/many', body)
+        this.requestService.post('tournament/current/group/start', body)
             .subscribe(
                 () => {
                     this.router.navigateByUrl('/groups');

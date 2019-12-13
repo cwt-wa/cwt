@@ -64,7 +64,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
 
         randomlyDrawnGroups.forEach(x => this.utils.shuffleArray(x.users));
 
-        this.requestService.post('tournament/current/group/many', randomlyDrawnGroups)
+        this.requestService.post('tournament/current/group/start', randomlyDrawnGroups)
             .subscribe(
                 () => {
                     this.router.navigateByUrl('/groups');

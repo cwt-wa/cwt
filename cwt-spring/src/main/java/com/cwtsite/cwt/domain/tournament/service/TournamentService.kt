@@ -3,7 +3,6 @@ package com.cwtsite.cwt.domain.tournament.service
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
-import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
@@ -47,6 +46,13 @@ class TournamentService {
         tournament.moderators = userRepository.findAllById(moderatorIds).toSet()
         tournament.status = TournamentStatus.OPEN
 
+        return tournamentRepository.save(tournament)
+    }
+
+    @Transactional
+    fun startGroups(): Tournament {
+        val tournament = getCurrentTournament()
+        tournament.status = TournamentStatus.GROUP
         return tournamentRepository.save(tournament)
     }
 

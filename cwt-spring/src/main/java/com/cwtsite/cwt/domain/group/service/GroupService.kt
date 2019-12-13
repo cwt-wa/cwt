@@ -5,7 +5,6 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
-import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
@@ -95,9 +94,12 @@ constructor(private val groupRepository: GroupRepository,
             pointsPattern.find { it[0] == score }?.get(1) ?: 0
 
     @Transactional
-    fun startGroupStage(tournament: Tournament, groups: List<Group>): List<Group> {
-        tournament.status = TournamentStatus.GROUP
-        tournamentRepository.save(tournament)
+    fun startGroupStage(groups: List<Group>): List<Group> {
+        val currentTournament = tournamentService.getCurrentTournament()
+        if (groups.any { it.tournament != currentTournament }) {
+            throw IllegalArgumentException("Groups are not for the current tournament.")
+        }
+        tournamentService.startGroups()
         return groupRepository.saveAll(groups)
     }
 

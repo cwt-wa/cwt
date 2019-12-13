@@ -93,14 +93,10 @@ constructor(private val tournamentService: TournamentService, private val userSe
                 tournament.orElseThrow { RestException("Tournament $idOrYear not found", HttpStatus.NOT_FOUND, null) })
     }
 
-    @RequestMapping("{id}/group/many", method = [RequestMethod.POST])
+    @RequestMapping("current/group/start", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun addManyGroups(@PathVariable("id") id: Long, @RequestBody groupDtoList: List<GroupDto>): ResponseEntity<*> {
-        val tournament = tournamentService.getTournament(id)
-
-        if (!tournament.isPresent) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build<Any>()
-        }
+    fun startGroups(@RequestBody groupDtoList: List<GroupDto>): ResponseEntity<*> {
+        val tournament = tournamentService.getCurrentTournament()
 
         val users = userService.getByIds(groupDtoList.flatMap { it.users })
 
@@ -111,21 +107,12 @@ constructor(private val tournamentService: TournamentService, private val userSe
                                 groupDto.users.stream()
                                         .anyMatch { userId -> userId == id1 }
                             }
-                    GroupDto.map(tournament.get(), groupMembers, groupDto.label)
+                    GroupDto.map(tournament, groupMembers, groupDto.label)
                 }
 
-        return ResponseEntity.ok(groupService.startGroupStage(tournament.get(), groups))
+        return ResponseEntity.ok(groupService.startGroupStage(groups))
     }
 
-    @RequestMapping("current/group/many", method = [RequestMethod.POST])
-    @Secured(AuthorityRole.ROLE_ADMIN)
-    fun addManyGroups(@RequestBody groupDtoList: List<GroupDto>): ResponseEntity<*> {
-        // TODO Change tournament status
-        val (id) = tournamentService.getCurrentTournament()
-        return addManyGroups(id!!, groupDtoList)
-    }
-
-    @RequestMapping("{id}/group", method = [RequestMethod.GET])
     fun getGroupsForTournament(@PathVariable("id") id: Long): ResponseEntity<List<GroupWithGamesDto>> {
         val tournament = tournamentService.getTournament(id)
                 .orElseThrow { RestException("No such tournament.", HttpStatus.NOT_FOUND, null) }
