@@ -47,7 +47,7 @@ describe('ConvertLinksPipe can convert a string', () => {
 
     it('containing a link preceding a comma.', () => {
         expect(pipe.transform("I really like https://cwtsite.com, it's true."))
-            .toEqual('I really like <a href="https://cwtsite.com" target="_blank">https://cwtsite.com</a>, it\'s true');
+            .toEqual('I really like <a href="https://cwtsite.com" target="_blank">https://cwtsite.com</a>, it\'s true.');
     });
 
     it('containing an email address', () => {
@@ -64,9 +64,6 @@ describe('ConvertLinksPipe can convert a string', () => {
     //
     // 'A page called http://www.<a href="http://2009.cwtsite.com" target="_blank">2009.cwtsite.com</a> is a nice page.'
     // 'A page called <a href="http://www.2009.cwtsite.com" target="_blank">http://www.2009.cwtsite.com</a> is a nice page.'.
-    //
-    // 'I really like <a href="https://cwtsite.com" target="_blank">https://cwtsite.com</a>, it's true.'
-    // 'I really like <a href="https://cwtsite.com" target="_blank">https://cwtsite.com</a>, it's true'.
     //
     // 'Emails at support@<a href="http://cwtsite.com" target="_blank">cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.'
     // 'Emails at <a href="mailto:support@cwtsite.com" target="_blank">support@cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.'.
