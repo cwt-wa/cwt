@@ -52,19 +52,11 @@ describe('ConvertLinksPipe can convert a string', () => {
 
     it('containing an email address', () => {
         expect(pipe.transform("When I have question, I write to support@cwtsite.com and get answers."))
-            .toEqual('When I have question, I write to <a href="mailto:support@cwtsite.com" target="_blank">support@cwtsite.com</a> and get answers.');
+            .toEqual('When I have question, I write to <a href="mailto:support@cwtsite.com">support@cwtsite.com</a> and get answers.');
     });
 
     it('containing an email address and a link', () => {
         expect(pipe.transform("Emails at support@cwtsite.com and internet at http://cwtsite.com for much fun."))
-            .toEqual('Emails at <a href="mailto:support@cwtsite.com" target="_blank">support@cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.');
+            .toEqual('Emails at <a href="mailto:support@cwtsite.com">support@cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.');
     });
-
-    // TODO Current failures:
-    //
-    // 'Emails at support@<a href="http://cwtsite.com" target="_blank">cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.'
-    // 'Emails at <a href="mailto:support@cwtsite.com" target="_blank">support@cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.'.
-    //
-    // 'When I have question, I write to support@<a href="http://cwtsite.com" target="_blank">cwtsite.com</a> and get answers.'
-    // 'When I have question, I write to <a href="mailto:support@cwtsite.com" target="_blank">support@cwtsite.com</a> and get answers.'.
 });
