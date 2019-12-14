@@ -144,7 +144,6 @@ class UserServiceTest {
 
         val newUser = userService.changeUser(user, "hello i am not the same about text!", null, null);
         Assert.assertEquals("hello i am not the same about text!", newUser.about);
-        // Assert.assertEquals(user.username, newUser.username); TODO
     }
 
     @Test

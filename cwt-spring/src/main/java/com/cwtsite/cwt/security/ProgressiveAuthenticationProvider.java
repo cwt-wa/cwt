@@ -45,8 +45,6 @@ public class ProgressiveAuthenticationProvider implements AuthenticationProvider
         final User user = userService.getById(jwtUser.getId()).get();
         final boolean usesLegacyPassword = user.getPassword() == null;
 
-        // TODO Log use of legacy password.
-
         final boolean validCredentials = usesLegacyPassword
                 ? authService.createLegacyHash(password).equals(user.getPassword_legacy())
                 : authService.createHash(password).equals(user.getPassword());

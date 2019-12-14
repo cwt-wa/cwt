@@ -39,8 +39,6 @@ import java.io.IOException
 import java.util.*
 import kotlin.math.ceil
 
-// todo wtf deps?!
-
 @Component
 class GameService @Autowired
 constructor(private val gameRepository: GameRepository, private val tournamentService: TournamentService, private val groupRepository: GroupRepository,

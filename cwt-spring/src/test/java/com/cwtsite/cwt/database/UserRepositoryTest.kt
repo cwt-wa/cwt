@@ -21,10 +21,6 @@ open class UserRepositoryTest : AbstractDatabaseTest() {
         val dummyUser1 = persistDummyUser()
         val dummyUser2 = persistDummyUser()
 
-        // TODO Cannot insert into Materialize View
-//        createUserStats(dummyUser1, 1, 17)
-//        createUserStats(dummyUser2, 5, 2)
-
         persistDummyUser()
 
         em.flush()

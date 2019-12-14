@@ -58,7 +58,6 @@ export class BinaryService {
             : this.httpClient.delete<void>(`${this.appConfig.binaryDataStoreEndpoint}user/${userId}/photo`, opts);
     }
 
-    // TODO GH-142
     getReplay(gameId: number, replayExistsInDb: boolean) {
         if (replayExistsInDb) {
             return this.appConfig.apiEndpoint + `game/${gameId}/replay`;

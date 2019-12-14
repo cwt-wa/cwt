@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {Application} from "../custom";
 
-// TODO This can easily be parameterized to support applicants of other tournaments than the current.
-
 @Component({
     selector: 'cwt-applicants',
     template: require('./applicants.component.html')
