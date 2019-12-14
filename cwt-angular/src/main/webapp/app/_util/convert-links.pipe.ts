@@ -17,8 +17,6 @@ export class ConvertLinksPipe implements PipeTransform {
         value = value.replace(regexWithProtocol, `<a href="http://$1"${htmlClasses}target="_blank">$1</a>`);
         value = value.replace(/http?:\/\/(http[s]?:\/\/)/gi, '$1');
 
-        console.log('asdsadsad', value);
-
         const regexForMail = /(\b\S+@\S+\b)/g;
         value = value.replace(regexForMail, '<a href="mailto:$1">$1</a>');
 
