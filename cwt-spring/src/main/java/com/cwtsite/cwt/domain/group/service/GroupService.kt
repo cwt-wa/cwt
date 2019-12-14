@@ -148,6 +148,29 @@ constructor(private val groupRepository: GroupRepository,
         return game
     }
 
+    fun sortStandings(groupStandings: MutableList<GroupStanding>, gamesOfGroup: List<Game>) {
+        with(groupStandings) {
+            sortWith(Comparator { a, b ->
+                val theirGame = gamesOfGroup.find { g ->
+                    (g.homeUser!!.id == a.user.id && g.awayUser!!.id == b.user.id)
+                            || (g.homeUser!!.id == b.user.id && g.awayUser!!.id == a.user.id)
+                }
+
+                return@Comparator if (theirGame == null || !theirGame.wasPlayed()) {
+                    0
+                } else if (a.user.id == theirGame.homeUser!!.id) {
+                    if (theirGame.scoreHome!! > theirGame.scoreAway!!) -1 else +1
+                } else {
+                    if (theirGame.scoreAway!! > theirGame.scoreHome!!) -1 else +1
+                }
+            })
+            sortWith(compareBy(
+                    { -it.roundRatio },
+                    { -it.gameRatio },
+                    { -it.points }))
+        }
+    }
+
     fun save(groups: List<Group>): List<Group> = groupRepository.saveAll(groups)
 
     fun findAllGroupMembers(tournament: Tournament): List<User> = groupRepository.findAllGroupMembers(tournament)

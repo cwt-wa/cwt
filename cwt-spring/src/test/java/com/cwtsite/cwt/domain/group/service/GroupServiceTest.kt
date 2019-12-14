@@ -435,4 +435,44 @@ class GroupServiceTest {
 
         groupService.reverseStandingsByGame(game)
     }
+
+    @Test
+    fun sortStandings() {
+        val firstUserStandings = GroupStanding(
+                user = EntityDefaults.user(username = "Zemke", id = 1),
+                points = 3, games = 2, gameRatio = 2, roundRatio = 2)
+
+        val secondUserStandings = firstUserStandings.copy(
+                user = EntityDefaults.user(username = "Khamski", id = 2))
+
+        val thirdUserStandings = firstUserStandings.copy(
+                user = EntityDefaults.user(username = "Darío", id = 3),
+                gameRatio = firstUserStandings.gameRatio + 1)
+
+        val fourthUserStandings = firstUserStandings.copy(
+                user = EntityDefaults.user(username = "Sascha", id = 4),
+                points = 0)
+
+        val games = listOf(Game(
+                scoreHome = 2,
+                scoreAway = 3,
+                homeUser = firstUserStandings.user,
+                awayUser = secondUserStandings.user,
+                tournament = EntityDefaults.tournament()
+        ))
+
+        val standings = mutableListOf(
+                firstUserStandings, secondUserStandings, thirdUserStandings, fourthUserStandings)
+
+        println(standings.joinToString { "${it.points},${it.gameRatio},${it.roundRatio}" })
+
+        groupService.sortStandings(standings, games)
+
+        println(standings.joinToString { "${it.points},${it.gameRatio},${it.roundRatio}" })
+
+        Assertions
+                .assertThat(standings.map { it.user.id })
+                .containsExactly(thirdUserStandings.user.id, secondUserStandings.user.id,
+                        firstUserStandings.user.id, fourthUserStandings.user.id)
+    }
 }
