@@ -54,7 +54,10 @@
                 <span *ngFor="let user of betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
                 <span *ngIf="!betResult.homeUser.length">No bets were placed.</span>
             </ng-template>
-            <a [routerLink]="" [ngbPopover]="betsForHome" placement="left">
+            <a [routerLink]="" [ngbPopover]="betsForHome" placement="left" class="d-none d-sm-inline-block">
+                {{betResult.homeUser.length}}
+            </a>
+            <a [routerLink]="" [ngbPopover]="betsForHome" placement="bottom" class="d-sm-none">
                 {{betResult.homeUser.length}}
             </a>
         </div>
@@ -63,7 +66,10 @@
                 <span *ngFor="let user of betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
                 <span *ngIf="!betResult.awayUser.length">No bets were placed.</span>
             </ng-template>
-            <a [routerLink]="" [ngbPopover]="betsForAway" placement="right">
+            <a [routerLink]="" [ngbPopover]="betsForAway" placement="right" class="d-none d-sm-inline-block">
+                {{betResult.awayUser.length}}
+            </a>
+            <a [routerLink]="" [ngbPopover]="betsForAway" placement="bottom" class="d-sm-none">
                 {{betResult.awayUser.length}}
             </a>
         </div>
