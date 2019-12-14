@@ -19,6 +19,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     List<Game> findByTournamentAndPlayoffIsNotNull(Tournament tournament);
 
+    List<Game> findByTournamentAndPlayoffIsNotNullAndVoidedFalse(Tournament tournament);
+
     @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and (g.homeUser is not null " +
             "and g.awayUser is not null) and g.reporter is null and g.tournament = :tournament and g.group is null")
     Game findNextPlayoffGameForUser(

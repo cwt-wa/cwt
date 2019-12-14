@@ -121,12 +121,11 @@ constructor(private val tournamentService: TournamentService, private val userSe
         return ResponseEntity.ok(groups.map { GroupWithGamesDto.toDto(it, games.filter { game -> game.group == it }) })
     }
 
-    // TODO Playoff tree must not include voided games.
     @RequestMapping("{id}/game/playoff", method = [RequestMethod.GET])
     fun getPlayoffGames(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffGameDto>> {
         val tournament = tournamentService.getTournament(id)
                 .orElseThrow { RestException("No such tournament", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(playoffService.getGamesOfTournament(tournament).map { PlayoffGameDto.toDto(it) })
+        return ResponseEntity.ok(playoffService.getGamesOfTournament(tournament, false).map { PlayoffGameDto.toDto(it) })
     }
 
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])

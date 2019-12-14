@@ -26,8 +26,9 @@ class PlayoffService {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun getGamesOfTournament(tournament: Tournament): List<Game> {
-        return gameRepository.findByTournamentAndPlayoffIsNotNull(tournament)
+    fun getGamesOfTournament(tournament: Tournament, includeVoided: Boolean = true): List<Game> {
+        return if (includeVoided) gameRepository.findByTournamentAndPlayoffIsNotNull(tournament)
+        else gameRepository.findByTournamentAndPlayoffIsNotNullAndVoidedFalse(tournament)
     }
 
     /**
