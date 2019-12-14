@@ -12,7 +12,7 @@ data class GroupWithGamesDto(
         val id: Long,
         val label: GroupLabel,
         val tournament: Tournament,
-        val standings: List<StandingDto>,
+        var standings: List<StandingDto>,
         val games: List<GameMinimalDto>
 ) {
 

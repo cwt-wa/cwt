@@ -118,7 +118,30 @@ constructor(private val tournamentService: TournamentService, private val userSe
                 .orElseThrow { RestException("No such tournament.", HttpStatus.NOT_FOUND, null) }
         val games = gameService.findGroupGames(tournament)
         val groups = groupService.getGroupsForTournament(tournament)
-        return ResponseEntity.ok(groups.map { GroupWithGamesDto.toDto(it, games.filter { game -> game.group == it }) })
+                .map { GroupWithGamesDto.toDto(it, games.filter { game -> game.group == it }) }
+                .onEach {
+                    it.standings = it.standings
+                            .sortedWith(kotlin.Comparator { a, b ->
+                                val theirGame = it.games.find { g ->
+                                    (g.homeUser.id == a.user.id && g.awayUser.id == b.user.id)
+                                            || (g.homeUser.id == b.user.id && g.awayUser.id == a.user.id)
+                                }
+
+                                return@Comparator if (theirGame == null) {
+                                    0
+                                } else if (a.user.id == theirGame.homeUser.id) {
+                                    if (theirGame.scoreHome > theirGame.scoreAway) -1 else +1
+                                } else {
+                                    if (theirGame.scoreAway > theirGame.scoreHome) -1 else +1
+                                }
+                            })
+                            .sortedWith(kotlin.Comparator { a, b -> if (a.roundRatio > b.roundRatio) -1 else +1 })
+                            .sortedWith(kotlin.Comparator { a, b -> if (a.gameRatio > b.gameRatio) -1 else +1 })
+                            .sortedWith(kotlin.Comparator { a, b -> if (a.points > b.points) -1 else +1 })
+                }
+
+
+        return ResponseEntity.ok(groups)
     }
 
     @RequestMapping("{id}/game/playoff", method = [RequestMethod.GET])
