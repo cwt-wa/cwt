@@ -13,11 +13,9 @@ import java.nio.charset.Charset
 @RequestMapping("api/binary")
 class BinaryRestController {
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
     private val binaryDatStoreEndpoint = "http://cwt-binary.normalnonoobs.com/api/"
 
-    @GetMapping("user/{userId}/photo", produces = [MediaType.IMAGE_PNG_VALUE])
+    @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
         val response = khttp.get(
                 url = "${binaryDatStoreEndpoint}user/$userId/photo")
@@ -31,6 +29,8 @@ class BinaryRestController {
 
         val headers = HttpHeaders()
         headers.cacheControl = CacheControl.noCache().headerValue
+        headers.set("Content-Type", response.headers["Content-Type"])
+        headers.set("Content-Disposition", response.headers["Content-Disposition"])
         return ResponseEntity(response.content, headers, HttpStatus.OK)
     }
 }
