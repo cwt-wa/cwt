@@ -21,7 +21,10 @@ class BinaryRestController {
                 url = "${binaryDatStoreEndpoint}user/$userId/photo")
 
         if (response.statusCode != 200) {
-            val err = """Captcha token validation status code ${response.statusCode}
+            if (response.statusCode == 404) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+            }
+            val err = """User photo status code ${response.statusCode}
                 |${response.content.toString(Charset.defaultCharset())}
             """
             throw RestException(err, HttpStatus.BAD_REQUEST, null)
