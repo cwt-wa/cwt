@@ -54,9 +54,18 @@ export class PlayoffsTreeComponent implements OnInit {
                             });
 
                         if (numberOfRounds === round) {
-                            return existingGamesInRound[0] != null
+                            const finalGames = existingGamesInRound[0] != null
                                 ? [this.getExistingGamesInRound(round + 1, res)[0], existingGamesInRound[0]]
                                 : (this.isThreeWayFinalTree ? new Array(3).fill(<PlayoffGameDto>{}) : new Array(2).fill(<PlayoffGameDto>{}));
+
+                            finalGames.map<PlayoffTreeBetDtoWithBetResults>(g => {
+                                if (g.betResult == null) {
+                                    (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets);
+                                }
+                                return g as PlayoffTreeBetDtoWithBetResults;
+                            });
+
+                            return finalGames;
                         }
 
                         existingGamesInRound.reverse();
