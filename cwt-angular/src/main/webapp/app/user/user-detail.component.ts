@@ -26,7 +26,7 @@ export class UserDetailComponent implements OnInit {
                     res.userStats = res.userStats.sort((a, b) => b.year - a.year);
                     this.user = res;
 
-                    this.binaryService.getUserPhoto(this.user.id, this.user.hasPic)
+                    this.binaryService.getUserPhoto(this.user.id)
                         .subscribe(
                             res => this.userPhoto.nativeElement.src = res,
                             () => this.userPhoto.nativeElement.src = this.binaryService.randomPic());

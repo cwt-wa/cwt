@@ -19,21 +19,9 @@ export class BinaryService {
         return require('../../img/albino/' + Math.ceil(Math.random() * 14) + '.jpg');
     }
 
-    getUserPhoto(userId: number, hasPicInDb?: boolean): Observable<string> {
-        if (this.useDatabaseStorage()) {
-            return !hasPicInDb
-                ? new Observable<string>(observer => {
-                    observer.next(this.randomPic());
-                    observer.complete();
-                })
-                : this.requestService.getBlob(`user/${userId}/photo`)
-                    .pipe(this.mapToObjectUrl());
-        }
-
-        return this.httpClient
-            .get(`${this.appConfig.binaryDataStoreEndpoint}user/${userId}/photo`,
-                {responseType: 'blob', observe: 'body'})
-            // @ts-ignore
+    getUserPhoto(userId: number): Observable<string> {
+        return this.requestService
+            .getBlob(`binary/user/${userId}/photo`)
             .pipe(this.mapToObjectUrl());
     }
 
