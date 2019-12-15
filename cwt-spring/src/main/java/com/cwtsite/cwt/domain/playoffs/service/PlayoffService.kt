@@ -133,11 +133,11 @@ class PlayoffService {
             if (treeService.isSemifinalGame(game.tournament, game.playoff!!.round)) {
                 affectedGames.add(
                         advanceBasedOnGameExistence(
-                                loser, nextRound, nextSpot, game.playoff!!.spot, game.tournament)) // little final
+                                loser, nextRound, 1, game.playoff!!.spot, game.tournament)) // little final
 
                 affectedGames.add(
                         advanceBasedOnGameExistence(
-                                winner, nextRound + 1, nextSpot + 1, game.playoff!!.spot, game.tournament)) // final
+                                winner, nextRound + 1, 1, game.playoff!!.spot, game.tournament)) // final
             } else {
                 affectedGames.add(
                         advanceBasedOnGameExistence(

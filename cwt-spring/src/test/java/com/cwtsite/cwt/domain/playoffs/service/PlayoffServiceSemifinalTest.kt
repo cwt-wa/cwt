@@ -18,6 +18,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
+import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
 class PlayoffServiceSemifinalTest {
@@ -49,6 +50,7 @@ class PlayoffServiceSemifinalTest {
         `when`(treeService.isFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
         `when`(treeService.isSemifinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(true)
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>())).thenAnswer { it.getArgument<Game>(0) }
+        `when`(treeService.nextPlayoffSpotForOneWayFinalTree(anyInt(), anyInt())).thenCallRealMethod()
     }
 
     @Test
@@ -65,8 +67,59 @@ class PlayoffServiceSemifinalTest {
                 tournament = tournament
         )
 
-        `when`(treeService.nextPlayoffSpotForOneWayFinalTree(anyInt(), anyInt())).thenCallRealMethod()
+        val changedOrUpdatedGames = playoffService.advanceByGame(reportedGame)
 
+        assertThat(changedOrUpdatedGames).hasSize(2)
+
+        val final = changedOrUpdatedGames.find { it.playoff!!.round == 5 }!!
+        val littleFinal = changedOrUpdatedGames.find { it.playoff!!.round == 4 }!!
+
+        assertThat(final.homeUser).isNull()
+        assertThat(final.awayUser).isEqualTo(winner)
+
+        assertThat(littleFinal.homeUser).isNull()
+        assertThat(littleFinal.awayUser).isEqualTo(loser)
+    }
+
+    @Test
+    fun advanceByGame_finalsAlreadyExist() {
+        val winner = EntityDefaults.user()
+        val loser = EntityDefaults.user(id = 2)
+        val existingFinalist = EntityDefaults.user(id = 3)
+        val existingLittleFinalist = EntityDefaults.user(id = 4)
+
+        val reportedGame = Game(
+                scoreHome = 3,
+                scoreAway = 1,
+                homeUser = winner,
+                awayUser = loser,
+                playoff = PlayoffGame(round = 3, spot = 2),
+                tournament = tournament
+        )
+
+        val existingLittleFinal = Game(
+                scoreHome = null,
+                scoreAway = null,
+                homeUser = existingLittleFinalist,
+                awayUser = null,
+                playoff = PlayoffGame(round = 4, spot = 1),
+                tournament = tournament
+        )
+
+        val existingFinal = Game(
+                scoreHome = null,
+                scoreAway = null,
+                homeUser = existingFinalist,
+                awayUser = null,
+                playoff = PlayoffGame(round = 5, spot = 1),
+                tournament = tournament
+        )
+
+        `when`(gameRepository.findGameInPlayoffTree(tournament, existingLittleFinal.playoff!!.round, existingLittleFinal.playoff!!.spot))
+                .thenReturn(Optional.of(existingLittleFinal))
+
+        `when`(gameRepository.findGameInPlayoffTree(tournament, existingFinal.playoff!!.round, existingFinal.playoff!!.spot))
+                .thenReturn(Optional.of(existingFinal))
 
         val changedOrUpdatedGames = playoffService.advanceByGame(reportedGame)
 
@@ -75,14 +128,11 @@ class PlayoffServiceSemifinalTest {
         val final = changedOrUpdatedGames.find { it.playoff!!.round == 5 }!!
         val littleFinal = changedOrUpdatedGames.find { it.playoff!!.round == 4 }!!
 
-        assertThat(changedOrUpdatedGames).hasSize(2)
 
-        assertThat(final.homeUser).isNull()
+        assertThat(final.homeUser).isEqualTo(existingFinalist)
         assertThat(final.awayUser).isEqualTo(winner)
 
-        assertThat(littleFinal.homeUser).isNull()
+        assertThat(littleFinal.homeUser).isEqualTo(existingLittleFinalist)
         assertThat(littleFinal.awayUser).isEqualTo(loser)
-
-
     }
 }
