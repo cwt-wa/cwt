@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.playoffs.ThreeWayFinalResult
 import com.cwtsite.cwt.domain.playoffs.TiedThreeWayFinalResult
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
+import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -100,13 +101,7 @@ class PlayoffService {
         }
 
         val (nextRound, nextSpot: Int) = treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot)
-
         val nextRoundIsThreeWayFinal = treeService.isThreeWayFinalGame(game.tournament, nextRound)
-        val nextGameAsHomeUser = when (game.playoff!!.spot % 2 != 0) {
-            true -> true
-            false -> nextRoundIsThreeWayFinal
-        }
-
         val affectedGames = mutableListOf<Game>()
 
         if (nextRoundIsThreeWayFinal) {
@@ -135,27 +130,49 @@ class PlayoffService {
                         }
             }
         } else {
-            val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
+            if (treeService.isSemifinalGame(game.tournament, game.playoff!!.round)) {
+                affectedGames.add(
+                        advanceBasedOnGameExistence(
+                                loser, nextRound, nextSpot, game.playoff!!.spot, game.tournament)) // little final
 
-            if (gameToAdvanceTo.isPresent) {
-                when {
-                    gameToAdvanceTo.get().homeUser == null -> gameToAdvanceTo.get().homeUser = winner
-                    gameToAdvanceTo.get().awayUser == null -> gameToAdvanceTo.get().awayUser = winner
-                    else -> throw RuntimeException("gameToAdvanceTo already has a home and away user.")
-                }
-
-                affectedGames.add(gameRepository.save(gameToAdvanceTo.get()))
+                affectedGames.add(
+                        advanceBasedOnGameExistence(
+                                winner, nextRound + 1, nextSpot + 1, game.playoff!!.spot, game.tournament)) // final
             } else {
-                affectedGames.add(gameRepository.save(Game(
-                        homeUser = if (nextGameAsHomeUser) winner else null,
-                        awayUser = if (nextGameAsHomeUser) null else winner,
-                        playoff = PlayoffGame(round = nextRound, spot = nextSpot),
-                        tournament = game.tournament
-                )))
+                affectedGames.add(
+                        advanceBasedOnGameExistence(
+                                winner, nextRound, nextSpot, game.playoff!!.spot, game.tournament))
             }
         }
 
         return affectedGames
+    }
+
+    /**
+     * When you advance you wouldn't want to create the game to advance to when it's already there
+     * because your upcoming opponent has already advanced to it.
+     */
+    private fun advanceBasedOnGameExistence(userToAdvance: User,
+                                            destinationRound: Int, destinationSpot: Int,
+                                            originSpot: Int, tournament: Tournament): Game {
+        val nextGameAsHomeUser = originSpot % 2 != 0
+        val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(tournament, destinationRound, destinationSpot)
+
+        return if (gameToAdvanceTo.isPresent) {
+            when {
+                gameToAdvanceTo.get().homeUser == null -> gameToAdvanceTo.get().homeUser = userToAdvance
+                gameToAdvanceTo.get().awayUser == null -> gameToAdvanceTo.get().awayUser = userToAdvance
+                else -> throw RuntimeException("gameToAdvanceTo already has a home and away user.")
+            }
+            gameRepository.save(gameToAdvanceTo.get())
+        } else {
+            gameRepository.save(Game(
+                    homeUser = if (nextGameAsHomeUser) userToAdvance else null,
+                    awayUser = if (nextGameAsHomeUser) null else userToAdvance,
+                    playoff = PlayoffGame(round = destinationRound, spot = destinationSpot),
+                    tournament = tournament
+            ))
+        }
     }
 
     @Transactional

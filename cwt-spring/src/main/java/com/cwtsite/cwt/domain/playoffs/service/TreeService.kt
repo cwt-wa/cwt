@@ -69,6 +69,10 @@ class TreeService {
         return floor(numOfRounds) == round.toDouble()
     }
 
+    fun isSemifinalGame(tournament: Tournament, round: Int): Boolean {
+        return isThirdPlaceGame(tournament, round + 1) || isThreeWayFinalGame(tournament, round + 1)
+    }
+
     fun nextPlayoffSpotForOneWayFinalTree(currentRound: Int, currentSpot: Int): Pair<Int, Int> {
         val nextRound = currentRound + 1
         val nextSpot = if (currentSpot % 2 != 0) {
