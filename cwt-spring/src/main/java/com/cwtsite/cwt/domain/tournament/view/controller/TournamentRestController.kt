@@ -113,6 +113,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
         return ResponseEntity.ok(groupService.startGroupStage(groups))
     }
 
+    @RequestMapping("{id}/group", method = [RequestMethod.GET])
     fun getGroupsForTournament(@PathVariable("id") id: Long): ResponseEntity<List<GroupWithGamesDto>> {
         val tournament = tournamentService.getTournament(id)
                 .orElseThrow { RestException("No such tournament.", HttpStatus.NOT_FOUND, null) }
