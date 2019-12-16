@@ -1,6 +1,5 @@
-package com.cwtsite.cwt.domain.core.view.controller
+package com.cwtsite.cwt.controller
 
-import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import org.apache.http.HttpEntity
@@ -22,8 +21,6 @@ import java.io.InputStream
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
 
-
-// todo move to top level package fro controllers
 
 @RestController
 @RequestMapping("api/binary")
