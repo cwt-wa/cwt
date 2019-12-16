@@ -3,37 +3,21 @@ import {APP_CONFIG, AppConfig} from "../app.config";
 import {Observable, OperatorFunction} from "rxjs";
 import {map} from "rxjs/operators";
 import {RequestService} from "./request.service";
-import {HttpClient} from "@angular/common/http";
-import {AuthService} from "./auth.service";
 
 @Injectable()
 export class BinaryService {
 
     constructor(@Inject(APP_CONFIG) private appConfig: AppConfig,
-                private requestService: RequestService,
-                private httpClient: HttpClient,
-                private authService: AuthService) {
+                private requestService: RequestService) {
     }
 
     randomPic() {
         return require('../../img/albino/' + Math.ceil(Math.random() * 14) + '.jpg');
     }
 
-    getUserPhoto(userId: number, hasPicInDb?: boolean): Observable<string> {
-        if (this.useDatabaseStorage()) {
-            return !hasPicInDb
-                ? new Observable<string>(observer => {
-                    observer.next(this.randomPic());
-                    observer.complete();
-                })
-                : this.requestService.getBlob(`user/${userId}/photo`)
-                    .pipe(this.mapToObjectUrl());
-        }
-
-        return this.httpClient
-            .get(`${this.appConfig.binaryDataStoreEndpoint}user/${userId}/photo`,
-                {responseType: 'blob', observe: 'body'})
-            // @ts-ignore
+    getUserPhoto(userId: number): Observable<string> {
+        return this.requestService
+            .getBlob(`binary/user/${userId}/photo`)
             .pipe(this.mapToObjectUrl());
     }
 
@@ -41,21 +25,11 @@ export class BinaryService {
         const formData = new FormData();
         formData.append('photo', file);
 
-        if (this.useDatabaseStorage()) {
-            return this.requestService.formDataPost(`user/${userId}/photo`, formData);
-        }
-
-        return this.httpClient
-            .post(
-                `${this.appConfig.binaryDataStoreEndpoint}user/${userId}/photo`, formData,
-                {headers: {'Authorization': this.authService.getToken()}, reportProgress: true});
+        return this.requestService.formDataPost(`binary/user/${userId}/photo`, formData);
     }
 
     deleteUserPhoto(userId: number): Observable<void> {
-        const opts = {headers: {'Authorization': this.authService.getToken()}};
-        return this.useDatabaseStorage()
-            ? this.httpClient.delete<void>(`${this.appConfig.apiEndpoint}user/${userId}/photo`, opts)
-            : this.httpClient.delete<void>(`${this.appConfig.binaryDataStoreEndpoint}user/${userId}/photo`, opts);
+        return this.requestService.delete<void>(`binary/user/${userId}/photo`);
     }
 
     getReplay(gameId: number, replayExistsInDb: boolean) {

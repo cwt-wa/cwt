@@ -55,7 +55,7 @@ export class UserPanelComponent implements OnInit {
         this.loadingPhoto = true;
         this.showPhoto = true;
 
-        this.binaryService.getUserPhoto(this.authUser.id, this.user.hasPic)
+        this.binaryService.getUserPhoto(this.authUser.id)
             .pipe(finalize(() => this.loadingPhoto = false))
             .subscribe(
                 res => {
