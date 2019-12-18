@@ -79,7 +79,6 @@ class BinaryRestController {
                           fileFieldName: String, fileName: String): HttpEntity {
         val uploadFile = HttpPost(url)
         uploadFile.entity = MultipartEntityBuilder.create()
-//                .addTextBody("field1", "yes", ContentType.TEXT_PLAIN)
                 .addBinaryBody(
                         fileFieldName, fileInputStream,
                         ContentType.getByMimeType(mimeType), fileName)
