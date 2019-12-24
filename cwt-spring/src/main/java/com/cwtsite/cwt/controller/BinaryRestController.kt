@@ -9,6 +9,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.impl.client.HttpClients
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.CacheControl
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -26,7 +27,8 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("api/binary")
 class BinaryRestController {
 
-    private val binaryDatStoreEndpoint = "http://cwt-binary.normalnonoobs.com/api/"
+    @Value("\${binary-data-store")
+    private var binaryDataStoreEndpoint: String? = null
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -35,8 +37,9 @@ class BinaryRestController {
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
-        val response = khttp.get(
-                url = "${binaryDatStoreEndpoint}user/$userId/photo")
+        assertBinaryDataStoreEndpoint()
+
+        val response = khttp.get(url = "${binaryDataStoreEndpoint}user/$userId/photo")
 
         if (response.statusCode != 200) {
             if (response.statusCode == 404) {
@@ -60,12 +63,14 @@ class BinaryRestController {
             @PathVariable userId: Long,
             @RequestParam("photo") photo: MultipartFile,
             request: HttpServletRequest): ResponseEntity<Void> {
+        assertBinaryDataStoreEndpoint()
+
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
         multipartFormData(
-                url = "${binaryDatStoreEndpoint}user/$userId/photo",
+                url = "${binaryDataStoreEndpoint}user/$userId/photo",
                 fileInputStream = photo.inputStream,
                 mimeType = photo.contentType!!,
                 fileFieldName = "photo",
@@ -92,12 +97,14 @@ class BinaryRestController {
     @Secured(AuthorityRole.ROLE_USER)
     fun deleteUserPhoto(@PathVariable userId: Long,
                         request: HttpServletRequest): ResponseEntity<Void> {
+        assertBinaryDataStoreEndpoint()
+
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
         val response = khttp.delete(
-                url = "${binaryDatStoreEndpoint}user/$userId/photo")
+                url = "${binaryDataStoreEndpoint}user/$userId/photo")
 
         if (response.statusCode != 200) {
             logger.error("HTTP ${response.statusCode}: ${response.content.toString(Charset.defaultCharset())}")
@@ -105,5 +112,11 @@ class BinaryRestController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).build()
+    }
+
+    @Throws(RestException::class)
+    private fun assertBinaryDataStoreEndpoint() {
+        binaryDataStoreEndpoint ?: throw RestException(
+                "Replay upload is currently not supported.", HttpStatus.BAD_REQUEST, null)
     }
 }
