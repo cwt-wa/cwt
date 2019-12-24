@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
@@ -28,7 +27,6 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
@@ -60,58 +58,25 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun reportGameWithoutReplay(@RequestBody reportDto: ReportDto, request: HttpServletRequest): ResponseEntity<GameCreationDto> {
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != reportDto.user) {
+    fun reportGameWithoutReplay(@RequestBody reportDto: ReportDto,
+                                request: HttpServletRequest): ResponseEntity<GameCreationDto> {
+        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+        if (authUser!!.id != reportDto.user) {
             throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null);
         }
 
         val reportedGame = gameService.reportGame(
                 reportDto.user!!, reportDto.opponent!!,
                 reportDto.scoreOfUser!!.toInt(), reportDto.scoreOfOpponent!!.toInt())
+
+        GlobalScope.launch {
+            messageService.publishNews(
+                    MessageNewsType.REPORT, authUser, reportedGame.id,
+                    reportedGame.homeUser!!.username, reportedGame.awayUser!!.username,
+                    reportedGame.scoreHome, reportedGame.scoreAway)
+        }
+
         return ResponseEntity.ok(GameCreationDto.toDto(reportedGame))
-    }
-
-    @RequestMapping("", method = [RequestMethod.POST], consumes = ["multipart/form-data"])
-    @Throws(IOException::class)
-    @Secured(AuthorityRole.ROLE_USER)
-    fun reportGameWithReplayFile(
-            @RequestParam("replay") replay: MultipartFile,
-            @RequestParam("score-home") scoreHome: Int,
-            @RequestParam("score-away") scoreAway: Int,
-            @RequestParam("home-user") homeUser: Long,
-            @RequestParam("away-user") awayUser: Long,
-            request: HttpServletRequest): ResponseEntity<GameCreationDto> {
-        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-        if (authUser!!.id != homeUser && authUser.id != awayUser) {
-            throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
-        }
-
-        val game: Game
-        try {
-            game = gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)
-            GlobalScope.launch {
-                messageService.publishNews(
-                        MessageNewsType.REPORT, authUser, game.id,
-                        game.homeUser!!.username, game.awayUser!!.username,
-                        game.scoreHome, game.scoreAway)
-            }
-        } catch (e: GameService.InvalidOpponentException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: GameService.InvalidScoreException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.UploadSecurityException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.FileEmptyException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.IllegalFileContentTypeException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.FileTooLargeException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.IllegalFileExtension) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        }
-
-        return ResponseEntity.ok(GameCreationDto.toDto(game))
     }
 
     @RequestMapping("/{gameId}/replay", method = [RequestMethod.GET])

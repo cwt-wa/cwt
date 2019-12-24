@@ -1,7 +1,15 @@
 package com.cwtsite.cwt.controller
 
+import com.cwtsite.cwt.core.FileValidator
+import com.cwtsite.cwt.domain.game.entity.Game
+import com.cwtsite.cwt.domain.game.service.GameService
+import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
+import com.cwtsite.cwt.domain.message.service.MessageNewsType
+import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.apache.http.HttpEntity
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.ContentType
@@ -34,6 +42,12 @@ class BinaryRestController {
 
     @Autowired
     private lateinit var authService: AuthService
+
+    @Autowired
+    private lateinit var gameService: GameService
+
+    @Autowired
+    private lateinit var messageService: MessageService
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
@@ -80,11 +94,54 @@ class BinaryRestController {
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
+    @PostMapping("game/{gameId}/replay", consumes = ["multipart/form-data"])
+    @Throws(IOException::class)
+    @Secured(AuthorityRole.ROLE_USER)
+    fun reportGameWithReplayFile(
+            @PathVariable gameId: Long,
+            @RequestParam("replay") replay: MultipartFile,
+            @RequestParam("score-home") scoreHome: Int,
+            @RequestParam("score-away") scoreAway: Int,
+            @RequestParam("home-user") homeUser: Long,
+            @RequestParam("away-user") awayUser: Long,
+            request: HttpServletRequest): ResponseEntity<GameCreationDto> {
+        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+        if (authUser!!.id != homeUser && authUser.id != awayUser) {
+            throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
+        }
+
+        val game: Game
+        try {
+            game = gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)
+            GlobalScope.launch {
+                messageService.publishNews(
+                        MessageNewsType.REPORT, authUser, game.id,
+                        game.homeUser!!.username, game.awayUser!!.username,
+                        game.scoreHome, game.scoreAway)
+            }
+        } catch (e: GameService.InvalidOpponentException) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        } catch (e: GameService.InvalidScoreException) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        } catch (e: FileValidator.UploadSecurityException) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        } catch (e: FileValidator.FileEmptyException) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        } catch (e: FileValidator.IllegalFileContentTypeException) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        } catch (e: FileValidator.FileTooLargeException) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        } catch (e: FileValidator.IllegalFileExtension) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        }
+
+        return ResponseEntity.ok(GameCreationDto.toDto(game))
+    }
+
     fun multipartFormData(url: String, fileInputStream: InputStream, mimeType: String,
                           fileFieldName: String, fileName: String): HttpEntity {
         val uploadFile = HttpPost(url)
         uploadFile.entity = MultipartEntityBuilder.create()
-//                .addTextBody("field1", "yes", ContentType.TEXT_PLAIN)
                 .addBinaryBody(
                         fileFieldName, fileInputStream,
                         ContentType.getByMimeType(mimeType), fileName)

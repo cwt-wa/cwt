@@ -15,7 +15,7 @@ export class ReportGameComponent implements OnInit {
     @ViewChild('replayFile') replayFile: ElementRef<HTMLInputElement>;
 
     public remainingOpponents: User[];
-    public report: ReportDto = <ReportDto> {};
+    public report: ReportDto = <ReportDto>{};
     private authenticatedUser: JwtUser;
     private possibleScores: number[];
 
@@ -48,19 +48,26 @@ export class ReportGameComponent implements OnInit {
     }
 
     public submit(): void {
-        const formData = new FormData();
-        formData.append('replay', this.replayFile.nativeElement.files[0]);
-        formData.append('score-home', this.report.scoreOfUser.toString());
-        formData.append('score-away', this.report.scoreOfOpponent.toString());
-        formData.append('away-user', this.report.opponent.toString());
-        formData.append('home-user', this.report.user.toString());
+        const payload: ReportDto = {
+            scoreOfUser: this.report.scoreOfUser,
+            scoreOfOpponent: this.report.scoreOfOpponent,
+            opponent: this.report.opponent,
+            user: this.report.user,
+        };
 
-        this.requestService.formDataPost('game', formData)
-            .subscribe(
-                (res: GameCreationDto) => {
-                    this.router.navigateByUrl(`/games/${res.id}`);
-                    this.toastr.success("Successfully saved.");
-                    this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
-                });
+        this.requestService.post('game', payload).subscribe((res: GameCreationDto) => {
+            const formData = new FormData();
+            formData.append('replay', this.replayFile.nativeElement.files[0]);
+            formData.append('score-home', payload.scoreOfUser.toString());
+            formData.append('score-away', payload.scoreOfOpponent.toString());
+            formData.append('away-user', payload.opponent.toString());
+            formData.append('home-user', payload.user.toString());
+
+            this.requestService.formDataPost(`game/${res.id}`, formData).subscribe((res: GameCreationDto) => {
+                this.router.navigateByUrl(`/games/${res.id}`);
+                this.toastr.success("Successfully saved.");
+                this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
+            });
+        });
     }
 }
