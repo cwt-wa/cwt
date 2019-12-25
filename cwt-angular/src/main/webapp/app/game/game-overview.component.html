@@ -57,10 +57,7 @@
                         </div>
                         <div class="all-petite-caps">
                             {{game.comments.length}} Comments
-                            <ng-container
-                              *ngIf="(game.id | cwtReplayLink:game.replayExists) != null"
-                              ngPreserveWhitespaces>•</ng-container>
-                            <a [href]="game.id | cwtReplayLink:game.replayExists">
+                            <a [href]="'/binary/game/' + game.id + '/replay'">
                                 Download
                             </a>
                         </div>

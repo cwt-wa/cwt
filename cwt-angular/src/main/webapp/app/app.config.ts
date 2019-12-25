@@ -3,7 +3,6 @@ import {InjectionToken} from "@angular/core";
 // Webpack may be used to replace this file based on the environment.
 
 export interface AppConfig {
-    binaryDataStoreEndpoint: string | null;
     apiEndpoint: string;
     captchaKey: string;
     liveStreamProducer: string;
@@ -11,7 +10,6 @@ export interface AppConfig {
 
 export const appConfig: AppConfig = {
     apiEndpoint: process.env.apiEndpoint,
-    binaryDataStoreEndpoint: process.env.binaryDataStoreEndpoint,
     captchaKey: process.env.captchaKey,
     liveStreamProducer: process.env.liveStreamProducer
 };

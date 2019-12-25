@@ -15,7 +15,6 @@ import {
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
 import {BetResult, BetService} from "../_services/bet.service";
-import {ReplayLinkPipe} from "../_util/replay-link.pipe";
 import {PlayoffsService} from "../_services/playoffs.service";
 
 @Component({
@@ -29,13 +28,12 @@ export class GameDetailComponent {
     game: GameDetailDto;
     newComment: CommentDto;
     authenticatedUser: JwtUser;
-    replayUrl: string;
     betResult: BetResult;
     gameWasPlayed: boolean;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
-                private replayLinkPipe: ReplayLinkPipe, private playoffService: PlayoffsService) {
+                private playoffService: PlayoffsService) {
     }
 
     public get winningUser(): User {
@@ -69,7 +67,6 @@ export class GameDetailComponent {
                     }
 
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);
-                    this.replayUrl = this.replayLinkPipe.transform(this.game.id, this.game.replayExists);
 
                     if (this.game.playoff != null) {
                         this.requestService.get<PlayoffTreeBetDto[]>(`game/${+routeParam.get('id')}/bets`)
