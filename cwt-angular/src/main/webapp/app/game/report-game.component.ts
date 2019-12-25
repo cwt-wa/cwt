@@ -56,6 +56,10 @@ export class ReportGameComponent implements OnInit {
         };
 
         this.requestService.post('game', payload).subscribe((res: GameCreationDto) => {
+            this.router.navigateByUrl(`/games/${res.id}`);
+            this.toastr.success("Successfully saved.");
+            this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
+
             const formData = new FormData();
             formData.append('replay', this.replayFile.nativeElement.files[0]);
             formData.append('score-home', payload.scoreOfUser.toString());
@@ -63,11 +67,12 @@ export class ReportGameComponent implements OnInit {
             formData.append('away-user', payload.opponent.toString());
             formData.append('home-user', payload.user.toString());
 
-            this.requestService.formDataPost(`game/${res.id}`, formData).subscribe((res: GameCreationDto) => {
-                this.router.navigateByUrl(`/binary/game/${res.id}/replay`);
-                this.toastr.success("Successfully saved.");
-                this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
-            });
+            this.requestService.formDataPost(`binary/game/${res.id}/replay`, formData)
+                .subscribe({
+                    error: () => {
+                        this.toastr.error("The replay file could not be uploaded.");
+                    }
+                });
         });
     }
 }
