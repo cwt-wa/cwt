@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("api/binary")
 class BinaryRestController {
 
-    @Value("\${binary-data-store")
+    @Value("\${binary-data-store}")
     private var binaryDataStoreEndpoint: String? = null
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -53,7 +53,7 @@ class BinaryRestController {
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
         assertBinaryDataStoreEndpoint()
 
-        val response = khttp.get(url = "${binaryDataStoreEndpoint}user/$userId/photo")
+        val response = khttp.get(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
 
         if (response.statusCode != 200) {
             if (response.statusCode == 404) {
@@ -84,7 +84,7 @@ class BinaryRestController {
         }
 
         multipartFormData(
-                url = "${binaryDataStoreEndpoint}user/$userId/photo",
+                url = "${binaryDataStoreEndpoint}/user/$userId/photo",
                 fileInputStream = photo.inputStream,
                 mimeType = photo.contentType!!,
                 fileFieldName = "photo",
@@ -161,7 +161,7 @@ class BinaryRestController {
         }
 
         val response = khttp.delete(
-                url = "${binaryDataStoreEndpoint}user/$userId/photo")
+                url = "${binaryDataStoreEndpoint}/user/$userId/photo")
 
         if (response.statusCode != 200) {
             logger.error("HTTP ${response.statusCode}: ${response.content.toString(Charset.defaultCharset())}")
