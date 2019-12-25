@@ -61,6 +61,9 @@
                     <a routerLink="/user-panel" class="dropdown-item">
                         {{authenticatedUser.username}}
                     </a>
+                    <a routerLink="/report" class="dropdown-item" *ngIf="(canReportService.canReport | async)">
+                        Report
+                    </a>
                     <button class="dropdown-item" (click)="logOut()">
                         Log out
                     </button>
