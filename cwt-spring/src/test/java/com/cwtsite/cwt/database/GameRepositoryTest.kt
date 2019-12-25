@@ -191,12 +191,12 @@ class GameRepositoryTest : AbstractDatabaseTest() {
 
         em.flush()
 
-        assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4))
+        assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4, tournament))
                 .containsExactlyInAnyOrder(
                         em.find(Game::class.java, finalGame.id!!),
                         em.find(Game::class.java, thirdPlaceGame.id!!))
 
-        Assert.assertEquals(4, gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1).size.toLong())
+        Assert.assertEquals(4, gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1, tournament).size.toLong())
     }
 
     @Test
@@ -225,8 +225,8 @@ class GameRepositoryTest : AbstractDatabaseTest() {
 
         em.flush()
 
-        assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4)).isEmpty()
-        assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1)).hasSize(2)
+        assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4, tournament)).isEmpty()
+        assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1, tournament)).hasSize(2)
     }
 
     @Test
