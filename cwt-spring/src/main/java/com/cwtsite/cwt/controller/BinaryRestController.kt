@@ -71,7 +71,16 @@ class BinaryRestController {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
-        multipartFormData(
+        try {
+            FileValidator.validate(
+                    photo, 3000000,
+                    listOf("image/jpeg", "image/png", "image/gif"),
+                    listOf("jpg", "jpeg", "png", "gif"))
+        } catch (e: FileValidator.AbstractFileException) {
+            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
+        }
+
+        sendMultipartEntity(
                 url = "${binaryDataStoreEndpoint}/user/$userId/photo",
                 fileInputStream = photo.inputStream,
                 mimeType = photo.contentType!!,
