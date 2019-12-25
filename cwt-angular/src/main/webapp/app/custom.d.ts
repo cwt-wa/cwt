@@ -236,6 +236,7 @@ export interface GameDetailDto {
     replayExists: boolean;
     playoffRoundLocalized: string;
     created: string;
+    reportedAt: string;
 }
 
 export interface PlayoffGameDto {
@@ -256,6 +257,8 @@ export interface PlayoffGameDto {
     replayExists: boolean;
     bets: PlayoffTreeBetDto[];
     playoffRoundLocalized: string;
+    created: string;
+    reportedAt: string;
 }
 
 export interface GroupWithGamesDto {
@@ -272,6 +275,7 @@ export interface GameMinimalDto {
     scoreAway: number;
     techWin: boolean;
     created: string;
+    reportedAt: string;
     modified: string;
     homeUser: UserMinimalDto;
     awayUser: UserMinimalDto;

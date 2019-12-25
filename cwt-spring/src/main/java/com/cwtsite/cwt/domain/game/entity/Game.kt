@@ -30,6 +30,9 @@ data class Game(
         @Column(name = "tech_win")
         var techWin: Boolean = false,
 
+        @Column(name = "reported_at")
+        var reportedAt: Timestamp? = null,
+
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
         var created: Timestamp? = null,

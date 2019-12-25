@@ -36,6 +36,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
+import java.sql.Timestamp
 import java.util.*
 import kotlin.math.ceil
 
@@ -150,6 +151,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             })
         }
 
+        reportedGame.reportedAt = Timestamp(System.currentTimeMillis())
         return reportedGame
     }
 
