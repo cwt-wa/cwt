@@ -1,18 +1,12 @@
 package com.cwtsite.cwt.controller
 
 import com.cwtsite.cwt.core.FileValidator
-import com.cwtsite.cwt.domain.game.entity.Game
-import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
-import com.cwtsite.cwt.domain.message.service.MessageNewsType
-import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.apache.http.HttpEntity
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.ContentType
+import org.apache.http.entity.mime.HttpMultipartMode
 import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.impl.client.HttpClients
 import org.slf4j.LoggerFactory
@@ -42,12 +36,6 @@ class BinaryRestController {
 
     @Autowired
     private lateinit var authService: AuthService
-
-    @Autowired
-    private lateinit var gameService: GameService
-
-    @Autowired
-    private lateinit var messageService: MessageService
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
@@ -97,7 +85,7 @@ class BinaryRestController {
     @PostMapping("game/{gameId}/replay", consumes = ["multipart/form-data"])
     @Throws(IOException::class)
     @Secured(AuthorityRole.ROLE_USER)
-    fun reportGameWithReplayFile(
+    fun saveReplayFile(
             @PathVariable gameId: Long,
             @RequestParam("replay") replay: MultipartFile,
             @RequestParam("score-home") scoreHome: Int,
@@ -105,48 +93,48 @@ class BinaryRestController {
             @RequestParam("home-user") homeUser: Long,
             @RequestParam("away-user") awayUser: Long,
             request: HttpServletRequest): ResponseEntity<GameCreationDto> {
+        assertBinaryDataStoreEndpoint()
+
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser!!.id != homeUser && authUser.id != awayUser) {
             throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
         }
 
-        val game: Game
         try {
-            game = gameService.reportGame(homeUser, awayUser, scoreHome, scoreAway, replay)
-            GlobalScope.launch {
-                messageService.publishNews(
-                        MessageNewsType.REPORT, authUser, game.id,
-                        game.homeUser!!.username, game.awayUser!!.username,
-                        game.scoreHome, game.scoreAway)
-            }
-        } catch (e: GameService.InvalidOpponentException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: GameService.InvalidScoreException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.UploadSecurityException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.FileEmptyException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.IllegalFileContentTypeException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.FileTooLargeException) {
-            throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
-        } catch (e: FileValidator.IllegalFileExtension) {
+            FileValidator.validate(
+                    replay, 150000,
+                    listOf("application/x-rar", "application/x-rar-compressed",
+                            "application/zip", "application/x-zip-compressed",
+                            "application/octet-stream"),
+                    listOf("rar", "zip"))
+        } catch (e: FileValidator.AbstractFileException) {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        return ResponseEntity.ok(GameCreationDto.toDto(game))
+        sendMultipartEntity(
+                url = "${binaryDataStoreEndpoint}/game/$gameId/replay",
+                fileInputStream = replay.inputStream,
+                mimeType = replay.contentType!!,
+                fileFieldName = "replay",
+                fileName = "${gameId}replay"
+        )
+
+        return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
-    fun multipartFormData(url: String, fileInputStream: InputStream, mimeType: String,
-                          fileFieldName: String, fileName: String): HttpEntity {
-        val uploadFile = HttpPost(url)
-        uploadFile.entity = MultipartEntityBuilder.create()
-                .addBinaryBody(
-                        fileFieldName, fileInputStream,
-                        ContentType.getByMimeType(mimeType), fileName)
-                .build()
-        return HttpClients.createDefault().execute(uploadFile).entity
+    fun sendMultipartEntity(url: String, fileInputStream: InputStream, mimeType: String,
+                            fileFieldName: String, fileName: String) {
+        val multipartEntity = with(HttpPost(url)) {
+            entity = MultipartEntityBuilder.create()
+                    .addBinaryBody(
+                            fileFieldName, fileInputStream,
+                            ContentType.DEFAULT_BINARY, fileName)
+                    .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+                    .build()
+            this
+        }
+
+        HttpClients.createDefault().use { it.execute(multipartEntity) }
     }
 
     @DeleteMapping("user/{userId}/photo")
