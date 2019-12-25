@@ -64,7 +64,7 @@ export class ReportGameComponent implements OnInit {
             formData.append('home-user', payload.user.toString());
 
             this.requestService.formDataPost(`game/${res.id}`, formData).subscribe((res: GameCreationDto) => {
-                this.router.navigateByUrl(`/games/${res.id}`);
+                this.router.navigateByUrl(`/binary/game/${res.id}/replay`);
                 this.toastr.success("Successfully saved.");
                 this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
             });
