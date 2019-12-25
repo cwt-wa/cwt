@@ -25,7 +25,6 @@ module.exports = webpackMerge(commonConfig, {
         new webpack.DefinePlugin({
             'process.env': {
                 'apiEndpoint': JSON.stringify('http://localhost:9000/api/'),
-                'binaryDataStoreEndpoint': null,
                 'captchaKey': JSON.stringify('6LdAgLYUAAAAAJp86PhBUHQA33EQeJrDHBi-iWNR'),
                 'liveStreamProducer': JSON.stringify('http://localhost:9999/produce'),
             }
