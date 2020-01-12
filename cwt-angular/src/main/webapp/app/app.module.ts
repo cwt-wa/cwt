@@ -85,6 +85,7 @@ import {EmailNote} from "./_util/email-note.pipe";
 import {PasswordForgottenComponent} from "./user/password-forgotten.component";
 import {PasswordResetComponent} from "./user/password-reset.component";
 import {AdminVoidGameComponent} from "./admin-void-game.component";
+import {ReplayLinkPipe} from "./_util/replay-link.pipe";
 
 const appRoutes: Routes = [
     {
@@ -258,6 +259,7 @@ const appRoutes: Routes = [
         GroupTableComponent,
         ReportGameComponent,
         AdminPlayoffsStartComponent,
+        ReplayLinkPipe,
         StandingsOrderPipe,
         ConvertLinksPipe,
         CwtDatePipe,
@@ -311,6 +313,7 @@ const appRoutes: Routes = [
         AuthService,
         RequestService,
         ConfigurationService,
+        ReplayLinkPipe,
         StandingsOrderPipe,
         ConvertLinksPipe,
         CwtDatePipe,

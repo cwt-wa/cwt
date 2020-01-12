@@ -11,7 +11,7 @@
             <cwt-user [username]="game.awayUser.username"></cwt-user>
         </td>
         <td class="text-right">
-            <a [href]="'/binary/game/' + game.id + '/replay'">
+            <a [href]="game.id | cwtReplayLink">
                 <i class="fa fa-arrow-circle-down"></i>
             </a>
         </td>

@@ -34,7 +34,7 @@
                     {{game?.scoreHome}}
                 </td>
                 <td *ngIf="game?.reporter" rowspan="2" class="rounded-bottom-right" [ngClass]="{'rounded-top-right': !lastRound}">
-                    <a [href]="'/binary/game/' + game.id + '/replay'">
+                    <a [href]="game.id | cwtReplayLink">
                         <i class="fa fa-arrow-circle-down"></i>
                     </a>
                     <a [routerLink]="['/games', game?.id]">
