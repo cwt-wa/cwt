@@ -95,7 +95,8 @@ class TreeService {
         val currentTournament = tournamentService.getCurrentTournament()
         return if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             gameRepository.findReadyGamesInRoundEqualOrGreaterThan(
-                    getNumberOfPlayoffRoundsInTournament(currentTournament)).size == 2
+                    getNumberOfPlayoffRoundsInTournament(currentTournament),
+                    currentTournament).size == 2
         } else {
             false
         }

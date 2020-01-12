@@ -20,7 +20,6 @@ import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.invocation.InvocationOnMock
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 import kotlin.test.Test
@@ -28,11 +27,20 @@ import kotlin.test.Test
 @RunWith(MockitoJUnitRunner::class)
 class TreeServiceTest {
 
-    @InjectMocks private lateinit var treeService: TreeService
-    @Mock private lateinit var gameRepository: GameRepository
-    @Mock private lateinit var configurationService: ConfigurationService
-    @Mock private lateinit var tournamentService: TournamentService
-    @Mock private lateinit var groupRepository: GroupRepository
+    @InjectMocks
+    private lateinit var treeService: TreeService
+
+    @Mock
+    private lateinit var gameRepository: GameRepository
+
+    @Mock
+    private lateinit var configurationService: ConfigurationService
+
+    @Mock
+    private lateinit var tournamentService: TournamentService
+
+    @Mock
+    private lateinit var groupRepository: GroupRepository
 
     @Test
     fun getVoidableGames() {
@@ -163,19 +171,22 @@ class TreeServiceTest {
         `when`(groupRepository.countByTournament(MockitoUtils.anyObject<Tournament>()))
                 .thenReturn(8)
 
-        val findReadyGamesInRoundEqualOrGreaterThanAnswer = { _: InvocationOnMock, listSize: Int ->
+        val mockListSize = { listSize: Int ->
             val list = mock(List::class.java)
             `when`(list.size).thenReturn(listSize)
             list
         }
 
-        `when`(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4))
-                .thenAnswer { invocation -> findReadyGamesInRoundEqualOrGreaterThanAnswer(invocation, 2) }
-                .thenAnswer { invocation -> findReadyGamesInRoundEqualOrGreaterThanAnswer(invocation, 0) }
+        val groupTournament = EntityDefaults.tournament(id = 1, status = TournamentStatus.GROUP)
+        val playoffTournament = EntityDefaults.tournament(id = 2, status = TournamentStatus.PLAYOFFS)
 
         `when`(tournamentService.getCurrentTournament())
-                .thenAnswer { EntityDefaults.tournament(status = TournamentStatus.GROUP) }
-                .thenAnswer { EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS) }
+                .thenReturn(groupTournament)
+                .thenReturn(playoffTournament)
+
+        `when`(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4, playoffTournament))
+                .thenAnswer { mockListSize(2) }
+                .thenAnswer { mockListSize(0) }
 
         Assert.assertFalse(treeService.onlyFinalGamesAreLeftToPlay())
         Assert.assertTrue(treeService.onlyFinalGamesAreLeftToPlay())
