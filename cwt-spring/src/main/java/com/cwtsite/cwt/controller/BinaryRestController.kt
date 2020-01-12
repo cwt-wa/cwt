@@ -4,6 +4,7 @@ import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
+import khttp.responses.Response
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.mime.HttpMultipartMode
@@ -40,22 +41,9 @@ class BinaryRestController {
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
         assertBinaryDataStoreEndpoint()
-
         val response = khttp.get(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
-
-        if (response.statusCode != 200) {
-            if (response.statusCode == 404) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-            }
-            logger.error("HTTP ${response.statusCode}: ${response.content.toString(Charset.defaultCharset())}")
-            throw RestException("Ew, something went wrong.", HttpStatus.BAD_REQUEST, null)
-        }
-
-        val headers = HttpHeaders()
-        headers.cacheControl = CacheControl.noCache().headerValue
-        headers.set("Content-Type", response.headers["Content-Type"])
-        headers.set("Content-Disposition", response.headers["Content-Disposition"])
-        return ResponseEntity(response.content, headers, HttpStatus.OK)
+        if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        return createResponseEntity(response.headers, response.content)
     }
 
     @PostMapping("user/{userId}/photo", consumes = ["multipart/form-data"])
@@ -131,6 +119,14 @@ class BinaryRestController {
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
+    @GetMapping("game/{gameId}/replay")
+    fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<ByteArray> {
+        assertBinaryDataStoreEndpoint()
+        val response = khttp.get(url = "${binaryDataStoreEndpoint}/game/$gameId/replay")
+        if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+        return createResponseEntity(response.headers, response.content)
+    }
+
     fun sendMultipartEntity(url: String, fileInputStream: InputStream, mimeType: String,
                             fileFieldName: String, fileName: String) {
         val multipartEntity = with(HttpPost(url)) {
@@ -166,6 +162,27 @@ class BinaryRestController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).build()
+    }
+
+    @Throws(RestException::class)
+    private fun assertResponse(response: Response): Boolean {
+        if (response.statusCode != 200) {
+            if (response.statusCode == 404) {
+                return true
+            }
+            logger.error("HTTP ${response.statusCode}: ${response.content.toString(Charset.defaultCharset())}")
+            throw RestException("Ew, something went wrong.", HttpStatus.BAD_REQUEST, null)
+        }
+        return false
+    }
+
+    private fun createResponseEntity(requestHeaders: Map<String, String>,
+                                     fileContent: ByteArray): ResponseEntity<ByteArray> {
+        val headers = HttpHeaders()
+        headers.cacheControl = CacheControl.noCache().headerValue
+        headers.set("Content-Type", requestHeaders["Content-Type"])
+        headers.set("Content-Disposition", requestHeaders["Content-Disposition"])
+        return ResponseEntity(fileContent, headers, HttpStatus.OK)
     }
 
     @Throws(RestException::class)
