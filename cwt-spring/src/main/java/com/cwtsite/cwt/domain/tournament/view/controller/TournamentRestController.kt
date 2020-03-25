@@ -82,6 +82,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
         }
     }
 
+    // todo entities should not be returned
     @RequestMapping("/{idOrYear}", method = [RequestMethod.GET])
     fun getTournament(@PathVariable("idOrYear") idOrYear: Long): ResponseEntity<Tournament> {
         val tournament = if (idOrYear.toString().startsWith("20"))

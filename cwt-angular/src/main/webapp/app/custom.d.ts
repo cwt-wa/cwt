@@ -346,6 +346,9 @@ export interface Tournament {
     bronzeWinner: User;
     silverWinner: User;
     goldWinner: User;
+    maxRounds: number;
+    threeWay: boolean;
+    moderators: { [key: string]: any }[];
 }
 
 export interface TournamentDto {
