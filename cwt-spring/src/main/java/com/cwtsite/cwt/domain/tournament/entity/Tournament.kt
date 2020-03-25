@@ -4,7 +4,6 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Timestamp
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -54,7 +53,7 @@ data class Tournament(
         @JoinTable(name = "tournament_moderator",
                 joinColumns = [JoinColumn(name = "tournaments_id", referencedColumnName = "ID")],
                 inverseJoinColumns = [JoinColumn(name = "moderators_id", referencedColumnName = "ID")])
-        var moderators: Set<User> = HashSet()
+        val moderators: MutableSet<User> = mutableSetOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
