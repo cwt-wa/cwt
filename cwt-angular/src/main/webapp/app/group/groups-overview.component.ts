@@ -13,6 +13,7 @@ type ViewMode = "list" | "square";
 export class GroupsOverviewComponent implements OnInit {
 
     @Input() tournamentId: number;
+    @Input("numberOfGroupMembersAdvancing") numberOfGroupMembersAdvancingInput: number;
     @Input() hideTitle: boolean;
     @Input() hideLoadingIndicator: boolean;
 
@@ -31,8 +32,12 @@ export class GroupsOverviewComponent implements OnInit {
             .pipe(finalize(() => this.loading = false))
             .subscribe(res => this.groups = res);
 
-        this.configurationService.requestByKeys("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
-            .subscribe(res => this.numberOfGroupMembersAdvancing = parseInt(res[0].value));
+        if (!this.numberOfGroupMembersAdvancingInput) {
+            this.configurationService.requestByKeys("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
+                .subscribe(res => this.numberOfGroupMembersAdvancing = parseInt(res[0].value));
+        } else {
+            this.numberOfGroupMembersAdvancing = this.numberOfGroupMembersAdvancingInput
+        }
     }
 
     public rememberViewMode(): void {
