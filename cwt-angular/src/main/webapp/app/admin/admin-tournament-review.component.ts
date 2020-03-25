@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Tournament} from "../custom";
+import {Tournament, TournamentUpdateDto} from "../custom";
 import {CanDeactivateGuard, Deactivatable} from "../_services/can-deactivate-guard";
 import {Observable} from "rxjs";
 import {Toastr} from "../_services/toastr";
@@ -53,7 +53,7 @@ export class AdminTournamentReviewComponent implements OnInit, Deactivatable {
     }
 
     submit() {
-        this.requestService.put<Tournament>(`tournament/${this.tournamentBeingEdited}`, {review: this.reviewBeingEdited} as Tournament)
+        this.requestService.put<Tournament>(`tournament/${this.tournamentBeingEdited}`, {review: this.reviewBeingEdited} as TournamentUpdateDto)
             .subscribe(() => {
                 this.toastr.success("Successfully saved.");
                 this.tournaments[this.tournaments.findIndex(t => t.id === this.tournamentBeingEdited)].review =

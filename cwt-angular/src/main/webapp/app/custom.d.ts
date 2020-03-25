@@ -357,6 +357,16 @@ export interface TournamentDto {
     moderators: UserMinimalDto[];
 }
 
+export interface TournamentUpdateDto {
+    status?: TournamentStatus;
+    review?: String;
+    maxRounds?: number;
+    bronzeWinner?: number;
+    silverWinner?: number;
+    goldWinner?: number;
+    moderators?: number[];
+}
+
 export interface ConfigurationDto {
     value: string;
     key: ConfigurationKey;
