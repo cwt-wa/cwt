@@ -7,7 +7,6 @@ import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
-import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.tournament.view.model.*
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
@@ -31,9 +30,9 @@ constructor(private val tournamentService: TournamentService, private val userSe
             private val gameService: GameService, private val treeService: TreeService) {
 
     @RequestMapping("/current", method = [RequestMethod.GET])
-    fun findCurrentTournament(): ResponseEntity<Tournament> {
+    fun findCurrentTournament(): ResponseEntity<TournamentDetailDto> {
         return try {
-            ResponseEntity.ok(tournamentService.getCurrentTournament())
+            ResponseEntity.ok(TournamentDetailDto.toDto(tournamentService.getCurrentTournament()))
         } catch (e: RuntimeException) {
             ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         }
@@ -52,7 +51,8 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("current/game/playoff", method = [RequestMethod.GET])
-    fun getPlayoffGamesOfCurrentTournament(@RequestParam("voidable", defaultValue = "false") voidable: Boolean): ResponseEntity<List<PlayoffGameDto>> {
+    fun getPlayoffGamesOfCurrentTournament(
+            @RequestParam("voidable", defaultValue = "false") voidable: Boolean): ResponseEntity<List<PlayoffGameDto>> {
         val currentTournament = try {
             tournamentService.getCurrentTournament()
         } catch (e: RuntimeException) {
@@ -64,7 +64,8 @@ constructor(private val tournamentService: TournamentService, private val userSe
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun getAllTournaments(): ResponseEntity<List<Tournament>> = ResponseEntity.ok(tournamentService.getAll())
+    fun getAllTournaments(): ResponseEntity<List<TournamentDetailDto>> =
+            ResponseEntity.ok(tournamentService.getAll().map { TournamentDetailDto.toDto(it) })
 
     @RequestMapping("/archive", method = [RequestMethod.GET])
     fun getTournamentsForArchive(): ResponseEntity<List<TournamentDto>> =
@@ -74,24 +75,26 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun createTournament(request: HttpServletRequest, @RequestBody startNewTournamentDto: StartNewTournamentDto): Tournament {
+    fun createTournament(
+            request: HttpServletRequest,
+            @RequestBody startNewTournamentDto: StartNewTournamentDto): ResponseEntity<TournamentDetailDto> {
         try {
-            return tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)
+            return ResponseEntity.ok(TournamentDetailDto.toDto(
+                    tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)))
         } catch (e: IllegalStateException) {
             throw RestException("There are other unfinished tournaments.", HttpStatus.BAD_REQUEST, e)
         }
     }
 
-    // todo entities should not be returned
     @RequestMapping("/{idOrYear}", method = [RequestMethod.GET])
-    fun getTournament(@PathVariable("idOrYear") idOrYear: Long): ResponseEntity<Tournament> {
+    fun getTournament(@PathVariable("idOrYear") idOrYear: Long): ResponseEntity<TournamentDetailDto> {
         val tournament = if (idOrYear.toString().startsWith("20"))
             tournamentService.getTournamentByYear(idOrYear)
         else
             tournamentService.getTournament(idOrYear)
 
         return ResponseEntity.ok(
-                tournament.orElseThrow { RestException("Tournament $idOrYear not found", HttpStatus.NOT_FOUND, null) })
+                TournamentDetailDto.toDto(tournament.orElseThrow { RestException("Tournament $idOrYear not found", HttpStatus.NOT_FOUND, null) }))
     }
 
     @RequestMapping("current/group/start", method = [RequestMethod.POST])
@@ -170,9 +173,12 @@ constructor(private val tournamentService: TournamentService, private val userSe
     @RequestMapping("{id}", method = [RequestMethod.PUT])
     @Transactional
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun updateTournament(@PathVariable("id") id: Long, @RequestBody dto: TournamentUpdateDto): ResponseEntity<Tournament> {
-        val tournament = tournamentService.getTournament(id).orElseThrow { RestException("Tournament not found", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(dto.update(tournament) { if (it == null) null else userService.getById(it).orElse(null) })
+    fun updateTournament(@PathVariable("id") id: Long, @RequestBody dto: TournamentUpdateDto): ResponseEntity<TournamentDetailDto> {
+        val tournament = tournamentService
+                .getTournament(id)
+                .orElseThrow { RestException("Tournament not found", HttpStatus.NOT_FOUND, null) }
+        return ResponseEntity.ok(
+                TournamentDetailDto.toDto(dto.update(tournament) { if (it == null) null else userService.getById(it).orElse(null) }))
     }
 
     @RequestMapping("{id}/group/users")

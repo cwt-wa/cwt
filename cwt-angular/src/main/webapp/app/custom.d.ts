@@ -231,7 +231,7 @@ export interface GameDetailDto {
     comments?: Comment[];
     reporter?: User;
     ratings?: Rating[];
-    tournament: Tournament;
+    tournament: TournamentDetailDto;
     voided: boolean;
     replayExists: boolean;
     playoffRoundLocalized: string;
@@ -253,7 +253,7 @@ export interface PlayoffGameDto {
     comments?: Comment[];
     reporter?: User;
     ratings?: Rating[];
-    tournament: Tournament;
+    tournament: TournamentDetailDto;
     replayExists: boolean;
     bets: PlayoffTreeBetDto[];
     playoffRoundLocalized: string;
@@ -264,7 +264,7 @@ export interface PlayoffGameDto {
 export interface GroupWithGamesDto {
     id: number;
     label: GroupLabel;
-    tournament: Tournament;
+    tournament: TournamentDetailDto;
     standings: StandingDto[];
     games: GameMinimalDto[];
 }
@@ -336,19 +336,18 @@ export interface CommentDto {
 
 export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED";
 
-export interface Tournament {
+export interface TournamentDetailDto {
     id: number;
     status: TournamentStatus;
     review: String;
-    open: string;
-    created: string;
-    host: User;
-    bronzeWinner: User;
-    silverWinner: User;
-    goldWinner: User;
     maxRounds: number;
-    threeWay: boolean;
-    moderators: { [key: string]: any }[];
+    numOfGroupAdvancing: number;
+    threeWay: Boolean;
+    created: Date;
+    bronzeWinner: UserMinimalDto;
+    silverWinner: UserMinimalDto;
+    goldWinner: UserMinimalDto;
+    moderators: UserMinimalDto[];
 }
 
 export interface TournamentDto {

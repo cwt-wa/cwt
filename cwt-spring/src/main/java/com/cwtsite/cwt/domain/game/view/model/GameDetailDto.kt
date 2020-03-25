@@ -5,7 +5,7 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.group.entity.Group
-import com.cwtsite.cwt.domain.tournament.entity.Tournament
+import com.cwtsite.cwt.domain.tournament.view.model.TournamentDetailDto
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Comment
 import java.util.*
@@ -21,7 +21,7 @@ data class GameDetailDto(
         val modified: Date,
         val playoff: PlayoffGame?,
         val group: Group?,
-        val tournament: Tournament,
+        val tournament: TournamentDetailDto,
         val homeUser: User?,
         val awayUser: User?,
         val reporter: User?,
@@ -45,7 +45,7 @@ data class GameDetailDto(
                     modified = game.modified!!,
                     playoff = game.playoff,
                     group = game.group,
-                    tournament = game.tournament,
+                    tournament = TournamentDetailDto.toDto(game.tournament),
                     homeUser = game.homeUser,
                     awayUser = game.awayUser,
                     reporter = game.reporter,

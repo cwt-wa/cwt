@@ -1,5 +1,8 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
+import com.cwtsite.cwt.domain.configuration.entity.Configuration
+import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
@@ -16,6 +19,7 @@ import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
@@ -33,6 +37,9 @@ class PlayoffServiceSemifinalTest {
     private lateinit var configurationService: ConfigurationService
 
     @Mock
+    private lateinit var configurationRepository: ConfigurationRepository
+
+    @Mock
     private lateinit var groupRepository: GroupRepository
 
     @Mock
@@ -42,6 +49,13 @@ class PlayoffServiceSemifinalTest {
     private lateinit var treeService: TreeService
 
     private val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS, maxRounds = 2)
+
+    @Before
+    fun setUp() {
+        Mockito.lenient()
+                .`when`(configurationRepository.findById(Mockito.eq(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)))
+                .thenReturn(Optional.of(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2")))
+    }
 
     @Before
     fun initMocks() {

@@ -1,5 +1,8 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
+import com.cwtsite.cwt.domain.configuration.entity.Configuration
+import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
@@ -12,6 +15,7 @@ import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -40,6 +44,16 @@ class PlayoffServiceTest {
 
     @Mock
     private lateinit var treeService: TreeService
+
+    @Mock
+    private lateinit var configurationRepository: ConfigurationRepository
+
+    @Before
+    fun setUp() {
+        Mockito.lenient()
+                .`when`(configurationRepository.findById(Mockito.eq(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)))
+                .thenReturn(Optional.of(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2")))
+    }
 
     @Test
     fun advanceByGame_playoffGameExists() {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "./_services/request.service";
-import {GroupWithGamesDto, PlayoffGameDto, Tournament} from "./custom";
+import {GroupWithGamesDto, PlayoffGameDto, TournamentDetailDto} from "./custom";
 import {finalize} from "rxjs/operators";
 import {Toastr} from "./_services/toastr";
 import {Router} from "@angular/router";
@@ -15,7 +15,7 @@ export class AdminVoidGameComponent implements OnInit {
     loading: boolean = false;
     groups: GroupWithGamesDto[];
     gameToVoid: string;
-    tournament: Tournament;
+    tournament: TournamentDetailDto;
     playoffs: PlayoffGameDto[];
     isNeitherTournamentStatus: boolean = false;
     noCurrentTournament: boolean;
@@ -28,7 +28,7 @@ export class AdminVoidGameComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
 
-        this.requestService.get<Tournament>('tournament/current')
+        this.requestService.get<TournamentDetailDto>('tournament/current')
             .subscribe(res => {
                 this.tournament = res;
 

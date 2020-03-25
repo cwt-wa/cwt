@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {AuthService} from "../_services/auth.service";
-import {Configuration, JwtUser, Tournament} from "../custom";
+import {Configuration, JwtUser, TournamentDetailDto} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {RequestService} from "../_services/request.service";
 
@@ -11,7 +11,7 @@ import {RequestService} from "../_services/request.service";
 export class HomeComponent implements OnInit {
     news: Configuration;
     authenticatedUser: JwtUser;
-    tournament?: Tournament;
+    tournament?: TournamentDetailDto;
 
     constructor(private authService: AuthService, private configurationService: ConfigurationService,
                 private requestService: RequestService) {
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
         this.configurationService.requestByKeys("NEWS")
             .subscribe(res => this.news = res[0]);
 
-        this.requestService.get<Tournament>('tournament/current')
+        this.requestService.get<TournamentDetailDto>('tournament/current')
             .subscribe(res => this.tournament = res)
     }
 }
