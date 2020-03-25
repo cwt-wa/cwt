@@ -31,6 +31,9 @@ data class Tournament(
         @Column(nullable = false)
         var maxRounds: Int = 5,
 
+        @Column(nullable = false)
+        var numOfGroupAdvancing: Int = 2,
+
         @Column
         var threeWay: Boolean? = null,
 

@@ -10,6 +10,7 @@ data class TournamentUpdateDto(
         val status: TournamentStatus?,
         val review: String?,
         val maxRounds: Int?,
+        val numOfGroupAdvancing: Int?,
         val bronzeWinner: Long?,
         val silverWinner: Long?,
         val goldWinner: Long?,
@@ -20,6 +21,7 @@ data class TournamentUpdateDto(
         tournament.status = status ?: tournament.status;
         tournament.review = review ?: tournament.review;
         tournament.maxRounds = maxRounds ?: tournament.maxRounds;
+        tournament.numOfGroupAdvancing = numOfGroupAdvancing ?: tournament.numOfGroupAdvancing;
         tournament.bronzeWinner = findUserById(bronzeWinner) ?: tournament.bronzeWinner;
         tournament.silverWinner = findUserById(silverWinner) ?: tournament.silverWinner;
         tournament.goldWinner = findUserById(goldWinner) ?: tournament.goldWinner;

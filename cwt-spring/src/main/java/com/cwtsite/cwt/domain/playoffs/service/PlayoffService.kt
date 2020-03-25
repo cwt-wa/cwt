@@ -1,5 +1,7 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
+import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameRepository
@@ -24,6 +26,9 @@ class PlayoffService {
 
     @Autowired
     private lateinit var treeService: TreeService
+
+    @Autowired
+    private lateinit var configurationRepository: ConfigurationRepository
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -64,18 +69,30 @@ class PlayoffService {
         val winner = game.winner()
         val loser = game.loser()
 
+        val numOfGroupAdvancing = configurationRepository
+                .findById(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)
+                .orElseThrow()
+
         @Suppress("CascadeIf")
         if (treeService.isFinalGame(game.tournament, game.playoff!!.round)) {
             val thirdPlaceGame = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round - 1)
             if (thirdPlaceGame.size > 1) throw RuntimeException("There's more than one third place game.")
             if (thirdPlaceGame.size < 1) throw RuntimeException("There's no third place game although there's already a final game.")
-            if (thirdPlaceGame[0].wasPlayed()) tournamentService.finish(winner, loser, thirdPlaceGame[0].winner(), game.playoff!!.round - 1, false)
+            if (thirdPlaceGame[0].wasPlayed()) {
+                tournamentService.finish(
+                        winner, loser, thirdPlaceGame[0].winner(),
+                        game.playoff!!.round - 1, numOfGroupAdvancing.value!!.toInt(), false)
+            }
             return emptyList()
         } else if (treeService.isThirdPlaceGame(game.tournament, game.playoff!!.round)) {
             val finalGame = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round + 1)
             if (finalGame.size > 1) throw RuntimeException("There's more than one one-way final game.")
             if (finalGame.size < 1) throw RuntimeException("There's no one-way final game although there's already a third place game.")
-            if (finalGame[0].wasPlayed()) tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner, game.playoff!!.round, false)
+            if (finalGame[0].wasPlayed()) {
+                tournamentService.finish(
+                        finalGame[0].winner(), finalGame[0].loser(), winner,
+                        game.playoff!!.round, numOfGroupAdvancing.value!!.toInt(), false)
+            }
             return emptyList()
         } else if (treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
             val threeWayFinalGames = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round)
@@ -83,7 +100,7 @@ class PlayoffService {
             if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.wasPlayed() }) {
                 try {
                     val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
-                    tournamentService.finish(gold, silver, bronze, game.playoff!!.round, true)
+                    tournamentService.finish(gold, silver, bronze, game.playoff!!.round, numOfGroupAdvancing.value!!.toInt(), true)
                 } catch (e: TiedThreeWayFinalResult) {
                     return listOf(
                             *gameRepository.saveAll(threeWayFinalGames.onEach { it.voided = true }).toTypedArray(),

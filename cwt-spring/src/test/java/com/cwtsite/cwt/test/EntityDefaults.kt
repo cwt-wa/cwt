@@ -19,11 +19,13 @@ object EntityDefaults {
             email = email
     )
 
-    fun tournament(created: LocalDateTime = LocalDateTime.now(), id: Long = 1, maxRounds: Int = 5, moderators: Set<User> = setOf(user()),
-                   threeWay: Boolean  = false, status: TournamentStatus = TournamentStatus.FINISHED) = Tournament(
+    fun tournament(created: LocalDateTime = LocalDateTime.now(), id: Long = 1, maxRounds: Int = 5, numOfGroupAdvancing: Int = 2,
+                   moderators: Set<User> = setOf(user()), threeWay: Boolean  = false,
+                   status: TournamentStatus = TournamentStatus.FINISHED) = Tournament(
             id = id,
             created = Timestamp.valueOf(created),
             maxRounds = maxRounds,
+            numOfGroupAdvancing = numOfGroupAdvancing,
             moderators = moderators,
             threeWay = threeWay,
             status = status

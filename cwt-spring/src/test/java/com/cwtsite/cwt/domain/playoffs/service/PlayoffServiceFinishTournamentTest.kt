@@ -2,37 +2,41 @@ package com.cwtsite.cwt.domain.playoffs.service
 
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
-import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameRepository
-import com.cwtsite.cwt.domain.group.service.GroupRepository
-import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
-import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
+import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
 class PlayoffServiceFinishTournamentTest {
 
     @InjectMocks private lateinit var playoffService: PlayoffService
     @Mock private lateinit var gameRepository: GameRepository
-    @Mock private lateinit var configurationService: ConfigurationService
-    @Mock private lateinit var groupRepository: GroupRepository
+    @Mock private lateinit var configurationRepository: ConfigurationRepository
     @Mock private lateinit var tournamentService: TournamentService
-    @Mock private lateinit var tournamentRepository: TournamentRepository
     @Mock private lateinit var treeService: TreeService
 
     private val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
+
+    @Before
+    fun setUp() {
+        lenient()
+                .`when`(configurationRepository.findById(eq(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)))
+                .thenReturn(Optional.of(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2")))
+    }
 
     @Test
     fun advanceByGame_isFinalGame() {
@@ -48,7 +52,7 @@ class PlayoffServiceFinishTournamentTest {
         playoffService.advanceByGame(finalGame)
 
         verify(tournamentService)
-                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, false)
+                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, 2, false)
     }
 
     @Test
@@ -65,7 +69,7 @@ class PlayoffServiceFinishTournamentTest {
         playoffService.advanceByGame(thirdPlaceGame)
 
         verify(tournamentService)
-                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, false)
+                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, 2, false)
     }
 
     @Test
@@ -111,7 +115,7 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(game)
 
-        verify(tournamentService).finish(user1, user3, user2, game.playoff!!.round, true)
+        verify(tournamentService).finish(user1, user3, user2, game.playoff!!.round, 2, true)
     }
 
     @Test
