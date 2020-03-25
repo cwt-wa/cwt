@@ -52,9 +52,8 @@
             )
         }
 
-        override fun requestStreams(channelIds: List<String>): List<TwitchStreamDto> {
-            TODO("not implemented")
-        }
+        override fun requestStreams(channelIds: List<String>): List<TwitchStreamDto> =
+                throw UnsupportedOperationException()
 
         override fun requestUsers(vararg loginNames: String): List<TwitchUserDto> {
             return listOf(
