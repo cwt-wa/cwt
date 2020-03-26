@@ -132,9 +132,10 @@ export class ChatInputComponent implements OnInit {
         this.isMobileDevice && await new Promise((resolve, _) => setTimeout(() => resolve(), 100));
         if (this.submitting) return;
         if (e.target !== this.chatInput.nativeElement) return;
+        let selection = window.getSelection();
         if (!(e.key === '@'
             || (e.key === 'Unidentified'
-                && e.target.textContent.substring(e.target.textContent.length - 1) === '@'))) {
+                && selection.anchorNode.textContent[selection.getRangeAt(0).startOffset - 1] === '@'))) {
             return;
         }
 
