@@ -14,6 +14,11 @@ import {
 import {MentionComponent} from './mention.component';
 import {Message, User} from "../custom";
 import {RequestService} from "../_services/request.service";
+import {Utils} from "../_util/utils";
+
+type ContentEditableKeyboardEvent = KeyboardEvent & {
+    target: HTMLDivElement;
+}
 
 @Component({
     selector: 'chatInput',
@@ -75,13 +80,16 @@ export class ChatInputComponent implements OnInit {
 
     private mentions: ComponentRef<MentionComponent>[] = [];
     private users: User[];
+    private readonly isMobileDevice: boolean;
 
     submitting: boolean = false;
 
     constructor(private resolver: ComponentFactoryResolver,
                 private injector: Injector,
                 private app: ApplicationRef,
-                private requestService: RequestService) {
+                private requestService: RequestService,
+                utils: Utils) {
+        this.isMobileDevice = utils.isMobileDevice();
     }
 
     public ngOnInit(): void {
@@ -120,18 +128,41 @@ export class ChatInputComponent implements OnInit {
         this.chatInput.nativeElement.innerHTML = '';
     }
 
-    public keyDown(event: KeyboardEvent): void {
+    public async keyDown(e: ContentEditableKeyboardEvent) {
+        this.isMobileDevice && await new Promise((resolve, _) => setTimeout(() => resolve(), 100));
         if (this.submitting) return;
-        if (!(event.key === '@' || (event.key === 'Unidentified' && event.which === 229))) return;
+        if (e.target !== this.chatInput.nativeElement) return;
+        if (!(e.key === '@'
+            || (e.key === 'Unidentified'
+                && e.target.textContent.substring(e.target.textContent.length - 1) === '@'))) {
+            return;
+        }
 
-        // Don't turn email addresses into mentions.
-        const precedingChar = (event.target as HTMLDivElement).textContent.substring(window.getSelection().anchorOffset - 1);
+        e.preventDefault();
+
+        const precedingChar = this.retrievePrecedingChar(e);
         if (precedingChar !== "" && precedingChar !== "—" /* em-dash */ && precedingChar.match(/\s/) == null) {
             return;
         }
 
-        event.preventDefault();
+        // todo there's an additional @ sign now as `e.preventDefault()`
+        //  does not work on mobile
+
         this.instantiateMention();
+    }
+
+    private retrievePrecedingChar(e: ContentEditableKeyboardEvent) {
+        let textToGoAbout;
+        if (this.isMobileDevice) {
+            if (e.target.textContent.length === 1) {
+                return '';
+            } else {
+                textToGoAbout = e.target.textContent.substring(e.target.textContent.length - 1);
+            }
+        } else {
+            textToGoAbout = e.target.textContent;
+        }
+        return textToGoAbout.substring(window.getSelection().anchorOffset - 1);
     }
 
     public onPaste(e: ClipboardEvent) {
