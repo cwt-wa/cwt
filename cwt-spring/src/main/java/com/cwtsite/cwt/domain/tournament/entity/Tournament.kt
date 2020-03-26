@@ -53,7 +53,7 @@ data class Tournament(
         @JoinTable(name = "tournament_moderator",
                 joinColumns = [JoinColumn(name = "tournaments_id", referencedColumnName = "ID")],
                 inverseJoinColumns = [JoinColumn(name = "moderators_id", referencedColumnName = "ID")])
-        val moderators: MutableSet<User> = mutableSetOf()
+        var moderators: MutableSet<User> = mutableSetOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
