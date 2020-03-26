@@ -20,7 +20,7 @@ object EntityDefaults {
     )
 
     fun tournament(created: LocalDateTime = LocalDateTime.now(), id: Long = 1, maxRounds: Int = 5, numOfGroupAdvancing: Int = 2,
-                   moderators: Set<User> = setOf(user()), threeWay: Boolean  = false,
+                   moderators: MutableSet<User> = mutableSetOf(user()), threeWay: Boolean  = false,
                    status: TournamentStatus = TournamentStatus.FINISHED) = Tournament(
             id = id,
             created = Timestamp.valueOf(created),
