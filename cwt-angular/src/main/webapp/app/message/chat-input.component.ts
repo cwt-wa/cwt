@@ -122,7 +122,7 @@ export class ChatInputComponent implements OnInit {
 
     public keyDown(event: KeyboardEvent): void {
         if (this.submitting) return;
-        if (event.key !== '@') return;
+        if (!(event.key === '@' || (event.key === 'Unidentified' && event.which === 229))) return;
 
         // Don't turn email addresses into mentions.
         const precedingChar = (event.target as HTMLDivElement).textContent.substring(window.getSelection().anchorOffset - 1);
