@@ -145,10 +145,23 @@ export class ChatInputComponent implements OnInit {
             return;
         }
 
-        // todo there's an additional @ sign now as `e.preventDefault()`
-        //  does not work on mobile
-
         this.instantiateMention();
+
+        if (this.isMobileDevice) {
+            const orphanedAtSign = Array.from(e.target.childNodes)
+                .findIndex(n => n.nodeType === Node.TEXT_NODE && n.textContent.endsWith('@'));
+
+            if (orphanedAtSign + 1 < e.target.childNodes.length
+                    && Array.from(e.target.childNodes)[orphanedAtSign + 1].textContent.startsWith("@[m")) {
+                if (e.target.childNodes[orphanedAtSign].textContent === '@') {
+                    e.target.childNodes[orphanedAtSign].remove();
+                } else {
+                    e.target.childNodes[orphanedAtSign].textContent =
+                        e.target.childNodes[orphanedAtSign].textContent
+                            .substring(0, e.target.childNodes[orphanedAtSign].textContent.length - 1);
+                }
+            }
+        }
     }
 
     private retrievePrecedingChar(e: ContentEditableKeyboardEvent) {
