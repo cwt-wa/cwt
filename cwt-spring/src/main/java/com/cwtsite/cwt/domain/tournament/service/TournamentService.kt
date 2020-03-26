@@ -43,7 +43,7 @@ class TournamentService {
         }
 
         val tournament = Tournament()
-        tournament.moderators = userRepository.findAllById(moderatorIds).toSet()
+        tournament.moderators = userRepository.findAllById(moderatorIds).toMutableSet()
         tournament.status = TournamentStatus.OPEN
 
         return tournamentRepository.save(tournament)

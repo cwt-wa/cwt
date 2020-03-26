@@ -25,7 +25,7 @@ data class TournamentUpdateDto(
         tournament.bronzeWinner = findUserById(bronzeWinner) ?: tournament.bronzeWinner;
         tournament.silverWinner = findUserById(silverWinner) ?: tournament.silverWinner;
         tournament.goldWinner = findUserById(goldWinner) ?: tournament.goldWinner;
-        tournament.moderators = moderators?.map { findUserById(it)!! }?.toSet() ?: tournament.moderators;
+        tournament.moderators = moderators?.map { findUserById(it)!! }?.toMutableSet() ?: tournament.moderators;
         return tournament
     }
 }
