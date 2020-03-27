@@ -13,7 +13,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
 
-    messages: MessageDto[] = [];
+    allMessages: MessageDto[] = [];
+    filterPrivate = false;
     messagePagingStart: number = 0;
     messageTotalElements: number;
     private readonly messagesSize = 15;
@@ -21,6 +22,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     private readonly fetchIntervalMillis = 10000;
     private fetchInterval: number;
+
+    get messages(): MessageDto[] {
+        return this.filterPrivate
+            ? this.allMessages.filter(m => m.category === "PRIVATE")
+            : this.allMessages;
+    }
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
@@ -50,7 +57,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         this.requestService.post<MessageCreationDto>('message', messageDto)
             .subscribe(res => {
-                this.messages.unshift(res as unknown as MessageDto);
+                this.allMessages.unshift(res as unknown as MessageDto);
                 this.messageTotalElements += 1;
                 cb(true);
             }, () => cb(false));
@@ -66,12 +73,8 @@ ${message.author.username}: ${message.body}`;
         this.requestService.delete(`message/${message.id}`)
             .subscribe(() => {
                 this.toastr.success("Message has been deleted.");
-                this.messages.splice(this.messages.findIndex(m => m.id === message.id), 1);
+                this.allMessages.splice(this.allMessages.findIndex(m => m.id === message.id), 1);
             })
-    }
-
-    filterPrivateOnly(): void {
-        this.messages = this.messages.filter(m => m.category === "PRIVATE");
     }
 
     private fetchMessages() {
@@ -80,7 +83,7 @@ ${message.author.username}: ${message.body}`;
             .subscribe(res => {
                 this.messageTotalElements = res.totalElements;
                 this.messagePagingStart = res.start;
-                this.messages.push(...res.content);
+                this.allMessages.push(...res.content);
                 if (this.fetchInterval == null) this.fetchNewMessages();
             });
     }
@@ -88,13 +91,13 @@ ${message.author.username}: ${message.body}`;
     private fetchNewMessages() {
         const relativePath = this.admin ? 'message/admin/new' : 'message/new';
 
-        const newestMessageCreated = this.messages
+        const newestMessageCreated = this.allMessages
             .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())[0].created;
 
         this.requestService.get<MessageDto[]>(relativePath, {after: Date.parse(newestMessageCreated).toString()})
             .subscribe(res => {
                 this.messageTotalElements += res.length;
-                this.messages.unshift(...res);
+                this.allMessages.unshift(...res);
                 if (this.fetchInterval == null) this.fetchInterval = window.setInterval(this.fetchNewMessages.bind(this), this.fetchIntervalMillis);
             });
     }
