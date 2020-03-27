@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row" *ngIf="authUser && !hideInput">
     <div class="col pr-0">
-        <chatInput (message)="submit($event[0], $event[1])" *ngIf="authUser && !hideInput"></chatInput>
+        <chatInput (message)="submit($event[0], $event[1])"></chatInput>
     </div>
     <div class="col-auto pl-1">
         <button type="button" class="btn btn-lg bg-danger btn-primary submit"
