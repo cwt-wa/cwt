@@ -1,4 +1,14 @@
-<chatInput (message)="submit($event[0], $event[1])" *ngIf="authUser && !hideInput"></chatInput>
+<div class="row">
+    <div class="col pr-0">
+        <chatInput (message)="submit($event[0], $event[1])" *ngIf="authUser && !hideInput"></chatInput>
+    </div>
+    <div class="col-auto pl-1">
+        <button type="button" class="btn btn-lg bg-danger btn-primary submit"
+                (click)="filterPrivateOnly()">
+            <i class="fa fa-filter"></i>
+        </button>
+    </div>
+</div>
 
 <div class="card bg-primary text-white border-0 mt-1">
     <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid white !important;"

@@ -70,6 +70,10 @@ ${message.author.username}: ${message.body}`;
             })
     }
 
+    filterPrivateOnly(): void {
+        this.messages = this.messages.filter(m => m.category === "PRIVATE");
+    }
+
     private fetchMessages() {
         const relativePath = this.admin ? 'message/admin' : 'message';
         this.requestService.getPaged<MessageDto>(relativePath, {size: this.messagesSize, start: this.messagePagingStart} as PageDto<MessageDto>)
