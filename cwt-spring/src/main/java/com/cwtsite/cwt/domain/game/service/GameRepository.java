@@ -61,9 +61,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByTournamentAndRoundAndNotVoided(@Param("tournament") Tournament tournament,
                                                     @Param("round") Integer round);
 
-    @Query("select gs.data from GameStats gs where gs.game = :game")
-    String findStatsByGame(@Param("game") Game game); // todo test this
-
     List<Game> findByGroup(Group group);
 
     List<Game> findByGroupNotNullAndTournament(Tournament tournament);

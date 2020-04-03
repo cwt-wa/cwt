@@ -12,12 +12,13 @@ data class GameStats(
         @Column(name = "game_id")
         var gameId: Long? = null,
 
-        @OneToOne
-        @JoinColumn(name = "game_id")
-        var game: Game? = null,
+//        @MapsId
+//        @OneToOne(cascade = [CascadeType.ALL])
+//        @JoinColumn(name = "game_id", referencedColumnName = "id")
+//        var game: Game? = null,
 
-        @Column(name = "data", columnDefinition = "json")
-        var data: String? = null,
+        @Column(name = "data", columnDefinition = "text")
+        var data: String,
 
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
