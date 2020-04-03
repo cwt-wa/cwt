@@ -8,3 +8,5 @@ target/
 *.swp
 
 cwt-spring/src/main/resources/static/
+
+*.DS_Store
