@@ -319,6 +319,10 @@ export interface GameTechWinDto {
     loser: number;
 }
 
+export interface GameStats {
+    gameId: string
+}
+
 export interface ReplacePlayerDto {
     toBeReplaced: number;
     replacement: number;

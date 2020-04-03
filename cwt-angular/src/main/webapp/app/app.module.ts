@@ -86,6 +86,7 @@ import {PasswordForgottenComponent} from "./user/password-forgotten.component";
 import {PasswordResetComponent} from "./user/password-reset.component";
 import {AdminVoidGameComponent} from "./admin-void-game.component";
 import {ReplayLinkPipe} from "./_util/replay-link.pipe";
+import {GameStatsComponent} from "./game/game-stats.component";
 
 const appRoutes: Routes = [
     {
@@ -226,6 +227,10 @@ const appRoutes: Routes = [
         component: PasswordResetComponent
     },
     {
+        path: 'games/:id/stats',
+        component: GameStatsComponent
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     }
@@ -307,6 +312,7 @@ const appRoutes: Routes = [
         PasswordForgottenComponent,
         PasswordResetComponent,
         AdminVoidGameComponent,
+        GameStatsComponent,
     ],
     providers: [
         WebAppViewService,
