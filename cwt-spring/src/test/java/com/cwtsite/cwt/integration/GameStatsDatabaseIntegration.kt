@@ -9,9 +9,7 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
-import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
@@ -51,7 +49,7 @@ class GameStatsDatabaseIntegration {
     fun setUp() {
         val tournament = tournamentRepository.save(Tournament(created = Timestamp.from(Instant.now())))
         game = gameRepository.save(Game(tournament = tournament))
-        gameStatsRepository.save(GameStats(gameId = game!!.id, data = statsJson))
+        gameStatsRepository.save(GameStats(game = game, data = statsJson))
     }
 
 

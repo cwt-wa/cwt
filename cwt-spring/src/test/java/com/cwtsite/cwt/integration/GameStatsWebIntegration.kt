@@ -32,13 +32,10 @@ import kotlin.test.Test
 @AutoConfigureMockMvc
 @EmbeddedPostgres
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class GameStatsIntegration {
+class GameStatsWebIntegration {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
-
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
 
     @MockBean
     private lateinit var gameService: GameService
