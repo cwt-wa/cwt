@@ -12,10 +12,9 @@ data class GameStats(
         @Column(name = "game_id")
         var gameId: Long? = null,
 
-//        @MapsId
-//        @OneToOne(cascade = [CascadeType.ALL])
-//        @JoinColumn(name = "game_id", referencedColumnName = "id")
-//        var game: Game? = null,
+        @OneToOne(cascade = [CascadeType.ALL])
+        @JoinColumn(name = "game_id", referencedColumnName = "id")
+        var game: Game? = null,
 
         @Column(name = "data", columnDefinition = "text")
         var data: String,

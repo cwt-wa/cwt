@@ -234,7 +234,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return betRepository.save(bet)
     }
 
-    fun findGameStats(game: Game): String = gameStatsRepository.findById(game.id!!).map { it.data }.orElseThrow()
+    fun findGameStats(game: Game): String = gameStatsRepository.findByGame(game).data
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
 

@@ -8,8 +8,9 @@ import com.cwtsite.cwt.domain.game.service.GameStatsRepository
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
+import org.junit.runners.MethodSorters
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
@@ -22,6 +23,7 @@ import kotlin.test.Test
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @EmbeddedPostgres
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class GameStatsDatabaseIntegration {
 
     @Autowired
@@ -45,16 +47,23 @@ class GameStatsDatabaseIntegration {
         private var game: Game? = null
     }
 
-    @Before
-    fun setUp() {
-        val tournament = tournamentRepository.save(Tournament(created = Timestamp.from(Instant.now())))
-        game = gameRepository.save(Game(tournament = tournament))
-        gameStatsRepository.save(GameStats(game = game, data = statsJson))
+    @Test
+    fun `1 save game`() {
+        game = gameRepository.save(Game(
+                tournament = tournamentRepository.save(
+                        Tournament(created = Timestamp.from(Instant.now())))))
     }
 
+    @Test
+    fun `2 save stats`() {
+        gameStatsRepository.save(GameStats(
+                gameId = game!!.id!!,
+                game = game,
+                data = statsJson))
+    }
 
     @Test
-    fun `query stats from database`() {
+    fun `3 query stats`() {
         assertThat(gameService.findGameStats(gameService.findById(game!!.id!!).orElseThrow()))
                 .isEqualTo(statsJson)
     }
