@@ -89,7 +89,7 @@
   "turns": [
     {
       "timestamp": "00:00:00.00",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Select Worm",
         "Ninja Rope",
@@ -109,7 +109,7 @@
     },
     {
       "timestamp": "00:01:00.90",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Ninja Rope",
         "Ninja Rope",
@@ -129,7 +129,7 @@
     },
     {
       "timestamp": "00:01:56.72",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Select Worm",
         "Sheep"
@@ -152,7 +152,7 @@
     },
     {
       "timestamp": "00:02:54.36",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Low Gravity",
         "Baseball Bat"
@@ -170,7 +170,7 @@
     },
     {
       "timestamp": "00:03:26.30",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Ninja Rope",
         "Parachute"
@@ -188,7 +188,7 @@
     },
     {
       "timestamp": "00:04:16.02",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Select Worm",
         "Mine"
@@ -206,7 +206,7 @@
     },
     {
       "timestamp": "00:05:09.42",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Ninja Rope",
         "Shotgun",
@@ -225,7 +225,7 @@
     },
     {
       "timestamp": "00:06:10.96",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Ninja Rope",
         "Sheep"
@@ -248,7 +248,7 @@
     },
     {
       "timestamp": "00:06:47.94",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -266,7 +266,7 @@
     },
     {
       "timestamp": "00:07:47.74",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Ninja Rope",
         "Dynamite"
@@ -289,7 +289,7 @@
     },
     {
       "timestamp": "00:08:20.32",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -307,7 +307,7 @@
     },
     {
       "timestamp": "00:09:22.82",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -325,7 +325,7 @@
     },
     {
       "timestamp": "00:10:03.32",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -343,11 +343,11 @@
     },
     {
       "timestamp": "00:11:11.08",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Select Worm",
         "Ninja Rope",
-        "Grenade (3 sec, min bounce)"
+        "Grenade"
       ],
       "damages": [
         {
@@ -362,7 +362,7 @@
     },
     {
       "timestamp": "00:11:50.60",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Jet Pack",
         "Dynamite"
@@ -380,7 +380,7 @@
     },
     {
       "timestamp": "00:12:48.78",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Select Worm",
         "Shotgun",
@@ -399,7 +399,7 @@
     },
     {
       "timestamp": "00:13:47.78",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -417,7 +417,7 @@
     },
     {
       "timestamp": "00:14:48.34",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -435,7 +435,7 @@
     },
     {
       "timestamp": "00:15:32.54",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -453,10 +453,10 @@
     },
     {
       "timestamp": "00:15:57.48",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Ninja Rope",
-        "Mad Cow (herd of 2)"
+        "Mad Cow"
       ],
       "damages": [
         {
@@ -471,7 +471,7 @@
     },
     {
       "timestamp": "00:16:40.24",
-      "user": "NNN`Rafka)",
+      "user": "NNN`Rafka",
       "weapons": [
         "Shotgun",
         "Shotgun"
@@ -489,7 +489,7 @@
     },
     {
       "timestamp": "00:17:35.80",
-      "user": "Siwy)",
+      "user": "Siwy",
       "weapons": [
         "Jet Pack",
         "Shotgun",
