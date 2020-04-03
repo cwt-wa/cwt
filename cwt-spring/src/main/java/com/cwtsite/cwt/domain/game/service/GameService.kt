@@ -234,6 +234,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return betRepository.save(bet)
     }
 
+    fun findGameStats(game: Game): String = gameRepository.findStatsByGame(game)
+
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
 
     fun findGroupGamesInclVoided(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndTournament(tournament)
