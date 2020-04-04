@@ -30,15 +30,13 @@ const colors: { [key: string]: string } = {
         justify-content: space-between;
         color: #fbfbfb;
         text-shadow: 0 0 .2rem #000;
-        padding: .8rem 1.5rem;
+        padding: .8rem 1rem .8rem 2rem;
         line-height: 1.1rem;
         margin: 0 0 1px 0;
       }
-      .stats .head > div.user:first-child {
-        text-align: left;
-      }
-      .stats .head > div.user:nth-child(2) {
-        text-align: right;
+      .stats .head > div.user {
+        text-align: center;
+        flex-grow: 1;
       }
       .stats .head div.user > span.user {
         display: block;
