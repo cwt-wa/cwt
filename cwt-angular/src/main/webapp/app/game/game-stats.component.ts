@@ -1,7 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {ActivatedRoute} from "@angular/router";
-import Turn = GameStats.Turn;
+
+const colors: { [key: string]: string } = {
+    blue: '#9D9FFF',
+    red: '#FF7F7F',
+    green: '#80FF80',
+    yellow: '#FFFF80',
+    cyan: '#80FFFF',
+    magenta: '#FF82FF',
+};
 
 @Component({
     selector: 'cwt-game-stats',
@@ -17,28 +25,28 @@ import Turn = GameStats.Turn;
         box-shadow: 0 0 .25rem #000;
       }`, `
       .blue {
-        background-color: #9D9FFF;
-        border-color: #9D9FFF;
+        background-color: ${colors.blue};
+        border-color: ${colors.blue};
       }`, `
       .red {
-        background-color: #FF7F7F;
-        border-color: #FF7F7F;
+        background-color: ${colors.red};
+        border-color: ${colors.red};
       }`, `
       .green {
-        background-color: #80FF80;
-        border-color: #80FF80;
+        background-color: ${colors.green};
+        border-color: ${colors.green};
       }`, `
       .yellow {
-        background-color: #FFFF80;
-        border-color: #FFFF80;
+        background-color: ${colors.yellow};
+        border-color: ${colors.yellow};
       }`, `
       .cyan {
-        background-color: #80FFFF;
-        border-color: #80FFFF;
+        background-color: ${colors.cyan};
+        border-color: ${colors.cyan};
       }`, `
       .magenta {
-        background-color: #FF82FF;
-        border-color: #FF82FF;
+        background-color: ${colors.magenta};
+        border-color: ${colors.magenta};
       }`,
     ],
     template: `
@@ -48,8 +56,8 @@ import Turn = GameStats.Turn;
             {{winningUser}}
         </pre>
 
-        <div *ngFor="let turn of stats?.turns">
-            <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints()}">
+        <div *ngFor="let turn of stats?.turns; let index = index">
+            <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
 
                 {{turn.user}}
                 <div *ngFor="let weapon of turn.weapons">
@@ -67,6 +75,7 @@ export class GameStatsComponent implements OnInit {
 
     stats: GameStats.GameStats;
     totalHealthPointsPerTeam: number;
+    numberOfTeams: number;
     losingUser: string;
     winningUser: string;
 
@@ -84,10 +93,28 @@ export class GameStatsComponent implements OnInit {
         return this.stats.teams.find(t => t.user === user).color;
     }
 
-    linearGradientHealthPoints(): string {
-        // W = G * p%
-        // todo
-        return 'linear-gradient(to right, #9D9FFF 20%, #FF7F7F 20%)';
+    linearGradientHealthPoints(turnNum: number): string {
+        const pastTurns = this.stats.turns.slice(0, turnNum);
+        const healthPoints: { team: GameStats.Team, health: number }[] =
+            this.stats.teams.map(team => ({
+                team: team,
+                health: this.totalHealthPointsPerTeam -
+                    this.calcLostHealthPoints(pastTurns, team.user)
+            }));
+
+        const totalCurrentHealthPoints =
+            healthPoints.reduce<number>((acc: number, {health}: { health: number }) => acc + health, 0);
+
+        let previousPercentalPartOfTotalHealth = 0.00;
+        const gradients = healthPoints.map(health => {
+            const percentalPartOfTotalHealth = Math.round(health.health / totalCurrentHealthPoints * 10000) / 100;
+            const teamColor = colors[health.team.color.toLowerCase()];
+            const result = `${teamColor} ${previousPercentalPartOfTotalHealth}%, ${teamColor} ${percentalPartOfTotalHealth}%`;
+            previousPercentalPartOfTotalHealth = percentalPartOfTotalHealth;
+            return result
+        });
+
+        return `linear-gradient(to right, ${gradients.join(', ')})`;
     }
 
     private loadStats(gameId: number) {
@@ -96,13 +123,17 @@ export class GameStatsComponent implements OnInit {
                 this.stats = res;
                 this.losingUser = this.stats.teams.find(t => t.team !== this.stats.winsTheRound).user;
                 this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
-                this.totalHealthPointsPerTeam =
-                    this.stats.turns
-                        .reduce<number>((acc: number, curr: Turn) =>
-                            acc + curr.damages
-                                .filter(d => d.victim === this.losingUser)
-                                .reduce((accD, currD) => accD + currD.damage, 0), 0)
+                this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
+                this.numberOfTeams = this.stats.teams.length;
             });
+    }
+
+    private calcLostHealthPoints(turns: GameStats.Turn[], victim: string) {
+        return turns
+            .reduce<number>((acc: number, curr: GameStats.Turn) =>
+                acc + curr.damages
+                    .filter(d => d.victim === victim)
+                    .reduce((accD, currD) => accD + currD.damage, 0), 0);
     }
 }
 
