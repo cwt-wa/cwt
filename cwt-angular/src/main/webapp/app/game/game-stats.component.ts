@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {ActivatedRoute} from "@angular/router";
 
-// todo sudden death
+// todo sudden death (water color: #323b7e)
 // todo show kills
 // todo total turn time
 // todo header with user and teams names
