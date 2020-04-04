@@ -2,6 +2,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {ActivatedRoute} from "@angular/router";
 
+// todo sudden death
+// todo show kills
+// todo total turn time
+// todo header with user and teams names
+// todo total game duration
+
 const colors: { [key: string]: string } = {
     blue: '#9D9FFF',
     red: '#FF7F7F',
