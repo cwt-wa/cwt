@@ -5,7 +5,6 @@ import {ActivatedRoute} from "@angular/router";
 // todo sudden death (water color: #323b7e)
 // todo show kills
 // todo total turn time
-// todo header with user and teams names
 // todo total game duration
 
 const colors: { [key: string]: string } = {
@@ -25,7 +24,30 @@ const colors: { [key: string]: string } = {
         overflow: hidden;
         padding: 0;
         margin: 0;
-      }`,`
+      }
+      .stats .head {
+        display: flex;
+        justify-content: space-between;
+        color: #fbfbfb;
+        text-shadow: 0 0 .2rem #000;
+        padding: .8rem 1.5rem;
+        line-height: 1.1rem;
+        margin: 0 0 1px 0;
+      }
+      .stats .head > div.user:first-child {
+        text-align: left;
+      }
+      .stats .head > div.user:nth-child(2) {
+        text-align: right;
+      }
+      .stats .head div.user > span.user {
+        display: block;
+        font-size: 1rem;
+      }
+      .stats .head div.user > span.team {
+        display: block;
+        font-size: .8rem;
+      }
       .turn {
         display: flex;
         justify-content: center;
@@ -33,34 +55,34 @@ const colors: { [key: string]: string } = {
         padding: .5rem 0;
         background: transparent;
         margin: 0 0 1px 0;
-      }`, `
+      }
       .weapon {
         display: inline-block;
         background-clip: padding-box;
         margin: .3rem;
         padding: .2rem;
         box-shadow: 0 0 .25rem #000;
-      }`, `
+      }
       .blue {
         background-color: ${colors.blue};
         border-color: ${colors.blue};
-      }`, `
+      }
       .red {
         background-color: ${colors.red};
         border-color: ${colors.red};
-      }`, `
+      }
       .green {
         background-color: ${colors.green};
         border-color: ${colors.green};
-      }`, `
+      }
       .yellow {
         background-color: ${colors.yellow};
         border-color: ${colors.yellow};
-      }`, `
+      }
       .cyan {
         background-color: ${colors.cyan};
         border-color: ${colors.cyan};
-      }`, `
+      }
       .magenta {
         background-color: ${colors.magenta};
         border-color: ${colors.magenta};
@@ -73,8 +95,18 @@ const colors: { [key: string]: string } = {
             {{winningUser}}
         </pre>
 
-        <div class="stats">
-            <div *ngFor="let turn of stats?.turns; let index = index">
+        <div class="stats" *ngIf="stats">
+            <div class="head" [ngStyle]="{'background-image': linearGradientHealthPoints(0)}">
+                <div class="user">
+                    <span class="user">{{stats.teams[0].user}}</span>
+                    <span class="team">{{stats.teams[0].team}}</span>
+                </div>
+                <div class="user">
+                    <span class="user">{{stats.teams[1].user}}</span>
+                    <span class="team">{{stats.teams[1].team}}</span>
+                </div>
+            </div>
+            <div *ngFor="let turn of stats.turns; let index = index">
                 <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
                     <div *ngFor="let weapon of turn.weapons">
                         <div class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
