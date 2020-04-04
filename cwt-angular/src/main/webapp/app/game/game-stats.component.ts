@@ -14,8 +14,19 @@ const colors: { [key: string]: string } = {
 @Component({
     selector: 'cwt-game-stats',
     styles: [`
+      .stats {
+        border-radius: .25rem;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+      }`,`
       .turn {
         display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        padding: .5rem 0;
+        background: transparent;
+        margin: 0 0 1px 0;
       }`, `
       .weapon {
         display: inline-block;
@@ -56,13 +67,13 @@ const colors: { [key: string]: string } = {
             {{winningUser}}
         </pre>
 
-        <div *ngFor="let turn of stats?.turns; let index = index">
-            <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
-
-                {{turn.user}}
-                <div *ngFor="let weapon of turn.weapons">
-                    <div class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
-                        <cwt-weapon [weapon]="weapon"></cwt-weapon>
+        <div class="stats">
+            <div *ngFor="let turn of stats?.turns; let index = index">
+                <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
+                    <div *ngFor="let weapon of turn.weapons">
+                        <div class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
+                            <cwt-weapon [weapon]="weapon"></cwt-weapon>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,15 +113,23 @@ export class GameStatsComponent implements OnInit {
                     this.calcLostHealthPoints(pastTurns, team.user)
             }));
 
-        const totalCurrentHealthPoints =
-            healthPoints.reduce<number>((acc: number, {health}: { health: number }) => acc + health, 0);
-
-        let previousPercentalPartOfTotalHealth = 0.00;
-        const gradients = healthPoints.map(health => {
-            const percentalPartOfTotalHealth = Math.round(health.health / totalCurrentHealthPoints * 10000) / 100;
+        const gradients = healthPoints.map((health, idx) => {
+            const remainingHealth =
+                Math.round(health.health / this.totalHealthPointsPerTeam * 10000) / 100;
+            const lostHealth = 100 - remainingHealth;
             const teamColor = colors[health.team.color.toLowerCase()];
-            const result = `${teamColor} ${previousPercentalPartOfTotalHealth}%, ${teamColor} ${percentalPartOfTotalHealth}%`;
-            previousPercentalPartOfTotalHealth = percentalPartOfTotalHealth;
+            let result = '';
+            if (idx === 0) {
+                result += `rgb(27, 32, 33) 0, `;
+                result += `rgb(27, 32, 33) ${lostHealth / 2}%, `;
+                result += `${teamColor} ${lostHealth / 2}%, `;
+                result += `${teamColor} 50%`;
+            } else if (idx === 1) {
+                result += `${teamColor} 50%, `;
+                result += `${teamColor} ${(remainingHealth / 2) + 50}%, `;
+                result += `rgb(27, 32, 33) ${(remainingHealth / 2) + 50}%, `;
+                result += `rgb(27, 32, 33) 100%`;
+            }
             return result
         });
 
