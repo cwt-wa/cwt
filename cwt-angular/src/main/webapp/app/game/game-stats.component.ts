@@ -126,15 +126,15 @@ export class GameStatsComponent implements OnInit {
             const teamColor = colors[health.team.color.toLowerCase()];
             let result = '';
             if (idx === 0) {
-                result += `rgb(27, 32, 33) 0, `;
-                result += `rgb(27, 32, 33) ${lostHealth / 2}%, `;
+                result += `#1B2021 0, `;
+                result += `#1B2021 ${lostHealth / 2}%, `;
                 result += `${teamColor} ${lostHealth / 2}%, `;
                 result += `${teamColor} 50%`;
             } else if (idx === 1) {
                 result += `${teamColor} 50%, `;
                 result += `${teamColor} ${(remainingHealth / 2) + 50}%, `;
-                result += `rgb(27, 32, 33) ${(remainingHealth / 2) + 50}%, `;
-                result += `rgb(27, 32, 33) 100%`;
+                result += `#1B2021 ${(remainingHealth / 2) + 50}%, `;
+                result += `#1B2021 100%`;
             }
             return result
         });
