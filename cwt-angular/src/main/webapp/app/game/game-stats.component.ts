@@ -132,7 +132,7 @@ const colors: { [key: string]: string } = {
             <div *ngFor="let turn of stats.turns; let index = index">
                 <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
                     <div class="kills">
-                        <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[1].user)" [src]="kill"/>
+                        <img *ngFor="let kill of retrieveKills(index, stats.teams[0].user)" [src]="kill"/>
                     </div>
                     <div class="weapons">
                         <div *ngFor="let weapon of turn.weapons">
@@ -142,7 +142,7 @@ const colors: { [key: string]: string } = {
                         </div>
                     </div>
                     <div class="kills">
-                        <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[0].user)" [src]="kill"/>
+                        <img *ngFor="let kill of retrieveKills(index, stats.teams[1].user)" [src]="kill"/>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,6 @@ export class GameStatsComponent implements OnInit {
     }
 
     retrieveKills(turnNum: number, victim: string): string[] {
-        if (!this.stats.turns[turnNum]) return [];
         return this.stats.turns[turnNum].damages
             .filter(d => d.victim == victim)
             .map(d => new Array(d.kills).fill(this.killImage))
