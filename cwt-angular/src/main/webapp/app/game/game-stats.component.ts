@@ -78,6 +78,9 @@ const colors: { [key: string]: string } = {
       .turn .kills:last-child img:not(:last-child) {
         margin-right: -8px;
       }
+      .turn .kills:last-child img {
+        transform: scale(-1, 1);
+      }
       .weapon {
         display: inline-block;
         background-clip: padding-box;
