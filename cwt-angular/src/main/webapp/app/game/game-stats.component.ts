@@ -13,6 +13,7 @@ const colors: { [key: string]: string } = {
     magenta: '#FF82FF',
 };
 
+// noinspection CssUnusedSymbol
 @Component({
     selector: 'cwt-game-stats',
     styles: [`
@@ -99,7 +100,15 @@ const colors: { [key: string]: string } = {
         margin: .3rem;
         padding: .2rem;
         box-shadow: 0 0 .25rem #000;
-      }`
+      }
+
+      .blue { background-color: ${colors.blue};}
+      .red { background-color: ${colors.red};}
+      .green { background-color: ${colors.green};}
+      .yellow { background-color: ${colors.yellow};}
+      .cyan { background-color: ${colors.cyan};}
+      .magenta { background-color: ${colors.magenta};}
+`
     ],
     template: `
         <div class="stats" *ngIf="stats">
