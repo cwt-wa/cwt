@@ -22,6 +22,7 @@ const colors: { [key: string]: string } = {
         padding: 0;
         margin: 0;
       }
+
       .stats .head {
         display: flex;
         justify-content: center;
@@ -33,17 +34,21 @@ const colors: { [key: string]: string } = {
         margin: 0 0 1px 0;
         text-align: center;
       }
+
       .stats .head > div.user {
         flex-grow: 1;
       }
+
       .stats .head div.user > span.user {
         display: block;
         font-size: 1rem;
       }
+
       .stats .head div.user > span.team {
         display: block;
         font-size: .8rem;
       }
+
       .turn {
         display: flex;
         justify-content: space-between;
@@ -53,6 +58,7 @@ const colors: { [key: string]: string } = {
         margin: 0 0 1px 0;
         align-items: center;
       }
+
       .weapons {
         display: flex;
         justify-content: center;
@@ -61,64 +67,41 @@ const colors: { [key: string]: string } = {
         white-space: nowrap;
         align-items: center;
       }
+
       .kills {
         width: 44px;
         padding: 0 3px
       }
-      .turn .kills:first-child  {
+
+      .turn .kills:first-child {
         text-align: left;
       }
-      .turn .kills:last-child  {
+
+      .turn .kills:last-child {
         text-align: right;
       }
+
       .turn .kills:first-child img:not(:first-child) {
         margin-left: -8px;
       }
+
       .turn .kills:last-child img:not(:last-child) {
         margin-right: -8px;
       }
+
       .turn .kills:last-child img {
         transform: scale(-1, 1);
       }
+
       .weapon {
         display: inline-block;
         background-clip: padding-box;
         margin: .3rem;
         padding: .2rem;
         box-shadow: 0 0 .25rem #000;
-      }
-      .blue {
-        background-color: ${colors.blue};
-        border-color: ${colors.blue};
-      }
-      .red {
-        background-color: ${colors.red};
-        border-color: ${colors.red};
-      }
-      .green {
-        background-color: ${colors.green};
-        border-color: ${colors.green};
-      }
-      .yellow {
-        background-color: ${colors.yellow};
-        border-color: ${colors.yellow};
-      }
-      .cyan {
-        background-color: ${colors.cyan};
-        border-color: ${colors.cyan};
-      }
-      .magenta {
-        background-color: ${colors.magenta};
-        border-color: ${colors.magenta};
-      }`,
+      }`
     ],
     template: `
-        <pre>
-            {{totalHealthPointsPerTeam}}
-            {{losingUser}}
-            {{winningUser}}
-        </pre>
-
         <div class="stats" *ngIf="stats">
             <div class="head" [ngStyle]="{'background-image': linearGradientHealthPoints(0)}">
                 <div class="user">
