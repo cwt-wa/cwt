@@ -2,9 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {ActivatedRoute} from "@angular/router";
 
-// todo sudden death (water color: #323b7e)
 // todo display average turn time rather than total
-// todo maybe shift used weapons slightly to the user
 
 const colors: { [key: string]: string } = {
     blue: '#9D9FFF',
