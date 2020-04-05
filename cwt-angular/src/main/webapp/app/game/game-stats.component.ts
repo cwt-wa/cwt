@@ -2,8 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {ActivatedRoute} from "@angular/router";
 
-// todo display average turn time rather than total
-
 const colors: { [key: string]: string } = {
     blue: '#9D9FFF',
     red: '#FF7F7F',
@@ -157,11 +155,8 @@ const colors: { [key: string]: string } = {
                 </div>
             </div>
             <div class="head" [ngStyle]="{'background-image': linearGradientHealthPoints(0)}">
-                <div class="user">
-                    {{stats.teamTimeTotals[0].total}}
-                </div>
-                <div class="user">
-                    {{stats.teamTimeTotals[1].total}}
+                <div class="user" *ngFor="let averageTurnTime of averageTurnTimes;">
+                    &empty; {{averageTurnTime}}s
                 </div>
             </div>
             <div class="head">
@@ -182,6 +177,7 @@ export class GameStatsComponent implements OnInit {
     killImage: string = require('../../img/grave.png');
     waterImage: string = require('../../img/water.gif');
     suddenDeathBeforeTurn: number;
+    averageTurnTimes: number[];
 
     constructor(private requestService: RequestService, private route: ActivatedRoute) {
     }
@@ -249,6 +245,15 @@ export class GameStatsComponent implements OnInit {
                 this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
                 this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
                 this.numberOfTeams = this.stats.teams.length;
+                this.averageTurnTimes = (() =>
+                    this.stats.teams
+                        .map(team => team.user)
+                        .map(user => {
+                            const turnTimes = this.stats.turns
+                                .filter(turn => turn.user === user)
+                                .map(turn => turn.timeUsedSeconds);
+                            return Math.round(turnTimes.reduce((acc, curr) => acc + curr, 0) / turnTimes.length);
+                        }))();
                 this.suddenDeathBeforeTurn = (() => {
                     if (!this.stats.suddenDeath) return -1;
                     function timestampToSeconds(timestamp: string): number {
