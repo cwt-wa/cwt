@@ -106,11 +106,13 @@ const colors: { [key: string]: string } = {
             </div>
             <div *ngFor="let turn of stats.turns; let index = index">
                 <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
+                    <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[1].user)" [src]="kill"/>
                     <div *ngFor="let weapon of turn.weapons">
                         <div class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
                             <cwt-weapon [weapon]="weapon"></cwt-weapon>
                         </div>
                     </div>
+                    <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[0].user)" [src]="kill"/>
                 </div>
             </div>
         </div>
@@ -125,11 +127,14 @@ export class GameStatsComponent implements OnInit {
     numberOfTeams: number;
     losingUser: string;
     winningUser: string;
+    killImage: string = require('../../img/grave.png');
 
     constructor(private requestService: RequestService, private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
+        console.log(this.killImage);
+
         this.gameId
             ? this.loadStats(this.gameId)
             : this.route.paramMap.subscribe(routeParam => this.loadStats(+routeParam.get('id')));
@@ -138,6 +143,16 @@ export class GameStatsComponent implements OnInit {
 
     getColorOfUser(user: string): string {
         return this.stats.teams.find(t => t.user === user).color;
+    }
+
+    retrieveKills(turnNum: number, victim: string): string[] {
+        return this.stats.turns[turnNum].damages
+            .filter(d => d.victim == victim)
+            .map(d => new Array(d.kills).fill(this.killImage))
+            .reduce((acc, curr) => {
+                acc.push(...curr);
+                return acc;
+            }, []);
     }
 
     linearGradientHealthPoints(turnNum: number): string {
