@@ -52,6 +52,16 @@ const colors: { [key: string]: string } = {
         font-size: .8rem;
       }
 
+      .suddenDeath {
+        background-image: linear-gradient(to top, #323b7e 0, #323b7e 35px, #1B2021 35px, #1B2021 100%);
+        padding: .8rem 0;
+        margin-bottom: 1px;
+      }
+
+      .suddenDeath img {
+        width: 100%;
+      }
+
       .turn {
         display: flex;
         justify-content: space-between;
@@ -125,6 +135,9 @@ const colors: { [key: string]: string } = {
                 </div>
             </div>
             <div *ngFor="let turn of stats.turns; let index = index">
+                <div class="suddenDeath" *ngIf="suddenDeathBeforeTurn === index + 1">
+                    <img [src]="waterImage" alt="water"/>
+                </div>
                 <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
                     <div class="kills">
                         <img *ngFor="let kill of retrieveKills(index, stats.teams[0].user)" [src]="kill"/>
@@ -165,6 +178,8 @@ export class GameStatsComponent implements OnInit {
     losingUser: string;
     winningUser: string;
     killImage: string = require('../../img/grave.png');
+    waterImage: string = require('../../img/water.gif');
+    suddenDeathBeforeTurn: number;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute) {
     }
@@ -232,6 +247,26 @@ export class GameStatsComponent implements OnInit {
                 this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
                 this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
                 this.numberOfTeams = this.stats.teams.length;
+                this.suddenDeathBeforeTurn = (() => {
+                    if (!this.stats.suddenDeath) return -1;
+                    function timestampToSeconds(timestamp: string): number {
+                        const timeParts = timestamp.split(/[^\d]/).map(x => parseInt(x));
+                        return (
+                            (timeParts[0] * 60 * 60)
+                            + (timeParts[1] * 60)
+                            + (timeParts[2])
+                            + timeParts[2] / 100
+                        );
+                    }
+                    const turnSeconds = this.stats.turns.map(turn => timestampToSeconds(turn.timestamp));
+                    const suddenDeathSeconds = timestampToSeconds(this.stats.suddenDeath);
+                    for (let i = 0; i < turnSeconds.length; i++) {
+                        const turnSecond = turnSeconds[i];
+                        if (turnSecond > suddenDeathSeconds) return i + 1;
+                    }
+                    console.warn("Sudden death could not be ordered.");
+                    return -1;
+                })();
             });
     }
 
