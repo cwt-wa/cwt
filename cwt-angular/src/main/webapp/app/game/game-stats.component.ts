@@ -3,8 +3,6 @@ import {RequestService} from "../_services/request.service";
 import {ActivatedRoute} from "@angular/router";
 
 // todo sudden death (water color: #323b7e)
-// todo total turn time
-// todo total game duration
 
 const colors: { [key: string]: string } = {
     blue: '#9D9FFF',
@@ -26,15 +24,16 @@ const colors: { [key: string]: string } = {
       }
       .stats .head {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         color: #fbfbfb;
-        text-shadow: 0 0 .2rem #000;
-        padding: .8rem 1rem .8rem 2rem;
+        background-color: #1B2021;
+        text-shadow: 0 0 .15rem #000;
+        padding: .8rem .5rem;
         line-height: 1.1rem;
         margin: 0 0 1px 0;
+        text-align: center;
       }
       .stats .head > div.user {
-        text-align: center;
         flex-grow: 1;
       }
       .stats .head div.user > span.user {
@@ -147,6 +146,17 @@ const colors: { [key: string]: string } = {
                         <img *ngFor="let kill of retrieveKills(index, stats.teams[1].user)" [src]="kill"/>
                     </div>
                 </div>
+            </div>
+            <div class="head" [ngStyle]="{'background-image': linearGradientHealthPoints(0)}">
+                <div class="user">
+                    {{stats.teamTimeTotals[0].total}}
+                </div>
+                <div class="user">
+                    {{stats.teamTimeTotals[1].total}}
+                </div>
+            </div>
+            <div class="head">
+                {{stats.roundTime}}
             </div>
         </div>
     `
