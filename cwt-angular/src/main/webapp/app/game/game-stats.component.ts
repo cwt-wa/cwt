@@ -28,7 +28,7 @@ const colors: { [key: string]: string } = {
         color: #fbfbfb;
         background-color: #1B2021;
         text-shadow: 0 0 .15rem #000;
-        padding: .8rem .5rem;
+        padding: .8rem 0;
         line-height: 1.1rem;
         margin: 0 0 1px 0;
         text-align: center;
