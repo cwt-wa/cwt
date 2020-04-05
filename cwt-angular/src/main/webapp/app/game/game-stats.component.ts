@@ -53,7 +53,7 @@ const colors: { [key: string]: string } = {
       }
 
       .suddenDeath {
-        background-image: linear-gradient(to top, #323b7e 0, #323b7e 35px, #1B2021 35px, #1B2021 100%);
+        background-image: linear-gradient(to top, #323b7e 0, #323b7e 50%, #1B2021 50%, #1B2021 100%);
         padding: .8rem 0;
         margin-bottom: 1px;
       }
