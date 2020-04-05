@@ -82,7 +82,9 @@ const colors: { [key: string]: string } = {
 
       .kills {
         width: 44px;
-        padding: 0 3px
+        padding: 0 3px;
+        white-space: nowrap;
+        flex-wrap: nowrap;
       }
 
       .turn .kills:first-child {
