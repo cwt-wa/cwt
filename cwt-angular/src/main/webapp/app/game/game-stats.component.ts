@@ -162,7 +162,8 @@ const colors: { [key: string]: string } = {
                 </div>
             </div>
             <div class="head">
-                {{stats.roundTime}}
+                {{stats.roundTime.split(':')[1]}}m
+                {{stats.roundTime.split(':')[2]}}s
             </div>
         </div>
     `
