@@ -48,11 +48,36 @@ const colors: { [key: string]: string } = {
       }
       .turn {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         flex-wrap: nowrap;
         padding: .5rem 0;
         background: transparent;
         margin: 0 0 1px 0;
+        align-items: center;
+      }
+      .weapons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        flex-grow: 1;
+        white-space: nowrap;
+        align-items: center;
+      }
+      .kills {
+        width: 44px;
+        padding: 0 3px
+      }
+      .turn .kills:first-child  {
+        text-align: left;
+      }
+      .turn .kills:last-child  {
+        text-align: right;
+      }
+      .turn .kills:first-child img:not(:first-child) {
+        margin-left: -8px;
+      }
+      .turn .kills:nth-child(2) .kills img:not(:last-child) {
+        margin-right: -8px;
       }
       .weapon {
         display: inline-block;
@@ -106,13 +131,19 @@ const colors: { [key: string]: string } = {
             </div>
             <div *ngFor="let turn of stats.turns; let index = index">
                 <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
-                    <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[1].user)" [src]="kill"/>
-                    <div *ngFor="let weapon of turn.weapons">
-                        <div class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
-                            <cwt-weapon [weapon]="weapon"></cwt-weapon>
+                    <div class="kills">
+                        <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[1].user)" [src]="kill"/>
+                    </div>
+                    <div class="weapons">
+                        <div *ngFor="let weapon of turn.weapons">
+                            <div class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
+                                <cwt-weapon [weapon]="weapon"></cwt-weapon>
+                            </div>
                         </div>
                     </div>
-                    <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[0].user)" [src]="kill"/>
+                    <div class="kills">
+                        <img *ngFor="let kill of retrieveKills(index + 1, stats.teams[0].user)" [src]="kill"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -146,6 +177,7 @@ export class GameStatsComponent implements OnInit {
     }
 
     retrieveKills(turnNum: number, victim: string): string[] {
+        if (!this.stats.turns[turnNum]) return [];
         return this.stats.turns[turnNum].damages
             .filter(d => d.victim == victim)
             .map(d => new Array(d.kills).fill(this.killImage))
