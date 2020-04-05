@@ -53,12 +53,15 @@ const colors: { [key: string]: string } = {
       }
 
       .suddenDeath {
+        display: flex;
         background-image: linear-gradient(to top, #323b7e 0, #323b7e 50%, #1B2021 50%, #1B2021 100%);
         padding: .8rem 0;
         margin-bottom: 1px;
+        justify-content: stretch;
       }
 
       .suddenDeath img {
+        flex-grow: 1;
         width: 100%;
       }
 
@@ -136,6 +139,7 @@ const colors: { [key: string]: string } = {
             </div>
             <div *ngFor="let turn of stats.turns; let index = index">
                 <div class="suddenDeath" *ngIf="suddenDeathBeforeTurn === index + 1">
+                    <img [src]="waterImage" alt="water"/>
                     <img [src]="waterImage" alt="water"/>
                 </div>
                 <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
