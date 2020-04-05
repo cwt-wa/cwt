@@ -76,7 +76,7 @@ const colors: { [key: string]: string } = {
       .turn .kills:first-child img:not(:first-child) {
         margin-left: -8px;
       }
-      .turn .kills:nth-child(2) .kills img:not(:last-child) {
+      .turn .kills:last-child img:not(:last-child) {
         margin-right: -8px;
       }
       .weapon {
