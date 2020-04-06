@@ -197,42 +197,44 @@
                     (click)="statsForRound = index + 1">
                 {{index + 1}}
             </button>
-        </div>
-        <div class="col-12">
             <cwt-game-stats *ngIf="stats[statsForRound - 1]" [stats]="stats[statsForRound - 1]"></cwt-game-stats>
         </div>
-        <div class="col-12 mt-4">
-            <div *ngIf="newComment">
-                <form #commentForm="ngForm" (ngSubmit)="submitComment()">
+        <div class="col-12">
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div *ngIf="newComment">
+                        <form #commentForm="ngForm" (ngSubmit)="submitComment()">
                     <textarea rows="3" class="form-control" placeholder="Write a comment…" required
                               [(ngModel)]="newComment.body" name="comment"
                               (keyup.control.enter)="commentForm.onSubmit($event)">
                     </textarea>
-                    <div class="float-right">
-                        <button class="btn btn-primary mt-1" style="width: 80px"
-                                [disabled]="!commentForm.form.valid || submittingComment">
-                            <img src="../../img/loading.gif" class="loading" *ngIf="submittingComment"/>
-                            <ng-container *ngIf="!submittingComment">Submit</ng-container>
-                        </button>
+                            <div class="float-right">
+                                <button class="btn btn-primary mt-1" style="width: 80px"
+                                        [disabled]="!commentForm.form.valid || submittingComment">
+                                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingComment"/>
+                                    <ng-container *ngIf="!submittingComment">Submit</ng-container>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="clearfix"></div>
                     </div>
-                </form>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12">
-            <div class="card bg-secondary text-white border-0">
-                <div class="card-body" *ngFor="let comment of game.comments" style="border-bottom: 1px solid white !important;">
-                    <cwt-time-ago class="float-right" [date]="comment.created"></cwt-time-ago>
-                    <h4 class="card-title">
-                        <cwt-user [username]="comment.author.username"></cwt-user>
-                    </h4>
-                    <p class="card-text rendered-text links-red" [innerHTML]="comment.body | cwtConvertLinks"></p>
                 </div>
             </div>
-            <div class="alert alert-info" role="alert" *ngIf="!game.comments.length">
-                There are no comments yet.
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div class="card bg-secondary text-white border-0">
+                        <div class="card-body" *ngFor="let comment of game.comments" style="border-bottom: 1px solid white !important;">
+                            <cwt-time-ago class="float-right" [date]="comment.created"></cwt-time-ago>
+                            <h4 class="card-title">
+                                <cwt-user [username]="comment.author.username"></cwt-user>
+                            </h4>
+                            <p class="card-text rendered-text links-red" [innerHTML]="comment.body | cwtConvertLinks"></p>
+                        </div>
+                    </div>
+                    <div class="alert alert-info" role="alert" *ngIf="!game.comments.length">
+                        There are no comments yet.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
