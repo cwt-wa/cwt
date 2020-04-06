@@ -234,7 +234,10 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return betRepository.save(bet)
     }
 
-    fun findGameStats(game: Game): String = gameStatsRepository.findByGame(game).data
+    fun findGameStats(game: Game): String =
+            gameStatsRepository.findByGame(game)
+                    .sortedBy { it.round }
+                    .joinToString(prefix = "[", postfix = "]") { it.data }
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
 

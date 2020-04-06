@@ -19,6 +19,9 @@ data class GameStats(
         @Column(name = "data", columnDefinition = "text")
         var data: String,
 
+        @Column(name = "round")
+        var round: Int? = null,
+
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
         var created: Timestamp? = null

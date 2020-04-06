@@ -2,13 +2,10 @@ package com.cwtsite.cwt.integration
 
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.test.EntityDefaults
-import com.cwtsite.cwt.test.MockitoUtils
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.hamcrest.Matchers.`is`
 import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,13 +51,13 @@ class GameStatsWebIntegration {
                 .thenReturn(Optional.of(game))
 
         `when`(gameService.findGameStats(game))
-                .thenReturn(statsJson.toString(Charset.defaultCharset()))
+                .thenReturn("[${statsJson.toString(Charset.defaultCharset())}]")
 
         mockMvc
                 .perform(get("/api/game/42/stats")
                         .contentType(APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.gameId", `is`<String>("10719273")))
+                .andExpect(jsonPath("$[0].gameId", `is`("10719273")))
     }
 }

@@ -59,12 +59,13 @@ class GameStatsDatabaseIntegration {
         gameStatsRepository.save(GameStats(
                 gameId = game!!.id!!,
                 game = game,
+                round = 1,
                 data = statsJson))
     }
 
     @Test
     fun `3 query stats`() {
         assertThat(gameService.findGameStats(gameService.findById(game!!.id!!).orElseThrow()))
-                .isEqualTo(statsJson)
+                .isEqualTo("[$statsJson]")
     }
 }
