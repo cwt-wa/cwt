@@ -1,17 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
-import {
-    Comment,
-    CommentDto,
-    GameDetailDto,
-    JwtUser,
-    PlayoffTreeBetDto,
-    Rating,
-    RatingDto,
-    RatingType,
-    User
-} from "../custom";
+import {Comment, CommentDto, GameDetailDto, JwtUser, PlayoffTreeBetDto, Rating, RatingDto, RatingType} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
 import {BetResult, BetService} from "../_services/bet.service";
@@ -34,10 +24,6 @@ export class GameDetailComponent {
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
                 private playoffService: PlayoffsService) {
-    }
-
-    public get winningUser(): User {
-        return this.game.scoreHome > this.game.scoreAway ? this.game.homeUser : this.game.awayUser;
     }
 
     get authenticatedUserRatings(): RatingType[] {
