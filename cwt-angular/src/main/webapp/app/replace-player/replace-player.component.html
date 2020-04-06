@@ -1,0 +1,28 @@
+<h1>Replace player</h1>
+
+<form #replacePlayerForm="ngForm" class="mt-4" (submit)="submit()">
+    <div class="row justify-content-center" *ngIf="users">
+        <div class="col-xs-6 col-sm-6 col-md-5">
+            <div class="form-group">
+                <label for="toBeReplaced">Group member to be replaced</label>
+                <input class="form-control" required placeholder="Username" [(ngModel)]="replacement.toBeReplaced"
+                       name="toBeReplaced" id="toBeReplaced" [editable]="false"
+                       [ngbTypeahead]="typeAheadToBeReplaced" [inputFormatter]="typeAheadInputFormatter"
+                       [resultFormatter]="typeAheadResultFormatter">
+            </div>
+            <div class="form-group">
+                <label for="toBeReplaced">Replacement</label>
+                <input class="form-control" required placeholder="Username" [(ngModel)]="replacement.replacement"
+                       name="replacement" id="replacement" [editable]="false"
+                       [ngbTypeahead]="typeAheadReplacement" [inputFormatter]="typeAheadReplacementInputFormatter"
+                       [resultFormatter]="typeAheadReplacementResultFormatter">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary pull-right"
+                        [disabled]="replacePlayerForm.form.invalid">
+                    Replace
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

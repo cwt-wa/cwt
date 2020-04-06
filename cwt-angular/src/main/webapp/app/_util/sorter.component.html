@@ -1,0 +1,14 @@
+<div class="input-group">
+    <select class="custom-select" [(ngModel)]="pageOfModels.sortBy" [disabled]="disabled"
+            (change)="sort($event.target.value, pageOfModels.sortAscending)">
+        <option *ngFor="let sortable of pageOfModels.sortables" [value]="sortable.value">
+            {{sortable.label}}
+        </option>
+    </select>
+    <div class="input-group-append">
+        <button class="btn btn-light" type="button" (click)="sort(pageOfModels.sortBy, !pageOfModels.sortAscending)"
+                [disabled]="disabled">
+            <i class="fa" [ngClass]="pageOfModels.sortAscending ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+        </button>
+    </div>
+</div>

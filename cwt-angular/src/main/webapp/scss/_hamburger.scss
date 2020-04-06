@@ -1,0 +1,18 @@
+$hamburger-padding-x: 0 !default;
+$hamburger-padding-y: 1px !default;
+$hamburger-layer-border-radius: 10px !default;
+$hamburger-layer-width: 27px !default;
+$hamburger-layer-height: 5px !default;
+$hamburger-layer-spacing: 4px !default;
+$hamburger-layer-color: rgba(white, .9) !default;
+$hamburger-active-layer-color: $hamburger-layer-color !default;
+$hamburger-hover-opacity: 1 !default;
+$hamburger-active-hover-opacity: $hamburger-hover-opacity !default;
+
+.hamburger:focus {
+  outline: none;
+}
+
+@import "~hamburgers/_sass/hamburgers/hamburgers";
+@import "~hamburgers/_sass/hamburgers/base";
+@import "~hamburgers/_sass/hamburgers/types/collapse";

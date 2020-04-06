@@ -1,0 +1,20 @@
+{
+  "short_name": "CWT",
+  "name": "CWT",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/assets/favicon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#4e4133",
+  "display": "standalone",
+  "theme_color": "#4e4133"
+}

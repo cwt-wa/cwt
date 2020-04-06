@@ -1,0 +1,129 @@
+body.tetris > my-app > div:not(#tetris),
+body.tetris > footer {
+  filter: blur(4px);
+  transition: 1s -webkit-filter linear;
+}
+
+html.tetris {
+  height: 100%;
+}
+
+body.gameOver {
+  overflow: hidden;
+}
+
+body.tetris:not(.gameOver){
+  height: 100%;
+  overflow: hidden;
+}
+
+canvas {
+  margin: 0 auto;
+  display: block;
+  margin-top:25px;
+  overflow: auto !important;
+}
+
+#tetris.tetris-visible {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 50px;
+  z-index: 9;
+}
+
+body.gameOver #tetris.tetris-visible {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+body.tetris:not(.gameOver) #tetris.tetris-visible  {
+  overflow: hidden;
+}
+
+#tetris {
+  display:none;
+  position:absolute;
+  background-color: rgba(0,0,0,0);
+  top:0;
+}
+
+#btn-close-tetris{
+  background-color: #343a40;
+  border-color: white;
+  margin: 10px 25px;
+  color: white;
+  position: absolute;
+  right: 0;
+
+  &:hover {
+    background-color: theme-color('danger');
+  }
+}
+
+#tetris-gameover {
+  display: none;
+}
+
+#tetris-gameover.tetris-visible {
+  display:block;
+  text-align:center;
+  overflow: auto !important;
+}
+
+#tetris-highscore-table.tetris-visible {
+  display:block;
+}
+
+#tetris-highscore-table {
+  background-color: white;
+  opacity: 0.95;
+  width: 55%;
+  margin: auto;
+}
+
+#tetris-heading {
+  width: 100%;
+  display:none;
+  text-align:center;
+  margin: 30px 0;
+}
+
+#tetris-game-over-heading{
+  margin: 30px 0;
+}
+
+#tetris-highscore-table td {
+  width: 30%;
+}
+
+.tetris-game-over-table-new-entry {
+  color: theme-color('success');
+  font-weight: bold;
+}
+
+#tetris-game-over-entry {
+  display:none;
+}
+
+#tetris-game-over-entry.tetris-visible {
+  display:block;
+  color:white;
+}
+
+#tetris-heading.tetris-visible {
+  display:block;
+}
+
+#lbl-tetris-guest-entry {
+  margin: 10px;
+}
+
+#tetris-game-over-entry form {
+  background-color: rgba(255, 255, 255, 0.95);
+  width: 55%;
+  margin: 0 auto 10px;
+  color: theme-color('secondary') !important;
+  border: 1px solid theme-color('danger');
+  border-left: 6px solid theme-color('danger');
+}

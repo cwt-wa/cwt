@@ -1,0 +1,18 @@
+<h1>Applicants</h1>
+
+<div *ngIf="applications">
+    <p class="lead mb-4">
+        There currently
+        {{applications.length === 1 ? 'is' : 'are'}}
+        {{applications.length}}
+        applicant{{applications.length === 1 ? '' : 's'}}
+        for the upcoming edition of
+        <span class="cwt-label"></span>.
+    </p>
+
+    <p>
+        <span *ngFor="let application of applications; let last = last">
+            <cwt-user [username]="application.applicant.username"></cwt-user>{{last ? '' : ', '}}
+        </span>
+    </p>
+</div>

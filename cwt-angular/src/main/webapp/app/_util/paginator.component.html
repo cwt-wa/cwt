@@ -1,0 +1,30 @@
+<div class="row no-gutters">
+    <div class="order-1 order-lg-3 col-12 col-lg-auto">
+        <nav>
+            <ul class="pagination justify-content-center justify-content-lg-end">
+                <li class="page-item" [ngClass]="{'disabled': page.start === 0}">
+                    <a class="page-link" (click)="goTo(0)">
+                        <i class="fa fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li *ngFor="let suggestedStart of suggestedStarts, let index = index"
+                    [ngClass]="{'active': page.start === suggestedStart}" class="page-item">
+                    <a class="page-link" (click)="goTo(suggestedStart)">{{suggestedStart + 1}}</a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': page.start === page.totalPages}">
+                    <a class="page-link" (click)="goTo(page.totalPages - 1)">
+                        <i class="fa fa-angle-double-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col order-lg-2"></div>
+    <div class="order-2 order-lg-1 col-12 col-lg-auto text-center">
+        <div class="btn btn-secondary text-white">
+            {{page.start * page.size + 1}}–{{page.start * page.size + page.content.length}}
+            of
+            {{page.totalElements}}
+        </div>
+    </div>
+</div>

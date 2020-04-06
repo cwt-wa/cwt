@@ -1,0 +1,29 @@
+<h1>Group Draw</h1>
+
+<p class="lead mb-4">
+    Here you have the possibility to draw the participants into groups. Below follows a list of the users who applied for
+    participation. The ones you do not draw, won’t participate in the tournament.
+</p>
+
+<div class="row mb-4">
+    <div class="col">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{active: manualDraw}" (click)="manualDraw = true">
+                    Manual Draw
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{active: !manualDraw}" (click)="manualDraw = false">
+                    Automatic Draw
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<cwt-admin-groups-start-manual-draw *ngIf="manualDraw" [groups]="groups" [applications]="applications">
+</cwt-admin-groups-start-manual-draw>
+
+<cwt-admin-groups-start-automatic-draw *ngIf="!manualDraw" [groups]="groups" [applications]="applications">
+</cwt-admin-groups-start-automatic-draw>

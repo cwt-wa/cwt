@@ -1,0 +1,21 @@
+<h1 class="mb-4">{{stream?.title}}</h1>
+
+<div class="aspect-ratio-16x10">
+    <div class="aspect-ratio-content">
+        <iframe *ngIf="stream?.id"
+                [src]="streamUrl"
+                style="width: 100%; height: 100%;"
+                frameborder="0"
+                scrolling="no"
+                allowfullscreen="true">
+        </iframe>
+    </div>
+</div>
+<p class="text-right">
+    Recorded on <strong>{{stream.createdAt | cwtDate}}</strong>
+    by <strong>{{stream.channel.title}}</strong>
+    and viewed by <strong>{{stream.viewCount}}</strong> people. <strong>Thanks!</strong>
+</p>
+<p class="text-left" *ngIf="stream.description">
+    {{stream.description}}
+</p>

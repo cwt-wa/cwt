@@ -1,0 +1,34 @@
+<img *ngIf="!users" src="../../img/loading.gif"/>
+
+<div class="row justify-content-center" *ngIf="users">
+    <div class="col-xs-6 col-sm-6 col-md-5">
+        <form #techWinForm="ngForm" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label>Winner</label>
+                <select id="winner" [(ngModel)]="game.winner" name="winner" class="custom-select" required
+                        (change)="onWinnerSelection()" [disabled]="loadingRemainingOpponents">
+                    <option value=""></option>
+                    <option *ngFor="let user of users;" [value]="user.id">
+                        {{user.username}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="!loadingRemainingOpponents && remainingOpponents?.length">
+                <label id="loser-label" for="loser">Loser</label>
+                <select id="loser" [(ngModel)]="game.loser" name="loser" class="custom-select" required>
+                    <option value="" *ngIf="remainingOpponents?.length > 1"></option>
+                    <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
+                        {{opponent.username}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="loadingRemainingOpponents" style="height:70px">
+                <img src="../../img/loading.gif"/>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right"
+                    [disabled]="techWinForm.form.invalid || game.winner === game.loser">
+                Add Tech Win
+            </button>
+        </form>
+    </div>
+</div>

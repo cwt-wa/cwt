@@ -1,0 +1,14 @@
+name: CI
+on:
+  push:
+    branches: '**'
+  pull_request:
+    branches: [ evolution ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: clean-install
+      run: mvn clean install

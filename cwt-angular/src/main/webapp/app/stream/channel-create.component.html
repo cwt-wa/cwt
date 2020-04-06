@@ -1,0 +1,57 @@
+<img *ngIf="loading" src="../../img/loading.gif">
+
+<div class="alert alert-danger" *ngIf="!authUser && !loading">
+    Here you can register your Twitch channel when you are logged in.
+</div>
+
+<ng-container *ngIf="authUser && !loading">
+    <div class="alert alert-danger" *ngIf="userAlreadyHasChannel">
+        You already own a channel.
+    </div>
+
+    <div class="alert alert-success" *ngIf="channelCreated">
+        Your channel has been successfully registered on CWT.
+    </div>
+
+    <div class="row justify-content-center" *ngIf="!userAlreadyHasChannel && !channelCreated">
+        <div class="col-12 col-md-6">
+            <h1>
+                Twitch Channel
+            </h1>
+            <p class="lead">
+                Register your Twitch account on CWT so that the community knows about it.
+            </p>
+            <div class="alert alert-info">
+                Mention “CWT” and the opponents’ names as they are on CWT in your Twitch video title so that the game on CWT can be
+                automatically linked to it.
+            </div>
+            <div class="alert alert-info">
+                Whenever you go live with the channel and “CWT” is in the title, a banner will appear on the CWT website.
+            </div>
+            <form class="mt-4" #channelForm=ngForm (ngSubmit)="submit()">
+                <div class="form-group">
+                    <label for="twitchUsername">Twitch username</label>
+                    <input type="text" id="twitchUsername" required class="form-control" [(ngModel)]="channel.twitchLoginName" name="twitchUsername">
+                    <small class="form-text text-muted">
+                        Your user account on Twitch used to fetch information from your Twitch account.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="title">Channel name</label>
+                    <input type="text" id="title" required class="form-control" [(ngModel)]="channel.title" name="title" minlength="3" #channelTitle=ngModel>
+                    <small class="form-text text-muted">
+                        The name of your channel how it will appear throughout the CWT website.
+                    </small>
+                    <div class="text-danger" *ngIf="channelTitle.errors && channelTitle.dirty">
+                        <div [hidden]="!channelTitle.errors.minlength">
+                            Minimum length is three chars.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary float-right" [disabled]="channelForm.invalid">
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-container>

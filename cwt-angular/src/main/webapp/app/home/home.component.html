@@ -1,0 +1,24 @@
+<cwt-apply-banner [userId]="authenticatedUser.id" *ngIf="authenticatedUser && tournament" class="float-right"></cwt-apply-banner>
+
+<h1 class="mb-1">
+    Crespo’s Worms Tournament
+</h1>
+
+<div class="card bg-secondary text-white mt-3 mb-3" *ngIf="news">
+    <div class="card-body">
+        <cwt-markdown [raw]="news.value" class="links-red"></cwt-markdown>
+        <p class="card-text float-right">
+            <small class="text-muted">
+                <cwt-time-ago [date]="news.modified"></cwt-time-ago>
+            </small>
+        </p>
+    </div>
+</div>
+
+<div class="row mb-3" *ngIf="tournament">
+    <div class="col-12">
+        <cwt-scheduler></cwt-scheduler>
+    </div>
+</div>
+
+<cwt-chat></cwt-chat>

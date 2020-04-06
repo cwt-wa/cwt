@@ -1,0 +1,11 @@
+ul.cwt-podest > li:first-child {
+    list-style-image: url('../img/gold.png');
+}
+
+ul.cwt-podest > li:nth-child(2) {
+    list-style-image: url('../img/silver.png');
+}
+
+ul.cwt-podest > li:nth-child(3) {
+    list-style-image: url('../img/bronze.png');
+}

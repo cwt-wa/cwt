@@ -1,0 +1,46 @@
+<table class="table table-sm table-bordered table-hover" *ngIf="group">
+    <thead>
+    <tr>
+        <th class="text-center bg-light">
+            {{group.label}}
+        </th>
+        <th>
+            Username
+        </th>
+        <th class="text-center">
+            Points
+        </th>
+        <th class="text-center">
+            Played
+        </th>
+        <th class="text-center d-none d-sm-table-cell">
+            Games
+        </th>
+        <th class="text-center d-none d-sm-table-cell">
+            Rounds
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let standing of group.standings; let index = index;">
+        <td class="text-center text-white" [ngClass]="index + 1 <= numberOfGroupMembersAdvancing ? 'bg-success' : 'bg-danger'">
+            {{index + 1}}
+        </td>
+        <td>
+            <cwt-user [username]="standing.user.username"></cwt-user>
+        </td>
+        <td class="text-center">
+            {{standing.points}}
+        </td>
+        <td class="text-center">
+            {{standing.games}}
+        </td>
+        <td class="text-center d-none d-sm-table-cell">
+            {{standing.gameRatio}}
+        </td>
+        <td class="text-center d-none d-sm-table-cell">
+            {{standing.roundRatio}}
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+        <h1 class="mb-4">Report</h1>
+        <form #reportForm="ngForm" (submit)="submit()" enctype="multipart/form-data"
+              [cwtValidateResult]="[scoreOfUserElem, scoreOfOpponentElem]">
+            <div class="form-row">
+                <div class="col-12 col-sm-4">
+                    <label for="authenticatedUser" class="sr-only">Your username</label>
+                    <input readonly class="form-control mr-1" id="authenticatedUser" [value]="authenticatedUser.username">
+                </div>
+                <div class="col-6 col-sm-2">
+                    <label for="your-score" class="sr-only">Your Score</label>
+                    <select id="your-score" class="form-control mr-1" [(ngModel)]="report.scoreOfUser"
+                            name="userScore" required #scoreOfUserElem>
+                        <option value=""></option>
+                        <option *ngFor="let score of possibleScores" [value]="score">
+                            {{score}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-2">
+                    <label for="opponent-score" class="sr-only">Opponent Score</label>
+                    <select id="opponent-score" class="form-control mr-1" [(ngModel)]="report.scoreOfOpponent"
+                            name="opponentScore" required #scoreOfOpponentElem>
+                        <option value=""></option>
+                        <option *ngFor="let score of possibleScores" [value]="score">
+                            {{score}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <label for="opponent" class="sr-only">Opponent</label>
+                    <select id="opponent" [(ngModel)]="report.opponent" name="opponent" class="form-control mr-1" required>
+                        <option value="" *ngIf="remainingOpponents?.length > 1"></option>
+                        <option *ngFor="let opponent of remainingOpponents;" [value]="opponent.id">
+                            {{opponent.username}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row my-2">
+                <div class="col">
+                    <label for="replayFile" class="sr-only">Replay File</label>
+                    <input type="file" #replayFile class="form-control-file" id="replayFile"
+                           [(ngModel)]="replay" required name="replayFile" accept=".zip,.rar">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <button class="btn btn-primary float-right"
+                            [disabled]="reportForm.invalid || report.scoreOfOpponent === report.scoreOfUser">
+                        Report this Game
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<h1 *ngIf="user">
+    <cwt-country [country]="user.country"></cwt-country>
+    {{user.username}}
+</h1>
+
+<div class="row">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-3">
+        <div class="card bg-secondary border-0" *ngIf="user">
+            <div class="card-body text-center" *ngFor="let reach of user.userStats;"
+                 style="border-bottom: 1px solid white !important;">
+                <div class="text-white">
+                    <cwt-reach [maxRound]="reach.tournamentMaxRound"
+                               [round]="reach.round">
+                    </cwt-reach>
+                    <br>
+                    <span class="text-nowrap">{{reach.locRound}}</span><br>
+                    {{reach.year}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col-12">
+                <img #userPhoto class="rounded" style="width: 100%">
+            </div>
+            <div class="col-12" *ngIf="user?.about">
+                <div class="card bg-secondary mt-3">
+                    <div class="card-body text-white rendered-text">
+                        {{user.about}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

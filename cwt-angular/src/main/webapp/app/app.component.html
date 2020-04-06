@@ -1,0 +1,168 @@
+<div class="cwt-top-bar" [ngClass]="{'apple-standalone': isAppleStandalone}">
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-6 cwt-gmt">
+                <cwt-gmt-clock></cwt-gmt-clock>
+            </div>
+            <div class="col-md-6 text-md-right all-petite-caps" *ngIf="!authenticatedUser">
+                <a routerLink="/login" class="btn">
+                    Log in
+                </a>
+                <a routerLink="/register" class="btn">
+                    Register
+                </a>
+            </div>
+            <div class="col-md-6 text-md-right" *ngIf="authenticatedUser">
+                <a routerLink="/report" class="btn" *ngIf="(canReportService.canReport | async)">
+                    Report
+                </a>
+                <a routerLink="/admin" class="btn" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
+                    Admin
+                </a>
+                <a href="" class="btn" (click)="logOut()">
+                    Log out
+                </a>
+                <a routerLink="/user-panel" class="btn" style="overflow: hidden;">
+                    {{authenticatedUser.username}}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cwt-nav-container">
+    <nav [ngClass]="{'apple-standalone': isAppleStandalone, 'cwt-fixed-top': isStandalone || !isNavCollapsed}"
+         class="navbar navbar-expand-lg navbar-inverse cwt-navbar">
+        <div class="row no-gutters cwt-mobile-nav">
+            <div class="col">
+                <button (click)="collapseNav()" [ngClass]="{'is-active': !isNavCollapsed}"
+                        class="hamburger hamburger--collapse">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+                </button>
+            </div>
+            <div class="col text-center">
+                <a routerLink="/" (click)="isNavCollapsed = true">
+                    <img src="../img/icon.png" class="rounded-circle">
+                </a>
+            </div>
+            <div class="col text-right user-panel all-petite-caps" ngbDropdown>
+                <i class="fa fa-lg cwt-user-panel-icon no-caret"
+                   [ngClass]="{'vanish': !isNavCollapsed, 'fa-user': authenticatedUser, 'fa-user-o': !authenticatedUser}"
+                   ngbDropdownToggle>
+                </i>
+                <div class="dropdown-menu" *ngIf="!authenticatedUser" ngbDropdownMenu>
+                    <a routerLink="/login" class="dropdown-item">Log in</a>
+                    <div class="dropdown-divider"></div>
+                    <a routerLink="/register" class="dropdown-item">Register</a>
+                </div>
+                <div class="dropdown-menu" *ngIf="authenticatedUser" ngbDropdownMenu>
+                    <a routerLink="/user-panel" class="dropdown-item">
+                        {{authenticatedUser.username}}
+                    </a>
+                    <a routerLink="/report" class="dropdown-item" *ngIf="(canReportService.canReport | async)">
+                        Report
+                    </a>
+                    <button class="dropdown-item" (click)="logOut()">
+                        Log out
+                    </button>
+                    <a routerLink="/admin" class="dropdown-item" *ngIf="authenticatedUser.roles.indexOf('ROLE_ADMIN') !== -1">
+                        Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="navbar navbar-expand-lg container">
+        <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
+            <ul class="navbar-nav all-petite-caps" (click)="isNavCollapsed = true">
+                <li class="nav-item cwt-icon">
+                    <a class="nav-link" routerLink="/">
+                        <img src="../img/icon.png" class="rounded" (dblclick)="easterEgg()">
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/groups">
+                        Groups
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/playoffs">
+                        Playoffs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/games">
+                        Games
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/users">
+                        Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/streams">
+                        Streams
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/help">
+                        Help
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/archive">
+                        Archive
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div [hidden]="!isNavCollapsed"
+     [ngClass]="{'standalone-container': isStandalone && !isAppleStandalone, 'apple-standalone-container': isAppleStandalone}"
+     class="container content">
+    <cwt-live-stream *ngIf="eventSourceTwitchWebhook"></cwt-live-stream>
+    <router-outlet></router-outlet>
+</div>
+<div id="tetris">
+    <button id="btn-close-tetris" (click)="closeTetris()">
+        <i class="fa fa-lg fa-times"></i>
+    </button>
+    <div id="tetris-heading">
+        <img src="../tetris/img/tetris.png" height="50px">
+    </div>
+    <div id="tetris-gameover">
+        <div id="tetris-game-over-heading">
+            <img src="../tetris/img/gameover.png" height="50px">
+        </div>
+        <div id="tetris-game-over-entry">
+            <form (ngSubmit)="saveTetrisGuest()">
+                <label id="lbl-tetris-guest-entry">Enter your name to save your score</label>
+                <input id="input-tetris-guest-entry" type="text" [(ngModel)]="tetrisGuestName" name="tetrisGuestName">
+            </form>
+        </div>
+        <div id="tetris-game-over-table">
+            <table class="table" id="tetris-highscore-table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Highscore</th>
+                    <th scope="col">Created</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let highscore of highscores" [ngClass]="{'tetris-game-over-table-new-entry' : highscore.id == newTetrisEntryId}">
+                    <td>{{highscore.user == null ? highscore.guestname : highscore.user.username}}</td>
+                    <td>{{highscore.highscore}}</td>
+                    <td>{{highscore.created | cwtDate}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<h1>Apply</h1>
+
+<p class="lead mb-4">
+    Apply for playing in the next edition of <span class="cwt-label"></span>.
+</p>
+
+<cwt-markdown [raw]="rules" *ngIf="rules"></cwt-markdown>
+
+<div class="row offset-md-3 mt-4">
+    <div class="col-12 col-md-9">
+        <form #applyForm="ngForm" (ngSubmit)="submit()" class="form-inline d-flex">
+            <button class="btn btn-lg btn-primary mr-sm-2 mt-sm-2 order-2 order-sm-1" [disabled]="!applyForm.form.valid">Apply</button>
+            <div class="form-check order-1 order-sm-2">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" required [(ngModel)]="agreeToRules" name="agreeToRules">
+                    I have read and agree to the rules
+                </label>
+            </div>
+        </form>
+    </div>
+</div>

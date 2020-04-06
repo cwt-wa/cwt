@@ -1,0 +1,42 @@
+<h1 class="float-left">Users</h1>
+
+<div class="float-right text-nowrap" *ngIf="pageOfUsers">
+    <cwt-sorter [pageOfModels]="pageOfUsers" (load)="load()" [disabled]="loading"></cwt-sorter>
+</div>
+
+<div class="clearfix"></div>
+
+<img *ngIf="loading" src="../../img/loading.gif"/>
+
+<div class="row mt-2 clear" *ngIf="pageOfUsers && !loading">
+    <div class="col-12">
+        <div class="card bg-secondary text-white border-0 mb-1">
+            <div class="card-body" *ngFor="let user of pageOfUsers.content"
+                 style="border-bottom: 1px solid white !important;">
+                <div class="row">
+                    <div class="col-md col-12">
+                        <h2>
+                            <cwt-country [country]="user.country"></cwt-country>&nbsp;
+                            <cwt-user [username]="user.username"></cwt-user>
+                        </h2>
+                    </div>
+                    <div class="col-md col-12 text-md-right">
+                        <ng-container *ngFor="let reach of user.userStats;">
+                            <cwt-reach *ngIf="reach.round >= reach.tournamentMaxRound"
+                                       [maxRound]="reach.tournamentMaxRound"
+                                       [round]="reach.round"
+                                       [ngbTooltip]="reach.year"
+                                       style="padding-right: 5px">
+                            </cwt-reach>
+                        </ng-container>
+                    </div>
+                    <div class="col-md col-12 mt-2 mt-md-0" style="font-size: 22px">
+                        {{user.participations}} <span class="all-petite-caps">Participations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <cwt-paginator [page]="pageOfUsers" (goTo)="goTo($event)"></cwt-paginator>
+    </div>
+</div>
