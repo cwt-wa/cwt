@@ -6,6 +6,7 @@ import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
 import {BetResult, BetService} from "../_services/bet.service";
 import {PlayoffsService} from "../_services/playoffs.service";
+import {GameStats} from "./game-stats.component";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -20,6 +21,8 @@ export class GameDetailComponent {
     authenticatedUser: JwtUser;
     betResult: BetResult;
     gameWasPlayed: boolean;
+    stats: GameStats.GameStats[];
+    statsForRound?: number = 1;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
@@ -43,7 +46,10 @@ export class GameDetailComponent {
 
     public ngOnInit(): void {
         this.route.paramMap.subscribe(routeParam => {
-            this.requestService.get<GameDetailDto>(`game/${+routeParam.get('id')}`)
+            const gameId = +routeParam.get('id');
+            this.requestService.get<GameStats.GameStats[]>(`game/${gameId}/stats`)
+                .subscribe(res => this.stats = res);
+            this.requestService.get<GameDetailDto>(`game/${gameId}`)
                 .subscribe(res => {
                     this.game = res;
                     this.gameWasPlayed = this.playoffService.gameWasPlayed(this.game);
@@ -55,7 +61,7 @@ export class GameDetailComponent {
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);
 
                     if (this.game.playoff != null) {
-                        this.requestService.get<PlayoffTreeBetDto[]>(`game/${+routeParam.get('id')}/bets`)
+                        this.requestService.get<PlayoffTreeBetDto[]>(`game/${gameId}/bets`)
                             .subscribe(res => this.betResult = this.betService.createBetResult(res));
                     }
                 });

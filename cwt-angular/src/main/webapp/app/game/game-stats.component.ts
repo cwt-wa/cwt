@@ -1,6 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RequestService} from "../_services/request.service";
-import {ActivatedRoute} from "@angular/router";
 
 const colors: { [key: string]: string } = {
     blue: '#9D9FFF',
@@ -170,9 +168,7 @@ const colors: { [key: string]: string } = {
 })
 export class GameStatsComponent implements OnInit {
 
-    @Input() gameId: number;
-
-    stats: GameStats.GameStats;
+    @Input() stats: GameStats.GameStats;
     totalHealthPointsPerTeam: number;
     numberOfTeams: number;
     losingUser: string;
@@ -182,17 +178,43 @@ export class GameStatsComponent implements OnInit {
     suddenDeathBeforeTurn: number;
     averageTurnTimes: number[];
 
-    constructor(private requestService: RequestService, private route: ActivatedRoute) {
-    }
-
     ngOnInit(): void {
-        console.log(this.killImage);
+        this.losingUser = this.stats.teams.find(t => t.team !== this.stats.winsTheRound).user;
+        this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
+        this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
+        this.numberOfTeams = this.stats.teams.length;
+        this.averageTurnTimes = (() =>
+            this.stats.teams
+                .map(team => team.user)
+                .map(user => {
+                    const turnTimes = this.stats.turns
+                        .filter(turn => turn.user === user)
+                        .map(turn => turn.timeUsedSeconds);
+                    return Math.round(turnTimes.reduce((acc, curr) => acc + curr, 0) / turnTimes.length);
+                }))();
+        this.suddenDeathBeforeTurn = (() => {
+            if (!this.stats.suddenDeath) return -1;
 
-        this.gameId
-            ? this.loadStats(this.gameId)
-            : this.route.paramMap.subscribe(routeParam => this.loadStats(+routeParam.get('id')));
+            function timestampToSeconds(timestamp: string): number {
+                const timeParts = timestamp.split(/[^\d]/).map(x => parseInt(x));
+                return (
+                    (timeParts[0] * 60 * 60)
+                    + (timeParts[1] * 60)
+                    + (timeParts[2])
+                    + timeParts[2] / 100
+                );
+            }
+
+            const turnSeconds = this.stats.turns.map(turn => timestampToSeconds(turn.timestamp));
+            const suddenDeathSeconds = timestampToSeconds(this.stats.suddenDeath);
+            for (let i = 0; i < turnSeconds.length; i++) {
+                const turnSecond = turnSeconds[i];
+                if (turnSecond > suddenDeathSeconds) return i + 1;
+            }
+            console.warn("Sudden death could not be ordered.");
+            return -1;
+        })();
     }
-
 
     getColorOfUser(user: string): string {
         return this.stats.teams.find(t => t.user === user).color;
@@ -240,46 +262,6 @@ export class GameStatsComponent implements OnInit {
         return `linear-gradient(to right, ${gradients.join(', ')})`;
     }
 
-    private loadStats(gameId: number) {
-        return this.requestService.get<GameStats.GameStats>(`game/${gameId}/stats`)
-            .subscribe(res => {
-                this.stats = res;
-                this.losingUser = this.stats.teams.find(t => t.team !== this.stats.winsTheRound).user;
-                this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
-                this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
-                this.numberOfTeams = this.stats.teams.length;
-                this.averageTurnTimes = (() =>
-                    this.stats.teams
-                        .map(team => team.user)
-                        .map(user => {
-                            const turnTimes = this.stats.turns
-                                .filter(turn => turn.user === user)
-                                .map(turn => turn.timeUsedSeconds);
-                            return Math.round(turnTimes.reduce((acc, curr) => acc + curr, 0) / turnTimes.length);
-                        }))();
-                this.suddenDeathBeforeTurn = (() => {
-                    if (!this.stats.suddenDeath) return -1;
-                    function timestampToSeconds(timestamp: string): number {
-                        const timeParts = timestamp.split(/[^\d]/).map(x => parseInt(x));
-                        return (
-                            (timeParts[0] * 60 * 60)
-                            + (timeParts[1] * 60)
-                            + (timeParts[2])
-                            + timeParts[2] / 100
-                        );
-                    }
-                    const turnSeconds = this.stats.turns.map(turn => timestampToSeconds(turn.timestamp));
-                    const suddenDeathSeconds = timestampToSeconds(this.stats.suddenDeath);
-                    for (let i = 0; i < turnSeconds.length; i++) {
-                        const turnSecond = turnSeconds[i];
-                        if (turnSecond > suddenDeathSeconds) return i + 1;
-                    }
-                    console.warn("Sudden death could not be ordered.");
-                    return -1;
-                })();
-            });
-    }
-
     private calcLostHealthPoints(turns: GameStats.Turn[], victim: string) {
         return turns
             .reduce<number>((acc: number, curr: GameStats.Turn) =>
@@ -290,7 +272,7 @@ export class GameStatsComponent implements OnInit {
 }
 
 
-declare module GameStats {
+export declare module GameStats {
 
     export interface Message {
         timestamp: string;

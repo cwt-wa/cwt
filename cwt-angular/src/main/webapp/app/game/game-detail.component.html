@@ -189,7 +189,19 @@
         </div>
     </div>
     <div class="row mt-4">
+        <div class="col-12 text-center">
+            <button class="btn btn-sm rounded-circle text-center text-white mb-2 mr-2 p-0"
+                    [ngClass]="statsForRound === index + 1 ? 'bg-secondary' : 'bg-primary'"
+                    [style.height]="'2.5rem'" [style.width]="'2.5rem'" [style.fontSize]="'1.5rem'"
+                    *ngFor="let s of stats; let index = index" [ngbTooltip]="'Round ' + (index + 1)" placement="top"
+                    (click)="statsForRound = index + 1">
+                {{index + 1}}
+            </button>
+        </div>
         <div class="col-12">
+            <cwt-game-stats *ngIf="stats[statsForRound - 1]" [stats]="stats[statsForRound - 1]"></cwt-game-stats>
+        </div>
+        <div class="col-12 mt-4">
             <div *ngIf="newComment">
                 <form #commentForm="ngForm" (ngSubmit)="submitComment()">
                     <textarea rows="3" class="form-control" placeholder="Write a comment…" required
