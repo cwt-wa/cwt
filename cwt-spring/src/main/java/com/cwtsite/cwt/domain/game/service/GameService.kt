@@ -46,7 +46,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             private val userRepository: UserRepository, private val groupService: GroupService, private val ratingRepository: RatingRepository,
             private val commentRepository: CommentRepository, private val configurationService: ConfigurationService, private val userService: UserService,
             private val playoffService: PlayoffService, private val betRepository: BetRepository, private val scheduleService: ScheduleService,
-            private val treeService: TreeService) {
+            private val treeService: TreeService, private val gameStatsRepository: GameStatsRepository) {
 
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class, FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class, IOException::class)
@@ -233,6 +233,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 .orElse(Bet(user = user, game = game, betOnHome = betOnHome))
         return betRepository.save(bet)
     }
+
+    fun findGameStats(game: Game): String = gameStatsRepository.findByGame(game).data
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
 

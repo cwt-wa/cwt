@@ -198,4 +198,9 @@ constructor(private val gameService: GameService, private val userService: UserS
         return ResponseEntity.ok(voidedGame)
     }
 
+    @GetMapping("/{gameId}/stats")
+    fun retrieveGameStats(@PathVariable gameId: Long): ResponseEntity<String> =
+            ResponseEntity.ok(gameService.findGameStats(
+                    gameService.findById(gameId)
+                            .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }))
 }
