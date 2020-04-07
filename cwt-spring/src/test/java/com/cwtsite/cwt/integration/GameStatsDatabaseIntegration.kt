@@ -59,7 +59,7 @@ class GameStatsDatabaseIntegration {
         gameStatsRepository.save(GameStats(
                 gameId = game!!.id!!,
                 game = game,
-                round = 1,
+                startedAt = Timestamp(1586284441226),
                 data = statsJson))
     }
 

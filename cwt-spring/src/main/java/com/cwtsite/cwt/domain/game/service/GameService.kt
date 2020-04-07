@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
+import com.cwtsite.cwt.domain.game.entity.GameStats
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.entity.Replay
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
@@ -25,6 +26,7 @@ import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -37,6 +39,7 @@ import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.ceil
 
@@ -236,7 +239,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
     fun findGameStats(game: Game): String =
             gameStatsRepository.findByGame(game)
-                    .sortedBy { it.round }
+                    .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
@@ -249,3 +252,4 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
     inner class InvalidOpponentException internal constructor(message: String) : RuntimeException(message)
 }
+
