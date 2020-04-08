@@ -100,10 +100,9 @@ class BinaryRestController {
         try {
             FileValidator.validate(
                     replay, 150000,
-                    listOf("application/x-rar", "application/x-rar-compressed",
-                            "application/zip", "application/x-zip-compressed",
+                    listOf("application/zip", "application/x-zip-compressed",
                             "application/octet-stream"),
-                    listOf("rar", "zip"))
+                    listOf("zip"))
         } catch (e: FileValidator.AbstractFileException) {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
