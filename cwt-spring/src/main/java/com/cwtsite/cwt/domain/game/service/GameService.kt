@@ -246,8 +246,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return gameStatsRepository.save(GameStats(
                 data = data,
                 startedAt = Timestamp(format.parse(startedAt).time),
-                game = game,
-                gameId = game.id
+                game = game
         ))
     }
 

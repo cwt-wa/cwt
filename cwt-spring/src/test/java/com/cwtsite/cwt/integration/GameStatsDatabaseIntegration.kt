@@ -57,7 +57,6 @@ class GameStatsDatabaseIntegration {
     @Test
     fun `2 save stats`() {
         gameStatsRepository.save(GameStats(
-                gameId = game!!.id!!,
                 game = game,
                 startedAt = Timestamp(1586284441226),
                 data = statsJson))

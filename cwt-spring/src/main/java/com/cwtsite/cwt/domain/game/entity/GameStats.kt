@@ -6,14 +6,16 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "game_stats")
+@SequenceGenerator(name = "game_stats_seq", sequenceName = "game_stats_id_seq", allocationSize = 5)
 data class GameStats(
 
         @Id
-        @Column(name = "game_id")
-        var gameId: Long? = null,
+        @Column(name = "id")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_stats_seq")
+        var id: Long? = null,
 
-        @OneToOne(cascade = [CascadeType.ALL])
-        @JoinColumn(name = "game_id", referencedColumnName = "id")
+        @ManyToOne(optional = false)
+        @JoinColumn(nullable = false)
         var game: Game? = null,
 
         @Column(name = "data", columnDefinition = "text")
