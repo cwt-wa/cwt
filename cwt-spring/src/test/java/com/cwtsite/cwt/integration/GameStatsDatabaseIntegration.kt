@@ -38,7 +38,7 @@ class GameStatsDatabaseIntegration {
     @Autowired
     private lateinit var tournamentRepository: TournamentRepository
 
-    private val statsJson = javaClass.getResource("stats.json")!!
+    private val statsJson = javaClass.getResource("2.json")!!
             .readBytes().toString(Charset.defaultCharset())
 
     companion object {

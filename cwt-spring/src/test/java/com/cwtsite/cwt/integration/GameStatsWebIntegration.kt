@@ -39,6 +39,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
 import java.sql.Timestamp
 import java.time.Instant
 import kotlin.test.Test
@@ -80,7 +81,11 @@ class GameStatsWebIntegration {
 
     private val anyToken = "ANY_TOKEN"
 
-    private val statsJson = javaClass.getResourceAsStream("stats.json")!!
+    private val rarFile = File(javaClass.getResource("1011.rar").toURI())
+    private val statsJson1 = javaClass.getResourceAsStream("1.json")!!
+    private val statsJson2 = javaClass.getResourceAsStream("2.json")!!
+    private val statsJson3 = javaClass.getResourceAsStream("3.json")!!
+    private val statsJson4 = javaClass.getResourceAsStream("4.json")!!
 
     companion object {
 
@@ -112,19 +117,21 @@ class GameStatsWebIntegration {
         `when`(authService.tokenHeaderName).thenReturn(tokenHeader)
         `when`(authService.getUserFromToken(anyToken)).thenReturn(zemkeUser)
 
-        val httpEntityMock = mock(HttpEntity::class.java)
-        `when`(httpEntityMock.content)
-                .thenReturn(statsJson)
+        val statsJsonMock1 = createStatsResponse(statsJson1)
+        val statsJsonMock2 = createStatsResponse(statsJson2)
+        val statsJsonMock3 = createStatsResponse(statsJson3)
+        val statsJsonMock4 = createStatsResponse(statsJson4)
+
         `when`(binaryOutboundService.sendMultipartEntity(anyString(), anyObject(), anyString(), anyString(), anyString()))
-                .thenReturn(httpEntityMock)
+                .thenReturn(statsJsonMock1)
+                .thenReturn(statsJsonMock2)
+                .thenReturn(statsJsonMock3)
+                .thenReturn(statsJsonMock4)
 
-        val file = File("/Users/zemke/Downloads/1011.rar") // todo move file into the classpath
-        println(file.isFile.toString() + "  " + file.name + file.exists())
-
-        val inputStream = FileInputStream(file)
+        val inputStream = FileInputStream(rarFile)
         mockMvc
                 .perform(multipart("/api/binary/game/${game!!.id}/replay")
-                        .file(MockMultipartFile("replay", file.name, "application/x-rar-compressed", inputStream))
+                        .file(MockMultipartFile("replay", rarFile.name, "application/x-rar-compressed", inputStream))
                         .header(tokenHeader, anyToken)
                         .param("score-home", "3")
                         .param("score-away", "0")
@@ -145,5 +152,11 @@ class GameStatsWebIntegration {
                 .andExpect(jsonPath("$", hasSize<Any>(4)))
                 .andExpect(jsonPath("$[0].gameId", `is`("10719273")))
         // todo more assertions
+    }
+
+    private fun createStatsResponse(statsJson: InputStream): HttpEntity {
+        val httpEntityMock = mock(HttpEntity::class.java)
+        `when`(httpEntityMock.content).thenReturn(statsJson)
+        return httpEntityMock
     }
 }
