@@ -1,15 +1,15 @@
 package com.cwtsite.cwt.controller
 
+import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.core.FileValidator
+import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
+import com.github.junrar.Junrar
 import khttp.responses.Response
-import org.apache.http.client.methods.HttpPost
-import org.apache.http.entity.ContentType
-import org.apache.http.entity.mime.HttpMultipartMode
-import org.apache.http.entity.mime.MultipartEntityBuilder
-import org.apache.http.impl.client.HttpClients
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -20,8 +20,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.io.BufferedReader
 import java.io.IOException
-import java.io.InputStream
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
 
@@ -33,15 +33,24 @@ class BinaryRestController {
     @Value("\${binary-data-store}")
     private var binaryDataStoreEndpoint: String? = null
 
+    @Value("\${waaas-endpoint}")
+    private var waaasEndpoint: String? = null
+
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Autowired
     private lateinit var authService: AuthService
 
+    @Autowired
+    private lateinit var gameService: GameService
+
+    @Autowired
+    private lateinit var binaryOutboundService: BinaryOutboundService
+
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
         assertBinaryDataStoreEndpoint()
-        val response = khttp.get(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
+        val response = binaryOutboundService.get(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
         if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         return createResponseEntity(response.headers, response.content)
     }
@@ -68,7 +77,7 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        sendMultipartEntity(
+        binaryOutboundService.sendMultipartEntity(
                 url = "${binaryDataStoreEndpoint}/user/$userId/photo",
                 fileInputStream = photo.inputStream,
                 mimeType = photo.contentType!!,
@@ -108,7 +117,7 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        sendMultipartEntity(
+        binaryOutboundService.sendMultipartEntity(
                 url = "${binaryDataStoreEndpoint}/game/$gameId/replay",
                 fileInputStream = replay.inputStream,
                 mimeType = replay.contentType!!,
@@ -116,30 +125,50 @@ class BinaryRestController {
                 fileName = "${gameId}replay"
         )
 
+        println("Replay input stream ${replay.inputStream}") // todo remove
+
+        // todo learn coroutines exception handling
+        //  https://kotlinlang.org/docs/reference/coroutines/exception-handling.html
+        try {
+            val game = gameService.findById(gameId)
+            if (game.isEmpty) {
+                logger.warn("Game with ID $gameId could not be retrieved for replay WAaaS extraction.")
+                return ResponseEntity.status(HttpStatus.CREATED).build()
+            }
+
+            // todo could be a zip file
+            @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
+            runBlocking {
+                Junrar.extract(replay.inputStream, createTempDir(prefix = "cwt_", suffix = "_replay"))
+                        .forEach { extractedReplay ->
+                            launch {
+                                val response = binaryOutboundService.sendMultipartEntity(
+                                        url = waaasEndpoint!!,
+                                        fileInputStream = extractedReplay.inputStream(),
+                                        mimeType = "application/wagame",
+                                        fileFieldName = "replay",
+                                        fileName = "${gameId}replay")
+                                gameService.saveGameStats(
+                                        response.content
+                                                .bufferedReader()
+                                                .use(BufferedReader::readText),
+                                        game.get())
+                            }
+                        }
+            }
+        } catch (e: Exception) {
+            logger.error("WAaaS replay extraction went wrong", e)
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     @GetMapping("game/{gameId}/replay")
     fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<ByteArray> {
         assertBinaryDataStoreEndpoint()
-        val response = khttp.get(url = "${binaryDataStoreEndpoint}/game/$gameId/replay")
+        val response = binaryOutboundService.get(url = "${binaryDataStoreEndpoint}/game/$gameId/replay")
         if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         return createResponseEntity(response.headers, response.content)
-    }
-
-    fun sendMultipartEntity(url: String, fileInputStream: InputStream, mimeType: String,
-                            fileFieldName: String, fileName: String) {
-        val multipartEntity = with(HttpPost(url)) {
-            entity = MultipartEntityBuilder.create()
-                    .addBinaryBody(
-                            fileFieldName, fileInputStream,
-                            ContentType.DEFAULT_BINARY, fileName)
-                    .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-                    .build()
-            this
-        }
-
-        HttpClients.createDefault().use { it.execute(multipartEntity) }
     }
 
     @DeleteMapping("user/{userId}/photo")
@@ -153,7 +182,7 @@ class BinaryRestController {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
-        val response = khttp.delete(
+        val response = binaryOutboundService.delete(
                 url = "${binaryDataStoreEndpoint}/user/$userId/photo")
 
         if (response.statusCode != 200) {

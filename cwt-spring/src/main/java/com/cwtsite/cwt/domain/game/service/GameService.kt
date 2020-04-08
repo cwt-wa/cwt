@@ -237,6 +237,20 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return betRepository.save(bet)
     }
 
+    fun saveGameStats(data: String, game: Game): GameStats {
+        val startedAt = JSONObject(data).getString("startedAt") // Formatting example: 2013-12-14 16:45:20 GMT
+        val format = with (SimpleDateFormat("yyyy-mm-dd HH:mm:ss z")) {
+            timeZone = TimeZone.getTimeZone("GMT")
+            this
+        }
+        return gameStatsRepository.save(GameStats(
+                data = data,
+                startedAt = Timestamp(format.parse(startedAt).time),
+                game = game,
+                gameId = game.id
+        ))
+    }
+
     fun findGameStats(game: Game): String =
             gameStatsRepository.findByGame(game)
                     .sortedBy { it.startedAt }
