@@ -2,13 +2,12 @@ package com.cwtsite.cwt.controller
 
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.core.FileValidator
+import com.cwtsite.cwt.domain.core.Unzip.unzip
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
-import com.github.junrar.Junrar
 import khttp.responses.Response
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -141,21 +140,20 @@ class BinaryRestController {
             // todo could be a zip file
             @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
             runBlocking {
-                Junrar.extract(replay.inputStream, createTempDir(prefix = "cwt_", suffix = "_replay"))
+                @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
+                unzip(replay.inputStream, createTempDir(prefix = "cwt_", suffix = "_replay"))
                         .forEach { extractedReplay ->
-                            launch {
-                                val response = binaryOutboundService.sendMultipartEntity(
-                                        url = waaasEndpoint!!,
-                                        fileInputStream = extractedReplay.inputStream(),
-                                        mimeType = waGameMimeType,
-                                        fileFieldName = "replay",
-                                        fileName = "${gameId}replay")
-                                gameService.saveGameStats(
-                                        response.content
-                                                .bufferedReader()
-                                                .use(BufferedReader::readText),
-                                        game.get())
-                            }
+                            val response = binaryOutboundService.sendMultipartEntity(
+                                    url = waaasEndpoint!!,
+                                    fileInputStream = extractedReplay.inputStream(),
+                                    mimeType = waGameMimeType,
+                                    fileFieldName = "replay",
+                                    fileName = "${gameId}replay")
+                            gameService.saveGameStats(
+                                    response.content
+                                            .bufferedReader()
+                                            .use(BufferedReader::readText),
+                                    game.get())
                         }
             }
         } catch (e: Exception) {
