@@ -122,7 +122,7 @@ class BinaryRestController {
                 url = "${binaryDataStoreEndpoint}/game/$gameId/replay",
                 fileInputStream = replay.inputStream,
                 mimeType = replay.contentType!!,
-                fileFieldName = "replay",
+                        fileFieldName = "replay",
                 fileName = "${gameId}replay"
         )
 

@@ -4,8 +4,6 @@ import com.cwtsite.cwt.controller.waGameMimeType
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
-import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.service.GameStatsRepository
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
@@ -21,7 +19,6 @@ import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -38,7 +35,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multi
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.transaction.annotation.Transactional
 import java.io.File
 import java.io.FileInputStream
 import java.sql.Timestamp
@@ -60,16 +56,10 @@ class GameStatsWebIntegration {
     private lateinit var userRepository: UserRepository
 
     @Autowired
-    private lateinit var gameService: GameService
-
-    @Autowired
     private lateinit var tournamentRepository: TournamentRepository
 
     @Autowired
     private lateinit var gameRepository: GameRepository
-
-    @Autowired
-    private lateinit var gameStatsRepository: GameStatsRepository
 
     @Value("\${jwt.header}")
     private lateinit var tokenHeader: String
@@ -85,7 +75,7 @@ class GameStatsWebIntegration {
 
     private val anyToken = "ANY_TOKEN"
 
-    private val rarFile = File(javaClass.getResource("1011.rar").toURI())
+    private val zipArchive = File(javaClass.getResource("1559.zip").toURI())
     private val statsJson1 = javaClass.getResourceAsStream("1.json")!!
     private val statsJson2 = javaClass.getResourceAsStream("2.json")!!
     private val statsJson3 = javaClass.getResourceAsStream("3.json")!!
@@ -105,20 +95,20 @@ class GameStatsWebIntegration {
 
     @Before
     fun setUp() {
-        game = gameRepository.save(Game(
-                tournament = tournamentRepository.save(
-                        Tournament(created = Timestamp.from(Instant.now())))))
-
-        zemkeUser = userRepository.save(User(username = "Zemke", email = "Zemke@cwtsite.com"))
-        rafkaUser = userRepository.save(User(username = "Rafka", email = "Rafka@cwtsite.com"))
+        if (game == null) {
+            game = gameRepository.save(Game(
+                    tournament = tournamentRepository.save(
+                            Tournament(created = Timestamp.from(Instant.now())))))
+        }
+        if (zemkeUser == null) zemkeUser = userRepository.save(User(username = "nOox", email = "nOox@cwtsite.com"))
+        if (rafkaUser == null) rafkaUser = userRepository.save(User(username = "Boolc", email = "Boolc@cwtsite.com"))
+        `when`(authService.tokenHeaderName).thenReturn(tokenHeader)
+        `when`(authService.getUserFromToken(anyToken)).thenReturn(zemkeUser)
     }
 
     @Test
     @WithMockUser
-    @Transactional
     fun `1 save game stats json`() {
-        `when`(authService.tokenHeaderName).thenReturn(tokenHeader)
-        `when`(authService.getUserFromToken(anyToken)).thenReturn(zemkeUser)
         `when`(binaryOutboundService.sendMultipartEntity(
                 safeEq(waaasEndpoint), anyObject(), safeEq(waGameMimeType), anyString(), anyString()))
                 .thenAnswer { InputStreamEntity(statsJson1) }
@@ -126,13 +116,13 @@ class GameStatsWebIntegration {
                 .thenAnswer { InputStreamEntity(statsJson3) }
                 .thenAnswer { InputStreamEntity(statsJson4) }
 
-        val inputStream = FileInputStream(rarFile)
+        val inputStream = FileInputStream(zipArchive)
         mockMvc
                 .perform(multipart("/api/binary/game/${game!!.id}/replay")
-                        .file(MockMultipartFile("replay", rarFile.name, "application/x-rar-compressed", inputStream))
+                        .file(MockMultipartFile("replay", zipArchive.name, "application/zip", inputStream))
                         .header(tokenHeader, anyToken)
                         .param("score-home", "3")
-                        .param("score-away", "0")
+                        .param("score-away", "1")
                         .param("home-user", zemkeUser!!.id.toString())
                         .param("away-user", rafkaUser!!.id.toString())
                 )
@@ -142,14 +132,19 @@ class GameStatsWebIntegration {
 
     @Test
     fun `2 retrieve game stats json`() {
-        val response = mockMvc
+        mockMvc
                 .perform(get("/api/game/${game!!.id}/stats")
                         .contentType(APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<Any>(4)))
-                .andExpect(jsonPath("$[0].gameId", `is`("10719273")))
-        // todo more assertions
+                .andExpect(jsonPath("$[0].gameId", `is`("10534216")))
+                .andExpect(jsonPath("$[1].gameId", `is`("10534216")))
+                .andExpect(jsonPath("$[2].gameId", `is`("10534216")))
+                .andExpect(jsonPath("$[3].gameId", `is`("10534216")))
+                .andExpect(jsonPath("$[0].startedAt", `is`("2019-10-06 12:05:33 GMT")))
+                .andExpect(jsonPath("$[1].startedAt", `is`("2019-10-06 12:26:30 GMT")))
+                .andExpect(jsonPath("$[2].startedAt", `is`("2019-10-06 12:45:24 GMT")))
+                .andExpect(jsonPath("$[3].startedAt", `is`("2019-10-06 13:10:39 GMT")))
     }
-
 }
