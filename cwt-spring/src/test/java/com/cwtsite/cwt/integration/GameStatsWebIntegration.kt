@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.integration
 
+import com.cwtsite.cwt.controller.waGameMimeType
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
@@ -11,7 +12,8 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
-import org.apache.http.HttpEntity
+import com.cwtsite.cwt.test.MockitoUtils.safeEq
+import org.apache.http.entity.InputStreamEntity
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
 import org.junit.Before
@@ -19,8 +21,8 @@ import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.mockito.ArgumentMatchers.anyString
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -39,7 +41,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
 import java.io.File
 import java.io.FileInputStream
-import java.io.InputStream
 import java.sql.Timestamp
 import java.time.Instant
 import kotlin.test.Test
@@ -72,6 +73,9 @@ class GameStatsWebIntegration {
 
     @Value("\${jwt.header}")
     private lateinit var tokenHeader: String
+
+    @Value("\${waaas-endpoint}")
+    private lateinit var waaasEndpoint: String
 
     @MockBean
     private lateinit var authService: AuthService
@@ -113,20 +117,14 @@ class GameStatsWebIntegration {
     @WithMockUser
     @Transactional
     fun `1 save game stats json`() {
-
         `when`(authService.tokenHeaderName).thenReturn(tokenHeader)
         `when`(authService.getUserFromToken(anyToken)).thenReturn(zemkeUser)
-
-        val statsJsonMock1 = createStatsResponse(statsJson1)
-        val statsJsonMock2 = createStatsResponse(statsJson2)
-        val statsJsonMock3 = createStatsResponse(statsJson3)
-        val statsJsonMock4 = createStatsResponse(statsJson4)
-
-        `when`(binaryOutboundService.sendMultipartEntity(anyString(), anyObject(), anyString(), anyString(), anyString()))
-                .thenReturn(statsJsonMock1)
-                .thenReturn(statsJsonMock2)
-                .thenReturn(statsJsonMock3)
-                .thenReturn(statsJsonMock4)
+        `when`(binaryOutboundService.sendMultipartEntity(
+                safeEq(waaasEndpoint), anyObject(), safeEq(waGameMimeType), anyString(), anyString()))
+                .thenAnswer { InputStreamEntity(statsJson1) }
+                .thenAnswer { InputStreamEntity(statsJson2) }
+                .thenAnswer { InputStreamEntity(statsJson3) }
+                .thenAnswer { InputStreamEntity(statsJson4) }
 
         val inputStream = FileInputStream(rarFile)
         mockMvc
@@ -154,9 +152,4 @@ class GameStatsWebIntegration {
         // todo more assertions
     }
 
-    private fun createStatsResponse(statsJson: InputStream): HttpEntity {
-        val httpEntityMock = mock(HttpEntity::class.java)
-        `when`(httpEntityMock.content).thenReturn(statsJson)
-        return httpEntityMock
-    }
 }

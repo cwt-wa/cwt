@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.test
 
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito
 
 object MockitoUtils {
@@ -9,6 +10,8 @@ object MockitoUtils {
         Mockito.any<T>()
         return uninitialized()
     }
+
+    fun <T : Any> safeEq(value: T): T = eq(value) ?: value
 
     @Suppress("UNCHECKED_CAST")
     private fun <T> uninitialized(): T = null as T

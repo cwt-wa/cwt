@@ -25,10 +25,12 @@ import java.io.IOException
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
 
+const val waGameMimeType = "application/wagame"
 
 @RestController
 @RequestMapping("api/binary")
 class BinaryRestController {
+
 
     @Value("\${binary-data-store}")
     private var binaryDataStoreEndpoint: String? = null
@@ -145,7 +147,7 @@ class BinaryRestController {
                                 val response = binaryOutboundService.sendMultipartEntity(
                                         url = waaasEndpoint!!,
                                         fileInputStream = extractedReplay.inputStream(),
-                                        mimeType = "application/wagame",
+                                        mimeType = waGameMimeType,
                                         fileFieldName = "replay",
                                         fileName = "${gameId}replay")
                                 gameService.saveGameStats(
