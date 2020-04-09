@@ -510,6 +510,7 @@ const stats = {
             "lossOfControl": false
         }
     ],
+    // @ts-ignore
     "suddenDeath": null,
     "spectators": [
         {
@@ -590,7 +591,7 @@ const stats = {
 
 describe('GameStatsComponent can calc in', () => {
     it('turn 1: NNN`Rafka dealing 200', () => {
-        const component = new GameStatsComponent(null, null);
+        const component = new GameStatsComponent();
         component.stats = stats;
         component.totalHealthPointsPerTeam = 800;
         let actual = component.linearGradientHealthPoints(1);
@@ -600,7 +601,7 @@ describe('GameStatsComponent can calc in', () => {
     });
 
     it('turn 2: Siwy dealing 115', () => {
-        const component = new GameStatsComponent(null, null);
+        const component = new GameStatsComponent();
         component.stats = stats;
         component.totalHealthPointsPerTeam = 800;
         let actual = component.linearGradientHealthPoints(2);
