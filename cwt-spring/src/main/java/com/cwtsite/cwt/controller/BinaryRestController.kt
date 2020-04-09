@@ -113,9 +113,7 @@ class BinaryRestController {
                 return ResponseEntity.status(HttpStatus.CREATED).build()
             }
 
-            @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
             runBlocking {
-                @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
                 unzip(replay.inputStream, createTempDir(prefix = "cwt_", suffix = "_replay"))
                         .forEach { extractedReplay ->
                             val response = binaryOutboundService.extractGameStats(gameId, extractedReplay)
