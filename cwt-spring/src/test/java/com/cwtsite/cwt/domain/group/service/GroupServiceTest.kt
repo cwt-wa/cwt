@@ -77,11 +77,11 @@ class GroupServiceTest {
 
     private fun createGroup(user1: User, user2: User): Group {
         val group = Group()
-        group.standings.addAll(listOf(createGroupStanding(user1, group), createGroupStanding(user2, group)))
+        group.standings.addAll(listOf(createGroupStanding(user1), createGroupStanding(user2)))
         return group
     }
 
-    private fun createGroupStanding(user: User, group: Group): GroupStanding {
+    private fun createGroupStanding(user: User): GroupStanding {
         val groupStanding = GroupStanding(user)
         groupStanding.user = user
         groupStanding.games = 1
