@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.integration
 
-import com.cwtsite.cwt.controller.waGameMimeType
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
@@ -10,7 +9,6 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
-import com.cwtsite.cwt.test.MockitoUtils.safeEq
 import org.apache.http.entity.InputStreamEntity
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
@@ -18,7 +16,7 @@ import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import org.mockito.ArgumentMatchers.anyString
+import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -109,17 +107,15 @@ class GameStatsWebIntegration {
     @Test
     @WithMockUser
     fun `1 save game stats json`() {
-        `when`(binaryOutboundService.sendMultipartEntity(
-                safeEq(waaasEndpoint), anyObject(), safeEq(waGameMimeType), anyString(), anyString()))
+        `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
                 .thenAnswer { InputStreamEntity(statsJson1) }
                 .thenAnswer { InputStreamEntity(statsJson2) }
                 .thenAnswer { InputStreamEntity(statsJson3) }
                 .thenAnswer { InputStreamEntity(statsJson4) }
 
-        val inputStream = FileInputStream(zipArchive)
         mockMvc
                 .perform(multipart("/api/binary/game/${game!!.id}/replay")
-                        .file(MockMultipartFile("replay", zipArchive.name, "application/zip", inputStream))
+                        .file(MockMultipartFile("replay", zipArchive.name, "application/zip", FileInputStream(zipArchive)))
                         .header(tokenHeader, anyToken)
                         .param("score-home", "3")
                         .param("score-away", "1")

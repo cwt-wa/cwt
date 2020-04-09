@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.core
 
+import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.profile.Prod
 import khttp.responses.Response
 import org.apache.http.HttpEntity
@@ -8,21 +9,74 @@ import org.apache.http.entity.ContentType
 import org.apache.http.entity.mime.HttpMultipartMode
 import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.impl.client.HttpClients
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.io.InputStream
+
+const val waGameMimeType = "application/wagame" // todo move to server
 
 @Prod
 @Service
 class BinaryOutboundServiceProdImpl : BinaryOutboundService {
 
-    override fun get(url: String): Response = khttp.get(url = url)
+    @Value("\${binary-data-store}")
+    private var binaryDataStoreEndpoint: String? = null
 
-    override fun post(url: String): Response = khttp.post(url = url)
+    @Value("\${waaas-endpoint}")
+    private var waaasEndpoint: String? = null
 
-    override fun delete(url: String): Response = khttp.delete(url = url)
+    override fun retrieveUserPhoto(userId: Long): Response =
+            get("${binaryDataStoreEndpoint}/user/$userId/photo")
 
-    override fun sendMultipartEntity(url: String, fileInputStream: InputStream, mimeType: String,
-                                     fileFieldName: String, fileName: String): HttpEntity {
+    override fun retrieveReplay(gameId: Long): Response =
+            get("${binaryDataStoreEndpoint}/game/$gameId/replay")
+
+    override fun deleteUserPhoto(userId: Long): Response =
+            delete(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
+
+    override fun sendUserPhoto(userId: Long, photo: MultipartFile): HttpEntity =
+            sendMultipartEntity(
+                    url = "${binaryDataStoreEndpoint}/user/$userId/photo",
+                    fileInputStream = photo.inputStream,
+                    mimeType = photo.contentType!!,
+                    fileFieldName = "photo",
+                    fileName = "${userId}photo")
+
+
+    override fun sendReplay(gameId: Long, replayArchive: MultipartFile): HttpEntity =
+            sendMultipartEntity(
+                    url = "${binaryDataStoreEndpoint}/game/$gameId/replay",
+                    fileInputStream = replayArchive.inputStream,
+                    mimeType = replayArchive.contentType!!,
+                    fileFieldName = "replay",
+                    fileName = "${gameId}replay")
+
+    override fun extractGameStats(gameId: Long, extractedReplay: File) =
+            sendMultipartEntity(
+                    url = waaasEndpoint!!,
+                    fileInputStream = extractedReplay.inputStream(),
+                    mimeType = waGameMimeType,
+                    fileFieldName = "replay",
+                    fileName = "${gameId}replay")
+
+    // TODO RestException in service layer is not cool
+    @Throws(RestException::class)
+    override fun assertBinaryDataStoreEndpoint() {
+        binaryDataStoreEndpoint ?: throw RestException(
+                "Replay upload is currently not supported.", HttpStatus.BAD_REQUEST, null)
+    }
+
+    fun get(url: String): Response = khttp.get(url = url)
+
+    fun post(url: String): Response = khttp.post(url = url)
+
+    fun delete(url: String): Response = khttp.delete(url = url)
+
+    fun sendMultipartEntity(url: String, fileInputStream: InputStream, mimeType: String,
+                            fileFieldName: String, fileName: String): HttpEntity {
         val multipartEntity = with(HttpPost(url)) {
             entity = MultipartEntityBuilder.create()
                     .addBinaryBody(

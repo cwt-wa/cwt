@@ -11,7 +11,6 @@ import khttp.responses.Response
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.CacheControl
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -24,18 +23,9 @@ import java.io.IOException
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
 
-const val waGameMimeType = "application/wagame"
-
 @RestController
 @RequestMapping("api/binary")
 class BinaryRestController {
-
-
-    @Value("\${binary-data-store}")
-    private var binaryDataStoreEndpoint: String? = null
-
-    @Value("\${waaas-endpoint}")
-    private var waaasEndpoint: String? = null
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -50,8 +40,8 @@ class BinaryRestController {
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
-        assertBinaryDataStoreEndpoint()
-        val response = binaryOutboundService.get(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
+        binaryOutboundService.assertBinaryDataStoreEndpoint()
+        val response = binaryOutboundService.retrieveUserPhoto(userId)
         if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         return createResponseEntity(response.headers, response.content)
     }
@@ -63,7 +53,7 @@ class BinaryRestController {
             @PathVariable userId: Long,
             @RequestParam("photo") photo: MultipartFile,
             request: HttpServletRequest): ResponseEntity<Void> {
-        assertBinaryDataStoreEndpoint()
+        binaryOutboundService.assertBinaryDataStoreEndpoint()
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
@@ -78,13 +68,7 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        binaryOutboundService.sendMultipartEntity(
-                url = "${binaryDataStoreEndpoint}/user/$userId/photo",
-                fileInputStream = photo.inputStream,
-                mimeType = photo.contentType!!,
-                fileFieldName = "photo",
-                fileName = "${userId}photo"
-        )
+        binaryOutboundService.sendUserPhoto(userId, photo)
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
@@ -100,7 +84,7 @@ class BinaryRestController {
             @RequestParam("home-user") homeUser: Long,
             @RequestParam("away-user") awayUser: Long,
             request: HttpServletRequest): ResponseEntity<GameCreationDto> {
-        assertBinaryDataStoreEndpoint()
+        binaryOutboundService.assertBinaryDataStoreEndpoint()
 
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser!!.id != homeUser && authUser.id != awayUser) {
@@ -118,15 +102,7 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        binaryOutboundService.sendMultipartEntity(
-                url = "${binaryDataStoreEndpoint}/game/$gameId/replay",
-                fileInputStream = replay.inputStream,
-                mimeType = replay.contentType!!,
-                        fileFieldName = "replay",
-                fileName = "${gameId}replay"
-        )
-
-        println("Replay input stream ${replay.inputStream}") // todo remove
+        binaryOutboundService.sendReplay(gameId, replay)
 
         // todo learn coroutines exception handling
         //  https://kotlinlang.org/docs/reference/coroutines/exception-handling.html
@@ -143,12 +119,7 @@ class BinaryRestController {
                 @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
                 unzip(replay.inputStream, createTempDir(prefix = "cwt_", suffix = "_replay"))
                         .forEach { extractedReplay ->
-                            val response = binaryOutboundService.sendMultipartEntity(
-                                    url = waaasEndpoint!!,
-                                    fileInputStream = extractedReplay.inputStream(),
-                                    mimeType = waGameMimeType,
-                                    fileFieldName = "replay",
-                                    fileName = "${gameId}replay")
+                            val response = binaryOutboundService.extractGameStats(gameId, extractedReplay)
                             gameService.saveGameStats(
                                     response.content
                                             .bufferedReader()
@@ -165,8 +136,8 @@ class BinaryRestController {
 
     @GetMapping("game/{gameId}/replay")
     fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<ByteArray> {
-        assertBinaryDataStoreEndpoint()
-        val response = binaryOutboundService.get(url = "${binaryDataStoreEndpoint}/game/$gameId/replay")
+        binaryOutboundService.assertBinaryDataStoreEndpoint()
+        val response = binaryOutboundService.retrieveReplay(gameId)
         if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         return createResponseEntity(response.headers, response.content)
     }
@@ -176,14 +147,13 @@ class BinaryRestController {
     @Secured(AuthorityRole.ROLE_USER)
     fun deleteUserPhoto(@PathVariable userId: Long,
                         request: HttpServletRequest): ResponseEntity<Void> {
-        assertBinaryDataStoreEndpoint()
+        binaryOutboundService.assertBinaryDataStoreEndpoint()
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
-        val response = binaryOutboundService.delete(
-                url = "${binaryDataStoreEndpoint}/user/$userId/photo")
+        val response = binaryOutboundService.deleteUserPhoto(userId)
 
         if (response.statusCode != 200) {
             logger.error("HTTP ${response.statusCode}: ${response.content.toString(Charset.defaultCharset())}")
@@ -212,11 +182,5 @@ class BinaryRestController {
         headers.set("Content-Type", requestHeaders["Content-Type"])
         headers.set("Content-Disposition", requestHeaders["Content-Disposition"])
         return ResponseEntity(fileContent, headers, HttpStatus.OK)
-    }
-
-    @Throws(RestException::class)
-    private fun assertBinaryDataStoreEndpoint() {
-        binaryDataStoreEndpoint ?: throw RestException(
-                "Replay upload is currently not supported.", HttpStatus.BAD_REQUEST, null)
     }
 }
