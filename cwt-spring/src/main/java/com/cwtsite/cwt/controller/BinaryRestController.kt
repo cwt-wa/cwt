@@ -113,7 +113,6 @@ class BinaryRestController {
                 return ResponseEntity.status(HttpStatus.CREATED).build()
             }
 
-            // todo could be a zip file
             @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
             runBlocking {
                 @Suppress("BlockingMethodInNonBlockingContext") // https://github.com/Kotlin/kotlinx.coroutines/issues/1707
