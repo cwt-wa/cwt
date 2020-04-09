@@ -79,6 +79,9 @@ class GameServiceTest {
     @Mock
     private lateinit var betRepository: BetRepository
 
+    @Mock
+    private lateinit var gameStatsRepository: GameStatsRepository
+
     @Test
     fun reportGameForGroupStage() {
         val homeUserId: Long = 1
