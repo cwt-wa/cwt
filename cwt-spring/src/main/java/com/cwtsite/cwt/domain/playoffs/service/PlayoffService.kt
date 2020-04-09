@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
+import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
@@ -73,7 +74,7 @@ class PlayoffService {
 
         val numOfGroupAdvancing = configurationRepository
                 .findById(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)
-                .orElseThrow()
+                .orElseThrow { IllegalStateException() }
 
         @Suppress("CascadeIf")
         if (treeService.isFinalGame(game.tournament, game.playoff!!.round)) {

@@ -6,7 +6,7 @@
     "start": "webpack-dev-server --inline false --progress --port 4300",
     "test": "karma start",
     "test-debug": "karma start --debug --browsers=Chrome --single-run=false",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
+    "build": "rimraf target/dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "e2e": "protractor src/test/e2e/e2e.js"
   },
   "dependencies": {

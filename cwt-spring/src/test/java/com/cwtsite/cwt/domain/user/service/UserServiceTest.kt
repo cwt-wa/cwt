@@ -57,7 +57,7 @@ class UserServiceTest {
                 .thenReturn(tournament)
 
         val group = Group()
-        group.standings.addAll(createStandings(group, user))
+        group.standings.addAll(createStandings(user))
 
         Mockito
                 .`when`(groupRepository.findByTournamentAndUser(Mockito.any(), Mockito.any()))
@@ -86,7 +86,7 @@ class UserServiceTest {
                 .find { it.id == userId } ?: throw IllegalArgumentException()
     }
 
-    private fun createStandings(group: Group, user: User): List<GroupStanding> {
+    private fun createStandings(user: User): List<GroupStanding> {
         return Arrays.asList(
                 GroupStanding(user),
                 GroupStanding(EntityDefaults.user(2)),

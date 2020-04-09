@@ -87,6 +87,10 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Bean
     @Lazy
     public JavaMailSender getJavaMailSender() {
+        if (mailProperties.getHost() == null) {
+            return null;
+        }
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(mailProperties.getHost());

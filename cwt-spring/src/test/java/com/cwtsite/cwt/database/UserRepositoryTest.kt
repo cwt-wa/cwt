@@ -18,8 +18,8 @@ open class UserRepositoryTest : AbstractDatabaseTest() {
 
     @Test
     fun findAll() {
-        val dummyUser1 = persistDummyUser()
-        val dummyUser2 = persistDummyUser()
+        persistDummyUser()
+        persistDummyUser()
 
         persistDummyUser()
 
