@@ -35,6 +35,7 @@ class ConfigurationRepositoryTest {
         when (type) {
             ConfigurationKey.ConfigurationValueType.INTEGER -> Integer.parseInt(value)
             ConfigurationKey.ConfigurationValueType.STRING -> value
+            else -> throw IllegalStateException()
         }
     }
 
