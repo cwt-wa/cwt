@@ -70,6 +70,14 @@ const colors: { [key: string]: string } = {
         height: 4rem;
       }
 
+      .turn.lossOfControl {
+        border: .2rem dotted red;
+      }
+
+      .small.lossOfControl {
+        border: .1rem dotted red;
+      }
+
       .weapons {
         display: flex;
         justify-content: center;
@@ -139,7 +147,9 @@ const colors: { [key: string]: string } = {
                     <img [src]="waterImage" alt="water"/>
                     <img [src]="waterImage" alt="water"/>
                 </div>
-                <div class="turn" [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}">
+                <div class="turn"
+                     [ngStyle]="{'background-image': linearGradientHealthPoints(index + 1)}"
+                     [ngClass]="{'lossOfControl': turn.lossOfControl}">
                     <div class="kills">
                         <img *ngFor="let kill of retrieveKills(index, stats.teams[0].user)" [src]="kill"/>
                     </div>
@@ -164,6 +174,9 @@ const colors: { [key: string]: string } = {
                 {{stats.roundTime.split(':')[1]}}m
                 {{stats.roundTime.split(':')[2]}}s
             </div>
+        </div>
+        <div class="text-right mt-1">
+            <span class="lossOfControl small p-1">Turn ended due to loss of control</span>
         </div>
     `
 })
