@@ -34,8 +34,4 @@ class BinaryOutboundServiceDevImpl : BinaryOutboundService {
     override fun extractGameStats(gameId: Long, extractedReplay: File): HttpEntity {
         throw UnsupportedOperationException("Not implemented")
     }
-
-    override fun assertBinaryDataStoreEndpoint() {
-        throw UnsupportedOperationException("Not implemented")
-    }
 }

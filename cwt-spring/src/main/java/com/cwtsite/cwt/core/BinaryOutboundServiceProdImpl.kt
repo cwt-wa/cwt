@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.core
 
-import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.profile.Prod
 import khttp.responses.Response
 import org.apache.http.HttpEntity
@@ -10,7 +9,6 @@ import org.apache.http.entity.mime.HttpMultipartMode
 import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.impl.client.HttpClients
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
@@ -22,10 +20,10 @@ const val waGameMimeType = "application/wagame" // todo move to server
 @Service
 class BinaryOutboundServiceProdImpl : BinaryOutboundService {
 
-    @Value("\${binary-data-store}")
+    @Value("\${binary-data-store:#{null}}")
     private var binaryDataStoreEndpoint: String? = null
 
-    @Value("\${waaas-endpoint}")
+    @Value("\${waaas-endpoint:#{null}}")
     private var waaasEndpoint: String? = null
 
     override fun retrieveUserPhoto(userId: Long): Response =
@@ -62,12 +60,9 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
                     fileFieldName = "replay",
                     fileName = "${gameId}replay")
 
-    // TODO RestException in service layer is not cool
-    @Throws(RestException::class)
-    override fun assertBinaryDataStoreEndpoint() {
-        binaryDataStoreEndpoint ?: throw RestException(
-                "Replay upload is currently not supported.", HttpStatus.BAD_REQUEST, null)
-    }
+    override fun binaryDataStoreConfigured(): Boolean = binaryDataStoreEndpoint != null
+
+    override fun waaasConfigured(): Boolean = waaasEndpoint != null
 
     fun get(url: String): Response = khttp.get(url = url)
 

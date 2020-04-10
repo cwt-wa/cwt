@@ -40,7 +40,7 @@ class BinaryRestController {
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
-        binaryOutboundService.assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint()
         val response = binaryOutboundService.retrieveUserPhoto(userId)
         if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         return createResponseEntity(response.headers, response.content)
@@ -53,7 +53,7 @@ class BinaryRestController {
             @PathVariable userId: Long,
             @RequestParam("photo") photo: MultipartFile,
             request: HttpServletRequest): ResponseEntity<Void> {
-        binaryOutboundService.assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint()
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
@@ -84,7 +84,7 @@ class BinaryRestController {
             @RequestParam("home-user") homeUser: Long,
             @RequestParam("away-user") awayUser: Long,
             request: HttpServletRequest): ResponseEntity<GameCreationDto> {
-        binaryOutboundService.assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint()
 
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser!!.id != homeUser && authUser.id != awayUser) {
@@ -130,7 +130,7 @@ class BinaryRestController {
 
     @GetMapping("game/{gameId}/replay")
     fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<ByteArray> {
-        binaryOutboundService.assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint()
         val response = binaryOutboundService.retrieveReplay(gameId)
         if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         return createResponseEntity(response.headers, response.content)
@@ -141,7 +141,7 @@ class BinaryRestController {
     @Secured(AuthorityRole.ROLE_USER)
     fun deleteUserPhoto(@PathVariable userId: Long,
                         request: HttpServletRequest): ResponseEntity<Void> {
-        binaryOutboundService.assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint()
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
@@ -176,5 +176,14 @@ class BinaryRestController {
         headers.set("Content-Type", requestHeaders["Content-Type"])
         headers.set("Content-Disposition", requestHeaders["Content-Disposition"])
         return ResponseEntity(fileContent, headers, HttpStatus.OK)
+    }
+
+    @Throws(RestException::class)
+    fun assertBinaryDataStoreEndpoint() {
+        if (!binaryOutboundService.binaryDataStoreConfigured()) {
+            throw RestException(
+                    "Replay upload is currently not supported.",
+                    HttpStatus.BAD_REQUEST, null)
+        }
     }
 }

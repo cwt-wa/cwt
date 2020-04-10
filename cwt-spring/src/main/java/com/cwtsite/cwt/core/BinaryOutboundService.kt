@@ -14,5 +14,6 @@ interface BinaryOutboundService {
     fun sendUserPhoto(userId: Long, photo: MultipartFile): HttpEntity
     fun sendReplay(gameId: Long, replay: MultipartFile): HttpEntity
     fun extractGameStats(gameId: Long, extractedReplay: File): HttpEntity
-    fun assertBinaryDataStoreEndpoint()
+    fun binaryDataStoreConfigured(): Boolean
+    fun waaasConfigured(): Boolean
 }
