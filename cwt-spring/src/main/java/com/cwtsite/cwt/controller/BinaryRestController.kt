@@ -3,11 +3,13 @@ package com.cwtsite.cwt.controller
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.domain.core.Unzip.unzip
+import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import khttp.responses.Response
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,6 +24,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
+import javax.ws.rs.Produces
 
 @RestController
 @RequestMapping("api/binary")
@@ -107,25 +110,47 @@ class BinaryRestController {
             val game = gameService.findById(gameId)
             if (game.isEmpty) {
                 logger.warn("Game with ID $gameId could not be retrieved for replay WAaaS extraction.")
-                return ResponseEntity.status(HttpStatus.CREATED).build()
-            }
-
-            runBlocking {
-                unzip(replay.inputStream, createTempDir(prefix = "cwt_", suffix = "_replay"))
-                        .forEach { extractedReplay ->
-                            val response = binaryOutboundService.extractGameStats(gameId, extractedReplay)
-                            gameService.saveGameStats(
-                                    response.content
-                                            .bufferedReader()
-                                            .use(BufferedReader::readText),
-                                    game.get())
-                        }
+            } else {
+                extractAndSaveGameStats(replay, game.get())
             }
         } catch (e: Exception) {
             logger.error("WAaaS replay extraction went wrong", e)
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
+    }
+
+    @PostMapping("game/{gameId}/stats", consumes = ["multipart/form-data"])
+    @Secured(AuthorityRole.ROLE_ADMIN)
+    @Produces("application/json")
+    fun saveStats(
+            @PathVariable gameId: Long,
+            @RequestParam("replay") replay: MultipartFile,
+            request: HttpServletRequest): ResponseEntity<String> {
+        val game = gameService.findById(gameId)
+                .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
+        extractAndSaveGameStats(replay, game)
+        return ResponseEntity.ok(gameService.findGameStats(game))
+    }
+
+    private fun extractAndSaveGameStats(replay: MultipartFile, game: Game) {
+        if (!binaryOutboundService.waaasConfigured()) {
+            logger.info("Not performing game stats extraction as WAaaS is not configured.")
+            return
+        }
+
+        runBlocking {
+            unzip(replay.inputStream, createTempDir("cwt_", "_replay")).forEach { extractedReplay ->
+                launch {
+                    val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
+                    gameService.saveGameStats(
+                            response.content
+                                    .bufferedReader()
+                                    .use(BufferedReader::readText),
+                            game)
+                }
+            }
+        }
     }
 
     @GetMapping("game/{gameId}/replay")

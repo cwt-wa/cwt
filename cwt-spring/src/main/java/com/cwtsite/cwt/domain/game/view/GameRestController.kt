@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*
 import java.io.IOException
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
+import javax.ws.rs.Produces
 
 @RestController
 @RequestMapping("api/game")
@@ -199,6 +200,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     }
 
     @GetMapping("/{gameId}/stats")
+    @Produces("application/json")
     fun retrieveGameStats(@PathVariable gameId: Long): ResponseEntity<String> =
             ResponseEntity.ok(gameService.findGameStats(
                     gameService.findById(gameId)

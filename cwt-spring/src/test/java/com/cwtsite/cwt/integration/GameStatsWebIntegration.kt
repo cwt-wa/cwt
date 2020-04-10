@@ -62,9 +62,6 @@ class GameStatsWebIntegration {
     @Value("\${jwt.header}")
     private lateinit var tokenHeader: String
 
-    @Value("\${waaas-endpoint}")
-    private lateinit var waaasEndpoint: String
-
     @MockBean
     private lateinit var authService: AuthService
 
@@ -107,6 +104,9 @@ class GameStatsWebIntegration {
     @Test
     @WithMockUser
     fun `1 save game stats json`() {
+        `when`(binaryOutboundService.binaryDataStoreConfigured()).thenReturn(true)
+        `when`(binaryOutboundService.waaasConfigured()).thenReturn(true)
+
         `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
                 .thenAnswer { InputStreamEntity(statsJson1) }
                 .thenAnswer { InputStreamEntity(statsJson2) }
