@@ -1,1 +1,655 @@
-{"messages": [{"timestamp": "00:00:01.38", "user": "boolca", "body": "gl hf"}, {"timestamp": "00:23:23.02", "user": "ONL`nOox", "body": "gg"}, {"timestamp": "00:23:23.82", "user": "boolca", "body": "gg"}], "turns": [{"timestamp": "00:00:00.00", "user": "ONL`nOox", "weapons": ["Select Worm", "Ninja Rope", "Shotgun", "Shotgun"], "damages": [{"damage": 73, "kills": 0, "victim": "boolca"}], "timeUsedSeconds": 44.4, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:01:04.16", "user": "boolca", "weapons": ["Select Worm", "Ninja Rope", "Ninja Rope", "Baseball Bat"], "damages": [{"damage": 100, "kills": 1, "victim": "ONL`nOox"}], "timeUsedSeconds": 27.9, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:01:44.46", "user": "ONL`nOox", "weapons": ["Parachute", "Ninja Rope", "Low Gravity", "Baseball Bat"], "damages": [{"damage": 100, "kills": 1, "victim": "boolca"}], "timeUsedSeconds": 43.06, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:02:42.34", "user": "boolca", "weapons": ["Shotgun", "Shotgun"], "damages": [{"damage": 42, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 12.44, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:03:12.52", "user": "ONL`nOox", "weapons": ["Girder"], "damages": [], "timeUsedSeconds": 44.84, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:04:07.46", "user": "boolca", "weapons": ["Shotgun", "Shotgun"], "damages": [{"damage": 57, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 25.32, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:04:53.56", "user": "ONL`nOox", "weapons": ["Battle Axe"], "damages": [{"damage": 50, "kills": 0, "victim": "boolca"}], "timeUsedSeconds": 21.32, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:05:29.54", "user": "boolca", "weapons": ["Select Worm", "Mad Cow"], "damages": [{"damage": 2, "kills": 0, "victim": "boolca"}, {"damage": 100, "kills": 1, "victim": "ONL`nOox"}], "timeUsedSeconds": 10.82, "retreatSeconds": 0.88, "lossOfControl": true}, {"timestamp": "00:05:52.14", "user": "ONL`nOox", "weapons": ["Select Worm", "Sheep"], "damages": [{"damage": 54, "kills": 1, "victim": "boolca"}], "timeUsedSeconds": 39.26, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:06:52.48", "user": "boolca", "weapons": ["Shotgun", "Shotgun"], "damages": [{"damage": 43, "kills": 1, "victim": "ONL`nOox"}], "timeUsedSeconds": 13.44, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:07:30.26", "user": "ONL`nOox", "weapons": ["Mad Cow"], "damages": [{"damage": 104, "kills": 1, "victim": "boolca"}], "timeUsedSeconds": 19.34, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:08:08.88", "user": "boolca", "weapons": ["Ninja Rope", "Shotgun", "Shotgun"], "damages": [{"damage": 50, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 43.88, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:09:12.38", "user": "ONL`nOox", "weapons": ["Dynamite"], "damages": [{"damage": 64, "kills": 0, "victim": "boolca"}], "timeUsedSeconds": 12.8, "retreatSeconds": 5.0, "lossOfControl": false}, {"timestamp": "00:09:37.18", "user": "boolca", "weapons": ["Shotgun", "Shotgun"], "damages": [{"damage": 50, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 13.14, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:10:06.44", "user": "ONL`nOox", "weapons": ["Mine"], "damages": [{"damage": 100, "kills": 1, "victim": "boolca"}], "timeUsedSeconds": 40.3, "retreatSeconds": 5.0, "lossOfControl": false}, {"timestamp": "00:11:06.16", "user": "boolca", "weapons": ["Select Worm", "Jet Pack", "Low Gravity", "Dynamite"], "damages": [{"damage": 71, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 44.32, "retreatSeconds": 5.0, "lossOfControl": false}, {"timestamp": "00:12:10.74", "user": "ONL`nOox", "weapons": ["Select Worm", "Ninja Rope", "Shotgun", "Shotgun"], "damages": [{"damage": 25, "kills": 0, "victim": "boolca"}, {"damage": 23, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 43.8, "retreatSeconds": 0.0, "lossOfControl": true}, {"timestamp": "00:13:08.06", "user": "boolca", "weapons": ["Ninja Rope", "Mad Cow"], "damages": [{"damage": 5, "kills": 1, "victim": "boolca"}, {"damage": 79, "kills": 2, "victim": "ONL`nOox"}], "timeUsedSeconds": 24.68, "retreatSeconds": 0.66, "lossOfControl": true}, {"timestamp": "00:14:00.66", "user": "ONL`nOox", "weapons": ["Girder"], "damages": [], "timeUsedSeconds": 33.16, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:14:42.66", "user": "boolca", "weapons": ["Shotgun", "Shotgun"], "damages": [{"damage": 35, "kills": 1, "victim": "ONL`nOox"}], "timeUsedSeconds": 6.02, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:15:09.46", "user": "ONL`nOox", "weapons": ["Blow Torch"], "damages": [], "timeUsedSeconds": 16.42, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:15:42.26", "user": "boolca", "weapons": ["Shotgun", "Shotgun"], "damages": [], "timeUsedSeconds": 18.62, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:16:13.78", "user": "ONL`nOox", "weapons": ["Girder"], "damages": [], "timeUsedSeconds": 20.54, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:16:42.18", "user": "boolca", "weapons": ["Fire Punch"], "damages": [], "timeUsedSeconds": 13.3, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:17:05.80", "user": "ONL`nOox", "weapons": ["Ninja Rope", "Shotgun", "Shotgun"], "damages": [{"damage": 46, "kills": 0, "victim": "boolca"}], "timeUsedSeconds": 31.8, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:17:52.22", "user": "boolca", "weapons": ["Shotgun", "Shotgun"], "damages": [{"damage": 20, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 36.68, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:18:40.92", "user": "ONL`nOox", "weapons": ["Ninja Rope", "Petrol Bomb"], "damages": [{"damage": 50, "kills": 0, "victim": "boolca"}], "timeUsedSeconds": 41.16, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:19:32.08", "user": "boolca", "weapons": ["Shotgun"], "damages": [{"damage": 4, "kills": 0, "victim": "boolca"}, {"damage": 25, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 3.82, "retreatSeconds": 0.0, "lossOfControl": true}, {"timestamp": "00:19:44.78", "user": "ONL`nOox", "weapons": ["Shotgun", "Shotgun"], "damages": [{"damage": 50, "kills": 1, "victim": "boolca"}], "timeUsedSeconds": 38.08, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:20:45.06", "user": "boolca", "weapons": ["Air Strike"], "damages": [{"damage": 30, "kills": 1, "victim": "ONL`nOox"}], "timeUsedSeconds": 7.68, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:21:07.72", "user": "ONL`nOox", "weapons": ["Napalm Strike"], "damages": [{"damage": 48, "kills": 1, "victim": "boolca"}], "timeUsedSeconds": 42.2, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:22:12.42", "user": "boolca", "weapons": ["Ninja Rope", "Ninja Rope", "Sheep"], "damages": [{"damage": 58, "kills": 0, "victim": "ONL`nOox"}], "timeUsedSeconds": 35.66, "retreatSeconds": 3.0, "lossOfControl": false}, {"timestamp": "00:23:06.82", "user": "ONL`nOox", "weapons": ["Jet Pack", "Mine"], "damages": [{"damage": 25, "kills": 1, "victim": "boolca"}], "timeUsedSeconds": 9.98, "retreatSeconds": 5.0, "lossOfControl": false}], "suddenDeath": [], "spectators": [], "teams": [{"color": "Red", "user": "boolca", "team": "Drug!?py??", "localPlayer": false}, {"color": "Blue", "user": "ONL`nOox", "team": "!@#", "localPlayer": true}], "teamTimeTotals": [{"team": "Drug!?py??", "user": "boolca", "turn": "00:05:37.72", "retreat": "00:00:42.54", "total": "00:06:20.26", "turnCount": 16}, {"team": "!@#", "user": "ONL`nOox", "turn": "00:09:02.46", "retreat": "00:00:54.00", "total": "00:09:56.46", "turnCount": 17}], "gameId": "10534216", "startedAt": "2019-10-06 12:45:24 GMT", "engineVersion": "3.7.2.1", "fileFormatVersion": ["3.6.29.48", "3.7.2.1"], "exportVersion": "3.7.2.1", "gameEnd": "00:23:40.56", "roundTime": "0:23:40", "totalGameTimeElapsed": "0:23:40", "winsTheRound": "!@#", "wormOfTheRound": {"worm": "GG", "team": "!@#"}, "mostDamageWithOneShot": {"damage": "104", "worm": "A", "team": "!@#"}}
+{
+  "messages": [
+    {
+      "timestamp": "00:00:01.38",
+      "user": "boolca",
+      "body": "gl hf"
+    },
+    {
+      "timestamp": "00:23:23.02",
+      "user": "ONL`nOox",
+      "body": "gg"
+    },
+    {
+      "timestamp": "00:23:23.82",
+      "user": "boolca",
+      "body": "gg"
+    }
+  ],
+  "turns": [
+    {
+      "timestamp": "00:00:00.00",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Select Worm",
+        "Ninja Rope",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 73,
+          "kills": 0,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 44.4,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:01:04.16",
+      "user": "boolca",
+      "weapons": [
+        "Select Worm",
+        "Ninja Rope",
+        "Ninja Rope",
+        "Baseball Bat"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 27.9,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:01:44.46",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Parachute",
+        "Ninja Rope",
+        "Low Gravity",
+        "Baseball Bat"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 43.06,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:02:42.34",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 42,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 12.44,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:03:12.52",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Girder"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 44.84,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:04:07.46",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 57,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 25.32,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:04:53.56",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Battle Axe"
+      ],
+      "damages": [
+        {
+          "damage": 50,
+          "kills": 0,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 21.32,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:05:29.54",
+      "user": "boolca",
+      "weapons": [
+        "Select Worm",
+        "Mad Cow"
+      ],
+      "damages": [
+        {
+          "damage": 2,
+          "kills": 0,
+          "victim": "boolca"
+        },
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 10.82,
+      "retreatSeconds": 0.88,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:05:52.14",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Select Worm",
+        "Sheep"
+      ],
+      "damages": [
+        {
+          "damage": 54,
+          "kills": 1,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 39.26,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:06:52.48",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 43,
+          "kills": 1,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 13.44,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:07:30.26",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Mad Cow"
+      ],
+      "damages": [
+        {
+          "damage": 104,
+          "kills": 1,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 19.34,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:08:08.88",
+      "user": "boolca",
+      "weapons": [
+        "Ninja Rope",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 50,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 43.88,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:09:12.38",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Dynamite"
+      ],
+      "damages": [
+        {
+          "damage": 64,
+          "kills": 0,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 12.8,
+      "retreatSeconds": 5.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:09:37.18",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 50,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 13.14,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:10:06.44",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Mine"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 40.3,
+      "retreatSeconds": 5.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:11:06.16",
+      "user": "boolca",
+      "weapons": [
+        "Select Worm",
+        "Jet Pack",
+        "Low Gravity",
+        "Dynamite"
+      ],
+      "damages": [
+        {
+          "damage": 71,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 44.32,
+      "retreatSeconds": 5.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:12:10.74",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Select Worm",
+        "Ninja Rope",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 25,
+          "kills": 0,
+          "victim": "boolca"
+        },
+        {
+          "damage": 23,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 43.8,
+      "retreatSeconds": 0.0,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:13:08.06",
+      "user": "boolca",
+      "weapons": [
+        "Ninja Rope",
+        "Mad Cow"
+      ],
+      "damages": [
+        {
+          "damage": 5,
+          "kills": 1,
+          "victim": "boolca"
+        },
+        {
+          "damage": 79,
+          "kills": 2,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 24.68,
+      "retreatSeconds": 0.66,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:14:00.66",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Girder"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 33.16,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:14:42.66",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 35,
+          "kills": 1,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 6.02,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:15:09.46",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Blow Torch"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 16.42,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:15:42.26",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 18.62,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:16:13.78",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Girder"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 20.54,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:16:42.18",
+      "user": "boolca",
+      "weapons": [
+        "Fire Punch"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 13.3,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:17:05.80",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Ninja Rope",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 46,
+          "kills": 0,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 31.8,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:17:52.22",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 20,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 36.68,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:18:40.92",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Ninja Rope",
+        "Petrol Bomb"
+      ],
+      "damages": [
+        {
+          "damage": 50,
+          "kills": 0,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 41.16,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:19:32.08",
+      "user": "boolca",
+      "weapons": [
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 4,
+          "kills": 0,
+          "victim": "boolca"
+        },
+        {
+          "damage": 25,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 3.82,
+      "retreatSeconds": 0.0,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:19:44.78",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 50,
+          "kills": 1,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 38.08,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:20:45.06",
+      "user": "boolca",
+      "weapons": [
+        "Air Strike"
+      ],
+      "damages": [
+        {
+          "damage": 30,
+          "kills": 1,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 7.68,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:21:07.72",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Napalm Strike"
+      ],
+      "damages": [
+        {
+          "damage": 48,
+          "kills": 1,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 42.2,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:22:12.42",
+      "user": "boolca",
+      "weapons": [
+        "Ninja Rope",
+        "Ninja Rope",
+        "Sheep"
+      ],
+      "damages": [
+        {
+          "damage": 58,
+          "kills": 0,
+          "victim": "ONL`nOox"
+        }
+      ],
+      "timeUsedSeconds": 35.66,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:23:06.82",
+      "user": "ONL`nOox",
+      "weapons": [
+        "Jet Pack",
+        "Mine"
+      ],
+      "damages": [
+        {
+          "damage": 25,
+          "kills": 1,
+          "victim": "boolca"
+        }
+      ],
+      "timeUsedSeconds": 9.98,
+      "retreatSeconds": 5.0,
+      "lossOfControl": false
+    }
+  ],
+  "suddenDeath": [],
+  "spectators": [],
+  "teams": [
+    {
+      "color": "Red",
+      "user": "boolca",
+      "team": "Drug!?py??",
+      "localPlayer": false
+    },
+    {
+      "color": "Blue",
+      "user": "ONL`nOox",
+      "team": "!@#",
+      "localPlayer": true
+    }
+  ],
+  "teamTimeTotals": [
+    {
+      "team": "Drug!?py??",
+      "user": "boolca",
+      "turn": "00:05:37.72",
+      "retreat": "00:00:42.54",
+      "total": "00:06:20.26",
+      "turnCount": 16
+    },
+    {
+      "team": "!@#",
+      "user": "ONL`nOox",
+      "turn": "00:09:02.46",
+      "retreat": "00:00:54.00",
+      "total": "00:09:56.46",
+      "turnCount": 17
+    }
+  ],
+  "gameId": "10534216",
+  "startedAt": "2019-10-06 12:45:24 GMT",
+  "engineVersion": "3.7.2.1",
+  "fileFormatVersion": [
+    "3.6.29.48",
+    "3.7.2.1"
+  ],
+  "exportVersion": "3.7.2.1",
+  "gameEnd": "00:23:40.56",
+  "roundTime": "0:23:40",
+  "totalGameTimeElapsed": "0:23:40",
+  "winsTheRound": "!@#",
+  "wormOfTheRound": {
+    "worm": "GG",
+    "team": "!@#"
+  },
+  "mostDamageWithOneShot": {
+    "damage": "104",
+    "worm": "A",
+    "team": "!@#"
+  }
+}
