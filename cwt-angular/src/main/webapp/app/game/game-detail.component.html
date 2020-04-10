@@ -261,11 +261,11 @@
             <div *ngIf="!showComments" class="row">
                 <div class="col-12">
                     <div class="card bg-secondary text-white border-0">
-                        <div *ngFor="let comment of game.comments; let index = index"
+                        <div *ngFor="let stat of stats; let index = index"
                              class="card-body"
                              style="border-bottom: 1px solid white !important;">
                             <h4 class="card-title">Round {{index + 1}}</h4>
-                            <p *ngFor="let message of stats[statsForRound].messages" class="inGameChat">
+                            <p *ngFor="let message of stat.messages" class="inGameChat">
                                 [{{message.user}}] {{message.body}}
                             </p>
                         </div>
