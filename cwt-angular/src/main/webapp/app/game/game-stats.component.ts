@@ -175,7 +175,7 @@ const colors: { [key: string]: string } = {
                 {{stats.roundTime.split(':')[2]}}s
             </div>
         </div>
-        <div class="text-right mt-1">
+        <div class="text-right mt-1" *ngIf="lossOfControlExists">
             <span class="lossOfControl small p-1">Turn ended due to loss of control</span>
         </div>
     `
@@ -191,12 +191,14 @@ export class GameStatsComponent implements OnInit {
     waterImage: string = require('../../img/water.gif');
     suddenDeathBeforeTurn: number;
     averageTurnTimes: number[];
+    lossOfControlExists: boolean;
 
     ngOnInit(): void {
         this.losingUser = this.stats.teams.find(t => t.team !== this.stats.winsTheRound).user;
         this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
         this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
         this.numberOfTeams = this.stats.teams.length;
+        this.lossOfControlExists = !!this.stats.turns.find(t => t.lossOfControl);
         this.averageTurnTimes = (() =>
             this.stats.teams
                 .map(team => team.user)
