@@ -1,0 +1,761 @@
+{
+   "totalGameTimeElapsed" : "0:24:52",
+   "teams" : [
+      {
+         "color" : "Blue",
+         "user" : "dt-saint",
+         "localPlayer" : false,
+         "team" : "ESW-Team"
+      },
+      {
+         "user" : "Korydex-che",
+         "color" : "Green",
+         "localPlayer" : true,
+         "team" : "<<M>>"
+      }
+   ],
+   "turns" : [
+      {
+         "retreatSeconds" : 3,
+         "timestamp" : "00:00:00.00",
+         "user" : "Korydex-che",
+         "damages" : [
+            {
+               "kills" : 0,
+               "victim" : "dt-saint",
+               "damage" : 56
+            }
+         ],
+         "timeUsedSeconds" : 41.62,
+         "lossOfControl" : false,
+         "weapons" : [
+            "Select Worm",
+            "Select Worm",
+            "Ninja Rope",
+            "Sheep"
+         ]
+      },
+      {
+         "timestamp" : "00:01:04.00",
+         "retreatSeconds" : 3,
+         "user" : "dt-saint",
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 35.74,
+         "damages" : [
+            {
+               "damage" : 100,
+               "victim" : "Korydex-che",
+               "kills" : 1
+            }
+         ],
+         "weapons" : [
+            "Select Worm",
+            "Parachute",
+            "Select Worm",
+            "Grenade"
+         ]
+      },
+      {
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 38.76,
+         "damages" : [
+            {
+               "kills" : 0,
+               "damage" : 200,
+               "victim" : "dt-saint"
+            },
+            {
+               "kills" : 0,
+               "victim" : "Korydex-che",
+               "damage" : 7
+            }
+         ],
+         "weapons" : [
+            "Ninja Rope",
+            "Low Gravity",
+            "Mad Cow"
+         ],
+         "timestamp" : "00:02:02.72",
+         "retreatSeconds" : 3,
+         "user" : "Korydex-che"
+      },
+      {
+         "timestamp" : "00:02:54.62",
+         "retreatSeconds" : 4.92,
+         "user" : "dt-saint",
+         "lossOfControl" : true,
+         "damages" : [
+            {
+               "kills" : 0,
+               "victim" : "dt-saint",
+               "damage" : 1
+            },
+            {
+               "kills" : 0,
+               "victim" : "Korydex-che",
+               "damage" : 175
+            }
+         ],
+         "timeUsedSeconds" : 24.14,
+         "weapons" : [
+            "Select Worm",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Mad Cow"
+         ]
+      },
+      {
+         "timeUsedSeconds" : 31.06,
+         "damages" : [
+            {
+               "kills" : 0,
+               "victim" : "dt-saint",
+               "damage" : 30
+            }
+         ],
+         "lossOfControl" : false,
+         "weapons" : [
+            "Parachute",
+            "Dragon Ball"
+         ],
+         "retreatSeconds" : 3,
+         "timestamp" : "00:03:35.18",
+         "user" : "Korydex-che"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:04:16.38",
+         "retreatSeconds" : 5,
+         "weapons" : [
+            "Ninja Rope",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Dynamite"
+         ],
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 20.66,
+         "damages" : [
+            {
+               "kills" : 0,
+               "damage" : 22,
+               "victim" : "dt-saint"
+            },
+            {
+               "kills" : 2,
+               "victim" : "Korydex-che",
+               "damage" : 52
+            }
+         ]
+      },
+      {
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 23,
+         "damages" : [],
+         "weapons" : [
+            "Teleport"
+         ],
+         "timestamp" : "00:05:04.82",
+         "retreatSeconds" : 0.02,
+         "user" : "Korydex-che"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:05:35.94",
+         "retreatSeconds" : 3,
+         "weapons" : [
+            "Girder"
+         ],
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 23.98,
+         "damages" : []
+      },
+      {
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 0.44,
+         "damages" : [],
+         "weapons" : [
+            "Blow Torch"
+         ],
+         "timestamp" : "00:06:10.02",
+         "retreatSeconds" : 3,
+         "user" : "Korydex-che"
+      },
+      {
+         "weapons" : [
+            "Ninja Rope",
+            "Shotgun",
+            "Shotgun"
+         ],
+         "lossOfControl" : false,
+         "damages" : [
+            {
+               "victim" : "Korydex-che",
+               "damage" : 42,
+               "kills" : 0
+            }
+         ],
+         "timeUsedSeconds" : 44.62,
+         "user" : "dt-saint",
+         "timestamp" : "00:06:23.06",
+         "retreatSeconds" : 3
+      },
+      {
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 22.4,
+         "damages" : [
+            {
+               "damage" : 32,
+               "victim" : "dt-saint",
+               "kills" : 0
+            }
+         ],
+         "weapons" : [
+            "Ninja Rope",
+            "Parachute",
+            "Dragon Ball"
+         ],
+         "timestamp" : "00:07:29.46",
+         "retreatSeconds" : 3,
+         "user" : "Korydex-che"
+      },
+      {
+         "retreatSeconds" : 3,
+         "timestamp" : "00:08:01.90",
+         "user" : "dt-saint",
+         "damages" : [
+            {
+               "victim" : "Korydex-che",
+               "damage" : 73,
+               "kills" : 1
+            }
+         ],
+         "timeUsedSeconds" : 33.28,
+         "lossOfControl" : false,
+         "weapons" : [
+            "Sheep"
+         ]
+      },
+      {
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 7.12,
+         "damages" : [
+            {
+               "damage" : 23,
+               "victim" : "dt-saint",
+               "kills" : 0
+            }
+         ],
+         "weapons" : [
+            "Skunk"
+         ],
+         "timestamp" : "00:08:46.30",
+         "retreatSeconds" : 3,
+         "user" : "Korydex-che"
+      },
+      {
+         "weapons" : [
+            "Girder"
+         ],
+         "damages" : [],
+         "timeUsedSeconds" : 27.18,
+         "lossOfControl" : false,
+         "user" : "dt-saint",
+         "retreatSeconds" : 3,
+         "timestamp" : "00:09:03.52"
+      },
+      {
+         "weapons" : [
+            "Dynamite"
+         ],
+         "lossOfControl" : false,
+         "damages" : [
+            {
+               "victim" : "dt-saint",
+               "damage" : 27,
+               "kills" : 0
+            }
+         ],
+         "timeUsedSeconds" : 5,
+         "user" : "Korydex-che",
+         "timestamp" : "00:09:42.18",
+         "retreatSeconds" : 5
+      },
+      {
+         "timestamp" : "00:10:03.46",
+         "retreatSeconds" : 3,
+         "user" : "dt-saint",
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 16.22,
+         "damages" : [
+            {
+               "victim" : "Korydex-che",
+               "damage" : 50,
+               "kills" : 0
+            }
+         ],
+         "weapons" : [
+            "Battle Axe"
+         ]
+      },
+      {
+         "user" : "Korydex-che",
+         "retreatSeconds" : 3,
+         "timestamp" : "00:10:31.04",
+         "weapons" : [
+            "Grenade"
+         ],
+         "damages" : [
+            {
+               "damage" : 33,
+               "victim" : "dt-saint",
+               "kills" : 1
+            }
+         ],
+         "timeUsedSeconds" : 23.18,
+         "lossOfControl" : false
+      },
+      {
+         "weapons" : [
+            "Ninja Rope",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Ninja Rope",
+            "Shotgun",
+            "Shotgun"
+         ],
+         "damages" : [
+            {
+               "damage" : 25,
+               "victim" : "Korydex-che",
+               "kills" : 0
+            }
+         ],
+         "timeUsedSeconds" : 43.96,
+         "lossOfControl" : false,
+         "user" : "dt-saint",
+         "retreatSeconds" : 3,
+         "timestamp" : "00:11:14.94"
+      },
+      {
+         "weapons" : [
+            "Shotgun",
+            "Shotgun"
+         ],
+         "damages" : [
+            {
+               "victim" : "dt-saint",
+               "damage" : 80,
+               "kills" : 1
+            }
+         ],
+         "timeUsedSeconds" : 10.76,
+         "lossOfControl" : false,
+         "user" : "Korydex-che",
+         "retreatSeconds" : 3,
+         "timestamp" : "00:12:18.10"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:12:42.74",
+         "retreatSeconds" : 3,
+         "weapons" : [
+            "Girder"
+         ],
+         "lossOfControl" : false,
+         "damages" : [],
+         "timeUsedSeconds" : 32.58
+      },
+      {
+         "lossOfControl" : false,
+         "damages" : [],
+         "timeUsedSeconds" : 20.64,
+         "weapons" : [
+            "Teleport"
+         ],
+         "timestamp" : "00:13:26.54",
+         "retreatSeconds" : 0.02,
+         "user" : "Korydex-che"
+      },
+      {
+         "damages" : [
+            {
+               "damage" : 47,
+               "victim" : "Korydex-che",
+               "kills" : 0
+            }
+         ],
+         "timeUsedSeconds" : 23.06,
+         "lossOfControl" : false,
+         "weapons" : [
+            "Bungee",
+            "Mine"
+         ],
+         "retreatSeconds" : 5,
+         "timestamp" : "00:13:57.34",
+         "user" : "dt-saint"
+      },
+      {
+         "retreatSeconds" : 3,
+         "timestamp" : "00:14:35.96",
+         "user" : "Korydex-che",
+         "timeUsedSeconds" : 26.52,
+         "damages" : [
+            {
+               "kills" : 1,
+               "damage" : 1,
+               "victim" : "dt-saint"
+            }
+         ],
+         "lossOfControl" : false,
+         "weapons" : [
+            "Shotgun",
+            "Shotgun"
+         ]
+      },
+      {
+         "timeUsedSeconds" : 36.04,
+         "damages" : [],
+         "lossOfControl" : false,
+         "weapons" : [
+            "Parachute",
+            "Low Gravity",
+            "Bazooka"
+         ],
+         "retreatSeconds" : 3,
+         "timestamp" : "00:15:19.14",
+         "user" : "dt-saint"
+      },
+      {
+         "weapons" : [
+            "Bazooka"
+         ],
+         "damages" : [
+            {
+               "damage" : 33,
+               "victim" : "dt-saint",
+               "kills" : 1
+            }
+         ],
+         "timeUsedSeconds" : 27.52,
+         "lossOfControl" : false,
+         "user" : "Korydex-che",
+         "retreatSeconds" : 3,
+         "timestamp" : "00:16:09.60"
+      },
+      {
+         "timestamp" : "00:16:53.78",
+         "retreatSeconds" : 3,
+         "user" : "dt-saint",
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 44.44,
+         "damages" : [
+            {
+               "victim" : "Korydex-che",
+               "damage" : 11,
+               "kills" : 1
+            }
+         ],
+         "weapons" : [
+            "Bazooka"
+         ]
+      },
+      {
+         "weapons" : [
+            "Shotgun",
+            "Shotgun"
+         ],
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 32.3,
+         "damages" : [
+            {
+               "victim" : "dt-saint",
+               "damage" : 50,
+               "kills" : 0
+            }
+         ],
+         "user" : "Korydex-che",
+         "timestamp" : "00:17:59.16",
+         "retreatSeconds" : 3
+      },
+      {
+         "timestamp" : "00:18:48.46",
+         "retreatSeconds" : 3,
+         "user" : "dt-saint",
+         "lossOfControl" : false,
+         "damages" : [
+            {
+               "damage" : 50,
+               "victim" : "Korydex-che",
+               "kills" : 1
+            }
+         ],
+         "timeUsedSeconds" : 44.44,
+         "weapons" : [
+            "Shotgun",
+            "Shotgun"
+         ]
+      },
+      {
+         "retreatSeconds" : 3,
+         "timestamp" : "00:19:52.52",
+         "user" : "Korydex-che",
+         "timeUsedSeconds" : 19.82,
+         "damages" : [
+            {
+               "damage" : 1,
+               "victim" : "dt-saint",
+               "kills" : 1
+            }
+         ],
+         "lossOfControl" : false,
+         "weapons" : [
+            "Bazooka"
+         ]
+      },
+      {
+         "retreatSeconds" : 5,
+         "timestamp" : "00:20:30.88",
+         "user" : "dt-saint",
+         "timeUsedSeconds" : 44.34,
+         "damages" : [
+            {
+               "kills" : 0,
+               "victim" : "Korydex-che",
+               "damage" : 32
+            }
+         ],
+         "lossOfControl" : false,
+         "weapons" : [
+            "Mine"
+         ]
+      },
+      {
+         "timeUsedSeconds" : 11.38,
+         "damages" : [
+            {
+               "damage" : 20,
+               "victim" : "dt-saint",
+               "kills" : 1
+            }
+         ],
+         "lossOfControl" : false,
+         "weapons" : [
+            "Fire Punch"
+         ],
+         "retreatSeconds" : 3,
+         "timestamp" : "00:21:29.08",
+         "user" : "Korydex-che"
+      },
+      {
+         "retreatSeconds" : 0,
+         "timestamp" : "00:21:58.20",
+         "user" : "dt-saint",
+         "timeUsedSeconds" : 45,
+         "damages" : [],
+         "lossOfControl" : false,
+         "weapons" : []
+      },
+      {
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 36.6,
+         "damages" : [
+            {
+               "kills" : 1,
+               "damage" : 34,
+               "victim" : "dt-saint"
+            }
+         ],
+         "weapons" : [
+            "Bungee",
+            "Ninja Rope",
+            "Dragon Ball"
+         ],
+         "timestamp" : "00:22:50.20",
+         "retreatSeconds" : 3,
+         "user" : "Korydex-che"
+      },
+      {
+         "weapons" : [
+            "Ninja Rope",
+            "Longbow",
+            "Longbow"
+         ],
+         "lossOfControl" : false,
+         "timeUsedSeconds" : 44.58,
+         "damages" : [
+            {
+               "kills" : 1,
+               "damage" : 100,
+               "victim" : "Korydex-che"
+            }
+         ],
+         "user" : "dt-saint",
+         "timestamp" : "00:23:38.68",
+         "retreatSeconds" : 3
+      },
+      {
+         "damages" : [],
+         "timeUsedSeconds" : 0.02,
+         "lossOfControl" : false,
+         "weapons" : [],
+         "retreatSeconds" : 0,
+         "timestamp" : "00:24:44.94",
+         "user" : "Korydex-che"
+      }
+   ],
+   "spectators" : [
+      {
+         "user" : "Fem",
+         "host" : false
+      },
+      {
+         "host" : false,
+         "user" : "TdCxSenator"
+      }
+   ],
+   "mostDamageWithOneShot" : {
+      "worm" : "??a?e?oc???",
+      "team" : "<<M>>",
+      "damage" : "197"
+   },
+   "gameId" : "10504579",
+   "engineVersion" : "3.7.2.1",
+   "winsTheRound" : "<<M>>",
+   "teamTimeTotals" : [
+      {
+         "user" : "dt-saint",
+         "total" : "00:10:40.18",
+         "retreat" : "00:00:55.92",
+         "turn" : "00:09:44.26",
+         "team" : "ESW-Team",
+         "turnCount" : 17
+      },
+      {
+         "total" : "00:07:05.18",
+         "user" : "Korydex-che",
+         "turn" : "00:06:18.14",
+         "retreat" : "00:00:47.04",
+         "turnCount" : 18,
+         "team" : "<<M>>"
+      }
+   ],
+   "roundTime" : "0:24:52",
+   "startedAt" : "2019-09-16 16:58:33 GMT",
+   "gameEnd" : "00:24:52.58",
+   "messages" : [
+      {
+         "body" : "gl hf",
+         "timestamp" : "00:00:02.30",
+         "user" : "Korydex-che"
+      },
+      {
+         "body" : "not a gr8 start haha",
+         "timestamp" : "00:01:07.62",
+         "user" : "Korydex-che"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:01:50.04",
+         "body" : "shjit"
+      },
+      {
+         "timestamp" : "00:02:59.18",
+         "user" : "Fem",
+         "body" : "gl"
+      },
+      {
+         "user" : "Korydex-che",
+         "timestamp" : "00:04:11.92",
+         "body" : "ah fuck"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:04:49.34",
+         "body" : "-.-"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:07:07.66",
+         "body" : "error"
+      },
+      {
+         "body" : "lol nice hit",
+         "user" : "Korydex-che",
+         "timestamp" : "00:07:25.54"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:07:29.42",
+         "body" : "xD"
+      },
+      {
+         "body" : "o0",
+         "timestamp" : "00:07:57.02",
+         "user" : "dt-saint"
+      },
+      {
+         "timestamp" : "00:08:00.48",
+         "user" : "dt-saint",
+         "body" : "vnt"
+      },
+      {
+         "user" : "Korydex-che",
+         "timestamp" : "00:08:00.62",
+         "body" : "sonova"
+      },
+      {
+         "timestamp" : "00:09:11.44",
+         "user" : "TdCxSenator",
+         "body" : "g2g"
+      },
+      {
+         "user" : "dt-saint",
+         "timestamp" : "00:12:04.28",
+         "body" : "awdabwdbadaoulgbdoulagbwd"
+      },
+      {
+         "user" : "Korydex-che",
+         "timestamp" : "00:12:05.86",
+         "body" : "lal"
+      },
+      {
+         "body" : "oops",
+         "timestamp" : "00:16:03.52",
+         "user" : "dt-saint"
+      },
+      {
+         "user" : "Korydex-che",
+         "timestamp" : "00:16:04.28",
+         "body" : "o0"
+      },
+      {
+         "body" : "knew",
+         "user" : "dt-saint",
+         "timestamp" : "00:21:22.80"
+      },
+      {
+         "timestamp" : "00:22:50.24",
+         "user" : "dt-saint",
+         "body" : "adabndo'abdawi'bdgaiwbda"
+      },
+      {
+         "timestamp" : "00:24:32.86",
+         "user" : "dt-saint",
+         "body" : "damn"
+      }
+   ],
+   "suddenDeath" : "00:24:38.04",
+   "exportVersion" : "3.7.2.1",
+   "wormOfTheRound" : {
+      "worm" : "mutig",
+      "team" : "ESW-Team"
+   },
+   "fileFormatVersion" : [
+      "3.6.29.48",
+      "3.7.2.1"
+   ]
+}
