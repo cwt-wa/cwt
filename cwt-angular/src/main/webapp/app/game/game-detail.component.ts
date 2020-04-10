@@ -31,7 +31,7 @@ export class GameDetailComponent {
     authenticatedUser: JwtUser;
     betResult: BetResult;
     gameWasPlayed: boolean;
-    stats: GameStats.GameStats[];
+    stats: GameStats.GameStats[] = [];
     statsForRound?: number = 1;
     showComments: boolean = true;
 
