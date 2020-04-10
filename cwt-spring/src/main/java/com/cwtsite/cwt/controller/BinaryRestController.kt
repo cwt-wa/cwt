@@ -128,7 +128,9 @@ class BinaryRestController {
         val game = gameService.findById(gameId)
                 .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
         extractAndSaveGameStats(replay, game)
-        return ResponseEntity.ok(gameService.findGameStats(game))
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(gameService.findGameStats(game))
     }
 
     private fun extractAndSaveGameStats(replay: MultipartFile, game: Game) {
