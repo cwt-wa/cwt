@@ -62,8 +62,6 @@ export class ReportGameComponent implements OnInit {
 
             const formData = new FormData();
             formData.append('replay', this.replayFile.nativeElement.files[0]);
-            formData.append('score-home', payload.scoreOfUser.toString());
-            formData.append('score-away', payload.scoreOfOpponent.toString());
             formData.append('away-user', payload.opponent.toString());
             formData.append('home-user', payload.user.toString());
 

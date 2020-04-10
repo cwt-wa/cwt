@@ -117,8 +117,6 @@ class GameStatsWebIntegration {
                 .perform(multipart("/api/binary/game/${game!!.id}/replay")
                         .file(MockMultipartFile("replay", zipArchive.name, "application/zip", FileInputStream(zipArchive)))
                         .header(tokenHeader, anyToken)
-                        .param("score-home", "3")
-                        .param("score-away", "1")
                         .param("home-user", zemkeUser!!.id.toString())
                         .param("away-user", rafkaUser!!.id.toString())
                 )

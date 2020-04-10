@@ -82,8 +82,6 @@ class BinaryRestController {
     fun saveReplayFile(
             @PathVariable gameId: Long,
             @RequestParam("replay") replay: MultipartFile,
-            @RequestParam("score-home") scoreHome: Int,
-            @RequestParam("score-away") scoreAway: Int,
             @RequestParam("home-user") homeUser: Long,
             @RequestParam("away-user") awayUser: Long,
             request: HttpServletRequest): ResponseEntity<GameCreationDto> {
