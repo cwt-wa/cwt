@@ -189,6 +189,11 @@
         </div>
     </div>
     <div class="row mt-4">
+        <div class="col-12" *ngIf="!stats.length && statsAreLikelyBeingProcessed">
+            <div class="alert alert-info">
+                The replay files are currently being processed to show further statistics.
+            </div>
+        </div>
         <div *ngIf="stats.length" class="col-12 col-md-6 col-lg-5 col-xl-4 text-center">
             <button class="btn btn-sm rounded-circle text-center text-white mb-2 mr-2 p-0"
                     [ngClass]="statsForRound === index + 1 ? 'bg-secondary' : 'bg-primary'"

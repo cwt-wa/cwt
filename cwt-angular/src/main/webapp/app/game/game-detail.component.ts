@@ -34,6 +34,7 @@ export class GameDetailComponent {
     stats: GameStats.GameStats[] = [];
     statsForRound?: number = 1;
     showComments: boolean = true;
+    statsAreLikelyBeingProcessed: boolean = false;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
@@ -64,6 +65,9 @@ export class GameDetailComponent {
                 .subscribe(res => {
                     this.game = res;
                     this.gameWasPlayed = this.playoffService.gameWasPlayed(this.game);
+                    this.statsAreLikelyBeingProcessed =
+                        (this.game.scoreHome + this.game.scoreAway) * 15
+                            <= (new Date(this.game.created).getTime() - Date.now()) / 1000;
 
                     if (!this.gameWasPlayed) {
                         return;
