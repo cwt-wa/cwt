@@ -67,6 +67,7 @@ const colors: { [key: string]: string } = {
         background: transparent;
         margin: 0 0 1px 0;
         align-items: center;
+        height: 4rem;
       }
 
       .weapons {
