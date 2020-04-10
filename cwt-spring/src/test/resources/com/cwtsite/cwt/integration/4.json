@@ -575,7 +575,7 @@
       "lossOfControl": false
     }
   ],
-  "suddenDeath": [],
+  "suddenDeath": null,
   "spectators": [],
   "teams": [
     {
