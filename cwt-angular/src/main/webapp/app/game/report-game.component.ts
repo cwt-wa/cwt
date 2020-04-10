@@ -67,8 +67,6 @@ export class ReportGameComponent implements OnInit {
             formData.append('away-user', payload.opponent.toString());
             formData.append('home-user', payload.user.toString());
 
-            // todo maybe return the stats from this request to signal availabity of them
-            //  without the need to refresh
             this.requestService.formDataPost(`binary/game/${res.id}/replay`, formData)
                 .subscribe({
                     error: () => {
