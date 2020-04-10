@@ -142,12 +142,16 @@ class BinaryRestController {
         runBlocking {
             unzip(replay.inputStream, createTempDir("cwt_", "_replay")).forEach { extractedReplay ->
                 launch {
-                    val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
-                    gameService.saveGameStats(
-                            response.content
-                                    .bufferedReader()
-                                    .use(BufferedReader::readText),
-                            game)
+                    try {
+                        val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
+                        gameService.saveGameStats(
+                                response.content
+                                        .bufferedReader()
+                                        .use(BufferedReader::readText),
+                                game)
+                    } catch (e: Exception) {
+                        logger.error("Replay stats could not be extracted.", e)
+                    }
                 }
             }
         }
