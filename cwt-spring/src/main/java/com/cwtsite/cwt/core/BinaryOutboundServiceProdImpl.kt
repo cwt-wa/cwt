@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.InputStream
 
-const val waGameMimeType = "application/wagame" // todo move to server
+const val waGameMimeType = "application/wagame"
 
 @Prod
 @Service
