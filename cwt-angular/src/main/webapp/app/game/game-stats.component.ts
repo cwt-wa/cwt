@@ -67,7 +67,7 @@ const colors: { [key: string]: string } = {
         background: transparent;
         margin: 0 0 1px 0;
         align-items: center;
-        height: 4rem;
+        min-height: 4rem;
       }
 
       .turn.lossOfControl {
@@ -76,15 +76,6 @@ const colors: { [key: string]: string } = {
 
       .small.lossOfControl {
         border: .1rem dotted red;
-      }
-
-      .weapons {
-        display: flex;
-        justify-content: center;
-        flex-wrap: nowrap;
-        flex-grow: 1;
-        white-space: nowrap;
-        align-items: center;
       }
 
       .kills {
@@ -154,10 +145,9 @@ const colors: { [key: string]: string } = {
                         <img *ngFor="let kill of retrieveKills(index, stats.teams[0].user)" [src]="kill"/>
                     </div>
                     <div class="weapons">
-                        <div *ngFor="let weapon of turn.weapons">
-                            <div class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
-                                <cwt-weapon [weapon]="weapon"></cwt-weapon>
-                            </div>
+                        <div *ngFor="let weapon of turn.weapons"
+                             class="weapon {{getColorOfUser(turn.user).toLowerCase()}}">
+                            <cwt-weapon [weapon]="weapon"></cwt-weapon>
                         </div>
                     </div>
                     <div class="kills">
