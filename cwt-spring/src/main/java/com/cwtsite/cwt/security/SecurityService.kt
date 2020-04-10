@@ -8,16 +8,21 @@ import java.nio.charset.Charset
 @Service
 class SecurityService {
 
-    @Value("\${captcha-secret}") private lateinit var captchaSecret: String
+    @Value("\${captcha-secret:#{null}}") private var captchaSecret: String? = null
     @Value("\${firebase-api-key:#{null}}") private var firebaseApiKey: String? = null
     @Value("\${wormnet-channel}") private lateinit var wormnetChannel: String
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun verifyToken(captchaToken: String): Boolean {
+        if (captchaSecret == null) {
+            logger.warn("Not performing CAPTCHA validation as the secret is not configured.")
+            return true
+        }
+
         val response = khttp.get(
                 url = "https://www.google.com/recaptcha/api/siteverify",
-                params = mapOf("secret" to captchaSecret, "response" to captchaToken))
+                params = mapOf("secret" to captchaSecret!!, "response" to captchaToken))
 
         if (response.statusCode != 200) {
             logger.error("""Captcha token validation status code ${response.statusCode}
