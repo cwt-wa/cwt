@@ -88,6 +88,7 @@ import {AdminVoidGameComponent} from "./admin-void-game.component";
 import {ReplayLinkPipe} from "./_util/replay-link.pipe";
 import {GameStatsComponent} from "./game/game-stats.component";
 import {WeaponComponent} from "./_util/weapon.component";
+import {AdminExtractStatsComponent} from "./admin/admin-extract-stats.component";
 
 const appRoutes: Routes = [
     {
@@ -216,6 +217,10 @@ const appRoutes: Routes = [
         component: AdminVoidGameComponent
     },
     {
+        path: 'admin/extract-stats',
+        component: AdminExtractStatsComponent
+    },
+    {
         path: 'user-panel',
         component: UserPanelComponent
     },
@@ -315,6 +320,7 @@ const appRoutes: Routes = [
         PasswordResetComponent,
         AdminVoidGameComponent,
         GameStatsComponent,
+        AdminExtractStatsComponent,
     ],
     providers: [
         WebAppViewService,
