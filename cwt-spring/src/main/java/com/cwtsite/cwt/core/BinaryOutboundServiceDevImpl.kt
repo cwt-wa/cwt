@@ -12,30 +12,30 @@ import java.io.File
 class BinaryOutboundServiceDevImpl : BinaryOutboundService {
 
     override fun retrieveUserPhoto(userId: Long): Response {
-        TODO("Not implemented")
+        throw UnsupportedOperationException("Not implemented")
     }
 
     override fun retrieveReplay(gameId: Long): Response {
-        TODO("Not implemented")
+        throw UnsupportedOperationException("Not implemented")
     }
 
     override fun deleteUserPhoto(userId: Long): Response {
-        TODO("Not implemented")
+        throw UnsupportedOperationException("Not implemented")
     }
 
     override fun sendUserPhoto(userId: Long, photo: MultipartFile): HttpEntity {
-        TODO("Not implemented")
+        throw UnsupportedOperationException("Not implemented")
     }
 
     override fun sendReplay(gameId: Long, replay: MultipartFile): HttpEntity {
-        TODO("Not implemented")
+        throw UnsupportedOperationException("Not implemented")
     }
 
     override fun extractGameStats(gameId: Long, extractedReplay: File): HttpEntity {
-        TODO("Not implemented")
+        throw UnsupportedOperationException("Not implemented")
     }
 
     override fun assertBinaryDataStoreEndpoint() {
-        TODO("Not implemented")
+        throw UnsupportedOperationException("Not implemented")
     }
 }
