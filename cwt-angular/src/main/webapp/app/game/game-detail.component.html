@@ -200,14 +200,30 @@
             <cwt-game-stats *ngIf="stats[statsForRound - 1]" [stats]="stats[statsForRound - 1]"></cwt-game-stats>
         </div>
         <div class="col-12 col-md-6 col-lg-7 col-xl-8 mt-4 mt-md-0">
-            <div class="row">
+            <div class="row mb-2">
+                <div class="col-md-12 text-right">
+                    <div [(ngModel)]="showComments" class="btn-group btn-group-toggle" name="viewMode"
+                         ngbRadioGroup>
+                        <label class="btn-primary" ngbButtonLabel>
+                            <input [value]="true" ngbButton type="radio">
+                            Comments
+                        </label>
+                        <label class="btn-primary" ngbButtonLabel>
+                            <input [value]="false" ngbButton type="radio">
+                            In-game chat
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showComments" class="row">
                 <div class="col-12">
-                    <div *ngIf="newComment">
+                    <div class="card bg-secondary p-1">
                         <form #commentForm="ngForm" (ngSubmit)="submitComment()">
-                    <textarea rows="3" class="form-control" placeholder="Write a comment…" required
-                              [(ngModel)]="newComment.body" name="comment"
-                              (keyup.control.enter)="commentForm.onSubmit($event)">
-                    </textarea>
+                        <textarea (keyup.control.enter)="commentForm.onSubmit($event)" [(ngModel)]="newComment.body"
+                                  class="form-control" name="comment"
+                                  placeholder="Write a comment…" required
+                                  rows="3">
+                        </textarea>
                             <div class="float-right">
                                 <button class="btn btn-primary mt-1" style="width: 80px"
                                         [disabled]="!commentForm.form.valid || submittingComment">
@@ -219,21 +235,35 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-12">
+                <div class="col-12 mt-2">
                     <div class="card bg-secondary text-white border-0">
-                        <div class="card-body" *ngFor="let comment of game.comments" style="border-bottom: 1px solid white !important;">
+                        <div class="card-body" *ngFor="let comment of game.comments"
+                             style="border-bottom: 1px solid white !important;">
                             <!-- todo timestamp gets crunched on long username on md screen  -->
                             <cwt-time-ago class="float-right" [date]="comment.created"></cwt-time-ago>
                             <h4 class="card-title">
                                 <cwt-user [username]="comment.author.username"></cwt-user>
                             </h4>
-                            <p class="card-text rendered-text links-red" [innerHTML]="comment.body | cwtConvertLinks"></p>
+                            <p class="card-text rendered-text links-red"
+                               [innerHTML]="comment.body | cwtConvertLinks"></p>
                         </div>
                     </div>
                     <div class="alert alert-info" role="alert" *ngIf="!game.comments.length">
                         There are no comments yet.
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!showComments" class="row">
+                <div class="col-12">
+                    <div class="card bg-secondary text-white border-0">
+                        <div *ngFor="let comment of game.comments; let index = index"
+                             class="card-body"
+                             style="border-bottom: 1px solid white !important;">
+                            <h4 class="card-title">Round {{index + 1}}</h4>
+                            <p *ngFor="let message of stats[statsForRound].messages" class="inGameChat">
+                                [{{message.user}}] {{message.body}}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

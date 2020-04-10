@@ -10,6 +10,16 @@ import {GameStats} from "./game-stats.component";
 
 @Component({
     selector: 'cwt-game-detail',
+    styles: [`
+      p.inGameChat {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        line-height: 1.2rem;
+        font-weight: bold;
+        font-size: 1rem;
+        color: white;
+        margin-bottom: .5rem;
+      }
+    `],
     template: require('./game-detail.component.html')
 })
 export class GameDetailComponent {
@@ -23,6 +33,7 @@ export class GameDetailComponent {
     gameWasPlayed: boolean;
     stats: GameStats.GameStats[];
     statsForRound?: number = 1;
+    showComments: boolean = true;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
