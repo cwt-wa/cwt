@@ -103,8 +103,6 @@ class BinaryRestController {
 
         binaryOutboundService.sendReplay(gameId, replay)
 
-        // todo learn coroutines exception handling
-        //  https://kotlinlang.org/docs/reference/coroutines/exception-handling.html
         try {
             val game = gameService.findById(gameId)
             if (game.isEmpty) {
