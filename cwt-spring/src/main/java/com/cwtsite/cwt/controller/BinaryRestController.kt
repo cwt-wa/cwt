@@ -2,6 +2,7 @@ package com.cwtsite.cwt.controller
 
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.core.FileValidator
+import com.cwtsite.cwt.core.MultipartFileToFile.convertMultipartFileToFile
 import com.cwtsite.cwt.domain.core.Unzip.unzip
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
@@ -71,7 +72,7 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        binaryOutboundService.sendUserPhoto(userId, photo)
+        binaryOutboundService.sendUserPhoto(userId, convertMultipartFileToFile(photo))
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
@@ -102,7 +103,7 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        binaryOutboundService.sendReplay(gameId, replay)
+        binaryOutboundService.sendReplay(gameId, convertMultipartFileToFile(replay))
 
         try {
             val game = gameService.findById(gameId)
@@ -143,12 +144,14 @@ class BinaryRestController {
             unzip(replay.inputStream, createTempDir("cwt_", "_replay")).forEach { extractedReplay ->
                 launch {
                     try {
-                        val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
-                        gameService.saveGameStats(
-                                response.content
-                                        .bufferedReader()
-                                        .use(BufferedReader::readText),
-                                game)
+                        binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
+                            gameService.saveGameStats(
+                                    response.entity.content
+                                            .bufferedReader()
+                                            .use(BufferedReader::readText),
+                                    game)
+                        }
+
                     } catch (e: Exception) {
                         logger.error("Replay stats could not be extracted.", e)
                     }

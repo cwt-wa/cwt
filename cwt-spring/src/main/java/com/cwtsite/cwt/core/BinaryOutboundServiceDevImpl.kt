@@ -2,10 +2,9 @@ package com.cwtsite.cwt.core
 
 import com.cwtsite.cwt.core.profile.Dev
 import khttp.responses.Response
-import org.apache.http.HttpEntity
+import org.apache.http.client.methods.CloseableHttpResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
 import java.io.File
 
 @Dev
@@ -30,15 +29,15 @@ class BinaryOutboundServiceDevImpl : BinaryOutboundService {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun sendUserPhoto(userId: Long, photo: MultipartFile): HttpEntity {
+    override fun sendUserPhoto(userId: Long, photo: File): CloseableHttpResponse {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun sendReplay(gameId: Long, replay: MultipartFile): HttpEntity {
+    override fun sendReplay(gameId: Long, replayArchive: File): CloseableHttpResponse {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun extractGameStats(gameId: Long, extractedReplay: File): HttpEntity {
+    override fun extractGameStats(gameId: Long, extractedReplay: File): CloseableHttpResponse {
         throw UnsupportedOperationException("Not implemented")
     }
 
