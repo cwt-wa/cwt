@@ -10,6 +10,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
+import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.entity.InputStreamEntity
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
@@ -19,6 +20,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -127,11 +129,12 @@ class GameStatsWebIntegration {
     @Test
     @WithMockUser
     fun `1 save replay file`() {
+        val resMock = createMockHttpResponse(
+                InputStreamEntity(game1StatsJson[0]), InputStreamEntity(game1StatsJson[1]),
+                InputStreamEntity(game1StatsJson[2]), InputStreamEntity(game1StatsJson[3]))
+
         `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
-                .thenAnswer { InputStreamEntity(game1StatsJson[0]) }
-                .thenAnswer { InputStreamEntity(game1StatsJson[1]) }
-                .thenAnswer { InputStreamEntity(game1StatsJson[2]) }
-                .thenAnswer { InputStreamEntity(game1StatsJson[3]) }
+                .thenReturn(resMock)
 
         mockMvc
                 .perform(multipart("/api/binary/game/${game1!!.id}/replay")
@@ -167,11 +170,12 @@ class GameStatsWebIntegration {
     @Test
     @WithMockUser(authorities = [AuthorityRole.ROLE_ADMIN])
     fun `3 save game stats explicitly`() {
+        val resMock = createMockHttpResponse(
+                InputStreamEntity(game2StatsJson[0]), InputStreamEntity(game2StatsJson[1]),
+                InputStreamEntity(game2StatsJson[2]), InputStreamEntity(game2StatsJson[3]))
+
         `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
-                .thenAnswer { InputStreamEntity(game2StatsJson[0]) }
-                .thenAnswer { InputStreamEntity(game2StatsJson[1]) }
-                .thenAnswer { InputStreamEntity(game2StatsJson[2]) }
-                .thenAnswer { InputStreamEntity(game2StatsJson[3]) }
+                .thenReturn(resMock)
 
         mockMvc
                 .perform(multipart("/api/binary/game/${game2!!.id}/stats")
@@ -193,4 +197,9 @@ class GameStatsWebIntegration {
                 .andExpect(jsonPath("$[3].startedAt", `is`("2019-09-17 17:02:45 GMT")))
                 .andDo(print())
     }
+
+    private fun createMockHttpResponse(vararg mocks: InputStreamEntity): CloseableHttpResponse =
+            `when`(mock(CloseableHttpResponse::class.java).entity)
+                    .thenReturn(mocks[0], *mocks.toList().subList(1, mocks.size).toTypedArray())
+                    .getMock()
 }
