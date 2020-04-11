@@ -64,6 +64,10 @@ module.exports = {
                 use: ['file-loader?name=assets/[name].[ext]']
             },
             {
+                test: /weapons\/.*?.gif$/,
+                use: ['file-loader?name=assets/[name].[ext]']
+            },
+            {
                 test: /favicon.ico$/,
                 use: ['file-loader?name=favicon.ico']
             },
