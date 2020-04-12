@@ -1,25 +1,24 @@
 package com.cwtsite.cwt.domain.core
 
+import com.google.common.io.Files
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.io.InputStream
 import java.util.zip.ZipInputStream
 
 object Unzip {
 
-    fun unzip(inputStream: InputStream, destDir: File): List<File> {
-        // create output directory if it doesn't exist
+    fun unzipReplayFiles(inputStream: InputStream, destDir: File): Set<File> {
         if (!destDir.exists()) destDir.mkdirs()
-        val fis: InputStream
-        //buffer for read and write data to file
         val buffer = ByteArray(1024)
         val res = mutableListOf<File>()
-        try {
-            fis = inputStream
-            val zis = ZipInputStream(fis)
-            var ze = zis.nextEntry
-            while (ze != null) {
+        val fis: InputStream = inputStream
+        val zis = ZipInputStream(fis)
+        var ze = zis.nextEntry
+
+        while (ze != null) {
+            @Suppress("UnstableApiUsage")
+            if (!ze.isDirectory && Files.getFileExtension(ze.name) == "WAgame") {
                 val fileName = ze.name
                 val newFile = File(destDir.path + File.separator + fileName)
                 res.add(newFile)
@@ -31,17 +30,15 @@ object Unzip {
                     fos.write(buffer, 0, len)
                 }
                 fos.close()
-                //close this ZipEntry
                 zis.closeEntry()
-                ze = zis.nextEntry
             }
-            //close last ZipEntry
-            zis.closeEntry()
-            zis.close()
-            fis.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
+            ze = zis.nextEntry
         }
-        return res.toList()
+
+        zis.closeEntry()
+        zis.close()
+        fis.close()
+
+        return res.toSet()
     }
 }
