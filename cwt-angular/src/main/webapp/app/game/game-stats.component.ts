@@ -253,13 +253,13 @@ export class GameStatsComponent implements OnInit {
             let result = '';
             if (idx === 0) {
                 result += `#1B2021 0, `;
-                result += `#1B2021 ${Math.min(lostHealth / 2, 48)}%, `;
-                result += `${teamColor} ${Math.min(lostHealth / 2, 48)}%, `;
+                result += `#1B2021 ${lostHealth === 100 ? '50' : Math.min(lostHealth / 2, 48)}%, `;
+                result += `${teamColor} ${lostHealth === 100 ? '50' : Math.min(lostHealth / 2, 48)}%, `;
                 result += `${teamColor} 50%`;
             } else if (idx === 1) {
                 result += `${teamColor} 50%, `;
-                result += `${teamColor} ${Math.max((remainingHealth / 2) + 50, 52)}%, `;
-                result += `#1B2021 ${Math.max((remainingHealth / 2) + 50, 52)}%, `;
+                result += `${teamColor} ${lostHealth === 100 ? '0' : Math.max((remainingHealth / 2) + 50, 52)}%, `;
+                result += `#1B2021 ${lostHealth === 100 ? '0' : Math.max((remainingHealth / 2) + 50, 52)}%, `;
                 result += `#1B2021 100%`;
             }
             return result
