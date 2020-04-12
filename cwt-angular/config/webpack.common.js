@@ -56,7 +56,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                exclude: /(favicon.ico|favicon.png|flags\/.*?.png)$/,
+                exclude: /(favicon.ico|favicon.png|flags\/.*?.png|weapons\/.*?.gif)$/,
                 use: ['file-loader?name=assets/[name].[hash].[ext]']
             },
             {
