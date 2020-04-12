@@ -141,19 +141,21 @@ class BinaryRestController {
         }
 
         runBlocking {
-            unzip(replay.inputStream, createTempDir("cwt_", "_replay")).forEach { extractedReplay ->
-                launch {
-                    try {
-                        binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
-                            gameService.saveGameStats(
-                                    response.entity.content
-                                            .bufferedReader()
-                                            .use(BufferedReader::readText),
-                                    game)
-                        }
+            replay.inputStream.use { zipArchiveInputStream ->
+                unzip(zipArchiveInputStream, createTempDir("cwt_", "_replay")).forEach { extractedReplay ->
+                    launch {
+                        try {
+                            binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
+                                gameService.saveGameStats(
+                                        response.entity.content
+                                                .bufferedReader()
+                                                .use(BufferedReader::readText),
+                                        game)
+                            }
 
-                    } catch (e: Exception) {
-                        logger.error("Replay stats could not be extracted.", e)
+                        } catch (e: Exception) {
+                            logger.error("Replay stats could not be extracted.", e)
+                        }
                     }
                 }
             }
