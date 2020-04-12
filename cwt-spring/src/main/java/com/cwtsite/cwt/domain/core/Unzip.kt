@@ -8,37 +8,46 @@ import java.util.zip.ZipInputStream
 
 object Unzip {
 
-    fun unzipReplayFiles(inputStream: InputStream, destDir: File): Set<File> {
-        if (!destDir.exists()) destDir.mkdirs()
-        val buffer = ByteArray(1024)
-        val res = mutableListOf<File>()
-        val fis: InputStream = inputStream
-        val zis = ZipInputStream(fis)
-        var ze = zis.nextEntry
+    private lateinit var destDir: File
 
-        while (ze != null) {
-            @Suppress("UnstableApiUsage")
-            if (!ze.isDirectory && Files.getFileExtension(ze.name) == "WAgame") {
-                val fileName = ze.name
-                val newFile = File(destDir.path + File.separator + fileName)
-                res.add(newFile)
-                //create directories for sub directories in zip
-                File(newFile.parent).mkdirs()
-                val fos = FileOutputStream(newFile)
-                var len: Int
-                while (zis.read(buffer).also { len = it } > 0) {
-                    fos.write(buffer, 0, len)
+    fun unzipReplayFiles(inputStream: InputStream): ExtractResult {
+        val res = mutableSetOf<File>()
+        destDir = createTempDir("cwt_", "_replay")
+        val buffer = ByteArray(1024)
+        val fis: InputStream = inputStream
+        ZipInputStream(fis).use { zis ->
+            var ze = zis.nextEntry
+            while (ze != null) {
+                try {
+                    @Suppress("UnstableApiUsage")
+                    if (!ze.isDirectory && Files.getFileExtension(ze.name) == "WAgame") {
+                        val newFile = File(destDir.path + File.separator + ze.name)
+                        res.add(newFile)
+                        File(newFile.parent).mkdirs()
+                        FileOutputStream(newFile).use { fos ->
+                            var len: Int
+                            while (zis.read(buffer).also { len = it } > 0) {
+                                fos.write(buffer, 0, len)
+                            }
+                        }
+                    }
+                } finally {
+                    zis.closeEntry()
                 }
-                fos.close()
-                zis.closeEntry()
+                ze = zis.nextEntry
             }
-            ze = zis.nextEntry
+            zis.closeEntry()
         }
 
-        zis.closeEntry()
-        zis.close()
-        fis.close()
-
-        return res.toSet()
+        return object : ExtractResult {
+            override val replays = res.toSet()
+            override fun close() {
+                destDir.deleteRecursively()
+            }
+        }
     }
+}
+
+interface ExtractResult : AutoCloseable {
+    val replays: Set<File>
 }

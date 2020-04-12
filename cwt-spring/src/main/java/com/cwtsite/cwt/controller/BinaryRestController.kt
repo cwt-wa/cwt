@@ -3,7 +3,7 @@ package com.cwtsite.cwt.controller
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.core.MultipartFileToFile.convertMultipartFileToFile
-import com.cwtsite.cwt.domain.core.Unzip.unzipReplayFiles
+import com.cwtsite.cwt.domain.core.Unzip
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
@@ -142,19 +142,21 @@ class BinaryRestController {
 
         runBlocking {
             replay.inputStream.use { zipArchiveInputStream ->
-                unzipReplayFiles(zipArchiveInputStream, createTempDir("cwt_", "_replay")).forEach { extractedReplay ->
-                    launch {
-                        try {
-                            binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
-                                gameService.saveGameStats(
-                                        response.entity.content
-                                                .bufferedReader()
-                                                .use(BufferedReader::readText),
-                                        game)
-                            }
+                Unzip.unzipReplayFiles(zipArchiveInputStream).use { extracted ->
+                    extracted.replays.forEach { extractedReplay ->
+                        launch {
+                            try {
+                                binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
+                                    gameService.saveGameStats(
+                                            response.entity.content
+                                                    .bufferedReader()
+                                                    .use(BufferedReader::readText),
+                                            game)
+                                }
 
-                        } catch (e: Exception) {
-                            logger.error("Replay stats could not be extracted.", e)
+                            } catch (e: Exception) {
+                                logger.error("Replay stats could not be extracted.", e)
+                            }
                         }
                     }
                 }
