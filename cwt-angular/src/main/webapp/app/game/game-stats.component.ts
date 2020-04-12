@@ -165,8 +165,36 @@ const colors: { [key: string]: string } = {
                 {{stats.roundTime.split(':')[2]}}s
             </div>
         </div>
-        <div class="text-right mt-1" *ngIf="lossOfControlExists">
-            <span class="lossOfControl small p-1">Turn ended due to loss of control</span>
+        <ng-template #statsDescription>
+            <p>
+                The bars in the background are approximations of health points. They do not include health reductions to due
+                self-killing weapons like Kamikaze or continuous health reductions due to Sudden Death or Skunks or the like.<br>
+                They’re actually more like accumulations of damage conceded.
+            </p>
+            <p>
+                Other than that the bars in the background depict the state after that turn whose used weapons are shown on top
+                with a border of the color of the team that used the weapon.
+            </p>
+            <p>
+                Dashed red border means that the turn has ended due to the Worm losing control. Like he or she
+                slipped or fell off the cliff or the like. Poor worm.
+            </p>
+            <p>
+                Weapons like Ninja Rope are shown to be used even if the usage didn’t reduce ammo.
+                Like when shooting a Ninja Rope into empty space.
+            </p>
+            <p *ngIf="this.suddenDeathBeforeTurn !== -1">
+                Yes, that wave is Sudden Death.
+            </p>
+            <p>
+                Powered by <a href="https://waaas.zemke.io/" target="_blank" class="font-weight-bolder">WAaaS</a>
+            </p>
+        </ng-template>
+        <div class="text-right mt-1">
+            <i class="fa cursor-pointer fa-question d-sm-none"
+               [ngbPopover]="statsDescription" placement="left-bottom"></i>
+            <i class="fa cursor-pointer fa-question d-none d-sm-block"
+               [ngbPopover]="statsDescription" placement="right-bottom"></i>
         </div>
     `
 })
@@ -181,14 +209,12 @@ export class GameStatsComponent implements OnInit {
     waterImage: string = require('../../img/water.gif');
     suddenDeathBeforeTurn: number;
     averageTurnTimes: number[];
-    lossOfControlExists: boolean;
 
     ngOnInit(): void {
         this.losingUser = this.stats.teams.find(t => t.team !== this.stats.winsTheRound).user;
         this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
         this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
         this.numberOfTeams = this.stats.teams.length;
-        this.lossOfControlExists = !!this.stats.turns.find(t => t.lossOfControl);
         this.averageTurnTimes = (() =>
             this.stats.teams
                 .map(team => team.user)
