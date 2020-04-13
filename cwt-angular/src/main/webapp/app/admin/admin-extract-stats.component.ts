@@ -1,6 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {Toastr} from "../_services/toastr";
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: 'cwt-admin-extract-stats',
@@ -27,15 +28,15 @@ import {Toastr} from "../_services/toastr";
                     </div>
                     <div class="form-row">
                         <div class="col">
-                            <button class="btn btn-primary mt-3" [disabled]="form.invalid">
-                                Extract stats from replay
+                            <button class="btn btn-primary mt-3" [disabled]="form.invalid || submitting">
+                                <span *ngIf="!submitting">Extract stats from replay</span>
+                                <img src="../../img/loading.gif" class="loading" *ngIf="submitting"/>
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
     `
 })
 export class AdminExtractStatsComponent {
@@ -43,6 +44,7 @@ export class AdminExtractStatsComponent {
     @ViewChild('replayFile') replayFile: ElementRef<HTMLInputElement>;
     replay: any;
     gameId: number;
+    submitting: boolean = false;
 
     constructor(private requestService: RequestService, private toastr: Toastr) {
     }
@@ -50,7 +52,9 @@ export class AdminExtractStatsComponent {
     submit() {
         const formData = new FormData();
         formData.append('replay', this.replayFile.nativeElement.files[0]);
+        this.submitting = true;
         this.requestService.formDataPost(`binary/game/${this.gameId}/stats`, formData)
+            .pipe(finalize(() => this.submitting = false))
             .subscribe(() => this.toastr.success("Replay stats have been persisted."));
     }
 }
