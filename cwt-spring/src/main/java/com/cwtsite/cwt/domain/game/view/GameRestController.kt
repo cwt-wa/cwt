@@ -43,7 +43,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
         return gameService.findById(id)
                 .map { ResponseEntity.ok(mapToDtoWithTitle(it)) }
-                .orElseGet { ResponseEntity.status(HttpStatus.NOT_FOUND).build() }
+                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
     }
 
     private fun mapToDtoWithTitle(game: Game): GameDetailDto {
