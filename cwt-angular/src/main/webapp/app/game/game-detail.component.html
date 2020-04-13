@@ -224,11 +224,11 @@
                 <div class="col-12">
                     <div class="card bg-secondary p-1">
                         <form #commentForm="ngForm" (ngSubmit)="submitComment()">
-                        <textarea (keyup.control.enter)="commentForm.onSubmit($event)" [(ngModel)]="newComment.body"
-                                  class="form-control" name="comment"
-                                  placeholder="Write a comment…" required
-                                  rows="3">
-                        </textarea>
+                            <textarea (keyup.control.enter)="commentForm.onSubmit($event)" [(ngModel)]="newComment.body"
+                                      class="form-control" name="comment"
+                                      placeholder="Write a comment…" required
+                                      rows="3">
+                            </textarea>
                             <div class="float-right">
                                 <button class="btn btn-primary mt-1" style="width: 80px"
                                         [disabled]="!commentForm.form.valid || submittingComment">
