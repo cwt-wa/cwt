@@ -221,7 +221,7 @@
                 </div>
             </div>
             <div *ngIf="showComments" class="row">
-                <div class="col-12">
+                <div class="col-12 mb-2" *ngIf="authenticatedUser">
                     <div class="card bg-secondary p-1">
                         <form #commentForm="ngForm" (ngSubmit)="submitComment()">
                             <textarea (keyup.control.enter)="commentForm.onSubmit($event)" [(ngModel)]="newComment.body"
@@ -240,7 +240,7 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
-                <div class="col-12 mt-2">
+                <div class="col-12">
                     <div class="card bg-secondary text-white border-0">
                         <div class="card-body" *ngFor="let comment of game.comments"
                              style="border-bottom: 1px solid white !important;">
