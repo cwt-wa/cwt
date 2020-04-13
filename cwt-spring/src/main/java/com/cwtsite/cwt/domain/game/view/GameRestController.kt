@@ -35,8 +35,9 @@ import javax.ws.rs.Produces
 @RestController
 @RequestMapping("api/game")
 class GameRestController @Autowired
-constructor(private val gameService: GameService, private val userService: UserService, private val messageService: MessageService,
-            private val authService: AuthService, private val playoffService: PlayoffService, private val treeService: TreeService) {
+constructor(private val gameService: GameService, private val userService: UserService,
+            private val messageService: MessageService, private val authService: AuthService,
+            private val treeService: TreeService) {
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
