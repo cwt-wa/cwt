@@ -41,6 +41,7 @@ import java.io.FileInputStream
 import java.sql.Timestamp
 import java.time.Instant
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 
 private const val game1Id = 1559
@@ -175,7 +176,10 @@ class GameStatsWebIntegration {
                 InputStreamEntity(game2StatsJson[2]), InputStreamEntity(game2StatsJson[3]))
 
         `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
-                .thenReturn(resMock)
+                .thenAnswer { invocation ->
+                    assertTrue(invocation.getArgument<File>(1).exists())
+                    resMock
+                }
 
         mockMvc
                 .perform(multipart("/api/binary/game/${game2!!.id}/stats")

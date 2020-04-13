@@ -140,9 +140,9 @@ class BinaryRestController {
             return
         }
 
-        runBlocking {
-            replay.inputStream.use { zipArchiveInputStream ->
-                Unzip.unzipReplayFiles(zipArchiveInputStream).use { extracted ->
+        replay.inputStream.use { zipArchiveInputStream ->
+            Unzip.unzipReplayFiles(zipArchiveInputStream).use { extracted ->
+                runBlocking {
                     extracted.replays.forEach { extractedReplay ->
                         launch {
                             try {
