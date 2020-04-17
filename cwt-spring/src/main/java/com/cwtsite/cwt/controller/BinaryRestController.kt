@@ -143,7 +143,7 @@ class BinaryRestController {
         replay.inputStream.use { zipArchiveInputStream ->
             Unzip.unzipReplayFiles(zipArchiveInputStream).use { extracted ->
                 runBlocking {
-                    extracted.replays.forEach { extractedReplay ->
+                    extracted.content.forEach { extractedReplay ->
                         launch {
                             try {
                                 binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->

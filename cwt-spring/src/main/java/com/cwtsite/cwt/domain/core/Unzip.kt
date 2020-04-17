@@ -10,7 +10,7 @@ object Unzip {
 
     private lateinit var destDir: File
 
-    fun unzipReplayFiles(inputStream: InputStream): ExtractResult {
+    fun unzipReplayFiles(inputStream: InputStream): WrappedCloseable<Set<File>> {
         val res = mutableSetOf<File>()
         destDir = createTempDir("cwt_", "_replay")
         val buffer = ByteArray(1024)
@@ -39,15 +39,8 @@ object Unzip {
             zis.closeEntry()
         }
 
-        return object : ExtractResult {
-            override val replays = res.toSet()
-            override fun close() {
-                destDir.deleteRecursively()
-            }
+        return WrappedCloseable(res.toSet()) {
+            destDir.deleteRecursively()
         }
     }
-}
-
-interface ExtractResult : AutoCloseable {
-    val replays: Set<File>
 }
