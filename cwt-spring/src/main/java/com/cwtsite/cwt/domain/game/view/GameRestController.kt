@@ -52,6 +52,7 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    // todo remove
     @GetMapping("/publish-event")
     fun something() {
         logger.info("There's a new event upcoming")
