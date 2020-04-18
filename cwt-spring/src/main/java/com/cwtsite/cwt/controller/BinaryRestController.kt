@@ -10,6 +10,7 @@ import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import khttp.responses.Response
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
@@ -105,15 +106,17 @@ class BinaryRestController {
 
         binaryOutboundService.sendReplay(gameId, convertMultipartFileToFile(replay))
 
-        try {
-            val game = gameService.findById(gameId)
-            if (game.isEmpty) {
-                logger.warn("Game with ID $gameId could not be retrieved for replay WAaaS extraction.")
-            } else {
-                extractAndSaveGameStats(replay, game.get())
+        GlobalScope.launch {
+            try {
+                val game = gameService.findById(gameId)
+                if (game.isEmpty) {
+                    logger.warn("Game with ID $gameId could not be retrieved for replay WAaaS extraction.")
+                } else {
+                    extractAndSaveGameStats(replay, game.get())
+                }
+            } catch (e: Exception) {
+                logger.error("WAaaS replay extraction went wrong", e)
             }
-        } catch (e: Exception) {
-            logger.error("WAaaS replay extraction went wrong", e)
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
