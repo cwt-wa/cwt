@@ -24,6 +24,9 @@ data class GameStats(
         @Column(name = "started_at")
         var startedAt: Timestamp? = null,
 
+        @Column(name = "started_at")
+        var map: String? = null,
+
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
         var created: Timestamp? = null

@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.core
 
 import com.cwtsite.cwt.core.profile.Prod
+import com.cwtsite.cwt.domain.core.WrappedCloseable
 import khttp.responses.Response
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpPost
@@ -49,6 +50,17 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
                     url = waaasEndpoint!!,
                     fileFieldName = "replay",
                     file = extractedReplay)
+
+
+    override fun downloadMapFromWaas(response: String, gameId: Long, map: String): WrappedCloseable<File> {
+        val createTempFile = createTempFile()
+        createTempFile.writeBytes(khttp.get("${waaasEndpoint}/$map").content)
+        sendMultipartEntity(
+                url = "${binaryDataStoreEndpoint}/game/$gameId/game/$map",
+                file = createTempFile,
+                fileFieldName = "map")
+        return WrappedCloseable(createTempFile) { createTempFile.deleteRecursively() }
+    }
 
     fun sendMultipartEntity(url: String, file: File, fileFieldName: String): CloseableHttpResponse {
         val multipartEntity = with(HttpPost(url)) {

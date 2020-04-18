@@ -239,6 +239,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
 
     fun saveGameStats(data: String, game: Game): GameStats {
         val startedAt = JSONObject(data).getString("startedAt") // Formatting example: 2013-12-14 16:45:20 GMT
+        val map = JSONObject(data).optString("map", null)
         val format = with (SimpleDateFormat("yyyy-mm-dd HH:mm:ss z")) {
             timeZone = TimeZone.getTimeZone("GMT")
             this
@@ -246,6 +247,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return gameStatsRepository.save(GameStats(
                 data = data,
                 startedAt = Timestamp(format.parse(startedAt).time),
+                map = map,
                 game = game
         ))
     }

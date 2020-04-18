@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.core
 
 import com.cwtsite.cwt.core.profile.Dev
+import com.cwtsite.cwt.domain.core.WrappedCloseable
 import khttp.responses.Response
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.springframework.beans.factory.annotation.Value
@@ -38,6 +39,10 @@ class BinaryOutboundServiceDevImpl : BinaryOutboundService {
     }
 
     override fun extractGameStats(gameId: Long, extractedReplay: File): CloseableHttpResponse {
+        throw UnsupportedOperationException("Not implemented")
+    }
+
+    override fun downloadMapFromWaas(response: String, gameId: Long, map: String): WrappedCloseable<File> {
         throw UnsupportedOperationException("Not implemented")
     }
 

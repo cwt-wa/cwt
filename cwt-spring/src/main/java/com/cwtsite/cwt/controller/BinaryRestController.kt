@@ -150,13 +150,16 @@ class BinaryRestController {
                         launch {
                             try {
                                 binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
-                                    gameService.saveGameStats(
-                                            response.entity.content
-                                                    .bufferedReader()
-                                                    .use(BufferedReader::readText),
-                                            game)
+                                    val content = response.entity.content
+                                            .bufferedReader()
+                                            .use(BufferedReader::readText)
+                                    val gameStats = gameService.saveGameStats(content, game)
+                                    if (gameStats.map != null) {
+                                        binaryOutboundService
+                                                .downloadMapFromWaas(content, gameStats.game!!.id!!, gameStats.map!!)
+                                                .close()
+                                    }
                                 }
-
                             } catch (e: Exception) {
                                 logger.error("Replay stats could not be extracted.", e)
                             }
