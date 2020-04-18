@@ -1,8 +1,9 @@
 package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
+import com.cwtsite.cwt.core.event.stats.GameStatSubscriber
 import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
+import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.GameStats
@@ -55,7 +56,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @GetMapping("/publish-event")
     fun something() {
         logger.info("There's a new event upcoming")
-        gameStatsEventPublisher.publishEvent(
+        gameStatsEventPublisher.publish(
                 GameStats(
                         data = "{\"hello\": \"world\", \"time\": ${Instant.now().epochSecond}}",
                         game = Game(id = 2, tournament = Tournament())))
@@ -64,7 +65,8 @@ constructor(private val gameService: GameService, private val userService: UserS
     @GetMapping("/{id}/stats-listen", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun listenToStats(@PathVariable("id") id: Long): ResponseBodyEmitter {
         val emitter = SseEmitter(150000)
-        gameStatsEventListener.subscribers.add(emitter)
+        gameStatsEventListener.subscribe(
+                GameStatSubscriber(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) })
         return emitter;
     }
 

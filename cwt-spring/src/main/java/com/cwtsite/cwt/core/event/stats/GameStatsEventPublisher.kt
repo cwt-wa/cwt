@@ -14,8 +14,8 @@ class GameStatsEventPublisher {
     @Autowired
     private lateinit var applicationEventPublisher: ApplicationEventPublisher
 
-    fun publishEvent(gameStats: GameStats) {
-        logger.info("Publishing game stats event.")
+    fun publish(gameStats: GameStats) {
+        logger.info("Publishing game stats for game ${gameStats.game!!.id!!}.")
         applicationEventPublisher.publishEvent(GameStatsEvent(this, gameStats))
     }
 }

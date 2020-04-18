@@ -45,7 +45,7 @@ class BinaryRestController {
     private lateinit var binaryOutboundService: BinaryOutboundService
 
     @Autowired
-    private lateinit var eventPublisher: GameStatsEventPublisher
+    private lateinit var gameStatsEventPublisher: GameStatsEventPublisher
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
@@ -163,7 +163,7 @@ class BinaryRestController {
                                                 .downloadMapFromWaas(content, gameStats.game!!.id!!, gameStats.map!!)
                                                 .close()
                                     }
-                                    eventPublisher.publishEvent(gameStats)
+                                    gameStatsEventPublisher.publish(gameStats)
                                 }
                             } catch (e: Exception) {
                                 logger.error("Replay stats could not be extracted.", e)
