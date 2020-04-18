@@ -47,7 +47,6 @@ class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService,
             private val messageService: MessageService, private val authService: AuthService,
             private val treeService: TreeService,
-
             private val gameStatsEventListener: GameStatsEventListener,
             private val gameStatsEventPublisher: GameStatsEventPublisher) {
 
