@@ -24,6 +24,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.data.domain.Sort
@@ -52,6 +53,9 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    @Value("\${stats-sse-timeout:#{15000}}")
+    private var statsSseTimeout: Long? = null
+
     // todo remove
     @GetMapping("/publish-event")
     fun something() {
@@ -64,7 +68,7 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @GetMapping("/{id}/stats-listen", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun listenToStats(@PathVariable("id") id: Long): ResponseBodyEmitter {
-        val emitter = SseEmitter(150000)
+        val emitter = SseEmitter(statsSseTimeout!!)
         gameStatsEventListener.subscribe(
                 GameStatSubscriber(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) })
         return emitter;
