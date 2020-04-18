@@ -3,6 +3,7 @@ package com.cwtsite.cwt.controller
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.core.MultipartFileToFile.convertMultipartFileToFile
+import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.core.Unzip
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
@@ -42,6 +43,9 @@ class BinaryRestController {
 
     @Autowired
     private lateinit var binaryOutboundService: BinaryOutboundService
+
+    @Autowired
+    private lateinit var eventPublisher: GameStatsEventPublisher
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
@@ -159,6 +163,7 @@ class BinaryRestController {
                                                 .downloadMapFromWaas(content, gameStats.game!!.id!!, gameStats.map!!)
                                                 .close()
                                     }
+                                    eventPublisher.publishEvent(gameStats)
                                 }
                             } catch (e: Exception) {
                                 logger.error("Replay stats could not be extracted.", e)

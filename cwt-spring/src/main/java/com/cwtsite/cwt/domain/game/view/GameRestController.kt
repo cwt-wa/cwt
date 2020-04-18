@@ -1,10 +1,11 @@
 package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.core.event.CustomEventListener
-import com.cwtsite.cwt.core.event.CustomEventPublisher
+import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
+import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
+import com.cwtsite.cwt.domain.game.entity.GameStats
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.*
@@ -12,6 +13,7 @@ import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
+import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -30,9 +32,10 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Flux
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
-import java.time.Duration
+import java.time.Instant
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 import javax.ws.rs.Produces
@@ -43,28 +46,26 @@ class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService,
             private val messageService: MessageService, private val authService: AuthService,
             private val treeService: TreeService,
-            private val customEventListener: CustomEventListener,
-            private val customEventPublisher: CustomEventPublisher) {
+
+            private val gameStatsEventListener: GameStatsEventListener,
+            private val gameStatsEventPublisher: GameStatsEventPublisher) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("/publish-event")
     fun something() {
         logger.info("There's a new event upcoming")
-        customEventPublisher.publishEvent("Hello, World!")
+        gameStatsEventPublisher.publishEvent(
+                GameStats(
+                        data = "{\"hello\": \"world\", \"time\": ${Instant.now().epochSecond}}",
+                        game = Game(id = 2, tournament = Tournament())))
     }
 
-    @GetMapping("/listen-events", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun streamFlux(): Flux<String> {
-        val cachedQueue = mutableListOf<String>()
-        return Flux
-                .interval(Duration.ofSeconds(1))
-                .map {
-                    logger.info("polling technique hit")
-                    customEventListener.queue
-                            .filter { !cachedQueue.contains(it) }
-                            .joinToString(separator = "\n")
-                }
+    @GetMapping("/{id}/stats-listen", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
+    fun listenToStats(@PathVariable("id") id: Long): ResponseBodyEmitter {
+        val emitter = SseEmitter(150000)
+        gameStatsEventListener.subscribers.add(emitter)
+        return emitter;
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
