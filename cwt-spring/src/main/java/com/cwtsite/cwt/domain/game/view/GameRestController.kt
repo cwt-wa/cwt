@@ -1,6 +1,8 @@
 package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.core.event.CustomEventListener
+import com.cwtsite.cwt.core.event.CustomEventPublisher
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
@@ -17,6 +19,7 @@ import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
@@ -27,7 +30,9 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
 import java.io.IOException
+import java.time.Duration
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 import javax.ws.rs.Produces
@@ -37,7 +42,30 @@ import javax.ws.rs.Produces
 class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService,
             private val messageService: MessageService, private val authService: AuthService,
-            private val treeService: TreeService) {
+            private val treeService: TreeService,
+            private val customEventListener: CustomEventListener,
+            private val customEventPublisher: CustomEventPublisher) {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
+    @GetMapping("/publish-event")
+    fun something() {
+        logger.info("There's a new event upcoming")
+        customEventPublisher.publishEvent("Hello, World!")
+    }
+
+    @GetMapping("/listen-events", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun streamFlux(): Flux<String> {
+        val cachedQueue = mutableListOf<String>()
+        return Flux
+                .interval(Duration.ofSeconds(1))
+                .map {
+                    logger.info("polling technique hit")
+                    customEventListener.queue
+                            .filter { !cachedQueue.contains(it) }
+                            .joinToString(separator = "\n")
+                }
+    }
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
