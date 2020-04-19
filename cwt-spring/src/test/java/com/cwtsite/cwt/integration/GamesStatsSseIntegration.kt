@@ -96,11 +96,11 @@ class GamesStatsSseIntegration {
         `when`(sseEmitterMock.send(anyObject(), anyObject()))
                 .thenAnswer { invocation ->
                     assertThat(invocation.getArgument<String>(0)).isEqualTo(preExistingGameStatsData)
-                    assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.APPLICATION_STREAM_JSON)
+                    assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.TEXT_EVENT_STREAM)
                 }
                 .thenAnswer { invocation ->
                     assertThat(invocation.getArgument<String>(0)).isEqualTo(expectedGameStatsData)
-                    assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.APPLICATION_STREAM_JSON)
+                    assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.TEXT_EVENT_STREAM)
                 }
 
         performMockMvc()
@@ -127,7 +127,7 @@ class GamesStatsSseIntegration {
         `when`(sseEmitterMock.send(anyObject(), anyObject()))
                 .thenAnswer { invocation ->
                     assertThat(invocation.getArgument<String>(0)).isEqualTo(preExistingGameStatsData)
-                    assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.APPLICATION_STREAM_JSON)
+                    assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.TEXT_EVENT_STREAM)
                 }
 
         performMockMvc()
@@ -140,7 +140,7 @@ class GamesStatsSseIntegration {
     private fun performMockMvc() {
         mockMvc
                 .perform(get("/api/game/${game.id}/stats-listen")
-                        .contentType(MediaType.APPLICATION_STREAM_JSON))
+                        .contentType(MediaType.TEXT_EVENT_STREAM))
                 .andExpect(status().isOk)
                 .andReturn()
     }

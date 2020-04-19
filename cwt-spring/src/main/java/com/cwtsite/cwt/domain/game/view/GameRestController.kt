@@ -72,18 +72,18 @@ constructor(private val gameService: GameService, private val userService: UserS
                         game = Game(id = 2, tournament = Tournament())))
     }
 
-    @GetMapping("/{id}/stats-listen", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
+    @GetMapping("/{id}/stats-listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun listenToStats(@PathVariable("id") id: Long): ResponseBodyEmitter {
         val game = gameService
                 .findById(id)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
         val emitter = sseEmitterFactory.createInstance()
-        val subscription = GameStatSubscription(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) }
+        val subscription = GameStatSubscription(id) { emitter.send(it, MediaType.TEXT_EVENT_STREAM) }
         val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
         val relativeTimeout = statsSseTimeout!! - timePassedSinceReport
         val existingStatsJsonArray = JSONArray(gameService.findGameStats(game))
         var i = 0; while (existingStatsJsonArray.opt(i) != null) {
-            emitter.send(existingStatsJsonArray.get(i).toString(), MediaType.APPLICATION_STREAM_JSON)
+            emitter.send(existingStatsJsonArray.get(i).toString(), MediaType.TEXT_EVENT_STREAM)
             i++
         }
         if (relativeTimeout >= 5000) {
