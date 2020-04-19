@@ -2,6 +2,7 @@ package com.cwtsite.cwt.integration
 
 import com.cwtsite.cwt.core.ClockInstance
 import com.cwtsite.cwt.core.event.SseEmitterFactory
+import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.GameStats
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.http.MediaType
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
@@ -57,6 +59,9 @@ class GamesStatsSseIntegration {
 
     @Autowired
     private lateinit var eventPublisher: GameStatsEventPublisher
+
+    @SpyBean
+    private lateinit var eventListener: GameStatsEventListener
 
     @MockBean
     private lateinit var clockInstance: ClockInstance
@@ -112,12 +117,26 @@ class GamesStatsSseIntegration {
 
     @Test
     fun `existing data is sent when we're past the timeout and stream is then immediately closed`() {
+        `when`(clockInstance.now)
+                .thenReturn(Instant.now(Clock.fixed(reportedAt.plusMillis(90000), ZoneId.systemDefault())))
 
-    }
+        val preExistingGameStatsData = "{\"pre\":\"existing\"}"
+        gameStatsRepository.save(GameStats(
+                game = game,
+                data = preExistingGameStatsData,
+                startedAt = Timestamp.from(Instant.ofEpochMilli(1587292356955))))
 
-    @Test
-    fun `subscriptions are closed once the emitter completes`() {
+        `when`(sseEmitterMock.send(anyObject(), anyObject()))
+                .thenAnswer { invocation ->
+                    assertThat(invocation.getArgument<String>(0)).isEqualTo(preExistingGameStatsData)
+                    assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.APPLICATION_STREAM_JSON)
+                }
 
+        performMockMvc()
+
+        verify(sseEmitterMock).send(anyObject(), anyObject())
+        verify(sseEmitterMock).complete()
+        verifyZeroInteractions(eventListener)
     }
 
     private fun performMockMvc() {
