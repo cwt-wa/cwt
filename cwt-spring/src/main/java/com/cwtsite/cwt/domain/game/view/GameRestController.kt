@@ -87,7 +87,7 @@ constructor(private val gameService: GameService, private val userService: UserS
             i++
         }
         if (relativeTimeout >= 5000) {
-            Timer("CompleteSseEmitter", false).schedule(relativeTimeout) { emitter.complete() }
+            Timer(Thread.currentThread().name, false).schedule(relativeTimeout) { emitter.complete() }
             gameStatsEventListener.subscribe(subscription)
             emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
         } else {
