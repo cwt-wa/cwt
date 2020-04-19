@@ -11,6 +11,7 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
@@ -60,22 +61,27 @@ class GamesStatsSseIntegration {
     @MockBean
     private lateinit var clockInstance: ClockInstance
 
-    @Test
-    fun `data is sent upon the according application event`() {
-        val sseEmitterMock = mock(SseEmitter::class.java)
+    private val sseEmitterMock = mock(SseEmitter::class.java)
+
+    private val reportedAt = Instant.ofEpochMilli(1587292529755) // Apr 19 2020 12:35 CEST
+
+    private lateinit var game: Game
+
+    @Before
+    fun setUp() {
         `when`(sseEmitterFactory.createInstance())
                 .thenReturn(sseEmitterMock)
-
-        val reportedAt = Instant.ofEpochMilli(1587292529755) // Apr 19 2020 12:35 CEST
-
-        `when`(clockInstance.now)
-                .thenReturn(Instant.now(Clock.fixed(reportedAt.plusMillis(500), ZoneId.systemDefault())))
-
         val thirtyDaysAgo: Long = 60 * 60 * 24 * 30
-        val game = gameRepository.save(Game(
+        game = gameRepository.save(Game(
                 tournament = tournamentRepository.save(
                         Tournament(created = Timestamp.from(reportedAt.minusSeconds(thirtyDaysAgo)))),
                 reportedAt = Timestamp.from(reportedAt)))
+    }
+
+    @Test
+    fun `data is sent upon the according application event`() {
+        `when`(clockInstance.now)
+                .thenReturn(Instant.now(Clock.fixed(reportedAt.plusMillis(500), ZoneId.systemDefault())))
 
         val preExistingGameStatsData = "{\"pre\":\"existing\"}"
         gameStatsRepository.save(GameStats(
@@ -94,11 +100,7 @@ class GamesStatsSseIntegration {
                     assertThat(invocation.getArgument<MediaType>(1)).isEqualTo(MediaType.APPLICATION_STREAM_JSON)
                 }
 
-        mockMvc
-                .perform(get("/api/game/${game.id}/stats-listen")
-                        .contentType(MediaType.APPLICATION_STREAM_JSON))
-                .andExpect(status().isOk)
-                .andReturn()
+        performMockMvc()
 
         eventPublisher.publish(
                 GameStats(
@@ -116,5 +118,13 @@ class GamesStatsSseIntegration {
     @Test
     fun `subscriptions are closed once the emitter completes`() {
 
+    }
+
+    private fun performMockMvc() {
+        mockMvc
+                .perform(get("/api/game/${game.id}/stats-listen")
+                        .contentType(MediaType.APPLICATION_STREAM_JSON))
+                .andExpect(status().isOk)
+                .andReturn()
     }
 }
