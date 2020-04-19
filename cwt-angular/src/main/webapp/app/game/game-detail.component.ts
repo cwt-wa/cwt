@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
 import {Comment, CommentDto, GameDetailDto, JwtUser, PlayoffTreeBetDto, Rating, RatingDto, RatingType} from "../custom";
@@ -7,6 +7,7 @@ import {finalize} from "rxjs/operators";
 import {BetResult, BetService} from "../_services/bet.service";
 import {PlayoffsService} from "../_services/playoffs.service";
 import {GameStats} from "./game-stats.component";
+import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -22,7 +23,7 @@ import {GameStats} from "./game-stats.component";
     `],
     template: require('./game-detail.component.html')
 })
-export class GameDetailComponent {
+export class GameDetailComponent implements OnInit, OnDestroy {
 
     submittingComment: boolean;
     submittingRating: RatingType;
@@ -35,10 +36,11 @@ export class GameDetailComponent {
     statsForRound?: number = 1;
     showComments: boolean = true;
     statsAreLikelyBeingProcessed: boolean = false;
+    private eventSource: EventSource;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
-                private playoffService: PlayoffsService) {
+                private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     get authenticatedUserRatings(): RatingType[] {
@@ -73,6 +75,7 @@ export class GameDetailComponent {
                         return;
                     }
 
+                    /*this.statsAreLikelyBeingProcessed &&*/ this.setupEventSource();
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);
 
                     if (this.game.playoff != null) {
@@ -84,6 +87,19 @@ export class GameDetailComponent {
 
         this.authenticatedUser = this.authService.getUserFromTokenPayload();
         if (this.authenticatedUser) this.initNewComment();
+    }
+
+    setupEventSource(): void {
+        this.eventSource = new EventSource(`${this.appConfig.apiEndpoint}game/${this.game.id}/stats-listen`);
+        this.eventSource.onerror = console.error;
+        this.eventSource.onmessage = e => {
+            const gameStats: GameStats.GameStats = JSON.parse(e.data);
+            this.stats.push(gameStats);
+        };
+    }
+
+    ngOnDestroy() {
+        this.eventSource && this.eventSource.close();
     }
 
     public submitComment(): void {
