@@ -10,14 +10,12 @@ import com.cwtsite.cwt.domain.game.service.GameStatsRepository
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
-import com.cwtsite.cwt.test.MockitoUtils.safeEq
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -37,21 +35,8 @@ import kotlin.test.Test
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-//@EmbeddedPostgres
-//@FlywayTest(locationsForMigrate = ["classpath:db/migration/common", "classpath:db/migration/test"], overrideLocations = true)
-@TestPropertySource(properties = [
-    "spring.flyway.locations=classpath:db/migration/common,classpath:db/migration/test",
-    "spring.jpa.properties.hibernate.default_schema=public",
-    "spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/postgres?currentSchema=\"test\"",
-    "spring.datasource.username=postgres",
-    "spring.datasource.password=postgres",
-    "spring.jpa.properties.hibernate.default_schema=\"test\"",
-    "spring.flyway.clean-disabled=true",
-    "spring.flyway.clean-on-validation-error=false",
-    "classpath:db/migration/common,classpath:db/migration/test",
-    "stats-sse-timeout=10000"
-])
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@EmbeddedPostgres
+@TestPropertySource(properties = ["stats-sse-timeout=10000"])
 class GamesStatsSseIntegration {
 
     @Autowired
