@@ -2,8 +2,8 @@ package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.event.stats.GameStatSubscriber
-import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
+import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.GameStats
@@ -38,9 +38,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
 import java.time.Instant
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 import javax.ws.rs.Produces
+import kotlin.concurrent.schedule
 
 @RestController
 @RequestMapping("api/game")
@@ -68,10 +70,21 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @GetMapping("/{id}/stats-listen", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun listenToStats(@PathVariable("id") id: Long): ResponseBodyEmitter {
-        val emitter = SseEmitter(statsSseTimeout!!)
-        gameStatsEventListener.subscribe(
-                GameStatSubscriber(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) })
-        return emitter;
+        val game = gameService
+                .findById(id)
+                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+        val emitter = SseEmitter()
+        gameService.findGameStats(game).forEach { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) }
+        val relativeTimeout = game.reportedAt!!.toInstant().plusMillis(statsSseTimeout!!)
+                .minusMillis(Instant.now().toEpochMilli()).toEpochMilli()
+        if (relativeTimeout > 1000) {
+            Timer("CompleteSseEmitter", false).schedule(relativeTimeout) { emitter.complete() }
+            gameStatsEventListener.subscribe(
+                    GameStatSubscriber(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) })
+        } else {
+            emitter.complete()
+        }
+        return emitter
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
