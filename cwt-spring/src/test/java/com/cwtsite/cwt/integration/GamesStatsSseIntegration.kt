@@ -75,9 +75,6 @@ class GamesStatsSseIntegration {
     @MockBean
     private lateinit var clockInstance: ClockInstance
 
-    @Value("\${stats-sse-timeout:#{15000}}")
-    private var statsSseTimeout: Long? = null
-
     @Test
     fun `data is sent upon the according application event`() {
         val sseEmitterMock = mock(SseEmitter::class.java)
