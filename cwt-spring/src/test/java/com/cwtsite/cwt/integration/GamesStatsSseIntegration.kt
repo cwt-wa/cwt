@@ -79,11 +79,6 @@ class GamesStatsSseIntegration {
     private var statsSseTimeout: Long? = null
 
     @Test
-    fun `existing data is guaranteed to be sent`() {
-
-    }
-
-    @Test
     fun `data is sent upon the according application event`() {
         val sseEmitterMock = mock(SseEmitter::class.java)
         `when`(sseEmitterFactory.createInstance())
