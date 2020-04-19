@@ -9,7 +9,7 @@ class GameStatsEventListener : ApplicationListener<GameStatsEvent> {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    private val subscribers = mutableListOf<GameStatSubscriber>()
+    private val subscribers = mutableListOf<GameStatSubscription>()
 
     @Override
     override fun onApplicationEvent(event: GameStatsEvent) {
@@ -19,7 +19,11 @@ class GameStatsEventListener : ApplicationListener<GameStatsEvent> {
                 .forEach { it.callback(event.gameStats.data) }
     }
 
-    fun subscribe(subscriber: GameStatSubscriber) {
-        subscribers.add(subscriber)
+    fun subscribe(subscription: GameStatSubscription) {
+        subscribers.add(subscription)
+    }
+
+    fun unsubscribe(subscription: GameStatSubscription) {
+        subscribers.removeIf { it == subscription }
     }
 }

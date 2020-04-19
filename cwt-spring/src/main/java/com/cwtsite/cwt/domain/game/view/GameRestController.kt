@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.core.event.stats.GameStatSubscriber
+import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.core.view.model.PageDto
@@ -74,13 +74,14 @@ constructor(private val gameService: GameService, private val userService: UserS
                 .findById(id)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
         val emitter = SseEmitter()
-        gameService.findGameStats(game).forEach { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) }
+        val subscription = GameStatSubscription(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) }
         val relativeTimeout = game.reportedAt!!.toInstant().plusMillis(statsSseTimeout!!)
                 .minusMillis(Instant.now().toEpochMilli()).toEpochMilli()
-        if (relativeTimeout > 1000) {
+        if (relativeTimeout >= 10000) {
             Timer("CompleteSseEmitter", false).schedule(relativeTimeout) { emitter.complete() }
-            gameStatsEventListener.subscribe(
-                    GameStatSubscriber(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) })
+            gameStatsEventListener.subscribe(subscription)
+            emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
+            gameService.findGameStats(game).forEach { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) }
         } else {
             emitter.complete()
         }
