@@ -24,6 +24,7 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.BufferedReader
+import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
@@ -108,7 +109,8 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        binaryOutboundService.sendReplay(gameId, convertMultipartFileToFile(replay))
+        val replayArchive = convertMultipartFileToFile(replay)
+        binaryOutboundService.sendReplay(gameId, replayArchive)
 
         GlobalScope.launch {
             try {
@@ -116,7 +118,11 @@ class BinaryRestController {
                 if (game.isEmpty) {
                     logger.warn("Game with ID $gameId could not be retrieved for replay WAaaS extraction.")
                 } else {
-                    extractAndSaveGameStats(replay, game.get())
+                    try {
+                        extractAndSaveGameStats(replayArchive, game.get())
+                    } finally {
+                        replayArchive.deleteRecursively()
+                    }
                 }
             } catch (e: Exception) {
                 logger.error("WAaaS replay extraction went wrong", e)
@@ -135,19 +141,24 @@ class BinaryRestController {
             request: HttpServletRequest): ResponseEntity<String> {
         val game = gameService.findById(gameId)
                 .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
-        extractAndSaveGameStats(replay, game)
+        val replayArchive = convertMultipartFileToFile(replay)
+        try {
+            extractAndSaveGameStats(replayArchive, game)
+        } finally {
+            replayArchive.deleteRecursively()
+        }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(gameService.findGameStats(game))
     }
 
-    private fun extractAndSaveGameStats(replay: MultipartFile, game: Game) {
+    private fun extractAndSaveGameStats(replay: File, game: Game) {
         if (!binaryOutboundService.waaasConfigured()) {
             logger.info("Not performing game stats extraction as WAaaS is not configured.")
             return
         }
 
-        replay.inputStream.use { zipArchiveInputStream ->
+        replay.inputStream().use { zipArchiveInputStream ->
             Unzip.unzipReplayFiles(zipArchiveInputStream).use { extracted ->
                 runBlocking {
                     extracted.content.forEach { extractedReplay ->
