@@ -1,6 +1,8 @@
 package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.core.ClockInstance
+import com.cwtsite.cwt.core.event.SseEmitterFactory
 import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
@@ -22,6 +24,7 @@ import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -35,7 +38,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
 import java.time.Instant
 import java.util.*
@@ -50,6 +52,8 @@ class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService,
             private val messageService: MessageService, private val authService: AuthService,
             private val treeService: TreeService,
+            private val clockInstance: ClockInstance,
+            private val sseEmitterFactory: SseEmitterFactory,
             private val gameStatsEventListener: GameStatsEventListener,
             private val gameStatsEventPublisher: GameStatsEventPublisher) {
 
@@ -73,15 +77,19 @@ constructor(private val gameService: GameService, private val userService: UserS
         val game = gameService
                 .findById(id)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
-        val emitter = SseEmitter()
+        val emitter = sseEmitterFactory.createInstance()
         val subscription = GameStatSubscription(id) { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) }
-        val relativeTimeout = game.reportedAt!!.toInstant().plusMillis(statsSseTimeout!!)
-                .minusMillis(Instant.now().toEpochMilli()).toEpochMilli()
-        if (relativeTimeout >= 10000) {
+        val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
+        val relativeTimeout = statsSseTimeout!! - timePassedSinceReport
+        val existingStatsJsonArray = JSONArray(gameService.findGameStats(game))
+        var i = 0; while (existingStatsJsonArray.opt(i) != null) {
+            emitter.send(existingStatsJsonArray.get(i).toString(), MediaType.APPLICATION_STREAM_JSON)
+            i++
+        }
+        if (relativeTimeout >= 5000) {
             Timer("CompleteSseEmitter", false).schedule(relativeTimeout) { emitter.complete() }
             gameStatsEventListener.subscribe(subscription)
             emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
-            gameService.findGameStats(game).forEach { emitter.send(it, MediaType.APPLICATION_STREAM_JSON) }
         } else {
             emitter.complete()
         }
