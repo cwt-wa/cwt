@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
 import java.time.Instant
 import java.util.*
@@ -78,19 +79,21 @@ constructor(private val gameService: GameService, private val userService: UserS
                 .findById(id)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
         val emitter = sseEmitterFactory.createInstance()
-        val subscription = GameStatSubscription(id) { emitter.send(it, MediaType.TEXT_EVENT_STREAM) }
+        val subscription = GameStatSubscription(id) { emitter.send(SseEmitter.event().data(it).name("EVENT")) }
         val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
         val relativeTimeout = statsSseTimeout!! - timePassedSinceReport
         val existingStatsJsonArray = JSONArray(gameService.findGameStats(game))
         var i = 0; while (existingStatsJsonArray.opt(i) != null) {
-            emitter.send(existingStatsJsonArray.get(i).toString(), MediaType.TEXT_EVENT_STREAM)
+            emitter.send(SseEmitter.event().data(existingStatsJsonArray.get(i).toString()).name("EVENT"))
             i++
         }
         if (relativeTimeout >= 5000) {
             Timer(Thread.currentThread().name, false).schedule(relativeTimeout) { emitter.complete() }
             gameStatsEventListener.subscribe(subscription)
             emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
+            emitter.onTimeout { gameStatsEventListener.unsubscribe(subscription) }
         } else {
+            emitter.send(SseEmitter.event().name("DONE"))
             emitter.complete()
         }
         return emitter
