@@ -93,7 +93,7 @@ constructor(private val gameService: GameService, private val userService: UserS
             emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
             emitter.onTimeout { gameStatsEventListener.unsubscribe(subscription) }
         } else {
-            emitter.send(SseEmitter.event().name("DONE"))
+            emitter.send(SseEmitter.event().data("DONE").name("DONE"))
             emitter.complete()
         }
         return emitter
