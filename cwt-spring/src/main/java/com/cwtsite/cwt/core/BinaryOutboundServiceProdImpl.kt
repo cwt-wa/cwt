@@ -56,7 +56,7 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
         val createTempFile = createTempFile()
         createTempFile.writeBytes(khttp.get("${waaasEndpoint}/$map").content)
         sendMultipartEntity(
-                url = "${binaryDataStoreEndpoint}/game/$gameId/game/$map",
+                url = "${binaryDataStoreEndpoint}/game/$gameId/replay/${map.split('/').last()}",
                 file = createTempFile,
                 fileFieldName = "map")
         return WrappedCloseable(createTempFile) { createTempFile.deleteRecursively() }
