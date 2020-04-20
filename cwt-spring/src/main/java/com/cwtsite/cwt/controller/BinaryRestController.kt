@@ -110,7 +110,6 @@ class BinaryRestController {
         }
 
         val replayArchive = convertMultipartFileToFile(replay)
-        binaryOutboundService.sendReplay(gameId, replayArchive)
 
         GlobalScope.launch {
             try {
@@ -128,6 +127,8 @@ class BinaryRestController {
                 logger.error("WAaaS replay extraction went wrong", e)
             }
         }
+
+        binaryOutboundService.sendReplay(gameId, replayArchive)
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
