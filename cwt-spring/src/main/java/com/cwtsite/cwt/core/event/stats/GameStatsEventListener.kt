@@ -13,7 +13,7 @@ class GameStatsEventListener : ApplicationListener<GameStatsEvent> {
 
     @Override
     override fun onApplicationEvent(event: GameStatsEvent) {
-        logger.info("Adding Spring Custom Event to queue " + event.gameStats)
+        logger.info("New GameStats event for game " + event.gameStats.game!!.id)
         subscribers
                 .filter { it.gameId == event.gameStats.game!!.id }
                 .forEach { it.callback(event.gameStats.data) }
