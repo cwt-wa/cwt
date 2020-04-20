@@ -61,8 +61,8 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.route.paramMap.subscribe(routeParam => {
             const gameId = +routeParam.get('id');
-            this.requestService.get<GameStats.GameStats[]>(`game/${gameId}/stats`)
-                .subscribe(res => this.stats = res);
+            // this.requestService.get<GameStats.GameStats[]>(`game/${gameId}/stats`)
+            //     .subscribe(res => this.stats = res);
             this.requestService.get<GameDetailDto>(`game/${gameId}`)
                 .subscribe(res => {
                     this.game = res;
