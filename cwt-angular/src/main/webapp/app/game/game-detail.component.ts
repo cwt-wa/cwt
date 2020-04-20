@@ -91,11 +91,10 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
     setupEventSource(): void {
         this.eventSource = new EventSource(`${this.appConfig.apiEndpoint}game/${this.game.id}/stats-listen`);
+        this.eventSource.onmessage = console.log;
+        this.eventSource.addEventListener('DONE', () => this.eventSource.close());
+        this.eventSource.addEventListener('EVENT', e => this.stats.push(JSON.parse((<any>e).data)));
         this.eventSource.onerror = console.error;
-        this.eventSource.onmessage = e => {
-            const gameStats: GameStats.GameStats = JSON.parse(e.data);
-            this.stats.push(gameStats);
-        };
     }
 
     ngOnDestroy() {
