@@ -208,11 +208,7 @@ class BinaryRestController {
 
 
     @GetMapping("game/{gameId}/map/{map}")
-    @Produces(MediaType.IMAGE_PNG_VALUE)
-    fun retrieveGameMap(@PathVariable gameId: Long,
-                        @PathVariable map: String,
-                        httpServletResponse: HttpServletResponse) {
-        httpServletResponse.contentType = MediaType.IMAGE_PNG_VALUE
+    fun retrieveGameMap(@PathVariable gameId: Long, @PathVariable map: String): ResponseEntity<ByteArray> {
         gameService.findById(gameId)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
         val response = try {
@@ -223,7 +219,7 @@ class BinaryRestController {
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     e)
         }
-        IOUtils.copy(response.content.inputStream(), httpServletResponse.outputStream);
+        return createResponseEntity(response.headers, response.content)
     }
 
     @DeleteMapping("user/{userId}/photo")
@@ -265,6 +261,7 @@ class BinaryRestController {
         headers.cacheControl = CacheControl.noCache().headerValue
         headers.set("Content-Type", requestHeaders["Content-Type"])
         headers.set("Content-Disposition", requestHeaders["Content-Disposition"])
+        headers.set("Cache-Control", requestHeaders["Cache-Control"])
         return ResponseEntity(fileContent, headers, HttpStatus.OK)
     }
 
