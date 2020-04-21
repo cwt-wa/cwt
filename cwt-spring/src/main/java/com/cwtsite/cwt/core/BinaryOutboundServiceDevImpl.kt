@@ -26,6 +26,10 @@ class BinaryOutboundServiceDevImpl : BinaryOutboundService {
         throw UnsupportedOperationException("Not implemented")
     }
 
+    override fun retrieveMap(gameId: Long, map: String): Response {
+        throw UnsupportedOperationException("Not implemented")
+    }
+
     override fun deleteUserPhoto(userId: Long): Response {
         throw UnsupportedOperationException("Not implemented")
     }
@@ -42,7 +46,7 @@ class BinaryOutboundServiceDevImpl : BinaryOutboundService {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun downloadMapFromWaas(response: String, gameId: Long, map: String): WrappedCloseable<File> {
+    override fun sendMap(response: String, gameId: Long, map: String): WrappedCloseable<File> {
         throw UnsupportedOperationException("Not implemented")
     }
 

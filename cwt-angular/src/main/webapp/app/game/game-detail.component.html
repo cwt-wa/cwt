@@ -209,20 +209,24 @@
         <div [ngClass]="stats.length || statsAreBeingProcessed ? 'col-12 col-md-6 col-lg-7 col-xl-8 mt-4 mt-md-0' : 'col-12'">
             <div class="row mb-2" *ngIf="stats.length">
                 <div class="col-md-12 text-right">
-                    <div [(ngModel)]="showComments" class="btn-group btn-group-toggle" name="viewMode"
+                    <div [(ngModel)]="rightColumnViewToggle" class="btn-group btn-group-toggle" name="viewMode"
                          ngbRadioGroup>
                         <label class="btn-primary" ngbButtonLabel>
-                            <input [value]="true" ngbButton type="radio">
+                            <input [value]="'COMMENTS'" ngbButton type="radio">
                             Comments
                         </label>
                         <label class="btn-primary" ngbButtonLabel>
-                            <input [value]="false" ngbButton type="radio">
+                            <input [value]="'IN_GAME_CHAT'" ngbButton type="radio">
                             In-game chat
+                        </label>
+                        <label class="btn-primary" ngbButtonLabel>
+                            <input [value]="'MAPS'" ngbButton type="radio">
+                            Maps
                         </label>
                     </div>
                 </div>
             </div>
-            <div *ngIf="showComments" class="row">
+            <div *ngIf="rightColumnViewToggle === 'COMMENTS'" class="row">
                 <div class="col-12 mb-2" *ngIf="authenticatedUser">
                     <div class="card bg-secondary p-1">
                         <form #commentForm="ngForm" (ngSubmit)="submitComment()">
@@ -260,7 +264,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="!showComments" class="row">
+            <div *ngIf="rightColumnViewToggle === 'IN_GAME_CHAT'" class="row">
                 <div class="col-12">
                     <div class="card bg-secondary text-white border-0">
                         <div *ngFor="let stat of stats; let index = index"
@@ -272,6 +276,21 @@
                             </p>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div *ngIf="rightColumnViewToggle === 'MAPS'" class="row">
+                <div class="col-12">
+                    <div class="card bg-secondary text-white border-0">
+                        <div *ngFor="let stat of stats; let index = index"
+                             class="card-body"
+                             style="border-bottom: 1px solid white !important;">
+                            <h4 class="card-title">Round {{index + 1}}</h4>
+                            <img [src]="'http://localhost:8000/api/game/1602' + stat.map"
+                                 *ngIf="stat.map"
+                                 class="map" alt="map">
+                            <div class="alert alert-danger" *ngIf="!stat.map">
+                                The map could not be extracted.
+                            </div>
                 </div>
             </div>
         </div>

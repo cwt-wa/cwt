@@ -15,12 +15,10 @@ import khttp.responses.Response
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.apache.tomcat.util.http.fileupload.IOUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.CacheControl
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.http.*
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -29,6 +27,7 @@ import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import javax.ws.rs.Produces
 
 @RestController
@@ -187,7 +186,7 @@ class BinaryRestController {
                         val gameStats = gameService.saveGameStats(content, game)
                         if (gameStats.map != null) {
                             binaryOutboundService
-                                    .downloadMapFromWaas(content, gameStats.game!!.id!!, gameStats.map!!)
+                                    .sendMap(content, gameStats.game!!.id!!, gameStats.map!!)
                                     .close()
                         }
                         gameStatsEventPublisher.publish(gameStats)
@@ -205,6 +204,19 @@ class BinaryRestController {
         val response = binaryOutboundService.retrieveReplay(gameId)
         if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         return createResponseEntity(response.headers, response.content)
+    }
+
+
+    @GetMapping("/{gameId}/map/{map}")
+    @Produces(MediaType.IMAGE_PNG_VALUE)
+    fun retrieveGameMap(@PathVariable gameId: Long,
+                        @PathVariable map: String,
+                        httpServletResponse: HttpServletResponse) {
+        gameService.findById(gameId)
+                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+        val response = binaryOutboundService.retrieveMap(gameId, map)
+        httpServletResponse.contentType = MediaType.IMAGE_PNG_VALUE
+        IOUtils.copy(response.content.inputStream(), httpServletResponse.outputStream);
     }
 
     @DeleteMapping("user/{userId}/photo")

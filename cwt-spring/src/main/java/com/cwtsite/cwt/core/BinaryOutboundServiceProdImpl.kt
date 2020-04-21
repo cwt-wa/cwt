@@ -29,6 +29,9 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
     override fun retrieveReplay(gameId: Long): Response =
             khttp.get(url = "${binaryDataStoreEndpoint}/game/$gameId/replay")
 
+    override fun retrieveMap(gameId: Long, map: String): Response =
+            khttp.get(url = "$binaryDataStoreEndpoint/game/$gameId/map/$map")
+
     override fun deleteUserPhoto(userId: Long): Response =
             khttp.delete(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
 
@@ -51,12 +54,11 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
                     fileFieldName = "replay",
                     file = extractedReplay)
 
-
-    override fun downloadMapFromWaas(response: String, gameId: Long, map: String): WrappedCloseable<File> {
+    override fun sendMap(response: String, gameId: Long, map: String): WrappedCloseable<File> {
         val createTempFile = createTempFile()
         createTempFile.writeBytes(khttp.get("${waaasEndpoint}/$map").content)
         sendMultipartEntity(
-                url = "${binaryDataStoreEndpoint}/game/$gameId/replay/${map.split('/').last()}",
+                url = "${binaryDataStoreEndpoint}/game/$gameId/map/${map.split('/').last()}",
                 file = createTempFile,
                 fileFieldName = "map")
         return WrappedCloseable(createTempFile) { createTempFile.deleteRecursively() }

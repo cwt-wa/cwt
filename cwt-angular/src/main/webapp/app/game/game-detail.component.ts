@@ -20,6 +20,10 @@ import {APP_CONFIG, AppConfig} from "../app.config";
         color: white;
         margin-bottom: .5rem;
       }
+      img.map {
+        width: 100%;
+        border-radius: .3rem;
+      }
     `],
     template: require('./game-detail.component.html')
 })
@@ -34,7 +38,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     gameWasPlayed: boolean = true;
     stats: GameStats.GameStats[] = [];
     statsForRound?: number = 1;
-    showComments: boolean = true;
+    rightColumnViewToggle: 'MAPS' | 'IN_GAME_CHAT' | 'COMMENTS' = 'COMMENTS';
     statsAreBeingProcessed: boolean = false;
     private eventSource: EventSource;
 
