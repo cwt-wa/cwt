@@ -1,11 +1,10 @@
 import {Inject, Injectable} from "@angular/core";
-import {Observable, throwError} from "rxjs";
+import {Observable} from "rxjs";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {AuthService} from "./auth.service";
 import {HttpClient} from "@angular/common/http";
-import {PageDto, ServerError, ValueLabel} from "../custom";
-import {catchError, map} from "rxjs/operators";
-import {Toastr} from "./toastr";
+import {PageDto, ValueLabel} from "../custom";
+import {map} from "rxjs/operators";
 
 export type QueryParams = { [param: string]: string | string[] };
 
@@ -13,23 +12,21 @@ export type QueryParams = { [param: string]: string | string[] };
 export class RequestService {
 
     constructor(private httpClient: HttpClient, private authService: AuthService,
-                @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: Toastr) {
+                @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     public get<T>(relativePath: string, params?: QueryParams): Observable<T> {
         return this.httpClient
             .get<T>(
                 this.appConfig.apiEndpoint + relativePath,
-                {params, headers: this.generateDefaultHeaders()}).pipe(
-                catchError(this.catch.bind(this)));
+                {params, headers: this.generateDefaultHeaders()});
     }
 
     public getBlob(relativePath: string): Observable<Blob> {
         return this.httpClient
             .get(
                 this.appConfig.apiEndpoint + relativePath,
-                {responseType: 'blob', observe: 'body', headers: this.generateDefaultHeaders()}).pipe(
-                catchError(this.catch.bind(this)));
+                {responseType: 'blob', observe: 'body', headers: this.generateDefaultHeaders()});
     }
 
     public getPaged<T>(relativePath: string, params?: PageDto<T>): Observable<PageDto<T, ValueLabel>> {
@@ -51,37 +48,28 @@ export class RequestService {
         return this.httpClient
             .post<T>(
                 this.appConfig.apiEndpoint + relativePath, body,
-                {headers: this.generateDefaultHeaders()}).pipe(
-                catchError(this.catch.bind(this)));
+                {headers: this.generateDefaultHeaders()});
     }
 
     public put<T>(relativePath: string, body: any | null = null): Observable<T> {
         return this.httpClient
             .put<T>(
                 this.appConfig.apiEndpoint + relativePath, body,
-                {headers: this.generateDefaultHeaders()}).pipe(
-                catchError(this.catch.bind(this)));
+                {headers: this.generateDefaultHeaders()});
     }
 
     public delete<T>(relativePath: string, params?: QueryParams): Observable<T> {
         return this.httpClient
             .delete<T>(
                 this.appConfig.apiEndpoint + relativePath,
-                {params, headers: this.generateDefaultHeaders()}).pipe(
-                catchError(this.catch.bind(this)));
+                {params, headers: this.generateDefaultHeaders()});
     }
 
     public formDataPost<T>(relativePath: string, formData: FormData): Observable<T> {
         return this.httpClient
             .post<T>(
                 this.appConfig.apiEndpoint + relativePath, formData,
-                {headers: this.generateDefaultHeaders(), reportProgress: true}).pipe(
-                catchError(this.catch.bind(this)));
-    }
-
-    private catch(err: ServerError): Observable<never> {
-        this.toastr.error(err.error && err.error.message != null ? err.error.message : "An unknown error occurred.");
-        return throwError(err);
+                {headers: this.generateDefaultHeaders(), reportProgress: true});
     }
 
     private generateDefaultHeaders(): { Authorization: string } | {} {
