@@ -8,7 +8,6 @@ import {BetResult, BetService} from "../_services/bet.service";
 import {PlayoffsService} from "../_services/playoffs.service";
 import {GameStats} from "./game-stats.component";
 import {APP_CONFIG, AppConfig} from "../app.config";
-import {BinaryService} from "../_services/binary.service";
 
 @Component({
     selector: 'cwt-game-detail',
