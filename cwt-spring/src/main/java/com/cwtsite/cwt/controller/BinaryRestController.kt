@@ -5,6 +5,7 @@ import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.core.MultipartFileToFile.convertMultipartFileToFile
 import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.core.Unzip
+import com.cwtsite.cwt.domain.core.WrappedCloseable
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
@@ -92,6 +93,10 @@ class BinaryRestController {
             @RequestParam("home-user") homeUser: Long,
             @RequestParam("away-user") awayUser: Long,
             request: HttpServletRequest): ResponseEntity<GameCreationDto> {
+        val game = gameService
+                .findById(gameId)
+                .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
+
         assertBinaryDataStoreEndpoint()
 
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
@@ -109,26 +114,32 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        val replayArchive = convertMultipartFileToFile(replay)
-
-        GlobalScope.launch {
-            try {
-                val game = gameService.findById(gameId)
-                if (game.isEmpty) {
-                    logger.warn("Game with ID $gameId could not be retrieved for replay WAaaS extraction.")
-                } else {
+        val archive = convertMultipartFileToFile(replay)
+        try {
+            if (!binaryOutboundService.waaasConfigured()) {
+                try {
+                    extractReplayArchive(archive).use { extracted ->
+                        gameService.updateReplayQuantity(game, extracted.content.size)
+                    }
+                } catch (e: Exception) {
+                    logger.error("Archive extraction or replay quantity update failed.", e)
+                }
+            } else {
+                GlobalScope.launch {
                     try {
-                        extractAndSaveGameStats(replayArchive, game.get())
-                    } finally {
-                        replayArchive.deleteRecursively()
+                        extractReplayArchive(archive).use { extracted ->
+                            extracted.use { performGameStatsExtraction(game, it.content) }
+                            gameService.updateReplayQuantity(game, extracted.content.size)
+                        }
+                    } catch (e: Exception) {
+                        logger.error("Archive extraction or replay stats extraction initiation failed.", e)
                     }
                 }
-            } catch (e: Exception) {
-                logger.error("WAaaS replay extraction went wrong", e)
             }
+            binaryOutboundService.sendReplay(gameId, archive)
+        } finally {
+            archive.deleteRecursively()
         }
-
-        binaryOutboundService.sendReplay(gameId, replayArchive)
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
@@ -142,46 +153,47 @@ class BinaryRestController {
             request: HttpServletRequest): ResponseEntity<String> {
         val game = gameService.findById(gameId)
                 .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
-        val replayArchive = convertMultipartFileToFile(replay)
+        if (!binaryOutboundService.waaasConfigured()) {
+            throw RestException("WAaaS is not configured", HttpStatus.NOT_IMPLEMENTED, null)
+        }
+        val tempArchive = convertMultipartFileToFile(replay)
         try {
-            extractAndSaveGameStats(replayArchive, game)
+            extractReplayArchive(tempArchive).use {
+                gameService.updateReplayQuantity(game, it.content.size)
+                performGameStatsExtraction(game, it.content)
+            }
         } finally {
-            replayArchive.deleteRecursively()
+            tempArchive.deleteRecursively()
         }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(gameService.findGameStats(game))
     }
 
-    private fun extractAndSaveGameStats(replay: File, game: Game) {
-        if (!binaryOutboundService.waaasConfigured()) {
-            logger.info("Not performing game stats extraction as WAaaS is not configured.")
-            return
-        }
-
+    private fun extractReplayArchive(replay: File): WrappedCloseable<Set<File>> {
         replay.inputStream().use { zipArchiveInputStream ->
-            Unzip.unzipReplayFiles(zipArchiveInputStream).use { extracted ->
-                runBlocking {
-                    extracted.content.forEach { extractedReplay ->
-                        launch {
-                            try {
-                                binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
-                                    val content = response.entity.content
-                                            .bufferedReader()
-                                            .use(BufferedReader::readText)
-                                    val gameStats = gameService.saveGameStats(content, game)
-                                    if (gameStats.map != null) {
-                                        binaryOutboundService
-                                                .downloadMapFromWaas(content, gameStats.game!!.id!!, gameStats.map!!)
-                                                .close()
-                                    }
-                                    gameStatsEventPublisher.publish(gameStats)
-                                }
-                            } catch (e: Exception) {
-                                logger.error("Replay stats could not be extracted.", e)
-                            }
+            return@extractReplayArchive Unzip.unzipReplayFiles(zipArchiveInputStream)
+        }
+    }
+
+    private fun performGameStatsExtraction(game: Game, replayFiles: Set<File>) = runBlocking {
+        replayFiles.forEach { extractedReplay ->
+            launch {
+                try {
+                    binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
+                        val content = response.entity.content
+                                .bufferedReader()
+                                .use(BufferedReader::readText)
+                        val gameStats = gameService.saveGameStats(content, game)
+                        if (gameStats.map != null) {
+                            binaryOutboundService
+                                    .downloadMapFromWaas(content, gameStats.game!!.id!!, gameStats.map!!)
+                                    .close()
                         }
+                        gameStatsEventPublisher.publish(gameStats)
                     }
+                } catch (e: Exception) {
+                    logger.error("Replay stats could not be extracted.", e)
                 }
             }
         }

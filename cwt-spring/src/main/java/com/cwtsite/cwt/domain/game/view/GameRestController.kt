@@ -60,7 +60,7 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @Value("\${stats-sse-timeout:#{15000}}")
+    @Value("\${stats-sse-timeout:#{180000}}") // default of 3 minutes
     private var statsSseTimeout: Long? = null
 
     // todo remove
@@ -74,28 +74,36 @@ constructor(private val gameService: GameService, private val userService: UserS
     }
 
     @GetMapping("/{id}/stats-listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun listenToStats(@PathVariable("id") id: Long): ResponseBodyEmitter {
+    fun listenToStats(@PathVariable("id") gameId: Long): ResponseBodyEmitter {
         val game = gameService
-                .findById(id)
+                .findById(gameId)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+
         val emitter = sseEmitterFactory.createInstance()
-        val subscription = GameStatSubscription(id) { emitter.send(SseEmitter.event().data(it).name("EVENT")) }
-        val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
-        val relativeTimeout = statsSseTimeout!! - timePassedSinceReport
+        var emissions = 0
+        val emit = { data: String ->
+            emitter.send(SseEmitter.event().data(data).name("EVENT"))
+            emissions += 1
+            if (emissions == game.replayQuantity) {
+                emitter.send(SseEmitter.event().data("DONE").name("DONE"))
+                emitter.complete()
+            }
+        }
+
         val existingStatsJsonArray = JSONArray(gameService.findGameStats(game))
         var i = 0; while (existingStatsJsonArray.opt(i) != null) {
-            emitter.send(SseEmitter.event().data(existingStatsJsonArray.get(i).toString()).name("EVENT"))
-            i++
+            emit(existingStatsJsonArray.get(i).toString()); i++
         }
-        if (relativeTimeout >= 5000) {
-            Timer(Thread.currentThread().name, false).schedule(relativeTimeout) { emitter.complete() }
+
+        val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
+        if (emissions != game.replayQuantity && timePassedSinceReport < statsSseTimeout!!) {
+            Timer(Thread.currentThread().name, false).schedule(statsSseTimeout!!) { emitter.complete() }
+            val subscription = GameStatSubscription(gameId, emit)
             gameStatsEventListener.subscribe(subscription)
             emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
             emitter.onTimeout { gameStatsEventListener.unsubscribe(subscription) }
-        } else {
-            emitter.send(SseEmitter.event().data("DONE").name("DONE"))
-            emitter.complete()
         }
+
         return emitter
     }
 

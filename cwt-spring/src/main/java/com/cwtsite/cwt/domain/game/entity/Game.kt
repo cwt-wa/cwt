@@ -33,6 +33,9 @@ data class Game(
         @Column(name = "reported_at")
         var reportedAt: Timestamp? = null,
 
+        @Column(name = "replay_quantity")
+        var replayQuantity: Int? = null,
+
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
         var created: Timestamp? = null,

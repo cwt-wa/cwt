@@ -257,6 +257,11 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                     .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
+    fun updateReplayQuantity(game: Game, replayQuantity: Int): Game {
+        game.replayQuantity = replayQuantity
+        return gameRepository.save(game)
+    }
+
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
 
     fun findGroupGamesInclVoided(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndTournament(tournament)
