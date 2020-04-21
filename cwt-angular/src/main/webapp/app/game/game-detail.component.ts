@@ -35,7 +35,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     stats: GameStats.GameStats[] = [];
     statsForRound?: number = 1;
     showComments: boolean = true;
-    statsAreLikelyBeingProcessed: boolean = false;
+    statsAreBeingProcessed: boolean = false;
     private eventSource: EventSource;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
@@ -61,21 +61,16 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.route.paramMap.subscribe(routeParam => {
             const gameId = +routeParam.get('id');
-            // this.requestService.get<GameStats.GameStats[]>(`game/${gameId}/stats`)
-            //     .subscribe(res => this.stats = res);
             this.requestService.get<GameDetailDto>(`game/${gameId}`)
                 .subscribe(res => {
                     this.game = res;
                     this.gameWasPlayed = this.playoffService.gameWasPlayed(this.game);
-                    this.statsAreLikelyBeingProcessed =
-                        (this.game.scoreHome + this.game.scoreAway) * 15
-                            <= (new Date(this.game.created).getTime() - Date.now()) / 1000;
 
                     if (!this.gameWasPlayed) {
                         return;
                     }
 
-                    /*this.statsAreLikelyBeingProcessed &&*/ this.setupEventSource();
+                    this.setupEventSource();
                     this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? 1 : -1);
 
                     if (this.game.playoff != null) {
@@ -90,9 +85,12 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     }
 
     setupEventSource(): void {
+        this.statsAreBeingProcessed = true;
         this.eventSource = new EventSource(`${this.appConfig.apiEndpoint}game/${this.game.id}/stats-listen`);
-        this.eventSource.onmessage = console.log;
-        this.eventSource.addEventListener('DONE', () => this.eventSource.close());
+        this.eventSource.addEventListener('DONE', () => {
+            this.eventSource.close();
+            this.statsAreBeingProcessed = false;
+        });
         this.eventSource.addEventListener('EVENT', e => {
             const newStats: GameStats.GameStats = JSON.parse((<any>e).data);
             if (!this.stats.find(s => s.startedAt === newStats.startedAt)) {

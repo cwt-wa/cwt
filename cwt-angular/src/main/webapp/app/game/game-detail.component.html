@@ -189,22 +189,24 @@
         </div>
     </div>
     <div class="row mt-4">
-        <div class="col-12" *ngIf="!stats.length && statsAreLikelyBeingProcessed">
-            <div class="alert alert-info">
-                The replay files are currently being processed to show further statistics.
+        <div class="col-12 col-md-6 col-lg-5 col-xl-4 text-center">
+            <div *ngIf="!stats.length && statsAreBeingProcessed"
+                 class="alert alert-info text-left">
+                The replay files are currently being processed to show further statistics.<br>
+                They will appear here automatically as they’re available.
             </div>
+            <ng-container *ngIf="stats.length">
+                <button class="btn btn-sm rounded-circle text-center text-white mb-2 mr-2 p-0"
+                        [ngClass]="statsForRound === index + 1 ? 'bg-secondary' : 'bg-primary'"
+                        [style.height]="'2.5rem'" [style.width]="'2.5rem'" [style.fontSize]="'1.5rem'"
+                        *ngFor="let s of stats; let index = index" [ngbTooltip]="'Round ' + (index + 1)" placement="top"
+                        (click)="statsForRound = index + 1">
+                    {{index + 1}}
+                </button>
+                <cwt-game-stats *ngIf="stats[statsForRound - 1]" [stats]="stats[statsForRound - 1]"></cwt-game-stats>
+            </ng-container>
         </div>
-        <div *ngIf="stats.length" class="col-12 col-md-6 col-lg-5 col-xl-4 text-center">
-            <button class="btn btn-sm rounded-circle text-center text-white mb-2 mr-2 p-0"
-                    [ngClass]="statsForRound === index + 1 ? 'bg-secondary' : 'bg-primary'"
-                    [style.height]="'2.5rem'" [style.width]="'2.5rem'" [style.fontSize]="'1.5rem'"
-                    *ngFor="let s of stats; let index = index" [ngbTooltip]="'Round ' + (index + 1)" placement="top"
-                    (click)="statsForRound = index + 1">
-                {{index + 1}}
-            </button>
-            <cwt-game-stats *ngIf="stats[statsForRound - 1]" [stats]="stats[statsForRound - 1]"></cwt-game-stats>
-        </div>
-        <div [ngClass]="stats.length ? 'col-12 col-md-6 col-lg-7 col-xl-8 mt-4 mt-md-0' : 'col-12'">
+        <div [ngClass]="stats.length || statsAreBeingProcessed ? 'col-12 col-md-6 col-lg-7 col-xl-8 mt-4 mt-md-0' : 'col-12'">
             <div class="row mb-2" *ngIf="stats.length">
                 <div class="col-md-12 text-right">
                     <div [(ngModel)]="showComments" class="btn-group btn-group-toggle" name="viewMode"
