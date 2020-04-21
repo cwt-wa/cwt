@@ -8,6 +8,7 @@ import {BetResult, BetService} from "../_services/bet.service";
 import {PlayoffsService} from "../_services/playoffs.service";
 import {GameStats} from "./game-stats.component";
 import {APP_CONFIG, AppConfig} from "../app.config";
+import {BinaryService} from "../_services/binary.service";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -44,7 +45,8 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
-                private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
+                private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig,
+                private binaryService: BinaryService) {
     }
 
     get authenticatedUserRatings(): RatingType[] {

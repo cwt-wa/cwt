@@ -285,12 +285,8 @@
                              class="card-body"
                              style="border-bottom: 1px solid white !important;">
                             <h4 class="card-title">Round {{index + 1}}</h4>
-                            <img [src]="'http://localhost:8000/api/game/1602' + stat.map"
-                                 *ngIf="stat.map"
-                                 class="map" alt="map">
-                            <div class="alert alert-danger" *ngIf="!stat.map">
-                                The map could not be extracted.
-                            </div>
+
+                            <cwt-map [map]="stat.map" [gameId]="game.id"></cwt-map>
                 </div>
             </div>
         </div>

@@ -19,6 +19,12 @@ export class BinaryService {
             .pipe(this.mapToObjectUrl());
     }
 
+    getMap(gameId: number, map: string): Observable<string> {
+        return this.requestService
+            .getBlob(`binary/game/${gameId}/map/${map}`)
+            .pipe(this.mapToObjectUrl());
+    }
+
     saveUserPhoto(userId: number, file: File) {
         const formData = new FormData();
         formData.append('photo', file);

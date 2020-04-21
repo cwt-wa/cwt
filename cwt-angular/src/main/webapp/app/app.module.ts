@@ -89,6 +89,7 @@ import {ReplayLinkPipe} from "./_util/replay-link.pipe";
 import {GameStatsComponent} from "./game/game-stats.component";
 import {WeaponComponent} from "./_util/weapon.component";
 import {AdminExtractStatsComponent} from "./admin/admin-extract-stats.component";
+import {MapComponent} from "./game/map.component";
 
 const appRoutes: Routes = [
     {
@@ -321,6 +322,7 @@ const appRoutes: Routes = [
         AdminVoidGameComponent,
         GameStatsComponent,
         AdminExtractStatsComponent,
+        MapComponent,
     ],
     providers: [
         WebAppViewService,
