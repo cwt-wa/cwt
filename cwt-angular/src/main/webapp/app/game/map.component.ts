@@ -11,7 +11,7 @@ import {finalize} from "rxjs/operators";
       }
     `],
     template: `
-        <img *ngIf="loading" src="../../img/loading.gif"/>
+        <img *ngIf="loading" src="/loading.gif"/>
         <img #mapImage class="map" alt="map" *ngIf="!error" [hidden]="loading">
         <div class="alert alert-danger" *ngIf="error && !loading">
             The map could not be extracted.

@@ -1,4 +1,4 @@
-<img *ngIf="!users" src="../../img/loading.gif"/>
+<img *ngIf="!users" src="/loading.gif"/>
 
 <div class="row justify-content-center" *ngIf="users">
     <div class="col-xs-6 col-sm-6 col-md-5">
@@ -23,7 +23,7 @@
                 </select>
             </div>
             <div class="form-group" *ngIf="loadingRemainingOpponents" style="height:70px">
-                <img src="../../img/loading.gif"/>
+                <img src="/loading.gif"/>
             </div>
             <button type="submit" class="btn btn-primary pull-right"
                     [disabled]="techWinForm.form.invalid || game.winner === game.loser">
