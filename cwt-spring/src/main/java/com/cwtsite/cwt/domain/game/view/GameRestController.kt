@@ -81,13 +81,20 @@ constructor(private val gameService: GameService, private val userService: UserS
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
 
         val emitter = sseEmitterFactory.createInstance()
+        var isComplete = false
         var emissions = 0
+        val complete: () -> Unit = {
+            if (!isComplete) {
+                emitter.send(SseEmitter.event().data("DONE").name("DONE"))
+                emitter.complete()
+                isComplete = true
+            }
+        }
         val emit = { data: String ->
             emitter.send(SseEmitter.event().data(data).name("EVENT"))
             emissions += 1
             if (emissions == game.replayQuantity) {
-                emitter.send(SseEmitter.event().data("DONE").name("DONE"))
-                emitter.complete()
+                complete()
             }
         }
 
@@ -103,6 +110,8 @@ constructor(private val gameService: GameService, private val userService: UserS
             gameStatsEventListener.subscribe(subscription)
             emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
             emitter.onTimeout { gameStatsEventListener.unsubscribe(subscription) }
+        } else {
+            complete()
         }
 
         return emitter
