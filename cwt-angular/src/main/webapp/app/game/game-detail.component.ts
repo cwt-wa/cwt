@@ -41,6 +41,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     rightColumnViewToggle: 'MAPS' | 'IN_GAME_CHAT' | 'COMMENTS' = 'COMMENTS';
     statsAreBeingProcessed: boolean = false;
     private eventSource: EventSource;
+    loadingStats: boolean = true;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
@@ -68,6 +69,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             this.requestService.get<GameDetailDto>(`game/${gameId}`)
                 .subscribe(res => {
                     this.game = res;
+                    this.loadingStats = false;
                     this.gameWasPlayed = this.playoffService.gameWasPlayed(this.game);
 
                     if (!this.gameWasPlayed) {
@@ -89,17 +91,20 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     }
 
     setupEventSource(): void {
+        this.loadingStats = true;
         this.statsAreBeingProcessed = true;
         this.eventSource = new EventSource(`${this.appConfig.apiEndpoint}game/${this.game.id}/stats-listen`);
         this.eventSource.addEventListener('DONE', () => {
             this.eventSource.close();
             this.statsAreBeingProcessed = false;
+            this.loadingStats = false;
         });
         this.eventSource.addEventListener('EVENT', e => {
             const newStats: GameStats.GameStats = JSON.parse((<any>e).data);
             if (!this.stats.find(s => s.startedAt === newStats.startedAt)) {
                 this.stats.push(newStats);
             }
+            this.loadingStats = false;
         });
     }
 

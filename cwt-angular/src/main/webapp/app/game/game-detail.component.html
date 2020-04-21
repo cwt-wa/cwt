@@ -190,7 +190,8 @@
     </div>
     <div class="row mt-4">
         <div class="col-12 col-md-6 col-lg-5 col-xl-4 text-center">
-            <div *ngIf="!stats.length && statsAreBeingProcessed"
+            <img *ngIf="loadingStats" src="../../img/loading.gif"/>
+            <div *ngIf="!stats.length && statsAreBeingProcessed && !loadingStats"
                  class="alert alert-info text-left">
                 The replay files are currently being processed to show further statistics.<br>
                 They will appear here automatically as they’re available.
