@@ -207,15 +207,22 @@ class BinaryRestController {
     }
 
 
-    @GetMapping("/{gameId}/map/{map}")
+    @GetMapping("game/{gameId}/map/{map}")
     @Produces(MediaType.IMAGE_PNG_VALUE)
     fun retrieveGameMap(@PathVariable gameId: Long,
                         @PathVariable map: String,
                         httpServletResponse: HttpServletResponse) {
+        httpServletResponse.contentType = MediaType.IMAGE_PNG_VALUE
         gameService.findById(gameId)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
-        val response = binaryOutboundService.retrieveMap(gameId, map)
-        httpServletResponse.contentType = MediaType.IMAGE_PNG_VALUE
+        val response = try {
+            binaryOutboundService.retrieveMap(gameId, map)
+        } catch (e: Exception) {
+            throw RestException(
+                    "Could not get map from CWT Binary Store",
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    e)
+        }
         IOUtils.copy(response.content.inputStream(), httpServletResponse.outputStream);
     }
 
