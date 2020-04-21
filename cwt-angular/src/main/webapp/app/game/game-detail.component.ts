@@ -45,8 +45,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
-                private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig,
-                private binaryService: BinaryService) {
+                private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     get authenticatedUserRatings(): RatingType[] {
