@@ -31,7 +31,6 @@ export class MapComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.gameId, this.map);
         const mapRelativePath = this.map.split('/');
         this.binaryService.getMap(this.gameId, mapRelativePath[mapRelativePath.length - 1])
             .pipe(finalize(() => this.loading = false))
