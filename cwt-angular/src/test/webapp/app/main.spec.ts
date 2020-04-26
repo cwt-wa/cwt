@@ -14,5 +14,5 @@ TestBed.initTestEnvironment(
     platformBrowserDynamicTesting()
 );
 
-const context = (require as any).context('./', true, /game-stats.component\.spec\.ts$/);
+const context = (require as any).context('./', true, /\.spec\.ts$/);
 context.keys().map(context);
