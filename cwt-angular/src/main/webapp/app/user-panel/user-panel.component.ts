@@ -33,8 +33,8 @@ export class UserPanelComponent implements OnInit {
                 private binaryService: BinaryService) {
     }
 
-    ngOnInit(): void {
-        this.authUser = this.authService.getUserFromTokenPayload();
+    async ngOnInit() {
+        this.authUser = await this.authService.authState;
 
         this.requestService.get<UserDetailDto>(`user/${this.authUser.id}`, {'include-email': "true"})
             .subscribe(res => {

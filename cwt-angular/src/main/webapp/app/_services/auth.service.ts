@@ -26,18 +26,6 @@ export class AuthService {
         return localStorage.removeItem(AuthService.AUTH_TOKEN_STORAGE_KEY);
     }
 
-    /**
-     * Deprecated in favor of {@link authState}.
-     *
-     * @Deprecated
-     */
-    public getUserFromTokenPayload(): JwtUser {
-        const tokenPayload: JwtTokenPayload = this.readToken(this.getToken());
-        return tokenPayload && tokenPayload.context
-            ? tokenPayload.context.user
-            : null;
-    }
-
     private readToken(token: string): JwtTokenPayload {
         return token ? JSON.parse(atob(token.split('.')[1])) : null
     }

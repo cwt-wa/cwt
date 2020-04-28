@@ -21,7 +21,7 @@ export class StreamsComponent implements OnInit {
     constructor(private requestService: RequestService, private utils: Utils, private authService: AuthService) {
     }
 
-    ngOnInit(): void {
+    async ngOnInit() {
         this.loading = true;
 
         merge(
@@ -34,7 +34,7 @@ export class StreamsComponent implements OnInit {
                 this.sortBy(this.sortColumn);
             });
 
-        const authUser = this.authService.getUserFromTokenPayload();
+        const authUser = await   this.authService.authState;
         if (authUser) {
             this.requestService.get<ChannelDto[]>('channel', {user: `${authUser.id}`})
                 .pipe(finalize(() => this.loading = false))

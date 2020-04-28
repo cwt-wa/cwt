@@ -23,8 +23,8 @@ export class ChannelCreateComponent implements OnInit {
     constructor(private requestService: RequestService, private authService: AuthService) {
     }
 
-    ngOnInit(): void {
-        this.authUser = this.authService.getUserFromTokenPayload();
+    async ngOnInit() {
+        this.authUser = await this.authService.authState;
         if (!this.authUser) return;
         this.channel.user = this.authUser.id;
         this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})

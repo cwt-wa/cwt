@@ -73,8 +73,8 @@ export class RatingComponent implements OnInit {
         }
     }
 
-    public rate(): void {
-        const payload: RatingDto = {type: this.rating, user: this.authService.getUserFromTokenPayload().id};
+    public async rate() {
+        const payload: RatingDto = {type: this.rating, user: (await this.authService.authState).id};
         this.requestService.post<Rating>(`game/${this.gameId}/rating`, payload)
             .subscribe(res => this.ratings.push(res) && this.calc());
     }

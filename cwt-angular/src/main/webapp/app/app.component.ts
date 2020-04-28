@@ -100,10 +100,8 @@ export class AppComponent implements AfterViewInit, OnInit {
                 document.getElementById("tetris-heading").classList.remove("tetris-visible");
                 document.body.classList.add('gameOver');
 
-                const authenticatedUser: JwtUser = this.authService.getUserFromTokenPayload();
-
-                if (authenticatedUser != null) {
-                    this.requestService.post<TetrisDto>(`user/${authenticatedUser.id}/tetris`, highscore)
+                if (this.authenticatedUser != null) {
+                    this.requestService.post<TetrisDto>(`user/${this.authenticatedUser.id}/tetris`, highscore)
                         .subscribe(res => {
                             this.toastr.success("Highscore saved.");
                             this.highscores.push(res);

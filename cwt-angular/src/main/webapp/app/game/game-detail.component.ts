@@ -81,13 +81,12 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
                     if (this.game.playoff != null) {
                         this.requestService.get<PlayoffTreeBetDto[]>(`game/${gameId}/bets`)
-                            .subscribe(res => this.betResult = this.betService.createBetResult(res));
+                            .subscribe(res => this.betResult = this.betService.createBetResult(res, this.authenticatedUser));
                     }
                 });
         });
 
-        this.authenticatedUser = this.authService.getUserFromTokenPayload();
-        if (this.authenticatedUser) this.initNewComment();
+        this.authService.authState.then(user => user && this.initNewComment());
     }
 
     setupEventSource(): void {

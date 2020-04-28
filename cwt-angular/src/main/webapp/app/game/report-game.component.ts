@@ -23,8 +23,8 @@ export class ReportGameComponent implements OnInit {
                        private canReportService: CanReportService, private toastr: Toastr) {
     }
 
-    public ngOnInit(): void {
-        this.authenticatedUser = this.authService.getUserFromTokenPayload();
+    public async ngOnInit() {
+        this.authenticatedUser = await this.authService.authState;
         this.report.user = this.authenticatedUser.id;
 
         this.requestService.get<User[]>(`user/${this.authenticatedUser.id}/remaining-opponents`)

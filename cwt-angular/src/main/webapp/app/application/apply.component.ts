@@ -23,10 +23,10 @@ export class ApplyComponent implements OnInit {
             .subscribe(res => this.rules = res[0]);
     }
 
-    public submit(): void {
-        const authenticatedUser: JwtUser = this.authService.getUserFromTokenPayload();
-
-        this.requestService.post(`user/${authenticatedUser.id}/application`)
+    public async submit() {
+        const authUser: JwtUser = await this.authService.authState;
+        if (!authUser) this.toastr.error("You’re not signed in.");
+        this.requestService.post(`user/${authUser.id}/application`)
             .subscribe(() => {
                 this.toastr.success('You have applied successfully.');
                 this.router.navigateByUrl('/applicants');

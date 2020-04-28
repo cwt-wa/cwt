@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {PlayoffGameDto, PlayoffTreeBetDto} from "../custom";
+import {JwtUser, PlayoffGameDto, PlayoffTreeBetDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {BetResult, BetService} from "../_services/bet.service";
@@ -25,11 +25,15 @@ export class PlayoffsTreeComponent implements OnInit {
     placingBet: number[] = [];
     loading: boolean = true;
 
+    private authUser: JwtUser;
+
     public constructor(private requestService: RequestService, private authService: AuthService,
                        private toastr: Toastr, private betService: BetService) {
     }
 
     public ngOnInit(): void {
+        this.authService.authState.then(user => this.authUser = user);
+
         this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId || 'current'}/game/playoff`)
             .pipe(finalize(() => this.loading = false))
             .subscribe(res => {
@@ -49,7 +53,7 @@ export class PlayoffsTreeComponent implements OnInit {
                         const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round, gamesInFirstRound);
                         const existingGamesInRound: PlayoffTreeBetDtoWithBetResults[] = this.getExistingGamesInRound(round, res)
                             .map<PlayoffTreeBetDtoWithBetResults>(g => {
-                                (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets);
+                                (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets, this.authUser);
                                 return g as PlayoffTreeBetDtoWithBetResults;
                             });
 
@@ -60,7 +64,7 @@ export class PlayoffsTreeComponent implements OnInit {
 
                             finalGames.map<PlayoffTreeBetDtoWithBetResults>(g => {
                                 if (g.betResult == null) {
-                                    (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets);
+                                    (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets, this.authUser);
                                 }
                                 return g as PlayoffTreeBetDtoWithBetResults;
                             });
@@ -93,15 +97,14 @@ export class PlayoffsTreeComponent implements OnInit {
         return games.filter(g => g.playoff.round === round);
     }
 
-    public placeBet(betOnHome: boolean, game: PlayoffTreeBetDtoWithBetResults) {
-        const authUserId = this.authService.getUserFromTokenPayload().id;
+    public async placeBet(betOnHome: boolean, game: PlayoffTreeBetDtoWithBetResults) {
         this.placingBet.push(game.id);
         this.requestService.post<PlayoffTreeBetDto>(
             `game/${game.id}/bet`,
-            {user: authUserId, game: game.id, betOnHome})
+            {user: this.authUser.id, game: game.id, betOnHome})
             .pipe(finalize(() => this.placingBet.splice(this.placingBet.findIndex(gId => gId === game.id), 1)))
             .subscribe(res => {
-                const idxOfPreviousBet = game.bets.findIndex(b => b.user.id === authUserId);
+                const idxOfPreviousBet = game.bets.findIndex(b => b.user.id === this.authUser.id);
                 if (idxOfPreviousBet === -1) {
                     game.bets.push(res);
                     this.toastr.success("Bet successfully placed    .");
@@ -109,7 +112,7 @@ export class PlayoffsTreeComponent implements OnInit {
                     game.bets[idxOfPreviousBet] = res;
                     this.toastr.success("Bet successfully updated.");
                 }
-                game.betResult = this.betService.createBetResult(game.bets);
+                game.betResult = this.betService.createBetResult(game.bets, this.authUser);
             });
     }
 

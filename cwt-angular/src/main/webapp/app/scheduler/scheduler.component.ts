@@ -24,8 +24,8 @@ export class SchedulerComponent implements OnInit {
                 private toastr: Toastr) {
     }
 
-    public ngOnInit(): void {
-        this.authUser = this.authService.getUserFromTokenPayload();
+    public async ngOnInit() {
+        this.authUser = await this.authService.authState;
 
         this.requestService.get<ScheduleDto[]>('schedule').subscribe(res => {
             this.schedules = res.sort((a, b) => new Date(a.appointment).getTime() - new Date(b.appointment).getTime());

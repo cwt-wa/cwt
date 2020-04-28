@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
-import {PlayoffTreeBetDto} from "../custom";
-import {AuthService} from "./auth.service";
+import {JwtUser, PlayoffTreeBetDto} from "../custom";
 
 export type BetResult = {
     total: number;
@@ -14,11 +13,7 @@ export type BetResult = {
 @Injectable()
 export class BetService {
 
-    constructor(private authService: AuthService) {
-    }
-
-    createBetResult(bets: PlayoffTreeBetDto[]): BetResult {
-        const authUser = this.authService.getUserFromTokenPayload();
+    createBetResult(bets: PlayoffTreeBetDto[], authUser: JwtUser): BetResult {
         const preliminaryBetResult = {
             total: bets.length,
             homeUser: bets.filter(b => b.betOnHome),
