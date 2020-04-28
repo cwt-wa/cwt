@@ -17,8 +17,3 @@ jobs:
           java-version: 11
       - name: clean-install
         run: mvn -B clean install
-      - uses: actions/upload-artifact@v2
-        with:
-          name: cwt-spring.jar
-          path: cwt-spring/target/cwt-spring-*.jar
-
