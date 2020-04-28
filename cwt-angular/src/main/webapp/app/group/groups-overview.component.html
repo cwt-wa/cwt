@@ -3,12 +3,12 @@
     <img  src="/loading.gif" *ngIf="!hideLoadingIndicator"/>
 </ng-container>
 
-<ng-container *ngIf="!loading && !groups.length">
+<ng-container *ngIf="!loading && !groups?.length">
     <h1 class="mb-4" *ngIf="!hideTitle">Groups</h1>
     <div class="alert alert-info">There are no groups currently.</div>
 </ng-container>
 
-<ng-container *ngIf="!loading &&  groups.length">
+<ng-container *ngIf="!loading && groups?.length">
     <div class="btn-group btn-group-toggle float-right" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
         <label ngbButtonLabel class="btn-light">
             <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
