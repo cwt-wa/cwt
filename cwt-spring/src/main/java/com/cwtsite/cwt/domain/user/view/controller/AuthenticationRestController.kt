@@ -22,10 +22,12 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -77,12 +79,18 @@ constructor(private val authenticationManager: AuthenticationManager, private va
     @Throws(AuthenticationException::class)
     fun createAuthenticationToken(
             @RequestBody authenticationRequest: JwtAuthenticationRequest): ResponseEntity<JwtAuthenticationResponse> {
-        val authentication = authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(
-                        authenticationRequest.username,
-                        authenticationRequest.password
-                )
-        )
+        val authentication = try {
+            authenticationManager.authenticate(
+                    UsernamePasswordAuthenticationToken(
+                            authenticationRequest.username,
+                            authenticationRequest.password
+                    )
+            )
+        } catch (e: UsernameNotFoundException) {
+            throw RestException("Wrong credentials.", HttpStatus.BAD_REQUEST, null)
+        } catch (e: BadCredentialsException) {
+            throw RestException("Wrong credentials.", HttpStatus.BAD_REQUEST, null)
+        }
 
         SecurityContextHolder.getContext().authentication = authentication
 

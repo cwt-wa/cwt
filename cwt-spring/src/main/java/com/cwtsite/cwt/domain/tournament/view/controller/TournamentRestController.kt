@@ -54,6 +54,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
     fun getPlayoffGamesOfCurrentTournament(
             @RequestParam("voidable", defaultValue = "false") voidable: Boolean): ResponseEntity<List<PlayoffGameDto>> {
         val currentTournament = tournamentService.getCurrentTournament()
+
                 ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         if (voidable) return ResponseEntity.ok(treeService.getVoidablePlayoffGames().map { PlayoffGameDto.toDto(it) })
         return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { PlayoffGameDto.toDto(it) })
