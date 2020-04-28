@@ -144,6 +144,7 @@ constructor(private val authenticationManager: AuthenticationManager, private va
         val token = request.getHeader(authService.tokenHeaderName) ?: return ResponseEntity.ok(null)
 
         val username = jwtTokenUtil.getUsernameFromToken(token)
+                ?: throw RestException("Username is null in token.", HttpStatus.BAD_REQUEST, null)
         val user = userDetailsService.loadUserByUsername(username) as JwtUser<*>
 
         return if (jwtTokenUtil.canTokenBeRefreshed(token, user.resetDate)!!) {
@@ -155,4 +156,4 @@ constructor(private val authenticationManager: AuthenticationManager, private va
         }
     }
 }
-
+d

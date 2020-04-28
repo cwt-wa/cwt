@@ -10,7 +10,7 @@ import {RequestService} from "../_services/request.service";
 })
 export class HomeComponent implements OnInit {
     news: Configuration;
-    authenticatedUser: JwtUser;
+    authenticatedUser?: JwtUser;
     tournament?: TournamentDetailDto;
 
     constructor(private authService: AuthService, private configurationService: ConfigurationService,
@@ -18,7 +18,8 @@ export class HomeComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.authenticatedUser = this.authService.getUserFromTokenPayload();
+        this.authService.authState
+            .then(user => this.authenticatedUser = user);
 
         this.configurationService.requestByKeys("NEWS")
             .subscribe(res => this.news = res[0]);

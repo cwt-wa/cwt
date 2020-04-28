@@ -41,15 +41,22 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     public ngOnInit(): void {
-        this.requestService.get<{ token: string }>('auth/refresh').subscribe(
-            res => {
-                if (res == null || res.token == null) return this.authService.voidToken();
-                this.authService.storeToken(res.token);
-                this.authenticatedUser = this.authService.getUserFromTokenPayload();
-                this.canReportService.requestInitialValue(this.authenticatedUser.id);
-            },
-            () => this.authService.voidToken()
-        );
+        this.authService.authState
+            .then(user => {
+                this.authenticatedUser = user;
+                !!this.authenticatedUser && this.canReportService.requestInitialValue(this.authenticatedUser.id);
+            });
+
+        if (this.authService.validateToken()) {
+            this.requestService.get<{ token: string }>('auth/refresh')
+                .subscribe(res => {
+                    this.authService.resolveAuthState(res ? res.token : null);
+                    res.token && this.authService.storeToken(res.token);
+                });
+        } else {
+            this.authService.resolveAuthState(null);
+            this.authService.voidToken();
+        }
 
         this.configurationService.requestByKeys('EVENT_SOURCE_TWITCH_WEBHOOK')
             .subscribe(res => this.eventSourceTwitchWebhook = res[0].value === 'true');

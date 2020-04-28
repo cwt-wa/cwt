@@ -35,7 +35,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.authUser = this.authService.getUserFromTokenPayload();
+        this.authService.authState.then(user => this.authUser = user);
         this.fetchMessages();
     }
 
