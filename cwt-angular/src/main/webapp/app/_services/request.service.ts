@@ -20,7 +20,8 @@ export class RequestService {
         return this.httpClient
             .get<T>(
                 this.appConfig.apiEndpoint + relativePath,
-                {params, headers: this.generateDefaultHeaders()}).pipe(
+                {params, headers: this.generateDefaultHeaders()})
+            .pipe(
                 catchError(this.catch.bind(this)));
     }
 
@@ -28,7 +29,8 @@ export class RequestService {
         return this.httpClient
             .get(
                 this.appConfig.apiEndpoint + relativePath,
-                {responseType: 'blob', observe: 'body', headers: this.generateDefaultHeaders()}).pipe(
+                {responseType: 'blob', observe: 'body', headers: this.generateDefaultHeaders()})
+            .pipe(
                 catchError(this.catch.bind(this)));
     }
 
@@ -36,8 +38,9 @@ export class RequestService {
         params.content != null && delete params.content;
         params.sortables != null && delete params.sortables;
 
-        return this.get<PageDto<T, string>>(relativePath, <QueryParams><any>params).pipe(
-            map<PageDto<T, string>, PageDto<T, ValueLabel>>((value: PageDto<T, any>) => {
+        return this
+            .get<PageDto<T, string>>(relativePath, <QueryParams><any>params)
+            .pipe(map<PageDto<T, string>, PageDto<T, ValueLabel>>((value: PageDto<T, any>) => {
                 value.sortables = value.sortables.map<ValueLabel>(s => {
                     const valueLabel = (s as string).split(",");
                     return {value: valueLabel[0], label: valueLabel[1]};
@@ -51,7 +54,8 @@ export class RequestService {
         return this.httpClient
             .post<T>(
                 this.appConfig.apiEndpoint + relativePath, body,
-                {headers: this.generateDefaultHeaders()}).pipe(
+                {headers: this.generateDefaultHeaders()})
+            .pipe(
                 catchError(this.catch.bind(this)));
     }
 
@@ -59,7 +63,8 @@ export class RequestService {
         return this.httpClient
             .put<T>(
                 this.appConfig.apiEndpoint + relativePath, body,
-                {headers: this.generateDefaultHeaders()}).pipe(
+                {headers: this.generateDefaultHeaders()})
+            .pipe(
                 catchError(this.catch.bind(this)));
     }
 
@@ -67,7 +72,8 @@ export class RequestService {
         return this.httpClient
             .delete<T>(
                 this.appConfig.apiEndpoint + relativePath,
-                {params, headers: this.generateDefaultHeaders()}).pipe(
+                {params, headers: this.generateDefaultHeaders()})
+            .pipe(
                 catchError(this.catch.bind(this)));
     }
 
@@ -75,7 +81,8 @@ export class RequestService {
         return this.httpClient
             .post<T>(
                 this.appConfig.apiEndpoint + relativePath, formData,
-                {headers: this.generateDefaultHeaders(), reportProgress: true}).pipe(
+                {headers: this.generateDefaultHeaders(), reportProgress: true})
+            .pipe(
                 catchError(this.catch.bind(this)));
     }
 
