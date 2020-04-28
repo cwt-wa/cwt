@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.configuration.view
 
+import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
@@ -9,6 +10,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
@@ -35,6 +37,8 @@ constructor(private val configurationService: ConfigurationService, private val 
 
     @RequestMapping("/score-best-of", method = [RequestMethod.GET])
     fun fetchBestOfScore(): ResponseEntity<Configuration> {
-        return ResponseEntity.ok(gameService.getBestOfValue(tournamentService.getCurrentTournament().status))
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+        return ResponseEntity.ok(gameService.getBestOfValue(currentTournament.status))
     }
 }

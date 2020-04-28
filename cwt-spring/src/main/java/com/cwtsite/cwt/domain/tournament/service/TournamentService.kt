@@ -51,14 +51,14 @@ class TournamentService {
 
     @Transactional
     fun startGroups(): Tournament {
-        val tournament = getCurrentTournament()
+        val tournament = getCurrentTournament()!!
         tournament.status = TournamentStatus.GROUP
         return tournamentRepository.save(tournament)
     }
 
     @Transactional
     fun startPlayoffs(games: List<Game>): List<Game> {
-        val currentTournament = getCurrentTournament()
+        val currentTournament = getCurrentTournament()!!
         currentTournament.status = TournamentStatus.PLAYOFFS
         currentTournament.maxRounds = treeService.getNumberOfPlayoffRoundsInTournament(currentTournament)
         currentTournament.threeWay = treeService.isPlayoffTreeWithThreeWayFinal(currentTournament)
@@ -68,7 +68,7 @@ class TournamentService {
 
     @Transactional
     fun finish(gold: User, silver: User, bronze: User, maxRounds: Int, numOfGroupAdvancing: Int, threeWay: Boolean): Tournament {
-        val currentTournament = getCurrentTournament()
+        val currentTournament = getCurrentTournament()!!
         currentTournament.goldWinner = gold
         currentTournament.silverWinner = silver
         currentTournament.bronzeWinner = bronze
@@ -94,9 +94,8 @@ class TournamentService {
     }
 
     @Throws(RuntimeException::class)
-    fun getCurrentTournament(): Tournament =
+    fun getCurrentTournament(): Tournament? =
             tournamentRepository.findByStatusNot(TournamentStatus.FINISHED)
-                    ?: throw RuntimeException("There is currently no tournament.")
 
     fun getAll(): List<Tournament> = tournamentRepository.findAll()
 

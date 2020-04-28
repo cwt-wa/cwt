@@ -28,7 +28,9 @@ class TreeService {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun getVoidablePlayoffGames(): List<Game> {
-        return gameRepository.findByTournamentAndPlayoffIsNotNull(tournamentService.getCurrentTournament())
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: return emptyList()
+        return gameRepository.findByTournamentAndPlayoffIsNotNull(currentTournament)
                 .filter {
                     if (!it.wasPlayed()) return@filter false
                     if (isSomeKindOfFinalGame(it)) return@filter true
@@ -93,6 +95,7 @@ class TreeService {
 
     fun onlyFinalGamesAreLeftToPlay(): Boolean {
         val currentTournament = tournamentService.getCurrentTournament()
+                ?: return false
         return if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             gameRepository.findReadyGamesInRoundEqualOrGreaterThan(
                     getNumberOfPlayoffRoundsInTournament(currentTournament),
@@ -125,8 +128,11 @@ class TreeService {
     fun isPlayoffTreeWithThreeWayFinal(tournament: Tournament) =
             isPlayoffTreeWithThreeWayFinal(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1).size * 2)
 
-    fun getNextGameForUser(user: User): Game? =
-            gameRepository.findNextPlayoffGameForUser(tournamentService.getCurrentTournament(), user)
+    fun getNextGameForUser(user: User): Game? {
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: return null
+        return gameRepository.findNextPlayoffGameForUser(currentTournament, user)
+    }
 
     private fun isPlayoffTreeWithThreeWayFinal(playersInFirstRound: Int) =
             log2(playersInFirstRound.toDouble()) % 1 != 0.0

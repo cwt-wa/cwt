@@ -24,7 +24,9 @@ class GroupRestController {
 
     @RequestMapping("")
     fun getAllUsers(): ResponseEntity<List<UserMinimalDto>> {
-        return ResponseEntity.ok(groupService.getGroupsForTournament(tournamentService.getCurrentTournament())
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+        return ResponseEntity.ok(groupService.getGroupsForTournament(currentTournament)
                 .flatMap { it.standings.map { s -> s.user } }
                 .map { UserMinimalDto.toDto(it) })
     }
@@ -32,10 +34,11 @@ class GroupRestController {
     @RequestMapping("/replace")
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun replacePlayer(@RequestBody dto: ReplacePlayerDto): ResponseEntity<Void> {
-        if (tournamentService.getCurrentTournament().status != TournamentStatus.GROUP) {
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+        if (currentTournament.status != TournamentStatus.GROUP) {
             throw RestException("The tournament is not in group stage.", HttpStatus.BAD_REQUEST, null)
         }
-
         groupService.replacePlayer(dto.toBeReplaced, dto.replacement)
         return ResponseEntity.ok().build()
     }

@@ -12,7 +12,7 @@ constructor(private val applicationRepository: ApplicationRepository, private va
 
     @Throws(AlreadyAppliedException::class)
     fun apply(user: User): Application {
-        val currentTournament = tournamentService.getCurrentTournament()
+        val currentTournament = tournamentService.getCurrentTournament()!!
         if (applicationRepository.findByApplicantAndTournament(user, currentTournament).isPresent) {
             throw AlreadyAppliedException("User ${user.id} has already applied to tournament ${currentTournament.id}")
         }

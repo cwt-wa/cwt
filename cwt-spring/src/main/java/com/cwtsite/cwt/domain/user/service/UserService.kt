@@ -6,7 +6,6 @@ import com.cwtsite.cwt.core.toInt
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
-import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
@@ -70,18 +69,15 @@ constructor(private val userRepository: UserRepository,
 
     fun userCanApplyForCurrentTournament(user: User): Boolean {
         val currentTournament = tournamentService.getCurrentTournament()
-
+                ?: return false
         return (TournamentStatus.OPEN == currentTournament.status
                 && !applicationRepository.findByApplicantAndTournament(user, currentTournament).isPresent)
     }
 
     fun userCanReportForCurrentTournament(user: User): Boolean {
         val userCanReportForCurrentTournament: Boolean
-        val currentTournament = try {
-            tournamentService.getCurrentTournament()
-        } catch (e: RuntimeException) {
-            return false
-        }
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: return false
 
         if (currentTournament.status == TournamentStatus.GROUP) {
             val group = this.groupRepository.findByTournamentAndUser(currentTournament, user)
@@ -106,6 +102,7 @@ constructor(private val userRepository: UserRepository,
 
     fun getRemainingOpponents(user: User): List<User> {
         val currentTournament = tournamentService.getCurrentTournament()
+                ?: return emptyList()
         val remainingOpponents: List<User>
 
         when (currentTournament.status) {

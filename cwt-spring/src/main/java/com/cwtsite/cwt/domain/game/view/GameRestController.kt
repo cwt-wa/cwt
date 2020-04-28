@@ -17,6 +17,7 @@ import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
+import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -56,7 +57,8 @@ constructor(private val gameService: GameService, private val userService: UserS
             private val clockInstance: ClockInstance,
             private val sseEmitterFactory: SseEmitterFactory,
             private val gameStatsEventListener: GameStatsEventListener,
-            private val gameStatsEventPublisher: GameStatsEventPublisher) {
+            private val gameStatsEventPublisher: GameStatsEventPublisher,
+            private val tournamentService: TournamentService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -228,9 +230,14 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/tech-win", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun addTechWin(@RequestBody dto: GameTechWinDto): ResponseEntity<GameCreationDto> {
+        tournamentService.getCurrentTournament()
+            ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val users = userService.findByIds(dto.winner, dto.loser)
-        return ResponseEntity.ok(GameCreationDto.toDto(
-                gameService.addTechWin(users.find { it.id == dto.winner }!!, users.find { it.id == dto.loser }!!)))
+        val winningUser = users.find { it.id == dto.winner }
+                ?: throw RestException("Winning user not found.", HttpStatus.BAD_REQUEST, null)
+        val losingUser = users.find { it.id == dto.loser }
+                ?: throw RestException("Losing user not found.", HttpStatus.BAD_REQUEST, null)
+        return ResponseEntity.ok(GameCreationDto.toDto(gameService.addTechWin(winningUser, losingUser)))
     }
 
     @RequestMapping("/{id}/bet", method = [RequestMethod.POST])

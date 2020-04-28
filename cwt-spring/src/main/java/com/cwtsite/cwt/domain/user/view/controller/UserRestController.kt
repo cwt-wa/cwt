@@ -92,8 +92,8 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
     fun usersWhoAreStillInTournamentAndCanReportGames(): ResponseEntity<List<UserMinimalDto>> {
         val currentTournament = tournamentService.getCurrentTournament()
-
         val users = when {
+            currentTournament == null -> emptyList()
             currentTournament.status == TournamentStatus.GROUP ->
                 groupService.findAllGroupMembers(currentTournament)
             currentTournament.status == TournamentStatus.PLAYOFFS ->
@@ -104,7 +104,6 @@ constructor(private val userService: UserService, private val applicationService
             else ->
                 emptyList()
         }
-
         return ResponseEntity.ok(
                 users
                         .filter { userService.userCanReportForCurrentTournament(it) }
@@ -119,6 +118,8 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/{id}/application", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun applyForTournament(@PathVariable("id") id: Long, request: HttpServletRequest): ResponseEntity<Application> {
+        tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val userToApply = assertUser(id)
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!
         if (authUser != userToApply && !authUser.isAdmin()) throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)

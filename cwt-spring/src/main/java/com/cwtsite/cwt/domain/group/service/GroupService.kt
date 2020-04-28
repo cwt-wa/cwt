@@ -21,13 +21,21 @@ constructor(private val groupRepository: GroupRepository,
             private val userRepository: UserRepository, private val tournamentService: TournamentService,
             private val gameRepository: GameRepository, private val groupStandingRepository: GroupStandingRepository) {
 
+    /**
+     * @throws IllegalArgumentException One of the users wasn't found.
+     * @throws IllegalStateException There's no current tournament.
+     */
+    @Throws(IllegalArgumentException::class, IllegalStateException::class)
     @Transactional
     fun replacePlayer(idOfUserObsolete: Long, idOfUserNew: Long): Group {
         val obsoleteUser = userRepository.findById(idOfUserObsolete).orElseThrow { IllegalArgumentException() }
         val replacementUser = userRepository.findById(idOfUserNew).orElseThrow { IllegalArgumentException() }
 
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw IllegalStateException("There's no current tournament.")
+
         val group = groupRepository.findByTournamentAndUser(
-                tournamentService.getCurrentTournament(), obsoleteUser) ?: throw RuntimeException()
+                currentTournament, obsoleteUser) ?: throw RuntimeException()
 
         if (group.standings.find { it.user.id == replacementUser.id } != null) {
             throw RuntimeException("Replacement user is already in a group.")
@@ -93,9 +101,14 @@ constructor(private val groupRepository: GroupRepository,
     private fun getPointsForScore(pointsPattern: List<IntArray>, score: Int): Int =
             pointsPattern.find { it[0] == score }?.get(1) ?: 0
 
+    /**
+     * @throws IllegalStateException There's no current tournament.
+     */
+    @Throws(IllegalStateException::class)
     @Transactional
     fun startGroupStage(groups: List<Group>): List<Group> {
         val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw IllegalStateException("There's no current tournament.")
         if (groups.any { it.tournament != currentTournament }) {
             throw IllegalArgumentException("Groups are not for the current tournament.")
         }

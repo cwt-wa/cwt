@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.game.service
 
+import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.bet.service.BetRepository
@@ -31,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronizationAdapter
@@ -77,6 +79,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class)
     fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int, persist: Boolean = true): Game {
         val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val bestOfValue = Integer.valueOf(getBestOfValue(currentTournament.status).value)
         val winnerScore = ceil(bestOfValue.toDouble() / 2)
 
@@ -180,7 +183,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     fun voidGame(game: Game): Game {
         val currentTournament = tournamentService.getCurrentTournament()
 
-        if (game.tournament != currentTournament)
+        if (currentTournament == null || game.tournament != currentTournament)
             throw IllegalStateException("Can only void games of current tournament.")
 
         game.voided = true
@@ -223,11 +226,17 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             gameRepository.findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(
                     PageRequest.of(page, size, sort))
 
+    /**
+     * @throws IllegalStateException There's no current tournament.
+     */
+    @Throws(IllegalStateException::class)
     @Transactional
     fun addTechWin(winner: User, loser: User): Game {
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw IllegalStateException("There's no current tournament.")
         return reportGame(
                 winner.id!!, loser.id!!,
-                Math.ceil(getBestOfValue(tournamentService.getCurrentTournament().status).value!!.toDouble() / 2).toInt(), 0)
+                ceil(getBestOfValue(currentTournament.status).value!!.toDouble() / 2).toInt(), 0)
     }
 
     fun placeBet(game: Game, user: User, betOnHome: Boolean): Bet {

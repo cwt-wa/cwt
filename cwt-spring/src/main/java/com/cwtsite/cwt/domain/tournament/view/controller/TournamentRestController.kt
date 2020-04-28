@@ -30,35 +30,31 @@ constructor(private val tournamentService: TournamentService, private val userSe
             private val gameService: GameService, private val treeService: TreeService) {
 
     @RequestMapping("/current", method = [RequestMethod.GET])
-    fun findCurrentTournament(): ResponseEntity<TournamentDetailDto> {
-        return try {
-            ResponseEntity.ok(TournamentDetailDto.toDto(tournamentService.getCurrentTournament()))
-        } catch (e: RuntimeException) {
-            ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-        }
-    }
+    fun findCurrentTournament(): ResponseEntity<TournamentDetailDto> =
+            when (val currentTournament = tournamentService.getCurrentTournament()) {
+                null -> ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+                else -> ResponseEntity.ok(TournamentDetailDto.toDto(currentTournament))
+            }
 
     @RequestMapping("/current/applications", method = [RequestMethod.GET])
     fun getApplicantsOfCurrentTournament(): ResponseEntity<List<Application>> {
-        val tournament = tournamentService.getCurrentTournament()
-        return ResponseEntity.ok(tournamentService.getApplicants(tournament))
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+        return ResponseEntity.ok(tournamentService.getApplicants(currentTournament))
     }
 
     @RequestMapping("current/group", method = [RequestMethod.GET])
     fun getGroupsForCurrentTournament(): ResponseEntity<List<GroupWithGamesDto>> {
         val (id) = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         return getGroupsForTournament(id!!)
     }
 
     @RequestMapping("current/game/playoff", method = [RequestMethod.GET])
     fun getPlayoffGamesOfCurrentTournament(
             @RequestParam("voidable", defaultValue = "false") voidable: Boolean): ResponseEntity<List<PlayoffGameDto>> {
-        val currentTournament = try {
-            tournamentService.getCurrentTournament()
-        } catch (e: RuntimeException) {
-            throw RestException("There is currently no tournament.", HttpStatus.BAD_REQUEST, e)
-        }
-
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         if (voidable) return ResponseEntity.ok(treeService.getVoidablePlayoffGames().map { PlayoffGameDto.toDto(it) })
         return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { PlayoffGameDto.toDto(it) })
     }
@@ -100,7 +96,8 @@ constructor(private val tournamentService: TournamentService, private val userSe
     @RequestMapping("current/group/start", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun startGroups(@RequestBody groupDtoList: List<GroupDto>): ResponseEntity<*> {
-        val tournament = tournamentService.getCurrentTournament()
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
 
         val users = userService.getByIds(groupDtoList.flatMap { it.users })
 
@@ -111,7 +108,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
                                 groupDto.users.stream()
                                         .anyMatch { userId -> userId == id1 }
                             }
-                    GroupDto.map(tournament, groupMembers, groupDto.label)
+                    GroupDto.map(currentTournament, groupMembers, groupDto.label)
                 }
 
         return ResponseEntity.ok(groupService.startGroupStage(groups))
@@ -138,18 +135,17 @@ constructor(private val tournamentService: TournamentService, private val userSe
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun startPlayoffs(@RequestBody gameCreationDtoList: List<GameCreationDto>): ResponseEntity<List<PlayoffGameDto>> {
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val userIds = gameCreationDtoList.stream()
-                .map { gameCreationDto -> Arrays.asList(gameCreationDto.homeUser, gameCreationDto.awayUser) }
+                .map { gameCreationDto -> listOf(gameCreationDto.homeUser, gameCreationDto.awayUser) }
                 .reduce { longs, longs2 ->
                     val concatenatedLongs = ArrayList(longs)
                     concatenatedLongs.addAll(longs2)
                     concatenatedLongs
                 }
                 .orElseGet { emptyList() }
-
-        val currentTournament = tournamentService.getCurrentTournament()
         val users = userService.getByIds(userIds)
-
         val games = gameCreationDtoList
                 .map { dto ->
                     GameCreationDto.fromDto(
@@ -159,13 +155,15 @@ constructor(private val tournamentService: TournamentService, private val userSe
                             currentTournament
                     )
                 }
-
         return ResponseEntity.ok(tournamentService.startPlayoffs(games).map { PlayoffGameDto.toDto(it) })
     }
 
     @RequestMapping("current/group/users")
     fun getGroupUsersOfCurrentTournament(): ResponseEntity<List<UserMinimalDto>> {
-        return ResponseEntity.ok(groupService.getGroupsForTournament(tournamentService.getCurrentTournament())
+        val currentTournament = tournamentService.getCurrentTournament()
+                ?: throw RestException("There is no tournament currently.", HttpStatus.BAD_REQUEST, null)
+
+        return ResponseEntity.ok(groupService.getGroupsForTournament(currentTournament)
                 .flatMap { it.standings.map { s -> s.user } }
                 .map { UserMinimalDto.toDto(it) })
     }
