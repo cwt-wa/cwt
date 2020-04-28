@@ -43,6 +43,7 @@ jobs:
           username: ${{ secrets.ocean_user }}
           password: ${{ secrets.ocean_pass }}
           port: ${{ secrets.ocean_port }}
-          source: "./cwt-spring/target/cwt-spring-*.jar"
+#          source: "./cwt-spring/target/cwt-spring-*.jar"
+          source: "./foo.zip"
           target: "~/github-release"
 
