@@ -5,10 +5,8 @@ import com.cwtsite.cwt.core.ClockInstance
 import com.cwtsite.cwt.core.event.SseEmitterFactory
 import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
-import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
-import com.cwtsite.cwt.domain.game.entity.GameStats
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.*
@@ -16,7 +14,6 @@ import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
-import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
@@ -26,7 +23,6 @@ import com.cwtsite.cwt.entity.Comment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONArray
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ByteArrayResource
@@ -41,7 +37,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
-import java.time.Instant
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
@@ -57,23 +52,10 @@ constructor(private val gameService: GameService, private val userService: UserS
             private val clockInstance: ClockInstance,
             private val sseEmitterFactory: SseEmitterFactory,
             private val gameStatsEventListener: GameStatsEventListener,
-            private val gameStatsEventPublisher: GameStatsEventPublisher,
             private val tournamentService: TournamentService) {
-
-    private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Value("\${stats-sse-timeout:#{180000}}") // default of 3 minutes
     private var statsSseTimeout: Long? = null
-
-    // todo remove
-    @GetMapping("/publish-event")
-    fun something() {
-        logger.info("There's a new event upcoming")
-        gameStatsEventPublisher.publish(
-                GameStats(
-                        data = "{\"hello\": \"world\", \"time\": ${Instant.now().epochSecond}}",
-                        game = Game(id = 2, tournament = Tournament())))
-    }
 
     @GetMapping("/{id}/stats-listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun listenToStats(@PathVariable("id") gameId: Long): ResponseBodyEmitter {
@@ -231,7 +213,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun addTechWin(@RequestBody dto: GameTechWinDto): ResponseEntity<GameCreationDto> {
         tournamentService.getCurrentTournament()
-            ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val users = userService.findByIds(dto.winner, dto.loser)
         val winningUser = users.find { it.id == dto.winner }
                 ?: throw RestException("Winning user not found.", HttpStatus.BAD_REQUEST, null)
