@@ -1,4 +1,5 @@
 ![CI](https://github.com/zemke/cwt/workflows/CI/badge.svg)
+![release](https://img.shields.io/github/v/release/zemke/cwt.svg)
 
 # Crespo’s Worms Tournament
 
