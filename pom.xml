@@ -54,4 +54,9 @@
         <developerConnection>scm:git:git@github.com:Zemke/cwt.git</developerConnection>
     </scm>
 
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/zemke/cwt/actions</url>
+    </ciManagement>
+
 </project>
