@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./cwt-spring/target/cwt-spring-*.jar
+          asset_path: ./cwt-spring/target/cwt-spring-SNAPSHOT.jar
           asset_name: cwt-spring.jar
           asset_content_type: application/java-archive
       - name: copy file via ssh password
@@ -43,6 +43,6 @@ jobs:
           username: ${{ secrets.ocean_user }}
           password: ${{ secrets.ocean_pass }}
           port: ${{ secrets.ocean_port }}
-          source: "./cwt-spring/target/cwt-spring-*.jar"
+          source: "./cwt-spring/target/cwt-spring-SNAPSHOT.jar"
           target: "~/github-release"
 
