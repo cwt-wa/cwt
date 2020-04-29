@@ -43,8 +43,7 @@ jobs:
           username: ${{ secrets.ocean_user }}
           password: ${{ secrets.ocean_pass }}
           port: ${{ secrets.ocean_port }}
-          source: "./cwt-spring/target/cwt-spring-SNAPSHOT.jar"
-          target: "~/github-release"
-          rm: true
+          source: "cwt-spring/target/cwt-spring-SNAPSHOT.jar"
           strip_components: 2
+          target: "/var/github-release"
 
