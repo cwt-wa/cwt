@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ChannelRepository: JpaRepository<Channel, String> {
 
-    fun findByUser(users: List<User>): List<Channel>
+    fun findAllByUserIn(users: List<User>): List<Channel>
 }

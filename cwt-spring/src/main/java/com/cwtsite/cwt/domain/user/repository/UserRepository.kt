@@ -13,20 +13,20 @@ interface UserRepository : JpaRepository<User, Long> {
 
     fun findByUsername(username: String): User?
 
-    fun findByUsernameIgnoreCase(username: String): List<User>
+    fun findAllByUsernameIgnoreCase(username: String): List<User>
 
-    fun findByEmailIgnoreCase(email: String): List<User>
+    fun findAllByEmailIgnoreCase(email: String): List<User>
 
     fun findByEmailEqualsOrUsernameEquals(email: String, username: String): Optional<User>
 
-    fun findByUsernameContaining(username: String): List<User>
+    fun findAllByUsernameContaining(username: String): List<User>
 
-    fun findByUsernameIn(usernames: List<String>): List<User>
+    fun findAllByUsernameIn(usernames: List<String>): List<User>
 
     fun findByResetKey(resetKey: String): User?
 
     @Query("select u from User u where lower(u.username) in (:usernames)")
-    fun findByUsernameLowercaseIn(@Param("usernames") username: List<String>): List<User>
+    fun findAllByUsernameLowercaseIn(@Param("usernames") username: List<String>): List<User>
 
     @Modifying
     @Query("REFRESH MATERIALIZED VIEW CONCURRENTLY user_stats", nativeQuery = true)

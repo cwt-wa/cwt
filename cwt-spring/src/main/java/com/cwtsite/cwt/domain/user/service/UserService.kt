@@ -156,7 +156,7 @@ constructor(private val userRepository: UserRepository,
             if (validateUsername(newUsername)) user.username = newUsername
             else throw InvalidUsernameException()
 
-            if (userRepository.findByUsernameIgnoreCase(newUsername).any { it != user }) throw UsernameTakenException()
+            if (userRepository.findAllByUsernameIgnoreCase(newUsername).any { it != user }) throw UsernameTakenException()
         }
 
         if (newAboutText != null) user.about = newAboutText;
@@ -164,7 +164,7 @@ constructor(private val userRepository: UserRepository,
         if (newEmail != null) {
             val newEmailTrimmed = newEmail.trim { it <= ' ' }
             if (!validateEmail(newEmailTrimmed)) throw InvalidEmailException()
-            if (userRepository.findByEmailIgnoreCase(newEmailTrimmed).any { it != user }) throw EmailExistsException()
+            if (userRepository.findAllByEmailIgnoreCase(newEmailTrimmed).any { it != user }) throw EmailExistsException()
             user.email = newEmailTrimmed
         }
 
@@ -226,7 +226,7 @@ constructor(private val userRepository: UserRepository,
 
     fun findByIds(vararg userId: Long): List<User> = userRepository.findAllById(userId.toList())
 
-    fun findByUsernameContaining(term: String): List<User> = userRepository.findByUsernameContaining(term)
+    fun findByUsernameContaining(term: String): List<User> = userRepository.findAllByUsernameContaining(term)
 
     fun findCountryById(countryId: Long) = countryRepository.findById(countryId)
 
@@ -241,12 +241,12 @@ constructor(private val userRepository: UserRepository,
         userRepository.save(user)
     }
 
-    fun findByUsernames(usernames: List<String>): List<User> = userRepository.findByUsernameIn(usernames)
+    fun findByUsernames(usernames: List<String>): List<User> = userRepository.findAllByUsernameIn(usernames)
 
-    fun findByUsernamesIgnoreCase(usernames: List<String>): List<User> = userRepository.findByUsernameLowercaseIn(usernames.map {it.toLowerCase()})
+    fun findByUsernamesIgnoreCase(usernames: List<String>): List<User> = userRepository.findAllByUsernameLowercaseIn(usernames.map {it.toLowerCase()})
 
     fun findByEmail(email: String): User? {
-        val users = userRepository.findByEmailIgnoreCase(email)
+        val users = userRepository.findAllByEmailIgnoreCase(email)
         if (users.isEmpty()) return null
         else if (users.size > 1) throw IllegalStateException()
         return users[0]

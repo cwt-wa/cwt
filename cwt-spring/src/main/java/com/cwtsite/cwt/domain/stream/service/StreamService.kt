@@ -26,7 +26,7 @@ class StreamService {
 
     fun saveChannel(channel: Channel): Channel = channelRepository.save(channel)
 
-    fun findChannelByUsers(users: List<User>): List<Channel> = channelRepository.findByUser(users)
+    fun findChannelByUsers(users: List<User>): List<Channel> = channelRepository.findAllByUserIn(users)
 
     fun saveVideoCursor(channel: Channel, videoCursor: String?): Channel =
             channelRepository.save(with (channel) { this.videoCursor = videoCursor; this})

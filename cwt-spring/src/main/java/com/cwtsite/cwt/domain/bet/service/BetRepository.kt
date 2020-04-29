@@ -12,5 +12,5 @@ import java.util.*
 interface BetRepository : JpaRepository<Bet, Long> {
 
     fun findByUserAndGame(user: User, game: Game): Optional<Bet>
-    fun findByGame(game: Game): List<Bet>
+    fun findAllByGame(game: Game): List<Bet>
 }

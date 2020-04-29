@@ -262,7 +262,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     }
 
     fun findGameStats(game: Game): String =
-            gameStatsRepository.findByGame(game)
+            gameStatsRepository.findAllByGame(game)
                     .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
@@ -271,7 +271,7 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         return gameRepository.save(game)
     }
 
-    fun findBetsByGame(game: Game): List<Bet> = betRepository.findByGame(game)
+    fun findBetsByGame(game: Game): List<Bet> = betRepository.findAllByGame(game)
 
     fun findGroupGamesInclVoided(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndTournament(tournament)
 
