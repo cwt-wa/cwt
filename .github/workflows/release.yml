@@ -5,7 +5,7 @@ on:
       - 'v*'
 jobs:
   build:
-    name: Upload Release Asset
+    name: Release and Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -14,9 +14,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: clean-install
+      - name: mvn -B clean package -DskipTests
         run: mvn -B clean package -DskipTests
-      - name: Create Release
+      - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -26,7 +26,7 @@ jobs:
           release_name: ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Upload Release Asset
+      - name: Add Artifact to GitHub Release
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
@@ -36,7 +36,7 @@ jobs:
           asset_path: ./cwt-spring/target/cwt-spring-SNAPSHOT.jar
           asset_name: cwt-spring.jar
           asset_content_type: application/java-archive
-      - name: copy file via ssh password
+      - name: SCP to Ocean
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.ocean_host }}
