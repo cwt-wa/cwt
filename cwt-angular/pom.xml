@@ -35,7 +35,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>test</id>
+                        <id>yarn test</id>
                         <phase>test</phase>
                         <goals>
                             <goal>yarn</goal>
@@ -45,7 +45,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>build</id>
+                        <id>yarn build</id>
                         <phase>package</phase>
                         <goals>
                             <goal>yarn</goal>
