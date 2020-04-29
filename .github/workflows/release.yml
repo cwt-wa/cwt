@@ -14,8 +14,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: mvn -B clean install -DskipTests
-        run: mvn -B clean install -DskipTests
+      - name: mvn -B clean package -DskipTests
+        run: mvn -B clean package -DskipTests
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
