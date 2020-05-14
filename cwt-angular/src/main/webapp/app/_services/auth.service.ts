@@ -38,7 +38,8 @@ export class AuthService {
                 && readToken.context.user
                 && readToken.context.user.email
                 && readToken.context.user.username
-                && readToken.context.user.id;
+                && readToken.context.user.id
+                && (readToken.exp * 1000) > Date.now();
         } catch (e) {
             return false;
         }
