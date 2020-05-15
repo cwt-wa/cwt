@@ -1,17 +1,38 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {GroupWithGamesDto} from "../custom";
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'cwt-group-table',
-    template: require('./group-table.component.html')
+    template: require('./group-table.component.html'),
+    styles: [
+        `
+        tr.highlight {
+          background-color: rgba(0, 0, 0, 0.075);
+        }
+        `
+    ]
 })
-export class GroupTableComponent {
+export class GroupTableComponent implements OnInit {
+
+    @ViewChildren('standingTr') public standingTableRows: QueryList<ElementRef<HTMLTableRowElement>>;
+
     @Input()
     public group: GroupWithGamesDto;
 
     @Input()
     public numberOfGroupMembersAdvancing: number;
 
+    @Input()
+    public highlightUser?: Subject<{ user: number, enter: boolean }>;
+
     @Output()
     public mouseOverUser: EventEmitter<{ user: number, enter: boolean }> = new EventEmitter();
+
+    ngOnInit(): void {
+        this.highlightUser && this.highlightUser.subscribe(event =>
+            this.standingTableRows.toArray()
+                .filter(tr => parseInt(tr.nativeElement.getAttribute('data-user')) === event.user)
+                .forEach(tr => tr.nativeElement.classList.toggle('highlight', event.enter)))
+    }
 }
