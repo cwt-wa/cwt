@@ -26,6 +26,7 @@
     <div class="row" *ngIf="viewMode === 'square' && groups">
         <cwt-group-table class="col-md-12 col-lg-6"
                          *ngFor="let group of groups" [group]="group"
+                         (mouseOverUser)="onMouseOverUser($event)"
                          [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
         </cwt-group-table>
     </div>
@@ -34,9 +35,10 @@
         <div class="row mb-3 pt-4" *ngFor="let group of groups; let odd = odd" [ngClass]="{'bg-light': odd}">
             <cwt-group-table class="col-md-12 col-lg-6"
                              [group]="group"
+                             (mouseOverUser)="onMouseOverUser($event)"
                              [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
             </cwt-group-table>
-            <cwt-group-games class="col-md-12 col-lg-6" [games]="group.games">
+            <cwt-group-games class="col-md-12 col-lg-6" [games]="group.games" [highlightUser]="highlightUserSubject">
             </cwt-group-games>
         </div>
     </div>

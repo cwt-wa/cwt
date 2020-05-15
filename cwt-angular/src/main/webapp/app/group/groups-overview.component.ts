@@ -3,6 +3,7 @@ import {RequestService} from "../_services/request.service";
 import {GroupWithGamesDto} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {finalize} from "rxjs/operators";
+import {Subject} from 'rxjs';
 
 type ViewMode = "list" | "square";
 
@@ -21,6 +22,7 @@ export class GroupsOverviewComponent implements OnInit {
     public groups: GroupWithGamesDto[];
     public numberOfGroupMembersAdvancing: number;
     public loading: boolean = true;
+    public highlightUserSubject: Subject<{ user: number, enter: boolean }> = new Subject();
     private readonly VIEW_MODE_STORAGE_KEY: 'groups-overview-view-mode' = 'groups-overview-view-mode';
 
     constructor(private requestService: RequestService, private configurationService: ConfigurationService) {
@@ -38,6 +40,10 @@ export class GroupsOverviewComponent implements OnInit {
         } else {
             this.numberOfGroupMembersAdvancing = this.numberOfGroupMembersAdvancingInput
         }
+    }
+
+    public onMouseOverUser(event: { user: number, enter: boolean }) {
+        this.highlightUserSubject.next(event);
     }
 
     public rememberViewMode(): void {

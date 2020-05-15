@@ -22,7 +22,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let standing of group.standings; let index = index;">
+    <tr *ngFor="let standing of group.standings; let index = index;"
+        (mouseenter)="mouseOverUser.emit({enter: true, user: standing.user.id})"
+        (mouseleave)="mouseOverUser.emit({enter: false, user: standing.user.id})">
         <td class="text-center text-white" [ngClass]="index + 1 <= numberOfGroupMembersAdvancing ? 'bg-success' : 'bg-danger'">
             {{index + 1}}
         </td>
