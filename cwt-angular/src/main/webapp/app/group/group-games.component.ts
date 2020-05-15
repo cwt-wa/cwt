@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {GameMinimalDto} from "../custom";
 import {Subject} from "rxjs";
 
@@ -22,10 +22,13 @@ export class GroupGamesComponent implements OnInit {
     games: GameMinimalDto[];
 
     @Input()
-    highlightUser: Subject<{ user: number, enter: boolean }>;
+    highlightUser?: Subject<{ user: number, enter: boolean }>;
+
+    @Output()
+    public mouseOverUser: EventEmitter<{ user: number, enter: boolean }> = new EventEmitter();
 
     ngOnInit(): void {
-        this.highlightUser.subscribe(({user, enter}) =>
+        this.highlightUser && this.highlightUser.subscribe(({user, enter}) =>
             [...this.homeUserTd.toArray(), ...this.awayUserTd.toArray()]
                 .filter(ref => parseInt(ref.nativeElement.getAttribute('data-user-id')) === user)
                 .forEach(ref => ref.nativeElement.classList.toggle('highlight', enter)));

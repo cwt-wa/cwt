@@ -1,13 +1,17 @@
 <table class="table table-sm group-games">
     <tbody>
     <tr *ngFor="let game of games;">
-        <td class="text-right" #homeUserTd [attr.data-user-id]="game.homeUser.id">
+        <td class="text-right" #homeUserTd [attr.data-user-id]="game.homeUser.id"
+            (mouseover)="mouseOverUser.emit({user: game.homeUser.id, enter: true})"
+            (mouseleave)="mouseOverUser.emit({user: game.homeUser.id, enter: false})">
             <cwt-user [username]="game.homeUser.username"></cwt-user>
         </td>
         <td class="text-center text-nowrap">
             {{game.scoreHome}}–{{game.scoreAway}}
         </td>
-        <td class="text-left" #awayUserTd [attr.data-user-id]="game.awayUser.id">
+        <td class="text-left" #awayUserTd [attr.data-user-id]="game.awayUser.id"
+            (mouseover)="mouseOverUser.emit({user: game.awayUser.id, enter: true})"
+            (mouseleave)="mouseOverUser.emit({user: game.awayUser.id, enter: false})">
             <cwt-user [username]="game.awayUser.username"></cwt-user>
         </td>
         <td class="text-right">

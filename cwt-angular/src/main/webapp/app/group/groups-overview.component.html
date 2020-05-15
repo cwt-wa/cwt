@@ -36,9 +36,13 @@
             <cwt-group-table class="col-md-12 col-lg-6"
                              [group]="group"
                              (mouseOverUser)="onMouseOverUser($event)"
+                             [highlightUser]="highlightUserSubject"
                              [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
             </cwt-group-table>
-            <cwt-group-games class="col-md-12 col-lg-6" [games]="group.games" [highlightUser]="highlightUserSubject">
+            <cwt-group-games class="col-md-12 col-lg-6"
+                             [games]="group.games"
+                             [highlightUser]="highlightUserSubject"
+                             (mouseOverUser)="onMouseOverUser($event)">
             </cwt-group-games>
         </div>
     </div>
