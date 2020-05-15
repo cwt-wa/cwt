@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {GroupWithGamesDto} from "../custom";
 
 @Component({
@@ -11,4 +11,7 @@ export class GroupTableComponent {
 
     @Input()
     public numberOfGroupMembersAdvancing: number;
+
+    @Output()
+    public mouseOverUser: EventEmitter<{ user: number, enter: boolean }> = new EventEmitter();
 }
