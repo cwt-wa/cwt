@@ -4,7 +4,7 @@ import {PageDto, Rating, RatingType, UserOverviewDto} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
-    selector: 'cwt-user-overiew',
+    selector: 'cwt-user-overview',
     template: require('./user-overview.component.html')
 })
 export class UserOverviewComponent implements OnInit {
