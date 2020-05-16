@@ -14,7 +14,9 @@
                     </cwt-reach>
                     <br>
                     <span class="text-nowrap">{{reach.locRound}}</span><br>
-                    {{reach.year}}
+                    <a [routerLink]="['/archive', reach.year]">
+                        {{reach.year}}
+                    </a>
                 </div>
             </div>
         </div>
