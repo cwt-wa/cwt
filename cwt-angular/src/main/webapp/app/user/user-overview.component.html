@@ -22,12 +22,14 @@
                     </div>
                     <div class="col-md col-12 text-md-right">
                         <ng-container *ngFor="let reach of user.userStats;">
-                            <cwt-reach *ngIf="reach.round >= reach.tournamentMaxRound"
-                                       [maxRound]="reach.tournamentMaxRound"
-                                       [round]="reach.round"
-                                       [ngbTooltip]="reach.year"
-                                       style="padding-right: 5px">
-                            </cwt-reach>
+                            <a [routerLink]="['/archive', reach.year]">
+                                <cwt-reach *ngIf="reach.round >= reach.tournamentMaxRound"
+                                           [maxRound]="reach.tournamentMaxRound"
+                                           [round]="reach.round"
+                                           [ngbTooltip]="reach.year"
+                                           style="padding-right: 5px">
+                                </cwt-reach>
+                            </a>
                         </ng-container>
                     </div>
                     <div class="col-md col-12 mt-2 mt-md-0" style="font-size: 22px">
