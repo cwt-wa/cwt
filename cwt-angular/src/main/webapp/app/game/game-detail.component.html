@@ -85,7 +85,7 @@
                         Like&nbsp;
                         <span class="font-variant-none font-weight-bold">{{ratings.LIKE.length}}</span>
                     </ng-container>
-                    <img src="/loading.gif" class="loading" *ngIf="submittingRating === 'LIKE'"/>
+                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIKE'"/>
                 </button>
                 <button class="w-100 btn btn-danger text-white" (click)="rate('DISLIKE')"
                         ngbTooltip="Dislike"
@@ -95,7 +95,7 @@
                         Dislike&nbsp;
                         <span class="font-variant-none font-weight-bold">{{ratings.DISLIKE.length}}</span>
                     </ng-container>
-                    <img src="/loading.gif" class="loading" *ngIf="submittingRating === 'DISLIKE'"/>
+                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'DISLIKE'"/>
                 </button>
             </div>
         </div>
@@ -109,7 +109,7 @@
                         Ligthside&nbsp;
                         <span class="font-variant-none font-weight-bold">{{ratings.LIGHTSIDE.length}}</span>
                     </ng-container>
-                    <img src="/loading.gif" class="loading" *ngIf="submittingRating === 'LIGHTSIDE'"/>
+                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIGHTSIDE'"/>
                 </button>
                 <button class="w-100 btn bg-success text-white" (click)="rate('DARKSIDE')"
                         ngbTooltip="Thoughtful playing"
@@ -119,7 +119,7 @@
                         Darkside&nbsp;
                         <span class="font-variant-none font-weight-bold">{{ratings.DARKSIDE.length}}</span>
                     </ng-container>
-                    <img src="/loading.gif" class="loading" *ngIf="submittingRating === 'DARKSIDE'"/>
+                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'DARKSIDE'"/>
                 </button>
             </div>
         </div>
@@ -190,7 +190,7 @@
     </div>
     <div class="row mt-4">
         <div class="col-12 col-md-6 col-lg-5 col-xl-4 text-center">
-            <img *ngIf="loadingStats" src="/loading.gif"/>
+            <img *ngIf="loadingStats" src="../../img/loading.gif"/>
             <div *ngIf="!stats.length && statsAreBeingProcessed && !loadingStats"
                  class="alert alert-info text-left">
                 The replay files are currently being processed to show further statistics.<br>
@@ -239,7 +239,7 @@
                             <div class="float-right">
                                 <button class="btn btn-primary mt-1" style="width: 80px"
                                         [disabled]="!commentForm.form.valid || submittingComment">
-                                    <img src="/loading.gif" class="loading" *ngIf="submittingComment"/>
+                                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingComment"/>
                                     <ng-container *ngIf="!submittingComment">Submit</ng-container>
                                 </button>
                             </div>

@@ -14,7 +14,7 @@
     <span *ngIf="noCurrentTournament">You can only void games of the current tournament</span>
 </div>
 
-<img src="/loading.gif" *ngIf="loading"/>
+<img src="../img/loading.gif" *ngIf="loading"/>
 
 <div class="row justify-content-center mt-4" *ngIf="!loading && !(isNeitherTournamentStatus || noCurrentTournament)">
     <form class="col-12 col-sm-6 col-md-4" (ngSubmit)="onSubmit()" #gameVoidForm="ngForm" *ngIf="groups">
