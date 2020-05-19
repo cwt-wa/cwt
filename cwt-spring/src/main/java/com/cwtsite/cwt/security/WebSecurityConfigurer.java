@@ -38,7 +38,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private final MailProperties mailProperties;
 
-    @Value("${config.logging.max-payload-size}")
+    @Value("${config.logging.max-payload-size:#{100000}}")
     private Integer maxPayloadSize;
 
     @Autowired
