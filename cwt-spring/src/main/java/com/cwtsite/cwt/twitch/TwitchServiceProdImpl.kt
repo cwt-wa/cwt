@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.twitch
 
+import com.cwtsite.cwt.core.profile.Integration
 import com.cwtsite.cwt.core.profile.Prod
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.service.StreamService
@@ -7,11 +8,14 @@ import com.cwtsite.cwt.twitch.model.TwitchStreamDto
 import com.cwtsite.cwt.twitch.model.TwitchUserDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import javax.annotation.PostConstruct
 
 @Prod
+@Integration
+@Primary
 @Service
 class TwitchServiceProdImpl : TwitchService {
 

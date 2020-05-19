@@ -7,8 +7,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.*
-import org.springframework.http.client.*
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
+import org.springframework.http.RequestEntity
+import org.springframework.http.ResponseEntity
+import org.springframework.http.client.BufferingClientHttpRequestFactory
+import org.springframework.http.client.ClientHttpRequestInterceptor
+import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
@@ -33,21 +38,6 @@ class RestTemplateProvider {
     @PostConstruct
     fun postConstruct() {
         restTemplate = RestTemplateBuilder()
-                .interceptors(object : ClientHttpRequestInterceptor {
-                    override fun intercept(request: HttpRequest, body: ByteArray, execution: ClientHttpRequestExecution): ClientHttpResponse {
-                        logger.info("""
-                            method: ${request.method} 
-                            uri: ${request.uri} 
-                            headers: ${request.headers} 
-                            body: ${body.toString(Charset.defaultCharset())}""".trimIndent())
-                        val response = execution.execute(request, body)
-                        logger.info("""
-                            statusCode: ${response.statusCode}
-                            headers: ${response.headers} 
-                            body: ${response.body.bufferedReader().use { it.readText() }}""".trimIndent())
-                        return response
-                    }
-                })
                 .requestFactory { BufferingClientHttpRequestFactory(SimpleClientHttpRequestFactory()) }
                 .messageConverters(
                         with(MappingJackson2HttpMessageConverter()) {
@@ -58,6 +48,23 @@ class RestTemplateProvider {
                             }
                             this
                         })
+                .interceptors(ClientHttpRequestInterceptor { request, body, execution ->
+                    logger.info("Adding client-id header: ${twitchProperties.clientId}")
+                    request.headers.add("client-id", twitchProperties.clientId!!)
+                    execution.execute(request, body)
+                }, ClientHttpRequestInterceptor { request, body, execution ->
+                    logger.info("""
+                            method: ${request.method} 
+                            uri: ${request.uri} 
+                            headers: ${request.headers} 
+                            body: ${body.toString(Charset.defaultCharset())}""".trimIndent())
+                    val response = execution.execute(request, body)
+                    logger.info("""
+                            statusCode: ${response.statusCode}
+                            headers: ${response.headers} 
+                            body: ${response.body.bufferedReader().use { it.readText() }}""".trimIndent())
+                    response
+                })
                 .build()
     }
 
@@ -65,6 +72,7 @@ class RestTemplateProvider {
     fun addAuthTokenHeaderInterceptor() {
         restTemplate.interceptors.add(
                 ClientHttpRequestInterceptor { request, body, execution ->
+                    logger.info("Adding ${twitchProperties.authorizationHeaderName} header: $authToken")
                     request.headers.add(twitchProperties.authorizationHeaderName!!, "Bearer $authToken")
                     execution.execute(request, body)
                 })
