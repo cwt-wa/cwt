@@ -16,4 +16,7 @@ jobs:
         with:
           java-version: 11
       - name: clean-install
+        env:
+          TWITCH_CLIENT_SECRET: ${{ secrets.twitch_client_secret }}
+          TWITCH_CLIENT_ID: ${{ secrets.twitch_client_id }}
         run: mvn -B clean install
