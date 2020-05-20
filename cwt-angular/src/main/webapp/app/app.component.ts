@@ -4,13 +4,15 @@ import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
-import {JwtUser, TetrisDto, UserMinimalDto} from "./custom";
+import {JwtUser, TetrisDto, TournamentDetailDto, UserMinimalDto} from "./custom";
 import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
 import * as p5 from "p5";
 import {TetrisGuest} from "../tetris/tetrisguest";
 import {ConfigurationService} from "./_services/configuration.service";
+import {map} from "rxjs/operators";
+import {forkJoin} from "rxjs";
 
 @Component({
     selector: 'my-app',
@@ -58,8 +60,17 @@ export class AppComponent implements AfterViewInit, OnInit {
             this.authService.voidToken();
         }
 
-        this.configurationService.requestByKeys('EVENT_SOURCE_TWITCH_WEBHOOK')
-            .subscribe(res => this.eventSourceTwitchWebhook = res[0].value === 'true');
+        forkJoin([
+            this.requestService.get<TournamentDetailDto>('tournament/current'),
+            this.configurationService.requestByKeys('EVENT_SOURCE_TWITCH_WEBHOOK')
+        ])
+            .pipe(map(([tournament, config]) => ({
+                tournament,
+                config: this.eventSourceTwitchWebhook = config[0].value === 'true'
+            })))
+            .subscribe(({tournament, config}) =>
+                this.eventSourceTwitchWebhook =
+                    config && tournament && ["OPEN", "GROUP", "PLAYOFFS"].includes(tournament.status));
     }
 
     public ngAfterViewInit(): void {
