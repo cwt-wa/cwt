@@ -37,7 +37,7 @@ module.exports = webpackMerge(commonConfig, {
                 'ENV': JSON.stringify(ENV),
                 'apiEndpoint': JSON.stringify("/api/"),
                 'captchaKey': JSON.stringify('6LcWgLYUAAAAAOvJrsE-KX2ZZNgHqkd9tBwm-tq4'),
-                'liveStreamProducer': JSON.stringify('http://cwtsite.com:9999/produce')
+                'liveStreamProducer': JSON.stringify('https://twitch.cwtsite.com/produce')
             }
         })
     ]
