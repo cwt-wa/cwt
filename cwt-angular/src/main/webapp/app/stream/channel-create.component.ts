@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {ChannelCreationDto, ChannelDto, JwtUser} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
+import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
     selector: 'cwt-streams',
@@ -20,7 +21,8 @@ export class ChannelCreateComponent implements OnInit {
     authUser: JwtUser;
     loading: boolean = true;
 
-    constructor(private requestService: RequestService, private authService: AuthService) {
+    constructor(private requestService: RequestService, private authService: AuthService,
+                @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     async ngOnInit() {
@@ -34,6 +36,12 @@ export class ChannelCreateComponent implements OnInit {
 
     submit() {
         this.requestService.post<ChannelDto>('channel', this.channel)
-            .subscribe(() => this.channelCreated = true);
+            .subscribe(({id}) => {
+                this.channelCreated = true;
+                fetch(`${this.appConfig.liveStreamSubscriber}/${id}`)
+                    .then(res => res.json())
+                    .then(console.log)
+                    .catch(console.error);
+            });
     }
 }
