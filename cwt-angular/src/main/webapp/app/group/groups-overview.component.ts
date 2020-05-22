@@ -4,6 +4,7 @@ import {GroupWithGamesDto} from "../custom";
 import {ConfigurationService} from "../_services/configuration.service";
 import {finalize} from "rxjs/operators";
 import {Subject} from 'rxjs';
+import {CurrentTournamentService} from "../_services/current-tournament.service";
 
 type ViewMode = "list" | "square";
 
@@ -25,11 +26,27 @@ export class GroupsOverviewComponent implements OnInit {
     public highlightUserSubject: Subject<{ user: number, enter: boolean }> = new Subject();
     private readonly VIEW_MODE_STORAGE_KEY: 'groups-overview-view-mode' = 'groups-overview-view-mode';
 
-    constructor(private requestService: RequestService, private configurationService: ConfigurationService) {
+    constructor(private requestService: RequestService, private configurationService: ConfigurationService,
+                private currentTournamentService: CurrentTournamentService) {
         this.viewMode = <ViewMode> localStorage.getItem('groups-overview-view-mode') || 'list';
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit() {
+        if (this.tournamentId != null) {
+            this.requestService.get<GroupWithGamesDto[]>(`tournament/${this.tournamentId}/group`)
+                .pipe(finalize(() => this.loading = false))
+                .subscribe(res => this.groups = res);
+        } else {
+            if (await this.currentTournamentService.value) {
+                this.requestService.get<GroupWithGamesDto[]>("tournament/current/group")
+                    .pipe(finalize(() => this.loading = false))
+                    .subscribe(res => this.groups = res);
+            } else {
+                this.loading = false;
+                return;
+            }
+        }
+
         this.requestService.get<GroupWithGamesDto[]>(`tournament/${this.tournamentId || 'current'}/group`)
             .pipe(finalize(() => this.loading = false))
             .subscribe(res => this.groups = res);

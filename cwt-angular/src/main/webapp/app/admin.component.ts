@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {RequestService} from "./_services/request.service";
 import {TournamentDetailDto} from "./custom";
+import {CurrentTournamentService} from "./_services/current-tournament.service";
 
 @Component({
     selector: 'cwt-admin',
@@ -11,11 +11,10 @@ export class AdminComponent implements OnInit {
 
     tournament?: TournamentDetailDto;
 
-    constructor(private requestService: RequestService) {
+    constructor(private currentTournamentService: CurrentTournamentService) {
     }
 
     ngOnInit(): void {
-        this.requestService.get<TournamentDetailDto>('tournament/current')
-            .subscribe(res => this.tournament = res)
+        this.currentTournamentService.value.then(res => this.tournament = res);
     }
 }

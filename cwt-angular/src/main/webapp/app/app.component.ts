@@ -4,7 +4,7 @@ import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
-import {JwtUser, TetrisDto, TournamentDetailDto, UserMinimalDto} from "./custom";
+import {JwtUser, TetrisDto, UserMinimalDto} from "./custom";
 import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
@@ -13,6 +13,7 @@ import {TetrisGuest} from "../tetris/tetrisguest";
 import {ConfigurationService} from "./_services/configuration.service";
 import {map} from "rxjs/operators";
 import {forkJoin} from "rxjs";
+import {CurrentTournamentService} from "./_services/current-tournament.service";
 
 @Component({
     selector: 'my-app',
@@ -37,7 +38,8 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
                 private router: Router, private authService: AuthService, private canReportService: CanReportService,
-                private toastr: Toastr, private configurationService: ConfigurationService) {
+                private toastr: Toastr, private configurationService: ConfigurationService,
+                private currentTournamentService: CurrentTournamentService) {
         this.isAppleStandalone = this.webAppViewService.isAppleStandalone;
         this.isStandalone = this.webAppViewService.isStandalone;
     }
@@ -61,7 +63,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         }
 
         forkJoin([
-            this.requestService.get<TournamentDetailDto>('tournament/current'),
+            this.currentTournamentService.value,
             this.configurationService.requestByKeys('EVENT_SOURCE_TWITCH_WEBHOOK')
         ])
             .pipe(map(([tournament, config]) => ({

@@ -5,6 +5,7 @@ import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {BetResult, BetService} from "../_services/bet.service";
 import {finalize} from "rxjs/operators";
+import {CurrentTournamentService} from "../_services/current-tournament.service";
 
 interface PlayoffTreeBetDtoWithBetResults extends PlayoffGameDto {
     betResult?: BetResult
@@ -28,68 +29,82 @@ export class PlayoffsTreeComponent implements OnInit {
     private authUser: JwtUser;
 
     public constructor(private requestService: RequestService, private authService: AuthService,
-                       private toastr: Toastr, private betService: BetService) {
+                       private toastr: Toastr, private betService: BetService,
+                       private currentTournamentService: CurrentTournamentService) {
     }
 
-    public ngOnInit(): void {
-        this.authService.authState.then(user => this.authUser = user);
+    public async ngOnInit() {
+        this.authUser = await this.authService.authState;
 
-        this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId || 'current'}/game/playoff`)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe(res => {
-                if (!res || !res.length) return;
+        if (this.tournamentId != null) {
+            this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId}/game/playoff`)
+                .pipe(finalize(() => this.loading = false))
+                .subscribe(this.createTree.bind(this));
+        } else {
+            if (await this.currentTournamentService.value) {
+                this.requestService.get<PlayoffGameDto[]>("tournament/current/game/playoff")
+                    .pipe(finalize(() => this.loading = false))
+                    .subscribe(this.createTree.bind(this));
+            } else {
+                this.loading = false;
+                return;
+            }
+        }
+    }
 
-                const gamesInFirstRound = res
-                    .filter(g => g.playoff.round === 1)
-                    .length;
-                const log2GamesInFirstRound = Math.log2(gamesInFirstRound);
-                const numberOfRounds = Math.floor(log2GamesInFirstRound) + 1;
-                this.isThreeWayFinalTree = log2GamesInFirstRound % 1 !== 0;
+    private createTree(res: PlayoffGameDto[]) {
+        if (!res || !res.length) return;
 
-                this.playoffGames = new Array<PlayoffGameDto[]>(numberOfRounds)
-                    .fill(null)
-                    .map((_value, index) => {
-                        const round = index + 1;
-                        const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round, gamesInFirstRound);
-                        const existingGamesInRound: PlayoffTreeBetDtoWithBetResults[] = this.getExistingGamesInRound(round, res)
-                            .map<PlayoffTreeBetDtoWithBetResults>(g => {
-                                (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets, this.authUser);
-                                return g as PlayoffTreeBetDtoWithBetResults;
-                            });
+        const gamesInFirstRound = res
+            .filter(g => g.playoff.round === 1)
+            .length;
+        const log2GamesInFirstRound = Math.log2(gamesInFirstRound);
+        const numberOfRounds = Math.floor(log2GamesInFirstRound) + 1;
+        this.isThreeWayFinalTree = log2GamesInFirstRound % 1 !== 0;
 
-                        if (numberOfRounds === round) {
-                            const finalGames = existingGamesInRound[0] != null
-                                ? [this.getExistingGamesInRound(round + 1, res)[0], existingGamesInRound[0]]
-                                : (this.isThreeWayFinalTree ? new Array(3).fill(<PlayoffGameDto>{}) : new Array(2).fill(<PlayoffGameDto>{}));
-
-                            finalGames.map<PlayoffTreeBetDtoWithBetResults>(g => {
-                                if (g.betResult == null) {
-                                    (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets, this.authUser);
-                                }
-                                return g as PlayoffTreeBetDtoWithBetResults;
-                            });
-
-                            return finalGames;
-                        }
-
-                        existingGamesInRound.reverse();
-                        const freeSpotsInRound = new Array(expectedNumberOfGamesInRound)
-                            .fill(null)
-                            .map((_value, idx) => idx + 1)
-                            .filter(s => existingGamesInRound.findIndex(g => g.playoff.spot === s) === -1);
-
-                        return [...existingGamesInRound].concat(new Array(expectedNumberOfGamesInRound - existingGamesInRound.length)
-                            .fill(null)
-                            .map(() => ({
-                                playoff: {
-                                    round: round,
-                                    spot: freeSpotsInRound.pop()
-                                }
-                            } as PlayoffTreeBetDtoWithBetResults)))
-                            .sort((a, b) => a.playoff && b.playoff
-                                ? (a.playoff.spot > b.playoff.spot ? 1 : -1)
-                                : 0);
+        this.playoffGames = new Array<PlayoffGameDto[]>(numberOfRounds)
+            .fill(null)
+            .map((_value, index) => {
+                const round = index + 1;
+                const expectedNumberOfGamesInRound = this.calcRequiredNumberOfGamesInRound(round, gamesInFirstRound);
+                const existingGamesInRound: PlayoffTreeBetDtoWithBetResults[] = this.getExistingGamesInRound(round, res)
+                    .map<PlayoffTreeBetDtoWithBetResults>(g => {
+                        (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets, this.authUser);
+                        return g as PlayoffTreeBetDtoWithBetResults;
                     });
+
+                if (numberOfRounds === round) {
+                    const finalGames = existingGamesInRound[0] != null
+                        ? [this.getExistingGamesInRound(round + 1, res)[0], existingGamesInRound[0]]
+                        : (this.isThreeWayFinalTree ? new Array(3).fill(<PlayoffGameDto>{}) : new Array(2).fill(<PlayoffGameDto>{}));
+
+                    finalGames.map<PlayoffTreeBetDtoWithBetResults>(g => {
+                        if (g.betResult == null) {
+                            (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets, this.authUser);
+                        }
+                        return g as PlayoffTreeBetDtoWithBetResults;
+                    });
+
+                    return finalGames;
+                }
+
+                existingGamesInRound.reverse();
+                const freeSpotsInRound = new Array(expectedNumberOfGamesInRound)
+                    .fill(null)
+                    .map((_value, idx) => idx + 1)
+                    .filter(s => existingGamesInRound.findIndex(g => g.playoff.spot === s) === -1);
+
+                return [...existingGamesInRound].concat(new Array(expectedNumberOfGamesInRound - existingGamesInRound.length)
+                    .fill(null)
+                    .map(() => ({
+                        playoff: {
+                            round: round,
+                            spot: freeSpotsInRound.pop()
+                        }
+                    } as PlayoffTreeBetDtoWithBetResults)))
+                    .sort((a, b) => a.playoff && b.playoff
+                        ? (a.playoff.spot > b.playoff.spot ? 1 : -1)
+                        : 0);
             });
     }
 

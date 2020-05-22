@@ -4,6 +4,7 @@ import {GroupWithGamesDto, PlayoffGameDto, TournamentDetailDto} from "./custom";
 import {finalize} from "rxjs/operators";
 import {Toastr} from "./_services/toastr";
 import {Router} from "@angular/router";
+import {CurrentTournamentService} from "./_services/current-tournament.service";
 
 @Component({
     selector: 'cwt-admin-void-game',
@@ -22,30 +23,30 @@ export class AdminVoidGameComponent implements OnInit {
 
     constructor(private requestService: RequestService,
                 private toastr: Toastr,
-                private router: Router) {
+                private router: Router,
+                private currentTournamentService: CurrentTournamentService) {
     }
 
     ngOnInit(): void {
         this.loading = true;
 
-        this.requestService.get<TournamentDetailDto>('tournament/current')
-            .subscribe(res => {
-                this.tournament = res;
+        this.currentTournamentService.value.then(res => {
+            this.tournament = res;
 
-                if (this.tournament == null) {
-                    this.noCurrentTournament = true;
-                } else if (this.tournament.status === "GROUP") {
-                    this.requestService.get<GroupWithGamesDto[]>(`tournament/current/group`)
-                        .pipe(finalize(() => this.loading = false))
-                        .subscribe(res => this.groups = res);
-                } else if (this.tournament.status === "PLAYOFFS") {
-                    this.requestService.get<PlayoffGameDto[]>(`tournament/current/game/playoff`, {voidable: "true"})
-                        .pipe(finalize(() => this.loading = false))
-                        .subscribe(res => this.playoffs = res);
-                } else {
-                    this.isNeitherTournamentStatus = true;
-                }
-            });
+            if (this.tournament == null) {
+                this.noCurrentTournament = true;
+            } else if (this.tournament.status === "GROUP") {
+                this.requestService.get<GroupWithGamesDto[]>(`tournament/current/group`)
+                    .pipe(finalize(() => this.loading = false))
+                    .subscribe(res => this.groups = res);
+            } else if (this.tournament.status === "PLAYOFFS") {
+                this.requestService.get<PlayoffGameDto[]>(`tournament/current/game/playoff`, {voidable: "true"})
+                    .pipe(finalize(() => this.loading = false))
+                    .subscribe(res => this.playoffs = res);
+            } else {
+                this.isNeitherTournamentStatus = true;
+            }
+        });
     }
 
     onSubmit() {

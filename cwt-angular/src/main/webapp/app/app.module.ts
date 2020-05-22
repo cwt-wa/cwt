@@ -90,6 +90,7 @@ import {GameStatsComponent} from "./game/game-stats.component";
 import {WeaponComponent} from "./_util/weapon.component";
 import {AdminExtractStatsComponent} from "./admin/admin-extract-stats.component";
 import {MapComponent} from "./game/map.component";
+import {CurrentTournamentService} from "./_services/current-tournament.service";
 
 const appRoutes: Routes = [
     {
@@ -342,6 +343,7 @@ const appRoutes: Routes = [
         CanReportService,
         BinaryService,
         CanDeactivateGuard,
+        CurrentTournamentService,
         Toastr,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
