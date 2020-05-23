@@ -12,6 +12,41 @@ html {
 body {
   background: transparent;
   color: theme-color('secondary');
+
+  &.goldWinner {
+    &::before {
+      content: "";
+      position: fixed;
+      top: 110px;
+      right: 20px;
+      height: 600px;
+      width: 600px;
+      background-image: url("../img/reach/gold.gif");
+      background-position: right;
+      background-repeat: no-repeat;
+      background-size: cover;
+      filter: blur(15px) opacity(.5);
+      z-index: -1;
+    }
+
+    @media (max-width: 991px) {
+      .cwt-nav-container .nav-item {
+        background-color: #ffc800;
+
+        .nav-link {
+          background-color: #6f4f00;
+        }
+      }
+    }
+
+    .cwt-top-bar {
+      background-color: #6f4f00;
+    }
+
+    .cwt-navbar {
+      background-color: #ffc800;
+    }
+  }
 }
 
 .cwt-top-bar {
@@ -213,7 +248,7 @@ body {
   }
 
   .cwt-nav-container .nav-item {
-    background-color: theme-color('primary') !important;
+    background-color: theme-color('primary');
     margin: 0 !important;
     display: table-row;
     border-radius: 0;

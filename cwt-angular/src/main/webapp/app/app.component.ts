@@ -62,6 +62,19 @@ export class AppComponent implements AfterViewInit, OnInit {
             this.authService.voidToken();
         }
 
+        Promise
+            .all([this.authService.authState, this.currentTournamentService.value])
+            .then(([authUser, currentTournament]) => {
+                const userIsGoldWinner =
+                    currentTournament
+                    && currentTournament.status === 'FINISHED'
+                    && currentTournament.goldWinner
+                    && currentTournament.goldWinner.id === authUser.id;
+                if (userIsGoldWinner) {
+                    document.body.classList.add('goldWinner');
+                }
+            });
+
         forkJoin([
             this.currentTournamentService.value,
             this.configurationService.requestByKeys('EVENT_SOURCE_TWITCH_WEBHOOK')
