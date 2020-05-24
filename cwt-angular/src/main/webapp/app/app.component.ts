@@ -8,7 +8,6 @@ import {JwtUser, TetrisDto, UserMinimalDto} from "./custom";
 import {Tetris} from "../tetris/sketch";
 import {CanReportService} from "./_services/can-report.service";
 import {Toastr} from "./_services/toastr";
-import * as p5 from "p5";
 import {TetrisGuest} from "../tetris/tetrisguest";
 import {ConfigurationService} from "./_services/configuration.service";
 import {map} from "rxjs/operators";
@@ -98,8 +97,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         window.location.href = '/';
     }
 
-    easterEgg() {
-        const p5 = require('p5/lib/p5.js');
+    async easterEgg() {
         this.highscores = [];
 
         document.body.classList.add("tetris");
@@ -115,53 +113,34 @@ export class AppComponent implements AfterViewInit, OnInit {
             }
         });
 
-        new p5((p: p5) => {
-            this.tetris = new Tetris(p);
-            window.onresize = () => this.tetris.resize();
+        const tetrisEntryPointScript = await import(/* webpackChunkName: "tetris" */ '../tetris/tetris');
+        const tetrisEntryPoint = new tetrisEntryPointScript.TetrisEntryPoint((highscore: number) => {
+            // this.highscore = highscore;
+            this.tetris.tearDown();
+            document.getElementById("tetris-gameover").classList.add("tetris-visible");
+            document.getElementById("tetris-heading").classList.remove("tetris-visible");
+            document.body.classList.add('gameOver');
+            if (this.authenticatedUser != null) {
 
-            this.tetris.onGameOver = (highscore: number) => {
-                this.highscore = highscore;
-                this.tetris.tearDown();
-                document.getElementById("tetris-gameover").classList.add("tetris-visible");
-                document.getElementById("tetris-heading").classList.remove("tetris-visible");
-                document.body.classList.add('gameOver');
-
-                if (this.authenticatedUser != null) {
-                    this.requestService.post<TetrisDto>(`user/${this.authenticatedUser.id}/tetris`, highscore)
-                        .subscribe(res => {
-                            this.toastr.success("Highscore saved.");
-                            this.highscores.push(res);
-                            this.highscores = this.sortTetrisHighscore(this.highscores);
-                            this.newTetrisEntryId = res.id;
-                        });
-                } else {
-                    document.getElementById("tetris-game-over-entry").classList.add("tetris-visible");
-                }
-
-                this.requestService.get<TetrisDto[]>(`tetris`)
+                this.requestService.post<TetrisDto>(`user/${this.authenticatedUser.id}/tetris`, highscore)
                     .subscribe(res => {
-                        this.highscores = this.highscores.concat(res);
+                        this.toastr.success("Highscore saved.");
+                        this.highscores.push(res);
+                        this.newTetrisEntryId = res.id;
                         this.highscores = this.sortTetrisHighscore(this.highscores);
                     });
-            };
-
-            p.setup = () => {
-                this.tetris.setup()
-            };
-
-            p.draw = () => {
-                this.tetris.draw()
-            };
-
-            p.keyPressed = () => {
-                this.tetris.keyPressed();
-            };
-
-            p.keyReleased = () => {
-                this.tetris.keyReleased();
+            } else {
+                document.getElementById("tetris-game-over-entry").classList.add("tetris-visible");
             }
-        }, document.getElementById('tetris'));
-   }
+
+            this.requestService.get<TetrisDto[]>(`tetris`)
+                .subscribe(res => {
+                    this.highscores = this.highscores.concat(res);
+                    this.highscores = this.sortTetrisHighscore(this.highscores);
+                });
+        });
+        this.tetris = tetrisEntryPoint.tetris;
+    }
 
     //@ts-ignore
     private saveTetrisGuest() {
