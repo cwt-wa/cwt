@@ -11,7 +11,7 @@ import {finalize} from "rxjs/operators";
       }
     `],
     template: `
-        <img *ngIf="loading" src="../../img/loading.gif"/>
+        <img *ngIf="loading" [src]="loadingImg"/>
         <img #mapImage class="map" alt="map" *ngIf="!error" [hidden]="loading">
         <div class="alert alert-danger" *ngIf="error && !loading">
             The map could not be extracted.
@@ -25,6 +25,7 @@ export class MapComponent implements OnInit {
     @ViewChild('mapImage') mapImage: ElementRef<HTMLImageElement>;
 
     loading: boolean = true;
+    loadingImg = require('../../img/loading.gif');
     error: boolean = false;
 
     constructor(private binaryService: BinaryService) {
