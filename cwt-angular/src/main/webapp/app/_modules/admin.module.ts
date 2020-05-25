@@ -22,6 +22,7 @@ import {SharedModule} from "./shared.module";
 import {WriteRulesComponent} from "../rules/write-rules.component";
 import {AddTechWinComponent} from "../tech-win/add-tech-win.component";
 import {ReplacePlayerComponent} from "../replace-player/replace-player.component";
+import {FormConfirmModule} from "./form-confirm.module";
 
 const adminRoutes = [
     {
@@ -88,6 +89,7 @@ const adminRoutes = [
         NgbModule,
         SharedModule,
         ChatModule,
+        FormConfirmModule,
     ],
     declarations: [
         AdminExtractStatsComponent,
@@ -107,7 +109,9 @@ const adminRoutes = [
         WriteRulesComponent,
     ],
     exports: [],
-    providers: [],
+    providers: [
+        CanDeactivateGuard,
+    ],
     bootstrap: [],
     entryComponents: [],
 })

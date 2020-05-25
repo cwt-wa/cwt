@@ -12,24 +12,18 @@ import {APP_CONFIG, appConfig} from "../app.config";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {ConfigurationService} from "../_services/configuration.service";
-import {RatingComponent} from "../game/rating.component";
-import {ReadMoreComponent} from "../_util/read-more.component";
 import {PreviousRouteService} from "../_services/previous-route.service";
 import {Utils} from "../_util/utils";
-import {ConfirmDirective} from "../_util/confirm.directive";
-import {TypeaheadOpenOnFocusDirective} from "../_util/typeahead-open-on-focus.directive";
-import {CanDeactivateGuard} from "../_services/can-deactivate-guard";
 import {CanReportService} from "../_services/can-report.service";
 import {Toastr} from "../_services/toastr";
 import {BetService} from "../_services/bet.service";
-import {ConfirmValidator} from "../_util/confirm.validator";
-import {DateTimeInputDirective} from "../_util/date-time-input.directive";
 import {DatePipe} from "@angular/common";
 import {BinaryService} from "../_services/binary.service";
 import {LiveStreamComponent} from "../stream/live-stream.component";
 import {CurrentTournamentService} from "../_services/current-tournament.service";
 import {SharedModule} from "./shared.module";
-import {PaginationModule} from "./pagination.module";
+import {TimeAgoService} from "../_services/time-ago.service";
+import {PlayoffsService} from "../_services/playoffs.service";
 
 const appRoutes: Routes = [
     {
@@ -118,19 +112,12 @@ const appRoutes: Routes = [
         NgbModule,
         RouterModule.forRoot(appRoutes),
         SharedModule,
-        PaginationModule,
     ],
     declarations: [
         AppComponent,
         PageNotFoundComponent,
         GmtClockComponent,
         LiveStreamComponent,
-        ReadMoreComponent,
-        RatingComponent,
-        ConfirmDirective,
-        ConfirmValidator,
-        TypeaheadOpenOnFocusDirective,
-        DateTimeInputDirective,
     ],
     providers: [
         WebAppViewService,
@@ -143,9 +130,10 @@ const appRoutes: Routes = [
         BetService,
         CanReportService,
         BinaryService,
-        CanDeactivateGuard,
         CurrentTournamentService,
         Toastr,
+        TimeAgoService,
+        PlayoffsService,
         {provide: APP_CONFIG, useValue: appConfig}
     ],
     entryComponents: [],

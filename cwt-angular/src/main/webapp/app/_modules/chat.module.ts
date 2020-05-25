@@ -26,9 +26,7 @@ import {MentionComponent} from "../message/mention.component";
         ChatInputComponent,
         ChatComponent,
     ],
-    providers: [
-        TimeAgoService
-    ],
+    providers: [],
     bootstrap: [],
     entryComponents: [MentionComponent],
 })

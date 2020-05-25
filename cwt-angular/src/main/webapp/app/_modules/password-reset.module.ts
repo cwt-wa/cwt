@@ -3,6 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
 import {PasswordResetComponent} from "../user/password-reset.component";
+import {FormConfirmModule} from "./form-confirm.module";
 
 const routes: Routes = [
     {
@@ -16,6 +17,7 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         RouterModule.forChild(routes),
+        FormConfirmModule,
     ],
     declarations: [
         PasswordResetComponent

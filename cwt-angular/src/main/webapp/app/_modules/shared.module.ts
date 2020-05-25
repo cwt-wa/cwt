@@ -10,7 +10,6 @@ import {ConvertLinksPipe} from "../_util/convert-links.pipe";
 import {ValidateDatetimeInputAfterDirective} from "../_util/date-time-input-after.validator";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {TimeAgoService} from "../_services/time-ago.service";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 import {ReplayLinkPipe} from "../_util/replay-link.pipe";
 import {EmailNote} from "../_util/email-note.pipe";
@@ -22,7 +21,6 @@ import {EmailNote} from "../_util/email-note.pipe";
         RouterModule,
         FormsModule,
         NgbModule,
-
     ],
     declarations: [
         MarkdownComponent,
@@ -46,9 +44,7 @@ import {EmailNote} from "../_util/email-note.pipe";
         ReplayLinkPipe,
         EmailNote,
     ],
-    providers: [
-        TimeAgoService
-    ],
+    providers: [],
     bootstrap: [],
     entryComponents: [],
 })

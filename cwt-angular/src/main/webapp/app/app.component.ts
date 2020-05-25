@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, HostBinding, OnInit} from "@angular/core";
 import {WebAppViewService} from "./_services/web-app-view.service";
-import {GmtClockComponent} from "./_util/gmt-clock.component";
 import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
@@ -17,7 +16,6 @@ import {CurrentTournamentService} from "./_services/current-tournament.service";
 @Component({
     selector: 'my-app',
     template: require('./app.component.html'),
-    providers: [GmtClockComponent]
 })
 export class AppComponent implements AfterViewInit, OnInit {
 

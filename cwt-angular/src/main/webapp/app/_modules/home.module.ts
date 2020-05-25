@@ -9,6 +9,7 @@ import {SharedModule} from "./shared.module";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {ChatModule} from "./chat.module";
+import {DateTimeInputDirective} from "../_util/date-time-input.directive";
 
 const homeRoutes: Routes = [
     {
@@ -32,7 +33,7 @@ const homeRoutes: Routes = [
         ApplyBannerComponent,
         SchedulerComponent,
         ApplyBannerComponent,
-
+        DateTimeInputDirective,
     ],
     providers: [],
     bootstrap: [],

@@ -6,7 +6,6 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "./shared.module";
 import {PlayoffsTreeComponent} from "../playoffs/playoffs-tree.component";
-import {PlayoffsService} from "../_services/playoffs.service";
 
 @NgModule({
     imports: [
@@ -23,9 +22,7 @@ import {PlayoffsService} from "../_services/playoffs.service";
     exports: [
         PlayoffsTreeComponent
     ],
-    providers: [
-        PlayoffsService
-    ],
+    providers: [],
     bootstrap: [],
     entryComponents: [],
 })

@@ -11,7 +11,6 @@ import {GameOverviewComponent} from "../game/game-overview.component";
 import {MapComponent} from "../game/map.component";
 import {WeaponComponent} from "../_util/weapon.component";
 import {PaginationModule} from "./pagination.module";
-import {PlayoffsService} from "../_services/playoffs.service";
 
 const routes: Routes = [
     {
@@ -36,7 +35,7 @@ const routes: Routes = [
         FormsModule,
         NgbModule,
         SharedModule,
-        PaginationModule
+        PaginationModule,
     ],
     declarations: [
         GameDetailComponent,
@@ -47,9 +46,7 @@ const routes: Routes = [
         WeaponComponent,
     ],
     exports: [],
-    providers: [
-        PlayoffsService
-    ],
+    providers: [],
     bootstrap: [],
     entryComponents: [],
 })

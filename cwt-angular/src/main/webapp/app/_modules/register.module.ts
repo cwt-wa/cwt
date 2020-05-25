@@ -5,6 +5,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {RegisterComponent} from "../user/register.component";
 import {SharedModule} from "./shared.module";
 import {NgxCaptchaModule} from 'ngx-captcha';
+import {FormConfirmModule} from "./form-confirm.module";
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         NgxCaptchaModule,
         SharedModule,
+        FormConfirmModule,
     ],
     declarations: [
         RegisterComponent
