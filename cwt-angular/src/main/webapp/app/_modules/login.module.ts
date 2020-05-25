@@ -2,14 +2,12 @@ import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {RegisterComponent} from "./user/register.component";
-import {SharedModule} from "./shared.module";
-import {NgxCaptchaModule} from 'ngx-captcha';
+import {LoginComponent} from "../user/login.component";
 
 const routes: Routes = [
     {
         path: '',
-        component: RegisterComponent
+        component: LoginComponent
     }
 ];
 
@@ -18,16 +16,14 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         RouterModule.forChild(routes),
-        NgxCaptchaModule,
-        SharedModule,
     ],
     declarations: [
-        RegisterComponent
+        LoginComponent
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class RegisterModule {
+export class LoginModule {
 }

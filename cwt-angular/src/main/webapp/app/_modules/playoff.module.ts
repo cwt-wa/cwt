@@ -5,8 +5,8 @@ import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "./shared.module";
-import {PlayoffsTreeComponent} from "./playoffs/playoffs-tree.component";
-import {PlayoffsService} from "./_services/playoffs.service";
+import {PlayoffsTreeComponent} from "../playoffs/playoffs-tree.component";
+import {PlayoffsService} from "../_services/playoffs.service";
 
 @NgModule({
     imports: [

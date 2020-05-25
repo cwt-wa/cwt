@@ -1,29 +1,31 @@
 import {NgModule} from "@angular/core";
-import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {PasswordForgottenComponent} from "./user/password-forgotten.component";
+import {ApplicantsComponent} from "../application/applicants.component";
+import {SharedModule} from "./shared.module";
 
 const routes: Routes = [
     {
         path: '',
-        component: PasswordForgottenComponent
+        component: ApplicantsComponent
     }
 ];
+
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
         RouterModule.forChild(routes),
+        SharedModule,
     ],
     declarations: [
-        PasswordForgottenComponent
+        ApplicantsComponent
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class PasswordForgottenModule {
+export class ApplicantsModule {
 }
+

@@ -5,43 +5,44 @@ import {RouterModule, Routes} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "./shared.module";
-import {GroupModule} from "./group.module";
-import {ArchiveDetailComponent} from "./archive/archive-detail.component";
-import {DamnArchiveComponent} from "./archive/damn-archive.component";
-import {PlayoffModule} from "./playoff.module";
-
+import {PaginationModule} from "./pagination.module";
+import {UserOverviewComponent} from "../user/user-overview.component";
+import {UserDetailComponent} from "../user/user-detail.component";
+import {CountryComponent} from "../_util/country.component";
+import {ReachComponent} from "../_util/reach.component";
 
 const routes: Routes = [
     {
         path: '',
-        component: DamnArchiveComponent
+        component: UserOverviewComponent
+    },
+    {
+        path: ':username',
+        component: UserDetailComponent
     },
 
-    {
-        path: ':idOrYear',
-        component: ArchiveDetailComponent
-    },
 ];
 
 @NgModule({
     imports: [
         CommonModule,
         HttpClientModule,
+        RouterModule.forChild(routes),
         FormsModule,
         NgbModule,
         SharedModule,
-        PlayoffModule,
-        GroupModule,
-        RouterModule.forChild(routes),
+        PaginationModule
     ],
     declarations: [
-        DamnArchiveComponent,
-        ArchiveDetailComponent,
+        UserDetailComponent,
+        UserOverviewComponent,
+        CountryComponent,
+        ReachComponent,
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class ArchiveModule {
+export class UserModule {
 }

@@ -1,13 +1,14 @@
 import {NgModule} from "@angular/core";
-import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {ChannelCreateComponent} from "./stream/channel-create.component";
+import {ReportGameComponent} from "../game/report-game.component";
+import {FormsModule} from "@angular/forms";
+import {ValidateResultDirective} from "../_util/validate-result.directive";
 
 const routes: Routes = [
     {
         path: '',
-        component: ChannelCreateComponent
+        component: ReportGameComponent
     }
 ];
 
@@ -15,16 +16,18 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
         RouterModule.forChild(routes),
+        FormsModule,
     ],
     declarations: [
-        ChannelCreateComponent
+        ReportGameComponent,
+        ValidateResultDirective,
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class CreateChannelModule {
+export class ReportModule {
 }
+

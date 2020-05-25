@@ -1,32 +1,33 @@
 import {NgModule} from "@angular/core";
+import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {ApplyComponent} from "./application/apply.component";
+import {RegisterComponent} from "../user/register.component";
 import {SharedModule} from "./shared.module";
-import {FormsModule} from "@angular/forms";
+import {NgxCaptchaModule} from 'ngx-captcha';
 
 const routes: Routes = [
     {
         path: '',
-        component: ApplyComponent
+        component: RegisterComponent
     }
 ];
-
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(routes),
         FormsModule,
+        RouterModule.forChild(routes),
+        NgxCaptchaModule,
         SharedModule,
     ],
     declarations: [
-        ApplyComponent,
+        RegisterComponent
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class ApplyModule {
+export class RegisterModule {
 }

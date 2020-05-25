@@ -2,36 +2,29 @@ import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {StreamsComponent} from "./stream/streams.component";
-import {StreamDetailComponent} from "./stream/stream-detail.component";
-import {SharedModule} from "./shared.module";
+import {ChannelCreateComponent} from "../stream/channel-create.component";
 
 const routes: Routes = [
     {
         path: '',
-        component: StreamsComponent
-    },
-    {
-        path: ':id',
-        component: StreamDetailComponent
+        component: ChannelCreateComponent
     }
 ];
+
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         RouterModule.forChild(routes),
-        SharedModule,
     ],
     declarations: [
-        StreamDetailComponent,
-        StreamsComponent
+        ChannelCreateComponent
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class StreamsModule {
+export class CreateChannelModule {
 }

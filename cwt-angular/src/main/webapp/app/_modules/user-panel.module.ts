@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {UserPanelComponent} from "./user-panel/user-panel.component";
+import {UserPanelComponent} from "../user-panel/user-panel.component";
 import {SharedModule} from "./shared.module";
 
 const routes: Routes = [

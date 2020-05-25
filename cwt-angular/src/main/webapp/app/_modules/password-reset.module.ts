@@ -1,33 +1,29 @@
 import {NgModule} from "@angular/core";
+import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {ReportGameComponent} from "./game/report-game.component";
-import {FormsModule} from "@angular/forms";
-import {ValidateResultDirective} from "./_util/validate-result.directive";
+import {PasswordResetComponent} from "../user/password-reset.component";
 
 const routes: Routes = [
     {
         path: '',
-        component: ReportGameComponent
+        component: PasswordResetComponent
     }
 ];
-
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(routes),
         FormsModule,
+        RouterModule.forChild(routes),
     ],
     declarations: [
-        ReportGameComponent,
-        ValidateResultDirective,
+        PasswordResetComponent
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class ReportModule {
+export class PasswordResetModule {
 }
-

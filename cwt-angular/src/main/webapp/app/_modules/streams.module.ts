@@ -1,30 +1,37 @@
 import {NgModule} from "@angular/core";
+import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {HelpComponent} from "./rules/help.component";
+import {StreamsComponent} from "../stream/streams.component";
+import {StreamDetailComponent} from "../stream/stream-detail.component";
 import {SharedModule} from "./shared.module";
 
 const routes: Routes = [
     {
         path: '',
-        component: HelpComponent
+        component: StreamsComponent
+    },
+    {
+        path: ':id',
+        component: StreamDetailComponent
     }
 ];
-
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         RouterModule.forChild(routes),
         SharedModule,
     ],
     declarations: [
-        HelpComponent,
+        StreamDetailComponent,
+        StreamsComponent
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class HelpModule {
+export class StreamsModule {
 }

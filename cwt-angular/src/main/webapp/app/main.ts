@@ -5,7 +5,7 @@ import "../css/archive.css";
 import "../css/group-games.css";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {enableProdMode} from "@angular/core";
-import {AppModule} from "./app.module";
+import {AppModule} from "./_modules/app.module";
 
 import '../img/favicon.png'; // for the icon in manifest.json
 import '../img/favicon.ico'; // for the favicon

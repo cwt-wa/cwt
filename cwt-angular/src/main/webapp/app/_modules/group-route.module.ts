@@ -1,16 +1,15 @@
 import {NgModule} from "@angular/core";
 import {HttpClientModule} from "@angular/common/http";
 import {RouterModule, Routes} from "@angular/router";
-import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {PlayoffsTreeComponent} from "./playoffs/playoffs-tree.component";
-import {PlayoffModule} from "./playoff.module";
+import {GroupsOverviewComponent} from "../group/groups-overview.component";
+import {GroupModule} from "./group.module";
 
 const routes: Routes = [
     {
         path: '',
-        component: PlayoffsTreeComponent
-    },
+        component: GroupsOverviewComponent
+    }
 ];
 
 @NgModule({
@@ -18,8 +17,7 @@ const routes: Routes = [
         CommonModule,
         HttpClientModule,
         RouterModule.forChild(routes),
-        FormsModule,
-        PlayoffModule,
+        GroupModule,
     ],
     declarations: [],
     exports: [],
@@ -27,5 +25,5 @@ const routes: Routes = [
     bootstrap: [],
     entryComponents: [],
 })
-export class PlayoffRouteModule {
+export class GroupRouteModule {
 }

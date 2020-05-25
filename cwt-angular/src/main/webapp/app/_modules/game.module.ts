@@ -5,13 +5,13 @@ import {RouterModule, Routes} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "./shared.module";
-import {GameDetailComponent} from "./game/game-detail.component";
-import {GameStatsComponent} from "./game/game-stats.component";
-import {GameOverviewComponent} from "./game/game-overview.component";
-import {MapComponent} from "./game/map.component";
-import {WeaponComponent} from "./_util/weapon.component";
+import {GameDetailComponent} from "../game/game-detail.component";
+import {GameStatsComponent} from "../game/game-stats.component";
+import {GameOverviewComponent} from "../game/game-overview.component";
+import {MapComponent} from "../game/map.component";
+import {WeaponComponent} from "../_util/weapon.component";
 import {PaginationModule} from "./pagination.module";
-import {PlayoffsService} from "./_services/playoffs.service";
+import {PlayoffsService} from "../_services/playoffs.service";
 
 const routes: Routes = [
     {

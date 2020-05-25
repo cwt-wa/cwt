@@ -2,12 +2,12 @@ import {NgModule} from "@angular/core";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {TimeAgoService} from "./_services/time-ago.service";
-import {ChatInputComponent} from "./message/chat-input.component";
-import {ChatComponent} from "./message/chat.component";
+import {TimeAgoService} from "../_services/time-ago.service";
+import {ChatInputComponent} from "../message/chat-input.component";
+import {ChatComponent} from "../message/chat.component";
 import {SharedModule} from "./shared.module";
 import {RouterModule} from "@angular/router";
-import {MentionComponent} from "./message/mention.component";
+import {MentionComponent} from "../message/mention.component";
 
 @NgModule({
     imports: [

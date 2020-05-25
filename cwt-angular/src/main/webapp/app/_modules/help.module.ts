@@ -1,13 +1,13 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
-import {ApplicantsComponent} from "./application/applicants.component";
+import {HelpComponent} from "../rules/help.component";
 import {SharedModule} from "./shared.module";
 
 const routes: Routes = [
     {
         path: '',
-        component: ApplicantsComponent
+        component: HelpComponent
     }
 ];
 
@@ -19,13 +19,12 @@ const routes: Routes = [
         SharedModule,
     ],
     declarations: [
-        ApplicantsComponent
+        HelpComponent,
     ],
     exports: [],
     providers: [],
     bootstrap: [],
     entryComponents: [],
 })
-export class ApplicantsModule {
+export class HelpModule {
 }
-
