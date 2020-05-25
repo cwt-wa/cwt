@@ -22,7 +22,8 @@ module.exports = webpackMerge(commonConfig, {
         new webpack.LoaderOptionsPlugin({
             options: {
                 htmlLoader: {
-                    minimize: false // workaround for ng2
+                    minimize: false, // workaround for ng2
+                    caseSensitive: true // https://stackoverflow.com/a/39735050/2015430#comment82236134_39735050
                 }
             }
         }),

@@ -86,7 +86,10 @@ export class GameDetailComponent implements OnInit, OnDestroy {
                 });
         });
 
-        this.authService.authState.then(user => user && this.initNewComment());
+        this.authService.authState.then(user => {
+            this.authenticatedUser = user;
+            user && this.initNewComment();
+        });
     }
 
     setupEventSource(): void {

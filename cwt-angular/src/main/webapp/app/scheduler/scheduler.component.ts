@@ -7,7 +7,7 @@ import {Toastr} from "../_services/toastr";
 
 @Component({
     selector: 'cwt-scheduler',
-    template: require('./scheduler.component.html')
+    template: require('./scheduler.component.html'),
 })
 export class SchedulerComponent implements OnInit {
 
