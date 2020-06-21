@@ -14,6 +14,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     @Input() admin: boolean = false;
 
     allMessages: MessageDto[] = [];
+    privateMessages: MessageDto[] = [];
     filterPrivate = false;
     messagePagingStart: number = 0;
     messageTotalElements: number;
@@ -25,7 +26,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     get messages(): MessageDto[] {
         return this.filterPrivate
-            ? this.allMessages.filter(m => m.category === "PRIVATE")
+            ? this.privateMessages
             : this.allMessages;
     }
 
@@ -79,11 +80,20 @@ ${message.author.username}: ${message.body}`;
 
     private fetchMessages() {
         const relativePath = this.admin ? 'message/admin' : 'message';
-        this.requestService.getPaged<MessageDto>(relativePath, {size: this.messagesSize, start: this.messagePagingStart} as PageDto<MessageDto>)
+        const queryParams = {
+            size: this.messagesSize,
+            start: this.messagePagingStart,
+            privateOnly: this.filterPrivate
+        } as PageDto<MessageDto> & { privateOnly: boolean };
+        this.requestService.getPaged<MessageDto>(relativePath, queryParams)
             .subscribe(res => {
                 this.messageTotalElements = res.totalElements;
                 this.messagePagingStart = res.start;
-                this.allMessages.push(...res.content);
+                if (queryParams.privateOnly) {
+                    this.privateMessages.push(...res.content);
+                } else {
+                    this.allMessages.push(...res.content);
+                }
                 if (this.fetchInterval == null) this.fetchNewMessages();
             });
     }
@@ -97,7 +107,8 @@ ${message.author.username}: ${message.body}`;
         this.requestService.get<MessageDto[]>(relativePath, {after: Date.parse(newestMessageCreated).toString()})
             .subscribe(res => {
                 this.messageTotalElements += res.length;
-                this.allMessages.unshift(...res);
+                this.privateMessages.unshift(...res.filter(m => !this.privateMessages.find(m1 => m1.id === m.id)).filter(m => m.category === 'PRIVATE'));
+                this.allMessages.unshift(...res.filter(m => !this.allMessages.find(m1 => m1.id === m.id)));
                 if (this.fetchInterval == null) this.fetchInterval = window.setInterval(this.fetchNewMessages.bind(this), this.fetchIntervalMillis);
             });
     }

@@ -18,6 +18,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     Page<Message> findAllByCategoryInOrderByCreatedDesc(Pageable pageable, List<MessageCategory> categories);
     Page<Message> findAllByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(Pageable pageable, User author, List<User> recipients, List<MessageCategory> categories);
+    Page<Message> findAllByRecipientsContainingOrderByCreatedDesc(Pageable pageable, User user);
 
     List<Message> findAllByCategoryInAndCreatedAfterOrderByCreatedDesc(List<MessageCategory> categories, Timestamp created);
 

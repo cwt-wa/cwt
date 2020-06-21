@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.message.view.controller
 
+import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
@@ -9,6 +10,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
@@ -24,14 +26,26 @@ class MessageRestController {
     @Autowired private lateinit var userService: UserService
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun getMessages(pageDto: PageDto<MessageDto>, request: HttpServletRequest): ResponseEntity<PageDto<MessageDto>> {
+    fun getMessages(pageDto: PageDto<MessageDto>,
+                    @RequestParam("privateOnly", defaultValue = "false") privateOnly: Boolean,
+                    request: HttpServletRequest): ResponseEntity<PageDto<MessageDto>> {
         val authorizationHeader = request.getHeader(authService.tokenHeaderName)
         var authenticatedUser: User? = null
         if (authorizationHeader != null) authenticatedUser = authService.getUserFromToken(authorizationHeader)
 
-        val messages = when (authenticatedUser) {
-            null -> messageService.findMessagesForGuest(pageDto.start, pageDto.size)
-            else -> messageService.findMessagesForUser(authenticatedUser, pageDto.start, pageDto.size)
+        val messages = if (privateOnly) {
+            if (authenticatedUser == null) {
+                throw RestException(
+                        "Cannot filter for private messages when not authenticated.",
+                        HttpStatus.FORBIDDEN,
+                        null)
+            }
+            messageService.findPrivateMessagesForUser(authenticatedUser, pageDto.start, pageDto.size)
+        } else {
+            when (authenticatedUser) {
+                null -> messageService.findMessagesForGuest(pageDto.start, pageDto.size)
+                else -> messageService.findMessagesForUser(authenticatedUser, pageDto.start, pageDto.size)
+            }
         }
 
         return ResponseEntity.ok(PageDto.toDto(messages.map { MessageDto.toDto(it) }, listOf<String>()))

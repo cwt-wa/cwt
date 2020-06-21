@@ -32,6 +32,10 @@ constructor(private val messageRepository: MessageRepository) {
                 user, listOf(user), MessageCategory.guestCategories());
     }
 
+    fun findPrivateMessagesForUser(user: User, start: Int, size: Int): Page<Message> {
+        return messageRepository.findAllByRecipientsContainingOrderByCreatedDesc(PageRequest.of(start, size, Sort.by(Sort.Direction.DESC, "created")), user);
+    }
+
     fun findNewMessagesForUser(user: User, created: Timestamp): List<Message> =
             messageRepository.findNewByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(
                     user, MessageCategory.guestCategories(), created)

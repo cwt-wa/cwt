@@ -4,7 +4,7 @@
     </div>
     <div class="col-auto pl-1">
         <button type="button" class="btn btn-lg bg-danger btn-primary submit"
-                (click)="filterPrivate = !filterPrivate">
+                (click)="filterPrivate = !filterPrivate; fetchMessages()">
             <i class="fa fa-filter"></i>
         </button>
     </div>
