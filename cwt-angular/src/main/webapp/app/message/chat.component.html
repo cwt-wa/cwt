@@ -1,5 +1,5 @@
 <div class="row" *ngIf="authUser && !hideInput">
-    <div class="col pr-0">
+    <div class="col pr-0 overflow-hidden">
         <chatInput (message)="submit($event[0], $event[1])"></chatInput>
     </div>
     <div class="col-auto pl-1">
