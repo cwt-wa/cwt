@@ -12,8 +12,9 @@ export class CwtDatePipe implements PipeTransform {
     constructor(private datePipe: DatePipe) {
     }
 
-    transform(value: any, format: string = 'MMM d, y, HH:ss'): string | null {
-        if (format === 'time') format = 'HH:ss';
+    transform(value: any, format: string = 'MMM d, y, HH:mm'): string | null {
+        if (format === 'time') format = 'HH:mm';
         return this.datePipe.transform(value, format, 'GMT');
     }
 }
+
