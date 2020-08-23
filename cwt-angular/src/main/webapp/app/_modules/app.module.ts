@@ -96,7 +96,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'password-reset',
-        loadChildren: () => import('./password-forgotten.module').then(m => m.PasswordForgottenModule)
+        loadChildren: () => import('./password-reset.module').then(m => m.PasswordResetModule)
     },
     {
         path: '**',
