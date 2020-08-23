@@ -191,7 +191,7 @@ constructor(private val userRepository: UserRepository,
             
             you have requested to reset your password and you can do so by clicking the following link:
             
-            http://cwtsite.com/password-reset?key=${user.resetKey}
+            https://cwtsite.com/password-reset?key=${user.resetKey}
             
             If you did not request this, please ignore this email.
             
