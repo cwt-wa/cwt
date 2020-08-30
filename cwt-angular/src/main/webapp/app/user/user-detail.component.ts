@@ -20,18 +20,24 @@ export class UserDetailComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(res => {
+        const res = this.route.snapshot.paramMap;
+        if (res.get('username') != null) {
             this.requestService.get<UserDetailDto>(`user/${res.get('username')}`)
-                .subscribe(res => {
-                    res.userStats = res.userStats.sort((a, b) => b.year - a.year);
-                    this.user = res;
+                .subscribe(this.onUser.bind(this));
+        } else if (res.get('id') != null) {
+            this.requestService.get<UserDetailDto>(`user/${res.get('id')}`)
+                .subscribe(this.onUser.bind(this));
+        }
+    }
 
-                    this.binaryService.getUserPhoto(this.user.id)
-                        .subscribe(
-                            res => this.userPhoto.nativeElement.src = res,
-                            () => this.userPhoto.nativeElement.src = this.binaryService.randomPic());
-                    this.userPhoto.nativeElement.alt = 'Profile photo of ' + this.user.username;
-                });
-        });
+    private onUser(res: UserDetailDto) {
+        res.userStats = res.userStats.sort((a, b) => b.year - a.year);
+        this.user = res;
+
+        this.binaryService.getUserPhoto(this.user.id)
+            .subscribe(
+                res => this.userPhoto.nativeElement.src = res,
+                () => this.userPhoto.nativeElement.src = this.binaryService.randomPic());
+        this.userPhoto.nativeElement.alt = 'Profile photo of ' + this.user.username;
     }
 }

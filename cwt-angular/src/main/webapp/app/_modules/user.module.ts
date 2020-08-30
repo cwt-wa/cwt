@@ -20,7 +20,18 @@ const routes: Routes = [
         path: ':username',
         component: UserDetailComponent
     },
-
+    {
+        path: ':id',
+        component: UserDetailComponent,
+    },
+    {
+        path: 'view/:username',
+        component: UserDetailComponent,
+    },
+    {
+        path: 'view/:id',
+        component: UserDetailComponent,
+    },
 ];
 
 @NgModule({
