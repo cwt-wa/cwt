@@ -36,7 +36,6 @@ export class AuthService {
             const readToken = token && this.readToken(token);
             return readToken.context
                 && readToken.context.user
-                && readToken.context.user.email
                 && readToken.context.user.username
                 && readToken.context.user.id
                 && (readToken.exp * 1000) > Date.now();
