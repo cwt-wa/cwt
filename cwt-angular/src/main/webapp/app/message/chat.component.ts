@@ -90,9 +90,13 @@ ${message.author.username}: ${message.body}`;
                 this.messageTotalElements = res.totalElements;
                 this.messagePagingStart = res.start;
                 if (queryParams.privateOnly) {
-                    this.privateMessages.push(...res.content);
+                    this.privateMessages.push(
+                        ...res.content
+                            .filter(msg => this.privateMessages.find(allMsg => allMsg.id === msg.id) == null));
                 } else {
-                    this.allMessages.push(...res.content);
+                    this.allMessages.push(
+                        ...res.content
+                            .filter((msg => this.allMessages.find(allMsg => allMsg.id === msg.id) == null)));
                 }
                 if (this.fetchInterval == null) this.fetchNewMessages();
             });
