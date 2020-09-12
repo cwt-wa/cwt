@@ -1,8 +1,5 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
-import com.cwtsite.cwt.domain.configuration.entity.Configuration
-import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
-import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameRepository
@@ -34,9 +31,6 @@ class TreeServiceTest {
     private lateinit var gameRepository: GameRepository
 
     @Mock
-    private lateinit var configurationService: ConfigurationService
-
-    @Mock
     private lateinit var tournamentService: TournamentService
 
     @Mock
@@ -48,9 +42,6 @@ class TreeServiceTest {
 
         `when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
-
-        `when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
-                .thenReturn(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2"))
 
         val allPlayoffGames = listOf(
                 EntityDefaults.game(
@@ -135,15 +126,6 @@ class TreeServiceTest {
                 .thenReturn(96 / 2)
                 .thenReturn(128 / 2)
 
-        `when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
-                .thenAnswer {
-                    Configuration(
-                            value = "2",
-                            key = ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING,
-                            author = EntityDefaults.user()
-                    )
-                }
-
         assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
         assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
         assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(3)
@@ -159,15 +141,6 @@ class TreeServiceTest {
 
     @Test
     fun onlyFinalGamesAreLeftToPlay() {
-        `when`(configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING))
-                .thenAnswer {
-                    Configuration(
-                            value = "2",
-                            key = ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING,
-                            author = EntityDefaults.user()
-                    )
-                }
-
         `when`(groupRepository.countByTournament(MockitoUtils.anyObject<Tournament>()))
                 .thenReturn(8)
 

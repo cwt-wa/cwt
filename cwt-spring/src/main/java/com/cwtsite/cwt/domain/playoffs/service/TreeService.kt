@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
-import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
@@ -87,10 +86,7 @@ class TreeService {
 
     fun getNumberOfPlayoffRoundsInTournament(tournament: Tournament): Int {
         val groupsCount = groupRepository.countByTournament(tournament)
-        val numberOfGroupMembersAdvancing = Integer.parseInt(
-                configurationService.getOne(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING).value)
-
-        return (ln((groupsCount * numberOfGroupMembersAdvancing).toDouble()) / ln(2.0)).toInt()
+        return (ln((groupsCount * tournament.numOfGroupAdvancing).toDouble()) / ln(2.0)).toInt()
     }
 
     fun onlyFinalGamesAreLeftToPlay(): Boolean {
