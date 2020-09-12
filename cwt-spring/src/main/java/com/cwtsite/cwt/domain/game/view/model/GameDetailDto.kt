@@ -66,7 +66,8 @@ data class GameDetailDto(
                     playoffsRoundMax - 3 -> "Last 24"
                     playoffsRoundMax - 4 -> "Last 48"
                     playoffsRoundMax - 5 -> "Last 96"
-                    else -> throw RuntimeException()
+                    else -> throw RuntimeException(
+                            "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax")
                 }
             } else {
                 when (achievedRound) {
@@ -78,7 +79,8 @@ data class GameDetailDto(
                     playoffsRoundMax - 4 -> "Last 32"
                     playoffsRoundMax - 5 -> "Last 64"
                     playoffsRoundMax - 6 -> "Last 128"
-                    else -> throw RuntimeException()
+                    else -> throw RuntimeException("" +
+                            "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax")
                 }
             }
 
