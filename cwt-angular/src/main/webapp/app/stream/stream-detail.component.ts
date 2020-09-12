@@ -24,7 +24,7 @@ export class StreamDetailComponent implements OnInit {
                 .subscribe(res => {
                     this.stream = res;
                     this.streamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-                        'https://player.twitch.tv/?video=' + this.stream.id);
+                        `https://player.twitch.tv/?video=${this.stream.id}&parent=cwtsite.com`);
                 });
         });
     }
