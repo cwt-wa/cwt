@@ -56,7 +56,7 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
 
     override fun sendMap(response: String, gameId: Long, map: String): WrappedCloseable<File> {
         val createTempFile = createTempFile()
-        createTempFile.writeBytes(khttp.get("${waaasEndpoint}/$map").content)
+        createTempFile.writeBytes(khttp.get("${waaasEndpoint}$map").content)
         sendMultipartEntity(
                 url = "${binaryDataStoreEndpoint}/game/$gameId/map/${map.split('/').last()}",
                 file = createTempFile,
