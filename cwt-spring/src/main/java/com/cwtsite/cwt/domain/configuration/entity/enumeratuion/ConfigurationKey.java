@@ -56,7 +56,12 @@ public enum ConfigurationKey {
     /**
      * Used to tell the client whether or not it makes to attempt event sourcing the Twitch Webhook server.
      */
-    EVENT_SOURCE_TWITCH_WEBHOOK(ConfigurationValueType.BOOLEAN);
+    EVENT_SOURCE_TWITCH_WEBHOOK(ConfigurationValueType.BOOLEAN),
+
+    /**
+     * Display an alert on the game detail page when the game wasn't played with WA version 3.8.
+     */
+    WA_3_8_WARNING(ConfigurationValueType.BOOLEAN);
 
     private final ConfigurationValueType type;
 

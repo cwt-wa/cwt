@@ -8,6 +8,7 @@ import {BetResult, BetService} from "../_services/bet.service";
 import {PlayoffsService} from "../_services/playoffs.service";
 import {GameStats} from "./game-stats.component";
 import {APP_CONFIG, AppConfig} from "../app.config";
+import {ConfigurationService} from "../_services/configuration.service";
 
 @Component({
     selector: 'cwt-game-detail',
@@ -42,10 +43,13 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     statsAreBeingProcessed: boolean = false;
     private eventSource: EventSource;
     loadingStats: boolean = true;
+    hasOlderVersion: boolean = false;
+    waVersionWarn: boolean = false;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
-                private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig) {
+                private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig,
+                private configurationService: ConfigurationService) {
     }
 
     get authenticatedUserRatings(): RatingType[] {
@@ -90,6 +94,9 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             this.authenticatedUser = user;
             user && this.initNewComment();
         });
+
+        this.configurationService.requestByKeys("WA_3_8_WARNING")
+            .subscribe(res => this.waVersionWarn = res[0].value === 'true');
     }
 
     setupEventSource(): void {
@@ -105,6 +112,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             const newStats: GameStats.GameStats = JSON.parse((<any>e).data);
             if (!this.stats.find(s => s.startedAt === newStats.startedAt)) {
                 this.stats.push(newStats);
+                this.hasOlderVersion = this.stats.find(s => s.engineVersion != null && !s.engineVersion.startsWith('3.8')) != null;
             }
             this.loadingStats = false;
         });
