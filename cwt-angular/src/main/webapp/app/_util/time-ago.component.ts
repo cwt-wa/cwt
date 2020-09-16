@@ -7,13 +7,13 @@ import {TimeAgo} from "../custom";
 @Component({
     selector: 'cwt-time-ago',
     template: `
-        <span [title]="(date | date:'medium')" i18n>
+        <span [title]="(date | cwtDate)" i18n>
             {timeAgo.unit, select,
                 DAY {{{timeAgo.value}} {timeAgo.value, plural, =1 {day} other {days}} ago}
                 HOUR {{{timeAgo.value}} {timeAgo.value, plural, =1 {hour} other {hours}} ago}
                 MINUTE {{{timeAgo.value}} {timeAgo.value, plural, =1 {minute} other {minutes}} ago}
                 SECOND {just now}
-                other {{{timeAgo.original | date:'medium'}}}
+                other {{{timeAgo.original | cwtDate}}}
             }
         </span>
     `
