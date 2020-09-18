@@ -183,7 +183,7 @@ const colors: { [key: string]: string } = {
                 Weapons like Ninja Rope are shown to be used even if the usage didn’t reduce ammo.
                 Like when shooting a Ninja Rope into empty space.
             </p>
-            <p *ngIf="this.suddenDeathBeforeTurn !== -1">
+            <p *ngIf="suddenDeathBeforeTurn !== -1">
                 Yes, that wave is Sudden Death.
             </p>
             <p>
