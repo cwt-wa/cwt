@@ -214,7 +214,9 @@
                         (click)="statsForRound = index + 1">
                     {{index + 1}}
                 </button>
-                <cwt-game-stats *ngIf="stats[statsForRound - 1]" [stats]="stats[statsForRound - 1]"></cwt-game-stats>
+                <ng-container *ngFor="let statsInstance of stats; let statsIdx = index">
+                    <cwt-game-stats *ngIf="statsIdx === statsForRound - 1" [stats]="stats[statsIdx]"></cwt-game-stats>
+                </ng-container>
             </ng-container>
         </div>
         <div [ngClass]="stats.length || statsAreBeingProcessed ? 'col-12 col-md-6 col-lg-7 col-xl-8 mt-4 mt-md-0' : 'col-12'">
