@@ -157,7 +157,7 @@ const colors: { [key: string]: string } = {
             </div>
             <div class="head" [ngStyle]="{'background-image': linearGradientHealthPoints(0)}">
                 <div class="user" *ngFor="let averageTurnTime of averageTurnTimes;">
-                    &empty; {{averageTurnTime}}s
+                    &empty; {{averageTurnTime || 0}}s
                 </div>
             </div>
             <div class="head">
