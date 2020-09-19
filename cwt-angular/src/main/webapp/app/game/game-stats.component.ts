@@ -211,9 +211,9 @@ export class GameStatsComponent implements OnInit {
     averageTurnTimes: number[];
 
     ngOnInit(): void {
-        this.losingUser = this.stats.teams.find(t => t.team !== this.stats.winsTheRound).user;
-        this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound).user;
-        this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser);
+        this.losingUser = this.stats.teams.find(t => t.team !== this.stats.winsTheRound)?.user;
+        this.winningUser = this.stats.teams.find(t => t.team === this.stats.winsTheRound)?.user;
+        this.totalHealthPointsPerTeam = this.calcLostHealthPoints(this.stats.turns, this.losingUser || this.stats.teams[0].user);
         this.numberOfTeams = this.stats.teams.length;
         this.averageTurnTimes = (() =>
             this.stats.teams
