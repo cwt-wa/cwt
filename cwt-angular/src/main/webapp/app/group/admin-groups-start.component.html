@@ -9,12 +9,12 @@
     <div class="col">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{active: manualDraw}" (click)="manualDraw = true">
+                <a class="nav-link" [ngClass]="{active: manualDraw}" (click)="confirmLeave() && (manualDraw = true)">
                     Manual Draw
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{active: !manualDraw}" (click)="manualDraw = false">
+                <a class="nav-link" [ngClass]="{active: !manualDraw}" (click)="confirmLeave() && (manualDraw = false)">
                     Automatic Draw
                 </a>
             </li>

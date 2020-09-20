@@ -1,14 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Application, Group, GroupStanding} from "../custom";
 import {GroupService} from "../_services/group.service";
 import {RequestService} from "../_services/request.service";
 import {ConfigurationService} from "../_services/configuration.service";
+import {CanDeactivateGuard, Deactivatable} from "../_services/can-deactivate-guard";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'cwt-admin-groups-start',
-    template: require('./admin-groups-start.component.html')
+    template: require('./admin-groups-start.component.html'),
+    providers: [CanDeactivateGuard]
 })
-export class AdminGroupsStartComponent implements OnInit {
+export class AdminGroupsStartComponent implements OnInit, Deactivatable {
 
     groups: Group[];
     applications: Application[];
@@ -41,5 +44,19 @@ export class AdminGroupsStartComponent implements OnInit {
                     }
                 }
             });
+    }
+
+    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        return this.confirmLeave();
+    }
+
+    @HostListener('window:beforeunload', ['$event'])
+    confirmPageLeave($event: Event) {
+        $event.returnValue = this.confirmLeave();
+        if (!$event.returnValue) $event.preventDefault();
+    }
+
+    confirmLeave() {
+        return confirm('Do you really want to leave?');
     }
 }

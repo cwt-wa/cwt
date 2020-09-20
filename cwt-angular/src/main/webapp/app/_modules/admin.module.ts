@@ -60,7 +60,8 @@ const adminRoutes = [
     },
     {
         path: 'groups/start',
-        component: AdminGroupsStartComponent
+        component: AdminGroupsStartComponent,
+        canDeactivate: [CanDeactivateGuard]
     },
     {
         path: 'playoffs/start',
