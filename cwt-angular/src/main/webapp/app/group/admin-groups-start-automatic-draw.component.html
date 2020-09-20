@@ -18,14 +18,15 @@
 
 <form #groupDrawForm="ngForm" (submit)="submit()" *ngIf="applications && !loading">
     <div class="row mt-4">
-        <div class="col-md-6 mb-4" *ngFor="let pot of pots; let potIndex = index">
+        <div class="col-md-6 mb-4" *ngFor="let pot of pots; let potIndex = index; trackBy:trackByIdx">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
                         <span class="text-muted">Pot</span>
                         {{potIndex + 1}}
                     </h4>
-                    <input *ngFor="let userInPot of pot; let userInPotIndex = index" class="form-control w-100 mb-1"
+                    <input *ngFor="let userInPot of pot; let userInPotIndex = index; trackBy:trackByIdx"
+                           class="form-control w-100 mb-1"
                            [(ngModel)]="pots[potIndex][userInPotIndex]" placeholder="Enter name" [editable]="false"
                            [ngbTypeahead]="typeAheadForGroupMember" [inputFormatter]="typeAheadInputFormatter"
                            required [resultFormatter]="typeAheadResultFormatter"

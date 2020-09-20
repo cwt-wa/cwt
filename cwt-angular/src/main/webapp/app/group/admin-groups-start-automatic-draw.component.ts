@@ -122,4 +122,8 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
 
         return false;
     }
+
+    trackByIdx(idx: number): number {
+        return idx;
+    }
 }
