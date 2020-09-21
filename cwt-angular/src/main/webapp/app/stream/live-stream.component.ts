@@ -48,8 +48,13 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.setupEventSource();
+    }
+
+    private setupEventSource() {
         this.eventSource = new EventSource(this.appConfig.liveStreamProducer);
-        this.eventSource.onerror = console.error;
+        this.eventSource.onerror = (err: any) =>
+            err?.originalTarget?.readyState === 2 && this.setupEventSource();
         this.eventSource.onmessage = e => {
             const eventData: LiveStream[] = JSON.parse(e.data);
             const newLiveStreams: LiveStream[] = eventData.filter(nS =>
