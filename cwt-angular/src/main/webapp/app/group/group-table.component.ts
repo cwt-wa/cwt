@@ -8,7 +8,7 @@ import {Subject} from "rxjs";
     styles: [
         `
         tr.highlight {
-          background-color: rgba(0, 0, 0, 0.075);
+          background-color: rgba(0, 0, 0, 0.4);
         }
         `
     ]

@@ -5,13 +5,13 @@
 @import "tetris";
 
 html {
-  background: linear-gradient(to bottom right, rgba(theme-color('primary'), 0.02) 60%, rgba(theme-color('primary'), 0.5) 210%) fixed;
+  background: #000;
   min-height: 100%;
 }
 
 body {
   background: transparent;
-  color: theme-color('secondary');
+  color: #808080;
 
   &.goldWinner {
     &::before {
@@ -51,7 +51,7 @@ body {
 
 .cwt-top-bar {
   background-color: theme-color('primary');
-  color: white;
+  color: #cecece;
   font-size: 14px;
   height: 30px;
   margin: 0;
@@ -59,11 +59,12 @@ body {
 
 .cwt-top-bar .cwt-gmt {
   padding-top: 4px;
+  color: #aaa;
 }
 
 .cwt-top-bar a {
   height: 30px;
-  color: white;
+  color: #cecece;
   border: none;
   border-radius: 0;
   cursor: pointer;
@@ -75,7 +76,7 @@ body {
 
 .cwt-top-bar a:hover,
 .cwt-top-bar a:focus {
-  color: white;
+  color: #cecece;
   text-decoration: underline;
 }
 
@@ -95,7 +96,7 @@ body {
 }
 
 .cwt-nav-container .nav-item a {
-  color: white !important;
+  color: #cecece !important;
   padding: 10px;
 }
 
@@ -120,7 +121,7 @@ body {
 .cwt-mobile-nav {
   padding: 16px 16px 10px;
   width: 100%;
-  color: rgba(white, .9);
+  color: #cecece;
 }
 
 .fa-user-o.cwt-user-panel-icon,
@@ -403,7 +404,7 @@ body {
 }
 
 .text-white {
-  color: rgba(white, .9);
+  color: #aaa !important;
 }
 
 .cwt-label:before {
@@ -490,7 +491,11 @@ ngb-typeahead-window button {
 .bg-secondary a,
 .bg-danger a,
 .bg-primary a {
-  color: $white;
+  color: #aaa;
+
+  &:hover {
+    color: #aaa;
+  }
 }
 
 
@@ -617,7 +622,7 @@ select.custom-select-sm {
 }
 
 code {
-  background-color: #d8d8d8;
+  background-color: #1f1f1f;
   padding: .2rem;
   border-radius: .25rem;
   color: inherit;
@@ -670,6 +675,14 @@ my-app.nav-is-expanded + footer {
 
 .links-black a {
   color: theme-color('secondary') !important;
+}
+
+a {
+  color: #887171;
+
+  &:hover {
+    color: #887171;
+  }
 }
 
 li.page-item:not(.active) a.page-link {

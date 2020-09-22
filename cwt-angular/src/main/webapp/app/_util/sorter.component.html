@@ -6,7 +6,7 @@
         </option>
     </select>
     <div class="input-group-append">
-        <button class="btn btn-light" type="button" (click)="sort(pageOfModels.sortBy, !pageOfModels.sortAscending)"
+        <button class="btn btn-primary" type="button" (click)="sort(pageOfModels.sortBy, !pageOfModels.sortAscending)"
                 [disabled]="disabled">
             <i class="fa" [ngClass]="pageOfModels.sortAscending ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
         </button>

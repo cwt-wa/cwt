@@ -18,7 +18,7 @@ import {ConfigurationService} from "../_services/configuration.service";
         line-height: 1.2rem;
         font-weight: bold;
         font-size: 1rem;
-        color: white;
+        color: #aaa;
         margin-bottom: .5rem;
       }
       img.map {

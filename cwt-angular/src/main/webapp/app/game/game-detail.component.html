@@ -64,10 +64,10 @@
                 <span *ngFor="let user of betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
                 <span *ngIf="!betResult.homeUser.length">No bets were placed.</span>
             </ng-template>
-            <a [routerLink]="" [ngbPopover]="betsForHome" placement="left" class="d-none d-sm-inline-block">
+            <a [routerLink]="" [ngbPopover]="betsForHome" placement="left" class="d-none d-sm-inline-block text-white">
                 {{betResult.homeUser.length}}
             </a>
-            <a [routerLink]="" [ngbPopover]="betsForHome" placement="bottom" class="d-sm-none">
+            <a [routerLink]="" [ngbPopover]="betsForHome" placement="bottom" class="d-sm-none text-white">
                 {{betResult.homeUser.length}}
             </a>
         </div>
@@ -76,10 +76,10 @@
                 <span *ngFor="let user of betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
                 <span *ngIf="!betResult.awayUser.length">No bets were placed.</span>
             </ng-template>
-            <a [routerLink]="" [ngbPopover]="betsForAway" placement="right" class="d-none d-sm-inline-block">
+            <a [routerLink]="" [ngbPopover]="betsForAway" placement="right" class="d-none d-sm-inline-block text-white">
                 {{betResult.awayUser.length}}
             </a>
-            <a [routerLink]="" [ngbPopover]="betsForAway" placement="bottom" class="d-sm-none">
+            <a [routerLink]="" [ngbPopover]="betsForAway" placement="bottom" class="d-sm-none text-white">
                 {{betResult.awayUser.length}}
             </a>
         </div>
@@ -164,7 +164,7 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-8 offset-md-3 col-lg-7">
-                <div class="card bg-light">
+                <div class="card bg-secondary">
                     <div class="card-body" *ngIf="!game.ratings.length">
                         There are no ratings.
                     </div>
@@ -262,7 +262,7 @@
                 <div class="col-12">
                     <div class="card bg-secondary text-white border-0">
                         <div class="card-body" *ngFor="let comment of game.comments"
-                             style="border-bottom: 1px solid white !important;">
+                             style="border-bottom: 1px solid black !important;">
                             <cwt-time-ago [date]="comment.created"
                                           class="float-none float-sm-right float-md-none float-lg-right"></cwt-time-ago>
                             <h4 class="card-title">
@@ -282,7 +282,7 @@
                     <div class="card bg-secondary text-white border-0">
                         <div *ngFor="let stat of stats; let index = index"
                              class="card-body"
-                             style="border-bottom: 1px solid white !important;">
+                             style="border-bottom: 1px solid black !important;">
                             <h4 class="card-title">Round {{index + 1}}</h4>
                             <p *ngFor="let message of stat.messages" class="inGameChat">
                                 [{{message.user}}] {{message.body}}
@@ -296,7 +296,7 @@
                     <div class="card bg-secondary text-white border-0">
                         <div *ngFor="let stat of stats; let index = index"
                              class="card-body"
-                             style="border-bottom: 1px solid white !important;">
+                             style="border-bottom: 1px solid black !important;">
                             <h4 class="card-title">Round {{index + 1}}</h4>
 
                             <cwt-map [map]="stat.map" [gameId]="game.id"></cwt-map>

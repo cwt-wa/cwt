@@ -1,6 +1,6 @@
 <ng-container *ngIf="loading">
     <h1 class="mb-4" *ngIf="!hideTitle">Groups</h1>
-    <img  src="../../img/loading.gif" *ngIf="!hideLoadingIndicator"/>
+    <img src="../../img/loading.gif" *ngIf="!hideLoadingIndicator"/>
 </ng-container>
 
 <ng-container *ngIf="!loading && !groups?.length">
@@ -10,11 +10,11 @@
 
 <ng-container *ngIf="!loading && groups?.length">
     <div class="btn-group btn-group-toggle float-right" ngbRadioGroup name="viewMode" [(ngModel)]="viewMode">
-        <label ngbButtonLabel class="btn-light">
+        <label ngbButtonLabel class="btn-primary">
             <input ngbButton type="radio" value="list" (change)="rememberViewMode()">
             <i class="fa fa-th-list"></i>
         </label>
-        <label ngbButtonLabel class="btn-light">
+        <label ngbButtonLabel class="btn-primary">
             <input ngbButton type="radio" value="square" (change)="rememberViewMode()">
             <i class="fa fa-th-large"></i>
         </label>
@@ -23,27 +23,38 @@
     <h1 class="mb-4" *ngIf="!hideTitle">Groups</h1>
     <div class="clearfix mb-4" *ngIf="hideTitle"></div>
 
-    <div class="row" *ngIf="viewMode === 'square' && groups">
-        <cwt-group-table class="col-md-12 col-lg-6"
-                         *ngFor="let group of groups" [group]="group"
-                         (mouseOverUser)="onMouseOverUser($event)"
-                         [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
-        </cwt-group-table>
+    <div *ngIf="viewMode === 'square' && groups">
+        <div class="row no-gutters">
+            <div class="col-md-12 col-lg-6" *ngFor="let group of groups; let even = even">
+                <div class="card bg-secondary mb-1 mr-0" [class.mr-lg-1]="even">
+                    <div class="card-body">
+                        <cwt-group-table [group]="group"
+                                         (mouseOverUser)="onMouseOverUser($event)"
+                                         [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
+                        </cwt-group-table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div *ngIf="viewMode === 'list' && groups">
-        <div class="row mb-3 pt-4" *ngFor="let group of groups; let odd = odd" [ngClass]="{'bg-light': odd}">
-            <cwt-group-table class="col-md-12 col-lg-6"
-                             [group]="group"
-                             (mouseOverUser)="onMouseOverUser($event)"
-                             [highlightUser]="highlightUserSubject"
-                             [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
-            </cwt-group-table>
-            <cwt-group-games class="col-md-12 col-lg-6"
-                             [games]="group.games"
-                             [highlightUser]="highlightUserSubject"
-                             (mouseOverUser)="onMouseOverUser($event)">
-            </cwt-group-games>
+        <div class="mb-3 card bg-secondary" *ngFor="let group of groups">
+            <div class="card-body">
+                <div class="row">
+                    <cwt-group-table class="col-md-12 col-lg-6"
+                                     [group]="group"
+                                     (mouseOverUser)="onMouseOverUser($event)"
+                                     [highlightUser]="highlightUserSubject"
+                                     [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
+                    </cwt-group-table>
+                    <cwt-group-games class="col-md-12 col-lg-6"
+                                     [games]="group.games"
+                                     [highlightUser]="highlightUserSubject"
+                                     (mouseOverUser)="onMouseOverUser($event)">
+                    </cwt-group-games>
+                </div>
+            </div>
         </div>
     </div>
 

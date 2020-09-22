@@ -7,7 +7,7 @@
     <div class="col-6 col-sm-4 col-md-3 col-lg-3">
         <div class="card bg-secondary border-0" *ngIf="user">
             <div class="card-body text-center" *ngFor="let reach of user.userStats;"
-                 style="border-bottom: 1px solid white !important;">
+                 style="border-bottom: 1px solid black !important;">
                 <div class="text-white">
                     <cwt-reach [maxRound]="reach.tournamentMaxRound"
                                [round]="reach.round">
