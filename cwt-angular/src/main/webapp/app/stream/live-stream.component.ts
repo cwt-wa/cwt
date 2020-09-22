@@ -54,7 +54,7 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
     private setupEventSource() {
         this.eventSource = new EventSource(this.appConfig.liveStreamProducer);
         this.eventSource.onerror = (err: any) =>
-            err?.originalTarget?.readyState === 2 && this.setupEventSource();
+            err?.originalTarget?.readyState === 2 && setTimeout(() => this.setupEventSource(), 1000);
         this.eventSource.onmessage = e => {
             const eventData: LiveStream[] = JSON.parse(e.data);
             const newLiveStreams: LiveStream[] = eventData.filter(nS =>
