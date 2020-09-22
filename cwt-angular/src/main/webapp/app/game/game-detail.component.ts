@@ -81,7 +81,8 @@ export class GameDetailComponent implements OnInit, OnDestroy {
                     }
 
                     this.setupEventSource();
-                    this.game.comments = this.game.comments.sort((c1, c2) => c1 > c2 ? -1 : 1);
+                    this.game.comments = this.game.comments.sort((c1, c2) =>
+                        new Date(c2.created).getTime() - new Date(c1.created).getTime());
 
                     if (this.game.playoff != null) {
                         this.requestService.get<PlayoffTreeBetDto[]>(`game/${gameId}/bets`)
