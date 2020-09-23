@@ -4,13 +4,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const helpers = require('./helpers');
 
 const appCssExtractTextPlugin = new ExtractTextPlugin({
-    filename: "app_[name].css",
+    filename: "app_[hash]_[name].css",
     disable: false,
     allChunks: true
 });
 
 const bootstrapCssExtractTextPlugin = new ExtractTextPlugin({
-    filename: "bootstrap_[name].css",
+    filename: "bootstrap_[hash]_[name].css",
     disable: false,
     allChunks: true
 });
