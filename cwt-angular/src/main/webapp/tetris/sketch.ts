@@ -12,9 +12,9 @@ import {ZFigure} from "./figures/z-figure";
 import 'p5/lib/p5.js';
 import * as p5 from "p5";
 import {LittleSquareFigure} from "./figures/little-square-figure";
+import {i_figure, j_figure, l_figure, little_square_figure, lvl, s_figure, square_figure, t_figure, z_figure} from "./color-scheme";
 
 export class Tetris {
-
     private grid: Grid;
     private randomFigure: Figure;
     private animationFigures: Figure[][] = [];
@@ -72,7 +72,7 @@ export class Tetris {
         this.p5.clear();
         this.grid.draw(this.p5);
         this.showHighscore();
-        this.showLevel("black");
+        this.showLevel(lvl);
 
         if (this.end) {
             this.nextAnimationFigures();
@@ -185,7 +185,7 @@ export class Tetris {
 
     private showHighscore() {
         this.p5.textSize(30);
-        this.p5.fill("black");
+        this.p5.fill(lvl);
         this.p5.text(this.highscore.toString(), 5, 35);
     }
 
@@ -224,7 +224,7 @@ export class Tetris {
                 }
             }
             if (counter === figures.length) {
-                let tmp = new LittleSquareFigure("#6D8093", this.grid);
+                let tmp = new LittleSquareFigure(little_square_figure, this.grid);
                 for (let cell of tmp.getCells()) {
                     cell.setXPos(figures[0].getCells()[0].getXPos());
                 }
@@ -235,7 +235,7 @@ export class Tetris {
 
     private initAnimationCells() {
         for (let i = 0; i < Grid.CELL_LINES_HORIZONTAL; i++) {
-            let tmp = new LittleSquareFigure("#6D8093", this.grid);
+            let tmp = new LittleSquareFigure(little_square_figure, this.grid);
             for (let cell of tmp.getCells()) {
                 cell.setXPos(i);
             }
@@ -296,21 +296,21 @@ export class Tetris {
 
         switch (randomNumber) {
             case 0:
-                return new SquareFigure("#2A9D8F", this.grid);
+                return new SquareFigure(square_figure, this.grid);
             case 1:
-                return new TFigure("#4e4133", this.grid);
+                return new TFigure(t_figure, this.grid);
             case 2:
-                return new IFigure("#473042", this.grid);
+                return new IFigure(i_figure, this.grid);
             case 3:
-                return new LFigure("#E9C46A", this.grid);
+                return new LFigure(l_figure, this.grid);
             case 4:
-                return new JFigure("#89023E", this.grid);
+                return new JFigure(j_figure, this.grid);
             case 5:
-                return new SFigure("#C4C3C6", this.grid);
+                return new SFigure(s_figure, this.grid);
             case 6:
-                return new ZFigure("#1B2021", this.grid);
+                return new ZFigure(z_figure, this.grid);
         }
-        return new SquareFigure("#2A9D8F", this.grid);
+        return new SquareFigure(square_figure, this.grid);
     }
 
     public close() : void {
