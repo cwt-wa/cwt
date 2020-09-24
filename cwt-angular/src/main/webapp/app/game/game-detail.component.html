@@ -88,7 +88,7 @@
     <div class="row mt-4 no-gutters">
         <div class="col-12 col-md-5 col-lg-4 mb-1 mb-md-0 pr-md-0">
             <div class="btn-group w-100">
-                <button class="w-100 btn btn-success text-white" (click)="rate('LIKE')" ngbTooltip="Like"
+                <button class="w-100 btn btn-success text-dark" (click)="rate('LIKE')" ngbTooltip="Like"
                         [disabled]="['LIKE', 'DISLIKE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('LIKE') !== -1 || authenticatedUserRatings.indexOf('DISLIKE') !== -1">
                     <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('LIKE') !== -1"></i>&nbsp;
                     <ng-container *ngIf="submittingRating !== 'LIKE'">
@@ -97,7 +97,7 @@
                     </ng-container>
                     <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIKE'"/>
                 </button>
-                <button class="w-100 btn btn-danger text-white" (click)="rate('DISLIKE')"
+                <button class="w-100 btn btn-danger text-dark" (click)="rate('DISLIKE')"
                         ngbTooltip="Dislike"
                         [disabled]="['LIKE', 'DISLIKE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('DISLIKE') !== -1 || authenticatedUserRatings.indexOf('LIKE') !== -1">
                     <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('DISLIKE') !== -1"></i>&nbsp;
@@ -111,7 +111,7 @@
         </div>
         <div class="col-12 col-md-5 col-lg-4 mb-1 mb-md-0 pl-md-1 pr-md-1">
             <div class="btn-group w-100">
-                <button class="w-100 btn bg-danger text-white" (click)="rate('LIGHTSIDE')"
+                <button class="w-100 btn bg-danger text-dark" (click)="rate('LIGHTSIDE')"
                         ngbTooltip="Aggressive playing"
                         [disabled]="['LIGHTSIDE', 'DARKSIDE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1 || authenticatedUserRatings.indexOf('DARKSIDE') !== -1">
                     <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1"></i>&nbsp;
@@ -121,7 +121,7 @@
                     </ng-container>
                     <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIGHTSIDE'"/>
                 </button>
-                <button class="w-100 btn bg-success text-white" (click)="rate('DARKSIDE')"
+                <button class="w-100 btn bg-success text-dark" (click)="rate('DARKSIDE')"
                         ngbTooltip="Thoughtful playing"
                         [disabled]="['LIGHTSIDE', 'DARKSIDE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('DARKSIDE') !== -1 || authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1">
                     <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('DARKSIDE') !== -1"></i>&nbsp;
