@@ -7,11 +7,21 @@
                         <i class="fa fa-angle-double-left"></i>
                     </a>
                 </li>
+                <li class="page-item" [ngClass]="{'disabled': page.start === 0}">
+                    <a class="page-link" (click)="goTo(page.start - 1)">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                </li>
                 <li *ngFor="let suggestedStart of suggestedStarts, let index = index"
                     [ngClass]="{'active': page.start === suggestedStart}" class="page-item">
                     <a class="page-link" (click)="goTo(suggestedStart)">{{suggestedStart + 1}}</a>
                 </li>
-                <li class="page-item" [ngClass]="{'disabled': page.start === page.totalPages}">
+                <li class="page-item" [ngClass]="{'disabled': page.start + 1 === page.totalPages}">
+                    <a class="page-link" (click)="goTo(page.start + 1)">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': page.start + 1 === page.totalPages}">
                     <a class="page-link" (click)="goTo(page.totalPages - 1)">
                         <i class="fa fa-angle-double-right"></i>
                     </a>

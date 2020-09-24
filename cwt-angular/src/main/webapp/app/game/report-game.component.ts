@@ -48,8 +48,9 @@ export class ReportGameComponent implements OnInit {
     }
 
     public submit(): void {
-        const {type, name} = this.replayFile.nativeElement.files[0];
-        if (type !== 'application/zip' || !name.endsWith('.zip')) {
+        const {name} = this.replayFile.nativeElement.files[0];
+
+        if (!name.endsWith('.zip')) {
             this.toastr.error('Only Zip files permitted.');
             return;
         }

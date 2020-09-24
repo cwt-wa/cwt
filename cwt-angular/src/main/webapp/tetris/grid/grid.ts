@@ -1,5 +1,6 @@
 import {Cell} from "./cell";
 import * as p5 from "p5";
+import {grid_background, grid_stroke} from "../color-scheme";
 
 export class Grid {
 
@@ -21,7 +22,7 @@ export class Grid {
         for (var heightIndex = 0; heightIndex < this.height; heightIndex++) {
             this.grid.push([]);
             for (var widthIndex = 0; widthIndex < this.width; widthIndex++) {
-                this.grid[heightIndex].push(new Cell(widthIndex, heightIndex, "white", cellWidth));
+                this.grid[heightIndex].push(new Cell(widthIndex, heightIndex, grid_background, cellWidth));
             }
         }
     }
@@ -31,7 +32,7 @@ export class Grid {
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[i].length; j++) {
                 canvas.fill(this.grid[i][j].getColor().toString());
-                canvas.stroke("#343a40");
+                canvas.stroke(grid_stroke);
                 canvas.rect(j * this.cellWidth, i * this.cellWidth, this.cellWidth, this.cellWidth);
             }
         }
@@ -48,7 +49,7 @@ export class Grid {
     updateFallenCellsInGrid(fallenCells : Cell[]) : Cell[] {
         for (let matrix of this.grid) {
             for (let cell of matrix) {
-                cell.setColor("white");
+                cell.setColor(grid_background);
             }
         }
 
