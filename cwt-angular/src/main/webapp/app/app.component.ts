@@ -113,7 +113,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
         const tetrisEntryPointScript = await import(/* webpackChunkName: "tetris" */ '../tetris/tetris');
         const tetrisEntryPoint = new tetrisEntryPointScript.TetrisEntryPoint((highscore: number) => {
-            // this.highscore = highscore;
+            this.highscore = highscore;
             this.tetris.tearDown();
             document.getElementById("tetris-gameover").classList.add("tetris-visible");
             document.getElementById("tetris-heading").classList.remove("tetris-visible");
