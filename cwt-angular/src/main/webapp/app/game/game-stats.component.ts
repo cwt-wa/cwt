@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 const colors: { [key: string]: string } = {
-    blue: '#9D9FFF',
-    red: '#FF7F7F',
-    green: '#80FF80',
-    yellow: '#FFFF80',
-    cyan: '#80FFFF',
-    magenta: '#FF82FF',
+    blue: 'rgb(157,159,255,.5)',
+    red: 'rgb(255,127,127,.5)',
+    green: 'rgb(128,255,128,.5)',
+    yellow: 'rgb(255,255,128,.5)',
+    cyan: 'rgb(128,255,255,.5)',
+    magenta: 'rgb(255,130,255,.5)',
 };
 
 // noinspection CssUnusedSymbol
