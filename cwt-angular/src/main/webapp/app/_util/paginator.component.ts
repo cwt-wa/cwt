@@ -64,15 +64,15 @@ export class PaginatorComponent implements OnInit {
     private getMaxSuggestions(windowInnerWidth: number): number {
         let maxSuggestions;
         if (windowInnerWidth < 576) {
-            maxSuggestions = 7;
+            maxSuggestions = 5;
         } else if (windowInnerWidth >= 1200) {
-            maxSuggestions = 17;
+            maxSuggestions = 15;
         } else if (windowInnerWidth >= 992) {
-            maxSuggestions = 13;
+            maxSuggestions = 11;
         } else if (windowInnerWidth >= 768) {
-            maxSuggestions = 17;
+            maxSuggestions = 15;
         } else if (windowInnerWidth >= 576) {
-            maxSuggestions = 13;
+            maxSuggestions = 11;
         }
         return maxSuggestions;
     }
