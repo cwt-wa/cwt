@@ -12,7 +12,7 @@ body.gameOver {
   overflow: hidden;
 }
 
-body.tetris:not(.gameOver){
+body.tetris:not(.gameOver) {
   height: 100%;
   overflow: hidden;
 }
@@ -20,7 +20,7 @@ body.tetris:not(.gameOver){
 canvas {
   margin: 0 auto;
   display: block;
-  margin-top:25px;
+  margin-top: 25px;
   overflow: auto !important;
 }
 
@@ -37,22 +37,22 @@ body.gameOver #tetris.tetris-visible {
   overflow-y: scroll;
 }
 
-body.tetris:not(.gameOver) #tetris.tetris-visible  {
+body.tetris:not(.gameOver) #tetris.tetris-visible {
   overflow: hidden;
 }
 
 #tetris {
-  display:none;
-  position:absolute;
-  background-color: rgba(0,0,0,0);
-  top:0;
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0);
+  top: 0;
 }
 
-#btn-close-tetris{
-  background-color: #343a40;
-  border-color: white;
+#btn-close-tetris {
+  background-color: theme-color('secondary'); /*#343a40;*/
+  border-color: theme-color('light');;
   margin: 10px 25px;
-  color: white;
+  color: theme-color('light');
   position: absolute;
   right: 0;
 
@@ -66,17 +66,18 @@ body.tetris:not(.gameOver) #tetris.tetris-visible  {
 }
 
 #tetris-gameover.tetris-visible {
-  display:block;
-  text-align:center;
+  display: block;
+  text-align: center;
   overflow: auto !important;
 }
 
 #tetris-highscore-table.tetris-visible {
-  display:block;
+  display: block;
 }
 
 #tetris-highscore-table {
-  background-color: white;
+  background-color: theme-color('secondary');
+  color: theme-color('light');
   opacity: 0.95;
   width: 55%;
   margin: auto;
@@ -84,13 +85,18 @@ body.tetris:not(.gameOver) #tetris.tetris-visible  {
 
 #tetris-heading {
   width: 100%;
-  display:none;
-  text-align:center;
+  display: none;
+  text-align: center;
   margin: 30px 0;
 }
 
-#tetris-game-over-heading{
+#tetris-game-over-heading {
   margin: 30px 0;
+}
+
+#tetris-game-over-table thead {
+  background-color: theme-color('primary');
+  color: theme-color('light');
 }
 
 #tetris-highscore-table td {
@@ -98,21 +104,21 @@ body.tetris:not(.gameOver) #tetris.tetris-visible  {
 }
 
 .tetris-game-over-table-new-entry {
-  color: theme-color('success');
+  background-color: theme-color('success');
   font-weight: bold;
 }
 
 #tetris-game-over-entry {
-  display:none;
+  display: none;
 }
 
 #tetris-game-over-entry.tetris-visible {
-  display:block;
-  color:white;
+  display: block;
+  color: white;
 }
 
 #tetris-heading.tetris-visible {
-  display:block;
+  display: block;
 }
 
 #lbl-tetris-guest-entry {
@@ -120,10 +126,7 @@ body.tetris:not(.gameOver) #tetris.tetris-visible  {
 }
 
 #tetris-game-over-entry form {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: theme-color('danger');
   width: 55%;
   margin: 0 auto 10px;
-  color: theme-color('secondary') !important;
-  border: 1px solid theme-color('danger');
-  border-left: 6px solid theme-color('danger');
 }
