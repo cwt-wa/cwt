@@ -11,7 +11,7 @@
 
     <h1>
         <cwt-user [username]="game.homeUser.username"></cwt-user>
-        {{game.scoreHome}}–{{game.scoreAway}}
+        <span style="white-space: nowrap">{{game.scoreHome}}–{{game.scoreAway}}</span>
         <cwt-user [username]="game.awayUser.username"></cwt-user>
     </h1>
 
