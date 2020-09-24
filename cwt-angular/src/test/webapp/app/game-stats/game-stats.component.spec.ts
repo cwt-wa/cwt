@@ -596,7 +596,7 @@ describe('GameStatsComponent can calc in', () => {
         component.totalHealthPointsPerTeam = 800;
         let actual = component.linearGradientHealthPoints(1);
         expect(actual).toEqual(
-            "linear-gradient(to right, #1B2021 0, #1B2021 12.5%, #FF7F7F 12.5%, #FF7F7F 50%, #9D9FFF 50%, #9D9FFF 100%, #1B2021 100%, #1B2021 100%)",
+            "linear-gradient(to right, #1B2021 0, #1B2021 12.5%, rgb(255,127,127,.5) 12.5%, rgb(255,127,127,.5) 50%, rgb(157,159,255,.5) 50%, rgb(157,159,255,.5) 100%, #1B2021 100%, #1B2021 100%)",
             "actual is " + actual);
     });
 
@@ -606,7 +606,7 @@ describe('GameStatsComponent can calc in', () => {
         component.totalHealthPointsPerTeam = 800;
         let actual = component.linearGradientHealthPoints(2);
         expect(actual).toEqual(
-            "linear-gradient(to right, #1B2021 0, #1B2021 12.5%, #FF7F7F 12.5%, #FF7F7F 50%, #9D9FFF 50%, #9D9FFF 92.815%, #1B2021 92.815%, #1B2021 100%)",
+            "linear-gradient(to right, #1B2021 0, #1B2021 12.5%, rgb(255,127,127,.5) 12.5%, rgb(255,127,127,.5) 50%, rgb(157,159,255,.5) 50%, rgb(157,159,255,.5) 92.815%, #1B2021 92.815%, #1B2021 100%)",
             "actual is " + actual);
     });
 });
