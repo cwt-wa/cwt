@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static java.util.Collections.emptyList;
+
 public class PageDto<T> {
 
     private int size = 10;
@@ -31,6 +33,10 @@ public class PageDto<T> {
         dto.setSortables(sortables);
 
         return dto;
+    }
+
+    public static <T> PageDto<T> empty() {
+        return PageDto.toDto(Page.empty(), emptyList());
     }
 
     private static Sort.Direction mapSortAscendingToDirection(Boolean sortAscending, Sort.Direction fallbackDirection) {
