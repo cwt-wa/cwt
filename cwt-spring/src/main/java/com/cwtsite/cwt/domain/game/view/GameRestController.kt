@@ -23,6 +23,7 @@ import com.cwtsite.cwt.entity.Comment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONArray
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ByteArrayResource
@@ -57,6 +58,8 @@ constructor(private val gameService: GameService, private val userService: UserS
     @Value("\${stats-sse-timeout:#{180000}}") // default of 3 minutes
     private var statsSseTimeout: Long? = null
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @GetMapping("/{id}/stats-listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun listenToStats(@PathVariable("id") gameId: Long): ResponseBodyEmitter {
         val game = gameService
@@ -75,6 +78,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         }
         val emit = { data: String ->
             emitter.send(SseEmitter.event().data(data).name("EVENT"))
+            logger.info("Emitted game stats (length: ${data.length}) event to game $gameId")
             emissions += 1
             if (emissions == game.replayQuantity) {
                 complete()
