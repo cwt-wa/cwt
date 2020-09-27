@@ -3,21 +3,41 @@
         <chatInput (message)="submit($event[0], $event[1])"></chatInput>
     </div>
     <div class="col-auto pl-1">
-        <button type="button" class="btn btn-lg bg-danger btn-primary submit"
-                (click)="filterPrivate = !filterPrivate; fetchMessages()">
-            <i class="fa fa-filter"></i>
-        </button>
+        <div class="" ngbDropdown>
+            <button type="button" class="btn px-1 btn-danger btn-lg no-caret" ngbDropdownToggle>
+                <i class="fa fa-filter"></i>
+            </button>
+            <div ngbDropdownMenu class="text-right">
+                <button [class.active]="filter === null" class="dropdown-item" type="button" (click)="filterBy(null)">
+                    Off
+                </button>
+                <div class="dropdown-divider"></div>
+                <button [class.active]="filter === 'NEWS'" class="dropdown-item" type="button"
+                        (click)="filterBy('NEWS')">News
+                </button>
+                <button [class.active]="filter === 'PRIVATE'" class="dropdown-item" type="button"
+                        (click)="filterBy('PRIVATE')">Private
+                </button>
+                <button [class.active]="filter === 'SHOUTBOX'" class="dropdown-item" type="button"
+                        (click)="filterBy('SHOUTBOX')">Shoutbox
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="card bg-primary text-white border-0 mt-1">
-    <div *ngFor="let message of messages; let first = first" class="p-1" style="border-bottom: 1px solid black !important;"
-         [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}" ngPreserveWhitespaces>
+    <div *ngFor="let message of messages; let first = first; let last = last" class="p-1"
+         style="border-bottom: 1px solid black !important;"
+         [ngClass]="{'rounded-top': first, 'bg-danger': message.category === 'PRIVATE', 'bg-secondary': message.category === 'NEWS'}"
+         ngPreserveWhitespaces>
         <button class="btn btn-dark btn-sm" *ngIf="admin" type="button" (click)="deleteMessage(message)">
             <i class="fa fa-trash"></i>
         </button>
-        <span class="font-variant-numeric-tabular-nums" [ngbTooltip]="message.created | cwtDate">{{message.created | cwtDate:'time'}}</span>
-        <cwt-user *ngIf="message.author" [username]="message.author?.username" class="text-white font-weight-bold"></cwt-user>
+        <span class="font-variant-numeric-tabular-nums"
+              [ngbTooltip]="message.created | cwtDate">{{message.created | cwtDate:'time'}}</span>
+        <cwt-user *ngIf="message.author" [username]="message.author?.username"
+                  class="text-white font-weight-bold"></cwt-user>
 
         <ng-container *ngIf="message.category === 'NEWS'">
             <ng-container *ngIf="message.body.split(','); let messageData">
@@ -37,8 +57,7 @@
             <span [innerHTML]="message.body | cwtConvertLinks:['text-light']"></span>
         </ng-container>
     </div>
-    <button type="button" class="btn btn-sm btn-primary"
-            (click)="more()" *ngIf="messageTotalElements !== messages.length">
+    <button type="button" class="btn btn-sm btn-primary" (click)="fetchPastMessages(this.filter)">
         …
     </button>
 </div>

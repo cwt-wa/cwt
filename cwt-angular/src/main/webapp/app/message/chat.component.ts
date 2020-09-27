@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {JwtUser, Message, MessageCreationDto, MessageDto, PageDto} from "../custom";
+import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 
@@ -13,40 +13,52 @@ export class ChatComponent implements OnInit, OnDestroy {
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
 
-    allMessages: MessageDto[] = [];
-    privateMessages: MessageDto[] = [];
-    filterPrivate = false;
-    messagePagingStart: number = 0;
-    messageTotalElements: number;
-    private readonly messagesSize = 15;
+    filter: MessageCategory | null = null;
     authUser: JwtUser;
-
+    private readonly messagesSize = 30;
     private readonly fetchIntervalMillis = 10000;
     private fetchInterval: number;
-
-    get messages(): MessageDto[] {
-        return this.filterPrivate
-            ? this.privateMessages
-            : this.allMessages;
-    }
+    private oldestMessage: number;
+    private newestMessage: number;
+    private endpoint: string;
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
                 private toastr: Toastr) {
+        this.endpoint = this.admin ? 'message/admin' : 'message';
+    }
+
+    _messages: MessageDto[] = [];
+
+    get messages(): MessageDto[] {
+        return (this.filter === null ? this._messages : this._messages.filter(m => m.category === this.filter))
+            .sort((o1, o2) => new Date(o2.created).getTime() - new Date(o1.created).getTime());
+    }
+
+    set messages(messages: MessageDto[]) {
+        this._messages = messages
+            .reduce((acc, curr) => {
+                if (acc.find(x => x.id === curr.id) == null) {
+                    acc.push(curr);
+                }
+                return acc;
+            }, <MessageDto[]>[]);
+        this.newestMessage = new Date(this.messages[0].created).getTime();
+        this.oldestMessage = new Date(this.messages[this.messages.length - 1].created).getTime();
     }
 
     ngOnInit(): void {
         this.authService.authState.then(user => this.authUser = user);
-        this.fetchMessages();
+        this.requestService
+            .get<MessageDto[]>(`${this.endpoint}`, {after: "0", size: this.messagesSize.toString()})
+            .subscribe(res => {
+                this.messages = res;
+                this.shortPolling();
+            });
     }
 
     ngOnDestroy(): void {
         window.clearInterval(this.fetchInterval);
-    }
-
-    more(): void {
-        this.messagePagingStart += 1;
-        this.fetchMessages();
     }
 
     submit(message: Message, cb: (success: boolean) => void): void {
@@ -58,8 +70,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         this.requestService.post<MessageCreationDto>('message', messageDto)
             .subscribe(res => {
-                this.allMessages.unshift(res as unknown as MessageDto);
-                this.messageTotalElements += 1;
+                this._messages.unshift(res as unknown as MessageDto);
                 cb(true);
             }, () => cb(false));
     }
@@ -74,46 +85,48 @@ ${message.author.username}: ${message.body}`;
         this.requestService.delete(`message/${message.id}`)
             .subscribe(() => {
                 this.toastr.success("Message has been deleted.");
-                this.allMessages.splice(this.allMessages.findIndex(m => m.id === message.id), 1);
+                this._messages.splice(this.messages.findIndex(m => m.id === message.id), 1);
             })
     }
 
-    private fetchMessages() {
-        const relativePath = this.admin ? 'message/admin' : 'message';
+    filterBy(category: MessageCategory | null) {
+        this.filter = category;
+        this.newestMessage = null;
+        this.oldestMessage = null;
         const queryParams = {
-            size: this.messagesSize,
-            start: this.messagePagingStart,
-            privateOnly: this.filterPrivate
-        } as PageDto<MessageDto> & { privateOnly: boolean };
-        this.requestService.getPaged<MessageDto>(relativePath, queryParams)
-            .subscribe(res => {
-                this.messageTotalElements = res.totalElements;
-                this.messagePagingStart = res.start;
-                if (queryParams.privateOnly) {
-                    this.privateMessages.push(
-                        ...res.content
-                            .filter(msg => this.privateMessages.find(allMsg => allMsg.id === msg.id) == null));
-                } else {
-                    this.allMessages.push(
-                        ...res.content
-                            .filter((msg => this.allMessages.find(allMsg => allMsg.id === msg.id) == null)));
-                }
-                if (this.fetchInterval == null) this.fetchNewMessages();
-            });
+            after: "0",
+            size: this.messagesSize.toString(),
+            ...(category != null && {category})
+        };
+        this.requestService
+            .get<MessageDto[]>(`${this.endpoint}`, queryParams)
+            .subscribe(res => this.messages = res);
     }
 
-    private fetchNewMessages() {
-        const relativePath = this.admin ? 'message/admin/new' : 'message/new';
+    public fetchPastMessages(category?: MessageCategory) {
+        const queryParams: { category?: string, before: string, size: string } = {
+            ...(category != null && {category}),
+            size: this.messagesSize.toString(),
+            before: this.oldestMessage.toString()
+        };
+        this.requestService
+            .get<MessageDto[]>(`${this.endpoint}`, queryParams)
+            .subscribe(res => res.length
+                    ? this.messages = [...this._messages, ...res]
+                    : this.toastr.info('There are no more messages.'));
+    }
 
-        const newestMessageCreated = this.allMessages
-            .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())[0].created;
-
-        this.requestService.get<MessageDto[]>(relativePath, {after: Date.parse(newestMessageCreated).toString()})
-            .subscribe(res => {
-                this.messageTotalElements += res.length;
-                this.privateMessages.unshift(...res.filter(m => !this.privateMessages.find(m1 => m1.id === m.id)).filter(m => m.category === 'PRIVATE'));
-                this.allMessages.unshift(...res.filter(m => !this.allMessages.find(m1 => m1.id === m.id)));
-                if (this.fetchInterval == null) this.fetchInterval = window.setInterval(this.fetchNewMessages.bind(this), this.fetchIntervalMillis);
-            });
+    private shortPolling() {
+        setTimeout(() => {
+            this.requestService
+                .get<MessageDto[]>(`${this.endpoint}`, {
+                    after: this.newestMessage.toString(),
+                    size: this.messagesSize.toString()
+                })
+                .subscribe(res => {
+                    this.messages = [...res, ...this._messages];
+                    this.shortPolling();
+                })
+        }, this.fetchIntervalMillis);
     }
 }

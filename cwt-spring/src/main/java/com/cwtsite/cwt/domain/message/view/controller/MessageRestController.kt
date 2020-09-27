@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.message.view.controller
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.domain.core.view.model.PageDto
+import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
@@ -26,57 +26,34 @@ class MessageRestController {
     @Autowired private lateinit var userService: UserService
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun getMessages(pageDto: PageDto<MessageDto>,
-                    @RequestParam("privateOnly", defaultValue = "false") privateOnly: Boolean,
-                    request: HttpServletRequest): ResponseEntity<PageDto<MessageDto>> {
+    fun getMessages(@RequestParam("after", required = false) after: Long?,
+                    @RequestParam("before", required = false) before: Long?,
+                    @RequestParam("size", defaultValue = "30") size: Int,
+                    @RequestParam("category", required = false) category: MessageCategory?,
+                    request: HttpServletRequest): ResponseEntity<List<MessageDto>> {
         val authorizationHeader = request.getHeader(authService.tokenHeaderName)
-        var authenticatedUser: User? = null
-        if (authorizationHeader != null) authenticatedUser = authService.getUserFromToken(authorizationHeader)
-
-        val messages = if (privateOnly) {
-            if (authenticatedUser == null) {
-                throw RestException(
-                        "Cannot filter for private messages when not authenticated.",
-                        HttpStatus.FORBIDDEN,
-                        null)
-            }
-            messageService.findPrivateMessagesForUser(authenticatedUser, pageDto.start, pageDto.size)
+        var user: User? = null
+        if (authorizationHeader != null) user = authService.getUserFromToken(authorizationHeader)
+        val messages = if (after == null && before != null) {
+            messageService.findOldMessages(
+                    Timestamp(before), size, user,
+                    if (category == null) MessageCategory.values().toList() else listOf(category))
+        } else if (after != null && before == null) {
+            messageService.findNewMessages(
+                    Timestamp(after), size, user,
+                    if (category == null) MessageCategory.values().toList() else listOf(category))
         } else {
-            when (authenticatedUser) {
-                null -> messageService.findMessagesForGuest(pageDto.start, pageDto.size)
-                else -> messageService.findMessagesForUser(authenticatedUser, pageDto.start, pageDto.size)
-            }
+            throw RestException("Either after or before must be specified", HttpStatus.BAD_REQUEST, null)
         }
-
-        return ResponseEntity.ok(PageDto.toDto(messages.map { MessageDto.toDto(it) }, listOf<String>()))
-    }
-
-    @RequestMapping("/new", method = [RequestMethod.GET])
-    fun getNewMessages(after: Long, request: HttpServletRequest): ResponseEntity<List<MessageDto>> {
-        val authorizationHeader = request.getHeader(authService.tokenHeaderName)
-        var authenticatedUser: User? = null
-        if (authorizationHeader != null) authenticatedUser = authService.getUserFromToken(authorizationHeader)
-        val created = Timestamp(after)
-
-        val messages = when (authenticatedUser) {
-            null -> messageService.findNewMessagesForGuest(created)
-            else -> messageService.findNewMessagesForUser(authenticatedUser, created)
-        }
-
         return ResponseEntity.ok(messages.map { MessageDto.toDto(it) })
     }
 
     @RequestMapping("/admin", method = [RequestMethod.GET])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun getMessagesForAdmin(pageDto: PageDto<MessageDto>): ResponseEntity<PageDto<MessageDto>> {
-        val messages = messageService.findMessagesForAdmin(pageDto.start, pageDto.size)
-        return ResponseEntity.ok(PageDto.toDto(messages.map { MessageDto.toDto(it) }, listOf<String>()))
+    fun getMessagesForAdmin(start: Int, size: Int): ResponseEntity<List<MessageDto>> {
+        val messages = messageService.findAll(start, size)
+        return ResponseEntity.ok(messages.content.map { MessageDto.toDto(it) })
     }
-
-    @RequestMapping("/admin/new", method = [RequestMethod.GET])
-    @Secured(AuthorityRole.ROLE_ADMIN)
-    fun getNewMessagesForAdmin(after: Long): ResponseEntity<List<MessageDto>> =
-            ResponseEntity.ok(messageService.findNewMessagesForAdmin(Timestamp(after)).map { MessageDto.toDto(it) })
 
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])
     @Secured(AuthorityRole.ROLE_ADMIN)
