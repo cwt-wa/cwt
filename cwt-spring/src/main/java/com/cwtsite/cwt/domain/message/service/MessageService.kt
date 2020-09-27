@@ -4,8 +4,6 @@ import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -40,7 +38,13 @@ constructor(private val messageRepository: MessageRepository) {
         messageRepository.deleteById(id)
     }
 
-    fun findAll(start: Int, size: Int): Page<Message> {
-        return messageRepository.findAll(PageRequest.of(start, size))
+    fun findMessagesForAdminCreatedBefore(after: Timestamp, size: Int): List<Message> {
+        val result = messageRepository.findAllByCreatedBeforeOrderByCreatedDesc(after)
+        return result.subList(0, min(size, result.size))
+    }
+
+    fun findMessagesForAdminCreatedAfter(after: Timestamp, size: Int): List<Message> {
+        val result = messageRepository.findAllByCreatedAfterOrderByCreatedDesc(after)
+        return result.subList(0, min(size, result.size))
     }
 }

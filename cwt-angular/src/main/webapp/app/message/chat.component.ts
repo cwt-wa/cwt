@@ -25,7 +25,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     constructor(private requestService: RequestService,
                 private authService: AuthService,
                 private toastr: Toastr) {
-        this.endpoint = this.admin ? 'message/admin' : 'message';
     }
 
     _messages: MessageDto[] = [];
@@ -48,6 +47,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.endpoint = this.admin ? 'message/admin' : 'message';
         this.authService.authState.then(user => this.authUser = user);
         this.requestService
             .get<MessageDto[]>(`${this.endpoint}`, {after: "0", size: this.messagesSize.toString()})

@@ -38,5 +38,9 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             @Param("categories") List<MessageCategory> categories,
             @Param("created") Timestamp created);
 
+    List<Message> findAllByCreatedBeforeOrderByCreatedDesc(Timestamp created);
+
+    List<Message> findAllByCreatedAfterOrderByCreatedDesc(Timestamp created);
+
     List<Message> findAllByCreatedAfter(Timestamp created);
 }

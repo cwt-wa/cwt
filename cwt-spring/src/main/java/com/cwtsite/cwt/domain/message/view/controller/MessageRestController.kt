@@ -50,9 +50,17 @@ class MessageRestController {
 
     @RequestMapping("/admin", method = [RequestMethod.GET])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun getMessagesForAdmin(start: Int, size: Int): ResponseEntity<List<MessageDto>> {
-        val messages = messageService.findAll(start, size)
-        return ResponseEntity.ok(messages.content.map { MessageDto.toDto(it) })
+    fun getMessagesForAdmin(@RequestParam("after", required = false) after: Long?,
+                            @RequestParam("before", required = false) before: Long?,
+                            @RequestParam("size", defaultValue = "30") size: Int): ResponseEntity<List<MessageDto>> {
+        val messages = if (after == null && before != null) {
+            messageService.findMessagesForAdminCreatedBefore(Timestamp(before), size)
+        } else if (after != null && before == null) {
+            messageService.findMessagesForAdminCreatedAfter(Timestamp(after), size)
+        } else {
+            throw RestException("Either after or before must be specified", HttpStatus.BAD_REQUEST, null)
+        }
+        return ResponseEntity.ok(messages.map { MessageDto.toDto(it) })
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])
