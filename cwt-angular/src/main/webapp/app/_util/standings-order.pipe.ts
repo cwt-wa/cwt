@@ -21,8 +21,8 @@ export class StandingsOrderPipe implements PipeTransform {
                     return theirGame.scoreAway > theirGame.scoreHome ? -1 : +1;
                 }
             })
-            .sort((a, b) => a.roundRatio > b.roundRatio ? -1 : +1)
-            .sort((a, b) => a.gameRatio > b.gameRatio ? -1 : +1)
-            .sort((a, b) => a.points > b.points ? -1 : +1);
+            .sort((a, b) => b.roundRatio - a.roundRatio)
+            .sort((a, b) => b.gameRatio - a.gameRatio)
+            .sort((a, b) => b.points - a.points);
     }
 }
