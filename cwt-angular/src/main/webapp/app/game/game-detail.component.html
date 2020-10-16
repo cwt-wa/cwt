@@ -141,16 +141,12 @@
             </button>
         </div>
         <div class="col-6 col-md-1 col-lg-2 pl-1">
-            <span *ngIf="game.techWin" class="btn btn-primary text-white w-100">
-                <span class="d-inline d-md-none d-lg-inline">Tech. Win</span>
-                <span class="d-none d-md-inline d-lg-none" ngbTooltip="Tech. Win"><i class="fa fa-gavel"></i></span>
-            </span>
             <a *ngIf="!game.techWin" [href]="game.id | cwtReplayLink"
                class="btn btn-primary text-white w-100">
                 <span class="d-inline d-md-none d-lg-inline">Download</span>
                 <span class="d-none d-md-inline d-lg-none"><i class="fa fa-download"></i></span>
             </a>
-            <span *ngIf="game.techWin" class="btn btn-primary text-white w-100">
+            <span *ngIf="game.techWin" class="btn btn-primary disabled text-white w-100 cursor-default">
                 <span class="d-inline d-md-none d-lg-inline">Tech. Win</span>
                 <span class="d-none d-md-inline d-lg-none" ngbTooltip="Tech. Win"><i class="fa fa-gavel"></i></span>
             </span>
