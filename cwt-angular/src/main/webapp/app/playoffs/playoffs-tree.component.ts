@@ -80,7 +80,7 @@ export class PlayoffsTreeComponent implements OnInit {
 
                     finalGames.map<PlayoffTreeBetDtoWithBetResults>(g => {
                         if (g.betResult == null) {
-                            (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets, this.authUser);
+                            (g as PlayoffTreeBetDtoWithBetResults).betResult = this.betService.createBetResult(g.bets || [], this.authUser);
                         }
                         return g as PlayoffTreeBetDtoWithBetResults;
                     });
