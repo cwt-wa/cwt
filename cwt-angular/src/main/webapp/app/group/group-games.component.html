@@ -15,9 +15,10 @@
             <cwt-user [username]="game.awayUser.username"></cwt-user>
         </td>
         <td class="text-right">
-            <a [href]="game.id | cwtReplayLink">
+            <a *ngIf="!game.techWin" [href]="game.id | cwtReplayLink">
                 <i class="fa fa-arrow-circle-down"></i>
             </a>
+            <i *ngIf="game.techWin" class="fa fa-gavel" ngbTooltip="Tech. Win"></i>
         </td>
         <td class="text-center">
             <a [routerLink]="['/games', game.id]">

@@ -58,8 +58,11 @@
                         <div class="all-petite-caps">
                             {{game.comments.length}} Comments
                             •
-                            <a [href]="game.id | cwtReplayLink">
+                            <a *ngIf="!game.techWin" [href]="game.id | cwtReplayLink">
                                 Download
+                            </a>
+                            <a *ngIf="game.techWin">
+                                Tech. Win
                             </a>
                         </div>
                     </div>
