@@ -76,6 +76,12 @@ constructor(private val gameService: GameService, private val userService: UserS
                 isComplete = true
             }
         }
+
+        if (game.techWin) {
+            complete()
+            return emitter
+        }
+
         val emit = { data: String ->
             emitter.send(SseEmitter.event().data(data).name("EVENT"))
             logger.info("Emitted game stats (length: ${data.length}) event to game $gameId")
