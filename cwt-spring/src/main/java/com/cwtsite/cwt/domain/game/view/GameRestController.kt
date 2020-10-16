@@ -215,15 +215,17 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("/tech-win", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun addTechWin(@RequestBody dto: GameTechWinDto): ResponseEntity<GameCreationDto> {
+    fun addTechWin(@RequestBody dto: GameTechWinDto, request: HttpServletRequest): ResponseEntity<GameCreationDto> {
         tournamentService.getCurrentTournament()
                 ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+        val reporter = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+                ?: throw RestException("Unauthorized.", HttpStatus.UNAUTHORIZED, null)
         val users = userService.findByIds(dto.winner, dto.loser)
         val winningUser = users.find { it.id == dto.winner }
                 ?: throw RestException("Winning user not found.", HttpStatus.BAD_REQUEST, null)
         val losingUser = users.find { it.id == dto.loser }
                 ?: throw RestException("Losing user not found.", HttpStatus.BAD_REQUEST, null)
-        return ResponseEntity.ok(GameCreationDto.toDto(gameService.addTechWin(winningUser, losingUser)))
+        return ResponseEntity.ok(GameCreationDto.toDto(gameService.addTechWin(winningUser, losingUser, reporter)))
     }
 
     @RequestMapping("/{id}/bet", method = [RequestMethod.POST])
