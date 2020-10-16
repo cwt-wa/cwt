@@ -25,8 +25,7 @@ export class PlayoffsTreeComponent implements OnInit {
     isThreeWayFinalTree: boolean;
     placingBet: number[] = [];
     loading: boolean = true;
-
-    private authUser: JwtUser;
+    authUser: JwtUser;
 
     public constructor(private requestService: RequestService, private authService: AuthService,
                        private toastr: Toastr, private betService: BetService,
