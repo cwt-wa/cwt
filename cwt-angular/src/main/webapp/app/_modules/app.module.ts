@@ -24,6 +24,7 @@ import {CurrentTournamentService} from "../_services/current-tournament.service"
 import {SharedModule} from "./shared.module";
 import {TimeAgoService} from "../_services/time-ago.service";
 import {PlayoffsService} from "../_services/playoffs.service";
+import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 
 const appRoutes: Routes = [
     {
@@ -125,6 +126,7 @@ const appRoutes: Routes = [
         RequestService,
         ConfigurationService,
         DatePipe,
+        StandingsOrderPipe,
         PreviousRouteService,
         Utils,
         BetService,
