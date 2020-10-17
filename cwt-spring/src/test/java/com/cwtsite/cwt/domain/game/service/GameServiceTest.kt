@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
+import com.cwtsite.cwt.domain.game.entity.GameStats
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.group.entity.enumeration.GroupLabel
@@ -33,6 +34,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
+import java.io.BufferedReader
 import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
@@ -279,6 +281,29 @@ class GameServiceTest {
         assertThat(actualPlacedBet.betOnHome).isEqualTo(false)
         assertThat(actualPlacedBet.game).isEqualTo(game)
         assertThat(actualPlacedBet.user).isEqualTo(user)
+    }
+
+    @Test
+    fun findFromGameStats() {
+        val manhattanJson = javaClass.getResourceAsStream("manhattan.json")!!.bufferedReader().use(BufferedReader::readText)
+        val hellJson = javaClass.getResourceAsStream("hell.json")!!.bufferedReader().use(BufferedReader::readText)
+        val game = EntityDefaults.game()
+        `when`(gameStatsRepository.findAllByGame(MockitoUtils.anyObject()))
+                .thenReturn(listOf(
+                        GameStats(id = 1, game = game, map = "/map/tx3qwuc3", data = manhattanJson),
+                        GameStats(id = 2, game = game, map = "/map/dqp2fnf9", data = hellJson)))
+        val actual = gameService.findFromGameStats(game, "map", "texture")
+        assertThat(actual).hasSize(2)
+        assertThat(actual).anySatisfy {
+            assertThat(it.size).isEqualTo(2)
+            assertThat(it["map"]).isEqualTo("/map/tx3qwuc3")
+            assertThat(it["texture"]).isEqualTo("DATA\\Level\\Manhattan")
+        }
+        assertThat(actual).anySatisfy {
+            assertThat(it.size).isEqualTo(2)
+            assertThat(it["map"]).isEqualTo("/map/dqp2fnf9")
+            assertThat(it["texture"]).isEqualTo("DATA\\Level\\Hell")
+        }
     }
 
     private fun createGroup(tournament: Tournament): Group {

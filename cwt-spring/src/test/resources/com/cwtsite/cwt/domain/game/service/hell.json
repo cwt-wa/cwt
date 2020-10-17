@@ -1,0 +1,647 @@
+{
+  "messages": [
+    {
+      "timestamp": "00:00:00.00",
+      "user": "NNN`Rafka",
+      "body": "glhf!"
+    },
+    {
+      "timestamp": "00:00:00.00",
+      "user": "Siwy",
+      "body": "hf"
+    },
+    {
+      "timestamp": "00:00:02.34",
+      "user": "xPoDxSilaneo",
+      "body": "hf"
+    },
+    {
+      "timestamp": "00:00:07.46",
+      "user": "TheExtremist",
+      "body": "gl!"
+    },
+    {
+      "timestamp": "00:10:50.16",
+      "user": "NNN`Rafka",
+      "body": "no way"
+    },
+    {
+      "timestamp": "00:10:53.12",
+      "user": "SiD`",
+      "body": "lmao"
+    },
+    {
+      "timestamp": "00:10:53.42",
+      "user": "xPoDxSilaneo",
+      "body": "lol"
+    },
+    {
+      "timestamp": "00:10:53.78",
+      "user": "TheExtremist",
+      "body": "..."
+    },
+    {
+      "timestamp": "00:11:36.98",
+      "user": "NNN`Rafka",
+      "body": "ok Im stressfull as hell, cant make a simple move;/"
+    },
+    {
+      "timestamp": "00:11:57.00",
+      "user": "SiD`",
+      "body": "sensing nerves on both sides"
+    },
+    {
+      "timestamp": "00:21:00.88",
+      "user": "NNN`Rafka",
+      "body": "pff"
+    },
+    {
+      "timestamp": "00:21:05.38",
+      "user": "TheExtremist",
+      "body": "heck"
+    },
+    {
+      "timestamp": "00:21:49.16",
+      "user": "Siwy",
+      "body": "gg"
+    },
+    {
+      "timestamp": "00:21:50.42",
+      "user": "SiD`",
+      "body": "gg"
+    },
+    {
+      "timestamp": "00:21:51.82",
+      "user": "TheExtremist",
+      "body": "gg"
+    },
+    {
+      "timestamp": "00:21:54.14",
+      "user": "NNN`Rafka",
+      "body": "gg"
+    },
+    {
+      "timestamp": "00:22:00.96",
+      "user": "TVPenguin",
+      "body": "gg"
+    }
+  ],
+  "turns": [
+    {
+      "timestamp": "00:00:00.00",
+      "user": "Siwy",
+      "weapons": [
+        "Select Worm",
+        "Baseball Bat"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 26.66,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:00:36.70",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Select Worm",
+        "Ninja Rope",
+        "Parachute",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "Siwy"
+        }
+      ],
+      "timeUsedSeconds": 44.5,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:01:49.82",
+      "user": "Siwy",
+      "weapons": [
+        "Ninja Rope",
+        "Bungee",
+        "Longbow",
+        "Longbow"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 43.8,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:02:56.38",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Ninja Rope",
+        "Ninja Rope",
+        "Dynamite"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "Siwy"
+        },
+        {
+          "damage": 4,
+          "kills": 0,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 44.34,
+      "retreatSeconds": 2.38,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:03:59.22",
+      "user": "Siwy",
+      "weapons": [
+        "Select Worm",
+        "Jet Pack",
+        "Dynamite"
+      ],
+      "damages": [
+        {
+          "damage": 113,
+          "kills": 0,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 36.86,
+      "retreatSeconds": 5.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:04:49.10",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Select Worm",
+        "Ninja Rope",
+        "Ninja Rope",
+        "Ninja Rope",
+        "Mad Cow"
+      ],
+      "damages": [
+        {
+          "damage": 134,
+          "kills": 0,
+          "victim": "Siwy"
+        },
+        {
+          "damage": 51,
+          "kills": 0,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 44.86,
+      "retreatSeconds": 0.0,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:05:41.46",
+      "user": "Siwy",
+      "weapons": [
+        "Select Worm",
+        "Ninja Rope",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 145,
+          "kills": 2,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 29.2,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:06:29.06",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Select Worm",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 100,
+          "kills": 1,
+          "victim": "Siwy"
+        }
+      ],
+      "timeUsedSeconds": 40.78,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:07:44.38",
+      "user": "Siwy",
+      "weapons": [
+        "Ninja Rope",
+        "Bungee",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 36,
+          "kills": 1,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 41.92,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:08:46.50",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Fire Punch"
+      ],
+      "damages": [
+        {
+          "damage": 31,
+          "kills": 0,
+          "victim": "Siwy"
+        }
+      ],
+      "timeUsedSeconds": 44.1,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:09:42.32",
+      "user": "Siwy",
+      "weapons": [
+        "Mad Cow"
+      ],
+      "damages": [
+        {
+          "damage": 28,
+          "kills": 0,
+          "victim": "Siwy"
+        },
+        {
+          "damage": 22,
+          "kills": 0,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 15.02,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:10:08.58",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Jet Pack"
+      ],
+      "damages": [
+        {
+          "damage": 51,
+          "kills": 1,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 34.1,
+      "retreatSeconds": 0.0,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:10:53.76",
+      "user": "Siwy",
+      "weapons": [
+        "Ninja Rope",
+        "Longbow",
+        "Longbow"
+      ],
+      "damages": [
+        {
+          "damage": 30,
+          "kills": 0,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 40.56,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:11:49.46",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Parachute",
+        "Sheep"
+      ],
+      "damages": [
+        {
+          "damage": 65,
+          "kills": 1,
+          "victim": "Siwy"
+        },
+        {
+          "damage": 13,
+          "kills": 0,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 27.84,
+      "retreatSeconds": 3.0,
+      "lossOfControl": true
+    },
+    {
+      "timestamp": "00:12:45.74",
+      "user": "Siwy",
+      "weapons": [
+        "Girder"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 22.0,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:13:16.60",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 3,
+          "kills": 1,
+          "victim": "Siwy"
+        }
+      ],
+      "timeUsedSeconds": 44.8,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:14:24.56",
+      "user": "Siwy",
+      "weapons": [
+        "Parachute",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 44,
+          "kills": 0,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 42.54,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:15:21.30",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Teleport"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 41.5,
+      "retreatSeconds": 0.02,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:16:12.30",
+      "user": "Siwy",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 15.66,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:16:40.18",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 50,
+          "kills": 0,
+          "victim": "Siwy"
+        }
+      ],
+      "timeUsedSeconds": 43.7,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:17:39.08",
+      "user": "Siwy",
+      "weapons": [
+        "Teleport"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 10.94,
+      "retreatSeconds": 0.02,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:17:54.10",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Girder"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 40.6,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:18:42.34",
+      "user": "Siwy",
+      "weapons": [
+        "Fire Punch"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 1.62,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:18:53.62",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Girder"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 44.16,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:19:47.88",
+      "user": "Siwy",
+      "weapons": [
+        "Fire Punch"
+      ],
+      "damages": [],
+      "timeUsedSeconds": 4.98,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:20:02.72",
+      "user": "NNN`Rafka",
+      "weapons": [
+        "Bungee",
+        "Grenade"
+      ],
+      "damages": [
+        {
+          "damage": 50,
+          "kills": 1,
+          "victim": "Siwy"
+        },
+        {
+          "damage": 35,
+          "kills": 1,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 44.76,
+      "retreatSeconds": 3.0,
+      "lossOfControl": false
+    },
+    {
+      "timestamp": "00:21:06.54",
+      "user": "Siwy",
+      "weapons": [
+        "Ninja Rope",
+        "Shotgun",
+        "Shotgun"
+      ],
+      "damages": [
+        {
+          "damage": 6,
+          "kills": 0,
+          "victim": "Siwy"
+        },
+        {
+          "damage": 56,
+          "kills": 1,
+          "victim": "NNN`Rafka"
+        }
+      ],
+      "timeUsedSeconds": 34.06,
+      "retreatSeconds": 0.0,
+      "lossOfControl": true
+    }
+  ],
+  "suddenDeath": null,
+  "spectators": [
+    {
+      "user": "SiD`",
+      "host": true
+    },
+    {
+      "user": "TVPenguin",
+      "host": false
+    },
+    {
+      "user": "TheExtremist",
+      "host": false
+    },
+    {
+      "user": "xPoDxSilaneo",
+      "host": false
+    },
+    {
+      "user": "waldek",
+      "host": false
+    }
+  ],
+  "teams": [
+    {
+      "color": "Red",
+      "user": "Siwy",
+      "team": "mloda kadra",
+      "localPlayer": false
+    },
+    {
+      "color": "Blue",
+      "user": "NNN`Rafka",
+      "team": "Men of faith",
+      "localPlayer": true
+    }
+  ],
+  "teamTimeTotals": [
+    {
+      "team": "mloda kadra",
+      "user": "Siwy",
+      "turn": "00:06:05.82",
+      "retreat": "00:00:38.02",
+      "total": "00:06:43.84",
+      "turnCount": 14
+    },
+    {
+      "team": "Men of faith",
+      "user": "NNN`Rafka",
+      "turn": "00:09:00.04",
+      "retreat": "00:00:29.40",
+      "total": "00:09:29.44",
+      "turnCount": 13
+    }
+  ],
+  "gameId": "10719273",
+  "startedAt": "2020-01-09 12:08:34 GMT",
+  "engineVersion": "3.7.2.1-3",
+  "fileFormatVersion": "3.6.29.48 - 3.7.2.97",
+  "exportVersion": "3.8",
+  "gameEnd": "00:22:00.06",
+  "roundTime": "0:22:00",
+  "totalGameTimeElapsed": "Unknown",
+  "winsTheRound": "mloda kadra",
+  "wormOfTheRound": {
+    "worm": "Abraham",
+    "team": "Men of faith"
+  },
+  "mostDamageWithOneShot": {
+    "damage": "185",
+    "worm": "Adam",
+    "team": "Men of faith"
+  },
+  "map": "/map/dqp2fnf9",
+  "texture": "DATA\\Level\\Hell",
+  "mostKillsWithOneShot": {
+    "damage": "2",
+    "worm": "Jozue",
+    "team": "Men of faith"
+  }
+}

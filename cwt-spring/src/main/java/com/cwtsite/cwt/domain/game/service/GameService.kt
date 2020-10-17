@@ -27,6 +27,7 @@ import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -226,6 +227,10 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             gameRepository.findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(
                     PageRequest.of(page, size, sort))
 
+
+    fun findAllOfTournament(tournament: Tournament): List<Game> =
+            gameRepository.findByTournament(tournament)
+
     /**
      * @throws IllegalStateException There's no current tournament.
      */
@@ -268,6 +273,17 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             gameStatsRepository.findAllByGame(game)
                     .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
+
+    fun findFromGameStats(game: Game, vararg fields: String): List<Map<String, Any>> {
+        val result = mutableListOf<Map<String, Any>>()
+        val stats = JSONArray(findGameStats(game))
+        for (i in 0 until stats.length()) {
+            val map = mutableMapOf<String, Any>()
+            fields.forEach { field -> map[field] = stats.getJSONObject(i).get(field) }
+            result.add(map)
+        }
+        return result
+    }
 
     fun updateReplayQuantity(game: Game, replayQuantity: Int): Game {
         game.replayQuantity = replayQuantity
