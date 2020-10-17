@@ -279,10 +279,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zemke/http-mock@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@zemke/http-mock/-/http-mock-3.0.1.tgz#c57b3a091facff6db1f1bdbe4b2d40c3ba9d1ac0"
-  integrity sha512-fNDtc7EgpDUQx1zqkWPnJ2imqbbiGiGuW0jE0kv/pFs+b7jDFw5lXU4oHWiZMPpEZonfdPM8xTpMTv3RmUSi7A==
+"@zemke/http-mock@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@zemke/http-mock/-/http-mock-4.0.2.tgz#8d93c0c5d72662ac4bf901766725a361ac6ec9f1"
+  integrity sha512-M8pnl8LGZcpGBNRbHb0l0FchauN1hxmiNoURpZpy4ziFyBN3FgyK821ZszjnQ7+3kFkdx+JvEix3FBgdEscdag==
 
 abbrev@1:
   version "1.1.1"
