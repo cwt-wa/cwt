@@ -1,9 +1,14 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from "@angular/core";
 import {RequestService} from "../_services/request.service";
 import {CurrentTournamentService} from "../_services/current-tournament.service";
-import {MapDto, TournamentDetailDto} from "../custom";
+import {GameMinimalDto, MapDto, TournamentDetailDto} from "../custom";
 import {BinaryService} from "../_services/binary.service";
 import {finalize} from "rxjs/operators";
+
+interface HellMapDto {
+    game: GameMinimalDto;
+    mapPaths: string[];
+}
 
 @Component({
     selector: 'cwt-maps-index',
@@ -115,7 +120,7 @@ import {finalize} from "rxjs/operators";
 
         <div class="mt-5 row" *ngIf="!loading">
             <div *ngFor="let map of maps" class="col-12 mb-5">
-                <h2 class="text-center">
+                <h2 class="text-center mb-2">
                     <strong>
                         <cwt-user [username]="map.game.homeUser.username"></cwt-user>
                         <a [routerLink]="['/games', map.game.id]">
@@ -124,8 +129,14 @@ import {finalize} from "rxjs/operators";
                         <cwt-user [username]="map.game.awayUser.username"></cwt-user>
                     </strong>
                     played&nbsp;Hell
+                    {map.mapPaths.length, select,
+                            1 {}
+                            2 {twice}
+                            other {{{map.mapPaths.length}}&nbsp;times}
+                            }
                 </h2>
-                <img #mapImage [attr.data-game-id]="map.game.id" class="map" title="hell map">
+                <img #mapImage *ngFor="let path of map.mapPaths" [attr.data-map-path]="path" class="map mt-2"
+                     title="hell map">
             </div>
             <div class="col-7 offset-2 mt-3">
                 <div class="alert alert-info" *ngIf="!maps?.length">
@@ -139,7 +150,7 @@ export class MapsIndexComponent implements OnInit {
 
     loading: boolean = true;
     tournament: TournamentDetailDto;
-    maps: MapDto[];
+    maps: HellMapDto[];
     img = {
         horn: require('../../img/horn.png'),
         lookup: require('../../img/worms/lookup.png'),
@@ -157,21 +168,32 @@ export class MapsIndexComponent implements OnInit {
         this.currentTournamentService.value.then(tournament => {
             this.tournament = tournament
             this.requestService.get<MapDto[]>(`tournament/${tournament.id}/maps`)
+                .pipe(finalize(() => this.loading = false))
                 .subscribe(res => {
-                    this.maps = res
+                    const maps = res
                         .filter(g => new Date(g.game.reportedAt).getTime() > 1602892800000)
-                        .filter(g => g.texture != null && g.texture.split('\\').pop().toLowerCase() == "hell")
+                        .filter(g => g.texture != null && g.texture.split('\\').pop().toLowerCase() === "hell")
                         .sort((g1, g2) => new Date(
                             g2.game.reportedAt).getTime() - new Date(g1.game.reportedAt).getTime());
-                    this.maps.forEach(map => {
+                    maps.forEach(map => {
                         const mapRelativePath = map.mapPath.split('/');
                         this.binaryService.getMap(map.game.id, mapRelativePath[mapRelativePath.length - 1])
                             .subscribe(res => {
                                 const mapImageElem = this.mapImages.find(
-                                    item => item.nativeElement.getAttribute('data-game-id') === map.game.id.toString())
+                                    item => item.nativeElement.getAttribute('data-map-path') === map.mapPath.toString())
                                 mapImageElem.nativeElement.src = res;
                             });
                     })
+                    this.maps = maps
+                        .reduce<HellMapDto[]>((acc, curr) => {
+                            const existingGameEntry = acc.find(g => g.game.id === curr.game.id);
+                            if (existingGameEntry) {
+                                existingGameEntry.mapPaths.push(curr.mapPath)
+                            } else {
+                                acc.push({game: curr.game, mapPaths: [curr.mapPath]})
+                            }
+                            return acc;
+                        }, []);
                 })
         })
     }
