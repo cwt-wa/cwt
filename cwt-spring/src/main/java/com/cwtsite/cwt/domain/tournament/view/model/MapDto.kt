@@ -2,12 +2,12 @@ package com.cwtsite.cwt.domain.tournament.view.model
 
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.game.entity.Game
-import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
 
 @DataTransferObject
 data class MapDto(
         val texture: String?,
-        val game: GameDetailDto,
+        val game: GameMinimalDto,
         val mapPath: String) {
 
     companion object {
@@ -15,16 +15,7 @@ data class MapDto(
         fun toDto(game: Game, mapPath: String, mapTexture: String?): MapDto =
                 MapDto(
                         texture = mapTexture,
-                        game = GameDetailDto.toDto(
-
-                                game = game,
-                                playoffRoundLocalized = when {
-                                    game.playoff() -> GameDetailDto.localizePlayoffRound(
-                                            game.tournament.threeWay!!,
-                                            game.tournament.maxRounds,
-                                            game.playoff!!.round)
-                                    else -> null
-                                }),
+                        game = GameMinimalDto.toDto(game),
                         mapPath = mapPath)
     }
 }

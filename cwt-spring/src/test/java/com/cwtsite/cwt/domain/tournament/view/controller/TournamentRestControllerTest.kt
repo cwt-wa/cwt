@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.tournament.view.controller
 
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
@@ -60,7 +60,7 @@ class TournamentRestControllerTest {
                 .thenReturn(Optional.of(game.tournament))
         val actual = cut.getMapsOfCurrentTournament(game.tournament.id!!).body
         assertThat(actual).containsExactlyInAnyOrder(
-                MapDto(game1["texture"], GameDetailDto.toDto(game, null), game1.getValue("map")),
-                MapDto(game2["texture"], GameDetailDto.toDto(game, null), game2.getValue("map")))
+                MapDto(game1["texture"], GameMinimalDto.toDto(game), game1.getValue("map")),
+                MapDto(game2["texture"], GameMinimalDto.toDto(game), game2.getValue("map")))
     }
 }
