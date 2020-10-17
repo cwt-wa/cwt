@@ -5,6 +5,65 @@ import {ConfigurationService} from "../_services/configuration.service";
 import {CurrentTournamentService} from "../_services/current-tournament.service";
 
 @Component({
+    styles: [`
+        .hell-objects {
+            position: absolute;
+            bottom: -42px;
+            z-index: -1;
+            right: 40px;
+        }
+
+        .hell-objects .sickle {
+            transform: scaleY(-1);
+            height: 90px;
+        }
+
+        .hell-objects .monument {
+            height: 60px;
+        }
+
+        .hell-objects .monument:first-child {
+            transform: rotate(12deg);
+        }
+
+        .hell-objects img:last-child {
+            transform: rotate(-6deg);
+        }
+
+        .hellground {
+            position: absolute;
+            bottom: -14px;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            z-index: -1;
+        }
+
+        .ew {
+            position: absolute;
+            bottom: 10px;
+            z-index: 10;
+            right: 274px;
+            transform: scaleX(-1) rotate(10deg);
+        }
+
+        .hellground img:nth-child(odd) {
+            transform: scaleX(-1);
+        }
+
+        .hellceiling {
+            position: absolute;
+            bottom: -3px;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            z-index: -1;
+        }
+    `],
     selector: 'cwt-home',
     template: require('./home.component.html')
 })
