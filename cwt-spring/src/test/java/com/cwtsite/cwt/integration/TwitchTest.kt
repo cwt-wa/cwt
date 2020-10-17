@@ -26,7 +26,7 @@ import kotlin.test.Test
 @EmbeddedPostgres
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["int", "dev"])
-class TwitchIntegration {
+class TwitchTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc

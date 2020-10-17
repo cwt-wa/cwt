@@ -35,7 +35,7 @@ import kotlin.test.Test
 @AutoConfigureMockMvc
 @EmbeddedPostgres
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class NewMessagesIntegration {
+class NewMessagesTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc

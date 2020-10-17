@@ -24,7 +24,7 @@ import kotlin.test.Test
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @EmbeddedPostgres
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class GameStatsDatabaseIntegration {
+class GameStatsDatabaseTest {
 
     @Autowired
     private lateinit var gameService: GameService

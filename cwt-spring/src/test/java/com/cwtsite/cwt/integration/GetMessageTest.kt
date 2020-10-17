@@ -33,7 +33,7 @@ import kotlin.test.Test
 @AutoConfigureMockMvc
 @EmbeddedPostgres
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class GetMessageIntegration {
+class GetMessageTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
