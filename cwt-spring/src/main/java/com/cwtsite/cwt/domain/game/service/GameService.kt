@@ -274,12 +274,12 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                     .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
-    fun findFromGameStats(game: Game, vararg fields: String): List<Map<String, Any>> {
-        val result = mutableListOf<Map<String, Any>>()
+    fun findFromGameStats(game: Game, vararg fields: String): List<Map<String, Any?>> {
+        val result = mutableListOf<Map<String, Any?>>()
         val stats = JSONArray(findGameStats(game))
         for (i in 0 until stats.length()) {
-            val map = mutableMapOf<String, Any>()
-            fields.forEach { field -> map[field] = stats.getJSONObject(i).get(field) }
+            val map = mutableMapOf<String, Any?>()
+            fields.forEach { field -> map[field] = stats.getJSONObject(i).opt(field) }
             result.add(map)
         }
         return result
