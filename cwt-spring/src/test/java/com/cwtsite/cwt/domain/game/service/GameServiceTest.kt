@@ -22,13 +22,15 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
@@ -95,15 +97,13 @@ class GameServiceTest {
 
         val group = createGroup(tournament)
 
-        Mockito
-                .`when`(groupRepository.findByTournamentAndUser(tournament, awayUser))
+        `when`(groupRepository.findByTournamentAndUser(tournament, awayUser))
                 .thenReturn(group)
 
         val expectedScoreHome = 1
         val expectedScoreAway = 2
 
-        Mockito
-                .`when`<Any>(gameRepository.save(MockitoUtils.anyObject()))
+        `when`<Any>(gameRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { invocation ->
                     val actualGame = invocation.getArgument<Game>(0)
 
@@ -136,8 +136,7 @@ class GameServiceTest {
         val expectedScoreHome = 1
         val expectedScoreAway = 2
 
-        Mockito
-                .`when`(gameRepository.findNextPlayoffGameForUser(MockitoUtils.anyObject(), MockitoUtils.anyObject()))
+        `when`(gameRepository.findNextPlayoffGameForUser(MockitoUtils.anyObject(), MockitoUtils.anyObject()))
                 .thenAnswer { invocation ->
                     val game = Game(tournament = invocation.getArgument(0))
                     game.homeUser = invocation.getArgument(1)
@@ -161,8 +160,7 @@ class GameServiceTest {
                 }
 
 
-        Mockito
-                .`when`<Any>(gameRepository.save(MockitoUtils.anyObject()))
+        `when`<Any>(gameRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { invocation ->
                     val actualGame = invocation.getArgument<Game>(0)
 
@@ -210,8 +208,7 @@ class GameServiceTest {
 
     private fun mockAndAssertValidationHappeningBeforeActualReport(
             homeUserId: Long, awayUserId: Long, tournament: Tournament, awayUser: User, homeUser: User) {
-        Mockito
-                .`when`(tournamentService.getCurrentTournament())
+        `when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
 
         Mockito
@@ -222,30 +219,27 @@ class GameServiceTest {
                 .doReturn(createGroupGameBestOfConfiguration(ConfigurationKey.PLAYOFF_GAMES_BEST_OF))
                 .`when`(gameService).getBestOfValue(TournamentStatus.PLAYOFFS)
 
-        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 3, 1) }
+        assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 3, 1) }
                 .isExactlyInstanceOf(GameService.InvalidScoreException::class.java)
 
-        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 0, 1) }
+        assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 0, 1) }
                 .isExactlyInstanceOf(GameService.InvalidScoreException::class.java)
 
-        Mockito
-                .`when`(userService.getRemainingOpponents(MockitoUtils.anyObject()))
+        `when`(userService.getRemainingOpponents(MockitoUtils.anyObject()))
                 .thenReturn(listOf(EntityDefaults.user(99)))
                 .thenReturn(listOf(EntityDefaults.user(99)))
                 .thenReturn(listOf(awayUser))
 
-        Mockito
-                .`when`(userRepository.findById(homeUserId))
+        `when`(userRepository.findById(homeUserId))
                 .thenReturn(Optional.of(homeUser))
 
-        Mockito
-                .`when`(userRepository.findById(awayUserId))
+        `when`(userRepository.findById(awayUserId))
                 .thenReturn(Optional.of(awayUser))
 
-        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 2, 0) }
+        assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 2, 0) }
                 .isExactlyInstanceOf(GameService.InvalidOpponentException::class.java)
 
-        Assertions.assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 1, 2) }
+        assertThatThrownBy { gameService.reportGame(homeUserId, awayUserId, 1, 2) }
                 .isExactlyInstanceOf(GameService.InvalidOpponentException::class.java)
     }
 
@@ -255,19 +249,17 @@ class GameServiceTest {
         val user = EntityDefaults.user()
         val bet = Bet(id = 1, betOnHome = true, game = game, user = user)
 
-        Mockito
-                .`when`(betRepository.findByUserAndGame(user, game))
+        `when`(betRepository.findByUserAndGame(user, game))
                 .thenReturn(Optional.of(bet))
 
-        Mockito
-                .`when`(betRepository.save(bet))
+        `when`(betRepository.save(bet))
                 .thenAnswer { it.arguments[0] }
 
 
         val actualPlacedBet = gameService.placeBet(game, user, false)
 
-        Assertions.assertThat(actualPlacedBet).isEqualTo(bet)
-        Assertions.assertThat(actualPlacedBet.betOnHome).isEqualTo(false)
+        assertThat(actualPlacedBet).isEqualTo(bet)
+        assertThat(actualPlacedBet.betOnHome).isEqualTo(false)
     }
 
     @Test
@@ -275,20 +267,18 @@ class GameServiceTest {
         val game = EntityDefaults.game()
         val user = EntityDefaults.user()
 
-        Mockito
-                .`when`(betRepository.findByUserAndGame(user, game))
+        `when`(betRepository.findByUserAndGame(user, game))
                 .thenReturn(Optional.empty())
 
-        Mockito
-                .`when`(betRepository.save(MockitoUtils.anyObject<Bet>()))
+        `when`(betRepository.save(MockitoUtils.anyObject<Bet>()))
                 .thenAnswer { with(it.getArgument<Bet>(0)) { this.id = 42; this } }
 
         val actualPlacedBet = gameService.placeBet(game, user, false)
 
-        Assertions.assertThat(actualPlacedBet.id).isEqualTo(42)
-        Assertions.assertThat(actualPlacedBet.betOnHome).isEqualTo(false)
-        Assertions.assertThat(actualPlacedBet.game).isEqualTo(game)
-        Assertions.assertThat(actualPlacedBet.user).isEqualTo(user)
+        assertThat(actualPlacedBet.id).isEqualTo(42)
+        assertThat(actualPlacedBet.betOnHome).isEqualTo(false)
+        assertThat(actualPlacedBet.game).isEqualTo(game)
+        assertThat(actualPlacedBet.user).isEqualTo(user)
     }
 
     private fun createGroup(tournament: Tournament): Group {
