@@ -445,7 +445,7 @@ export interface TetrisDto {
 }
 
 export interface MapDto {
-    mapPath: String;
-    texture: String;
+    mapPath: string;
+    texture: string;
     game: GameMinimalDto;
 }
