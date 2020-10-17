@@ -6,6 +6,9 @@ import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.game.service.GameStatsRepository
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
+import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.User
+import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
 import org.junit.Before
@@ -45,6 +48,9 @@ class TournamentMapsTest {
     @Autowired
     private lateinit var tournamentRepository: TournamentRepository
 
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
     companion object {
 
         @JvmStatic
@@ -67,13 +73,20 @@ class TournamentMapsTest {
     @Before
     fun setUp() {
         tournament = tournamentRepository.save(Tournament())
-        game = gameRepository.save(Game(tournament = tournament!!))
+        val user1 = userRepository.save(User(email = "email1@example.com", username = "example1"))
+        val user2 = userRepository.save(User(email = "email2@example.com", username = "example2"))
+        game = gameRepository.save(Game(
+                tournament = tournament!!,
+                scoreHome = 0, scoreAway = 3,
+                homeUser = user1, awayUser = user2,
+                reportedAt = Timestamp(1602940004706)))
         gameStatsRepository.save(GameStats(data = manhattanJson, map = "/map/tx3qwuc3", game = game, startedAt = Timestamp(1602940004706)))
         gameStatsRepository.save(GameStats(data = hellJson, map = "/map/dqp2fnf9", game = game, startedAt = Timestamp(1602940014706)))
     }
 
     @Test
     fun `get maps of tournament`() {
+        assertThat(game!!.wasPlayed()).isTrue()
         mockMvc
                 .perform(get("/api/tournament/${tournament!!.id}/maps")
                         .contentType(MediaType.APPLICATION_JSON))

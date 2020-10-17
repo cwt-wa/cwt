@@ -48,6 +48,7 @@ class TournamentRestControllerTest {
         val game = with(EntityDefaults.game()) {
             created = Timestamp(1602928837289)
             modified = Timestamp(1602928837289)
+            reportedAt = Timestamp(1602928837289)
             this
         }
         val game1 = mapOf("texture" to "Level\\DATA\\Manhattan", "map" to "/map/tx3qwuc3")
