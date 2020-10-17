@@ -193,11 +193,13 @@ constructor(private val tournamentService: TournamentService, private val userSe
     fun getMapsOfCurrentTournament(@PathVariable("id") id: Long): ResponseEntity<List<MapDto>> {
         val tournament = tournamentService.getTournament(id)
                 .orElseThrow { RestException("Not found.", HttpStatus.NOT_FOUND, null) }
-        val maps = gameService.findAllOfTournament(tournament).flatMap { game ->
-            gameService.findFromGameStats(game, "map", "texture")
-                    .filter { stat -> stat["map"] != null }
-                    .map { stat -> MapDto.toDto(game, stat["map"].toString(), stat["texture"]?.toString()) }
-        }
+        val maps = gameService.findAllOfTournament(tournament)
+                .filter { it.wasPlayed() }
+                .flatMap { game ->
+                    gameService.findFromGameStats(game, "map", "texture")
+                            .filter { stat -> stat["map"] != null }
+                            .map { stat -> MapDto.toDto(game, stat["map"].toString(), stat["texture"]?.toString()) }
+                }
         return ResponseEntity.ok(maps)
     }
 }

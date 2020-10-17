@@ -3,6 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
 import {MapsIndexComponent} from "../maps/maps-index.component";
+import {SharedModule} from "./shared.module";
 
 const routes: Routes = [
     {
@@ -16,6 +17,7 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         RouterModule.forChild(routes),
+        SharedModule,
     ],
     declarations: [
         MapsIndexComponent
