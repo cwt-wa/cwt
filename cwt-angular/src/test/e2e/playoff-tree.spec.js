@@ -1,4 +1,3 @@
-const fs = require('fs');
 const httpMock = require('@zemke/http-mock')(9000);
 const screenshot = require('./screenshot');
 
@@ -66,8 +65,10 @@ function createTree(numberOfPlayersInFirstRound) {
 
 describe('Playoff tree in different sizes', function () {
 
+    httpMock.add('/api/tournament/current', {id: 1234});
+
     const fn = function (players) {
-        httpMock.add('/api/tournament/current/game/playoff', JSON.stringify(createTree(players)));
+        httpMock.add('/api/tournament/current/game/playoff', createTree(players));
         browser.get('http://localhost:4300/playoffs');
         screenshot(players);
     };

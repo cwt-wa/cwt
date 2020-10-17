@@ -1,6 +1,6 @@
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    specs: ['game-detail.spec.js'],
+    specs: ['**/*.spec.js'],
     allScriptsTimeout: 999999,
     jasmineNodeOpts: {
         defaultTimeoutInterval: 999999
