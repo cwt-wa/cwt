@@ -443,3 +443,9 @@ export interface TetrisDto {
     guestname: String;
     created: string;
 }
+
+export interface MapDto {
+    mapPath: String;
+    texture: String;
+    game: GameMinimalDto;
+}
