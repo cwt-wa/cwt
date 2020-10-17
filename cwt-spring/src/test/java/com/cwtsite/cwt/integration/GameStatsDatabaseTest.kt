@@ -14,7 +14,7 @@ import org.junit.runners.MethodSorters
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
-import java.nio.charset.Charset
+import java.io.BufferedReader
 import java.sql.Timestamp
 import java.time.Instant
 import kotlin.test.Test
@@ -38,8 +38,9 @@ class GameStatsDatabaseTest {
     @Autowired
     private lateinit var tournamentRepository: TournamentRepository
 
-    private val statsJson = javaClass.getResource("2.json")!!
-            .readBytes().toString(Charset.defaultCharset())
+    private val statsJson =
+            javaClass.getResourceAsStream("/com/cwtsite/cwt/integration/1513/2.json")!!
+                    .bufferedReader().use(BufferedReader::readText)
 
     companion object {
 

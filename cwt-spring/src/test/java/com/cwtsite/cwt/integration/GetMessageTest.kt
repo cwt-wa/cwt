@@ -89,6 +89,7 @@ class GetMessageTest {
 
     @Test
     fun `get message after without uninvolved private messages`() {
+        val expected = listOf(messages[4], messages[3], messages[2], messages[1]).sortedByDescending { it.created }
         mockMvc
                 .perform(get("/api/message")
                         .queryParam("after", messages[0].created!!.time.toString())
@@ -97,14 +98,15 @@ class GetMessageTest {
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<String>(4)))
-                .andExpect(jsonPath("$[0].id", `is`(messages[1].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(messages[2].id!!.toInt())))
-                .andExpect(jsonPath("$[2].id", `is`(messages[3].id!!.toInt())))
-                .andExpect(jsonPath("$[3].id", `is`(messages[4].id!!.toInt())))
+                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
+                .andExpect(jsonPath("$[2].id", `is`(expected[2].id!!.toInt())))
+                .andExpect(jsonPath("$[3].id", `is`(expected[3].id!!.toInt())))
     }
 
     @Test
     fun `get message before without uninvolved private messages`() {
+        val expected = listOf(messages[0], messages[1]).sortedByDescending { it.created }
         mockMvc
                 .perform(get("/api/message")
                         .queryParam("before", messages[2].created!!.time.toString())
@@ -113,12 +115,13 @@ class GetMessageTest {
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<String>(2)))
-                .andExpect(jsonPath("$[0].id", `is`(messages[0].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(messages[1].id!!.toInt())))
+                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
     }
 
     @Test
     fun `only private messages`() {
+        val expected = listOf(messages[2], messages[4]).sortedByDescending { it.created }
         mockMvc
                 .perform(get("/api/message")
                         .queryParam("after", messages[1].created!!.time.toString())
@@ -128,12 +131,12 @@ class GetMessageTest {
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<String>(2)))
-                .andExpect(jsonPath("$[0].id", `is`(messages[2].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(messages[4].id!!.toInt())))
+                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
     }
 
     @Test
-    fun `bad request when before xor after query param given`() {
+    fun `bad request when before xor after query param violated`() {
         mockMvc
                 .perform(get("/api/message")
                         .queryParam("before", messages[2].created!!.time.toString())
@@ -150,6 +153,9 @@ class GetMessageTest {
 
     @Test
     fun `limit result set`() {
+        val expected = messages
+                .filter { it.category != MessageCategory.PRIVATE}
+                .sortedByDescending { it.created }
         mockMvc
                 .perform(get("/api/message")
                         .queryParam("after", "0")
@@ -158,7 +164,7 @@ class GetMessageTest {
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<String>(2)))
-                .andExpect(jsonPath("$[0].id", `is`(messages[0].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(messages[1].id!!.toInt())))
+                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
     }
 }
