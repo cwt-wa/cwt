@@ -17,7 +17,7 @@ data class BetDto(
                 user = UserMinimalDto.toDto(bet.user),
                 game = GameDetailDto.toDto(bet.game, GameDetailDto.localizePlayoffRound(
                         bet.game.tournament.threeWay!!,
-                        bet.game.tournament.maxRounds!!,
+                        bet.game.tournament.maxRounds,
                         bet.game.playoff!!.round)
                 ),
                 betOnHome = bet.betOnHome

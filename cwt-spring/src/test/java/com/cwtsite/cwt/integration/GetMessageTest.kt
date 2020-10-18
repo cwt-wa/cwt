@@ -39,9 +39,6 @@ class GetMessageTest {
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var objectMapper: ObjectMapper
-
-    @Autowired
     private lateinit var userRepository: UserRepository
 
     @Autowired

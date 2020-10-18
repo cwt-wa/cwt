@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import java.sql.Timestamp
 
 @RestController
 @RequestMapping("/api/tetris")
@@ -21,7 +20,7 @@ constructor(private val tetrisService: TetrisService, private val userService: U
 
     @RequestMapping("", method = [RequestMethod.POST])
     fun saveTetris(@RequestBody tetrisDto: TetrisDto): ResponseEntity<TetrisDto> {
-        if (tetrisDto.guestname != null && !userService.validateUsername(tetrisDto.guestname)) throw RestException("Invalid Username.", HttpStatus.BAD_REQUEST, null);
+        if (tetrisDto.guestname != null && !userService.validateUsername(tetrisDto.guestname)) throw RestException("Invalid Username.", HttpStatus.BAD_REQUEST, null)
         return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(null, tetrisDto.highscore, tetrisDto.guestname)))
     }
 

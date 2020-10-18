@@ -35,14 +35,13 @@ public class ProgressiveAuthenticationProvider implements AuthenticationProvider
         String password = authentication.getCredentials().toString();
 
         final String logPrefix = "User trying to log in in with username " + username + " ";
-        final JwtUser jwtUser = (JwtUser) jwtUserDetailsService.loadUserByUsername(username);
+        final JwtUser<?> jwtUser = (JwtUser<?>) jwtUserDetailsService.loadUserByUsername(username);
 
         if (jwtUser == null) {
             throw new UsernameNotFoundException(logPrefix + "not found.");
         }
 
-        @SuppressWarnings("ConstantConditions")
-        final User user = userService.getById(jwtUser.getId()).get();
+        final User user = userService.getById(jwtUser.getId()).orElseThrow();
         final boolean usesLegacyPassword = user.getPassword() == null;
 
         final boolean validCredentials = usesLegacyPassword
@@ -66,12 +65,6 @@ public class ProgressiveAuthenticationProvider implements AuthenticationProvider
         }
 
         return new UsernamePasswordAuthenticationToken(username, password, jwtUser.getAuthorities());
-    }
-
-    public void assertCredentials(String username, String password) {
-        if (!authService.createLegacyHash(password).equals(password)) {
-            throw new BadCredentialsException("User trying to log in in with username " + username + " entered wrong password.");
-        }
     }
 
     @Override

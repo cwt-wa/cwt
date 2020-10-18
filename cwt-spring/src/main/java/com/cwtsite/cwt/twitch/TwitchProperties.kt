@@ -13,11 +13,6 @@ class TwitchProperties {
     val resultLimit: Int? = 100
 
     /**
-     * The interval in which a request can succeed a previous in seconds.
-     */
-    val resultInterval: Int? = 10
-
-    /**
      * The URL tot the Twitch API.
      */
     var url: String? = "https://api.twitch.tv/helix/"

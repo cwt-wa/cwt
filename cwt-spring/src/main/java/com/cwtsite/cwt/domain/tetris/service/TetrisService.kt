@@ -5,7 +5,6 @@ import com.cwtsite.cwt.domain.tetris.repository.entity.Tetris
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.sql.Timestamp
 
 @Component
 class TetrisService {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class EmailService {
 
-    enum class EMAIL_ADDRESS {
+    enum class EmailAddress {
         SUPPORT, NOREPLY
     }
 
@@ -22,7 +22,7 @@ class EmailService {
     @Value("\${email-address-name-support}") private val emailAddressNameSupport: String? = null
     @Value("\${email-address-name-noreply}") private val emailAddressNameNoReply: String? = null
 
-    fun sendMail(message: String, subject: String, to: String, from: EMAIL_ADDRESS) {
+    fun sendMail(message: String, subject: String, to: String, from: EmailAddress) {
         if (mailSender == null) {
             logger.info("No JavaMailSender configured, not sending mails.")
             return
@@ -36,14 +36,14 @@ class EmailService {
             this
         }
 
-        mailSender.send(simpleMailMessage);
+        mailSender.send(simpleMailMessage)
     }
 
-    private fun determineSender(from: EMAIL_ADDRESS): String {
+    private fun determineSender(from: EmailAddress): String {
         val domain = emailAddressDomain ?: "example.com"
         val name = when (from) {
-            EMAIL_ADDRESS.NOREPLY -> emailAddressNameNoReply
-            EMAIL_ADDRESS.SUPPORT -> emailAddressNameSupport
+            EmailAddress.NOREPLY -> emailAddressNameNoReply
+            EmailAddress.SUPPORT -> emailAddressNameSupport
         }
         return "$name@$domain"
     }

@@ -21,7 +21,7 @@ public class PageDto<T> {
     private List<String> sortables;
 
     public static <T> PageDto<T> toDto(Page<T> pageOfTs, List<String> sortables) {
-        final PageDto<T> dto = new PageDto<T>();
+        final PageDto<T> dto = new PageDto<>();
 
         dto.setSize(pageOfTs.getSize());
         dto.setStart(pageOfTs.getNumber());

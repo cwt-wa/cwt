@@ -135,7 +135,7 @@ constructor(private val gameService: GameService, private val userService: UserS
                                 request: HttpServletRequest): ResponseEntity<GameCreationDto> {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser!!.id != reportDto.user) {
-            throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null);
+            throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
         }
 
         val reportedGame = gameService.reportGame(
@@ -185,7 +185,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun rateGame(@PathVariable("id") id: Long, @RequestBody rating: RatingDto, request: HttpServletRequest): Rating {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser!!.id != rating.user) {
-            throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null);
+            throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null)
         }
         val persistedRating = gameService.rateGame(id, rating.user, rating.type)
 
@@ -204,7 +204,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun commentGame(@PathVariable("id") id: Long, @RequestBody comment: CommentDto, request: HttpServletRequest): Comment {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser!!.id != comment.user) {
-            throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null);
+            throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null)
         }
 
         val persistedComment = gameService.commentGame(id, comment.user, comment.body)
@@ -241,11 +241,11 @@ constructor(private val gameService: GameService, private val userService: UserS
         val user = userService.getById(dto.user).orElseThrow { RestException("User ${dto.user} not found", HttpStatus.NOT_FOUND, null) }
 
         if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != dto.user) {
-            throw RestException("You must not impersonate your bet.", HttpStatus.FORBIDDEN, null);
+            throw RestException("You must not impersonate your bet.", HttpStatus.FORBIDDEN, null)
         }
 
         if (game.wasPlayed()) {
-            throw RestException("The game has already been played.", HttpStatus.BAD_REQUEST, null);
+            throw RestException("The game has already been played.", HttpStatus.BAD_REQUEST, null)
         }
 
         return ResponseEntity.ok(BetDto.toDto(gameService.placeBet(game, user, dto.betOnHome)))

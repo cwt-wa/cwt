@@ -18,14 +18,14 @@ data class TournamentUpdateDto(
 ) {
 
     fun update(tournament: Tournament, findUserById: (userId: Long?) -> User?): Tournament {
-        tournament.status = status ?: tournament.status;
-        tournament.review = review ?: tournament.review;
-        tournament.maxRounds = maxRounds ?: tournament.maxRounds;
-        tournament.numOfGroupAdvancing = numOfGroupAdvancing ?: tournament.numOfGroupAdvancing;
-        tournament.bronzeWinner = findUserById(bronzeWinner) ?: tournament.bronzeWinner;
-        tournament.silverWinner = findUserById(silverWinner) ?: tournament.silverWinner;
-        tournament.goldWinner = findUserById(goldWinner) ?: tournament.goldWinner;
-        tournament.moderators = moderators?.map { findUserById(it)!! }?.toMutableSet() ?: tournament.moderators;
+        tournament.status = status ?: tournament.status
+        tournament.review = review ?: tournament.review
+        tournament.maxRounds = maxRounds ?: tournament.maxRounds
+        tournament.numOfGroupAdvancing = numOfGroupAdvancing ?: tournament.numOfGroupAdvancing
+        tournament.bronzeWinner = findUserById(bronzeWinner) ?: tournament.bronzeWinner
+        tournament.silverWinner = findUserById(silverWinner) ?: tournament.silverWinner
+        tournament.goldWinner = findUserById(goldWinner) ?: tournament.goldWinner
+        tournament.moderators = moderators?.map { findUserById(it)!! }?.toMutableSet() ?: tournament.moderators
         return tournament
     }
 }

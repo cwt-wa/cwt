@@ -22,65 +22,50 @@ class JwtTokenUtil {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun getUsernameFromToken(token: String): String? {
-        var username: String?
-        try {
+        return try {
             val claims = getClaimsFromToken(token)
-            username = claims!!.subject
+            claims!!.subject
         } catch (e: Exception) {
-            username = null
+            null
         }
-
-        return username
     }
 
     fun getCreatedDateFromToken(token: String): Date? {
-        var created: Date?
-        try {
+        return try {
             val claims = getClaimsFromToken(token)
-            created = Date(claims!![CLAIM_KEY_CREATED] as Long)
+            Date(claims!![CLAIM_KEY_CREATED] as Long)
         } catch (e: Exception) {
-            created = null
+            null
         }
-
-        return created
     }
 
     fun getExpirationDateFromToken(token: String): Date? {
-        var expiration: Date?
-        try {
+        return try {
             val claims = getClaimsFromToken(token)
-            expiration = claims!!.expiration
+            claims!!.expiration
         } catch (e: Exception) {
-            expiration = null
+            null
         }
-
-        return expiration
     }
 
     fun getAudienceFromToken(token: String): String? {
-        var audience: String?
-        try {
+        return try {
             val claims = getClaimsFromToken(token)
-            audience = claims!![CLAIM_KEY_AUDIENCE] as String
+            claims!![CLAIM_KEY_AUDIENCE] as String
         } catch (e: Exception) {
-            audience = null
+            null
         }
-
-        return audience
     }
 
     private fun getClaimsFromToken(token: String): Claims? {
-        var claims: Claims?
-        try {
-            claims = Jwts.parser()
+        return try {
+            Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .body
         } catch (e: Exception) {
-            claims = null
+            null
         }
-
-        return claims
     }
 
     private fun generateExpirationDate(): Date {

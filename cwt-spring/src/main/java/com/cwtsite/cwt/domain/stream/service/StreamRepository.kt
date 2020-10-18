@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface StreamRepository : JpaRepository<Stream, String> {
-
-}
+interface StreamRepository : JpaRepository<Stream, String>

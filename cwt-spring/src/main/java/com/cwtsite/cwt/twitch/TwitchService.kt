@@ -11,9 +11,6 @@ interface TwitchService {
     var lastVideosRequest: LocalDateTime?
     var lastStreamsRequest: LocalDateTime?
 
-    /**
-     * @param channelIds In Twitch speech these are the user IDs.
-     */
     fun requestVideos(channels: List<Channel>): List<TwitchVideoDto>
 
     fun requestStreams(channelIds: List<String>): List<TwitchStreamDto>

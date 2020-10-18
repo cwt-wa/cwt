@@ -2,11 +2,9 @@ package com.cwtsite.cwt.twitch
 
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.service.StreamService
-import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import com.cwtsite.cwt.twitch.model.TwitchPaginationDto
-import com.cwtsite.cwt.twitch.model.TwitchUserDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import com.cwtsite.cwt.twitch.model.TwitchWrappedDto
 import org.assertj.core.api.Assertions

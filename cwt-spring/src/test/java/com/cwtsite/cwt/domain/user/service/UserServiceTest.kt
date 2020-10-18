@@ -29,7 +29,6 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
 class UserServiceTest {
@@ -86,14 +85,12 @@ class UserServiceTest {
                 .find { it.id == userId } ?: throw IllegalArgumentException()
     }
 
-    private fun createStandings(user: User): List<GroupStanding> {
-        return Arrays.asList(
-                GroupStanding(user),
-                GroupStanding(EntityDefaults.user(2)),
-                GroupStanding(EntityDefaults.user(3)),
-                GroupStanding(EntityDefaults.user(4))
-        )
-    }
+    private fun createStandings(user: User): List<GroupStanding> =
+            listOf(
+                    GroupStanding(user),
+                    GroupStanding(EntityDefaults.user(2)),
+                    GroupStanding(EntityDefaults.user(3)),
+                    GroupStanding(EntityDefaults.user(4)))
 
     @Test
     fun validateUsername() {
@@ -135,15 +132,15 @@ class UserServiceTest {
 
     @Test
     fun changeUser_aboutText() {
-        val user = EntityDefaults.user();
-        user.about = "hello i am an about text";
+        val user = EntityDefaults.user()
+        user.about = "hello i am an about text"
 
         Mockito
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, "hello i am not the same about text!", null, null);
-        Assert.assertEquals("hello i am not the same about text!", newUser.about);
+        val newUser = userService.changeUser(user, "hello i am not the same about text!", null, null)
+        Assert.assertEquals("hello i am not the same about text!", newUser.about)
     }
 
     @Test
@@ -155,8 +152,8 @@ class UserServiceTest {
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, null, "leasNewName", null);
-        Assert.assertEquals("leasNewName", newUser.username);
+        val newUser = userService.changeUser(user, null, "leasNewName", null)
+        Assert.assertEquals("leasNewName", newUser.username)
     }
 
     @Test
@@ -165,7 +162,7 @@ class UserServiceTest {
         user.username = "leasOldName"
 
         try {
-            userService.changeUser(user, null, "X7s///st", null);
+            userService.changeUser(user, null, "X7s///st", null)
             Assert.fail("Was not validating username.")
         } catch (e: UserService.InvalidUsernameException) {
         }
@@ -173,33 +170,33 @@ class UserServiceTest {
 
     @Test
     fun changeUser_email() {
-        val user = EntityDefaults.user();
-        user.email = "lea@flori";
+        val user = EntityDefaults.user()
+        user.email = "lea@flori"
 
         Mockito
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, null, null, null, "flori@lea");
-        Assert.assertEquals("flori@lea", newUser.email);
+        val newUser = userService.changeUser(user, null, null, null, "flori@lea")
+        Assert.assertEquals("flori@lea", newUser.email)
     }
 
     @Test
     fun changeUser_country() {
-        val user = EntityDefaults.user();
-        user.about = "england";
+        val user = EntityDefaults.user()
+        user.about = "england"
 
         Mockito
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, null, null, createCountry("Germany"));
-        Assert.assertEquals("Germany", newUser.country.name);
+        val newUser = userService.changeUser(user, null, null, createCountry("Germany"))
+        Assert.assertEquals("Germany", newUser.country.name)
     }
 
     @Test
     fun changeUser_complete() {
-        val user = EntityDefaults.user();
+        val user = EntityDefaults.user()
         user.about = "old about text"
         user.country = createCountry("England")
         user.username = "oldUsername"
@@ -209,11 +206,11 @@ class UserServiceTest {
                 .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
-        val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", createCountry("Germany"), "new@email");
-        Assert.assertEquals("new about text", newUser.about);
-        Assert.assertEquals("newUsernameXoXo", newUser.username);
-        Assert.assertEquals("Germany", newUser.country .name);
-        Assert.assertEquals("new@email", newUser.email);
+        val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", createCountry("Germany"), "new@email")
+        Assert.assertEquals("new about text", newUser.about)
+        Assert.assertEquals("newUsernameXoXo", newUser.username)
+        Assert.assertEquals("Germany", newUser.country.name)
+        Assert.assertEquals("new@email", newUser.email)
     }
 
     private fun createCountry(name: String) = Country(

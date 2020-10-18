@@ -32,7 +32,6 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
-import java.util.*
 import javax.security.auth.login.CredentialException
 import javax.servlet.http.HttpServletRequest
 
@@ -146,7 +145,7 @@ constructor(private val userService: UserService, private val applicationService
                             UserOverviewDto.toDto(
                                     user,
                                     UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())) },
-                Arrays.asList(
+                listOf(
                         "userStats.trophyPoints,Trophies",
                         "userStats.participations,Participations",
                         "username,Username",

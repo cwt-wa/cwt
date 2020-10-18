@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort
 import kotlin.test.Ignore
 
 @Ignore
-open class UserRepositoryTest : AbstractDatabaseTest() {
+class UserRepositoryTest : AbstractDatabaseTest() {
 
     @Autowired
     private lateinit var userRepository: UserRepository

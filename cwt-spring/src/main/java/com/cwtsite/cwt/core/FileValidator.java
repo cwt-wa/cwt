@@ -4,6 +4,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FileValidator {
 
@@ -14,7 +15,7 @@ public class FileValidator {
                                 List<String> allowedContentTypes, List<String> allowedLowerCasedFileExtensions)
             throws UploadSecurityException, IllegalFileContentTypeException, FileEmptyException, FileTooLargeException,
             IllegalFileExtension {
-        final String filenameAsUploaded = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        final String filenameAsUploaded = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         final String filenameExtensionAsUploaded = StringUtils.getFilenameExtension(filenameAsUploaded);
 
         if (filenameAsUploaded.contains("..")) {

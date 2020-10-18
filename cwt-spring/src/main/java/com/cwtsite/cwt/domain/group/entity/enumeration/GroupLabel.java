@@ -27,5 +27,5 @@ public enum GroupLabel {
     W,
     X,
     Y,
-    Z;
+    Z
 }

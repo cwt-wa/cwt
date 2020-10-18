@@ -65,11 +65,6 @@ public class Application {
         return revoked;
     }
 
-    public Application revoked(Boolean revoked) {
-        this.revoked = revoked;
-        return this;
-    }
-
     public void setRevoked(Boolean revoked) {
         this.revoked = revoked;
     }
@@ -82,22 +77,12 @@ public class Application {
         this.tournament = tournament;
     }
 
-    public Application tournament(Tournament tournament) {
-        this.tournament = tournament;
-        return this;
-    }
-
     public User getApplicant() {
         return applicant;
     }
 
     public void setApplicant(User user) {
         this.applicant = user;
-    }
-
-    public Application applicant(User user) {
-        this.applicant = user;
-        return this;
     }
 
     @Override

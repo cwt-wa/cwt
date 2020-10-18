@@ -97,7 +97,7 @@ class RestTemplateProvider {
                     mapOf(
                             "clientId" to twitchProperties.clientId,
                             "clientSecret" to twitchProperties.clientSecret
-                    ))
+                    ))!!
             .accessToken
 
 
@@ -109,7 +109,7 @@ class RestTemplateProvider {
                                     "?first=${twitchProperties.resultLimit}" +
                                     "&after=$paginationCursor" +
                                     "&user_id=$channelId")),
-                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body
+                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body!!
 
     fun fetchStreams(channelIds: List<String>): List<TwitchStreamDto> =
             restTemplate.exchange(
@@ -117,7 +117,7 @@ class RestTemplateProvider {
                             HttpMethod.GET,
                             URI.create("${twitchProperties.url}${twitchProperties.streamsEndpoint}" +
                                     channelIds.joinToString(separator = "") { "&user_id=$it" })),
-                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchStreamDto>>() {})!!.body.data
+                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchStreamDto>>() {}).body!!.data
 
     fun fetchUsers(vararg loginNames: String): List<TwitchUserDto> {
         return restTemplate.exchange(
@@ -125,6 +125,6 @@ class RestTemplateProvider {
                         HttpMethod.GET,
                         URI.create("${twitchProperties.url}${twitchProperties.usersEndpoint}" +
                                 "?${loginNames.joinToString(separator = "") { "&login=$it" }}")),
-                object : ParameterizedTypeReference<TwitchWrappedDto<TwitchUserDto>>() {})!!.body.data
+                object : ParameterizedTypeReference<TwitchWrappedDto<TwitchUserDto>>() {}).body!!.data
     }
 }

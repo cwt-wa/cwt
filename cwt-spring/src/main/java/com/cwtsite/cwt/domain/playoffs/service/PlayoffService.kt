@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
-import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
@@ -13,10 +12,8 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.util.NoSuchElementException
 
 @Component
 class PlayoffService {

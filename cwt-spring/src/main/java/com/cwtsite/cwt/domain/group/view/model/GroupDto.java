@@ -37,7 +37,7 @@ public class GroupDto {
         group.setTournament(tournament);
 
         List<GroupStanding> standings = groupMembers.stream()
-                .map(user -> new GroupStanding(user))
+                .map(GroupStanding::new)
                 .collect(Collectors.toList());
 
         group.getStandings().addAll(standings);

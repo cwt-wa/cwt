@@ -15,7 +15,6 @@ import khttp.responses.Response
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.apache.tomcat.util.http.fileupload.IOUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.*
@@ -27,7 +26,6 @@ import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import javax.ws.rs.Produces
 
 @RestController

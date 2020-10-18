@@ -33,7 +33,6 @@ public class JwtUser<T extends GrantedAuthority> implements UserDetails {
         this.password = password;
         this.authorities = authorities;
         this.roles = authorities.stream()
-                .map(a -> (T) a)
                 .map(T::getAuthority)
                 .collect(Collectors.toList());
         this.activated = activated;

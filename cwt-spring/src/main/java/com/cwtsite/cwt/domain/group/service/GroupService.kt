@@ -5,7 +5,6 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
-import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -16,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 class GroupService @Autowired
-constructor(private val groupRepository: GroupRepository,
-            private val tournamentRepository: TournamentRepository, private val configurationService: ConfigurationService,
+constructor(private val groupRepository: GroupRepository, private val configurationService: ConfigurationService,
             private val userRepository: UserRepository, private val tournamentService: TournamentService,
             private val gameRepository: GameRepository, private val groupStandingRepository: GroupStandingRepository) {
 

@@ -11,7 +11,7 @@ import org.springframework.test.util.ReflectionTestUtils
 @RunWith(MockitoJUnitRunner::class)
 class SecurityServiceTest {
 
-    @Mock private lateinit var securityService: SecurityService;
+    @Mock private lateinit var securityService: SecurityService
     private val captchaSecret: String = ""
     private val wormnetChannel: String = "chocolate-chimpanze,chocolatechimpanze,chocolate chimpanze"
 

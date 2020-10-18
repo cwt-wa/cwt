@@ -34,14 +34,19 @@ class MessageRestController {
         val authorizationHeader = request.getHeader(authService.tokenHeaderName)
         var user: User? = null
         if (authorizationHeader != null) user = authService.getUserFromToken(authorizationHeader)
+        val categories = if (category == null) {
+            if (user == null) MessageCategory.guestCategories() else MessageCategory.values().toList()
+        } else {
+            if (user == null) listOf(category).filter { MessageCategory.guestCategories().contains(it) } else listOf(category)
+        }
         val messages = if (after == null && before != null) {
             messageService.findOldMessages(
                     Timestamp(before), size, user,
-                    if (category == null) MessageCategory.values().toList() else listOf(category))
+                    categories)
         } else if (after != null && before == null) {
             messageService.findNewMessages(
                     Timestamp(after), size, user,
-                    if (category == null) MessageCategory.values().toList() else listOf(category))
+                    categories)
         } else {
             throw RestException("Either after or before must be specified", HttpStatus.BAD_REQUEST, null)
         }

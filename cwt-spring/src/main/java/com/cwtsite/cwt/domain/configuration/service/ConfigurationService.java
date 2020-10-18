@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +22,9 @@ public class ConfigurationService {
     }
 
     public List<int[]> getParsedPointsPatternConfiguration() {
-        final String rawWithoutWhiteSpace = getOne(ConfigurationKey.POINTS_PATTERN).getValue().replaceAll(" ", "");
+        final String rawWithoutWhiteSpace =
+                Objects.requireNonNull(getOne(ConfigurationKey.POINTS_PATTERN).getValue())
+                        .replaceAll(" ", "");
         final Matcher matcher = Pattern.compile("\\((\\d+,\\d+)\\)").matcher(rawWithoutWhiteSpace);
 
         final List<int[]> pointsPattern = new ArrayList<>();
@@ -33,7 +36,7 @@ public class ConfigurationService {
                 continue;
             }
 
-            pointsPattern.add(new int[]{Integer.valueOf(split[0]), Integer.valueOf(split[1])});
+            pointsPattern.add(new int[]{Integer.parseInt(split[0]), Integer.parseInt(split[1])});
         }
 
         return pointsPattern;

@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.domain.game.service
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.core.FileValidator
 import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.bet.service.BetRepository
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
@@ -10,7 +9,6 @@ import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.GameStats
 import com.cwtsite.cwt.domain.game.entity.Rating
-import com.cwtsite.cwt.domain.game.entity.Replay
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
@@ -38,9 +36,6 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronizationAdapter
 import org.springframework.transaction.support.TransactionSynchronizationManager
-import org.springframework.util.StringUtils
-import org.springframework.web.multipart.MultipartFile
-import java.io.IOException
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,18 +48,6 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             private val commentRepository: CommentRepository, private val configurationService: ConfigurationService, private val userService: UserService,
             private val playoffService: PlayoffService, private val betRepository: BetRepository, private val scheduleService: ScheduleService,
             private val treeService: TreeService, private val gameStatsRepository: GameStatsRepository) {
-
-    @Transactional
-    @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class, FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class, IOException::class)
-    fun reportGame(homeUser: Long, awayUser: Long, scoreHome: Int, scoreAway: Int, replay: MultipartFile): Game {
-        FileValidator.validate(
-            replay, 150000,
-            listOf("application/octet-stream", "application/zip", "application/x-zip-compressed"),
-            listOf("zip"))
-        val reportedGame = reportGame(homeUser, awayUser, scoreHome, scoreAway, false)
-        reportedGame.replay = Replay(replay.bytes, replay.contentType, StringUtils.getFilenameExtension(replay.originalFilename))
-        return gameRepository.save(reportedGame)
-    }
 
     fun createReplayFileName(game: Game): String {
         return String.format(
@@ -124,8 +107,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
         } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             val playoffGameToBeReported = gameRepository.findNextPlayoffGameForUser(currentTournament, homeUser)
 
-            if (!Arrays.asList(playoffGameToBeReported.homeUser, playoffGameToBeReported.awayUser)
-                            .containsAll(Arrays.asList(homeUser, awayUser))) {
+            if (!listOf(playoffGameToBeReported.homeUser, playoffGameToBeReported.awayUser)
+                            .containsAll(listOf(homeUser, awayUser))) {
                 throw InvalidOpponentException(String.format(
                         "Next playoff game is expected to be %s vs. %s.",
                         homeUser.username, awayUser.username))
@@ -163,19 +146,16 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     }
 
     fun getBestOfValue(tournamentStatus: TournamentStatus): Configuration {
-        val configurationKey: ConfigurationKey
-
-        if (tournamentStatus == TournamentStatus.GROUP) {
-            configurationKey = ConfigurationKey.GROUP_GAMES_BEST_OF
+        val configurationKey = if (tournamentStatus == TournamentStatus.GROUP) {
+            ConfigurationKey.GROUP_GAMES_BEST_OF
         } else if (tournamentStatus == TournamentStatus.PLAYOFFS) {
-            configurationKey = if (treeService.onlyFinalGamesAreLeftToPlay())
+            if (treeService.onlyFinalGamesAreLeftToPlay())
                 ConfigurationKey.FINAL_GAME_BEST_OF
             else
                 ConfigurationKey.PLAYOFF_GAMES_BEST_OF
         } else {
             throw IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS)
         }
-
         return configurationService.getOne(configurationKey)
     }
 
@@ -194,10 +174,6 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             TournamentStatus.PLAYOFFS -> playoffService.voidPlayoffGame(game)
             else -> throw IllegalStateException("Game status must be either group or playoff.")
         }
-    }
-
-    fun saveAll(games: List<Game>): List<Game> {
-        return gameRepository.saveAll(games)
     }
 
     fun findById(id: Long): Optional<Game> {
@@ -219,9 +195,6 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
                 .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
         return commentRepository.save(Comment(body, user, game))
     }
-
-    fun findPaginated(page: Int, size: Int, sort: Sort): Page<Game> =
-            gameRepository.findAll(PageRequest.of(page, size, sort))
 
     fun findPaginatedPlayedGames(page: Int, size: Int, sort: Sort): Page<Game> =
             gameRepository.findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(
@@ -291,8 +264,6 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
     }
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findAllByGame(game)
-
-    fun findGroupGamesInclVoided(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndTournament(tournament)
 
     fun findGroupGames(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndVoidedFalseAndTournament(tournament)
 

@@ -68,22 +68,12 @@ public class Rating {
         this.user = user;
     }
 
-    public Rating user(User user) {
-        this.user = user;
-        return this;
-    }
-
     public Game getGame() {
         return game;
     }
 
     public void setGame(Game game) {
         this.game = game;
-    }
-
-    public Rating game(Game game) {
-        this.game = game;
-        return this;
     }
 
     @Override

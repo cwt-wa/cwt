@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.domain.tetris.repository;
+package com.cwtsite.cwt.domain.tetris.repository
 
 import com.cwtsite.cwt.domain.tetris.repository.entity.Tetris
 import org.springframework.data.jpa.repository.JpaRepository

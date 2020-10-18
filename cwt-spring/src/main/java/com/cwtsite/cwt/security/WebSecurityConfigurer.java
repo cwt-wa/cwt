@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
@@ -32,7 +31,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
-    private final UserDetailsService userDetailsService;
 
     private final AuthenticationProvider progressiveAuthenticationProvider;
 
@@ -42,26 +40,26 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private Integer maxPayloadSize;
 
     @Autowired
-    public WebSecurityConfigurer(JwtAuthenticationEntryPoint unauthorizedHandler, UserDetailsService userDetailsService,
-                                 AuthenticationProvider progressiveAuthenticationProvider, MailProperties mailProperties) {
+    public WebSecurityConfigurer(JwtAuthenticationEntryPoint unauthorizedHandler,
+                                 AuthenticationProvider progressiveAuthenticationProvider,
+                                 MailProperties mailProperties) {
         this.unauthorizedHandler = unauthorizedHandler;
-        this.userDetailsService = userDetailsService;
         this.progressiveAuthenticationProvider = progressiveAuthenticationProvider;
         this.mailProperties = mailProperties;
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(progressiveAuthenticationProvider);
     }
 
     @Bean
-    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() {
         return new JwtAuthenticationTokenFilter();
     }
 
     @Bean
-    public CorsFilter corsFilterBean() throws Exception {
+    public CorsFilter corsFilterBean() {
         return new CorsFilter();
     }
 

@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.core;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 public class CommonsRequestLoggingFilterImpl extends CommonsRequestLoggingFilter {
 
     @Override
-    protected void beforeRequest(HttpServletRequest request, String message) {
+    protected void beforeRequest(@NotNull HttpServletRequest request, @NotNull String message) {
     }
 
     @Override
-    protected void afterRequest(HttpServletRequest request, String message) {
-        if (request == null || "OPTIONS".equals(request.getMethod())) {
+    protected void afterRequest(@NotNull HttpServletRequest request, @NotNull String message) {
+        if ("OPTIONS".equals(request.getMethod())) {
             return;
         }
 

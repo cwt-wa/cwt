@@ -10,10 +10,9 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*

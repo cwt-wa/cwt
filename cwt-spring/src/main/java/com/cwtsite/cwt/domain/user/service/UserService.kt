@@ -50,7 +50,7 @@ constructor(private val userRepository: UserRepository,
     @Value("\${reset-key-expiration-minutes}") private val resetKeyExpirationMinutes: Int? = null
 
     @Transactional
-    @Throws(UserService.UserExistsByEmailOrUsernameException::class, UserService.InvalidUsernameException::class, UserService.InvalidEmailException::class)
+    @Throws(UserExistsByEmailOrUsernameException::class, InvalidUsernameException::class, InvalidEmailException::class)
     fun registerUser(username: String, email: String, password: String): User {
         val trimmedUsername = username.trim { it <= ' ' }
         val trimmedEmail = email.trim { it <= ' ' }
@@ -75,29 +75,24 @@ constructor(private val userRepository: UserRepository,
     }
 
     fun userCanReportForCurrentTournament(user: User): Boolean {
-        val userCanReportForCurrentTournament: Boolean
-        val currentTournament = tournamentService.getCurrentTournament()
-                ?: return false
-
-        if (currentTournament.status == TournamentStatus.GROUP) {
-            val group = this.groupRepository.findByTournamentAndUser(currentTournament, user)
+        val currentTournament = tournamentService.getCurrentTournament() ?: return false
+        return if (currentTournament.status == TournamentStatus.GROUP) {
+            val group = groupRepository.findByTournamentAndUser(currentTournament, user)
 
             if (group == null) {
-                userCanReportForCurrentTournament = false
+                false
             } else {
                 val numberOfGamesAlreadyPlayed = group.standings
                         .find { it.user == user }
                         ?.games ?: throw IllegalArgumentException()
                 val numberOfTotalGamesToPlay = group.standings.size - 1
-                userCanReportForCurrentTournament = numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed
+                numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed
             }
         } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
-            userCanReportForCurrentTournament = treeService.getNextGameForUser(user) != null
+            treeService.getNextGameForUser(user) != null
         } else {
-            userCanReportForCurrentTournament = false
+            false
         }
-
-        return userCanReportForCurrentTournament
     }
 
     fun getRemainingOpponents(user: User): List<User> {
@@ -148,7 +143,7 @@ constructor(private val userRepository: UserRepository,
         return userRepository.findAll(PageRequest.of(page, size, extendedSort))
     }
 
-    @Throws(UserService.InvalidUsernameException::class, UsernameTakenException::class, InvalidEmailException::class, EmailExistsException::class)
+    @Throws(InvalidUsernameException::class, UsernameTakenException::class, InvalidEmailException::class, EmailExistsException::class)
     @Transactional
     fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: Country? = null,
                    newEmail: String? = null): User {
@@ -159,8 +154,8 @@ constructor(private val userRepository: UserRepository,
             if (userRepository.findAllByUsernameIgnoreCase(newUsername).any { it != user }) throw UsernameTakenException()
         }
 
-        if (newAboutText != null) user.about = newAboutText;
-        if (newCountry != null) user.country = newCountry;
+        if (newAboutText != null) user.about = newAboutText
+        if (newCountry != null) user.country = newCountry
         if (newEmail != null) {
             val newEmailTrimmed = newEmail.trim { it <= ' ' }
             if (!validateEmail(newEmailTrimmed)) throw InvalidEmailException()
@@ -202,7 +197,7 @@ constructor(private val userRepository: UserRepository,
 
                     emailService.sendMail(
                             message, "Password reset", user.email,
-                            EmailService.EMAIL_ADDRESS.NOREPLY)
+                            EmailService.EmailAddress.NOREPLY)
                 }
             })
         }
@@ -228,7 +223,7 @@ constructor(private val userRepository: UserRepository,
 
     fun findByUsernameContaining(term: String): List<User> = userRepository.findAllByUsernameContaining(term)
 
-    fun findCountryById(countryId: Long) = countryRepository.findById(countryId)
+    fun findCountryById(countryId: Long): Optional<Country> = countryRepository.findById(countryId)
 
     @Throws(FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class)
     fun changePhoto(user: User, photo: MultipartFile) {
@@ -237,11 +232,9 @@ constructor(private val userRepository: UserRepository,
                 listOf("image/jpeg", "image/png", "image/gif"), // Yes, image/jpg is invalid.
                 listOf("jpg", "jpeg", "png", "gif"))
 
-        user.photo = Photo(file = photo.bytes, mediaType = photo.contentType, extension = StringUtils.getFilenameExtension(photo.originalFilename))
+        user.photo = Photo(file = photo.bytes, mediaType = photo.contentType!!, extension = StringUtils.getFilenameExtension(photo.originalFilename)!!)
         userRepository.save(user)
     }
-
-    fun findByUsernames(usernames: List<String>): List<User> = userRepository.findAllByUsernameIn(usernames)
 
     fun findByUsernamesIgnoreCase(usernames: List<String>): List<User> = userRepository.findAllByUsernameLowercaseIn(usernames.map {it.toLowerCase()})
 

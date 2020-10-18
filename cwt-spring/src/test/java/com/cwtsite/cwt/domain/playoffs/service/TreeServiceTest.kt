@@ -249,7 +249,7 @@ class TreeServiceTest {
         `when`(game.pairingCompleted()).thenReturn(true)
         `when`(game.pairingInvolves(user)).thenReturn(true)
         val partRemovedGame = treeService.removePartOfPlayoffGame(game, user, false)
-        assertThat(partRemovedGame!!.homeUser).isNotNull()
+        assertThat(partRemovedGame!!.homeUser).isNotNull
         assertThat(partRemovedGame.awayUser).isNull()
         verify(gameRepository, never()).delete(game)
     }
@@ -262,7 +262,7 @@ class TreeServiceTest {
         game.homeUser = otherUser
         game.awayUser = user
         val partRemovedGame = treeService.removePartOfPlayoffGame(game, user, true)
-        assertThat(partRemovedGame!!.homeUser).isNotNull()
+        assertThat(partRemovedGame!!.homeUser).isNotNull
         assertThat(partRemovedGame.awayUser).isNull()
         verify(gameRepository, never()).delete(game)
     }

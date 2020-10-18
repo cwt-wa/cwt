@@ -8,13 +8,13 @@ public class JwtTokenContext implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public final JwtUser user;
+    public final JwtUser<?> user;
 
-    JwtTokenContext(JwtUser jwtUser) {
+    JwtTokenContext(JwtUser<?> jwtUser) {
         user = jwtUser;
     }
 
-    public JwtUser getUser() {
+    public JwtUser<?> getUser() {
         return user;
     }
 }

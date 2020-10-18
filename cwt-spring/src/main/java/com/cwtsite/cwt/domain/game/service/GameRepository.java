@@ -28,24 +28,18 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             @Param("user") User user);
 
     @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and (g.homeUser is not null " +
-            "and g.awayUser is not null) and g.reporter is not null and g.group = :group")
-    List<Game> findPlayedByUserInGroupInclVoided(
-            @Param("user") User user,
-            @Param("group") Group group);
-
-    @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and (g.homeUser is not null " +
             "and g.awayUser is not null) and g.reporter is not null and g.group = :group and g.voided = false")
     List<Game> findPlayedByUserInGroup(
             @Param("user") User user,
             @Param("group") Group group);
 
-    @Query("select g from Game g where tournament = :tournament and g.playoff.round = :round and g.playoff.spot = :spot")
+    @Query("select g from Game g where g.tournament = :tournament and g.playoff.round = :round and g.playoff.spot = :spot")
     Optional<Game> findGameInPlayoffTree(
             @Param("tournament") Tournament tournament,
             @Param("round") int round,
             @Param("spot") int spot);
 
-    @Query("select g from Game g where tournament = :tournament and g.playoff.round = :round " +
+    @Query("select g from Game g where g.tournament = :tournament and g.playoff.round = :round " +
             "and (g.homeUser = :user or g.awayUser = :user)")
     List<Game> findGameInPlayoffTree(
             @Param("tournament") Tournament tournament,
@@ -54,7 +48,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
 
     @Query(value = "select g from Game g where g.playoff.round >= :finalRound and g.homeUser is not null and g.awayUser is not null " +
-            "and tournament = :tournament")
+            "and g.tournament = :tournament")
     List<Game> findReadyGamesInRoundEqualOrGreaterThan(@Param("finalRound") int finalRound, @Param("tournament") Tournament tournament);
 
     @Query("select g from Game g where g.playoff.round = :round and g.tournament = :tournament and g.voided = false")
