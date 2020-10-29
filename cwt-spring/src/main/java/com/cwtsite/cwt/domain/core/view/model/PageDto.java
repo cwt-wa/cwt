@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static java.util.Collections.emptyList;
@@ -27,8 +26,8 @@ public class PageDto<T> {
         dto.setStart(pageOfTs.getNumber());
         dto.setTotalPages(pageOfTs.getTotalPages());
         dto.setTotalElements(pageOfTs.getTotalElements());
-        dto.setSortBy(Objects.requireNonNull(pageOfTs.getSort().stream().findFirst().orElse(null)).getProperty());
-        dto.setSortAscending(Objects.requireNonNull(pageOfTs.getSort().stream().findFirst().orElse(null)).getDirection().isAscending());
+        dto.setSortBy(pageOfTs.getSort().stream().findFirst().map(Sort.Order::getProperty).orElse(null));
+        dto.setSortAscending(pageOfTs.getSort().stream().findFirst().map(x -> x.getDirection().isAscending()).orElse(null));
         dto.setContent(pageOfTs.getContent());
         dto.setSortables(sortables);
 
