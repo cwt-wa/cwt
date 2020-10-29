@@ -200,6 +200,8 @@ constructor(private val gameRepository: GameRepository, private val tournamentSe
             gameRepository.findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(
                     PageRequest.of(page, size, sort))
 
+    fun findGameOfUsers(page: Int, size: Int, sort: Sort, user1: User, user2: User): Page<Game> =
+            gameRepository.findGameOfUsers(PageRequest.of(page, size, sort), user1, user2);
 
     fun findAllOfTournament(tournament: Tournament): List<Game> =
             gameRepository.findByTournament(tournament)

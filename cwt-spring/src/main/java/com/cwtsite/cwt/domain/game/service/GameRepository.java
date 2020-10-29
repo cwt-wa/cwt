@@ -63,5 +63,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     Page<Game> findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(Pageable pageable);
 
+    @Query("select g from Game g where (g.homeUser = :user1 and g.awayUser = :user2) or (g.homeUser = :user2 and g.awayUser = :user1)")
+    Page<Game> findGameOfUsers(Pageable pageable, @Param("user1") User user1, @Param("user2") User user2);
+
     List<Game> findByTournament(Tournament tournament);
 }

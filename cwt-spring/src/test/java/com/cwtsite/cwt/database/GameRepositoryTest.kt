@@ -279,4 +279,28 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         game.commentsSize
         Assert.assertTrue(Hibernate.isPropertyInitialized(game, "commentsSize"))
     }
+
+    @Test
+    fun findGameOfUsers() {
+        val homeUser = persistDummyUser()
+        val awayUser = persistDummyUser()
+        val tournament = em.persist(Tournament())
+        val game = em.persist(Game(
+                homeUser = homeUser,
+                awayUser = awayUser,
+                tournament = tournament
+        ))
+        val otherUser = persistDummyUser()
+        em.persist(Game(
+                homeUser = homeUser,
+                awayUser = otherUser,
+                tournament = tournament
+        ))
+        em.flush()
+        val actual = gameRepository.findGameOfUsers(PageRequest.of(0, 5), awayUser, homeUser)
+        assertThat(actual.content).hasSize(1)
+        assertThat(actual.content).allSatisfy { assertThat(it).isEqualTo(game)}
+        assertThat(actual.size).isEqualTo(5)
+        assertThat(actual.totalElements).isEqualTo(1)
+    }
 }
