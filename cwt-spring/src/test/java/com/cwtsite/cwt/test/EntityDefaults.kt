@@ -42,7 +42,9 @@ object EntityDefaults {
             reporter = homeUser,
             playoff = playoff,
             group = group,
-            tournament = tournament
+            tournament = tournament,
+            modified = Timestamp(1577833200000),
+            created = Timestamp(1577833200000) // 1st Jan 2020
     )
 
     fun channel(id: String = "1111", title: String = "TitleTV", user: User = user()) = Channel(

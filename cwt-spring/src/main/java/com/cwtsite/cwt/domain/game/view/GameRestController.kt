@@ -172,11 +172,30 @@ constructor(private val gameService: GameService, private val userService: UserS
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun queryGamesPaged(pageDto: PageDto<Game>): ResponseEntity<PageDto<GameDetailDto>> {
-        return ResponseEntity.ok(PageDto.toDto(
+    fun queryGamesPaged(pageDto: PageDto<Game>,
+                        @RequestParam("user", required = true) users: List<Long>?): ResponseEntity<PageDto<GameDetailDto>> {
+        val games = when (users?.size ?: 0) {
+            0 -> {
                 gameService.findPaginatedPlayedGames(
                         pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created")).map { mapToDtoWithTitle(it) },
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created"))
+            }
+            2 -> {
+                val user1 = userService.getById(users!![0])
+                        .orElseThrow { RestException("User ${users[0]} does not exist", HttpStatus.NOT_FOUND, null) }
+                val user2 = userService.getById(users[1])
+                        .orElseThrow { RestException("User ${users[1]} does not exist", HttpStatus.NOT_FOUND, null) }
+                gameService.findGameOfUsers(
+                        pageDto.start, pageDto.size,
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created"),
+                        user1, user2)
+            }
+            else -> {
+                throw RestException("Two users must be supplied", HttpStatus.BAD_REQUEST, null)
+            }
+        }
+        return ResponseEntity.ok(PageDto.toDto(
+                games.map { mapToDtoWithTitle(it) },
                 listOf("created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")))
     }
 
