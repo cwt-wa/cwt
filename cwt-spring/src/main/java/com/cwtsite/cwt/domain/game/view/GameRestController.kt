@@ -178,7 +178,7 @@ constructor(private val gameService: GameService, private val userService: UserS
             0 -> {
                 gameService.findPaginatedPlayedGames(
                         pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created"))
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"))
             }
             2 -> {
                 val user1 = userService.getById(users!![0])
@@ -187,7 +187,7 @@ constructor(private val gameService: GameService, private val userService: UserS
                         .orElseThrow { RestException("User ${users[1]} does not exist", HttpStatus.NOT_FOUND, null) }
                 gameService.findGameOfUsers(
                         pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "created"),
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"),
                         user1, user2)
             }
             else -> {
@@ -196,7 +196,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         }
         return ResponseEntity.ok(PageDto.toDto(
                 games.map { mapToDtoWithTitle(it) },
-                listOf("created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")))
+                listOf("reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")))
     }
 
     @RequestMapping("/{id}/rating", method = [RequestMethod.POST])
