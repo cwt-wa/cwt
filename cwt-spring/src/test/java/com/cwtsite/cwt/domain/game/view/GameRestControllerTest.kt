@@ -33,7 +33,7 @@ import java.util.*
 import kotlin.test.Test
 
 @RunWith(MockitoJUnitRunner::class)
-class tGameRestControllerTest {
+class GameRestControllerTest {
 
     @InjectMocks private lateinit var cut: GameRestController
     @Mock private lateinit var gameService: GameService
@@ -53,15 +53,15 @@ class tGameRestControllerTest {
         `when`(pageDto.size).thenReturn(10)
         `when`(pageDto.start).thenReturn(1)
         `when`(pageDto.asSortWithFallback(anyObject(), anyString())).thenCallRealMethod()
-        val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 1, Sort.by(Sort.Direction.DESC, "created")), 1)
+        val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 1, Sort.by(Sort.Direction.DESC, "reportedAt")), 1)
         `when`(gameService.findPaginatedPlayedGames(anyInt(), anyInt(), anyObject())).thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, null)).extracting { it.body!! }.satisfies {
             assertThat(it.content).containsExactly(GameDetailDto.toDto(game, null))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
-                    "created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")
-            assertThat(it.sortBy).isEqualTo("created")
+                    "reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")
+            assertThat(it.sortBy).isEqualTo("reportedAt")
             assertThat(it.isSortAscending).isFalse()
         }
     }
@@ -75,7 +75,7 @@ class tGameRestControllerTest {
         `when`(pageDto.asSortWithFallback(anyObject(), anyString())).thenCallRealMethod()
         `when`(userService.getById(game.homeUser!!.id!!)).thenReturn(Optional.of(game.homeUser!!))
         `when`(userService.getById(game.awayUser!!.id!!)).thenReturn(Optional.of(game.awayUser!!))
-        val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 2, Sort.by(Sort.Direction.DESC, "created")), 2)
+        val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 2, Sort.by(Sort.Direction.DESC, "reportedAt")), 2)
         `when`(gameService.findGameOfUsers(anyInt(), anyInt(), anyObject(), safeEq(game.homeUser!!), safeEq(game.awayUser!!)))
                 .thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, listOf(game.homeUser!!.id!!, game.awayUser!!.id!!))).extracting { it.body!! }.satisfies {
@@ -83,8 +83,8 @@ class tGameRestControllerTest {
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
-                    "created,Creation", "ratingsSize,Ratings", "commentsSize,Comments")
-            assertThat(it.sortBy).isEqualTo("created")
+                    "reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")
+            assertThat(it.sortBy).isEqualTo("reportedAt")
             assertThat(it.isSortAscending).isFalse()
         }
 
