@@ -100,7 +100,11 @@ const appRoutes: Routes = [
         loadChildren: () => import('./password-reset.module').then(m => m.PasswordResetModule)
     },
     {
-        path: 'hell',
+        path: "hell",
+        redirectTo: "maps/hell",
+    },
+    {
+        path: 'maps',
         loadChildren: () => import('./maps.module').then(m => m.MapsModule)
     },
     {
