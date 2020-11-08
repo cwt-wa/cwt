@@ -42,12 +42,23 @@ import java.util.*
 import kotlin.math.ceil
 
 @Component
-class GameService @Autowired
-constructor(private val gameRepository: GameRepository, private val tournamentService: TournamentService, private val groupRepository: GroupRepository,
-            private val userRepository: UserRepository, private val groupService: GroupService, private val ratingRepository: RatingRepository,
-            private val commentRepository: CommentRepository, private val configurationService: ConfigurationService, private val userService: UserService,
-            private val playoffService: PlayoffService, private val betRepository: BetRepository, private val scheduleService: ScheduleService,
-            private val treeService: TreeService, private val gameStatsRepository: GameStatsRepository) {
+class GameService
+
+@Autowired
+constructor(private val gameRepository: GameRepository,
+            private val tournamentService: TournamentService,
+            private val groupRepository: GroupRepository,
+            private val userRepository: UserRepository,
+            private val groupService: GroupService,
+            private val ratingRepository: RatingRepository,
+            private val commentRepository: CommentRepository,
+            private val configurationService: ConfigurationService,
+            private val userService: UserService,
+            private val playoffService: PlayoffService,
+            private val betRepository: BetRepository,
+            private val scheduleService: ScheduleService,
+            private val treeService: TreeService,
+            private val gameStatsRepository: GameStatsRepository) {
 
     fun createReplayFileName(game: Game): String {
         return String.format(
