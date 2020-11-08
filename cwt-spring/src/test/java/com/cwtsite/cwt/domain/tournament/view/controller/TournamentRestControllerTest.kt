@@ -59,7 +59,7 @@ class TournamentRestControllerTest {
                 .thenReturn(listOf(game))
         `when`(tournamentService.getTournament(game.tournament.id!!))
                 .thenReturn(Optional.of(game.tournament))
-        val actual = cut.getMapsOfCurrentTournament(game.tournament.id!!).body
+        val actual = cut.getMapsOfCurrentTournament(game.tournament.id!!, null).body
         assertThat(actual).containsExactlyInAnyOrder(
                 MapDto(game1["texture"], GameMinimalDto.toDto(game), game1.getValue("map")),
                 MapDto(game2["texture"], GameMinimalDto.toDto(game), game2.getValue("map")))
