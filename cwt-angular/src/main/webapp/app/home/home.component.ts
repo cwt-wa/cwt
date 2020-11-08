@@ -63,6 +63,10 @@ import {CurrentTournamentService} from "../_services/current-tournament.service"
             border-bottom-right-radius: 50px;
             z-index: -1;
         }
+
+        .news img {
+          width: 100%;
+        }
     `],
     selector: 'cwt-home',
     template: require('./home.component.html')
