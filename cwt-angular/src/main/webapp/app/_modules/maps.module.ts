@@ -4,6 +4,7 @@ import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
 import {MapsIndexComponent} from "../maps/maps-index.component";
 import {SharedModule} from "./shared.module";
+import {PaginationModule} from "./pagination.module";
 
 const routes: Routes = [
     {
@@ -18,6 +19,7 @@ const routes: Routes = [
         FormsModule,
         RouterModule.forChild(routes),
         SharedModule,
+        PaginationModule,
     ],
     declarations: [
         MapsIndexComponent

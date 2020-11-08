@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Example
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -257,15 +258,23 @@ constructor(private val gameRepository: GameRepository,
         ))
     }
 
-    fun findGameStats(game: Game): String =
-            gameStatsRepository.findAllByGame(game)
+    fun findGameStats(page: Int, size: Int, texture: String?): Page<GameStats> {
+        val pageRequest  = PageRequest.of(page, size, Sort.Direction.DESC, "created")
+        return when (texture) {
+            null -> gameStatsRepository.findAll(pageRequest)
+            else -> gameStatsRepository.findAllByTexture(texture, pageRequest)
+        }
+    }
+
+    fun findGameStats(game: Game?): String =
+            (game?.let { gameStatsRepository.findAllByGame(it) } ?: gameStatsRepository.findAll())
                     .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
     fun retrieveDistinctTextures(): List<String> =
             gameStatsRepository.findTextureDistinct()
 
-    fun findFromGameStats(game: Game, vararg fields: String): List<Map<String, Any?>> {
+    fun findFromGameStats(game: Game?, vararg fields: String): List<Map<String, Any?>> {
         val result = mutableListOf<Map<String, Any?>>()
         val stats = JSONArray(findGameStats(game))
         for (i in 0 until stats.length()) {
