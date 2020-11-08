@@ -262,6 +262,9 @@ constructor(private val gameRepository: GameRepository,
                     .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
+    fun retrieveDistinctTextures(): List<String> =
+            gameStatsRepository.findTextureDistinct()
+
     fun findFromGameStats(game: Game, vararg fields: String): List<Map<String, Any?>> {
         val result = mutableListOf<Map<String, Any?>>()
         val stats = JSONArray(findGameStats(game))
