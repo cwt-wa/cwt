@@ -1,9 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import 'marked/lib/marked.js';
 
 @Component({
     selector: 'cwt-markdown',
-    template: `<span class="markdown" [innerHTML]="compiled"></span>`
+    template: `<span class="markdown" [innerHTML]="compiled"></span>`,
+    encapsulation: ViewEncapsulation.None,
+    styles: [`
+      img {
+        width: 100%;
+      }
+    `]
 })
 export class MarkdownComponent implements OnInit {
     @Input()
