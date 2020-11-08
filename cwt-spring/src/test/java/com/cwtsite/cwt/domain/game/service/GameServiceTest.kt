@@ -25,6 +25,7 @@ import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,6 +33,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.BufferedReader
@@ -304,6 +306,23 @@ class GameServiceTest {
             assertThat(it["map"]).isEqualTo("/map/dqp2fnf9")
             assertThat(it["texture"]).isEqualTo("DATA\\Level\\Hell")
         }
+    }
+
+    @Test
+    fun saveGameStats() {
+        val game = EntityDefaults.game()
+        val json = JSONObject()
+        json.put("startedAt", "2020-09-12 18:40:46 GMT")
+        json.put("map", "/map/szauy2x0")
+        json.put("texture", "Data\\Level\\Time")
+        `when`(gameStatsRepository.save(MockitoUtils.anyObject<GameStats>()))
+                .thenAnswer { it.getArgument<GameStats>(0) }
+        val stats = gameService.saveGameStats(json.toString(), game)
+        assertThat(stats.startedAt!!.toString()).isNotNull()
+        assertThat(stats.map).isEqualTo("/map/szauy2x0")
+        assertThat(stats.texture).isEqualTo("Data\\Level\\Time")
+        assertThat(stats.game).isEqualTo(game)
+        verify(gameStatsRepository).save(MockitoUtils.anyObject<GameStats>())
     }
 
     private fun createGroup(tournament: Tournament): Group {

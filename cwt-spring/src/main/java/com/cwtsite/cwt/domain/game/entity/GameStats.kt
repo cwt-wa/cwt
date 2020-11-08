@@ -27,7 +27,11 @@ data class GameStats(
         @Column(name = "map")
         var map: String? = null,
 
+        @Column(name = "texture")
+        var texture: String? = null,
+
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
         var created: Timestamp? = null
 )
+
