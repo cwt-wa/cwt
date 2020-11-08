@@ -290,6 +290,12 @@ constructor(private val gameRepository: GameRepository,
         return gameRepository.save(game)
     }
 
+    fun countTextures(): Map<String, Long> {
+        return gameStatsRepository.findTextureDistinct()
+                .map { texture -> texture to gameStatsRepository.countByTexture(texture) }
+                .toMap()
+    }
+
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findAllByGame(game)
 
     fun findGroupGames(tournament: Tournament): List<Game> = gameRepository.findByGroupNotNullAndVoidedFalseAndTournament(tournament)

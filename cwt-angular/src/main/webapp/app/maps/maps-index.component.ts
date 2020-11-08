@@ -141,8 +141,11 @@ export class MapsIndexComponent implements OnInit {
 
     public ngOnInit(): void {
         this.load();
-        this.requestService.get<string[]>("map/texture")
-            .subscribe(res => this.textures = res.map(t => ({value: t, label: t.split('\\').pop()})));
+        this.requestService.get<{string: number}>("map/texture")
+            .subscribe(res => this.textures = Object.keys(res).map(t => ({
+                value: t,
+                label: `${t.split('\\').pop()} (${res[t]})`
+            })));
     }
 
     load(texture: String = null) {

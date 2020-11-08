@@ -26,7 +26,7 @@ class MapRestController {
     }
 
     @GetMapping("texture")
-    fun retrieveTextures(): ResponseEntity<List<String>> {
-        return ResponseEntity.ok(gameService.retrieveDistinctTextures())
+    fun retrieveTextures(): ResponseEntity<Map<String, Long>> {
+        return ResponseEntity.ok(gameService.countTextures())
     }
 }
