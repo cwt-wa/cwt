@@ -6,7 +6,7 @@ import 'marked/lib/marked.js';
     template: `<span class="markdown" [innerHTML]="compiled"></span>`,
     encapsulation: ViewEncapsulation.None,
     styles: [`
-      img {
+      .markdown img {
         width: 100%;
       }
     `]
