@@ -162,7 +162,9 @@ export class MapsIndexComponent implements OnInit {
                         if (t2.value === 'Unknown') return -1;
                         return t1.value.localeCompare(t2.value);
                     });
-                this.textures.find(t => t.value === texture) != null && (this.texture = texture);
+                if (texture == null || this.textures.find(t => t.value === texture) != null) {
+                    this.texture = texture;
+                }
             });
     }
 
