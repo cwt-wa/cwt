@@ -145,6 +145,7 @@ export class MapsIndexComponent implements OnInit {
             .subscribe(res => this.textures = Object.keys(res)
                 .map(t => ({
                     value: t,
+                    // @ts-ignore
                     label: `${t.split('\\').pop()} (${res[t]})`
                 }))
                 .sort((t1, t2) => {
