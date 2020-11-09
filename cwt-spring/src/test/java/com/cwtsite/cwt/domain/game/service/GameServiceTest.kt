@@ -318,7 +318,7 @@ class GameServiceTest {
         `when`(gameStatsRepository.save(MockitoUtils.anyObject<GameStats>()))
                 .thenAnswer { it.getArgument<GameStats>(0) }
         val stats = gameService.saveGameStats(json.toString(), game)
-        assertThat(stats.startedAt!!.toString()).isNotNull()
+        assertThat(stats.startedAt!!.time).isEqualTo(1599936046000)
         assertThat(stats.map).isEqualTo("/map/szauy2x0")
         assertThat(stats.texture).isEqualTo("Data\\Level\\Time")
         assertThat(stats.game).isEqualTo(game)

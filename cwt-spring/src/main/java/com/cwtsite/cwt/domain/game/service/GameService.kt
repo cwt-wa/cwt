@@ -244,8 +244,8 @@ constructor(private val gameRepository: GameRepository,
         val startedAt = JSONObject(data).getString("startedAt") // Formatting example: 2013-12-14 16:45:20 GMT
         val map = JSONObject(data).optString("map", null)
         val texture = JSONObject(data).optString("texture", null)
-        val format = with (SimpleDateFormat("yyyy-mm-dd HH:mm:ss z")) {
-            timeZone = TimeZone.getTimeZone("GMT")
+        val format = with (SimpleDateFormat("yyyy-MM-dd HH:mm:ss z")) {
+            timeZone = TimeZone.getTimeZone("UTC")
             this
         }
         return gameStatsRepository.save(GameStats(
