@@ -15,9 +15,9 @@ interface GameStatsRepository : JpaRepository<GameStats, Long> {
 
     fun findAllByTexture(texture: String, page: Pageable): Page<GameStats>
 
-    fun countByTexture(texture: String): Long
+    fun countByTexture(texture: String?): Long
 
     @Query("select distinct s.texture from GameStats s")
-    fun findTextureDistinct(): List<String>
+    fun findTextureDistinct(): List<String?>
 }
 

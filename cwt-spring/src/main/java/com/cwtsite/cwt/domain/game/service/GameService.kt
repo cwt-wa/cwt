@@ -271,7 +271,7 @@ constructor(private val gameRepository: GameRepository,
                     .sortedBy { it.startedAt }
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
-    fun retrieveDistinctTextures(): List<String> =
+    fun retrieveDistinctTextures(): List<String?> =
             gameStatsRepository.findTextureDistinct()
 
     fun findFromGameStats(game: Game?, vararg fields: String): List<Map<String, Any?>> {
@@ -292,7 +292,7 @@ constructor(private val gameRepository: GameRepository,
 
     fun countTextures(): Map<String, Long> {
         return gameStatsRepository.findTextureDistinct()
-                .map { texture -> texture to gameStatsRepository.countByTexture(texture) }
+                .map { texture -> (texture ?: "Unknown") to gameStatsRepository.countByTexture(texture) }
                 .toMap()
     }
 

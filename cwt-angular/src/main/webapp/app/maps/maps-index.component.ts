@@ -142,10 +142,16 @@ export class MapsIndexComponent implements OnInit {
     public ngOnInit(): void {
         this.load();
         this.requestService.get<{string: number}>("map/texture")
-            .subscribe(res => this.textures = Object.keys(res).map(t => ({
-                value: t,
-                label: `${t.split('\\').pop()} (${res[t]})`
-            })));
+            .subscribe(res => this.textures = Object.keys(res)
+                .map(t => ({
+                    value: t,
+                    label: `${t.split('\\').pop()} (${res[t]})`
+                }))
+                .sort((t1, t2) => {
+                    if (t1.value === 'Unknown') return 1;
+                    if (t2.value === 'Unknown') return -1;
+                    return t1.value.localeCompare(t2.value);
+                }));
     }
 
     load(texture: String = null) {
