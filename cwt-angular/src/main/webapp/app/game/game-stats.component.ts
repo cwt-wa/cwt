@@ -378,7 +378,8 @@ export declare module GameStats {
         winsTheRound: string;
         wormOfTheRound: WormOfTheRound;
         mostDamageWithOneShot: MostDamageWithOneShot;
-        map?: string
+        map?: string;
+        texture?: string;
     }
 
 }
