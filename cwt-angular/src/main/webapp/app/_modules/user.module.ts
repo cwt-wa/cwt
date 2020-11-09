@@ -10,6 +10,7 @@ import {UserOverviewComponent} from "../user/user-overview.component";
 import {UserDetailComponent} from "../user/user-detail.component";
 import {CountryComponent} from "../_util/country.component";
 import {ReachComponent} from "../_util/reach.component";
+import {GameModule} from "./game.module";
 
 const routes: Routes = [
     {
@@ -42,7 +43,8 @@ const routes: Routes = [
         FormsModule,
         NgbModule,
         SharedModule,
-        PaginationModule
+        PaginationModule,
+        GameModule
     ],
     declarations: [
         UserDetailComponent,

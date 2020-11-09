@@ -65,7 +65,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'games',
-        loadChildren: () => import('./game.module').then(m => m.GameModule)
+        loadChildren: () => import('./game-routing.module').then(m => m.GameRoutingModule)
     },
     {
         path: 'users',

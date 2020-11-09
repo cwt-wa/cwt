@@ -1,7 +1,6 @@
 import {NgModule} from "@angular/core";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {RouterModule, Routes} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "./shared.module";
@@ -11,27 +10,13 @@ import {GameOverviewComponent} from "../game/game-overview.component";
 import {MapComponent} from "../game/map.component";
 import {WeaponComponent} from "../_util/weapon.component";
 import {PaginationModule} from "./pagination.module";
-
-const routes: Routes = [
-    {
-        path: ':id',
-        component: GameDetailComponent
-    },
-    {
-        path: ':id/stats',
-        component: GameStatsComponent
-    },
-    {
-        path: '',
-        component: GameOverviewComponent
-    },
-];
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     imports: [
+        RouterModule,
         CommonModule,
         HttpClientModule,
-        RouterModule.forChild(routes),
         FormsModule,
         NgbModule,
         SharedModule,
@@ -45,7 +30,9 @@ const routes: Routes = [
         MapComponent,
         WeaponComponent,
     ],
-    exports: [],
+    exports: [
+        GameOverviewComponent
+    ],
     providers: [],
     bootstrap: [],
     entryComponents: [],

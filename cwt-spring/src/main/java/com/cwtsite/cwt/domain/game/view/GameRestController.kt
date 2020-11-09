@@ -180,6 +180,14 @@ constructor(private val gameService: GameService, private val userService: UserS
                         pageDto.start, pageDto.size,
                         pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"))
             }
+            1 -> {
+                val user = userService.getById(users!![0])
+                        .orElseThrow { RestException("user ${users[0]} does not exist.", HttpStatus.BAD_REQUEST, null) }
+                gameService.findGameOfUser(
+                        pageDto.start, pageDto.size,
+                        pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"),
+                        user)
+            }
             2 -> {
                 val user1 = userService.getById(users!![0])
                         .orElseThrow { RestException("User ${users[0]} does not exist", HttpStatus.NOT_FOUND, null) }

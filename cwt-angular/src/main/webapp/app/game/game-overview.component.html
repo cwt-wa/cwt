@@ -1,6 +1,6 @@
 <h1 class="float-left">Games</h1>
 
-<div class="float-right text-nowrap" *ngIf="pageOfGames">
+<div class="float-right text-nowrap" *ngIf="pageOfGames?.totalElements > 0">
     <cwt-sorter [pageOfModels]="pageOfGames" (load)="load()" [disabled]="loading"></cwt-sorter>
 </div>
 
@@ -10,7 +10,10 @@
 
 <div class="row mt-2 clear" *ngIf="pageOfGames && !loading">
     <div class="col-12">
-        <div class="card bg-secondary text-white border-0 mb-1">
+        <div class="alert alert-info" *ngIf="pageOfGames.totalElements === 0">
+            {{user == null ? 'There are no games.' : 'This user hasn’t played any games.'}}
+        </div>
+        <div class="card bg-secondary text-white border-0 mb-1" *ngIf="pageOfGames.totalElements > 0">
             <div class="card-body" *ngFor="let game of pageOfGames.content"
                  style="border-bottom: 1px solid black !important;">
                 <div class="row">
@@ -70,6 +73,8 @@
             </div>
         </div>
 
-        <cwt-paginator [page]="pageOfGames" (goTo)="goTo($event)"></cwt-paginator>
+        <cwt-paginator *ngIf="pageOfGames?.totalElements > 0"
+                       [page]="pageOfGames" (goTo)="goTo($event)">
+        </cwt-paginator>
     </div>
 </div>

@@ -1,14 +1,17 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {GameDetailDto, PageDto, Rating, RatingType} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {finalize} from "rxjs/operators";
 
 @Component({
-    selector: 'cwt-game-overiew',
+    selector: 'cwt-game-overview',
     template: require('./game-overview.component.html')
 })
 export class GameOverviewComponent implements OnInit {
+
+    @Input() user: number;
+
     pageOfGames: PageDto<GameDetailDto> = <PageDto<GameDetailDto>> {size: 10, start: 0};
     loading: boolean;
 
@@ -33,8 +36,11 @@ export class GameOverviewComponent implements OnInit {
 
     load() {
         this.loading = true;
-
-        this.requestService.getPaged<GameDetailDto>('game', this.pageOfGames)
+        const queryParam = {
+            ...(this.user != null && {user: this.user}),
+            ...this.pageOfGames
+        };
+        this.requestService.getPaged<GameDetailDto>('game', queryParam)
             .pipe(finalize(() => this.loading = false))
             .subscribe(pageOfGames => this.pageOfGames = pageOfGames);
     }

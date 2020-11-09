@@ -4,7 +4,9 @@ import com.cwtsite.cwt.domain.game.entity.Game;
 import com.cwtsite.cwt.domain.group.entity.Group;
 import com.cwtsite.cwt.domain.tournament.entity.Tournament;
 import com.cwtsite.cwt.domain.user.repository.entity.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -65,6 +67,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query("select g from Game g where (g.homeUser = :user1 and g.awayUser = :user2) or (g.homeUser = :user2 and g.awayUser = :user1)")
     Page<Game> findGameOfUsers(Pageable pageable, @Param("user1") User user1, @Param("user2") User user2);
+
+    @Query("select g from Game g where g.homeUser = :user or g.awayUser = :user")
+    Page<Game> findGameOfUser(Pageable page, @Param("user") User user);
 
     List<Game> findByTournament(Tournament tournament);
 }
