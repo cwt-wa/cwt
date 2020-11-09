@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from "@angular/core";
+import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {RequestService} from "../_services/request.service";
 import {GameMinimalDto, MapDto, PageDto, TournamentDetailDto} from "../custom";
 import {BinaryService} from "../_services/binary.service";
 import {finalize} from "rxjs/operators";
+import {ActivatedRoute, Router} from "@angular/router";
 
 interface LoopedMapDto {
     game: GameMinimalDto;
@@ -77,7 +78,8 @@ interface LoopedMapDto {
     template: `
         <div class="position-relative">
             <div class="texture-select-container">
-                <select (change)="onChangeTexture($event.target.value)" *ngIf="textures" class="form-control">
+                <select (change)="onChangeTexture($event.target.value)" [(ngModel)]="texture" name="texture"
+                        class="form-control">
                     <option [value]="null">All</option>
                     <option *ngFor="let texture of textures" [value]="texture.value">{{texture.label}}</option>
                 </select>
@@ -132,40 +134,56 @@ export class MapsIndexComponent implements OnInit {
         loading: require('../../img/loading.gif')
     }
     textures: { value: string, label: string }[];
-    page: PageDto<MapDto> = {start: 0, size: 10} as PageDto<MapDto>;
+    texture?: string;
+    page: PageDto<MapDto> = {start: 0, size: 10, content: []} as PageDto<MapDto>;
+    @ViewChild('textureSelect') public textureSelect: ElementRef<HTMLSelectElement>;
     @ViewChildren('mapImage') public mapImages: QueryList<ElementRef<HTMLImageElement>>;
 
     constructor(private requestService: RequestService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router,
                 private binaryService: BinaryService) {
     }
 
     public ngOnInit(): void {
-        this.load();
-        this.requestService.get<{string: number}>("map/texture")
-            .subscribe(res => this.textures = Object.keys(res)
-                .map(t => ({
-                    value: t,
-                    // @ts-ignore
-                    label: `${t.split('\\').pop()} (${res[t]})`
-                }))
-                .sort((t1, t2) => {
-                    if (t1.value === 'Unknown') return 1;
-                    if (t2.value === 'Unknown') return -1;
-                    return t1.value.localeCompare(t2.value);
-                }));
+        const terrain = this.activatedRoute.snapshot.queryParamMap.get('terrain');
+        const texture = terrain == null ? null : `Data\\Level\\${terrain}`;
+        this.load(texture);
+        this.requestService.get<{ string: number }>("map/texture")
+            .subscribe(res => {
+                this.textures = Object.keys(res)
+                    .map(t => ({
+                        value: t,
+                        // @ts-ignore
+                        label: `${t.split('\\').pop()} (${res[t]})`
+                    }))
+                    .sort((t1, t2) => {
+                        if (t1.value === 'Unknown') return 1;
+                        if (t2.value === 'Unknown') return -1;
+                        return t1.value.localeCompare(t2.value);
+                    });
+                this.textures.find(t => t.value === texture) != null && (this.texture = texture);
+            });
     }
 
     load(texture: String = null) {
+        this.loading = true;
         const queryParams = {
-                start: this.page.start,
-                size: this.page.size,
-                ...(texture != null && {texture})
-            };
+            start: this.page.start,
+            size: this.page.size,
+            ...(texture != null && {texture})
+        };
         this.requestService.getPaged<MapDto>('map', queryParams as unknown as PageDto<MapDto>)
             .pipe(finalize(() => this.loading = false))
             .subscribe(res => {
-                this.page = res;
-                this.maps = this.structureMaps(res.content)
+                if (res.totalElements === 0 && texture != null) {
+                    this.setQueryParam(undefined);
+                    this.texture = null;
+                    this.load();
+                } else {
+                    this.page = res;
+                    this.maps = this.structureMaps(res.content)
+                }
             });
     }
 
@@ -194,12 +212,18 @@ export class MapsIndexComponent implements OnInit {
     }
 
     onChangeTexture(texture: String) {
-        this.load(texture);
+        const terrain = this.textures.find(t => t.value === texture)?.label.split(' ')[0];
+        this.load(terrain != null ? texture : undefined);
+        this.setQueryParam(terrain);
     }
 
     goTo(start: number) {
         this.page.start = start;
         this.load();
+    }
+
+    setQueryParam(terrain?: string): void {
+        this.router.navigate(['.'], {relativeTo: this.activatedRoute, queryParams: {terrain: terrain || undefined}});
     }
 }
 
