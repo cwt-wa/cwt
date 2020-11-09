@@ -13,7 +13,9 @@ interface GameStatsRepository : JpaRepository<GameStats, Long> {
 
     fun findAllByGame(game: Game): List<GameStats>
 
-    fun findAllByTexture(texture: String, page: Pageable): Page<GameStats>
+    fun findByMapIsNotNullAndTextureEquals(texture: String, page: Pageable): Page<GameStats>
+
+    fun findByMapIsNotNull(page: Pageable): Page<GameStats>
 
     fun countByTexture(texture: String?): Long
 

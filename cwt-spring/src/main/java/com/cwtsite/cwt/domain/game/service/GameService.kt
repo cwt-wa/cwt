@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Example
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -258,13 +257,17 @@ constructor(private val gameRepository: GameRepository,
         ))
     }
 
-    fun findGameStats(page: Int, size: Int, texture: String?): Page<GameStats> {
+    fun findMaps(page: Int, size: Int, texture: String?): Page<GameStats> {
         val pageRequest  = PageRequest.of(page, size, Sort.Direction.DESC, "created")
         return when (texture) {
-            null -> gameStatsRepository.findAll(pageRequest)
-            else -> gameStatsRepository.findAllByTexture(texture, pageRequest)
+            null -> gameStatsRepository.findByMapIsNotNull(pageRequest)
+            else -> gameStatsRepository.findByMapIsNotNullAndTextureEquals(texture, pageRequest)
         }
     }
+
+
+    fun findGameStats(page: Int, size: Int): Page<GameStats> =
+            gameStatsRepository.findAll(PageRequest.of(page, size, Sort.Direction.DESC, "created"))
 
     fun findGameStats(game: Game?): String =
             (game?.let { gameStatsRepository.findAllByGame(it) } ?: gameStatsRepository.findAll())

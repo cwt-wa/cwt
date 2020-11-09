@@ -20,7 +20,7 @@ class MapRestController {
     fun retrieveMaps(@RequestParam("texture", required = false) texture: String?,
                      @RequestParam("size", defaultValue = "10") size: Int,
                      @RequestParam("start", defaultValue = "1") start: Int): ResponseEntity<PageDto<MapDto>> {
-        val maps = gameService.findGameStats(start, size, texture)
+        val maps = gameService.findMaps(start, size, texture)
                 .map { stat -> MapDto.toDto(stat.game!!, stat.map!!, stat.texture) }
         return ResponseEntity.ok(PageDto.toDto<MapDto>(maps, emptyList()))
     }
