@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {GameDetailDto, PageDto, Rating, RatingType} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: 'cwt-game-overiew',
@@ -34,11 +35,8 @@ export class GameOverviewComponent implements OnInit {
         this.loading = true;
 
         this.requestService.getPaged<GameDetailDto>('game', this.pageOfGames)
-            .subscribe(pageOfGames => {
-                this.pageOfGames = pageOfGames;
-            }, undefined, () => {
-                this.loading = false;
-            });
+            .pipe(finalize(() => this.loading = false))
+            .subscribe(pageOfGames => this.pageOfGames = pageOfGames);
     }
 
     filterRatings(ratings: Rating[], type: RatingType): Rating[] {
