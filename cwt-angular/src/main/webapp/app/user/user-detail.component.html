@@ -33,11 +33,14 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col">
+            <div class="col-12 mt-4 d-none d-md-block">
                 <cwt-game-overview *ngIf="user" [user]="user.id"></cwt-game-overview>
             </div>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 mt-4 d-md-none">
+        <cwt-game-overview *ngIf="user" [user]="user.id"></cwt-game-overview>
     </div>
 </div>
