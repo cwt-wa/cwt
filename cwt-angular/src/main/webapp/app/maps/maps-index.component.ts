@@ -157,11 +157,7 @@ export class MapsIndexComponent implements OnInit {
                         // @ts-ignore
                         label: `${t.split('\\').pop()} (${res[t]})`
                     }))
-                    .sort((t1, t2) => {
-                        if (t1.value === 'Unknown') return 1;
-                        if (t2.value === 'Unknown') return -1;
-                        return t1.value.localeCompare(t2.value);
-                    });
+                    .sort((t1, t2) => t1.value.localeCompare(t2.value));
                 if (texture == null || this.textures.find(t => t.value === texture) != null) {
                     this.texture = texture;
                 }
@@ -215,13 +211,14 @@ export class MapsIndexComponent implements OnInit {
 
     onChangeTexture(texture: String) {
         const terrain = this.textures.find(t => t.value === texture)?.label.split(' ')[0];
+        this.page.start = 0;
         this.load(terrain != null ? texture : undefined);
         this.setQueryParam(terrain);
     }
 
     goTo(start: number) {
         this.page.start = start;
-        this.load();
+        this.load(this.texture);
     }
 
     setQueryParam(terrain?: string): void {

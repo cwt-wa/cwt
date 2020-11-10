@@ -264,7 +264,7 @@ constructor(private val gameRepository: GameRepository,
     fun findMaps(page: Int, size: Int, texture: String?): Page<GameStats> {
         val pageRequest  = PageRequest.of(page, size, Sort.Direction.DESC, "created")
         return when (texture) {
-            null -> gameStatsRepository.findByMapIsNotNull(pageRequest)
+            null -> gameStatsRepository.findByMapIsNotNullAndTextureIsNotNull(pageRequest)
             else -> gameStatsRepository.findByMapIsNotNullAndTextureEquals(texture, pageRequest)
         }
     }
@@ -279,7 +279,7 @@ constructor(private val gameRepository: GameRepository,
                     .joinToString(prefix = "[", postfix = "]") { it.data }
 
     fun retrieveDistinctTextures(): List<String?> =
-            gameStatsRepository.findTextureDistinct()
+            gameStatsRepository.findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull()
 
     fun findFromGameStats(game: Game?, vararg fields: String): List<Map<String, Any?>> {
         val result = mutableListOf<Map<String, Any?>>()
@@ -298,7 +298,7 @@ constructor(private val gameRepository: GameRepository,
     }
 
     fun countTextures(): Map<String, Long> {
-        return gameStatsRepository.findTextureDistinct()
+        return gameStatsRepository.findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull()
                 .map { texture -> (texture ?: "Unknown") to gameStatsRepository.countByTexture(texture) }
                 .toMap()
     }
