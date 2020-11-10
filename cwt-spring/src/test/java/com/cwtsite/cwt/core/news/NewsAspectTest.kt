@@ -28,14 +28,14 @@ class NewsAspectTest {
         val awayUser = User(username = "Rafka", email = "rafka@example.com", id = 2)
         val game = Game(
                 id = 1,
-                homeUser = this.author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
+                homeUser = author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
                 tournament = EntityDefaults.tournament())
         val target = mock(GameService::class.java)
-        `when`(target.reportGame(this.author.id!!, awayUser.id!!, game.scoreHome!!, game.scoreAway!!)).thenReturn(game)
-        val proxy = createProxy<GameService>(target, this.author)
-        proxy.reportGame(this.author.id!!, awayUser.id!!, game.scoreHome!!, game.scoreAway!!)
+        `when`(target.reportGame(author.id!!, awayUser.id!!, game.scoreHome!!, game.scoreAway!!)).thenReturn(game)
+        val proxy = createProxy<GameService>(target, author)
+        proxy.reportGame(author.id!!, awayUser.id!!, game.scoreHome!!, game.scoreAway!!)
         verify(messageService).publishNews(
-                MessageNewsType.REPORT, this.author, game.id!!, this.author.username,
+                MessageNewsType.REPORT, author, game.id!!, author.username,
                 awayUser.username, game.scoreHome, game.scoreAway)
     }
 
@@ -44,15 +44,15 @@ class NewsAspectTest {
         val awayUser = User(username = "Rafka", email = "rafka@example.com", id = 2)
         val game = Game(
                 id = 1,
-                homeUser = this.author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
+                homeUser = author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
                 tournament = EntityDefaults.tournament())
         val voidedGame = game.copy(voided = true)
         val target = mock(GameService::class.java)
         `when`(target.voidGame(game)).thenReturn(voidedGame)
-        val proxy = createProxy<GameService>(target, this.author)
+        val proxy = createProxy<GameService>(target, author)
         proxy.voidGame(game)
         verify(messageService).publishNews(
-                MessageNewsType.VOIDED, this.author, game.id!!, this.author.username,
+                MessageNewsType.VOIDED, author, game.id!!, author.username,
                 awayUser.username, game.scoreHome, game.scoreAway)
     }
 
@@ -61,15 +61,15 @@ class NewsAspectTest {
         val awayUser = User(username = "Rafka", email = "rafka@example.com", id = 2)
         val game = Game(
                 id = 1,
-                homeUser = this.author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
+                homeUser = author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
                 tournament = EntityDefaults.tournament())
         val target = mock(GameService::class.java)
         val comment = Comment(body = "Interesting", game = game, author = author)
         `when`(target.commentGame(game.id!!, author.id!!, comment.body!!)).thenReturn(comment)
-        val proxy = createProxy<GameService>(target, this.author)
+        val proxy = createProxy<GameService>(target, author)
         proxy.commentGame(game.id!!, author.id!!, comment.body!!)
         verify(messageService).publishNews(
-                MessageNewsType.COMMENT, this.author, game.id!!, this.author.username,
+                MessageNewsType.COMMENT, author, game.id!!, author.username,
                 awayUser.username, game.scoreHome, game.scoreAway)
     }
 
@@ -78,15 +78,15 @@ class NewsAspectTest {
         val awayUser = User(username = "Rafka", email = "rafka@example.com", id = 2)
         val game = Game(
                 id = 1,
-                homeUser = this.author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
+                homeUser = author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
                 tournament = EntityDefaults.tournament())
         val target = mock(GameService::class.java)
         val rating = Rating(RatingType.LIKE, author, game)
         `when`(target.rateGame(game.id!!, author.id!!, rating.type)).thenReturn(rating)
-        val proxy = createProxy<GameService>(target, this.author)
+        val proxy = createProxy<GameService>(target, author)
         proxy.rateGame(game.id!!, author.id!!, rating.type)
         verify(messageService).publishNews(
-                MessageNewsType.RATING, this.author, game.id!!, this.author.username,
+                MessageNewsType.RATING, author, game.id!!, author.username,
                 awayUser.username, game.scoreHome, game.scoreAway, rating.type.name.toLowerCase())
     }
 
