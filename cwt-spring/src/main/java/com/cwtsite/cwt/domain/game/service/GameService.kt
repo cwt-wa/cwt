@@ -232,6 +232,7 @@ constructor(private val gameRepository: GameRepository,
      */
     @Throws(IllegalStateException::class)
     @Transactional
+    @PublishNews
     fun addTechWin(winner: User, loser: User, reporter: User): Game {
         val currentTournament = tournamentService.getCurrentTournament()
                 ?: throw IllegalStateException("There's no current tournament.")

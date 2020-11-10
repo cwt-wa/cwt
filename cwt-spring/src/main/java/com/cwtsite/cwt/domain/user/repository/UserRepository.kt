@@ -25,6 +25,9 @@ interface UserRepository : JpaRepository<User, Long> {
 
     fun findByResetKey(resetKey: String): User?
 
+    @Query("select lower(u.username) from User u")
+    fun findAllUsernamesToLowerCase(): List<String>
+
     @Query("select u from User u where lower(u.username) in (:usernames)")
     fun findAllByUsernameLowercaseIn(@Param("usernames") username: List<String>): List<User>
 
