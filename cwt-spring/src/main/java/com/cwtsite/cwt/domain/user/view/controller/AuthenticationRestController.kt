@@ -11,6 +11,7 @@ import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse
 import com.cwtsite.cwt.domain.user.view.model.JwtUser
 import com.cwtsite.cwt.domain.user.view.model.UserRegistrationDto
 import com.cwtsite.cwt.security.FirebaseIdentityTokenDto
+import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import com.cwtsite.cwt.security.SecurityService
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
@@ -25,7 +26,6 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.web.bind.annotation.RequestBody
@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest
 class AuthenticationRestController @Autowired
 constructor(private val authenticationManager: AuthenticationManager, private val jwtTokenUtil: JwtTokenUtil,
             private val userDetailsService: UserDetailsService, private val userService: UserService,
+            private val securityContextHolderFacade: SecurityContextHolderFacade,
             private val authService: AuthService, private val securityService: SecurityService) {
 
     @Value("\${firebase-credentials-location}")
@@ -92,7 +93,7 @@ constructor(private val authenticationManager: AuthenticationManager, private va
             throw RestException("Wrong credentials.", HttpStatus.BAD_REQUEST, null)
         }
 
-        SecurityContextHolder.getContext().authentication = authentication
+        securityContextHolderFacade.authentication = authentication
 
         val userDetails = userDetailsService.loadUserByUsername(authenticationRequest.username)
         val token = jwtTokenUtil.generateToken(userDetails)

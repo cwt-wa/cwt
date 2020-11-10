@@ -1,10 +1,10 @@
 package com.cwtsite.cwt.security.filter
 
 import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
+import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -20,8 +20,13 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
 
     @Autowired
     private lateinit var userDetailsService: UserDetailsService
+
     @Autowired
     private lateinit var jwtTokenUtil: JwtTokenUtil
+
+    @Autowired
+    private lateinit var securityContextHolderFacade: SecurityContextHolderFacade
+
     @Value("\${jwt.header}")
     private lateinit var tokenHeader: String
 
@@ -41,7 +46,7 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
 
         val username = jwtTokenUtil.getUsernameFromToken(authToken)
 
-        if (username != null && SecurityContextHolder.getContext().authentication == null) {
+        if (username != null && securityContextHolderFacade.authentication == null) {
             val userDetails: UserDetails
             try {
                 userDetails = this.userDetailsService.loadUserByUsername(username)
@@ -54,7 +59,7 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-                SecurityContextHolder.getContext().authentication = authentication
+                securityContextHolderFacade.authentication = authentication
             }
         }
 

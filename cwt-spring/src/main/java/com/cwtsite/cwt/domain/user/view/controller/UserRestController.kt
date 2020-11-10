@@ -16,6 +16,7 @@ import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.model.*
 import com.cwtsite.cwt.entity.Application
+import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
@@ -27,7 +28,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -42,7 +42,8 @@ constructor(private val userService: UserService, private val applicationService
             private val authService: AuthService, private val tournamentService: TournamentService,
             private val groupService: GroupService, private val playoffService: PlayoffService,
             private val jwtTokenUtil: JwtTokenUtil, private val userDetailsService: UserDetailsService,
-            private val tetrisService: TetrisService, private val authenticationManager: AuthenticationManager) {
+            private val tetrisService: TetrisService, private val authenticationManager: AuthenticationManager,
+            private val securityContextHolderFacade: SecurityContextHolderFacade) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
@@ -277,7 +278,7 @@ constructor(private val userService: UserService, private val applicationService
             val authentication = authenticationManager.authenticate(
                     UsernamePasswordAuthenticationToken(user.username, dto.password))
 
-            SecurityContextHolder.getContext().authentication = authentication
+            securityContextHolderFacade.authentication = authentication
 
             val userDetails = userDetailsService.loadUserByUsername(user.username)
             val token = jwtTokenUtil.generateToken(userDetails)
