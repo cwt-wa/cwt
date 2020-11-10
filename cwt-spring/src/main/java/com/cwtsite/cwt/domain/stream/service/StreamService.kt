@@ -1,7 +1,11 @@
 package com.cwtsite.cwt.domain.stream.service
 
+import com.cwtsite.cwt.domain.game.service.GameRepository
+import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
+import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
+import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import me.xdrop.fuzzywuzzy.FuzzySearch
@@ -25,10 +29,30 @@ class StreamService {
     @Autowired
     private lateinit var userRepository: UserRepository
 
+    @Autowired
+    private lateinit var groupRepository: GroupRepository
+
+    @Autowired
+    private lateinit var gameRepository: GameRepository
+
+    @Autowired
+    private lateinit var tournamentService: TournamentService
+
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun findMatchingGame(title: String, created: String, duration: String): Pair<String?, String?> {
-        val usernames = userRepository.findAllUsernamesToLowerCase()
+        val tournament = tournamentService.getCurrentTournament()
+        val usernames = if (tournament == null) {
+            userRepository.findAllUsernamesToLowerCase().toSet()
+        } else {
+           when (tournament.status) {
+               TournamentStatus.GROUP -> groupRepository.findDistinctUsernamesToLowercase(tournament)
+               TournamentStatus.PLAYOFFS -> setOf(
+                       *gameRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
+                       *gameRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray())
+               else -> userRepository.findAllUsernamesToLowerCase().toSet()
+           }
+        }
         val blacklist = setOf(
                 "cwt", "final", "finale", "quarter", "semi", "quarterfinal", "semifinal", "last",
                 "group", "stage", "playoff", "playoffs", "vs", "round", "of", "-", "part", "round")

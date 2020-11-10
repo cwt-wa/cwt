@@ -1,6 +1,10 @@
 package com.cwtsite.cwt.domain.stream.service
 
+import com.cwtsite.cwt.domain.game.service.GameRepository
+import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
+import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.test.EntityDefaults
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -16,6 +20,8 @@ class StreamServiceTest {
     @Mock private lateinit var streamRepository: StreamRepository
     @Mock private lateinit var channelRepository: ChannelRepository
     @Mock private lateinit var userRepository: UserRepository
+    @Mock private lateinit var tournamentService: TournamentService
+    @Mock private lateinit var gameRepository: GameRepository
 
     @Test
     fun findMatchingGame() {
@@ -110,33 +116,39 @@ class StreamServiceTest {
                 Pair(Pair("FaD", "Kayz"), Triple("CWT 2015 SF: FaD vs Kayz", "2015-12-08T09:53:37Z", "2h53m9s")),
                 Pair(Pair("kilobyte", "Asbest"), Triple("CWT 2016 Qualifiers Kilobyte vs. Asbest", "2016-10-11T21:12:16Z", "1h59m52s")),
                 Pair(Pair("FaD", "Jakka"), Triple("CWT 2015 FaD vs. Jakk0", "2015-11-22T21:36:46Z", "1h13m10s")))
-        `when`(userRepository.findAllUsernamesToLowerCase())
-                .thenReturn(listOf(
-                        "k4tsis", "jellenio", "kayz", "mablak", "solomon", "thewormsplayer", "johnmir", "bytor", "c00l", "koras", "darkxxxlord",
-                        "kano", "dario", "eru777", "tade", "maze", "mtorpey", "crespo", "khamski", "rafka", "joschi", "domi", "alex13", "crvic",
-                        "muzer", "zolodu", "korydex", "worldmaster", "terror", "phantom", "dreamtrance", "jigsaw", "kinslayer", "antares", "lales",
-                        "sibasa", "jule", "thurbo", "yungiz", "run", "pandello", "betongasna", "albino", "fantomas", "normalpro", "sirgorash",
-                        "retcerahc", "rigga", "pmgrnt", "rusher", "lacoste", "kalababa", "lovevilution", "dawgystyle", "snakeplissken", "aymen",
-                        "diablovt", "free", "weem4n", "lait88", "ultiartsy", "perdunok", "srpanther", "gingerplusplus", "ypslon", "thouson", "komito",
-                        "kebniak", "tita", "kinggizard", "cnb", "kukumber", "kba3u", "pizzasheet", "casso", "gabriel", "barman", "crazy", "dmitry",
-                        "rafalus", "ramone", "spike", "tomt", "chelsea", "piki1802", "husk", "ducky", "krd", "bl4st3r", "phanton", "felo", "kungpow",
-                        "jakka", "triad", "floydmilleraustr", "adun", "abegod", "szoszo", "abnaxus", "eray", "ilyxa", "pavelb", "zemke", "tanerrr",
-                        "sainto", "mrtpenguin", "sensei", "ljungberg", "lostboy ", "luisinho", "leoric", "makimura", "mexicangeneral", "mbonheur",
-                        "mielu", "manolo", "m0nk", "majesticjara", "mastertool", "misirac", "mattekale", "nut", "nachwein", "optymus", "oz",
-                        "papabizkitpark", "pitbacardi", "phartknocker", "paranoico", "petazeta", "philippo", "raven", "simon", "saibot", "semaphore",
-                        "salda", "sniper", "tixas", "teletubbies", "trixsk8", "tomek", "hwoarangcs", "viks", "kilobyte", "oscardianno", "theextremist",
-                        "sigmatel", "zoky", "chicken23", "psykologi", "ivo", "nickynick", "fonseca", "waffle", "stripe", "gopnick", "random00", "cinek",
-                        "haxen", "master", "ratoonsoft", "chuvash", "fad", "littlebiatch", "fenrys", "xdragonfirex", "dsa", "pipinasso", "ash", "akkad",
-                        "ashmallum", "automatico", "aquaworm", "chaos1187", "chew", "clay", "cool", "crimsonscourge", "drakken", "darasek", "dustedtrooper",
-                        "dani", "david", "dvorkin", "dan", "doubletime", "euenahub", "eebu", "feiticeiro", "fury", "franpetas", "gelete", "generalhorn", "goku",
-                        "hhc", "gforce", "hallq", "hatequitter", "intrepid", "inspire", "javito", "jessbaec", "konrad", "kortren", "kisiro", "linusb",
-                        "urbanspaceman", "uncledave", "ucantseeme", "ukrop", "voodoo", "vodkoff", "vuk", "wormsik", "wriggler", "xaositect", "xworm",
-                        "zero", "hussar", "franz", "peja", "caniman", "letotalkiller", "uzurpator", "jago", "sbaffo", "kyho", "goro", "wormslayer",
-                        "tajniak", "superpipo", "j0hny", "13", "kain", "worminggirl", "marjano", "pellefot", "evito", "tadeusz", "sid", "noox", "darkone",
-                        "henrycs", "vesuvio", "chilitolindo", "vok", "steps", "combo", "zexorz", "spyvsspyfan123", "thewalrus", "asbest", "kins", "coolman",
-                        "afina", "atr0x", "vok90", "daina", "street", "instantly", "whiterqbbit", "dvd", "tadeuszek", "siwy", "pavlepavle", "akt", "hldd3n",
-                        "albus", "knighttemplar", "vojske", "kaleu", "artecthefox", "megaadnan", "goosey", "bhaal", "thyx", "nunca", "nous", "kievz", "stjimmy",
-                        "boolc", "aladdin", "fusi", "silaneo", "kingkong", "stoner", "senator", "alwer939"))
+        val usernames = listOf(
+                "k4tsis", "jellenio", "kayz", "mablak", "solomon", "thewormsplayer", "johnmir", "bytor", "c00l", "koras", "darkxxxlord",
+                "kano", "dario", "eru777", "tade", "maze", "mtorpey", "crespo", "khamski", "rafka", "joschi", "domi", "alex13", "crvic",
+                "muzer", "zolodu", "korydex", "worldmaster", "terror", "phantom", "dreamtrance", "jigsaw", "kinslayer", "antares", "lales",
+                "sibasa", "jule", "thurbo", "yungiz", "run", "pandello", "betongasna", "albino", "fantomas", "normalpro", "sirgorash",
+                "retcerahc", "rigga", "pmgrnt", "rusher", "lacoste", "kalababa", "lovevilution", "dawgystyle", "snakeplissken", "aymen",
+                "diablovt", "free", "weem4n", "lait88", "ultiartsy", "perdunok", "srpanther", "gingerplusplus", "ypslon", "thouson", "komito",
+                "kebniak", "tita", "kinggizard", "cnb", "kukumber", "kba3u", "pizzasheet", "casso", "gabriel", "barman", "crazy", "dmitry",
+                "rafalus", "ramone", "spike", "tomt", "chelsea", "piki1802", "husk", "ducky", "krd", "bl4st3r", "phanton", "felo", "kungpow",
+                "jakka", "triad", "floydmilleraustr", "adun", "abegod", "szoszo", "abnaxus", "eray", "ilyxa", "pavelb", "zemke", "tanerrr",
+                "sainto", "mrtpenguin", "sensei", "ljungberg", "lostboy ", "luisinho", "leoric", "makimura", "mexicangeneral", "mbonheur",
+                "mielu", "manolo", "m0nk", "majesticjara", "mastertool", "misirac", "mattekale", "nut", "nachwein", "optymus", "oz",
+                "papabizkitpark", "pitbacardi", "phartknocker", "paranoico", "petazeta", "philippo", "raven", "simon", "saibot", "semaphore",
+                "salda", "sniper", "tixas", "teletubbies", "trixsk8", "tomek", "hwoarangcs", "viks", "kilobyte", "oscardianno", "theextremist",
+                "sigmatel", "zoky", "chicken23", "psykologi", "ivo", "nickynick", "fonseca", "waffle", "stripe", "gopnick", "random00", "cinek",
+                "haxen", "master", "ratoonsoft", "chuvash", "fad", "littlebiatch", "fenrys", "xdragonfirex", "dsa", "pipinasso", "ash", "akkad",
+                "ashmallum", "automatico", "aquaworm", "chaos1187", "chew", "clay", "cool", "crimsonscourge", "drakken", "darasek", "dustedtrooper",
+                "dani", "david", "dvorkin", "dan", "doubletime", "euenahub", "eebu", "feiticeiro", "fury", "franpetas", "gelete", "generalhorn", "goku",
+                "hhc", "gforce", "hallq", "hatequitter", "intrepid", "inspire", "javito", "jessbaec", "konrad", "kortren", "kisiro", "linusb",
+                "urbanspaceman", "uncledave", "ucantseeme", "ukrop", "voodoo", "vodkoff", "vuk", "wormsik", "wriggler", "xaositect", "xworm",
+                "zero", "hussar", "franz", "peja", "caniman", "letotalkiller", "uzurpator", "jago", "sbaffo", "kyho", "goro", "wormslayer",
+                "tajniak", "superpipo", "j0hny", "13", "kain", "worminggirl", "marjano", "pellefot", "evito", "tadeusz", "sid", "noox", "darkone",
+                "henrycs", "vesuvio", "chilitolindo", "vok", "steps", "combo", "zexorz", "spyvsspyfan123", "thewalrus", "asbest", "kins", "coolman",
+                "afina", "atr0x", "vok90", "daina", "street", "instantly", "whiterqbbit", "dvd", "tadeuszek", "siwy", "pavlepavle", "akt", "hldd3n",
+                "albus", "knighttemplar", "vojske", "kaleu", "artecthefox", "megaadnan", "goosey", "bhaal", "thyx", "nunca", "nous", "kievz", "stjimmy",
+                "boolc", "aladdin", "fusi", "silaneo", "kingkong", "stoner", "senator", "alwer939")
+        val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
+        `when`(tournamentService.getCurrentTournament())
+                .thenReturn(tournament)
+        `when`(gameRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament))
+                .thenReturn(usernames.subList(0, 30))
+        `when`(gameRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament))
+                .thenReturn(usernames.subList(30, usernames.size))
         testset.forEach { set ->
             assertThat(cut.findMatchingGame(set.second.first, set.second.second, set.second.third))
                     .satisfies {

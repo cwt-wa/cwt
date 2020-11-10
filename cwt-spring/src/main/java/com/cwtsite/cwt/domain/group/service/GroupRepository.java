@@ -21,5 +21,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @Query("select s.user from Group g join g.standings s where g.tournament = :tournament")
     List<User> findAllGroupMembers(@Param("tournament") Tournament tournament);
 
+    @Query("select distinct lower(s.user.username) from Group g join g.standings s where g.tournament = :tournament")
+    List<String> findDistinctUsernamesToLowercase(@Param("tournament") Tournament tournament);
+
     int countByTournament(Tournament tournament);
 }
