@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.domain.game.service
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.core.news.PublishNews
 import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.bet.service.BetRepository
 import com.cwtsite.cwt.domain.configuration.entity.Configuration
@@ -12,6 +13,7 @@ import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
+import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
@@ -72,6 +74,7 @@ constructor(private val gameRepository: GameRepository,
 
     @Transactional
     @Throws(InvalidOpponentException::class, InvalidScoreException::class, IllegalTournamentStatusException::class)
+    @PublishNews
     fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int, persist: Boolean = true): Game {
         val currentTournament = tournamentService.getCurrentTournament()
                 ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
@@ -172,6 +175,7 @@ constructor(private val gameRepository: GameRepository,
 
     @Transactional
     @Throws(PlayoffService.PlayoffGameNotVoidableException::class, IllegalStateException::class)
+    @PublishNews
     fun voidGame(game: Game): Game {
         val currentTournament = tournamentService.getCurrentTournament()
 
@@ -191,6 +195,7 @@ constructor(private val gameRepository: GameRepository,
         return gameRepository.findById(id)
     }
 
+    @PublishNews
     fun rateGame(gameId: Long, userId: Long, type: RatingType): Rating {
         val user = userRepository.findById(userId)
                 .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
@@ -199,6 +204,7 @@ constructor(private val gameRepository: GameRepository,
         return ratingRepository.save(Rating(type, user, game))
     }
 
+    @PublishNews
     fun commentGame(gameId: Long, userId: Long, body: String): Comment {
         val user = userRepository.findById(userId)
                 .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }

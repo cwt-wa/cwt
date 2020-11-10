@@ -5,6 +5,7 @@ import com.cwtsite.cwt.core.ClockInstance
 import com.cwtsite.cwt.core.event.SseEmitterFactory
 import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
+import com.cwtsite.cwt.core.news.PublishNews
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
@@ -142,13 +143,6 @@ constructor(private val gameService: GameService, private val userService: UserS
                 reportDto.user!!, reportDto.opponent!!,
                 reportDto.scoreOfUser!!.toInt(), reportDto.scoreOfOpponent!!.toInt())
 
-        GlobalScope.launch {
-            messageService.publishNews(
-                    MessageNewsType.REPORT, authUser, reportedGame.id,
-                    reportedGame.homeUser!!.username, reportedGame.awayUser!!.username,
-                    reportedGame.scoreHome, reportedGame.scoreAway)
-        }
-
         return ResponseEntity.ok(GameCreationDto.toDto(reportedGame))
     }
 
@@ -216,13 +210,6 @@ constructor(private val gameService: GameService, private val userService: UserS
         }
         val persistedRating = gameService.rateGame(id, rating.user, rating.type)
 
-        GlobalScope.launch {
-            messageService.publishNews(
-                    MessageNewsType.RATING, authUser, persistedRating.game.id,
-                    persistedRating.game.homeUser!!.username, persistedRating.game.awayUser!!.username,
-                    persistedRating.game.scoreHome, persistedRating.game.scoreAway, rating.type.name.toLowerCase())
-        }
-
         return persistedRating
     }
 
@@ -235,13 +222,6 @@ constructor(private val gameService: GameService, private val userService: UserS
         }
 
         val persistedComment = gameService.commentGame(id, comment.user, comment.body)
-
-        GlobalScope.launch {
-            messageService.publishNews(
-                    MessageNewsType.COMMENT, authUser, persistedComment.game!!.id!!,
-                    persistedComment.game!!.homeUser!!.username, persistedComment.game!!.awayUser!!.username,
-                    persistedComment.game!!.scoreHome, persistedComment.game!!.scoreAway)
-        }
 
         return persistedComment
     }
@@ -295,12 +275,6 @@ constructor(private val gameService: GameService, private val userService: UserS
         } catch (e: IllegalStateException) {
             throw RestException(e.message ?: "Could not void game.", HttpStatus.BAD_REQUEST, e)
         }
-
-        messageService.publishNews(
-                MessageNewsType.VOIDED,
-                authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!,
-                voidedGame.id, voidedGame.homeUser!!.username, voidedGame.awayUser!!.username,
-                voidedGame.scoreHome, voidedGame.scoreAway)
 
         return ResponseEntity.ok(voidedGame)
     }
