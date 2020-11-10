@@ -34,12 +34,15 @@ class StreamService {
                 "group", "stage", "playoff", "playoffs", "vs", "round", "of", "-", "part", "round")
                 .filter { !usernames.contains(it) }
         val split = title.toLowerCase().split(Pattern.compile("\\W"))
+                .asSequence()
                 .filter { !blacklist.contains(it) }
                 .filter { it.length >= 3 }
                 .filter { !Regex("\\d{4}").matches(it) }
                 .filter { it.contains(Regex("\\w")) }
                 .map { it.trim() }
+                .toList()
         val res = split
+                .asSequence()
                 .map { word ->
                     usernames
                             .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }
@@ -49,6 +52,7 @@ class StreamService {
                 .sortedByDescending { it.second }
                 .take(2)
                 .map { it.first }
+                .toList()
         return if (res.size == 2) Pair(res[0], res[1]) else Pair(null, null)
     }
 
