@@ -13,6 +13,8 @@ interface UserRepository : JpaRepository<User, Long> {
 
     fun findByUsername(username: String): User?
 
+    fun findByUsernameIgnoreCase(username: String): User?
+
     fun findAllByUsernameIgnoreCase(username: String): List<User>
 
     fun findAllByEmailIgnoreCase(email: String): List<User>

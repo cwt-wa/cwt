@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.stream.service
 
+import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.stream.entity.Channel
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.math.min
 
 @Service
 class StreamService {
@@ -40,18 +40,18 @@ class StreamService {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun findMatchingGame(title: String, created: String, duration: String): Pair<String?, String?> {
+    fun findMatchingGame(title: String, created: String, duration: String): Game? {
         val tournament = tournamentService.getCurrentTournament()
         val usernames = if (tournament == null) {
             userRepository.findAllUsernamesToLowerCase().toSet()
         } else {
-           when (tournament.status) {
-               TournamentStatus.GROUP -> groupRepository.findDistinctUsernamesToLowercase(tournament)
-               TournamentStatus.PLAYOFFS -> setOf(
-                       *gameRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
-                       *gameRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray())
-               else -> userRepository.findAllUsernamesToLowerCase().toSet()
-           }
+            when (tournament.status) {
+                TournamentStatus.GROUP -> groupRepository.findDistinctUsernamesToLowercase(tournament)
+                TournamentStatus.PLAYOFFS -> setOf(
+                        *gameRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
+                        *gameRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray())
+                else -> userRepository.findAllUsernamesToLowerCase().toSet()
+            }
         }
         val blacklist = setOf(
                 "cwt", "final", "finale", "quarter", "semi", "quarterfinal", "semifinal", "last",
@@ -77,7 +77,22 @@ class StreamService {
                 .take(2)
                 .map { it.first }
                 .toList()
-        return if (res.size == 2) Pair(res[0], res[1]) else Pair(null, null)
+        if (res.size != 2) return null
+        val user1 = userRepository.findByUsernameIgnoreCase(res[0])
+        val user2 = userRepository.findByUsernameIgnoreCase(res[1])
+        val potentialGames = when (tournament) {
+            null -> gameRepository.findGame(user1!!, user2!!)
+            else -> gameRepository.findGame(user1!!, user2!!, tournament)
+        }
+        return potentialGames
+                .filter {
+                    when (tournament?.status) {
+                        TournamentStatus.GROUP -> it.playoff == null
+                        TournamentStatus.PLAYOFFS -> it.playoff != null
+                        else -> true
+                    }
+                }
+                .maxBy { it.created!! }
     }
 
     fun findAll(): List<Stream> = streamRepository.findAll()

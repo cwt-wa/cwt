@@ -66,6 +66,22 @@ interface GameRepository : JpaRepository<Game, Long> {
     @Query("select g from Game g where g.homeUser = :user or g.awayUser = :user")
     fun findGameOfUser(page: Pageable, @Param("user") user: User): Page<Game>
 
+    @Query("""
+        select g from Game g
+        where ((g.homeUser = :user1 and g.awayUser = :user2) or (g.homeUser = :user2 and g.awayUser = :user1))
+        order by g.created desc
+    """)
+    fun findGame(@Param("user1") user1: User, @Param("user2") user2: User): List<Game>
+
+    @Query("""
+        select g from Game g
+        where g.tournament = :tournament and
+         ((g.homeUser = :user1 and g.awayUser = :user2) or (g.homeUser = :user2 and g.awayUser = :user1))
+        order by g.created desc
+    """)
+    fun findGame(@Param("user1") user1: User, @Param("user2") user2: User,
+                 @Param("tournament") tournament: Tournament): List<Game>
+
     fun findByTournament(tournament: Tournament): List<Game>
 
     @Query("""

@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.stream.service
 
+import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -7,6 +8,7 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.test.EntityDefaults
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
@@ -150,11 +152,27 @@ class StreamServiceTest {
         `when`(gameRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament))
                 .thenReturn(usernames.subList(30, usernames.size))
         testset.forEach { set ->
+            if (set.first.first == null || set.first.second == null) {
+                assertThat(cut.findMatchingGame(set.second.first, set.second.second, set.second.third))
+                        .isNull()
+                return@forEach
+            }
+            val user1 = EntityDefaults.user(username = set.first.first!!)
+            val user2 = EntityDefaults.user(username = set.first.second!!)
+            `when`(userRepository.findByUsernameIgnoreCase(anyString())).thenReturn(user1).thenReturn(user2)
+            val game = EntityDefaults.game(homeUser = user1, awayUser = user2, playoff = PlayoffGame(1, 1, 1))
+            `when`(gameRepository.findGame(user1, user2, tournament)).thenReturn(listOf(game))
             assertThat(cut.findMatchingGame(set.second.first, set.second.second, set.second.third))
-                    .satisfies {
-                        if (set.first.first == null || set.first.second == null) return@satisfies
-                        assertThat(listOf(it.first, it.second))
-                                .containsExactlyInAnyOrder(set.first.first!!.toLowerCase(), set.first.second!!.toLowerCase())
+                    .satisfies { matchingGame ->
+                        println("$set")
+                        assertThat(matchingGame).isNotNull()
+                        assertThat(matchingGame).satisfiesAnyOf({
+                            assertThat(it!!.homeUser).isEqualTo(user1)
+                            assertThat(it.awayUser).isEqualTo(user2)
+                        }, {
+                            assertThat(it!!.homeUser).isEqualTo(user2)
+                            assertThat(it.awayUser).isEqualTo(user1)
+                        })
                     }
         }
     }
