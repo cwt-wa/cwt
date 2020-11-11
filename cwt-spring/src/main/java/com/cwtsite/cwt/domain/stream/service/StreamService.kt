@@ -43,7 +43,6 @@ class StreamService {
     private val matchThreshold = 75
     private val streamGameTolerance = Duration.ofHours(5)
 
-    // todo then publish news maybe?
     // todo update stream overview and detail page with associated game
     // todo update game detail page to show the associated game
     // todo onboarding on user detail page
