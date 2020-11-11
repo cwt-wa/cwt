@@ -45,6 +45,7 @@ class StreamService {
     // todo onboarding on user detail page
     fun findMatchingGame(stream: Stream): Game? {
         val tournament = tournamentService.getCurrentTournament()
+        // todo maybe only include usernames of games which have not yet been associated to a game
         val usernames = if (tournament == null) {
             userRepository.findAllUsernamesToLowerCase().toSet()
         } else {
