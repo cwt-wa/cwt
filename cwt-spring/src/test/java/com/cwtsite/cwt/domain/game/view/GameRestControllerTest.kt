@@ -13,6 +13,7 @@ import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
@@ -48,6 +49,7 @@ class GameRestControllerTest {
     @Mock private lateinit var tournamentService: TournamentService
     @Mock private lateinit var authService: AuthService
     @Mock private lateinit var userService: UserService
+    @Mock private lateinit var streamService: StreamService
 
     @Test
     fun `queryGamesPaged without users`() {
