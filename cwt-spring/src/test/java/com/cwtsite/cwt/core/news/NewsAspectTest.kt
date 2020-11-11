@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Comment
@@ -88,6 +89,18 @@ class NewsAspectTest {
         verify(messageService).publishNews(
                 MessageNewsType.RATING, author, game.id!!, author.username,
                 awayUser.username, game.scoreHome, game.scoreAway, rating.type.name.toLowerCase())
+    }
+
+    @Test
+    fun streamGame() {
+        val game = EntityDefaults.game()
+        val stream = EntityDefaults.stream()
+        val target = mock(StreamService::class.java)
+        `when`(target.associateGame(stream, game)).thenReturn(stream.copy(game = game))
+        val proxy = createProxy<StreamService>(target, author)
+        proxy.associateGame(stream, game)
+        verify(messageService).publishNews(
+        MessageNewsType.STREAM, stream.channel.user, stream.id, stream.title)
     }
 
     private fun <T> createProxy(target: T, author: User): T {

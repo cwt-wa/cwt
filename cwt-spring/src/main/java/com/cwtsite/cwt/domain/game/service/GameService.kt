@@ -147,9 +147,8 @@ constructor(private val gameRepository: GameRepository,
             scheduleService.delete(
                     scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!)
                             ?: return@launch)
-            streamService.saveStreams(
-                    streamService.findMatchingStreams(reportedGame)
-                            .onEach { stream -> stream.game = reportedGame})
+            streamService.findMatchingStreams(reportedGame)
+                    .forEach { stream -> streamService.associateGame(stream, reportedGame) }
         }
         reportedGame.reportedAt = Timestamp(System.currentTimeMillis())
         return reportedGame

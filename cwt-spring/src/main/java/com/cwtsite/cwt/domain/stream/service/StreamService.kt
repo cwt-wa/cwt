@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.stream.service
 
+import com.cwtsite.cwt.core.news.PublishNews
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.group.service.GroupRepository
@@ -95,11 +96,10 @@ class StreamService {
     }
 
     @Transactional
-    fun saveStreams(streams: Collection<Stream>): List<Stream> {
-        streams
-                .filter { it.game != null }
-                .onEach { findMatchingGame(it)?.let { game -> it.game = game } }
-        return streamRepository.saveAll(streams)
+    @PublishNews
+    fun associateGame(stream: Stream, game: Game): Stream {
+        stream.game = game
+        return stream
     }
 
     fun findMatchingStreams(game: Game): Set<Stream> {
@@ -128,6 +128,8 @@ class StreamService {
                 .map { it.first }
                 .toSet()
     }
+
+    fun saveStreams(streams: Collection<Stream>): List<Stream> = streamRepository.saveAll(streams)
 
     fun findAll(): List<Stream> = streamRepository.findAll()
 

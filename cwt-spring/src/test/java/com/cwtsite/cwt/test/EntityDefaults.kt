@@ -55,6 +55,8 @@ object EntityDefaults {
             user = user
     )
 
-    fun stream(title: String = "epic stream", id: String = "1", viewCount: Long = 2, channel: Channel = channel()) =
-            Stream(title = title, id = id, viewCount = viewCount, channel = channel, createdAt = "2014-10-18T22:28:17Z")
+    fun stream(title: String = "epic stream", id: String = "1", viewCount: Long = 2,
+               game: Game? = null, channel: Channel = channel()) =
+            Stream(title = title, id = id, viewCount = viewCount, channel = channel,
+                    game = game, createdAt = "2014-10-18T22:28:17Z")
 }

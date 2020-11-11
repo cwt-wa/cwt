@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
+import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.entity.Comment
 import com.cwtsite.cwt.security.SecurityContextHolderFacade
@@ -54,6 +55,11 @@ class NewsAspect(private val messageService: MessageService,
                         MessageNewsType.COMMENT, author, subject.game!!.id!!,
                         subject.game!!.homeUser!!.username, subject.game!!.awayUser!!.username,
                         subject.game!!.scoreHome, subject.game!!.scoreAway)
+            }
+            is Stream -> {
+                messageService.publishNews(
+                        MessageNewsType.STREAM, subject.channel.user,
+                        subject.id, subject.title)
             }
             else -> {
                 logger.warn("Not publishing news as there's no handler for ${subject::class}")
