@@ -56,8 +56,7 @@
                 <ng-container *ngIf="message.newsType === 'STREAM'">
                     <a target="_blank" class="font-weight-bold"
                        [href]="'https://www.twitch.tv/videos/' + messageData[0]">
-                        “{{messageData.splice(1).join("")}}”
-                        <i class="fa fa-twitch text-success"></i>
+                       “<span *ngFor="let d of messageData; let firstd = first">{{firstd ? '' : d}}</span>”&nbsp;<i class="fa fa-twitch text-success"></i>
                     </a>
                 </ng-container>
             </ng-container>
