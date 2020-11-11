@@ -4,14 +4,13 @@ import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
-import com.cwtsite.cwt.twitch.TwitchService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-import java.time.Duration
-import java.time.LocalDateTime
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
@@ -19,31 +18,10 @@ import java.time.LocalDateTime
 class StreamRestController {
 
     @Autowired private lateinit var streamService: StreamService
-    @Autowired private lateinit var twitchService: TwitchService
-
-    @Value("\${twitch.request-interval}") private val requestInterval: Int? = null
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun queryAll(@RequestParam("new", defaultValue = "false") new: Boolean): ResponseEntity<List<StreamDto>> {
-        if (!new || (twitchService.lastVideosRequest != null
-                && Duration.between(twitchService.lastVideosRequest, LocalDateTime.now()).seconds < requestInterval!!)) {
-            return ResponseEntity.ok(streamService.findAll().map { StreamDto.toDto(it) })
-        }
-        val allChannelsById = streamService.findAllChannels().associateBy { it.id }
-        val newVideos = twitchService.requestVideos(allChannelsById.values.toList())
-                .filter { it.hasCwtInTitle() }
-                .map { StreamDto.toDto(it, allChannelsById[it.userId] ?: error("No channel with id ${it.userId}")) }
-        val streams = newVideos.map { StreamDto.fromDto(it, allChannelsById[it.userId]!!) }
-        if (streams.isNotEmpty()) {
-            streamService.saveStreams(streams)
-            streams.forEach { stream ->
-                streamService.findMatchingGame(stream)?.let { game ->
-                    streamService.associateGame(stream, game)
-                }
-            }
-        }
-        return ResponseEntity.ok(newVideos)
-    }
+    fun queryAll(): ResponseEntity<List<StreamDto>> =
+            ResponseEntity.ok(streamService.findAll().map { StreamDto.toDto(it) })
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getOne(@PathVariable("id") id: String): ResponseEntity<Stream> {

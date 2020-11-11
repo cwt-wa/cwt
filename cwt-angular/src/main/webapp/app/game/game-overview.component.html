@@ -1,7 +1,22 @@
 <h1 class="float-left">Games</h1>
 
 <div class="float-right text-nowrap" *ngIf="pageOfGames?.totalElements > 0">
-    <cwt-sorter [pageOfModels]="pageOfGames" (load)="load()" [disabled]="loading"></cwt-sorter>
+    <div class="d-flex">
+        <div class="btn-group-toggle mr-1" data-toggle="buttons">
+            <label class="btn" [ngClass]="twitchActive ? 'btn-success' : 'btn-primary'">
+                <input type="checkbox" [(ngModel)]="twitchActive" name="twitchActive"
+                       (change)="loadTwitchies()" autocomplete="off">
+                <i class="fa fa-lg fa-twitch text-secondary"
+                   [ngClass]="twitchActive ? 'text-real-white' : 'text-white'"></i>
+            </label>
+        </div>
+        <div [class.twitch-active]="twitchActive" [class.cursor-disabled]="twitchActive">
+            <cwt-sorter [pageOfModels]="pageOfGames"
+                        (load)="load()"
+                        [disabled]="loading || twitchActive">
+            </cwt-sorter>
+        </div>
+    </div>
 </div>
 
 <div class="clearfix"></div>

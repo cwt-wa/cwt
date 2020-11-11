@@ -599,6 +599,10 @@ select.custom-select-sm {
   cursor: default;
 }
 
+.cursor-disabled {
+  cursor: not-allowed;
+}
+
 @mixin aspect-ratio($width, $height) {
   position: relative;
 
