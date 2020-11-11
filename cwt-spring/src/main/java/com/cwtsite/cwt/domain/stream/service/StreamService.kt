@@ -76,7 +76,7 @@ class StreamService {
             else -> gameRepository.findGame(user1!!, user2!!, tournament)
         }
                 .filter {
-                    when (tournament?.status) {
+                    it.stream == null && when (tournament?.status) {
                         TournamentStatus.GROUP -> it.playoff == null
                         TournamentStatus.PLAYOFFS -> it.playoff != null
                         else -> true
