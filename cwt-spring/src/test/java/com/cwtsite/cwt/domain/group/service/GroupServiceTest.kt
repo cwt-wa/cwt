@@ -464,11 +464,7 @@ class GroupServiceTest {
         val standings = mutableListOf(
                 firstUserStandings, secondUserStandings, thirdUserStandings, fourthUserStandings)
 
-        println(standings.joinToString { "${it.points},${it.gameRatio},${it.roundRatio}" })
-
         groupService.sortStandings(standings, games)
-
-        println(standings.joinToString { "${it.points},${it.gameRatio},${it.roundRatio}" })
 
         Assertions
                 .assertThat(standings.map { it.user.id })
