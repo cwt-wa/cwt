@@ -1,5 +1,9 @@
 package com.cwtsite.cwt.domain.stream.entity
 
+import com.cwtsite.cwt.domain.game.entity.Game
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Pattern
 import javax.persistence.*
 
@@ -51,7 +55,10 @@ data class Stream(
         var type: String? = null,
 
         @Column(name = "duration")
-        var duration: String? = null
+        var duration: String? = null,
+
+        @ManyToOne(cascade = [CascadeType.ALL])
+        var game: Game? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -66,6 +73,12 @@ data class Stream(
 
     override fun hashCode(): Int {
         return id.hashCode()
+    }
+
+    fun createdAtAsTimestamp(): Timestamp {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        format.timeZone = TimeZone.getTimeZone("UTC")
+        return Timestamp(format.parse(createdAt).time)
     }
 
     fun relevantWordsInTitle(usernames: Collection<String>): Set<String> {

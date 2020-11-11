@@ -90,10 +90,7 @@ data class Game(
         @Formula("(select count(*) from RATING r where r.GAME_ID = id)")
         val ratingsSize: Int? = null,
 
-        var voided: Boolean = false,
-
-        @OneToOne
-        var stream: Stream? = null
+        var voided: Boolean = false
 ) {
 
     fun pairingInvolves(user: User?) = (user != null) && (homeUser == user || awayUser == user)

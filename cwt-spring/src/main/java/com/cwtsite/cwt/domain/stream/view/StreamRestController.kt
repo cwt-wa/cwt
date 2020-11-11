@@ -25,16 +25,16 @@ class StreamRestController {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryAll(@RequestParam("new", defaultValue = "false") new: Boolean): ResponseEntity<List<StreamDto>> {
-        if (!new || (twitchService.lastVideosRequest != null && Duration.between(twitchService.lastVideosRequest, LocalDateTime.now()).seconds < requestInterval!!)) {
+        if (!new || (twitchService.lastVideosRequest != null
+                && Duration.between(twitchService.lastVideosRequest, LocalDateTime.now()).seconds < requestInterval!!)) {
             return ResponseEntity.ok(streamService.findAll().map { StreamDto.toDto(it) })
         }
-
         val allChannelsById = streamService.findAllChannels().associateBy { it.id }
         val newVideos = twitchService.requestVideos(allChannelsById.values.toList())
                 .filter { it.hasCwtInTitle() }
                 .map { StreamDto.toDto(it, allChannelsById[it.userId] ?: error("No channel with id ${it.userId}")) }
-        streamService.saveStreams(newVideos.map { StreamDto.fromDto(it, allChannelsById[it.userId]!!) })
-
+        val streams = newVideos.map { StreamDto.fromDto(it, allChannelsById[it.userId]!!) }
+        if (streams.isNotEmpty()) streamService.saveStreams(streams)
         return ResponseEntity.ok(newVideos)
     }
 

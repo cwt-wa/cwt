@@ -13,7 +13,9 @@ import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Duration
 import java.util.*
+import kotlin.math.abs
 
 @Service
 class StreamService {
@@ -36,6 +38,9 @@ class StreamService {
 
     @Autowired
     private lateinit var tournamentService: TournamentService
+
+    private val matchThreshold = 75
+    private val streamGameTolerance = Duration.ofHours(5)
 
     // todo call this when reporting and when stream is found
     //  whatever finds the match first
@@ -64,7 +69,7 @@ class StreamService {
                             .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }
                             .maxBy { it.second }!!
                 }
-                .filter { it.second >= 70 }
+                .filter { it.second >= matchThreshold }
                 .sortedByDescending { it.second }
                 .take(2)
                 .map { it.first }
@@ -77,7 +82,7 @@ class StreamService {
             else -> gameRepository.findGame(user1!!, user2!!, tournament)
         }
                 .filter {
-                    it.stream == null && when (tournament?.status) {
+                    when (tournament?.status) {
                         TournamentStatus.GROUP -> it.playoff == null
                         TournamentStatus.PLAYOFFS -> it.playoff != null
                         else -> true
@@ -86,13 +91,44 @@ class StreamService {
                 .maxBy { it.created!! }
     }
 
+    @Transactional
+    fun saveStreams(streams: Collection<Stream>): List<Stream> {
+        streams
+                .filter { it.game != null }
+                .onEach { findMatchingGame(it)?.let { game -> it.game = game } }
+        return streamRepository.saveAll(streams)
+    }
+
+    fun findMatchingStreams(game: Game): Set<Stream> {
+        val streams = streamRepository.findWithoutGame()
+                .filter {
+                    (abs(it.createdAtAsTimestamp().time - game.reportedAt!!.time)
+                        < streamGameTolerance.toMillis())
+                }
+        if (streams.isEmpty()) return emptySet()
+        val usernames = userRepository.findAllUsernamesToLowerCase().toSet()
+        return streams
+                .map { stream ->
+                    val relevantWordsInTitle = stream.relevantWordsInTitle(usernames)
+                    val bestHomeUserMatch = relevantWordsInTitle
+                            .map { word -> FuzzySearch.ratio(word, game.homeUser!!.username.toLowerCase()) }
+                            .max()!!
+                    val bestAwayUserMatch = relevantWordsInTitle
+                            .map { word -> FuzzySearch.ratio(word, game.awayUser!!.username.toLowerCase()) }
+                            .max()!!
+
+                    Triple(stream, bestHomeUserMatch, bestAwayUserMatch)
+                }
+                .filter { it.second >= matchThreshold && it.third >= matchThreshold }
+                .map { it.first }
+                .toSet()
+    }
+
     fun findAll(): List<Stream> = streamRepository.findAll()
 
     fun findChannel(channelId: String): Optional<Channel> = channelRepository.findById(channelId)
 
     fun findAllChannels(): List<Channel> = channelRepository.findAll()
-
-    fun saveStreams(streams: List<Stream>): List<Stream> = streamRepository.saveAll(streams)
 
     fun findOne(id: String): Optional<Stream> = streamRepository.findById(id)
 

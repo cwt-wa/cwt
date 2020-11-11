@@ -13,10 +13,10 @@ import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
-import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusException
@@ -58,7 +58,8 @@ constructor(private val gameRepository: GameRepository,
             private val betRepository: BetRepository,
             private val scheduleService: ScheduleService,
             private val treeService: TreeService,
-            private val gameStatsRepository: GameStatsRepository) {
+            private val gameStatsRepository: GameStatsRepository,
+            private val streamService: StreamService) {
 
     fun createReplayFileName(game: Game): String {
         return String.format(
@@ -144,7 +145,11 @@ constructor(private val gameRepository: GameRepository,
 
         GlobalScope.launch {
             scheduleService.delete(
-                    scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!) ?: return@launch)
+                    scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!)
+                            ?: return@launch)
+            streamService.saveStreams(
+                    streamService.findMatchingStreams(reportedGame)
+                            .onEach { stream -> stream.game = reportedGame})
         }
         reportedGame.reportedAt = Timestamp(System.currentTimeMillis())
         return reportedGame
