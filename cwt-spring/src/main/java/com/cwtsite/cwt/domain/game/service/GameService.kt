@@ -119,6 +119,7 @@ constructor(private val gameRepository: GameRepository,
             reportedGame = if (persist) gameRepository.save(game) else game
         } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             val playoffGameToBeReported = gameRepository.findNextPlayoffGameForUser(currentTournament, homeUser)
+                    ?: throw IllegalStateException("There's no playoff game to be reported for $homeUser")
 
             if (!listOf(playoffGameToBeReported.homeUser, playoffGameToBeReported.awayUser)
                             .containsAll(listOf(homeUser, awayUser))) {

@@ -23,7 +23,7 @@ interface GameRepository : JpaRepository<Game, Long> {
             "and g.awayUser is not null) and g.reporter is null and g.tournament = :tournament and g.group is null")
     fun findNextPlayoffGameForUser(
             @Param("tournament") tournament: Tournament,
-            @Param("user") user: User): Game
+            @Param("user") user: User): Game?
 
     @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and (g.homeUser is not null " +
             "and g.awayUser is not null) and g.reporter is not null and g.group = :group and g.voided = false")
