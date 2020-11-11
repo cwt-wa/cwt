@@ -40,6 +40,12 @@ class StreamService {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    // todo call this when reporting and when stream is found
+    //  whatever finds the match first
+    // todo then publish news maybe?
+    // todo update stream overview and detail page with associated game
+    // todo update game detail page to show the associated game
+    // todo onboarding on user detail page
     fun findMatchingGame(title: String, created: String, duration: String): Game? {
         val tournament = tournamentService.getCurrentTournament()
         val usernames = if (tournament == null) {
