@@ -36,8 +36,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.transaction.support.TransactionSynchronizationAdapter
-import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -144,17 +142,10 @@ constructor(private val gameRepository: GameRepository,
             throw IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS)
         }
 
-        if (TransactionSynchronizationManager.isSynchronizationActive()) {
-            TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronizationAdapter() {
-                override fun afterCommit() {
-                    GlobalScope.launch {
-                        scheduleService.delete(
-                                scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!) ?: return@launch)
-                    }
-                }
-            })
+        GlobalScope.launch {
+            scheduleService.delete(
+                    scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!) ?: return@launch)
         }
-
         reportedGame.reportedAt = Timestamp(System.currentTimeMillis())
         return reportedGame
     }
