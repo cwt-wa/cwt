@@ -10,9 +10,9 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import me.xdrop.fuzzywuzzy.FuzzySearch
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import java.util.regex.Pattern
 
@@ -38,15 +38,13 @@ class StreamService {
     @Autowired
     private lateinit var tournamentService: TournamentService
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
     // todo call this when reporting and when stream is found
     //  whatever finds the match first
     // todo then publish news maybe?
     // todo update stream overview and detail page with associated game
     // todo update game detail page to show the associated game
     // todo onboarding on user detail page
-    fun findMatchingGame(title: String, created: String, duration: String): Game? {
+    fun findMatchingGame(title: String): Game? {
         val tournament = tournamentService.getCurrentTournament()
         val usernames = if (tournament == null) {
             userRepository.findAllUsernamesToLowerCase().toSet()
@@ -63,16 +61,13 @@ class StreamService {
                 "cwt", "final", "finale", "quarter", "semi", "quarterfinal", "semifinal", "last",
                 "group", "stage", "playoff", "playoffs", "vs", "round", "of", "-", "part", "round")
                 .filter { !usernames.contains(it) }
-        val split = title.toLowerCase().split(Pattern.compile("\\W"))
+        val res = title.toLowerCase().split(Pattern.compile("\\W"))
                 .asSequence()
                 .filter { !blacklist.contains(it) }
                 .filter { it.length >= 3 }
                 .filter { !Regex("\\d{4}").matches(it) }
                 .filter { it.contains(Regex("\\w")) }
                 .map { it.trim() }
-                .toList()
-        val res = split
-                .asSequence()
                 .map { word ->
                     usernames
                             .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }
@@ -86,11 +81,10 @@ class StreamService {
         if (res.size != 2) return null
         val user1 = userRepository.findByUsernameIgnoreCase(res[0])
         val user2 = userRepository.findByUsernameIgnoreCase(res[1])
-        val potentialGames = when (tournament) {
+        return when (tournament) {
             null -> gameRepository.findGame(user1!!, user2!!)
             else -> gameRepository.findGame(user1!!, user2!!, tournament)
         }
-        return potentialGames
                 .filter {
                     when (tournament?.status) {
                         TournamentStatus.GROUP -> it.playoff == null

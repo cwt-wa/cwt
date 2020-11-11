@@ -153,8 +153,7 @@ class StreamServiceTest {
                 .thenReturn(usernames.subList(30, usernames.size))
         testset.forEach { set ->
             if (set.first.first == null || set.first.second == null) {
-                assertThat(cut.findMatchingGame(set.second.first, set.second.second, set.second.third))
-                        .isNull()
+                assertThat(cut.findMatchingGame(set.second.first)).isNull()
                 return@forEach
             }
             val user1 = EntityDefaults.user(username = set.first.first!!)
@@ -162,7 +161,7 @@ class StreamServiceTest {
             `when`(userRepository.findByUsernameIgnoreCase(anyString())).thenReturn(user1).thenReturn(user2)
             val game = EntityDefaults.game(homeUser = user1, awayUser = user2, playoff = PlayoffGame(1, 1, 1))
             `when`(gameRepository.findGame(user1, user2, tournament)).thenReturn(listOf(game))
-            assertThat(cut.findMatchingGame(set.second.first, set.second.second, set.second.third))
+            assertThat(cut.findMatchingGame(set.second.first))
                     .satisfies { matchingGame ->
                         println("$set")
                         assertThat(matchingGame).isNotNull()
