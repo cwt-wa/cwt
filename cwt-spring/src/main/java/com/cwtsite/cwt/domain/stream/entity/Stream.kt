@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.domain.stream.entity
 
+import java.util.regex.Pattern
 import javax.persistence.*
 
 @Entity
@@ -65,5 +66,22 @@ data class Stream(
 
     override fun hashCode(): Int {
         return id.hashCode()
+    }
+
+    fun relevantWordsInTitle(usernames: Collection<String>): Set<String> {
+        val blacklist = setOf(
+                "cwt", "final", "finale", "quarter", "semi", "quarterfinal", "semifinal", "last",
+                "group", "stage", "playoff", "playoffs", "vs", "round", "of", "-", "part", "round")
+                .filter { !usernames.contains(it) }
+        if (title == null) return emptySet()
+        return title!!.toLowerCase()
+                .split(Pattern.compile("\\W"))
+                .asSequence()
+                .filter { !blacklist.contains(it) }
+                .filter { it.length >= 3 }
+                .filter { !Regex("\\d{4}").matches(it) }
+                .filter { it.contains(Regex("\\w")) }
+                .map { it.trim() }
+                .toSet()
     }
 }

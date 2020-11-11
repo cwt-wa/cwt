@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
-import java.util.regex.Pattern
 
 @Service
 class StreamService {
@@ -44,7 +43,7 @@ class StreamService {
     // todo update stream overview and detail page with associated game
     // todo update game detail page to show the associated game
     // todo onboarding on user detail page
-    fun findMatchingGame(title: String): Game? {
+    fun findMatchingGame(stream: Stream): Game? {
         val tournament = tournamentService.getCurrentTournament()
         val usernames = if (tournament == null) {
             userRepository.findAllUsernamesToLowerCase().toSet()
@@ -57,17 +56,8 @@ class StreamService {
                 else -> userRepository.findAllUsernamesToLowerCase().toSet()
             }
         }
-        val blacklist = setOf(
-                "cwt", "final", "finale", "quarter", "semi", "quarterfinal", "semifinal", "last",
-                "group", "stage", "playoff", "playoffs", "vs", "round", "of", "-", "part", "round")
-                .filter { !usernames.contains(it) }
-        val res = title.toLowerCase().split(Pattern.compile("\\W"))
+        val res = stream.relevantWordsInTitle(usernames)
                 .asSequence()
-                .filter { !blacklist.contains(it) }
-                .filter { it.length >= 3 }
-                .filter { !Regex("\\d{4}").matches(it) }
-                .filter { it.contains(Regex("\\w")) }
-                .map { it.trim() }
                 .map { word ->
                     usernames
                             .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }

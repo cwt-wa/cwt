@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.stream.service
 
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameRepository
+import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
@@ -144,6 +145,7 @@ class StreamServiceTest {
                 "afina", "atr0x", "vok90", "daina", "street", "instantly", "whiterqbbit", "dvd", "tadeuszek", "siwy", "pavlepavle", "akt", "hldd3n",
                 "albus", "knighttemplar", "vojske", "kaleu", "artecthefox", "megaadnan", "goosey", "bhaal", "thyx", "nunca", "nous", "kievz", "stjimmy",
                 "boolc", "aladdin", "fusi", "silaneo", "kingkong", "stoner", "senator", "alwer939")
+        val toStream = { title: String -> Stream(title = title, id = 1, viewCount = 2, channel = EntityDefaults.channel()) }
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
         `when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
@@ -153,7 +155,7 @@ class StreamServiceTest {
                 .thenReturn(usernames.subList(30, usernames.size))
         testset.forEach { set ->
             if (set.first.first == null || set.first.second == null) {
-                assertThat(cut.findMatchingGame(set.second.first)).isNull()
+                assertThat(cut.findMatchingGame(toStream(set.second.first))).isNull()
                 return@forEach
             }
             val user1 = EntityDefaults.user(username = set.first.first!!)
@@ -161,10 +163,9 @@ class StreamServiceTest {
             `when`(userRepository.findByUsernameIgnoreCase(anyString())).thenReturn(user1).thenReturn(user2)
             val game = EntityDefaults.game(homeUser = user1, awayUser = user2, playoff = PlayoffGame(1, 1, 1))
             `when`(gameRepository.findGame(user1, user2, tournament)).thenReturn(listOf(game))
-            assertThat(cut.findMatchingGame(set.second.first))
+            assertThat(cut.findMatchingGame(toStream(set.second.first)))
                     .satisfies { matchingGame ->
-                        println("$set")
-                        assertThat(matchingGame).isNotNull()
+                        assertThat(matchingGame).isNotNull
                         assertThat(matchingGame).satisfiesAnyOf({
                             assertThat(it!!.homeUser).isEqualTo(user1)
                             assertThat(it.awayUser).isEqualTo(user2)
