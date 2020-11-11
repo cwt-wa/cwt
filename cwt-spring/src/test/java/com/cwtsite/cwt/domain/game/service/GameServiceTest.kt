@@ -15,6 +15,7 @@ import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -87,6 +88,9 @@ class GameServiceTest {
 
     @Mock
     private lateinit var gameStatsRepository: GameStatsRepository
+
+    @Mock
+    private lateinit var streamService: StreamService
 
     @Test
     fun reportGameForGroupStage() {

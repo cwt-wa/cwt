@@ -83,16 +83,4 @@ interface GameRepository : JpaRepository<Game, Long> {
                  @Param("tournament") tournament: Tournament): List<Game>
 
     fun findByTournament(tournament: Tournament): List<Game>
-
-    @Query("""
-       select distinct lower(g.homeUser.username) from Game g
-       where g.playoff is not null and g.tournament = :tournament
-    """)
-    fun findDistinctHomeUsernamesToLowercaseInPlayoffs(@Param("tournament") tournament: Tournament): List<String>
-
-    @Query("""
-       select distinct lower(g.awayUser.username) from Game g
-       where g.playoff is not null and g.tournament = :tournament
-    """)
-    fun findDistinctAwayUsernamesToLowercaseInPlayoffs(@Param("tournament") tournament: Tournament): List<String>
 }

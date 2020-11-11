@@ -42,24 +42,27 @@ class StreamService {
     private val matchThreshold = 75
     private val streamGameTolerance = Duration.ofHours(5)
 
-    // todo call this when reporting and when stream is found
-    //  whatever finds the match first
     // todo then publish news maybe?
     // todo update stream overview and detail page with associated game
     // todo update game detail page to show the associated game
     // todo onboarding on user detail page
     fun findMatchingGame(stream: Stream): Game? {
         val tournament = tournamentService.getCurrentTournament()
-        // todo maybe only include usernames of games which have not yet been associated to a game
         val usernames = if (tournament == null) {
-            userRepository.findAllUsernamesToLowerCase().toSet()
+            setOf(
+                    *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
+                    *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
         } else {
             when (tournament.status) {
-                TournamentStatus.GROUP -> groupRepository.findDistinctUsernamesToLowercase(tournament)
+                TournamentStatus.GROUP -> setOf(
+                        *streamRepository.findDistinctHomeUsernamesToLowercaseInGroup(tournament).toTypedArray(),
+                        *streamRepository.findDistinctAwayUsernamesToLowercaseInGroup(tournament).toTypedArray())
                 TournamentStatus.PLAYOFFS -> setOf(
-                        *gameRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
-                        *gameRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray())
-                else -> userRepository.findAllUsernamesToLowerCase().toSet()
+                        *streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
+                        *streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray())
+                else -> setOf(
+                        *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
+                        *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
             }
         }
         val res = stream.relevantWordsInTitle(usernames)
@@ -100,13 +103,15 @@ class StreamService {
     }
 
     fun findMatchingStreams(game: Game): Set<Stream> {
-        val streams = streamRepository.findWithoutGame()
+        val streams = streamRepository.findByGameIsNull()
                 .filter {
                     (abs(it.createdAtAsTimestamp().time - game.reportedAt!!.time)
-                        < streamGameTolerance.toMillis())
+                            < streamGameTolerance.toMillis())
                 }
         if (streams.isEmpty()) return emptySet()
-        val usernames = userRepository.findAllUsernamesToLowerCase().toSet()
+        val usernames = setOf(
+                *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
+                *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
         return streams
                 .map { stream ->
                     val relevantWordsInTitle = stream.relevantWordsInTitle(usernames)

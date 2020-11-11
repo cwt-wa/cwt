@@ -52,7 +52,6 @@ class StreamServiceTest {
         testSet = tsv.lines().filter { it.isNotEmpty() }.map { ln ->
             val split = ln.split("\t")
             val usernames = split[0].split(',')
-            println(usernames)
             TestRecord(
                     user1 = usernames[0],
                     user2 = usernames[1],
@@ -71,9 +70,9 @@ class StreamServiceTest {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
         `when`(tournamentService.getCurrentTournament())
                 .thenReturn(tournament)
-        `when`(gameRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament))
+        `when`(streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament))
                 .thenReturn(usernames.subList(0, 30))
-        `when`(gameRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament))
+        `when`(streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament))
                 .thenReturn(usernames.subList(30, usernames.size))
         testSet.forEach { record ->
             if (record.user1 == null || record.user2 == null) {
@@ -102,7 +101,7 @@ class StreamServiceTest {
     @Test
     fun findMatchingStream() {
         val streams = testSet.map { EntityDefaults.stream(title = it.streamTitle, id = "${UUID.randomUUID()}") }
-        `when`(streamRepository.findWithoutGame()).thenReturn(streams)
+        `when`(streamRepository.findByGameIsNull()).thenReturn(streams)
         testSet.forEach { record ->
             if (record.user1 == null || record.user2 == null) {
                 assertThat(cut.findMatchingStreams(EntityDefaults.game(reportedAt = Timestamp(1413672557000))))
