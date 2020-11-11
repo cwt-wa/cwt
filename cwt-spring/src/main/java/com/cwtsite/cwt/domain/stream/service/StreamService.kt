@@ -44,8 +44,6 @@ class StreamService {
     private val streamGameTolerance = Duration.ofHours(5)
 
     // todo update stream overview and detail page with associated game
-    // todo update game detail page to show the associated game
-    // todo onboarding on user detail page
     fun findMatchingGame(stream: Stream): Game? {
         val tournament = tournamentService.getCurrentTournament()
         val usernames = if (tournament == null) {
@@ -145,4 +143,6 @@ class StreamService {
 
     fun saveVideoCursor(channel: Channel, videoCursor: String?): Channel =
             channelRepository.save(with (channel) { this.videoCursor = videoCursor; this})
+
+    fun findStreams(game: Game): List<Stream> = streamRepository.findByGame(game)
 }

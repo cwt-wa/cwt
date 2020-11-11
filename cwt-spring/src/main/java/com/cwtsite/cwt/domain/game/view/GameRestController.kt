@@ -13,6 +13,8 @@ import com.cwtsite.cwt.domain.game.view.model.*
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
+import com.cwtsite.cwt.domain.stream.service.StreamService
+import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
@@ -45,12 +47,13 @@ import kotlin.concurrent.schedule
 @RequestMapping("api/game")
 class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService,
-            private val messageService: MessageService, private val authService: AuthService,
+            private val authService: AuthService,
             private val treeService: TreeService,
             private val clockInstance: ClockInstance,
             private val sseEmitterFactory: SseEmitterFactory,
             private val gameStatsEventListener: GameStatsEventListener,
-            private val tournamentService: TournamentService) {
+            private val tournamentService: TournamentService,
+            private val streamService: StreamService) {
 
     @Value("\${stats-sse-timeout:#{180000}}") // default of 3 minutes
     private var statsSseTimeout: Long? = null
@@ -112,6 +115,13 @@ constructor(private val gameService: GameService, private val userService: UserS
         return gameService.findById(id)
                 .map { ResponseEntity.ok(mapToDtoWithTitle(it)) }
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+    }
+
+    @GetMapping("/{id}/stream")
+    fun getStreamsForGame(@PathVariable("id") id: Long): ResponseEntity<List<StreamDto>> {
+        val game = gameService.findById(id)
+                .orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
+        return ResponseEntity.ok(streamService.findStreams(game).map { StreamDto.toDto(it) })
     }
 
     private fun mapToDtoWithTitle(game: Game): GameDetailDto {
