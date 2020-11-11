@@ -76,10 +76,6 @@ const appRoutes: Routes = [
         loadChildren: () => import('./archive.module').then(m => m.ArchiveModule)
     },
     {
-        path: 'streams',
-        loadChildren: () => import('./streams.module').then(m => m.StreamsModule)
-    },
-    {
         path: 'help',
         loadChildren: () => import('./help.module').then(m => m.HelpModule)
     },
