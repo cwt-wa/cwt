@@ -70,8 +70,9 @@ class StreamService {
                 .map { word ->
                     usernames
                             .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }
-                            .maxBy { it.second }!!
+                            .maxBy { it.second }
                 }
+                .filterNotNull()
                 .filter { it.second >= matchThreshold }
                 .sortedByDescending { it.second }
                 .take(2)
