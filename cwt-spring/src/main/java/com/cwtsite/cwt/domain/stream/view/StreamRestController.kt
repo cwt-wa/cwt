@@ -6,7 +6,6 @@ import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
-import com.cwtsite.cwt.domain.stream.view.model.StreamCreationDto
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
