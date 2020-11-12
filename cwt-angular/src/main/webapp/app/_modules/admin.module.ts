@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {RouterModule} from "@angular/router";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AdminVoidGameComponent} from "../admin-void-game.component";
 import {AdminExtractStatsComponent} from "../admin/admin-extract-stats.component";
 import {AdminChatComponent} from "../message/admin-chat.component";
@@ -13,6 +13,7 @@ import {AdminTournamentStartComponent} from "../admin-tournament-start.component
 import {AdminGroupsStartComponent} from "../group/admin-groups-start.component";
 import {AdminPlayoffsStartComponent} from "../playoffs/admin-playoffs-start.component";
 import {AdminSettingsComponent} from "../admin/admin-settings.component";
+import {StreamLinkingComponent} from "../admin/stream-linking.component";
 import {AdminTournamentReviewComponent} from "../admin/admin-tournament-review.component";
 import {AdminGroupsStartManualDrawComponent} from "../group/admin-groups-start-manual-draw.component";
 import {AdminGroupsStartAutomaticDrawComponent} from "../group/admin-groups-start-automatic-draw.component";
@@ -79,6 +80,10 @@ const adminRoutes = [
         path: 'replace-player',
         component: ReplacePlayerComponent
     },
+    {
+        path: 'stream-linking',
+        component: StreamLinkingComponent
+    },
 ];
 
 @NgModule({
@@ -91,6 +96,7 @@ const adminRoutes = [
         SharedModule,
         ChatModule,
         FormConfirmModule,
+        ReactiveFormsModule,
     ],
     declarations: [
         AdminExtractStatsComponent,
@@ -108,6 +114,7 @@ const adminRoutes = [
         ReplacePlayerComponent,
         AddTechWinComponent,
         WriteRulesComponent,
+        StreamLinkingComponent,
     ],
     exports: [],
     providers: [

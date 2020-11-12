@@ -12,6 +12,7 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
@@ -126,6 +127,9 @@ class StreamService {
                 .map { it.first }
                 .toSet()
     }
+
+    fun findStream(streamId: String): Optional<Stream> =
+        streamRepository.findById(streamId)
 
     fun saveStreams(streams: Collection<Stream>): List<Stream> = streamRepository.saveAll(streams)
 

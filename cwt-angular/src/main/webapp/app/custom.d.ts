@@ -283,6 +283,15 @@ export interface GameMinimalDto {
     replayExists: Boolean;
 }
 
+export interface GameMicroDto {
+    id: number;
+    homeUsername: string;
+    awayUsername: string;
+    homeScore: number;
+    awayScore: number;
+    reportedAt: string;
+}
+
 export interface StandingDto {
     id: number;
     points: number;
