@@ -18,12 +18,13 @@ export class GameOverviewComponent implements OnInit {
 
     @Input() user: number;
 
-    pageOfGames: PageDto<GameDetailDto> = <PageDto<GameDetailDto>> {size: 10, start: 0};
+    pageOfGames: PageDto<GameDetailDto> = <PageDto<GameDetailDto>>{size: 10, start: 0};
     loading: boolean;
     twitchActive = false
     twitchies: StreamDto[];
 
-    constructor(private requestService: RequestService, @Inject(APP_CONFIG) public appConfig: AppConfig) {
+    constructor(private requestService: RequestService,
+                @Inject(APP_CONFIG) public appConfig: AppConfig) {
     }
 
     ngOnInit(): void {
