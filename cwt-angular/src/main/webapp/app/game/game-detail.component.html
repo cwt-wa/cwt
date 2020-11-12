@@ -218,21 +218,7 @@
         <div [ngClass]="stats.length || statsAreBeingProcessed ? 'col-12 col-md-6 col-lg-7 col-xl-8 mt-4 mt-md-0' : 'col-12'">
             <div class="row mb-2 text-nowrap" *ngIf="stats.length">
                 <div class="col text-left" *ngIf="streams.length">
-                    <a class="btn btn-success text-real-white" target="_blank" *ngIf="streams.length === 1"
-                       [href]="'https://www.twitch.tv/videos/' + streams[0].id">
-                        <i class="fa fa-twitch"></i>&nbsp;<span class="d-none d-lg-inline">Watch on Twitch</span>
-                    </a>
-                    <div ngbDropdown *ngIf="streams.length > 1">
-                        <button type="button" class="btn btn-success text-real-white" ngbDropdownToggle>
-                            <i class="fa fa-twitch"></i>&nbsp;<span class="d-none d-lg-inline">Watch on Twitch</span>
-                        </button>
-                        <div ngbDropdownMenu>
-                            <a ngbDropdownItem *ngFor="let stream of streams" target="_blank"
-                               [href]="'https://www.twitch.tv/videos/' + stream.id">
-                                {{stream.title}}
-                            </a>
-                        </div>
-                    </div>
+                    <cwt-watch-on-twitch [streams]="streams"></cwt-watch-on-twitch>
                 </div>
                 <div class="col text-right">
                     <div [(ngModel)]="rightColumnViewToggle" class="btn-group btn-group-toggle" name="viewMode"

@@ -129,6 +129,7 @@ export interface StreamDto {
     language: string;
     type: string;
     duration: string;
+    game?: GameDetailDto;
 }
 
 export interface ScheduleDto {

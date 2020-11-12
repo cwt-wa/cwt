@@ -11,6 +11,7 @@ import {MapComponent} from "../game/map.component";
 import {WeaponComponent} from "../_util/weapon.component";
 import {PaginationModule} from "./pagination.module";
 import {RouterModule} from "@angular/router";
+import {WatchOnTwitchComponent} from "../stream/watch-on-twitch.component";
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import {RouterModule} from "@angular/router";
         GameDetailComponent,
         MapComponent,
         WeaponComponent,
+        WatchOnTwitchComponent,
     ],
     exports: [
         GameOverviewComponent

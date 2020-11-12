@@ -701,3 +701,9 @@ a {
 li.page-item:not(.active) a.page-link {
   cursor: pointer;
 }
+
+pre {
+  background-color: #888888;
+  padding: .2rem;
+  border-radius: .4rem;
+}

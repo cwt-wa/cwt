@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.stream.view.model
 
 import com.cwtsite.cwt.domain.core.DataTransferObject
-import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
+import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.stream.entity.Stream
 
 @DataTransferObject
@@ -21,12 +21,12 @@ data class StreamDto(
         var language: String?,
         var type: String?,
         var duration: String?,
-        var game: GameMinimalDto?
+        var game: GameDetailDto?
 ) {
 
     companion object {
 
-        fun toDto(stream: Stream) = StreamDto(
+        fun toDto(stream: Stream, playoffRoundLocalized: String?) = StreamDto(
                 id = stream.id,
                 channel = ChannelDto.toDto(stream.channel),
                 userId = stream.userId,
@@ -42,7 +42,7 @@ data class StreamDto(
                 language = stream.language,
                 type = stream.type,
                 duration = stream.duration,
-                game = stream.game?.let { GameMinimalDto.toDto(it) }
+                game = stream.game?.let { GameDetailDto.toDto(it, playoffRoundLocalized) }
         )
     }
 }

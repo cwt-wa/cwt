@@ -10,7 +10,6 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.*
-import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.stream.service.StreamService
@@ -121,7 +120,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun getStreamsForGame(@PathVariable("id") id: Long): ResponseEntity<List<StreamDto>> {
         val game = gameService.findById(id)
                 .orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(streamService.findStreams(game).map { StreamDto.toDto(it) })
+        return ResponseEntity.ok(streamService.findStreams(game).map { StreamDto.toDto(it, null) }) // todo 246
     }
 
     private fun mapToDtoWithTitle(game: Game): GameDetailDto {

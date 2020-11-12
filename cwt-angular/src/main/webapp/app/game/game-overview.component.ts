@@ -21,13 +21,14 @@ export class GameOverviewComponent implements OnInit {
     pageOfGames: PageDto<GameDetailDto> = <PageDto<GameDetailDto>> {size: 10, start: 0};
     loading: boolean;
     twitchActive = false
-    streams: StreamDto[];
+    twitchies: StreamDto[];
 
     constructor(private requestService: RequestService, @Inject(APP_CONFIG) public appConfig: AppConfig) {
     }
 
     ngOnInit(): void {
         this.load();
+        this.twitchActive && this.loadTwitchies();
     }
 
     sort(sortable: string, sortAscending: boolean) {
@@ -54,10 +55,16 @@ export class GameOverviewComponent implements OnInit {
     }
 
     loadTwitchies() {
-        if (this.streams?.length) return;
+        if (this.twitchies?.length) return;
+        this.loading = true
         this.requestService.get<StreamDto[]>('stream')
-            .subscribe(res => this.streams = res)
-        // todo list in template
+            .pipe(finalize(() => this.loading = false))
+            .subscribe(res => {
+                this.twitchies = res
+                    .filter(s => s.game != null)
+                    .sort((s1, s2) => (new Date(s2.game.reportedAt).getTime()
+                        - new Date(s1.game.reportedAt).getTime()))
+            });
     }
 
 
