@@ -49,7 +49,14 @@ class StreamRestController {
                 .orElseThrow { throw RestException("There is no such stream.", HttpStatus.NOT_FOUND, null) }
         val game = gameService.findById(gameId)
                 .orElseThrow { throw RestException("There is no such game.", HttpStatus.BAD_REQUEST, null) }
+        // todo #246
         return ResponseEntity.ok(StreamDto.toDto(streamService.associateGame(stream, game), null))
+    }
+
+    @PostMapping("linking")
+    fun linkStreams(): ResponseEntity<List<StreamDto>> {
+        // todo #246
+        return ResponseEntity.ok(streamService.link().map { StreamDto.toDto(it, null) })
     }
 }
 

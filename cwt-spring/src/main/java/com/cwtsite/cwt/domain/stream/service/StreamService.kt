@@ -128,8 +128,16 @@ class StreamService {
                 .toSet()
     }
 
+    @Transactional
+    fun link(): List<Stream> =
+            streamRepository.findAll()
+                    .filter { it.game == null }
+                    .map { Pair(it, findMatchingGame(it)) }
+                    .filter { it.second != null }
+                    .map { associateGame(it.first, it.second!!) }
+
     fun findStream(streamId: String): Optional<Stream> =
-        streamRepository.findById(streamId)
+            streamRepository.findById(streamId)
 
     fun saveStreams(streams: Collection<Stream>): List<Stream> = streamRepository.saveAll(streams)
 
