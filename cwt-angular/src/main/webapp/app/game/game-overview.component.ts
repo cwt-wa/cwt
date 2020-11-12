@@ -3,6 +3,7 @@ import {RequestService} from "../_services/request.service";
 import {GameDetailDto, PageDto, Rating, RatingType, StreamDto} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {finalize} from "rxjs/operators";
+import {Location} from "@angular/common";
 
 @Component({
     selector: 'cwt-game-overview',
@@ -24,12 +25,17 @@ export class GameOverviewComponent implements OnInit {
     twitchies: StreamDto[];
 
     constructor(private requestService: RequestService,
-                @Inject(APP_CONFIG) public appConfig: AppConfig) {
+                @Inject(APP_CONFIG) public appConfig: AppConfig,
+                private location: Location) {
     }
 
     ngOnInit(): void {
-        this.load();
-        this.twitchActive && this.loadTwitchies();
+        this.twitchActive = this.location.path(false).endsWith('/streams');
+        if (this.twitchActive) {
+            this.loadTwitchies();
+        } else {
+            this.load();
+        }
     }
 
     sort(sortable: string, sortAscending: boolean) {
@@ -55,7 +61,18 @@ export class GameOverviewComponent implements OnInit {
             .subscribe(pageOfGames => this.pageOfGames = pageOfGames);
     }
 
-    loadTwitchies() {
+    toggleTwitchies() {
+        if (this.twitchActive) {
+            this.location.replaceState('/streams')
+            this.loadTwitchies();
+        } else {
+            this.location.replaceState('/games');
+            this.load();
+        }
+    }
+
+
+    private loadTwitchies() {
         if (this.twitchies?.length) return;
         this.loading = true
         this.requestService.get<StreamDto[]>('stream')
@@ -67,7 +84,6 @@ export class GameOverviewComponent implements OnInit {
                         - new Date(s1.game.reportedAt).getTime()))
             });
     }
-
 
     filterRatings(ratings: Rating[], type: RatingType): Rating[] {
         return ratings.filter(r => r.type === type);

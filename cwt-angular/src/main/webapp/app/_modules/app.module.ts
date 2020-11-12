@@ -105,7 +105,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'streams',
-        redirectTo: '/games',
+        loadChildren: () => import('./game-routing.module').then(m => m.GameRoutingModule)
     },
     {
         path: '**',
