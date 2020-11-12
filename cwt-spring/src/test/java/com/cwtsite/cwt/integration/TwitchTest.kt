@@ -55,8 +55,7 @@ class TwitchTest {
                 .andExpect(status().isOk)
                 .andReturn().response.contentAsString
         val returnedStreams = listOf(*objectMapper.readValue(contentAsString, Array<StreamDto>::class.java))
-                .map { StreamDto.fromDto(it, channel) }
-        assertThat(returnedStreams).containsAll(streamRepository.findAll())
+        assertThat(returnedStreams).containsAll(streamRepository.findAll().map { StreamDto.toDto(it) })
         val updatedChannel = channelRepository.findById(channel.id).orElseThrow()
         assertThat(updatedChannel.videoCursor).isNotEmpty()
     }
