@@ -100,7 +100,7 @@ export interface ChannelDto {
     profileImageUrl: string;
     viewCount: number;
     broadcasterType: string;
-    offlineUmageUrl: string;
+    offlineImageUrl: string;
     login: string;
     description: string;
     modified: string;
