@@ -31,14 +31,14 @@ interface StreamRepository : JpaRepository<Stream, String> {
     @Query("""
        select distinct lower(g.homeUser.username) from Game g
        where g.playoff is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s)
+        and g.id not in (select s.game.id from Stream s where s.game is not null)
     """)
     fun findDistinctHomeUsernamesToLowercaseInPlayoffs(@Param("tournament") tournament: Tournament): List<String>
 
     @Query("""
        select distinct lower(g.awayUser.username) from Game g
        where g.playoff is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s)
+        and g.id not in (select s.game.id from Stream s where s.game is not null)
     """)
     fun findDistinctAwayUsernamesToLowercaseInPlayoffs(@Param("tournament") tournament: Tournament): List<String>
 

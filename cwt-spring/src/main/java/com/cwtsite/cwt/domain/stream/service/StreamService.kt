@@ -3,7 +3,6 @@ package com.cwtsite.cwt.domain.stream.service
 import com.cwtsite.cwt.core.news.PublishNews
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
-import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
@@ -11,8 +10,8 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import me.xdrop.fuzzywuzzy.FuzzySearch
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
@@ -33,9 +32,6 @@ class StreamService {
     private lateinit var userRepository: UserRepository
 
     @Autowired
-    private lateinit var groupRepository: GroupRepository
-
-    @Autowired
     private lateinit var gameRepository: GameRepository
 
     @Autowired
@@ -43,8 +39,8 @@ class StreamService {
 
     private val matchThreshold = 75
     private val streamGameTolerance = Duration.ofHours(5)
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
-    // todo update stream overview and detail page with associated game
     fun findMatchingGame(stream: Stream): Game? {
         val tournament = tournamentService.getCurrentTournament()
         val usernames = if (tournament == null) {
@@ -64,7 +60,7 @@ class StreamService {
                         *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
             }
         }
-        val res = stream.relevantWordsInTitle(usernames)
+        val matchingUsernames = stream.relevantWordsInTitle(usernames)
                 .asSequence()
                 .map { word ->
                     usernames
@@ -77,12 +73,14 @@ class StreamService {
                 .take(2)
                 .map { it.first }
                 .toList()
-        if (res.size != 2) return null
-        val user1 = userRepository.findByUsernameIgnoreCase(res[0])
-        val user2 = userRepository.findByUsernameIgnoreCase(res[1])
+        logger.info("Matching usernames: $matchingUsernames")
+        if (matchingUsernames.size != 2) return null
+        val user1 = userRepository.findByUsernameIgnoreCase(matchingUsernames[0])
+        val user2 = userRepository.findByUsernameIgnoreCase(matchingUsernames[1])
+        if (user1 == null || user2 == null) return null
         return when (tournament) {
-            null -> gameRepository.findGame(user1!!, user2!!)
-            else -> gameRepository.findGame(user1!!, user2!!, tournament)
+            null -> gameRepository.findGame(user1, user2)
+            else -> gameRepository.findGame(user1, user2, tournament)
         }
                 .filter {
                     when (tournament?.status) {
@@ -91,7 +89,7 @@ class StreamService {
                         else -> true
                     }
                 }
-                .maxBy { it.created!! }
+                .maxBy { it.reportedAt!! }
     }
 
     @Transactional

@@ -81,11 +81,11 @@ data class Stream(
         return Timestamp(format.parse(createdAt).time)
     }
 
-    fun relevantWordsInTitle(usernames: Collection<String>): Set<String> {
+    fun relevantWordsInTitle(whitelist: Collection<String>): Set<String> {
         val blacklist = setOf(
                 "cwt", "final", "finale", "quarter", "semi", "quarterfinal", "semifinal", "last",
                 "group", "stage", "playoff", "playoffs", "vs", "round", "of", "-", "part", "round")
-                .filter { !usernames.contains(it) }
+                .filter { !whitelist.contains(it) }
         if (title == null) return emptySet()
         return title!!.toLowerCase()
                 .split(Pattern.compile("\\W"))
