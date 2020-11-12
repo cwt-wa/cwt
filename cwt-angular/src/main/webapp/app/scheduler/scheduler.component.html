@@ -30,7 +30,7 @@
                     <i class="fa fa-twitch"></i>
                 </div>
                 <ng-template #streamTooltip>
-                    <span *ngFor="let channel of schedule.streams, let last = last;">{{channel.title}}<span *ngIf="!last">, </span></span>
+                    <span *ngFor="let channel of schedule.streams, let last = last;">{{channel.user.username}}<span *ngIf="!last">, </span></span>
                 </ng-template>
             </div>
         </div>
