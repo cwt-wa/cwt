@@ -1,16 +1,23 @@
 package com.cwtsite.cwt.domain.stream.view
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.ChannelCreationDto
 import com.cwtsite.cwt.domain.stream.view.model.ChannelDto
+import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchUserDto
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import kotlin.time.ExperimentalTime
+import kotlin.time.minutes
 
 
 @RestController
@@ -39,5 +46,35 @@ class ChannelRestController {
                     userService.findByIds(*users.toLongArray())).map { ChannelDto.toDto(it) })
         }
     }
-}
 
+    @ExperimentalTime
+    @PostMapping("ping/{twitchUserId}")
+    fun saveStream(@PathVariable("twitchUserId") twitchUserId: String): ResponseEntity<Unit> {
+        val channel = streamService.findChannel(twitchUserId)
+                .orElseThrow { throw RestException("I don't know this user.", HttpStatus.BAD_REQUEST, null) }
+        pollForVideo(channel)
+        return ResponseEntity.ok().build<Unit>()
+    }
+
+    // todo test
+    @ExperimentalTime
+    fun pollForVideo(channel: Channel) = GlobalScope.launch {
+        val channels = listOf(channel)
+        val intervals = listOf(5, 10, 20, 25)
+        for (interval in intervals) {
+            delay(interval.minutes.toLongMilliseconds())
+            val videos = twitchService.requestVideos(channels)
+                    .filter { it.hasCwtInTitle() }
+                    .map { StreamDto.toDto(it, channel) }
+            if (videos.isNotEmpty()) {
+                val streams = streamService.saveStreams(videos.map { StreamDto.fromDto(it, channel) })
+                streams.forEach { stream ->
+                    streamService.findMatchingGame(stream)?.let { game ->
+                        streamService.associateGame(stream, game)
+                    }
+                }
+                return@launch
+            }
+        }
+    }
+}

@@ -1,8 +1,11 @@
 package com.cwtsite.cwt.domain.stream.view.model
 
 import com.cwtsite.cwt.domain.core.DataTransferObject
+import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
+import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 
 @DataTransferObject
 data class StreamDto(
@@ -43,6 +46,44 @@ data class StreamDto(
                 type = stream.type,
                 duration = stream.duration,
                 game = stream.game?.let { GameDetailDto.toDto(it, playoffRoundLocalized) }
+        )
+
+        fun toDto(dto: TwitchVideoDto, channel: Channel) = StreamDto(
+                id = dto.id,
+                channel = ChannelDto.toDto(channel),
+                userId = dto.userId,
+                userName = dto.userName,
+                title = dto.title,
+                description = dto.description,
+                createdAt = dto.createdAt,
+                publishedAt = dto.publishedAt,
+                url = dto.url,
+                thumbnailUrl = dto.thumbnailUrl,
+                viewable = dto.viewable,
+                viewCount = dto.viewCount,
+                language = dto.language,
+                type = dto.type,
+                duration = dto.duration,
+                game = null // todo #246
+        )
+
+        fun fromDto(dto: StreamDto, channel: Channel) = Stream(
+                id = dto.id,
+                channel = channel,
+                userId = dto.userId,
+                userName = dto.userName,
+                title = dto.title,
+                description = dto.description,
+                createdAt = dto.createdAt,
+                publishedAt = dto.publishedAt,
+                url = dto.url,
+                thumbnailUrl = dto.thumbnailUrl,
+                viewable = dto.viewable,
+                viewCount = dto.viewCount,
+                language = dto.language,
+                type = dto.type,
+                duration = dto.duration,
+                game = null // todo #246
         )
     }
 }
