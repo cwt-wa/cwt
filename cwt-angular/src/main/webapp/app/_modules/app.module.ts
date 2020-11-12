@@ -104,9 +104,13 @@ const appRoutes: Routes = [
         loadChildren: () => import('./maps.module').then(m => m.MapsModule)
     },
     {
+        path: 'streams',
+        redirectTo: '/games',
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
-    }
+    },
 ];
 
 @NgModule({
