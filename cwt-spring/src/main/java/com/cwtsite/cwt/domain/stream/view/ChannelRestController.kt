@@ -52,15 +52,13 @@ class ChannelRestController {
     fun saveStream(@PathVariable("twitchUserId") twitchUserId: String): ResponseEntity<Unit> {
         val channel = streamService.findChannel(twitchUserId)
                 .orElseThrow { throw RestException("I don't know this user.", HttpStatus.BAD_REQUEST, null) }
-        pollForVideo(channel)
+        pollForVideo(channel, listOf(5, 10, 20, 25))
         return ResponseEntity.ok().build<Unit>()
     }
 
-    // todo test
     @ExperimentalTime
-    fun pollForVideo(channel: Channel) = GlobalScope.launch {
+    fun pollForVideo(channel: Channel, intervals: List<Int>) = GlobalScope.launch {
         val channels = listOf(channel)
-        val intervals = listOf(5, 10, 20, 25)
         for (interval in intervals) {
             delay(interval.minutes.toLongMilliseconds())
             val videos = twitchService.requestVideos(channels)
