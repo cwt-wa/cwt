@@ -86,7 +86,6 @@ body {
 
 .cwt-nav-container .nav-item {
   background-color: theme-color('primary');
-  margin: 0 3px;
   text-align: center;
 }
 
@@ -97,7 +96,6 @@ body {
 
 .cwt-nav-container .nav-item a {
   color: #cecece !important;
-  padding: 10px;
 }
 
 .cwt-nav-container .nav-item.cwt-icon img {
@@ -347,6 +345,7 @@ body {
   }
 
   .cwt-nav-container .nav-item .nav-link:hover,
+  .cwt-nav-container .nav-item:hover,
   .cwt-nav-container .nav-item .nav-link:focus {
     background-color: theme-color('danger');
     outline: none;
@@ -372,15 +371,45 @@ body {
   }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
-  .cwt-nav-container .nav-item {
-    width: 141.4px;
-  }
-}
 
-@media (min-width: 1200px) {
-  .cwt-nav-container .nav-item {
-    width: 171.4px;
+@media (min-width: 768px) {
+  .collapse {
+    width: 100%;
+    display: flex;
+
+    .navbar-nav {
+      justify-content: stretch;
+      align-items: stretch;
+
+      .nav-item {
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
+        text-align: center;
+        flex-grow: 1;
+        margin-left: .6rem;
+        width: 80px;
+
+        a {
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: 0;
+        }
+      }
+
+      .nav-item.cwt-icon {
+        flex-grow: 0;
+        margin-left: 0;
+        width: auto;
+      }
+    }
+  }
+
+  .nav-link {
+    padding: 0;
   }
 }
 
