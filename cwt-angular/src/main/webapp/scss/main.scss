@@ -29,7 +29,7 @@ body {
       z-index: -1;
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 575px) {
       .cwt-nav-container .nav-item {
         background-color: #ffc800;
 
@@ -204,7 +204,7 @@ body {
   padding-bottom: 15px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .content.container {
     width: auto;
   }
@@ -326,7 +326,7 @@ body {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .cwt-mobile-nav {
     display: none;
   }
@@ -372,7 +372,23 @@ body {
 }
 
 
-@media (min-width: 768px) {
+@media (min-width: 576px) {
+  .nav-item {
+    margin-left: .2rem;
+
+    &:nth-child(3) {
+      letter-spacing: -.05rem;
+    }
+  }
+}
+
+@media (min-width: 786px) {
+  .nav-item {
+    margin-left: .6rem;
+  }
+}
+
+@media (min-width: 576px) {
   .collapse {
     width: 100%;
     display: flex;
@@ -387,7 +403,6 @@ body {
         justify-content: stretch;
         text-align: center;
         flex-grow: 1;
-        margin-left: .6rem;
         width: 80px;
 
         a {
@@ -580,14 +595,14 @@ select.custom-select-sm {
    display: block;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .navbar .collapse.show {
     height: calc(100vh - 58px);
     margin-top: 58px;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .navbar .collapse {
     height: auto;
     margin-top: -75px;
@@ -700,7 +715,7 @@ code {
   top: 65px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   #toast-container {
     top: 95px;
   }
