@@ -60,7 +60,8 @@ class TournamentService {
     fun startPlayoffs(games: List<Game>): List<Game> {
         val currentTournament = getCurrentTournament()!!
         currentTournament.status = TournamentStatus.PLAYOFFS
-        currentTournament.maxRounds = treeService.getNumberOfPlayoffRoundsInTournament(currentTournament)
+        // group stage plus number of playoff rounds
+        currentTournament.maxRounds = treeService.getNumberOfPlayoffRoundsInTournament(currentTournament) + 1
         currentTournament.threeWay = treeService.isPlayoffTreeWithThreeWayFinal(currentTournament)
         tournamentRepository.save(currentTournament)
         return gameRepository.saveAll(games)
