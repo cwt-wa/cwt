@@ -51,7 +51,7 @@ class ChannelRestController {
     @PostMapping("ping/{twitchUserId}")
     fun saveStream(@PathVariable("twitchUserId") twitchUserId: String): ResponseEntity<Unit> {
         val channel = streamService.findChannel(twitchUserId)
-                .orElseThrow { throw RestException("I don't know this user.", HttpStatus.BAD_REQUEST, null) }
+                .orElseThrow { throw RestException("I don't know this Twitch user.", HttpStatus.BAD_REQUEST, null) }
         pollForVideo(channel, listOf(5, 10, 20, 25))
         return ResponseEntity.ok().build<Unit>()
     }
