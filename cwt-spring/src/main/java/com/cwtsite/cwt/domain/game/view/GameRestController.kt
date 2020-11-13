@@ -11,7 +11,6 @@ import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.*
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
-import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
@@ -47,7 +46,6 @@ import kotlin.concurrent.schedule
 class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService,
             private val authService: AuthService,
-            private val treeService: TreeService,
             private val clockInstance: ClockInstance,
             private val sseEmitterFactory: SseEmitterFactory,
             private val gameStatsEventListener: GameStatsEventListener,
@@ -112,7 +110,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
         return gameService.findById(id)
-                .map { ResponseEntity.ok(mapToDtoWithTitle(it)) }
+                .map { ResponseEntity.ok(GameDetailDto.toDto(it)) }
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
     }
 
@@ -120,19 +118,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun getStreamsForGame(@PathVariable("id") id: Long): ResponseEntity<List<StreamDto>> {
         val game = gameService.findById(id)
                 .orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(streamService.findStreams(game).map { StreamDto.toDto(it, null) }) // todo 246
-    }
-
-    private fun mapToDtoWithTitle(game: Game): GameDetailDto {
-        return GameDetailDto.toDto(
-                game,
-                when {
-                    game.playoff() -> GameDetailDto.localizePlayoffRound(
-                            game.tournament.threeWay!!,
-                            treeService.getNumberOfPlayoffRoundsInTournament(game.tournament),
-                            game.playoff!!.round)
-                    else -> null
-                })
+        return ResponseEntity.ok(streamService.findStreams(game).map { StreamDto.toDto(it) })
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
@@ -202,7 +188,7 @@ constructor(private val gameService: GameService, private val userService: UserS
             }
         }
         return ResponseEntity.ok(PageDto.toDto(
-                games.map { mapToDtoWithTitle(it) },
+                games.map { GameDetailDto.toDto(it) },
                 listOf("reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")))
     }
 

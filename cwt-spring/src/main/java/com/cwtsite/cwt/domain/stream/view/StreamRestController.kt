@@ -2,7 +2,6 @@ package com.cwtsite.cwt.domain.stream.view
 
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
@@ -18,22 +17,14 @@ import org.springframework.web.bind.annotation.*
 class StreamRestController {
 
     @Autowired private lateinit var streamService: StreamService
-    @Autowired private lateinit var treeService: TreeService
     @Autowired private lateinit var gameService: GameService
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryAll(): ResponseEntity<List<StreamDto>> =
-            ResponseEntity.ok(streamService.findAll().sortedByDescending { it.createdAt }.map {
-                StreamDto.toDto(
-                        it,
-                        when {
-                            it.game?.playoff() ?: false -> GameDetailDto.localizePlayoffRound(
-                                    it.game!!.tournament.threeWay!!,
-                                    treeService.getNumberOfPlayoffRoundsInTournament(it.game!!.tournament),
-                                    it.game!!.playoff!!.round)
-                            else -> null
-                        })
-            })
+            ResponseEntity.ok(
+                    streamService.findAll()
+                            .sortedByDescending { it.createdAt }
+                            .map { StreamDto.toDto(it) })
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getOne(@PathVariable("id") id: String): ResponseEntity<Stream> {
@@ -49,14 +40,11 @@ class StreamRestController {
                 .orElseThrow { throw RestException("There is no such stream.", HttpStatus.NOT_FOUND, null) }
         val game = gameService.findById(gameId)
                 .orElseThrow { throw RestException("There is no such game.", HttpStatus.BAD_REQUEST, null) }
-        // todo #246
-        return ResponseEntity.ok(StreamDto.toDto(streamService.associateGame(stream, game), null))
+        return ResponseEntity.ok(StreamDto.toDto(streamService.associateGame(stream, game)))
     }
 
     @PostMapping("linking")
-    fun linkStreams(): ResponseEntity<List<StreamDto>> {
-        // todo #246
-        return ResponseEntity.ok(streamService.link().map { StreamDto.toDto(it, null) })
-    }
+    fun linkStreams(): ResponseEntity<List<StreamDto>> =
+            ResponseEntity.ok(streamService.link().map { StreamDto.toDto(it) })
 }
 

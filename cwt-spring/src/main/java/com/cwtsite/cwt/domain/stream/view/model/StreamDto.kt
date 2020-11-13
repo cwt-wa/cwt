@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.domain.stream.view.model
 
 import com.cwtsite.cwt.domain.core.DataTransferObject
-import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
@@ -29,7 +28,7 @@ data class StreamDto(
 
     companion object {
 
-        fun toDto(stream: Stream, playoffRoundLocalized: String?) = StreamDto(
+        fun toDto(stream: Stream) = StreamDto(
                 id = stream.id,
                 channel = ChannelDto.toDto(stream.channel),
                 userId = stream.userId,
@@ -45,7 +44,7 @@ data class StreamDto(
                 language = stream.language,
                 type = stream.type,
                 duration = stream.duration,
-                game = stream.game?.let { GameDetailDto.toDto(it, playoffRoundLocalized) }
+                game = stream.game?.let { GameDetailDto.toDto(it) }
         )
 
         fun toDto(dto: TwitchVideoDto, channel: Channel) = StreamDto(
@@ -64,7 +63,7 @@ data class StreamDto(
                 language = dto.language,
                 type = dto.type,
                 duration = dto.duration,
-                game = null // todo #246
+                game = null
         )
 
         fun fromDto(dto: StreamDto, channel: Channel) = Stream(
@@ -83,7 +82,7 @@ data class StreamDto(
                 language = dto.language,
                 type = dto.type,
                 duration = dto.duration,
-                game = null // todo #246
+                game = null
         )
     }
 }

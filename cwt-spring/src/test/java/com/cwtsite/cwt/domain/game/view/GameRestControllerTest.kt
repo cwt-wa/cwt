@@ -61,7 +61,7 @@ class GameRestControllerTest {
         val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 1, Sort.by(Sort.Direction.DESC, "reportedAt")), 1)
         `when`(gameService.findPaginatedPlayedGames(anyInt(), anyInt(), anyObject())).thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, null)).extracting { it.body!! }.satisfies {
-            assertThat(it.content).containsExactly(GameDetailDto.toDto(game, null))
+            assertThat(it.content).containsExactly(GameDetailDto.toDto(game))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
@@ -84,7 +84,7 @@ class GameRestControllerTest {
         `when`(gameService.findGameOfUsers(anyInt(), anyInt(), anyObject(), safeEq(game.homeUser!!), safeEq(game.awayUser!!)))
                 .thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, listOf(game.homeUser!!.id!!, game.awayUser!!.id!!))).extracting { it.body!! }.satisfies {
-            assertThat(it.content).containsExactly(GameDetailDto.toDto(game, null))
+            assertThat(it.content).containsExactly(GameDetailDto.toDto(game))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
