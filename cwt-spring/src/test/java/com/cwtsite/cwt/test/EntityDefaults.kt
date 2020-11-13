@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.stream.entity.Channel
+import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -33,7 +34,7 @@ object EntityDefaults {
 
     fun game(id: Long = 1, homeUser: User? = user(id = 1, username = "home"), awayUser: User? = user(id = 2, username = "away"),
              scoreHome: Int? = 3, scoreAway: Int? = 1, tournament: Tournament = tournament(),
-             playoff: PlayoffGame? = null, group: Group? = null) = Game(
+             playoff: PlayoffGame? = null, group: Group? = null, reportedAt: Timestamp? = null) = Game(
             id = id,
             homeUser = homeUser,
             awayUser = awayUser,
@@ -44,7 +45,8 @@ object EntityDefaults {
             group = group,
             tournament = tournament,
             modified = Timestamp(1577833200000),
-            created = Timestamp(1577833200000) // 1st Jan 2020
+            created = Timestamp(1577833200000), // 1st Jan 2020
+            reportedAt = reportedAt
     )
 
     fun channel(id: String = "1111", title: String = "TitleTV", user: User = user()) = Channel(
@@ -52,4 +54,9 @@ object EntityDefaults {
             title = title,
             user = user
     )
+
+    fun stream(title: String = "epic stream", id: String = "1", viewCount: Long = 2,
+               game: Game? = null, channel: Channel = channel()) =
+            Stream(title = title, id = id, viewCount = viewCount, channel = channel,
+                    game = game, createdAt = "2014-10-18T22:28:17Z")
 }

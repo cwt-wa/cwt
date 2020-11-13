@@ -31,8 +31,15 @@ constructor(private val messageRepository: MessageRepository) {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun publishNews(type: MessageNewsType, author: User, vararg data: Any?): Message =
-            messageRepository.save(Message(category = MessageCategory.NEWS, author = author, newsType = type, body = data.joinToString(separator = ",")))
+    fun publishNews(type: MessageNewsType, author: User, vararg data: Any?): Message {
+        val body = when (type) {
+            MessageNewsType.STREAM -> "${data[0]},${data.drop(1).joinToString("")}"
+            else -> data.joinToString(separator = ",")
+        }
+        return messageRepository.save(Message(
+                category = MessageCategory.NEWS, author = author, newsType = type,
+                body = body))
+    }
 
     fun deleteMessage(id: Long) {
         messageRepository.deleteById(id)

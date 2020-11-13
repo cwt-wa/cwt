@@ -1,14 +1,30 @@
 <h1 class="float-left">Games</h1>
 
-<div class="float-right text-nowrap" *ngIf="pageOfGames?.totalElements > 0">
-    <cwt-sorter [pageOfModels]="pageOfGames" (load)="load()" [disabled]="loading"></cwt-sorter>
+<div class="float-right text-nowrap">
+    <div class="d-flex">
+        <div class="btn-group-toggle mr-1" data-toggle="buttons">
+            <label class="btn" [ngClass]="twitchActive ? 'btn-success' : 'btn-primary'">
+                <input type="checkbox" [(ngModel)]="twitchActive" name="twitchActive"
+                       (change)="toggleTwitchies()" autocomplete="off">
+                <i class="fa fa-lg fa-twitch text-secondary"
+                   [ngClass]="twitchActive ? 'text-real-white' : 'text-white'"></i>
+            </label>
+        </div>
+        <div [class.twitch-active]="twitchActive" [class.cursor-disabled]="twitchActive"
+             *ngIf="pageOfGames?.totalElements > 0">
+            <cwt-sorter [pageOfModels]="pageOfGames"
+                        (load)="load()"
+                        [disabled]="loading || twitchActive">
+            </cwt-sorter>
+        </div>
+    </div>
 </div>
 
 <div class="clearfix"></div>
 
 <img *ngIf="loading" src="../../img/loading.gif"/>
 
-<div class="row mt-2 clear" *ngIf="pageOfGames && !loading">
+<div class="row mt-2 clear" *ngIf="pageOfGames && !loading && !twitchActive">
     <div class="col-12">
         <div class="alert alert-info" *ngIf="pageOfGames.totalElements === 0">
             {{user == null ? 'There are no games.' : 'This user hasn’t played any games.'}}
@@ -76,5 +92,68 @@
         <cwt-paginator *ngIf="pageOfGames?.totalElements > 0"
                        [page]="pageOfGames" (goTo)="goTo($event)">
         </cwt-paginator>
+    </div>
+</div>
+<div class="row mt-2 clear" *ngIf="twitchies && !loading && twitchActive">
+    <div class="col-12">
+        <div class="alert alert-info" *ngIf="!twitchies.length">
+            There are have been now live stream broadcasts yet.
+        </div>
+        <div class="card bg-secondary text-white border-0 mb-1" *ngIf="twitchies.length">
+            <div class="card-body py-2" *ngFor="let t of twitchies"
+                 style="border-bottom: 1px solid black !important;">
+                <div class="row">
+                    <div class="col-1 col-sm-7 text-nowrap">
+                        <a [routerLink]="['/games', t.game.id]">
+                            <h5 class="mb-0 d-md-none">
+                                {{t.game.homeUser.username}}
+                                {{t.game.scoreHome}}–{{t.game.scoreAway}}
+                                {{t.game.awayUser.username}}
+                            </h5>
+                            <h4 class="mb-0 d-none d-md-block d-lg-none">
+                                {{t.game.homeUser.username}}
+                                {{t.game.scoreHome}}–{{t.game.scoreAway}}
+                                {{t.game.awayUser.username}}
+                            </h4>
+                            <h2 class="mb-0 d-none d-lg-block">
+                                {{t.game.homeUser.username}}
+                                {{t.game.scoreHome}}–{{t.game.scoreAway}}
+                                {{t.game.awayUser.username}}
+                            </h2>
+                        </a>
+                        <div class="lead all-petite-caps">
+                            <span class="font-weight-normal">
+                                <ng-container *ngIf="t.game.playoff">
+                                    {{t.game.playoffRoundLocalized}}
+                                </ng-container>
+                                <ng-container *ngIf="t.game.group">
+                                    Group {{t.game.group.label}}
+                                </ng-container>
+                            </span>
+                            {{t.game.tournament.created | cwtDate:'y'}}
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-5 mt-1">
+                        <div class="row">
+                            <div class="col col-lg-12">
+                                <cwt-watch-on-twitch [streams]="[t]"></cwt-watch-on-twitch>
+                                <span class="d-lg-none text-nowrap">
+                                    Streamed by
+                                    <strong>
+                                        <cwt-user [username]="t.channel.user.username"></cwt-user>
+                                    </strong>
+                                </span>
+                            </div>
+                            <div class="col col-lg-12 d-none mt-1 d-lg-block text-nowrap">
+                                Streamed by
+                                <strong>
+                                    <cwt-user [username]="t.channel.user.username"></cwt-user>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

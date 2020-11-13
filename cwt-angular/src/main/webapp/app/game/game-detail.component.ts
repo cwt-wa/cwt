@@ -1,7 +1,17 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
-import {Comment, CommentDto, GameDetailDto, JwtUser, PlayoffTreeBetDto, Rating, RatingDto, RatingType} from "../custom";
+import {
+    Comment,
+    CommentDto,
+    GameDetailDto,
+    JwtUser,
+    PlayoffTreeBetDto,
+    Rating,
+    RatingDto,
+    RatingType,
+    StreamDto
+} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {finalize} from "rxjs/operators";
 import {BetResult, BetService} from "../_services/bet.service";
@@ -33,6 +43,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     submittingComment: boolean;
     submittingRating: RatingType;
     game: GameDetailDto;
+    streams: StreamDto[];
     newComment: CommentDto;
     authenticatedUser: JwtUser;
     betResult: BetResult;
@@ -89,6 +100,8 @@ export class GameDetailComponent implements OnInit, OnDestroy {
                             .subscribe(res => this.betResult = this.betService.createBetResult(res, this.authenticatedUser));
                     }
                 });
+            this.requestService.get<StreamDto[]>(`game/${gameId}/stream`)
+                .subscribe(res => this.streams = res)
         });
 
         this.authService.authState.then(user => {

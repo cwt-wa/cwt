@@ -18,7 +18,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.Country
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.GroupStanding
 import com.cwtsite.cwt.test.EntityDefaults
-import com.cwtsite.cwt.test.MockitoUtils
+import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import org.assertj.core.api.Assertions
 import org.junit.Assert
 import org.junit.Test
@@ -59,10 +59,10 @@ class UserServiceTest {
         group.standings.addAll(createStandings(user))
 
         Mockito
-                .`when`(groupRepository.findByTournamentAndUser(Mockito.any(), Mockito.any()))
+                .`when`(groupRepository.findByTournamentAndUser(anyObject(), anyObject()))
                 .thenReturn(group)
         Mockito
-                .`when`(gameRepository.findPlayedByUserInGroup(Mockito.any(), Mockito.any()))
+                .`when`(gameRepository.findPlayedByUserInGroup(anyObject(), anyObject()))
                 .thenReturn(createGames(group, tournament))
 
         Assertions
@@ -136,7 +136,7 @@ class UserServiceTest {
         user.about = "hello i am an about text"
 
         Mockito
-                .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
+                .`when`<Any>(userRepository.save(anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, "hello i am not the same about text!", null, null)
@@ -149,7 +149,7 @@ class UserServiceTest {
         user.username = "leasOldName"
 
         Mockito
-                .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
+                .`when`<Any>(userRepository.save(anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, null, "leasNewName", null)
@@ -174,7 +174,7 @@ class UserServiceTest {
         user.email = "lea@flori"
 
         Mockito
-                .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
+                .`when`<Any>(userRepository.save(anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, null, null, null, "flori@lea")
@@ -187,7 +187,7 @@ class UserServiceTest {
         user.about = "england"
 
         Mockito
-                .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
+                .`when`<Any>(userRepository.save(anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, null, null, createCountry("Germany"))
@@ -203,7 +203,7 @@ class UserServiceTest {
         user.email = "old@email"
 
         Mockito
-                .`when`<Any>(userRepository.save(MockitoUtils.anyObject()))
+                .`when`<Any>(userRepository.save(anyObject()))
                 .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", createCountry("Germany"), "new@email")

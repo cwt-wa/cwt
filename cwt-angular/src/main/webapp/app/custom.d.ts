@@ -100,7 +100,7 @@ export interface ChannelDto {
     profileImageUrl: string;
     viewCount: number;
     broadcasterType: string;
-    offlineUmageUrl: string;
+    offlineImageUrl: string;
     login: string;
     description: string;
     modified: string;
@@ -129,6 +129,7 @@ export interface StreamDto {
     language: string;
     type: string;
     duration: string;
+    game?: GameDetailDto;
 }
 
 export interface ScheduleDto {
@@ -282,6 +283,15 @@ export interface GameMinimalDto {
     replayExists: Boolean;
 }
 
+export interface GameMicroDto {
+    id: number;
+    homeUsername: string;
+    awayUsername: string;
+    homeScore: number;
+    awayScore: number;
+    reportedAt: string;
+}
+
 export interface StandingDto {
     id: number;
     points: number;
@@ -393,7 +403,7 @@ export interface Message {
     category: MessageCategory;
 }
 
-export type MessageNewsType = "REPORT" | "RATING" | "COMMENT" | "VOIDED"
+export type MessageNewsType = "REPORT" | "RATING" | "COMMENT" | "VOIDED" | "STREAM"
 
 export interface MessageCreationDto {
     body: string;

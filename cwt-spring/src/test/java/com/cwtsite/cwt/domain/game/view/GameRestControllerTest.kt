@@ -13,6 +13,7 @@ import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
@@ -48,6 +49,7 @@ class GameRestControllerTest {
     @Mock private lateinit var tournamentService: TournamentService
     @Mock private lateinit var authService: AuthService
     @Mock private lateinit var userService: UserService
+    @Mock private lateinit var streamService: StreamService
 
     @Test
     fun `queryGamesPaged without users`() {
@@ -59,7 +61,7 @@ class GameRestControllerTest {
         val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 1, Sort.by(Sort.Direction.DESC, "reportedAt")), 1)
         `when`(gameService.findPaginatedPlayedGames(anyInt(), anyInt(), anyObject())).thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, null)).extracting { it.body!! }.satisfies {
-            assertThat(it.content).containsExactly(GameDetailDto.toDto(game, null))
+            assertThat(it.content).containsExactly(GameDetailDto.toDto(game))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
@@ -82,7 +84,7 @@ class GameRestControllerTest {
         `when`(gameService.findGameOfUsers(anyInt(), anyInt(), anyObject(), safeEq(game.homeUser!!), safeEq(game.awayUser!!)))
                 .thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, listOf(game.homeUser!!.id!!, game.awayUser!!.id!!))).extracting { it.body!! }.satisfies {
-            assertThat(it.content).containsExactly(GameDetailDto.toDto(game, null))
+            assertThat(it.content).containsExactly(GameDetailDto.toDto(game))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(

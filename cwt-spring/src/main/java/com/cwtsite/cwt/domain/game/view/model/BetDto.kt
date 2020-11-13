@@ -11,17 +11,14 @@ data class BetDto(
         val game: GameDetailDto,
         val betOnHome: Boolean
 ) {
+
     companion object {
+
         fun toDto(bet: Bet): BetDto = BetDto(
                 id = bet.id!!,
                 user = UserMinimalDto.toDto(bet.user),
-                game = GameDetailDto.toDto(bet.game, GameDetailDto.localizePlayoffRound(
-                        bet.game.tournament.threeWay!!,
-                        bet.game.tournament.maxRounds,
-                        bet.game.playoff!!.round)
-                ),
+                game = GameDetailDto.toDto(bet.game),
                 betOnHome = bet.betOnHome
         )
-
     }
 }

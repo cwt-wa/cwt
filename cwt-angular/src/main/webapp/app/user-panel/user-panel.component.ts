@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {CountryDto, JwtUser, PasswordChangeDto, UserChangeDto, UserDetailDto} from "../custom";
+import {ChannelDto, CountryDto, JwtUser, PasswordChangeDto, UserChangeDto, UserDetailDto} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
@@ -22,6 +22,7 @@ export class UserPanelComponent implements OnInit {
     showPhoto = false;
     loadingPhoto: boolean = false;
     thereIsNoPhoto: boolean;
+    displayChannelCreationButton: boolean;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -49,6 +50,11 @@ export class UserPanelComponent implements OnInit {
 
         this.requestService.get<CountryDto[]>("country")
             .subscribe(res => this.possibleCountries = res);
+
+        if (this.authUser) {
+            this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
+                .subscribe(res => this.displayChannelCreationButton = !res.length);
+        }
     }
 
     showCurrentPhoto() {

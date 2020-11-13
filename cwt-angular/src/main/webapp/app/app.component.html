@@ -1,10 +1,10 @@
 <div class="cwt-top-bar" [ngClass]="{'apple-standalone': isAppleStandalone}">
     <div class="container">
         <div class="row ">
-            <div class="col-md-6 cwt-gmt">
+            <div class="col-sm-6 cwt-gmt">
                 <cwt-gmt-clock></cwt-gmt-clock>
             </div>
-            <div class="col-md-6 text-md-right all-petite-caps" *ngIf="!authenticatedUser">
+            <div class="col-sm-6 text-sm-right all-petite-caps" *ngIf="!authenticatedUser">
                 <a routerLink="/login" class="btn">
                     Log in
                 </a>
@@ -12,7 +12,7 @@
                     Register
                 </a>
             </div>
-            <div class="col-md-6 text-md-right" *ngIf="authenticatedUser">
+            <div class="col-sm-6 text-sm-right" *ngIf="authenticatedUser">
                 <a routerLink="/report" class="btn" *ngIf="(canReportService.canReport | async)">
                     Report
                 </a>
@@ -32,7 +32,7 @@
 
 <div class="cwt-nav-container">
     <nav [ngClass]="{'apple-standalone': isAppleStandalone, 'cwt-fixed-top': isStandalone || !isNavCollapsed}"
-         class="navbar navbar-expand-lg navbar-inverse cwt-navbar">
+         class="navbar navbar-expand navbar-inverse cwt-navbar">
         <div class="row no-gutters cwt-mobile-nav">
             <div class="col">
                 <button (click)="collapseNav()" [ngClass]="{'is-active': !isNavCollapsed}"
@@ -75,7 +75,7 @@
         </div>
     </nav>
 
-    <div class="navbar navbar-expand-lg container">
+    <div class="navbar navbar-expand container">
         <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
             <ul class="navbar-nav all-petite-caps" (click)="isNavCollapsed = true">
                 <li class="nav-item cwt-icon">
@@ -101,11 +101,6 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/users">
                         Users
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/streams">
-                        Streams
                     </a>
                 </li>
                 <li class="nav-item">

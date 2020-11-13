@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.game.entity
 
 import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.group.entity.Group
+import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Comment

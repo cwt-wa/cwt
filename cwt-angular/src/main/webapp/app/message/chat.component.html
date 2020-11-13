@@ -46,10 +46,19 @@
                     <ng-container *ngSwitchCase="'RATING'">{{messageData[5]}}d</ng-container>
                     <ng-container *ngSwitchCase="'COMMENT'">commented</ng-container>
                     <ng-container *ngSwitchCase="'VOIDED'">voided</ng-container>
+                    <ng-container *ngSwitchCase="'STREAM'">live streamed</ng-container>
                 </ng-container>
-                <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>
-                <a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[3]}}–{{messageData[4]}}</a>
-                <cwt-user [username]="messageData[2]" class="font-weight-bold"></cwt-user>
+                <ng-container *ngIf="message.newsType !== 'STREAM'">
+                    <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>
+                    <a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[3]}}–{{messageData[4]}}</a>
+                    <cwt-user [username]="messageData[2]" class="font-weight-bold"></cwt-user>
+                </ng-container>
+                <ng-container *ngIf="message.newsType === 'STREAM'">
+                    <a target="_blank" class="font-weight-bold"
+                       [href]="'https://www.twitch.tv/videos/' + messageData[0]">
+                       “<span *ngFor="let d of messageData; let firstd = first">{{firstd ? '' : d}}</span>”&nbsp;<i class="fa fa-twitch text-success"></i>
+                    </a>
+                </ng-container>
             </ng-container>
         </ng-container>
 

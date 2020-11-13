@@ -13,10 +13,10 @@ import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.service.GroupRepository
 import com.cwtsite.cwt.domain.group.service.GroupService
-import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
+import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.exception.IllegalTournamentStatusException
@@ -36,8 +36,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.transaction.support.TransactionSynchronizationAdapter
-import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,7 +58,8 @@ constructor(private val gameRepository: GameRepository,
             private val betRepository: BetRepository,
             private val scheduleService: ScheduleService,
             private val treeService: TreeService,
-            private val gameStatsRepository: GameStatsRepository) {
+            private val gameStatsRepository: GameStatsRepository,
+            private val streamService: StreamService) {
 
     fun createReplayFileName(game: Game): String {
         return String.format(
@@ -120,6 +119,7 @@ constructor(private val gameRepository: GameRepository,
             reportedGame = if (persist) gameRepository.save(game) else game
         } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             val playoffGameToBeReported = gameRepository.findNextPlayoffGameForUser(currentTournament, homeUser)
+                    ?: throw IllegalStateException("There's no playoff game to be reported for $homeUser")
 
             if (!listOf(playoffGameToBeReported.homeUser, playoffGameToBeReported.awayUser)
                             .containsAll(listOf(homeUser, awayUser))) {
@@ -144,17 +144,13 @@ constructor(private val gameRepository: GameRepository,
             throw IllegalTournamentStatusException(TournamentStatus.GROUP, TournamentStatus.PLAYOFFS)
         }
 
-        if (TransactionSynchronizationManager.isSynchronizationActive()) {
-            TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronizationAdapter() {
-                override fun afterCommit() {
-                    GlobalScope.launch {
-                        scheduleService.delete(
-                                scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!) ?: return@launch)
-                    }
-                }
-            })
+        GlobalScope.launch {
+            scheduleService.delete(
+                    scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!)
+                            ?: return@launch)
+            streamService.findMatchingStreams(reportedGame)
+                    .forEach { stream -> streamService.associateGame(stream, reportedGame) }
         }
-
         reportedGame.reportedAt = Timestamp(System.currentTimeMillis())
         return reportedGame
     }
@@ -232,6 +228,7 @@ constructor(private val gameRepository: GameRepository,
      */
     @Throws(IllegalStateException::class)
     @Transactional
+    @PublishNews
     fun addTechWin(winner: User, loser: User, reporter: User): Game {
         val currentTournament = tournamentService.getCurrentTournament()
                 ?: throw IllegalStateException("There's no current tournament.")
