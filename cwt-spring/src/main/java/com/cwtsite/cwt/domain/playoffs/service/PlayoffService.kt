@@ -75,9 +75,7 @@ class PlayoffService {
             if (thirdPlaceGame.size > 1) throw RuntimeException("There's more than one third place game.")
             if (thirdPlaceGame.size < 1) throw RuntimeException("There's no third place game although there's already a final game.")
             if (thirdPlaceGame[0].wasPlayed()) {
-                tournamentService.finish(
-                        winner, loser, thirdPlaceGame[0].winner(),
-                        game.playoff!!.round - 1, false)
+                tournamentService.finish(winner, loser, thirdPlaceGame[0].winner())
             }
             return emptyList()
         } else if (treeService.isThirdPlaceGame(game.tournament, game.playoff!!.round)) {
@@ -85,9 +83,7 @@ class PlayoffService {
             if (finalGame.size > 1) throw RuntimeException("There's more than one one-way final game.")
             if (finalGame.size < 1) throw RuntimeException("There's no one-way final game although there's already a third place game.")
             if (finalGame[0].wasPlayed()) {
-                tournamentService.finish(
-                        finalGame[0].winner(), finalGame[0].loser(), winner,
-                        game.playoff!!.round, false)
+                tournamentService.finish(finalGame[0].winner(), finalGame[0].loser(), winner)
             }
             return emptyList()
         } else if (treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
@@ -96,7 +92,7 @@ class PlayoffService {
             if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.wasPlayed() }) {
                 try {
                     val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
-                    tournamentService.finish(gold, silver, bronze, game.playoff!!.round, true)
+                    tournamentService.finish(gold, silver, bronze)
                 } catch (e: TiedThreeWayFinalResult) {
                     return listOf(
                             *gameRepository.saveAll(threeWayFinalGames.onEach { it.voided = true }).toTypedArray(),

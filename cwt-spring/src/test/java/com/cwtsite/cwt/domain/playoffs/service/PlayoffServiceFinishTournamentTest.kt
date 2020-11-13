@@ -44,8 +44,7 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(finalGame)
 
-        verify(tournamentService)
-                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, false)
+        verify(tournamentService).finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner())
     }
 
     @Test
@@ -61,8 +60,7 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(thirdPlaceGame)
 
-        verify(tournamentService)
-                .finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner(), thirdPlaceGame.playoff!!.round, false)
+        verify(tournamentService).finish(finalGame.winner(), finalGame.loser(), thirdPlaceGame.winner())
     }
 
     @Test
@@ -108,7 +106,7 @@ class PlayoffServiceFinishTournamentTest {
 
         playoffService.advanceByGame(game)
 
-        verify(tournamentService).finish(user1, user3, user2, game.playoff!!.round, true)
+        verify(tournamentService).finish(user1, user3, user2)
     }
 
     @Test

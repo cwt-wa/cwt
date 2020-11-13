@@ -68,14 +68,12 @@ class TournamentService {
     }
 
     @Transactional
-    fun finish(gold: User, silver: User, bronze: User, maxRounds: Int, threeWay: Boolean): Tournament {
+    fun finish(gold: User, silver: User, bronze: User): Tournament {
         val currentTournament = getCurrentTournament()!!
         currentTournament.goldWinner = gold
         currentTournament.silverWinner = silver
         currentTournament.bronzeWinner = bronze
         currentTournament.status = TournamentStatus.FINISHED
-        currentTournament.maxRounds = maxRounds
-        currentTournament.threeWay = threeWay
         val savedTournament = tournamentRepository.save(currentTournament)
         userRepository.refreshUserStats()
         return savedTournament
