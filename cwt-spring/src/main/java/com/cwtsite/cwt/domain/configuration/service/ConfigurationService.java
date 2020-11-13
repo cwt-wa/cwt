@@ -2,8 +2,10 @@ package com.cwtsite.cwt.domain.configuration.service;
 
 import com.cwtsite.cwt.domain.configuration.entity.Configuration;
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey;
+import com.cwtsite.cwt.domain.tournament.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +17,13 @@ import java.util.regex.Pattern;
 public class ConfigurationService {
 
     private final ConfigurationRepository configurationRepository;
+    private final TournamentService tournamentService;
 
     @Autowired
-    public ConfigurationService(ConfigurationRepository configurationRepository) {
+    public ConfigurationService(ConfigurationRepository configurationRepository,
+                                TournamentService tournamentService)  {
         this.configurationRepository = configurationRepository;
+        this.tournamentService = tournamentService;
     }
 
     public List<int[]> getParsedPointsPatternConfiguration() {
@@ -55,7 +60,16 @@ public class ConfigurationService {
         return configurationRepository.findAll();
     }
 
+    @Transactional
     public Configuration save(Configuration configuration) {
-        return this.configurationRepository.save(configuration);
+        if (ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING == configuration.getKey()) {
+            var currentTournament = tournamentService.getCurrentTournament();
+            if (currentTournament != null) {
+                currentTournament.setNumOfGroupAdvancing(Integer.parseInt(configuration.getValue()));
+                tournamentService.save(currentTournament);
+            }
+        }
+        return configurationRepository.save(configuration);
     }
 }
+

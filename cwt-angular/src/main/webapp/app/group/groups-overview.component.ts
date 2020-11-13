@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {GroupWithGamesDto} from "../custom";
-import {ConfigurationService} from "../_services/configuration.service";
 import {finalize} from "rxjs/operators";
 import {Subject} from 'rxjs';
 import {CurrentTournamentService} from "../_services/current-tournament.service";
+import {Toastr} from "../_services/toastr";
 
 type ViewMode = "list" | "square";
 
@@ -15,7 +15,6 @@ type ViewMode = "list" | "square";
 export class GroupsOverviewComponent implements OnInit {
 
     @Input() tournamentId: number;
-    @Input("numberOfGroupMembersAdvancing") numberOfGroupMembersAdvancingInput: number;
     @Input() hideTitle: boolean;
     @Input() hideLoadingIndicator: boolean;
 
@@ -26,37 +25,24 @@ export class GroupsOverviewComponent implements OnInit {
     public highlightUserSubject: Subject<{ user: number, enter: boolean }> = new Subject();
     private readonly VIEW_MODE_STORAGE_KEY: 'groups-overview-view-mode' = 'groups-overview-view-mode';
 
-    constructor(private requestService: RequestService, private configurationService: ConfigurationService,
-                private currentTournamentService: CurrentTournamentService) {
+    constructor(private requestService: RequestService,
+                private currentTournamentService: CurrentTournamentService,
+                private toastr: Toastr) {
         this.viewMode = <ViewMode> localStorage.getItem('groups-overview-view-mode') || 'list';
     }
 
     public async ngOnInit() {
-        if (this.tournamentId != null) {
-            this.requestService.get<GroupWithGamesDto[]>(`tournament/${this.tournamentId}/group`)
-                .pipe(finalize(() => this.loading = false))
-                .subscribe(res => this.groups = res);
-        } else {
-            if (await this.currentTournamentService.value) {
-                this.requestService.get<GroupWithGamesDto[]>("tournament/current/group")
-                    .pipe(finalize(() => this.loading = false))
-                    .subscribe(res => this.groups = res);
-            } else {
-                this.loading = false;
-                return;
-            }
+        const tournamentId = this.tournamentId || (await this.currentTournamentService.value);
+        if (tournamentId == null) {
+            this.toastr.error("There is currently no tournament.");
+            return;
         }
-
-        this.requestService.get<GroupWithGamesDto[]>(`tournament/${this.tournamentId || 'current'}/group`)
+        this.requestService.get<GroupWithGamesDto[]>(`tournament/${tournamentId}/group`)
             .pipe(finalize(() => this.loading = false))
-            .subscribe(res => this.groups = res);
-
-        if (!this.numberOfGroupMembersAdvancingInput) {
-            this.configurationService.requestByKeys("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
-                .subscribe(res => this.numberOfGroupMembersAdvancing = parseInt(res[0].value));
-        } else {
-            this.numberOfGroupMembersAdvancing = this.numberOfGroupMembersAdvancingInput
-        }
+            .subscribe(res => {
+                this.groups = res;
+                this.numberOfGroupMembersAdvancing = res[0].tournament.numOfGroupAdvancing;
+            });
     }
 
     public onMouseOverUser(event: { user: number, enter: boolean }) {

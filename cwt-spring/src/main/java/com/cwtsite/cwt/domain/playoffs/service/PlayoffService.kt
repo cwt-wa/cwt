@@ -69,10 +69,6 @@ class PlayoffService {
         val winner = game.winner()
         val loser = game.loser()
 
-        val numOfGroupAdvancing = configurationRepository
-                .findById(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)
-                .orElseThrow { IllegalStateException() }
-
         @Suppress("CascadeIf")
         if (treeService.isFinalGame(game.tournament, game.playoff!!.round)) {
             val thirdPlaceGame = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round - 1)
@@ -81,7 +77,7 @@ class PlayoffService {
             if (thirdPlaceGame[0].wasPlayed()) {
                 tournamentService.finish(
                         winner, loser, thirdPlaceGame[0].winner(),
-                        game.playoff!!.round - 1, numOfGroupAdvancing.value!!.toInt(), false)
+                        game.playoff!!.round - 1, false)
             }
             return emptyList()
         } else if (treeService.isThirdPlaceGame(game.tournament, game.playoff!!.round)) {
@@ -91,7 +87,7 @@ class PlayoffService {
             if (finalGame[0].wasPlayed()) {
                 tournamentService.finish(
                         finalGame[0].winner(), finalGame[0].loser(), winner,
-                        game.playoff!!.round, numOfGroupAdvancing.value!!.toInt(), false)
+                        game.playoff!!.round, false)
             }
             return emptyList()
         } else if (treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
@@ -100,7 +96,7 @@ class PlayoffService {
             if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.wasPlayed() }) {
                 try {
                     val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
-                    tournamentService.finish(gold, silver, bronze, game.playoff!!.round, numOfGroupAdvancing.value!!.toInt(), true)
+                    tournamentService.finish(gold, silver, bronze, game.playoff!!.round, true)
                 } catch (e: TiedThreeWayFinalResult) {
                     return listOf(
                             *gameRepository.saveAll(threeWayFinalGames.onEach { it.voided = true }).toTypedArray(),

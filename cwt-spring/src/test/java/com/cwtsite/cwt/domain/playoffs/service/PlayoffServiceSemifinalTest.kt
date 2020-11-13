@@ -51,13 +51,6 @@ class PlayoffServiceSemifinalTest {
     private val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS, maxRounds = 2)
 
     @Before
-    fun setUp() {
-        Mockito.lenient()
-                .`when`(configurationRepository.findById(Mockito.eq(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)))
-                .thenReturn(Optional.of(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2")))
-    }
-
-    @Before
     fun initMocks() {
         `when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
         `when`(treeService.isThirdPlaceGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)

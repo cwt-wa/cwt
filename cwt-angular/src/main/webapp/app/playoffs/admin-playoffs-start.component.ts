@@ -1,14 +1,13 @@
 import {distinctUntilChanged, map} from 'rxjs/operators';
-import {forkJoin as observableForkJoin, Observable} from 'rxjs';
-
+import {Observable} from 'rxjs';
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Configuration, GameCreationDto, GroupWithGamesDto, PlayoffGameDto} from "../custom";
-import {ConfigurationService} from "../_services/configuration.service";
+import {GameCreationDto, GroupWithGamesDto, PlayoffGameDto} from "../custom";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 import {PlayoffsService} from "../_services/playoffs.service";
 import {Router} from "@angular/router";
 import {Toastr} from "../_services/toastr";
+import {CurrentTournamentService} from "../_services/current-tournament.service";
 
 @Component({
     selector: 'cwt-admin-playoffs-start',
@@ -23,9 +22,12 @@ export class AdminPlayoffsStartComponent implements OnInit {
     typeAheadInputFormatter: (userId: number) => string;
     typeAheadResultFormatter: (userId: number) => string;
 
-    public constructor(private requestService: RequestService, private configurationService: ConfigurationService,
-                       private standingsOrderPipe: StandingsOrderPipe, private playoffsService: PlayoffsService,
-                       private router: Router, private toastr: Toastr) {
+    public constructor(private requestService: RequestService,
+                       private standingsOrderPipe: StandingsOrderPipe,
+                       private playoffsService: PlayoffsService,
+                       private router: Router,
+                       private toastr: Toastr,
+                       private currentTournamentService: CurrentTournamentService) {
         this.typeAheadForPlayoffsUser = (text$: Observable<string>) =>
             text$
                 .pipe(distinctUntilChanged()).pipe(
@@ -55,29 +57,26 @@ export class AdminPlayoffsStartComponent implements OnInit {
         return numberOfGroupMembersAdvancingIterable;
     }
 
-    public ngOnInit(): void {
-        observableForkJoin(
-            this.requestService.get<GroupWithGamesDto[]>('tournament/current/group'),
-            this.configurationService.requestByKeys("NUMBER_OF_GROUP_MEMBERS_ADVANCING")
-            )
-            .subscribe((res: [GroupWithGamesDto[], Configuration[]]) => {
-                    this.groups = res[0];
-                    this.numberOfGroupMembersAdvancing = parseInt(res[1][0].value);
+    public async ngOnInit(): Promise<void> {
+        const currentTournament = await this.currentTournamentService.value;
+        this.numberOfGroupMembersAdvancing = currentTournament.numOfGroupAdvancing;
+        this.requestService.get<GroupWithGamesDto[]>(`tournament/${currentTournament.id}/group`)
+            .subscribe(res => {
+                this.groups = res;
 
-                    const numberOfPlayoffSpots: number = this.numberOfGroupMembersAdvancing * this.groups.length / 2;
-                    this.games = [];
+                const numberOfPlayoffSpots: number = this.numberOfGroupMembersAdvancing * this.groups.length / 2;
+                this.games = [];
 
-                    let i;
-                    for (i = 0; i < numberOfPlayoffSpots; i++) {
-                        this.games.push({
-                            playoff: {
-                                spot: i + 1,
-                                round: 1
-                            }
-                        } as GameCreationDto);
-                    }
+                let i;
+                for (i = 0; i < numberOfPlayoffSpots; i++) {
+                    this.games.push({
+                        playoff: {
+                            spot: i + 1,
+                            round: 1
+                        }
+                    } as GameCreationDto);
                 }
-            );
+            });
     }
 
     autoDraw() {

@@ -48,13 +48,6 @@ class PlayoffServiceTest {
     @Mock
     private lateinit var configurationRepository: ConfigurationRepository
 
-    @Before
-    fun setUp() {
-        Mockito.lenient()
-                .`when`(configurationRepository.findById(Mockito.eq(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING)))
-                .thenReturn(Optional.of(Configuration(ConfigurationKey.NUMBER_OF_GROUP_MEMBERS_ADVANCING, "2")))
-    }
-
     @Test
     fun advanceByGame_playoffGameExists() {
         val tournament = EntityDefaults.tournament()

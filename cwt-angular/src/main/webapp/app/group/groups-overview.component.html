@@ -29,8 +29,7 @@
                 <div class="card bg-secondary mb-1 mr-0" [class.mr-lg-1]="even">
                     <div class="card-body">
                         <cwt-group-table [group]="group"
-                                         (mouseOverUser)="onMouseOverUser($event)"
-                                         [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
+                                         (mouseOverUser)="onMouseOverUser($event)">
                         </cwt-group-table>
                     </div>
                 </div>
@@ -45,8 +44,7 @@
                     <cwt-group-table class="col-md-12 col-lg-6"
                                      [group]="group"
                                      (mouseOverUser)="onMouseOverUser($event)"
-                                     [highlightUser]="highlightUserSubject"
-                                     [numberOfGroupMembersAdvancing]="numberOfGroupMembersAdvancing">
+                                     [highlightUser]="highlightUserSubject">
                     </cwt-group-table>
                     <cwt-group-games class="col-md-12 col-lg-6"
                                      [games]="group.games"
