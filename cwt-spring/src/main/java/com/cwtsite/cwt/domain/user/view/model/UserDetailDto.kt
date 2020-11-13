@@ -14,7 +14,7 @@ data class UserDetailDto(
 
     companion object {
 
-        fun toDto(user: User, userStatsDtos: List<UserStatsDto>, email: String? = null): UserDetailDto = UserDetailDto(
+        fun toDto(user: User, userStatsDtos: List<UserStatsDto>): UserDetailDto = UserDetailDto(
                 id = user.id!!,
                 username = user.username,
                 country = CountryDto.toDto(user.country),

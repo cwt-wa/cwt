@@ -36,13 +36,6 @@ class BinaryOutboundServiceDevImpl() : BinaryOutboundService {
     }
 
     override fun retrieveMap(gameId: Long, map: String): Response {
-//        requestHeaders["Content-Type"]
-//        requestHeaders["Content-Disposition"]
-//        requestHeaders["Cache-Control"]
-//        content as bytearray
-//        cache-control: immutable, max-age=604800, public
-//        content-type: image/png
-//        content-disposition: attachment; filename=1i2myw9o.png
         return object : Response {
             override val connection: HttpURLConnection
                 get() = throw UnsupportedOperationException("not available in this mock")
