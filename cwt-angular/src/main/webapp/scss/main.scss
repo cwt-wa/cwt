@@ -60,6 +60,14 @@ body {
 .cwt-top-bar .cwt-gmt {
   padding-top: 4px;
   color: #aaa;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .cwt-top-bar .cwt-gmt {
+    letter-spacing: -.05rem;
+  }
 }
 
 .cwt-top-bar a {
@@ -372,7 +380,7 @@ body {
 }
 
 
-@media (min-width: 576px) {
+@media (min-width: 576px) and (max-width: 767px) {
   .nav-item {
     margin-left: .2rem;
 
@@ -382,7 +390,7 @@ body {
   }
 }
 
-@media (min-width: 786px) {
+@media (min-width: 768px) {
   .nav-item {
     margin-left: .6rem;
   }

@@ -2,10 +2,28 @@ import {Component} from "@angular/core";
 
 @Component({
     selector: 'cwt-gmt-clock',
-    styles: [
-        '.display-date { display: inline-block; }',
-        '.time-part { width: 20px; display: inline-block; text-align: center; }',
-    ],
+    styles: [`
+        .display-date {
+            display: inline-block;
+        }
+
+        .time-part {
+            display: inline-block;
+            text-align: center;
+        }
+
+        @media (min-width: 576px) and (max-width: 767px) {
+            .time-part {
+                width: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .time-part {
+                width: 20px;
+            }
+        }
+    `],
     template: `
         <div *ngIf="displayDate && timePart">
             {{displayDate}}

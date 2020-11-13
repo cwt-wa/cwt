@@ -1,10 +1,10 @@
 <div class="cwt-top-bar" [ngClass]="{'apple-standalone': isAppleStandalone}">
     <div class="container">
         <div class="row ">
-            <div class="col-md-6 cwt-gmt">
+            <div class="col-sm-6 cwt-gmt">
                 <cwt-gmt-clock></cwt-gmt-clock>
             </div>
-            <div class="col-md-6 text-md-right all-petite-caps" *ngIf="!authenticatedUser">
+            <div class="col-sm-6 text-sm-right all-petite-caps" *ngIf="!authenticatedUser">
                 <a routerLink="/login" class="btn">
                     Log in
                 </a>
@@ -12,7 +12,7 @@
                     Register
                 </a>
             </div>
-            <div class="col-md-6 text-md-right" *ngIf="authenticatedUser">
+            <div class="col-sm-6 text-sm-right" *ngIf="authenticatedUser">
                 <a routerLink="/report" class="btn" *ngIf="(canReportService.canReport | async)">
                     Report
                 </a>
