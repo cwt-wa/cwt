@@ -2,7 +2,6 @@ package com.cwtsite.cwt.domain.stream.view
 
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
