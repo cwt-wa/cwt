@@ -141,7 +141,7 @@ constructor(private val authenticationManager: AuthenticationManager, private va
     }
 
     @RequestMapping("/refresh", method = [RequestMethod.GET])
-    fun refreshAndGetAuthenticationToken(request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse> {
+    fun refreshAndGetAuthenticationToken(request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse?> {
         val token = request.getHeader(authService.tokenHeaderName) ?: return ResponseEntity.ok(null)
 
         val username = jwtTokenUtil.getUsernameFromToken(token)

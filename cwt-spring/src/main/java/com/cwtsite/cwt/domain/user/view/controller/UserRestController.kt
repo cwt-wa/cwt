@@ -85,8 +85,7 @@ constructor(private val userService: UserService, private val applicationService
 
         return ResponseEntity.ok(UserDetailDto.toDto(
                 user,
-                UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline()),
-                if (includeEmail) user.email else null))
+                UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
     }
 
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])

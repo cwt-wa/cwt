@@ -38,14 +38,12 @@ class AuthService {
     }
 
     fun createLegacyHash(plainPassword: String?): String {
-        var plainPassword: String? = plainPassword ?: return ""
-
-        plainPassword = salt!! + plainPassword!!
+        var saltedPassword = salt!! + plainPassword!!
         val chars = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
 
         try {
             val engine = MessageDigest.getInstance("SHA-1")
-            val result = engine.digest(plainPassword.toByteArray(charset("UTF-8")))
+            val result = engine.digest(saltedPassword.toByteArray(charset("UTF-8")))
             val buffer = StringBuilder(result.size * 2)
             for (aData in result) {
                 val value1 = aData.toInt() and 0xFF
