@@ -60,10 +60,14 @@ interface GameRepository : JpaRepository<Game, Long> {
 
     fun findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(pageable: Pageable): Page<Game>
 
-    @Query("select g from Game g where (g.homeUser = :user1 and g.awayUser = :user2) or (g.homeUser = :user2 and g.awayUser = :user1)")
+    @Query("""
+        select g from Game g
+         where ((g.homeUser = :user1 and g.awayUser = :user2) or (g.homeUser = :user2 and g.awayUser = :user1))
+          and reportedAt is not null
+    """)
     fun findGameOfUsers(pageable: Pageable, @Param("user1") user1: User, @Param("user2") user2: User): Page<Game>
 
-    @Query("select g from Game g where g.homeUser = :user or g.awayUser = :user")
+    @Query("select g from Game g where (g.homeUser = :user or g.awayUser = :user) and reportedAt is not null")
     fun findGameOfUser(page: Pageable, @Param("user") user: User): Page<Game>
 
     @Query("""

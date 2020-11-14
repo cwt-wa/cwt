@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import java.sql.Timestamp
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
@@ -288,13 +289,15 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         val game = em.persist(Game(
                 homeUser = homeUser,
                 awayUser = awayUser,
-                tournament = tournament
+                tournament = tournament,
+                reportedAt = Timestamp(1605360542307)
         ))
         val otherUser = persistDummyUser()
         em.persist(Game(
                 homeUser = homeUser,
                 awayUser = otherUser,
-                tournament = tournament
+                tournament = tournament,
+                reportedAt = Timestamp(1605360542307)
         ))
         em.flush()
         val actual = gameRepository.findGameOfUsers(PageRequest.of(0, 5), awayUser, homeUser)
