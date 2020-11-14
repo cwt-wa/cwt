@@ -36,7 +36,7 @@
         </button>
         <span class="font-variant-numeric-tabular-nums"
               [ngbTooltip]="message.created | cwtDate">{{message.created | cwtDate:'time'}}</span>
-        <cwt-user *ngIf="message.author" [username]="message.author?.username"
+        <cwt-user *ngIf="message.author && message.newsType !== 'TWITCH_MESSAGE'" [username]="message.author?.username"
                   class="text-white font-weight-bold"></cwt-user>
 
         <ng-container *ngIf="message.category === 'NEWS'">
@@ -48,7 +48,7 @@
                     <ng-container *ngSwitchCase="'VOIDED'">voided</ng-container>
                     <ng-container *ngSwitchCase="'STREAM'">live streamed</ng-container>
                 </ng-container>
-                <ng-container *ngIf="message.newsType !== 'STREAM'">
+                <ng-container *ngIf="message.newsType === 'REPORT' || message.newsType === 'RATING' || message.newsType === 'COMMENT' || message.newsType === 'VOIDED'">
                     <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>
                     <a [routerLink]="['/games', messageData[0]]" class="font-weight-bold">{{messageData[3]}}–{{messageData[4]}}</a>
                     <cwt-user [username]="messageData[2]" class="font-weight-bold"></cwt-user>
@@ -57,6 +57,13 @@
                     <a target="_blank" class="font-weight-bold"
                        [href]="'https://www.twitch.tv/videos/' + messageData[0]">
                        “<span *ngFor="let d of messageData; let firstd = first">{{firstd ? '' : d}}</span>”&nbsp;<i class="fa fa-twitch text-success"></i>
+                    </a>
+                </ng-container>
+                <ng-container *ngIf="message.newsType === 'TWITCH_MESSAGE'">
+                    <a target="_blank" class="font-weight-bold"
+                       [href]="'https://www.twitch.tv/' + messageData[1]">
+                        <strong>{{messageData[0]}}</strong>&nbsp;<span class="font-weight-normal">via&nbsp;Twitch:</span>
+                        “<span *ngFor="let d of messageData; let indexd = index">{{indexd >= 2 ? d : ''}}</span>”&nbsp;<i class="fa fa-twitch text-success"></i>
                     </a>
                 </ng-container>
             </ng-container>

@@ -5,6 +5,7 @@ import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
+import com.cwtsite.cwt.domain.message.view.model.TwitchMessageDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -79,6 +80,12 @@ class MessageRestController {
         val savedMessage = messageService.save(MessageCreationDto.fromDto(
                 dto, authenticatedUser!!, userService.getByIds(dto.recipients!!)))
         return ResponseEntity.ok(MessageDto.toDto(savedMessage))
+    }
+
+    @PostMapping("twitch")
+    fun createMessageFromTwitch(@RequestBody message: TwitchMessageDto): ResponseEntity<MessageDto> {
+        val message = messageService.createTwitchMessage(message.displayName, message.channelName, message.body)
+        return ResponseEntity.ok(MessageDto.toDto(message))
     }
 }
 

@@ -2,7 +2,9 @@ package com.cwtsite.cwt.domain.message.service
 
 import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
+import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
@@ -12,7 +14,8 @@ import kotlin.math.min
 
 @Component
 class MessageService @Autowired
-constructor(private val messageRepository: MessageRepository) {
+constructor(private val messageRepository: MessageRepository,
+            private val userService: UserService) {
 
     fun findNewMessages(after: Timestamp, size: Int, user: User?,
                         categories: List<MessageCategory> = MessageCategory.values().toList()): List<Message> {
@@ -34,6 +37,7 @@ constructor(private val messageRepository: MessageRepository) {
     fun publishNews(type: MessageNewsType, author: User, vararg data: Any?): Message {
         val body = when (type) {
             MessageNewsType.STREAM -> "${data[0]},${data.drop(1).joinToString("")}"
+            MessageNewsType.TWITCH_MESSAGE -> "${data[0]},${data[1]},${data.drop(2).joinToString("")}"
             else -> data.joinToString(separator = ",")
         }
         return messageRepository.save(Message(
@@ -54,4 +58,11 @@ constructor(private val messageRepository: MessageRepository) {
         val result = messageRepository.findAllByCreatedAfterOrderByCreatedDesc(after)
         return result.subList(0, min(size, result.size))
     }
+
+    @Transactional
+    fun createTwitchMessage(displayName: String, channelName: String, body: String): Message =
+            publishNews(
+                MessageNewsType.TWITCH_MESSAGE,
+                userService.getById(1).orElseThrow(),
+                displayName, channelName, body)
 }
