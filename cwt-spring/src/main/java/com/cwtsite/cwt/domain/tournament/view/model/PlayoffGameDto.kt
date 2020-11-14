@@ -53,7 +53,7 @@ data class PlayoffGameDto(
                 isReplayExists = game.replay != null,
                 bets = game.bets.map { PlayoffTreeBetDto.toDto(it) },
                 playoffRoundLocalized = GameDetailDto.localizePlayoffRound(
-                        game.tournament.threeWay!!, game.tournament.maxRounds, game.playoff!!.round)
+                        game.tournament.threeWay!!, game.tournament.maxRounds - 1, game.playoff!!.round)
         )
     }
 }
