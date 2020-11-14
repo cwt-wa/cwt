@@ -52,7 +52,7 @@ class ChannelRestController {
     fun saveStream(@PathVariable("twitchUserId") twitchUserId: String): ResponseEntity<Unit> {
         val channel = streamService.findChannel(twitchUserId)
                 .orElseThrow { throw RestException("I don't know this Twitch user.", HttpStatus.BAD_REQUEST, null) }
-        pollForVideo(channel, listOf(5, 10, 20, 25))
+        pollForVideo(channel, listOf(0, 1, 3, 6, 10, 20))
         return ResponseEntity.ok().build<Unit>()
     }
 
