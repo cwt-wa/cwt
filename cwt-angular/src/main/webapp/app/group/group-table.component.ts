@@ -21,15 +21,15 @@ export class GroupTableComponent implements OnInit {
     public group: GroupWithGamesDto;
 
     @Input()
-    public numberOfGroupMembersAdvancing: number;
-
-    @Input()
     public highlightUser?: Subject<{ user: number, enter: boolean }>;
 
     @Output()
     public mouseOverUser: EventEmitter<{ user: number, enter: boolean }> = new EventEmitter();
 
+    public numberOfGroupMembersAdvancing: number;
+
     ngOnInit(): void {
+        this.numberOfGroupMembersAdvancing = this.group.tournament.numOfGroupAdvancing;
         this.highlightUser && this.highlightUser.subscribe(event =>
             this.standingTableRows.toArray()
                 .filter(tr => parseInt(tr.nativeElement.getAttribute('data-user')) === event.user)

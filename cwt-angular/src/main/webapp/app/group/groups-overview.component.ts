@@ -32,7 +32,7 @@ export class GroupsOverviewComponent implements OnInit {
     }
 
     public async ngOnInit() {
-        const tournamentId = this.tournamentId || (await this.currentTournamentService.value);
+        const tournamentId = this.tournamentId || (await this.currentTournamentService.value).id;
         if (tournamentId == null) {
             this.toastr.error("There is currently no tournament.");
             return;
