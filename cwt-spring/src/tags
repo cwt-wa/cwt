@@ -1382,7 +1382,7 @@ ConfigurationKey	main/java/com/cwtsite/cwt/domain/configuration/entity/enumeratu
 ConfigurationRepository	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationRepository.kt	/^interface ConfigurationRepository : JpaRepository<Configuration, ConfigurationKey>$/;"	i
 ConfigurationRepositoryTest	test/java/com/cwtsite/cwt/database/ConfigurationRepositoryTest.kt	/^class ConfigurationRepositoryTest {$/;"	c
 ConfigurationRestController	main/java/com/cwtsite/cwt/domain/configuration/view/ConfigurationRestController.kt	/^class ConfigurationRestController @Autowired$/;"	c
-ConfigurationService	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationService.java	/^    public ConfigurationService(ConfigurationRepository configurationRepository) {$/;"	m	class:ConfigurationService
+ConfigurationService	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationService.java	/^    public ConfigurationService(ConfigurationRepository configurationRepository,$/;"	m	class:ConfigurationService
 ConfigurationService	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationService.java	/^public class ConfigurationService {$/;"	c
 ConfigurationServiceTest	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^class ConfigurationServiceTest {$/;"	c
 ConfigurationValueType	main/java/com/cwtsite/cwt/domain/configuration/entity/enumeratuion/ConfigurationKey.java	/^    public enum ConfigurationValueType {$/;"	g	class:ConfigurationKey
@@ -1594,6 +1594,7 @@ TreeService	main/java/com/cwtsite/cwt/domain/playoffs/service/TreeService.kt	/^c
 TreeServiceTest	test/java/com/cwtsite/cwt/domain/playoffs/service/TreeServiceTest.kt	/^class TreeServiceTest {$/;"	c
 TwitchAuthDto	main/java/com/cwtsite/cwt/twitch/model/TwitchAuthDto.kt	/^data class TwitchAuthDto($/;"	d
 TwitchAuthValidationDto	main/java/com/cwtsite/cwt/twitch/model/TwitchAuthValidationDto.kt	/^data class TwitchAuthValidationDto($/;"	d
+TwitchMessageDto	main/java/com/cwtsite/cwt/domain/message/view/model/TwitchMessageDto.kt	/^data class TwitchMessageDto($/;"	d
 TwitchPaginationDto	main/java/com/cwtsite/cwt/twitch/model/TwitchPaginationDto.kt	/^data class TwitchPaginationDto ($/;"	d
 TwitchProperties	main/java/com/cwtsite/cwt/twitch/TwitchProperties.kt	/^class TwitchProperties {$/;"	c
 TwitchService	main/java/com/cwtsite/cwt/twitch/TwitchService.kt	/^interface TwitchService {$/;"	i
@@ -1809,6 +1810,7 @@ body	main/java/com/cwtsite/cwt/domain/message/entity/Message.kt	/^        var bo
 body	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^        val body = when (type) {$/;"	C
 body	main/java/com/cwtsite/cwt/domain/message/view/model/MessageCreationDto.kt	/^        var body: String,$/;"	v
 body	main/java/com/cwtsite/cwt/domain/message/view/model/MessageDto.kt	/^        val body: String,$/;"	C
+body	main/java/com/cwtsite/cwt/domain/message/view/model/TwitchMessageDto.kt	/^    val body: String,$/;"	C
 body	main/java/com/cwtsite/cwt/entity/Comment.kt	/^        var body: String? = null,$/;"	v
 body	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table comment (id bigint not null, body text not null, created timestamp, deleted boolean/;"	E	table:comment
 body	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table message (id bigint not null, body text, category varchar(255), created timestamp, a/;"	E	table:message
@@ -1980,6 +1982,7 @@ channel	test/java/com/cwtsite/cwt/domain/stream/view/ChannelRestControllerTest.k
 channel	test/java/com/cwtsite/cwt/test/EntityDefaults.kt	/^    fun channel(id: String = "1111", title: String = "TitleTV", user: User = user()) = Channel($/;"	m
 channelArg	test/java/com/cwtsite/cwt/twitch/TwitchServiceProdImplTest.kt	/^                    val channelArg = it.getArgument<Channel>(0)$/;"	C
 channelIdArg	test/java/com/cwtsite/cwt/twitch/TwitchServiceProdImplTest.kt	/^                    val channelIdArg = it.getArgument<String>(1)$/;"	C
+channelName	main/java/com/cwtsite/cwt/domain/message/view/model/TwitchMessageDto.kt	/^    val channelName: String$/;"	C
 channelRepository	main/java/com/cwtsite/cwt/domain/stream/service/StreamService.kt	/^    private lateinit var channelRepository: ChannelRepository$/;"	v
 channel_id	main/resources/db/migration/common/V0_1_0_20__streams.sql	/^    channel_id    text not null,$/;"	E	table:stream
 channel_id	main/resources/db/migration/common/V0_1_0_21__schedule.sql	/^    channel_id  text   not null,$/;"	E	table:schedule_channel
@@ -2157,6 +2160,7 @@ com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/
 com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/game/view/model/GameMinimalDto.kt	/^import com.cwtsite.cwt.domain.core.DataTransferObject$/;"	I
 com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/message/view/model/MessageCreationDto.kt	/^import com.cwtsite.cwt.domain.core.DataTransferObject$/;"	I
 com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/message/view/model/MessageDto.kt	/^import com.cwtsite.cwt.domain.core.DataTransferObject$/;"	I
+com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/message/view/model/TwitchMessageDto.kt	/^import com.cwtsite.cwt.domain.core.DataTransferObject$/;"	I
 com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/schedule/view/model/ScheduleCreationDto.kt	/^import com.cwtsite.cwt.domain.core.DataTransferObject$/;"	I
 com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/schedule/view/model/ScheduleDto.kt	/^import com.cwtsite.cwt.domain.core.DataTransferObject$/;"	I
 com.cwtsite.cwt.domain.core.DataTransferObject	main/java/com/cwtsite/cwt/domain/stream/view/model/ChannelCreationDto.kt	/^import com.cwtsite.cwt.domain.core.DataTransferObject$/;"	I
@@ -2397,6 +2401,7 @@ com.cwtsite.cwt.domain.message.service	main/java/com/cwtsite/cwt/domain/message/
 com.cwtsite.cwt.domain.message.service	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^package com.cwtsite.cwt.domain.message.service$/;"	p
 com.cwtsite.cwt.domain.message.service.MessageNewsType	main/java/com/cwtsite/cwt/core/news/NewsAspect.kt	/^import com.cwtsite.cwt.domain.message.service.MessageNewsType$/;"	I
 com.cwtsite.cwt.domain.message.service.MessageNewsType	main/java/com/cwtsite/cwt/domain/message/entity/Message.kt	/^import com.cwtsite.cwt.domain.message.service.MessageNewsType$/;"	I
+com.cwtsite.cwt.domain.message.service.MessageNewsType	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^import com.cwtsite.cwt.domain.message.service.MessageNewsType$/;"	I
 com.cwtsite.cwt.domain.message.service.MessageNewsType	main/java/com/cwtsite/cwt/domain/message/view/model/MessageDto.kt	/^import com.cwtsite.cwt.domain.message.service.MessageNewsType$/;"	I
 com.cwtsite.cwt.domain.message.service.MessageNewsType	test/java/com/cwtsite/cwt/core/news/NewsAspectTest.kt	/^import com.cwtsite.cwt.domain.message.service.MessageNewsType$/;"	I
 com.cwtsite.cwt.domain.message.service.MessageRepository	test/java/com/cwtsite/cwt/integration/GetMessageTest.kt	/^import com.cwtsite.cwt.domain.message.service.MessageRepository$/;"	I
@@ -2407,9 +2412,11 @@ com.cwtsite.cwt.domain.message.service.MessageService	test/java/com/cwtsite/cwt/
 com.cwtsite.cwt.domain.message.view.controller	main/java/com/cwtsite/cwt/domain/message/view/controller/MessageRestController.kt	/^package com.cwtsite.cwt.domain.message.view.controller$/;"	p
 com.cwtsite.cwt.domain.message.view.model	main/java/com/cwtsite/cwt/domain/message/view/model/MessageCreationDto.kt	/^package com.cwtsite.cwt.domain.message.view.model$/;"	p
 com.cwtsite.cwt.domain.message.view.model	main/java/com/cwtsite/cwt/domain/message/view/model/MessageDto.kt	/^package com.cwtsite.cwt.domain.message.view.model$/;"	p
+com.cwtsite.cwt.domain.message.view.model	main/java/com/cwtsite/cwt/domain/message/view/model/TwitchMessageDto.kt	/^package com.cwtsite.cwt.domain.message.view.model$/;"	p
 com.cwtsite.cwt.domain.message.view.model.MessageCreationDto	main/java/com/cwtsite/cwt/domain/message/view/controller/MessageRestController.kt	/^import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto$/;"	I
 com.cwtsite.cwt.domain.message.view.model.MessageDto	main/java/com/cwtsite/cwt/domain/message/view/controller/MessageRestController.kt	/^import com.cwtsite.cwt.domain.message.view.model.MessageDto$/;"	I
 com.cwtsite.cwt.domain.message.view.model.MessageDto	test/java/com/cwtsite/cwt/integration/NewMessagesTest.kt	/^import com.cwtsite.cwt.domain.message.view.model.MessageDto$/;"	I
+com.cwtsite.cwt.domain.message.view.model.TwitchMessageDto	main/java/com/cwtsite/cwt/domain/message/view/controller/MessageRestController.kt	/^import com.cwtsite.cwt.domain.message.view.model.TwitchMessageDto$/;"	I
 com.cwtsite.cwt.domain.playoffs	main/java/com/cwtsite/cwt/domain/playoffs/ThreeWayFinalResult.kt	/^package com.cwtsite.cwt.domain.playoffs$/;"	p
 com.cwtsite.cwt.domain.playoffs.ThreeWayFinalResult	main/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffService.kt	/^import com.cwtsite.cwt.domain.playoffs.ThreeWayFinalResult$/;"	I
 com.cwtsite.cwt.domain.playoffs.TiedThreeWayFinalResult	main/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffService.kt	/^import com.cwtsite.cwt.domain.playoffs.TiedThreeWayFinalResult$/;"	I
@@ -2530,6 +2537,7 @@ com.cwtsite.cwt.domain.tournament.entity.Tournament	main/java/com/cwtsite/cwt/do
 com.cwtsite.cwt.domain.tournament.entity.Tournament	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^import com.cwtsite.cwt.domain.tournament.entity.Tournament$/;"	I
 com.cwtsite.cwt.domain.tournament.entity.Tournament	test/java/com/cwtsite/cwt/database/GameStatsRepositoryTest.kt	/^import com.cwtsite.cwt.domain.tournament.entity.Tournament$/;"	I
 com.cwtsite.cwt.domain.tournament.entity.Tournament	test/java/com/cwtsite/cwt/database/GroupRepositoryTest.kt	/^import com.cwtsite.cwt.domain.tournament.entity.Tournament$/;"	I
+com.cwtsite.cwt.domain.tournament.entity.Tournament	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import com.cwtsite.cwt.domain.tournament.entity.Tournament$/;"	I
 com.cwtsite.cwt.domain.tournament.entity.Tournament	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import com.cwtsite.cwt.domain.tournament.entity.Tournament$/;"	I
 com.cwtsite.cwt.domain.tournament.entity.Tournament	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceTest.kt	/^import com.cwtsite.cwt.domain.tournament.entity.Tournament$/;"	I
 com.cwtsite.cwt.domain.tournament.entity.Tournament	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceVoidGameTest.kt	/^import com.cwtsite.cwt.domain.tournament.entity.Tournament$/;"	I
@@ -2584,6 +2592,7 @@ com.cwtsite.cwt.domain.tournament.service.TournamentService	main/java/com/cwtsit
 com.cwtsite.cwt.domain.tournament.service.TournamentService	main/java/com/cwtsite/cwt/domain/tournament/view/controller/TournamentRestController.kt	/^import com.cwtsite.cwt.domain.tournament.service.TournamentService$/;"	I
 com.cwtsite.cwt.domain.tournament.service.TournamentService	main/java/com/cwtsite/cwt/domain/user/service/UserService.kt	/^import com.cwtsite.cwt.domain.tournament.service.TournamentService$/;"	I
 com.cwtsite.cwt.domain.tournament.service.TournamentService	main/java/com/cwtsite/cwt/domain/user/view/controller/UserRestController.kt	/^import com.cwtsite.cwt.domain.tournament.service.TournamentService$/;"	I
+com.cwtsite.cwt.domain.tournament.service.TournamentService	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import com.cwtsite.cwt.domain.tournament.service.TournamentService$/;"	I
 com.cwtsite.cwt.domain.tournament.service.TournamentService	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import com.cwtsite.cwt.domain.tournament.service.TournamentService$/;"	I
 com.cwtsite.cwt.domain.tournament.service.TournamentService	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^import com.cwtsite.cwt.domain.tournament.service.TournamentService$/;"	I
 com.cwtsite.cwt.domain.tournament.service.TournamentService	test/java/com/cwtsite/cwt/domain/group/service/GroupServiceTest.kt	/^import com.cwtsite.cwt.domain.tournament.service.TournamentService$/;"	I
@@ -2738,6 +2747,7 @@ com.cwtsite.cwt.domain.user.service.JwtTokenUtil	main/java/com/cwtsite/cwt/domai
 com.cwtsite.cwt.domain.user.service.JwtTokenUtil	main/java/com/cwtsite/cwt/security/filter/JwtAuthenticationTokenFilter.kt	/^import com.cwtsite.cwt.domain.user.service.JwtTokenUtil$/;"	I
 com.cwtsite.cwt.domain.user.service.UserService	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^import com.cwtsite.cwt.domain.user.service.UserService$/;"	I
 com.cwtsite.cwt.domain.user.service.UserService	main/java/com/cwtsite/cwt/domain/game/view/GameRestController.kt	/^import com.cwtsite.cwt.domain.user.service.UserService$/;"	I
+com.cwtsite.cwt.domain.user.service.UserService	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^import com.cwtsite.cwt.domain.user.service.UserService$/;"	I
 com.cwtsite.cwt.domain.user.service.UserService	main/java/com/cwtsite/cwt/domain/message/view/controller/MessageRestController.kt	/^import com.cwtsite.cwt.domain.user.service.UserService$/;"	I
 com.cwtsite.cwt.domain.user.service.UserService	main/java/com/cwtsite/cwt/domain/schedule/view/ScheduleRestController.kt	/^import com.cwtsite.cwt.domain.user.service.UserService$/;"	I
 com.cwtsite.cwt.domain.user.service.UserService	main/java/com/cwtsite/cwt/domain/stream/view/ChannelRestController.kt	/^import com.cwtsite.cwt.domain.user.service.UserService$/;"	I
@@ -2859,6 +2869,7 @@ com.cwtsite.cwt.test.MockitoUtils	test/java/com/cwtsite/cwt/domain/playoffs/serv
 com.cwtsite.cwt.test.MockitoUtils	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceVoidGameTest.kt	/^import com.cwtsite.cwt.test.MockitoUtils$/;"	I
 com.cwtsite.cwt.test.MockitoUtils	test/java/com/cwtsite/cwt/domain/playoffs/service/TreeServiceTest.kt	/^import com.cwtsite.cwt.test.MockitoUtils$/;"	I
 com.cwtsite.cwt.test.MockitoUtils	test/java/com/cwtsite/cwt/twitch/TwitchServiceProdImplTest.kt	/^import com.cwtsite.cwt.test.MockitoUtils$/;"	I
+com.cwtsite.cwt.test.MockitoUtils.anyObject	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import com.cwtsite.cwt.test.MockitoUtils.anyObject$/;"	I
 com.cwtsite.cwt.test.MockitoUtils.anyObject	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^import com.cwtsite.cwt.test.MockitoUtils.anyObject$/;"	I
 com.cwtsite.cwt.test.MockitoUtils.anyObject	test/java/com/cwtsite/cwt/domain/stream/view/ChannelRestControllerTest.kt	/^import com.cwtsite.cwt.test.MockitoUtils.anyObject$/;"	I
 com.cwtsite.cwt.test.MockitoUtils.anyObject	test/java/com/cwtsite/cwt/domain/user/service/UserServiceTest.kt	/^import com.cwtsite.cwt.test.MockitoUtils.anyObject$/;"	I
@@ -2938,17 +2949,16 @@ config.logging.max-payload-size	main/resources/application-dev.properties	/^conf
 configuration	main/java/com/cwtsite/cwt/domain/configuration/view/ConfigurationRestController.kt	/^        val configuration = ConfigurationDto.fromDto(configurationDto, authenticatedUser)$/;"	C
 configuration	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table configuration (key varchar(255) not null, modified timestamp, value text, author_id/;"	t
 configuration	test/java/com/cwtsite/cwt/database/ConfigurationRepositoryTest.kt	/^            val configuration = configurations$/;"	C
+configuration	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^        val configuration = Configuration($/;"	C
 configurationKey	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^        val configurationKey = if (tournamentStatus == TournamentStatus.GROUP) {$/;"	C
 configurationKeys	test/java/com/cwtsite/cwt/database/ConfigurationRepositoryTest.kt	/^        val configurationKeys = ConfigurationKey.values()$/;"	C
 configurationRepository	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationService.java	/^    private final ConfigurationRepository configurationRepository;$/;"	f	class:ConfigurationService	file:
 configurationRepository	main/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffService.kt	/^    private lateinit var configurationRepository: ConfigurationRepository$/;"	v
 configurationRepository	test/java/com/cwtsite/cwt/database/ConfigurationRepositoryTest.kt	/^    private lateinit var configurationRepository: ConfigurationRepository$/;"	v
-configurationRepository	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^    private lateinit var configurationRepository: ConfigurationRepository$/;"	v
 configurationRepository	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceSemifinalTest.kt	/^    private lateinit var configurationRepository: ConfigurationRepository$/;"	v
 configurationRepository	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceTest.kt	/^    private lateinit var configurationRepository: ConfigurationRepository$/;"	v
 configurationService	main/java/com/cwtsite/cwt/domain/configuration/entity/RulesRestController.java	/^    private final ConfigurationService configurationService;$/;"	f	class:RulesRestController	file:
 configurationService	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^            private val configurationService: ConfigurationService,$/;"	C
-configurationService	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^    private lateinit var configurationService: ConfigurationService$/;"	v
 configurationService	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^    private lateinit var configurationService: ConfigurationService$/;"	v
 configurationService	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceSemifinalTest.kt	/^    private lateinit var configurationService: ConfigurationService$/;"	v
 configurationService	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceTest.kt	/^    private lateinit var configurationService: ConfigurationService$/;"	v
@@ -2991,18 +3001,19 @@ createHash	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^    fu
 createInstance	main/java/com/cwtsite/cwt/core/event/SseEmitterFactory.kt	/^    fun createInstance(): SseEmitter = SseEmitter()$/;"	m
 createLegacyHash	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^    fun createLegacyHash(plainPassword: String?): String {$/;"	m
 createLegacyHash	test/java/com/cwtsite/cwt/domain/user/service/AuthServiceTest.java	/^    public void createLegacyHash() {$/;"	m	class:AuthServiceTest
+createMessageFromTwitch	main/java/com/cwtsite/cwt/domain/message/view/controller/MessageRestController.kt	/^    fun createMessageFromTwitch(@RequestBody message: TwitchMessageDto): ResponseEntity<MessageD/;"	m
 createMessageJson1	test/java/com/cwtsite/cwt/integration/NewMessagesTest.kt	/^    private val createMessageJson1 = javaClass.getResource("create-message-1.json")!!.readBytes(/;"	C
 createMessageJson2	test/java/com/cwtsite/cwt/integration/NewMessagesTest.kt	/^    private val createMessageJson2 = javaClass.getResource("create-message-2.json")!!.readBytes(/;"	C
 createMockHttpResponse	test/java/com/cwtsite/cwt/integration/GameStatsWebTest.kt	/^    private fun createMockHttpResponse(vararg mocks: InputStreamEntity): CloseableHttpResponse =$/;"	m
 createOneWayFinalGames	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceFinishTournamentTest.kt	/^    private fun createOneWayFinalGames(): Pair<Game, Game> {$/;"	m
 createPlayoffGame	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^    private fun createPlayoffGame(tournament: Tournament, round: Int, spot: Int): Game {$/;"	m
 createPlayoffGame	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceTest.kt	/^    private fun createPlayoffGame(round: Int, spot: Int) = PlayoffGame($/;"	m
-createPointsPatternConfiguration	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^    private fun createPointsPatternConfiguration(value: String) =$/;"	m
 createReplayFileName	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^    fun createReplayFileName(game: Game): String {$/;"	m
 createResponseEntity	main/java/com/cwtsite/cwt/controller/BinaryRestController.kt	/^    private fun createResponseEntity(requestHeaders: Map<String, String>,$/;"	m
 createStandings	test/java/com/cwtsite/cwt/domain/user/service/UserServiceTest.kt	/^    private fun createStandings(user: User): List<GroupStanding> =$/;"	m
 createTempFile	main/java/com/cwtsite/cwt/core/BinaryOutboundServiceProdImpl.kt	/^        val createTempFile = createTempFile()$/;"	C
 createTournament	main/java/com/cwtsite/cwt/domain/tournament/view/controller/TournamentRestController.kt	/^    fun createTournament($/;"	m
+createTwitchMessage	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^    fun createTwitchMessage(displayName: String, channelName: String, body: String): Message =$/;"	m
 createVideoDto	test/java/com/cwtsite/cwt/twitch/TwitchServiceProdImplTest.kt	/^    private fun createVideoDto(channel: Channel, videoTitle: String) = TwitchVideoDto($/;"	m
 createVoidableGame	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceVoidGameTest.kt	/^    private fun createVoidableGame(): Game {$/;"	m
 created	main/java/com/cwtsite/cwt/domain/game/entity/Game.kt	/^        var created: Timestamp? = null,$/;"	v
@@ -3621,6 +3632,7 @@ description	main/resources/db/migration/common/V0_1_0_20__streams.sql	/^    desc
 destDir	main/java/com/cwtsite/cwt/domain/core/Unzip.kt	/^    private lateinit var destDir: File$/;"	v
 determineSender	main/java/com/cwtsite/cwt/core/EmailService.kt	/^    private fun determineSender(from: EmailAddress): String {$/;"	m
 dislikes	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table rating_result (id bigint not null, darkside integer, dislikes integer, lightside in/;"	E	table:rating_result
+displayName	main/java/com/cwtsite/cwt/domain/message/view/model/TwitchMessageDto.kt	/^    val displayName: String,$/;"	C
 displayName	main/java/com/cwtsite/cwt/domain/stream/entity/Channel.kt	/^        var displayName: String? = null,$/;"	v
 displayName	main/java/com/cwtsite/cwt/domain/stream/view/model/ChannelDto.kt	/^        val displayName: String? = null,$/;"	C
 display_name	main/resources/db/migration/common/V0_1_0_20__streams.sql	/^    display_name      text,$/;"	E	table:channel
@@ -3867,7 +3879,7 @@ findStream	main/java/com/cwtsite/cwt/domain/stream/service/StreamService.kt	/^  
 findStreams	main/java/com/cwtsite/cwt/domain/stream/service/StreamService.kt	/^    fun findStreams(game: Game): List<Stream> = streamRepository.findByGame(game)$/;"	m
 findTextureDistinct	test/java/com/cwtsite/cwt/database/GameStatsRepositoryTest.kt	/^    fun findTextureDistinct() {$/;"	m
 findUsers	test/java/com/cwtsite/cwt/database/GroupRepositoryTest.kt	/^    fun findUsers() {$/;"	m
-finish	main/java/com/cwtsite/cwt/domain/tournament/service/TournamentService.kt	/^    fun finish(gold: User, silver: User, bronze: User, maxRounds: Int, numOfGroupAdvancing: Int,/;"	m
+finish	main/java/com/cwtsite/cwt/domain/tournament/service/TournamentService.kt	/^    fun finish(gold: User, silver: User, bronze: User): Tournament {$/;"	m
 firebase-credentials-location	main/resources/application.properties	/^firebase-credentials-location=\/Users\/Zemke\/.cwt-firebase-credentials.json$/;"	k
 firebaseApp	main/java/com/cwtsite/cwt/domain/user/view/controller/AuthenticationRestController.kt	/^        val firebaseApp = when (FirebaseApp.getApps().isEmpty()) {$/;"	C
 firebaseCredentialsLocation	main/java/com/cwtsite/cwt/domain/user/view/controller/AuthenticationRestController.kt	/^    private lateinit var firebaseCredentialsLocation: String$/;"	v
@@ -4108,7 +4120,6 @@ getOne	main/java/com/cwtsite/cwt/domain/stream/view/StreamRestController.kt	/^  
 getOne	main/java/com/cwtsite/cwt/domain/user/view/controller/UserRestController.kt	/^    fun getOne(@PathVariable("usernameOrId") usernameOrId: String,$/;"	m
 getOpponent	main/java/com/cwtsite/cwt/domain/game/view/model/ReportDto.java	/^    public Long getOpponent() {$/;"	m	class:ReportDto
 getParsedPointsPatternConfiguration	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationService.java	/^    public List<int[]> getParsedPointsPatternConfiguration() {$/;"	m	class:ConfigurationService
-getParsedPointsPatternConfiguration	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^    fun getParsedPointsPatternConfiguration() {$/;"	m
 getParticipations	main/java/com/cwtsite/cwt/domain/user/repository/entity/UserStats.java	/^    public Integer getParticipations() {$/;"	m	class:UserStats
 getPassword	main/java/com/cwtsite/cwt/domain/user/view/model/JwtAuthenticationRequest.java	/^    public String getPassword() {$/;"	m	class:JwtAuthenticationRequest
 getPassword	main/java/com/cwtsite/cwt/domain/user/view/model/JwtUser.java	/^    public String getPassword() {$/;"	m	class:JwtUser
@@ -4436,6 +4447,7 @@ java.sql.Timestamp	main/java/com/cwtsite/cwt/domain/user/repository/entity/Count
 java.sql.Timestamp	main/java/com/cwtsite/cwt/domain/user/repository/entity/User.kt	/^import java.sql.Timestamp$/;"	I
 java.sql.Timestamp	main/java/com/cwtsite/cwt/domain/user/service/UserService.kt	/^import java.sql.Timestamp$/;"	I
 java.sql.Timestamp	main/java/com/cwtsite/cwt/entity/Comment.kt	/^import java.sql.Timestamp$/;"	I
+java.sql.Timestamp	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^import java.sql.Timestamp$/;"	I
 java.sql.Timestamp	test/java/com/cwtsite/cwt/database/GameStatsRepositoryTest.kt	/^import java.sql.Timestamp$/;"	I
 java.sql.Timestamp	test/java/com/cwtsite/cwt/domain/stream/service/StreamServiceTest.kt	/^import java.sql.Timestamp$/;"	I
 java.sql.Timestamp	test/java/com/cwtsite/cwt/domain/tournament/view/controller/TournamentRestControllerTest.kt	/^import java.sql.Timestamp$/;"	I
@@ -4483,7 +4495,6 @@ java.util.	main/java/com/cwtsite/cwt/domain/user/service/UserService.kt	/^import
 java.util.	main/java/com/cwtsite/cwt/entity/Comment.kt	/^import java.util.*$/;"	I
 java.util.	main/java/com/cwtsite/cwt/view/model/DateSerializer.kt	/^import java.util.*$/;"	I
 java.util.	test/java/com/cwtsite/cwt/database/AbstractDatabaseTest.kt	/^import java.util.*$/;"	I
-java.util.	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import java.util.*$/;"	I
 java.util.	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import java.util.*$/;"	I
 java.util.	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^import java.util.*$/;"	I
 java.util.	test/java/com/cwtsite/cwt/domain/group/service/GroupServiceTest.kt	/^import java.util.*$/;"	I
@@ -4817,6 +4828,7 @@ kotlin.test.Ignore	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^im
 kotlin.test.Ignore	test/java/com/cwtsite/cwt/database/UserRepositoryTest.kt	/^import kotlin.test.Ignore$/;"	I
 kotlin.test.Test	test/java/com/cwtsite/cwt/core/news/NewsAspectTest.kt	/^import kotlin.test.Test$/;"	I
 kotlin.test.Test	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^import kotlin.test.Test$/;"	I
+kotlin.test.Test	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import kotlin.test.Test$/;"	I
 kotlin.test.Test	test/java/com/cwtsite/cwt/domain/core/UnzipTest.kt	/^import kotlin.test.Test$/;"	I
 kotlin.test.Test	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^import kotlin.test.Test$/;"	I
 kotlin.test.Test	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceVoidGameTest.kt	/^import kotlin.test.Test$/;"	I
@@ -5230,6 +5242,7 @@ mediaType	main/java/com/cwtsite/cwt/domain/user/repository/entity/Photo.kt	/^   
 media_type	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table replay (id bigint not null, extension varchar(255), file bytea, media_type varchar(/;"	E	table:replay
 media_type	main/resources/db/migration/common/V0_1_0_19__photo.sql	/^    media_type text,$/;"	E	table:photo
 message	main/java/com/cwtsite/cwt/controller/RestError.java	/^    private String message;$/;"	f	class:RestError	file:
+message	main/java/com/cwtsite/cwt/domain/message/view/controller/MessageRestController.kt	/^        val message = messageService.createTwitchMessage(message.displayName, message.channelNam/;"	C
 message	main/java/com/cwtsite/cwt/domain/user/service/UserService.kt	/^                    val message = """$/;"	C
 message	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table message (id bigint not null, body text, category varchar(255), created timestamp, a/;"	t
 messageNewsType	main/java/com/cwtsite/cwt/core/news/NewsAspect.kt	/^                val messageNewsType = if (subject.voided) MessageNewsType.VOIDED else MessageNew/;"	C
@@ -5324,7 +5337,6 @@ nextRound	main/java/com/cwtsite/cwt/domain/playoffs/service/TreeService.kt	/^   
 nextRoundIsThreeWayFinal	main/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffService.kt	/^        val nextRoundIsThreeWayFinal = treeService.isThreeWayFinalGame(game.tournament, nextRoun/;"	C
 nextSpot	main/java/com/cwtsite/cwt/domain/playoffs/service/TreeService.kt	/^        val nextSpot = if (currentSpot % 2 != 0) {$/;"	C
 now	main/java/com/cwtsite/cwt/core/ClockInstance.kt	/^    val now: Instant get() = Instant.now()$/;"	C
-numOfGroupAdvancing	main/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffService.kt	/^        val numOfGroupAdvancing = configurationRepository$/;"	C
 numOfGroupAdvancing	main/java/com/cwtsite/cwt/domain/tournament/entity/Tournament.kt	/^        var numOfGroupAdvancing: Int = 2,$/;"	v
 numOfGroupAdvancing	main/java/com/cwtsite/cwt/domain/tournament/view/model/TournamentDetailDto.kt	/^        val numOfGroupAdvancing: Int?,$/;"	C
 numOfGroupAdvancing	main/java/com/cwtsite/cwt/domain/tournament/view/model/TournamentUpdateDto.kt	/^        val numOfGroupAdvancing: Int?,$/;"	C
@@ -5373,6 +5385,7 @@ org.assertj.core.api.Assertions	test/java/com/cwtsite/cwt/twitch/TwitchServicePr
 org.assertj.core.api.Assertions	test/java/com/cwtsite/cwt/twitch/model/TwitchVideoDtoTest.kt	/^import org.assertj.core.api.Assertions$/;"	I
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/database/GameStatsRepositoryTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
+org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/domain/core/UnzipTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
@@ -5383,6 +5396,7 @@ org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/domain/stre
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/domain/tournament/view/controller/TournamentRestControllerTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/integration/GameStatsDatabaseTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
 org.assertj.core.api.Assertions.assertThat	test/java/com/cwtsite/cwt/integration/TournamentMapsTest.kt	/^import org.assertj.core.api.Assertions.assertThat$/;"	I
+org.assertj.core.api.Assertions.assertThatThrownBy	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import org.assertj.core.api.Assertions.assertThatThrownBy$/;"	I
 org.assertj.core.api.Assertions.assertThatThrownBy	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.assertj.core.api.Assertions.assertThatThrownBy$/;"	I
 org.assertj.core.api.Assertions.assertThatThrownBy	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^import org.assertj.core.api.Assertions.assertThatThrownBy$/;"	I
 org.assertj.core.api.Assertions.assertThatThrownBy	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceVoidGameTest.kt	/^import org.assertj.core.api.Assertions.assertThatThrownBy$/;"	I
@@ -5420,7 +5434,6 @@ org.json.JSONObject	main/java/com/cwtsite/cwt/core/BinaryOutboundServiceDevImpl.
 org.json.JSONObject	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^import org.json.JSONObject$/;"	I
 org.json.JSONObject	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.json.JSONObject$/;"	I
 org.junit.Assert	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^import org.junit.Assert$/;"	I
-org.junit.Assert	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import org.junit.Assert$/;"	I
 org.junit.Assert	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.junit.Assert$/;"	I
 org.junit.Assert	test/java/com/cwtsite/cwt/domain/group/service/GroupServiceTest.kt	/^import org.junit.Assert$/;"	I
 org.junit.Assert	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceTest.kt	/^import org.junit.Assert$/;"	I
@@ -5446,7 +5459,6 @@ org.junit.Test	test/java/com/cwtsite/cwt/database/ConfigurationRepositoryTest.kt
 org.junit.Test	test/java/com/cwtsite/cwt/database/GameStatsRepositoryTest.kt	/^import org.junit.Test$/;"	I
 org.junit.Test	test/java/com/cwtsite/cwt/database/GroupRepositoryTest.kt	/^import org.junit.Test$/;"	I
 org.junit.Test	test/java/com/cwtsite/cwt/database/UserRepositoryTest.kt	/^import org.junit.Test$/;"	I
-org.junit.Test	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import org.junit.Test$/;"	I
 org.junit.Test	test/java/com/cwtsite/cwt/domain/game/entity/GameTest.kt	/^import org.junit.Test$/;"	I
 org.junit.Test	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.junit.Test$/;"	I
 org.junit.Test	test/java/com/cwtsite/cwt/domain/game/view/model/GameDetailDtoTest.kt	/^import org.junit.Test$/;"	I
@@ -5537,6 +5549,7 @@ org.mockito.Mockito	test/java/com/cwtsite/cwt/security/SecurityServiceTest.kt	/^
 org.mockito.Mockito	test/java/com/cwtsite/cwt/test/MockitoUtils.kt	/^import org.mockito.Mockito$/;"	I
 org.mockito.Mockito	test/java/com/cwtsite/cwt/twitch/model/TwitchVideoDtoTest.kt	/^import org.mockito.Mockito$/;"	I
 org.mockito.Mockito.	test/java/com/cwtsite/cwt/core/news/NewsAspectTest.kt	/^import org.mockito.Mockito.*$/;"	I
+org.mockito.Mockito.	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import org.mockito.Mockito.`when`$/;"	I
 org.mockito.Mockito.	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.mockito.Mockito.`when`$/;"	I
 org.mockito.Mockito.	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^import org.mockito.Mockito.*$/;"	I
 org.mockito.Mockito.	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceFinishTournamentTest.kt	/^import org.mockito.Mockito.*$/;"	I
@@ -5552,6 +5565,7 @@ org.mockito.Mockito.	test/java/com/cwtsite/cwt/integration/GetMessageTest.kt	/^i
 org.mockito.Mockito.	test/java/com/cwtsite/cwt/integration/NewMessagesTest.kt	/^import org.mockito.Mockito.`when`$/;"	I
 org.mockito.Mockito.mock	test/java/com/cwtsite/cwt/integration/GameStatsWebTest.kt	/^import org.mockito.Mockito.mock$/;"	I
 org.mockito.Mockito.spy	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceThreeWayFinalTest.kt	/^import org.mockito.Mockito.spy$/;"	I
+org.mockito.Mockito.verify	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import org.mockito.Mockito.verify$/;"	I
 org.mockito.Mockito.verify	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.mockito.Mockito.verify$/;"	I
 org.mockito.Spy	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^import org.mockito.Spy$/;"	I
 org.mockito.junit.MockitoJUnitRunner	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^import org.mockito.junit.MockitoJUnitRunner$/;"	I
@@ -5955,7 +5969,6 @@ placeBetOnGame	main/java/com/cwtsite/cwt/domain/game/view/GameRestController.kt	
 placeBetOnGame_alreadyPlayed	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^    fun placeBetOnGame_alreadyPlayed() {$/;"	m
 placeBetOnGame_impersonate	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^    fun placeBetOnGame_impersonate() {$/;"	m
 placeBetOnGame_works	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^    fun placeBetOnGame_works() {$/;"	m
-plainPassword	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^        var plainPassword: String? = plainPassword ?: return ""$/;"	v
 playersInFirstRound	main/java/com/cwtsite/cwt/domain/playoffs/service/TreeService.kt	/^        val playersInFirstRound = gameRepository.findByTournamentAndRoundAndNotVoided(tournament/;"	C
 playoff	main/java/com/cwtsite/cwt/domain/game/entity/Game.kt	/^        var playoff: PlayoffGame? = null,$/;"	v
 playoff	main/java/com/cwtsite/cwt/domain/game/entity/Game.kt	/^    fun playoff() = playoff != null && group == null$/;"	m
@@ -6117,7 +6130,7 @@ result	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^    
 result	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^        val result = messageRepository.findAllByCreatedBeforeOrderByCreatedDesc(after)$/;"	C
 result	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^        val result = messageRepository.findNewByAuthorOrRecipientsInOrCategoryInOrderByCreatedDe/;"	C
 result	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^        val result = messageRepository.findOldByAuthorOrRecipientsInOrCategoryInOrderByCreatedDe/;"	C
-result	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^            val result = engine.digest(plainPassword.toByteArray(charset("UTF-8")))$/;"	C
+result	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^            val result = engine.digest(saltedPassword.toByteArray(charset("UTF-8")))$/;"	C
 result	test/java/com/cwtsite/cwt/database/GameStatsRepositoryTest.kt	/^        val result = cut.findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull()$/;"	C
 result	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^        val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 1, Sort.by(Sort.Direction.DE/;"	C
 result	test/java/com/cwtsite/cwt/domain/game/view/GameRestControllerTest.kt	/^        val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 2, Sort.by(Sort.Direction.DE/;"	C
@@ -6467,12 +6480,15 @@ roundTime	test/resources/com/cwtsite/cwt/integration/1559/3.json	/^  "roundTime"
 roundTime	test/resources/com/cwtsite/cwt/integration/1559/4.json	/^  "roundTime": "0:22:54",$/;"	s
 round_ratio	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table group_standing (id bigint not null, game_ratio integer, games integer, points integ/;"	E	table:group_standing
 salt	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^    private val salt: String? = null$/;"	C
+saltedPassword	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^        var saltedPassword = salt!! + plainPassword!!$/;"	v
 save	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationService.java	/^    public Configuration save(Configuration configuration) {$/;"	m	class:ConfigurationService
 save	main/java/com/cwtsite/cwt/domain/group/service/GroupService.kt	/^    fun save(groups: List<Group>): List<Group> = groupRepository.saveAll(groups)$/;"	m
 save	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^    fun save(message: Message): Message {$/;"	m
 save	main/java/com/cwtsite/cwt/domain/schedule/service/ScheduleService.kt	/^    fun save(author: User, opponent: User, appointment: Timestamp): Schedule = scheduleRepositor/;"	m
 save	main/java/com/cwtsite/cwt/domain/schedule/service/ScheduleService.kt	/^    fun save(schedule: Schedule): Schedule = scheduleRepository.save(schedule)$/;"	m
 save	main/java/com/cwtsite/cwt/domain/schedule/view/ScheduleRestController.kt	/^    fun save(@RequestBody dto: ScheduleCreationDto): ResponseEntity<ScheduleDto> {$/;"	m
+save	main/java/com/cwtsite/cwt/domain/tournament/service/TournamentService.kt	/^    fun save(tournament: Tournament): Tournament = tournamentRepository.save(tournament)$/;"	m
+save	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^    fun save() {$/;"	m
 saveChannel	main/java/com/cwtsite/cwt/domain/stream/service/StreamService.kt	/^    fun saveChannel(channel: Channel): Channel = channelRepository.save(channel)$/;"	m
 saveChannel	main/java/com/cwtsite/cwt/domain/stream/view/ChannelRestController.kt	/^    fun saveChannel(@RequestBody dto: ChannelCreationDto): ResponseEntity<ChannelDto> {$/;"	m
 saveGameStats	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^    fun saveGameStats(data: String, game: Game): GameStats {$/;"	m
@@ -6572,9 +6588,6 @@ setTournament	main/java/com/cwtsite/cwt/entity/Application.java	/^    public voi
 setTrophyPoints	main/java/com/cwtsite/cwt/domain/user/repository/entity/UserStats.java	/^    public void setTrophyPoints(Integer trophyPoints) {$/;"	m	class:UserStats
 setType	main/java/com/cwtsite/cwt/domain/game/entity/Rating.java	/^    public void setType(RatingType type) {$/;"	m	class:Rating
 setType	main/java/com/cwtsite/cwt/domain/game/view/RatingDto.java	/^    public void setType(RatingType type) {$/;"	m	class:RatingDto
-setUp	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceFinishTournamentTest.kt	/^    fun setUp() {$/;"	m
-setUp	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceSemifinalTest.kt	/^    fun setUp() {$/;"	m
-setUp	test/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffServiceTest.kt	/^    fun setUp() {$/;"	m
 setUp	test/java/com/cwtsite/cwt/domain/stream/service/StreamServiceTest.kt	/^    fun setUp() {$/;"	m
 setUp	test/java/com/cwtsite/cwt/integration/GameStatsWebTest.kt	/^    fun setUp() {$/;"	m
 setUp	test/java/com/cwtsite/cwt/integration/GetMessageTest.kt	/^    fun setUp() {$/;"	m
@@ -7553,7 +7566,7 @@ toDto	main/java/com/cwtsite/cwt/domain/tournament/view/model/TournamentDetailDto
 toDto	main/java/com/cwtsite/cwt/domain/tournament/view/model/TournamentDto.kt	/^        fun toDto(tournament: Tournament) = TournamentDto($/;"	m
 toDto	main/java/com/cwtsite/cwt/domain/user/view/model/CountryDto.kt	/^        fun toDto(country: Country) = CountryDto($/;"	m
 toDto	main/java/com/cwtsite/cwt/domain/user/view/model/UserChangeDto.kt	/^        fun toDto(user: User) = UserChangeDto($/;"	m
-toDto	main/java/com/cwtsite/cwt/domain/user/view/model/UserDetailDto.kt	/^        fun toDto(user: User, userStatsDtos: List<UserStatsDto>, email: String? = null): UserDet/;"	m
+toDto	main/java/com/cwtsite/cwt/domain/user/view/model/UserDetailDto.kt	/^        fun toDto(user: User, userStatsDtos: List<UserStatsDto>): UserDetailDto = UserDetailDto($/;"	m
 toDto	main/java/com/cwtsite/cwt/domain/user/view/model/UserMinimalDto.kt	/^        fun toDto(user: User) = UserMinimalDto(user.id!!, user.username)$/;"	m
 toDto	main/java/com/cwtsite/cwt/domain/user/view/model/UserOverviewDto.kt	/^        fun toDto(user: User, userStatsDtos: List<UserStatsDto>): UserOverviewDto = UserOverview/;"	m
 toDtos	main/java/com/cwtsite/cwt/domain/user/view/model/UserStatsDto.kt	/^        fun toDtos(timeline: String): List<UserStatsDto> {$/;"	m
@@ -7622,6 +7635,7 @@ tournament	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^        va
 tournament	test/java/com/cwtsite/cwt/database/GameRepositoryTest.kt	/^        val tournament = em.persist(Tournament(status = TournamentStatus.PLAYOFFS))$/;"	C
 tournament	test/java/com/cwtsite/cwt/database/GameStatsRepositoryTest.kt	/^        val tournament = tournamentRepository.save(Tournament())$/;"	C
 tournament	test/java/com/cwtsite/cwt/database/GroupRepositoryTest.kt	/^        val tournament = em.persist(Tournament())$/;"	C
+tournament	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^        val tournament = EntityDefaults.tournament()$/;"	C
 tournament	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^        val tournament = EntityDefaults.tournament(status = TournamentStatus.GROUP)$/;"	C
 tournament	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^        val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)$/;"	C
 tournament	test/java/com/cwtsite/cwt/domain/group/service/GroupServiceTest.kt	/^        val tournament = EntityDefaults.tournament(status = TournamentStatus.GROUP)$/;"	C
@@ -7642,6 +7656,7 @@ tournamentRepository	main/java/com/cwtsite/cwt/domain/user/service/UserService.k
 tournamentRepository	test/java/com/cwtsite/cwt/integration/GameStatsDatabaseTest.kt	/^    private lateinit var tournamentRepository: TournamentRepository$/;"	v
 tournamentRepository	test/java/com/cwtsite/cwt/integration/GameStatsWebTest.kt	/^    private lateinit var tournamentRepository: TournamentRepository$/;"	v
 tournamentRepository	test/java/com/cwtsite/cwt/integration/TournamentMapsTest.kt	/^    private lateinit var tournamentRepository: TournamentRepository$/;"	v
+tournamentService	main/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationService.java	/^    private final TournamentService tournamentService;$/;"	f	class:ConfigurationService	file:
 tournamentService	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^            private val tournamentService: TournamentService,$/;"	C
 tournamentService	main/java/com/cwtsite/cwt/domain/game/view/GameRestController.kt	/^            private val tournamentService: TournamentService,$/;"	C
 tournamentService	main/java/com/cwtsite/cwt/domain/playoffs/service/PlayoffService.kt	/^    private lateinit var tournamentService: TournamentService$/;"	v
@@ -8307,6 +8322,7 @@ userRepository	test/java/com/cwtsite/cwt/integration/GetMessageTest.kt	/^    pri
 userRepository	test/java/com/cwtsite/cwt/integration/NewMessagesTest.kt	/^    private lateinit var userRepository: UserRepository$/;"	v
 userRepository	test/java/com/cwtsite/cwt/integration/TournamentMapsTest.kt	/^    private lateinit var userRepository: UserRepository$/;"	v
 userService	main/java/com/cwtsite/cwt/domain/game/service/GameService.kt	/^            private val userService: UserService,$/;"	C
+userService	main/java/com/cwtsite/cwt/domain/message/service/MessageService.kt	/^            private val userService: UserService) {$/;"	C
 userService	main/java/com/cwtsite/cwt/security/ProgressiveAuthenticationProvider.java	/^    private final UserService userService;$/;"	f	class:ProgressiveAuthenticationProvider	file:
 userService	test/java/com/cwtsite/cwt/domain/game/service/GameServiceTest.kt	/^    private lateinit var userService: UserService$/;"	v
 userService	test/java/com/cwtsite/cwt/domain/tournament/view/controller/TournamentRestControllerTest.kt	/^    private lateinit var userService: UserService$/;"	v
@@ -8371,6 +8387,7 @@ validateUsername	test/java/com/cwtsite/cwt/domain/user/service/UserServiceTest.k
 value	main/java/com/cwtsite/cwt/domain/configuration/entity/Configuration.kt	/^        var value: String?,$/;"	v
 value	main/java/com/cwtsite/cwt/domain/configuration/view/model/ConfigurationDto.kt	/^        val value: String,$/;"	C
 value	main/resources/db/migration/common/V0_1_0_0__schema.sql	/^create table configuration (key varchar(255) not null, modified timestamp, value text, author_id/;"	E	table:configuration
+value	test/java/com/cwtsite/cwt/domain/configuration/service/ConfigurationServiceTest.kt	/^                val value = Integer.parseInt(configuration.value)$/;"	C
 value1	main/java/com/cwtsite/cwt/domain/user/service/AuthService.kt	/^                val value1 = aData.toInt() and 0xFF$/;"	C
 verifySecretWord	main/java/com/cwtsite/cwt/security/SecurityService.kt	/^    fun verifySecretWord(secretWordFromUser: String) =$/;"	m
 verifySecretWord	test/java/com/cwtsite/cwt/security/SecurityServiceTest.kt	/^    fun verifySecretWord() {$/;"	m
