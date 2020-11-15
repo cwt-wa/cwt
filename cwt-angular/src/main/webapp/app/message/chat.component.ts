@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
     constructor(private requestService: RequestService,
                 private authService: AuthService,
                 private toastr: Toastr,
-                @Inject(APP_CONFIG) public appConfig: AppConfig) {
+                @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     _messages: MessageDto[] = [];
@@ -42,7 +42,15 @@ export class ChatComponent implements OnInit {
                 }
                 return acc;
             }, <MessageDto[]>[]);
-        this.oldestMessage = new Date(this.messages[this.messages.length - 1].created).getTime();
+        let oldestMessage;
+        if (this.messages.length === 1) {
+          oldestMessage = this.messages[0];
+        } else if (this.messages.length > 1) {
+          oldestMessage = this.messages[this.messages.length - 1];
+        }
+        if (oldestMessage != null) {
+          this.oldestMessage = new Date(oldestMessage.created).getTime();
+        }
     }
 
     ngOnInit(): void {
@@ -75,7 +83,7 @@ export class ChatComponent implements OnInit {
         const messageDto: MessageCreationDto = {
             body: message.body,
             category: message.category,
-            recipients: message.recipients.map(u => u.id),
+            recipients: message.recipients?.map(u => u.id) || [],
         };
         this.requestService.post<MessageCreationDto>('message', messageDto)
             .subscribe(res => {
