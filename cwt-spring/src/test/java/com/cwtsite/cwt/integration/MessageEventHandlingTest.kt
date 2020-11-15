@@ -1,17 +1,19 @@
 package com.cwtsite.cwt.integration
 
+import com.cwtsite.cwt.core.event.SseEmitterFactory
 import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
-import com.cwtsite.cwt.domain.message.service.MessageEventListener
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.test.MockitoUtils
+import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
+import org.mockito.Spy
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -23,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
+import java.sql.Timestamp
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,7 +38,18 @@ class MessageEventHandlingTest {
     @Autowired private lateinit var mockMvc: MockMvc
     @Autowired private lateinit var messageService: MessageService
     @Autowired private lateinit var userService: UserService
-    @MockBean private lateinit var messageEventListener: MessageEventListener
+    @MockBean private lateinit var sseEmitterFactory: SseEmitterFactory
+    @Spy private lateinit var sseEmitter: SseEmitter
+
+    companion object {
+        private var user: User? = null
+    }
+
+    @Before
+    fun setup() {
+        `when`(sseEmitterFactory.createInstance()).thenReturn(sseEmitter)
+        if (user == null) user = userService.saveUser(User(username = "name", email = "master@example.com"))
+    }
 
     @Test
     @WithMockUser
@@ -43,14 +58,33 @@ class MessageEventHandlingTest {
                 .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk)
-        val user = userService.saveUser(User(username = "name", email = "master@example.com"))
         val message = Message(
                 body = "Everybody needs to know this!",
-                author = user,
-                category = MessageCategory.SHOUTBOX
+                author = user!!,
+                category = MessageCategory.SHOUTBOX,
+                created = Timestamp(1605483348499)
         )
         messageService.save(message)
-        verify(messageEventListener).publish(message)
-        verify(messageEventListener).listen(MockitoUtils.anyObject())
+        verify(sseEmitter).send(MockitoUtils.anyObject())
+    }
+
+    @Test
+    @WithMockUser
+    fun doNotPublishPrivateMessage() {
+        mockMvc
+                .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk)
+        val author = userService.saveUser(User(username = "Author", email = "author@example.com"))
+        val recipient = userService.saveUser(User(username = "HelloUser", email = "hello@example.com"))
+        val message = Message(
+                body = "Everybody needs to know this!",
+                author = author,
+                category = MessageCategory.PRIVATE,
+                recipients = mutableListOf(recipient),
+                created = Timestamp(1605483348499)
+        )
+        messageService.save(message)
+        verify(sseEmitter, never()).send(MockitoUtils.anyObject())
     }
 }

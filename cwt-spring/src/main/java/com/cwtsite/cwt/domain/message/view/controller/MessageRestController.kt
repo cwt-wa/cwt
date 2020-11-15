@@ -38,25 +38,27 @@ class MessageRestController {
 
     @GetMapping("/listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun listenToStats(request: HttpServletRequest): ResponseBodyEmitter {
-        logger.info("Somebody listening.")
         val emitter = sseEmitterFactory.createInstance()
         val authHeader = request.getHeader(authService.tokenHeaderName)
         val user = if (authHeader != null) authService.getUserFromToken(authHeader) else null
         val emit = { message: MessageDto ->
-            if (message.category === MessageCategory.PRIVATE && user != null) {
-                if (message.author.id == user.id || message.recipients.map { it.id }.contains(user.id)) {
+            if (message.category === MessageCategory.PRIVATE) {
+                if (user != null && (message.author.id == user.id || message.recipients.map { it.id }.contains(user.id))) {
+                    logger.info("Not publishing message to user as it's private.")
                     emitter.send(SseEmitter.event().data(message).name("EVENT"))
                 }
             } else {
+                logger.info("Publishing message to the user.")
                 emitter.send(SseEmitter.event().data(message).name("EVENT"))
             }
         }
         messageEventListener.listen { message ->
-            logger.info("Listening was not in vain.")
+            logger.info("listener received message $message")
             emit(MessageDto.toDto(message))
         }
         // we're always providing the latest few because there could've
         //  been a few misses during a reconnection
+        logger.info("Sending the last few messages to the user initially.")
         getMessages(
                 after = 0,
                 size = 7,
