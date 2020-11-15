@@ -29,9 +29,10 @@ constructor(private val messageRepository: MessageRepository,
         return result.subList(0, min(size, result.size))
     }
 
+    @Transactional
     fun save(message: Message): Message {
         return messageRepository.save(message).let {
-            messageEventListener.publish(it) // todo postcommit
+            messageEventListener.publish(it)
             it
         }
     }
@@ -47,7 +48,7 @@ constructor(private val messageRepository: MessageRepository,
                 category = MessageCategory.NEWS, author = author, newsType = type,
                 body = body)
         return messageRepository.save(message).let {
-            messageEventListener.publish(it) // todo postcommit
+            messageEventListener.publish(it)
             it
         }
     }
