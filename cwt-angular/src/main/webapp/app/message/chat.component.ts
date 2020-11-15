@@ -1,14 +1,15 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
+import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
     selector: 'cwt-chat',
     template: require('./chat.component.html')
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit {
 
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
@@ -16,15 +17,14 @@ export class ChatComponent implements OnInit, OnDestroy {
     filter: MessageCategory | null = null;
     authUser: JwtUser;
     private readonly messagesSize = 30;
-    private readonly fetchIntervalMillis = 10000;
-    private fetchInterval: number;
     private oldestMessage: number;
-    private newestMessage: number;
     private endpoint: string;
+    private eventSource: EventSource;
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
-                private toastr: Toastr) {
+                private toastr: Toastr,
+                @Inject(APP_CONFIG) public appConfig: AppConfig) {
     }
 
     _messages: MessageDto[] = [];
@@ -42,7 +42,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                 }
                 return acc;
             }, <MessageDto[]>[]);
-        this.newestMessage = new Date(this.messages[0].created).getTime();
         this.oldestMessage = new Date(this.messages[this.messages.length - 1].created).getTime();
     }
 
@@ -53,12 +52,23 @@ export class ChatComponent implements OnInit, OnDestroy {
             .get<MessageDto[]>(`${this.endpoint}`, {after: "0", size: this.messagesSize.toString()})
             .subscribe(res => {
                 this.messages = res;
-                this.shortPolling();
+                this.setupEventSource();
             });
     }
 
-    ngOnDestroy(): void {
-        window.clearInterval(this.fetchInterval);
+    private setupEventSource() {
+        this.eventSource = new EventSource(this.appConfig.apiEndpoint + 'message/listen');
+        this.eventSource.onerror = (err: any) =>
+            err?.originalTarget?.readyState === 2 && setTimeout(() => this.setupEventSource(), 1000);
+        this.eventSource.onopen = e => console.log('listening for messages', e);
+        this.eventSource.addEventListener("EVENT", e => {
+            // @ts-ignore
+            console.log('EVENT', e.data);
+            // @ts-ignore
+            if (e.data === 'START') return;
+            // @ts-ignore
+            this.messages = [JSON.parse(e.data), ...this._messages];
+        });
     }
 
     submit(message: Message, cb: (success: boolean) => void): void {
@@ -67,21 +77,17 @@ export class ChatComponent implements OnInit, OnDestroy {
             category: message.category,
             recipients: message.recipients.map(u => u.id),
         };
-
         this.requestService.post<MessageCreationDto>('message', messageDto)
             .subscribe(res => {
-                this._messages.unshift(res as unknown as MessageDto);
+                this.messages = [res as unknown as MessageDto, ...this._messages];
                 cb(true);
             }, () => cb(false));
     }
 
     deleteMessage(message: MessageDto) {
         const text = `Are you sure to delete this message?
-
 ${message.author.username}: ${message.body}`;
-
         if (!confirm(text)) return;
-
         this.requestService.delete(`message/${message.id}`)
             .subscribe(() => {
                 this.toastr.success("Message has been deleted.");
@@ -91,7 +97,6 @@ ${message.author.username}: ${message.body}`;
 
     filterBy(category: MessageCategory | null) {
         this.filter = category;
-        this.newestMessage = null;
         this.oldestMessage = null;
         const queryParams = {
             after: "0",
@@ -114,19 +119,5 @@ ${message.author.username}: ${message.body}`;
             .subscribe(res => res.length
                     ? this.messages = [...this._messages, ...res]
                     : this.toastr.info('There are no more messages.'));
-    }
-
-    private shortPolling() {
-        setTimeout(() => {
-            this.requestService
-                .get<MessageDto[]>(`${this.endpoint}`, {
-                    after: this.newestMessage.toString(),
-                    size: this.messagesSize.toString()
-                })
-                .subscribe(res => {
-                    this.messages = [...res, ...this._messages];
-                    this.shortPolling();
-                })
-        }, this.fetchIntervalMillis);
     }
 }

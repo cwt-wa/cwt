@@ -1,7 +1,9 @@
 package com.cwtsite.cwt.domain.message.view.controller
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.core.event.SseEmitterFactory
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
+import com.cwtsite.cwt.domain.message.service.MessageEventListener
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
@@ -10,11 +12,15 @@ import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 
@@ -25,6 +31,40 @@ class MessageRestController {
     @Autowired private lateinit var messageService: MessageService
     @Autowired private lateinit var authService: AuthService
     @Autowired private lateinit var userService: UserService
+    @Autowired private lateinit var sseEmitterFactory: SseEmitterFactory
+    @Autowired private lateinit var messageEventListener: MessageEventListener
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
+    @GetMapping("/listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun listenToStats(request: HttpServletRequest): ResponseBodyEmitter {
+        logger.info("Somebody listening.")
+        val emitter = sseEmitterFactory.createInstance()
+        val authHeader = request.getHeader(authService.tokenHeaderName)
+        val user = if (authHeader != null) authService.getUserFromToken(authHeader) else null
+        val emit = { message: MessageDto ->
+            if (message.category === MessageCategory.PRIVATE && user != null) {
+                if (message.author.id == user.id || message.recipients.map { it.id }.contains(user.id)) {
+                    emitter.send(SseEmitter.event().data(message).name("EVENT"))
+                }
+            } else {
+                emitter.send(SseEmitter.event().data(message).name("EVENT"))
+            }
+        }
+        messageEventListener.listen { message ->
+            logger.info("Listening was not in vain.")
+            emit(MessageDto.toDto(message))
+        }
+        // we're always providing the latest few because there could've
+        //  been a few misses during a reconnection
+        getMessages(
+                after = 0,
+                size = 7,
+                before = null,
+                request = request,
+                category = null).body!!.forEach { emit(it) }
+        return emitter
+    }
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun getMessages(@RequestParam("after", required = false) after: Long?,

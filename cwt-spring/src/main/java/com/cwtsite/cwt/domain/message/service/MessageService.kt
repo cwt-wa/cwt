@@ -2,7 +2,6 @@ package com.cwtsite.cwt.domain.message.service
 
 import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
-import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,7 +14,8 @@ import kotlin.math.min
 @Component
 class MessageService @Autowired
 constructor(private val messageRepository: MessageRepository,
-            private val userService: UserService) {
+            private val userService: UserService,
+            private val messageEventListener: MessageEventListener) {
 
     fun findNewMessages(after: Timestamp, size: Int, user: User?,
                         categories: List<MessageCategory> = MessageCategory.values().toList()): List<Message> {
@@ -30,7 +30,10 @@ constructor(private val messageRepository: MessageRepository,
     }
 
     fun save(message: Message): Message {
-        return messageRepository.save(message)
+        return messageRepository.save(message).let {
+            messageEventListener.publish(it) // todo postcommit
+            it
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -40,9 +43,13 @@ constructor(private val messageRepository: MessageRepository,
             MessageNewsType.TWITCH_MESSAGE -> "${data[0]},${data[1]},${data.drop(2).joinToString("")}"
             else -> data.joinToString(separator = ",")
         }
-        return messageRepository.save(Message(
+        val message = Message(
                 category = MessageCategory.NEWS, author = author, newsType = type,
-                body = body))
+                body = body)
+        return messageRepository.save(message).let {
+            messageEventListener.publish(it) // todo postcommit
+            it
+        }
     }
 
     fun deleteMessage(id: Long) {
