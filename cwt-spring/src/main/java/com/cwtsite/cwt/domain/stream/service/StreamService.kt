@@ -43,6 +43,7 @@ class StreamService {
 
     fun findMatchingGame(stream: Stream): Game? {
         val tournament = tournamentService.getCurrentTournament()
+        logger.info("Finding matching game for stream \"${stream.title}\" in tournament ${tournament?.id}")
         val usernames = if (tournament == null) {
             setOf(
                     *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
@@ -60,6 +61,7 @@ class StreamService {
                         *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
             }
         }
+        logger.info("usernames available for fuzzy matching: $usernames")
         val matchingUsernames = stream.relevantWordsInTitle(usernames)
                 .asSequence()
                 .map { word ->
@@ -78,6 +80,7 @@ class StreamService {
         val user1 = userRepository.findByUsernameIgnoreCase(matchingUsernames[0])
         val user2 = userRepository.findByUsernameIgnoreCase(matchingUsernames[1])
         if (user1 == null || user2 == null) return null
+        logger.info("Usernames were found in the database, finding the games with them")
         return when (tournament) {
             null -> gameRepository.findGame(user1, user2)
             else -> gameRepository.findGame(user1, user2, tournament)
@@ -95,6 +98,7 @@ class StreamService {
     @Transactional
     @PublishNews
     fun associateGame(stream: Stream, game: Game): Stream {
+        logger.info("Link game $game to stream $stream")
         stream.game = game
         return stream
     }
@@ -105,10 +109,12 @@ class StreamService {
                     (abs(it.createdAtAsTimestamp().time - game.reportedAt!!.time)
                             < streamGameTolerance.toMillis())
                 }
+        logger.info("stream available for matching: $streams")
         if (streams.isEmpty()) return emptySet()
         val usernames = setOf(
                 *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
                 *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
+        logger.info("usernames to fuzzy match in stream title: $usernames")
         return streams
                 .map { stream ->
                     val relevantWordsInTitle = stream.relevantWordsInTitle(usernames)
@@ -118,8 +124,9 @@ class StreamService {
                     val bestAwayUserMatch = relevantWordsInTitle
                             .map { word -> FuzzySearch.ratio(word, game.awayUser!!.username.toLowerCase()) }
                             .max()!!
-
-                    Triple(stream, bestHomeUserMatch, bestAwayUserMatch)
+                    Triple(stream, bestHomeUserMatch, bestAwayUserMatch).also {
+                        logger.info("match result: (${it.first.title}, ${it.second} ${it.second})")
+                    }
                 }
                 .filter { it.second >= matchThreshold && it.third >= matchThreshold }
                 .map { it.first }
