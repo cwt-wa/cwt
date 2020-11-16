@@ -37,7 +37,7 @@ class MessageRestController {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("/listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun listenToStats(request: HttpServletRequest): ResponseBodyEmitter {
+    fun listen(request: HttpServletRequest): ResponseBodyEmitter {
         val emitter = sseEmitterFactory.createInstance()
         val authHeader = request.getHeader(authService.tokenHeaderName)
         val user = if (authHeader != null) authService.getUserFromToken(authHeader) else null
