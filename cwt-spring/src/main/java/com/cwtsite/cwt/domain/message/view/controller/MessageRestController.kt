@@ -4,10 +4,11 @@ import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.event.SseEmitterFactory
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.message.service.MessageEventListener
+import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
-import com.cwtsite.cwt.domain.message.view.model.TwitchMessageDto
+import com.cwtsite.cwt.domain.message.view.model.ThirdPartyMessageDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -124,9 +125,13 @@ class MessageRestController {
         return ResponseEntity.ok(MessageDto.toDto(savedMessage))
     }
 
-    @PostMapping("twitch")
-    fun createMessageFromTwitch(@RequestBody message: TwitchMessageDto): ResponseEntity<MessageDto> {
-        val message = messageService.createTwitchMessage(message.displayName, message.channelName, message.body)
+    @PostMapping("third-party")
+    fun createMessageFromTwitch(@RequestBody dto: ThirdPartyMessageDto): ResponseEntity<MessageDto> {
+        if (!MessageNewsType.thirdPartyMessageTypes().contains(dto.newsType)) {
+            throw RestException("Not a third party news type", HttpStatus.BAD_REQUEST, null)
+        }
+        val message = messageService.thirdPartyMessage(
+                dto.displayName, dto.link, dto.body, dto.newsType)
         return ResponseEntity.ok(MessageDto.toDto(message))
     }
 }

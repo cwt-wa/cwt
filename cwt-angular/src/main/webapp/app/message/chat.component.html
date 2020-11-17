@@ -36,7 +36,8 @@
         </button>
         <span class="font-variant-numeric-tabular-nums"
               [ngbTooltip]="message.created | cwtDate">{{message.created | cwtDate:'time'}}</span>
-        <cwt-user *ngIf="message.author && message.newsType !== 'TWITCH_MESSAGE'" [username]="message.author?.username"
+        <cwt-user *ngIf="message.author && message.newsType !== 'TWITCH_MESSAGE' && message.newsType !== 'DISCORD_MESSAGE'"
+                  [username]="message.author?.username"
                   class="text-white font-weight-bold"></cwt-user>
 
         <ng-container *ngIf="message.category === 'NEWS'">
@@ -61,9 +62,16 @@
                 </ng-container>
                 <ng-container *ngIf="message.newsType === 'TWITCH_MESSAGE'">
                     <a target="_blank" class="font-weight-bold"
-                       [href]="'https://www.twitch.tv/' + messageData[1]">
+                       [href]="messageData[1]">
                         <strong>{{messageData[0]}}</strong>&nbsp;<span class="font-weight-normal">via&nbsp;Twitch:</span>
                         “<span *ngFor="let d of messageData; let indexd = index">{{indexd >= 2 ? d : ''}}</span>”&nbsp;<i class="fa fa-twitch text-success"></i>
+                    </a>
+                </ng-container>
+                <ng-container *ngIf="message.newsType === 'DISCORD_MESSAGE'">
+                    <a target="_blank" class="font-weight-bold"
+                       [href]="messageData[1]">
+                        <strong>{{messageData[0]}}</strong>&nbsp;<span class="font-weight-normal">via&nbsp;Discord:</span>
+                        “<span *ngFor="let d of messageData; let indexd = index">{{indexd >= 2 ? d : ''}}</span>”&nbsp;<i class="fa fa-discord text-success"></i>
                     </a>
                 </ng-container>
             </ng-container>

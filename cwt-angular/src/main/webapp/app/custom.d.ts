@@ -403,7 +403,7 @@ export interface Message {
     category: MessageCategory;
 }
 
-export type MessageNewsType = "REPORT" | "RATING" | "COMMENT" | "VOIDED" | "STREAM"
+export type MessageNewsType = "REPORT" | "RATING" | "COMMENT" | "VOIDED" | "STREAM" | "TWITCH_MESSAGE" | "DISCORD_MESSAGE";
 
 export interface MessageCreationDto {
     body: string;

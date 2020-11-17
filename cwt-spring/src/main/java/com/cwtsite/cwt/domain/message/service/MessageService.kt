@@ -68,9 +68,10 @@ constructor(private val messageRepository: MessageRepository,
     }
 
     @Transactional
-    fun createTwitchMessage(displayName: String, channelName: String, body: String): Message =
+    fun thirdPartyMessage(displayName: String, link: String, body: String,
+                          newsType: MessageNewsType): Message =
             publishNews(
-                MessageNewsType.TWITCH_MESSAGE,
-                userService.getById(1).orElseThrow(),
-                displayName, channelName, body)
+                    newsType,
+                    userService.getById(1).orElseThrow(),
+                    displayName, link, body)
 }
