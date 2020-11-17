@@ -6,7 +6,8 @@ import "@angular/router";
 
 import '@ng-bootstrap/ng-bootstrap';
 
-import 'font-awesome/css/font-awesome.css';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/css/v4-shims.css';
 
 import 'toastr/toastr.js';
 import 'toastr/build/toastr.css';
