@@ -79,7 +79,7 @@ sql> delete from users where id in (select id from temp_inactive_users)
 
 Remaining number of users is 256.
 
-Additionally user Jakk0 has been merged into Jakka, MIGHTYtaner into tanerr and Afinaaa into Afina using a feature that was implemented in [#90](https://github.com/Zemke/cwt/issues/90). 
+Additionally user Jakk0 has been merged into Jakka, MIGHTYtaner into tanerr and Afinaaa into Afina using a feature that was implemented in [#90](https://github.com/cwt-wa/cwt/issues/90).
 
 User “NouS” has been reinstated from the inactive users because he appears tobe an actual user who is also registered on TUS and he is in the `applications` table which is not taken into account by the `inactive_users` view.
 
@@ -281,7 +281,7 @@ When it became apparent that I can only get a free Postgres installation with da
 
 Although a Digital Ocean droplet is persistent I still wanted to have the binaries in an explicit data store. In a Cloud world it makes sense to have these not be part of the deployed application.
 
-I therefore set up a data store application [Zemke/cwt-binary](https://github.com/Zemke/cwt-binary) in PHP Lumen with POST and GET endpoints for replays and user photos. \
+I therefore set up a data store application [cwt-wa/binary-store](https://github.com/cwt-wa/binary-store) in PHP Lumen with POST and GET endpoints for replays and user photos. \
 The application relies on the filenames to be the ID of the user or game respectively and then the file extension. I therefore had to perform some batch renaming which I did using Bash scripts.
 
 ### Remove spam account photos

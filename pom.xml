@@ -33,7 +33,7 @@
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/Zemke/cwt/issues</url>
+        <url>https://github.com/cwt-wa/cwt/issues</url>
     </issueManagement>
 
     <inceptionYear>2002</inceptionYear>
@@ -49,14 +49,14 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/Zemke/cwt</url>
-        <connection>scm:git:git://github.com/Zemke/cwt.git</connection>
-        <developerConnection>scm:git:git@github.com:Zemke/cwt.git</developerConnection>
+        <url>https://github.com/cwt-wa/cwt</url>
+        <connection>scm:git:git://github.com/cwt-wa/cwt.git</connection>
+        <developerConnection>scm:git:git@github.com:cwt-wa/cwt.git</developerConnection>
     </scm>
 
     <ciManagement>
         <system>GitHub Actions</system>
-        <url>https://github.com/zemke/cwt/actions</url>
+        <url>https://github.com/cwt-wa/cwt/actions</url>
     </ciManagement>
 
 </project>
