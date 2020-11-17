@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronization
+import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.sql.Timestamp
 import kotlin.math.min
 
@@ -31,26 +33,32 @@ constructor(private val messageRepository: MessageRepository,
 
     @Transactional
     fun save(message: Message): Message {
-        return messageRepository.save(message).let {
-            messageEventListener.publish(it)
-            it
-        }
+        val persisted = messageRepository.save(message)
+        TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
+            override fun afterCommit() {
+                messageEventListener.publish(persisted)
+            }
+        })
+        return persisted
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun publishNews(type: MessageNewsType, author: User, vararg data: Any?): Message {
         val body = when (type) {
             MessageNewsType.STREAM -> "${data[0]},${data.drop(1).joinToString("")}"
-            MessageNewsType.TWITCH_MESSAGE -> "${data[0]},${data[1]},${data.drop(2).joinToString("")}"
+            MessageNewsType.TWITCH_MESSAGE, MessageNewsType.DISCORD_MESSAGE ->
+                "${data[0]},${data[1]},${data.drop(2).joinToString("")}"
             else -> data.joinToString(separator = ",")
         }
-        val message = Message(
-                category = MessageCategory.NEWS, author = author, newsType = type,
-                body = body)
-        return messageRepository.save(message).let {
-            messageEventListener.publish(it)
-            it
-        }
+        val persisted = messageRepository.save(Message(
+                category = MessageCategory.NEWS,
+                author = author, newsType = type, body = body))
+        TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
+            override fun afterCommit() {
+                messageEventListener.publish(persisted)
+            }
+        })
+        return persisted
     }
 
     fun deleteMessage(id: Long) {
