@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.message.view.controller
 
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.event.SseEmitterFactory
+import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.message.service.MessageEventListener
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
@@ -22,8 +23,10 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
+import java.io.IOException
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
+import kotlin.concurrent.fixedRateTimer
 
 @RestController
 @RequestMapping("api/message")
@@ -66,6 +69,22 @@ class MessageRestController {
                 before = null,
                 request = request,
                 category = null).body!!.forEach { emit(it) }
+        val keepAliveTimer = fixedRateTimer(period = 10000, initialDelay = 10000) {
+            emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
+        }
+        emitter.onError {
+            if (it is IOException && it.message == "Broken pipe") {
+                logger.info("Broken pipe, probably the user has just left.")
+            } else {
+                logger.warn("Emitter onError", it)
+            }
+        }
+        emitter.onCompletion {
+            keepAliveTimer.cancel()
+        }
+        emitter.onTimeout {
+            keepAliveTimer.cancel()
+        }
         return emitter
     }
 
