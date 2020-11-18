@@ -60,15 +60,6 @@ class MessageRestController {
             logger.info("listener received message $message")
             emit(MessageDto.toDto(message))
         }
-        // we're always providing the latest few because there could've
-        //  been a few misses during a reconnection
-        logger.info("Sending the last few messages to the user initially.")
-        getMessages(
-                after = 0,
-                size = 7,
-                before = null,
-                request = request,
-                category = null).body!!.forEach { emit(it) }
         val keepAliveTimer = fixedRateTimer(period = 10000, initialDelay = 10000) {
             emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
         }
