@@ -69,7 +69,9 @@ constructor(private val gameService: GameService, private val userService: UserS
         var emissions = 0
         val complete: () -> Unit = {
             if (!isComplete) {
-                emitter.send(SseEmitter.event().data("DONE").name("DONE"))
+                sseEmitterFactory.runCatchingBrokenPipe {
+                    emitter.send(SseEmitter.event().data("DONE").name("DONE"))
+                }.takeIf { it }?.also { emitter.complete() }
                 emitter.complete()
                 isComplete = true
             }
@@ -81,7 +83,9 @@ constructor(private val gameService: GameService, private val userService: UserS
         }
 
         val emit = { data: String ->
-            emitter.send(SseEmitter.event().data(data).name("EVENT"))
+            sseEmitterFactory.runCatchingBrokenPipe {
+                emitter.send(SseEmitter.event().data(data).name("EVENT"))
+            }.takeIf { it }?.also { emitter.complete() }
             logger.info("Emitted game stats (length: ${data.length}) event to game $gameId")
             emissions += 1
             if (emissions == game.replayQuantity) {
@@ -90,7 +94,9 @@ constructor(private val gameService: GameService, private val userService: UserS
         }
 
         val keepAliveTimer = fixedRateTimer(period = 10000) {
-            emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
+            sseEmitterFactory.runCatchingBrokenPipe {
+                emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
+            }.takeIf { it }?.also { emitter.complete() }
         }
 
         val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
