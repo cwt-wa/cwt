@@ -56,10 +56,11 @@ class MessageRestController {
                 emitter.send(SseEmitter.event().data(message).name("EVENT"))
             }
         }
-        messageEventListener.listen { message ->
+        val listener = { message: Message ->
             logger.info("listener received message $message")
             emit(MessageDto.toDto(message))
         }
+        messageEventListener.listen(listener)
         val keepAliveTimer = fixedRateTimer(period = 10000, initialDelay = 10000) {
             emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
         }
@@ -72,6 +73,7 @@ class MessageRestController {
         }
         emitter.onCompletion {
             keepAliveTimer.cancel()
+            messageEventListener.deafen(listener)
         }
         emitter.onTimeout {
             keepAliveTimer.cancel()

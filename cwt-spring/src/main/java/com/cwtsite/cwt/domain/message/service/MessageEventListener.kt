@@ -7,17 +7,20 @@ import org.springframework.stereotype.Component
 @Component
 class MessageEventListener {
 
-    private var listener: ((Message) -> Unit)? = null
+    private val listeners: MutableList<(Message) -> Unit> = mutableListOf()
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun listen(fn: (message: Message) -> Unit) {
-        logger.info("Register listener.")
-        listener = fn
+    fun publish(message: Message) {
+        logger.info("Publishing $message for ${listeners.size} listeners.")
+        listeners.forEach { it(message) }
     }
 
-    fun publish(message: Message) {
-        logger.info("Publishing $message for listener $listener.")
-        listener?.let { it(message) }
+    fun listen(listener: (Message) -> Unit) {
+        synchronized(listener) { listeners.add(listener) }
+    }
+
+    fun deafen(listener: (Message) -> Unit) {
+        synchronized(listener) { listeners.removeIf { it == listener } }
     }
 }
