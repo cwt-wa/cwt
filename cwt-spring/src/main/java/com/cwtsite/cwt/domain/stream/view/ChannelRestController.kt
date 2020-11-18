@@ -75,4 +75,20 @@ class ChannelRestController {
             }
         }
     }
+
+    @PutMapping("{channelId}/invite-bot")
+    fun inviteBot(@PathVariable("channelId") channelId: String): ResponseEntity<ChannelDto> {
+        val channel = streamService.findChannel(channelId)
+                .orElseThrow { RestException("Channel not found", HttpStatus.NOT_FOUND, null) }
+        channel.botInvited = true
+        return ResponseEntity.ok(ChannelDto.toDto(streamService.saveChannel(channel)))
+    }
+
+    @PutMapping("{channelId}/revoke-bot")
+    fun revokeBot(@PathVariable("channelId") channelId: String): ResponseEntity<ChannelDto> {
+        val channel = streamService.findChannel(channelId)
+                .orElseThrow { RestException("Channel not found", HttpStatus.NOT_FOUND, null) }
+        channel.botInvited = false
+        return ResponseEntity.ok(ChannelDto.toDto(streamService.saveChannel(channel)))
+    }
 }

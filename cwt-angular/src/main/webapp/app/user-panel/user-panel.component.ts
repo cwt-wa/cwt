@@ -23,6 +23,7 @@ export class UserPanelComponent implements OnInit {
     loadingPhoto: boolean = false;
     thereIsNoPhoto: boolean;
     userChannel: ChannelDto;
+    togglingBotInvite: boolean = false;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -102,5 +103,19 @@ export class UserPanelComponent implements OnInit {
             this.toastr.success("Successfully deleted photo.");
             this.showPhoto = false;
         }, () => this.toastr.error("An unknown error occurred."));
+    }
+
+    inviteBot() {
+        this.togglingBotInvite = true;
+        this.requestService.put<ChannelDto>(`channel/${this.userChannel.id}/invite-bot`)
+            .pipe(finalize(() => this.togglingBotInvite = false))
+            .subscribe(res => this.userChannel = res);
+    }
+
+    revokeBot() {
+        this.togglingBotInvite = true;
+        this.requestService.put<ChannelDto>(`channel/${this.userChannel.id}/revoke-bot`)
+            .pipe(finalize(() => this.togglingBotInvite = false))
+            .subscribe(res => this.userChannel = res);
     }
 }

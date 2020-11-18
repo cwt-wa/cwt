@@ -98,8 +98,29 @@
                         <strong>{{userChannel.title}}</strong>
                         is registered on CWT.
                     </div>
+                    <div class="my-3 card bg-secondary">
+                        <div class="card-body">
+                            <button (click)="revokeBot()" class="btn btn-danger"
+                                    *ngIf="!userChannel.botInvited" [disabled]="togglingBotInvite">
+                                <i class="fa fa-robot"></i>
+                                Revoke CWT Bot
+                            </button>
+                            <button (click)="inviteBot()" class="btn btn-success"
+                                    *ngIf="userChannel.botInvited" [disabled]="togglingBotInvite">
+                                <i class="fa fa-robot"></i>
+                                Invite CWT Bot
+                            </button>
+                            <small class="form-text text-muted">
+                                Let the CWT Bot join your channel, it will provide a few commands
+                                to enrich the experience and also mirror the CWT chat.<br>
+                                Enter <code>!cwtcommands</code> once it has joined the Twitch chat.<br>
+                                You can revoke access at any time.
+                            </small>
+                        </div>
+                    </div>
                     <div class="alert alert-info">
-                        <cwt-channel-creation-statement [includeRegisterSentence]="false"></cwt-channel-creation-statement>
+                        <cwt-channel-creation-statement [includeRegisterSentence]="false">
+                        </cwt-channel-creation-statement>
                     </div>
                 </div>
             </div>
