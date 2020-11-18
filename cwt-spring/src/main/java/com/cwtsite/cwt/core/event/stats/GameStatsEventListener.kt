@@ -20,10 +20,10 @@ class GameStatsEventListener : ApplicationListener<GameStatsEvent> {
     }
 
     fun subscribe(subscription: GameStatSubscription) {
-        subscribers.add(subscription)
+        synchronized(subscribers) { subscribers.add(subscription) }
     }
 
     fun unsubscribe(subscription: GameStatSubscription) {
-        subscribers.removeIf { it == subscription }
+        synchronized(subscribers) { subscribers.removeIf { it == subscription } }
     }
 }
