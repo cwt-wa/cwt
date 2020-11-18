@@ -22,7 +22,7 @@ export class UserPanelComponent implements OnInit {
     showPhoto = false;
     loadingPhoto: boolean = false;
     thereIsNoPhoto: boolean;
-    displayChannelCreationButton: boolean;
+    userChannel: ChannelDto;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -53,7 +53,7 @@ export class UserPanelComponent implements OnInit {
 
         if (this.authUser) {
             this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
-                .subscribe(res => this.displayChannelCreationButton = !res.length);
+                .subscribe(res => this.userChannel = res[0]);
         }
     }
 

@@ -5,6 +5,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {UserPanelComponent} from "../user-panel/user-panel.component";
 import {SharedModule} from "./shared.module";
 import {FormConfirmModule} from "./form-confirm.module";
+import {ChannelCreationStatementComponent} from "../user-panel/channel-creation-statement.component";
 
 const routes: Routes = [
     {
@@ -23,7 +24,8 @@ const routes: Routes = [
         FormConfirmModule,
     ],
     declarations: [
-        UserPanelComponent
+        UserPanelComponent,
+        ChannelCreationStatementComponent,
     ],
     exports: [],
     providers: [],
