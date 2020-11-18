@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
@@ -9,7 +9,7 @@ import {APP_CONFIG, AppConfig} from "../app.config";
     selector: 'cwt-chat',
     template: require('./chat.component.html')
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
@@ -62,6 +62,12 @@ export class ChatComponent implements OnInit {
                 this.messages = res;
                 this.setupEventSource();
             });
+    }
+
+    ngOnDestroy(): void {
+        if (this.eventSource != null && this.eventSource.readyState !== 2) {
+            this.eventSource.close();
+        }
     }
 
     private setupEventSource() {
