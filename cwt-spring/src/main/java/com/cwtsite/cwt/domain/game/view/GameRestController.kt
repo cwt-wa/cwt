@@ -33,13 +33,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 import javax.ws.rs.Produces
-import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.schedule
 
 @RestController
@@ -63,60 +61,39 @@ constructor(private val gameService: GameService, private val userService: UserS
         val game = gameService
                 .findById(gameId)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
-
         val emitter = sseEmitterFactory.createInstance()
         var isComplete = false
         var emissions = 0
         val complete: () -> Unit = {
             if (!isComplete) {
-                sseEmitterFactory.runCatchingBrokenPipe {
-                    emitter.send(SseEmitter.event().data("DONE").name("DONE"))
-                }.takeIf { it }?.also { emitter.complete() }
+                emitter.send("DONE", "DONE")
                 emitter.complete()
                 isComplete = true
             }
         }
-
         if (game.techWin) {
             complete()
-            return emitter
+            return emitter.delegate
         }
-
         val emit = { data: String ->
-            sseEmitterFactory.runCatchingBrokenPipe {
-                emitter.send(SseEmitter.event().data(data).name("EVENT"))
-            }.takeIf { it }?.also { emitter.complete() }
+            emitter.send("EVENT", data)
             logger.info("Emitted game stats (length: ${data.length}) event to game $gameId")
             emissions += 1
             if (emissions == game.replayQuantity) {
                 complete()
             }
         }
-
-        val keepAliveTimer = fixedRateTimer(period = 10000) {
-            sseEmitterFactory.runCatchingBrokenPipe {
-                emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
-            }.takeIf { it }?.also { emitter.complete() }
-        }
-
         val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
         if (emissions != game.replayQuantity && timePassedSinceReport < statsSseTimeout!!) {
             Timer(Thread.currentThread().name, false).schedule(statsSseTimeout!!) { emitter.complete() }
             val subscription = GameStatSubscription(gameId, emit)
             gameStatsEventListener.subscribe(subscription)
-            emitter.onCompletion {
-                gameStatsEventListener.unsubscribe(subscription)
-                keepAliveTimer.cancel()
-            }
-            emitter.onTimeout {
-                gameStatsEventListener.unsubscribe(subscription)
-                keepAliveTimer.cancel()
-            }
+            emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
         } else {
             complete()
         }
 
-        return emitter
+        return emitter.delegate
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])

@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
-import kotlin.concurrent.fixedRateTimer
 
 @RestController
 @RequestMapping("api/message")
@@ -45,40 +44,21 @@ class MessageRestController {
         val emitter = sseEmitterFactory.createInstance()
         val authHeader = request.getHeader(authService.tokenHeaderName)
         val user = if (authHeader != null) authService.getUserFromToken(authHeader) else null
-        val emit = { message: MessageDto ->
-            var send = false
+        val listener = { message: Message ->
+            logger.info("listener received message $message")
             if (message.category === MessageCategory.PRIVATE) {
                 if (user != null && (message.author.id == user.id
-                        || message.recipients.map { it.id }.contains(user.id))) {
+                                || message.recipients.map { it.id }.contains(user.id))) {
                     logger.info("Not publishing message to user as it's private.")
-                    send = false
                 }
             } else {
                 logger.info("Publishing message to the user.")
-                send = true
+                emitter.send("EVENT", message)
             }
-            if (send)  {
-                sseEmitterFactory.runCatchingBrokenPipe {
-                    emitter.send(SseEmitter.event().data(message).name("EVENT"))
-                }.takeIf { it }?.also { emitter.complete() }
-            }
-        }
-        val listener = { message: Message ->
-            logger.info("listener received message $message")
-            emit(MessageDto.toDto(message))
         }
         messageEventListener.listen(listener)
-        val keepAliveTimer = fixedRateTimer(period = 10000) {
-            sseEmitterFactory.runCatchingBrokenPipe {
-                emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
-            }.takeIf { it }?.also { emitter.complete() }
-        }
-        emitter.onTimeout { keepAliveTimer.cancel() }
-        emitter.onCompletion {
-            keepAliveTimer.cancel()
-            messageEventListener.deafen(listener)
-        }
-        return emitter
+        emitter.onCompletion { messageEventListener.deafen(listener) }
+        return emitter.delegate
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
