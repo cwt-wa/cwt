@@ -89,7 +89,7 @@ constructor(private val gameService: GameService, private val userService: UserS
             }
         }
 
-        val keepAliveTimer = fixedRateTimer(period = 10000, initialDelay = 10000) {
+        val keepAliveTimer = fixedRateTimer(period = 10000) {
             emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
         }
 
