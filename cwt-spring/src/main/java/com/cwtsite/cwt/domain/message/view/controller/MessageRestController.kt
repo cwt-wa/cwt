@@ -46,14 +46,21 @@ class MessageRestController {
         val authHeader = request.getHeader(authService.tokenHeaderName)
         val user = if (authHeader != null) authService.getUserFromToken(authHeader) else null
         val emit = { message: MessageDto ->
+            var send = false
             if (message.category === MessageCategory.PRIVATE) {
-                if (user != null && (message.author.id == user.id || message.recipients.map { it.id }.contains(user.id))) {
+                if (user != null && (message.author.id == user.id
+                        || message.recipients.map { it.id }.contains(user.id))) {
                     logger.info("Not publishing message to user as it's private.")
-                    emitter.send(SseEmitter.event().data(message).name("EVENT"))
+                    send = false
                 }
             } else {
                 logger.info("Publishing message to the user.")
-                emitter.send(SseEmitter.event().data(message).name("EVENT"))
+                send = true
+            }
+            if (send)  {
+                sseEmitterFactory.runCatchingBrokenPipe {
+                    emitter.send(SseEmitter.event().data(message).name("EVENT"))
+                }.takeIf { it }?.also { emitter.complete() }
             }
         }
         val listener = { message: Message ->
@@ -62,21 +69,14 @@ class MessageRestController {
         }
         messageEventListener.listen(listener)
         val keepAliveTimer = fixedRateTimer(period = 10000) {
-            emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
+            sseEmitterFactory.runCatchingBrokenPipe {
+                emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
+            }.takeIf { it }?.also { emitter.complete() }
         }
-        emitter.onError {
-            if (it is IOException && it.message == "Broken pipe") {
-                logger.info("Broken pipe, probably the user has just left.")
-            } else {
-                logger.warn("Emitter onError", it)
-            }
-        }
+        emitter.onTimeout { keepAliveTimer.cancel() }
         emitter.onCompletion {
             keepAliveTimer.cancel()
             messageEventListener.deafen(listener)
-        }
-        emitter.onTimeout {
-            keepAliveTimer.cancel()
         }
         return emitter
     }
