@@ -1,9 +1,9 @@
-import {Component} from "@angular/core";
+import {Component, Input} from "@angular/core";
 
 @Component({
     selector: 'cwt-channel-creation-statement',
     template: `
-        <p>
+        <p *ngIf="includeRegisterSentence">
             Register your channel to benefit from CWT and Twitch interoperation:
         </p>
         <p>
@@ -30,4 +30,6 @@ import {Component} from "@angular/core";
     `
 })
 export class ChannelCreationStatementComponent {
+
+    @Input() includeRegisterSentence: boolean = true;
 }

@@ -80,15 +80,27 @@
                 </form>
             </div>
         </div>
-        <div class="row mt-4" *ngIf="!userChannel">
+        <div class="row mt-4">
             <div class="col-12">
                 <h2 class="mt-md-0">Twitch</h2>
-                <a class="btn btn-lg btn-success" routerLink="/channels/create">
-                    <i class="fa fa-twitch"></i>
-                    Register channel
-                </a>
-                <div class="alert alert-info mt-3">
-                    <cwt-channel-creation-statement></cwt-channel-creation-statement>
+                <ng-container *ngIf="!userChannel">
+                    <a class="btn btn-lg btn-success" routerLink="/channels/create">
+                        <i class="fa fa-twitch"></i>
+                        Register channel
+                    </a>
+                    <div class="alert alert-info mt-3">
+                        <cwt-channel-creation-statement></cwt-channel-creation-statement>
+                    </div>
+                </ng-container>
+                <div class="mt-3" *ngIf="userChannel">
+                    <div class="alert alert-success">
+                        <i class="fa fa-check"></i>&nbsp;
+                        <strong>{{userChannel.title}}</strong>
+                        is registered on CWT.
+                    </div>
+                    <div class="alert alert-info">
+                        <cwt-channel-creation-statement [includeRegisterSentence]="false"></cwt-channel-creation-statement>
+                    </div>
                 </div>
             </div>
         </div>
