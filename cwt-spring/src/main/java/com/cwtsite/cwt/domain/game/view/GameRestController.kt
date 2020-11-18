@@ -88,11 +88,6 @@ constructor(private val gameService: GameService, private val userService: UserS
             }
         }
 
-        val existingStatsJsonArray = JSONArray(gameService.findGameStats(game))
-        var i = 0; while (existingStatsJsonArray.opt(i) != null) {
-            emit(existingStatsJsonArray.get(i).toString()); i++
-        }
-
         val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
         if (emissions != game.replayQuantity && timePassedSinceReport < statsSseTimeout!!) {
             Timer(Thread.currentThread().name, false).schedule(statsSseTimeout!!) { emitter.complete() }
