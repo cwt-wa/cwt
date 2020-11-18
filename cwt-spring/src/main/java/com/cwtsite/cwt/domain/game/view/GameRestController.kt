@@ -39,6 +39,7 @@ import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 import javax.ws.rs.Produces
+import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.schedule
 
 @RestController
@@ -88,13 +89,23 @@ constructor(private val gameService: GameService, private val userService: UserS
             }
         }
 
+        val keepAliveTimer = fixedRateTimer(period = 10000, initialDelay = 10000) {
+            emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
+        }
+
         val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
         if (emissions != game.replayQuantity && timePassedSinceReport < statsSseTimeout!!) {
             Timer(Thread.currentThread().name, false).schedule(statsSseTimeout!!) { emitter.complete() }
             val subscription = GameStatSubscription(gameId, emit)
             gameStatsEventListener.subscribe(subscription)
-            emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
-            emitter.onTimeout { gameStatsEventListener.unsubscribe(subscription) }
+            emitter.onCompletion {
+                gameStatsEventListener.unsubscribe(subscription)
+                keepAliveTimer.cancel()
+            }
+            emitter.onTimeout {
+                gameStatsEventListener.unsubscribe(subscription)
+                keepAliveTimer.cancel()
+            }
         } else {
             complete()
         }
