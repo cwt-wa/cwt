@@ -3,6 +3,7 @@ package com.cwtsite.cwt.domain.message.service
 import com.cwtsite.cwt.domain.message.entity.Message
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import kotlin.concurrent.thread
 
 @Component
 class MessageEventListener {
@@ -13,7 +14,7 @@ class MessageEventListener {
 
     fun publish(message: Message) {
         logger.info("Publishing $message for ${listeners.size} listeners.")
-        listeners.forEach { it(message) }
+        thread { listeners.forEach { it(message) } }
     }
 
     fun listen(listener: (Message) -> Unit) {
