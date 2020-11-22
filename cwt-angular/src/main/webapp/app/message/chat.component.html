@@ -74,6 +74,17 @@
                         “<span *ngFor="let d of messageData; let indexd = index">{{indexd >= 2 ? d : ''}}</span>”&nbsp;<i class="fab fa-discord text-success"></i>
                     </a>
                 </ng-container>
+                <ng-container *ngIf="message.newsType === 'SCHEDULE'">
+                    <ng-container [ngSwitch]="messageData[0]">
+                        <ng-container *ngSwitchCase="'removeStream'">cancelled the live stream for</ng-container>
+                        <ng-container *ngSwitchCase="'scheduleStream'">scheduled a live stream for</ng-container>
+                        <ng-container *ngSwitchCase="'createSchedule'">scheduled</ng-container>
+                        <ng-container *ngSwitchCase="'cancelSchedule'">cancelled</ng-container>
+                    </ng-container>
+                    <cwt-user [username]="messageData[1]" class="font-weight-bold"></cwt-user>–<cwt-user [username]="messageData[2]" class="font-weight-bold"></cwt-user>
+                    on
+                    {{messageData[3] | cwtDate}}
+                </ng-container>
             </ng-container>
         </ng-container>
 

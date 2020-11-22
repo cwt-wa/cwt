@@ -3,6 +3,7 @@ package com.cwtsite.cwt.test
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.group.entity.Group
+import com.cwtsite.cwt.domain.schedule.entity.Schedule
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
@@ -59,4 +60,17 @@ object EntityDefaults {
                game: Game? = null, channel: Channel = channel()) =
             Stream(title = title, id = id, viewCount = viewCount, channel = channel,
                     game = game, createdAt = "2014-10-18T22:28:17Z")
+
+    fun schedule(id: Long = 1, appointment: Timestamp = Timestamp(1577833200000),
+                 created: Timestamp = Timestamp(1577813200000), author: User = user(id = 1),
+                 homeUser: User = user(id = 1), awayUser: User = user(id = 2),
+                 streams: MutableSet<Channel> = mutableSetOf()) =
+            Schedule(
+                    id = id,
+                    appointment = appointment,
+                    homeUser = homeUser,
+                    awayUser = awayUser,
+                    author = author,
+                    created = created,
+                    streams = streams)
 }
