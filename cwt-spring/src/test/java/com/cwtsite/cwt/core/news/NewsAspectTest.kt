@@ -129,7 +129,7 @@ class NewsAspectTest {
                 MessageNewsType.SCHEDULE, channel.user,
                 "removeStream",
                 homeUser.username, awayUser.username,
-                schedule.appointment)
+                "2020-11-22T21:12:16.669Z")
     }
 
     @Test
@@ -148,7 +148,7 @@ class NewsAspectTest {
                 MessageNewsType.SCHEDULE, channel.user,
                 "scheduleStream",
                 homeUser.username, awayUser.username,
-                schedule.appointment)
+                "2020-11-22T21:12:16.669Z")
     }
 
     @Test
@@ -167,7 +167,7 @@ class NewsAspectTest {
                 MessageNewsType.SCHEDULE, author,
                 "createSchedule",
                 homeUser.username, awayUser.username,
-                schedule.appointment)
+                "2020-11-22T21:12:16.669Z")
     }
 
     @Test
@@ -185,7 +185,7 @@ class NewsAspectTest {
                 MessageNewsType.SCHEDULE, author,
                 "cancelSchedule",
                 homeUser.username, awayUser.username,
-                schedule.appointment)
+                "2020-11-22T21:12:16.669Z")
     }
 
     @Test

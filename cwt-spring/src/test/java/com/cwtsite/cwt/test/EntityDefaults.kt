@@ -61,8 +61,8 @@ object EntityDefaults {
             Stream(title = title, id = id, viewCount = viewCount, channel = channel,
                     game = game, createdAt = "2014-10-18T22:28:17Z")
 
-    fun schedule(id: Long = 1, appointment: Timestamp = Timestamp(1577833200000),
-                 created: Timestamp = Timestamp(1577813200000), author: User = user(id = 1),
+    fun schedule(id: Long = 1, appointment: Timestamp = Timestamp(1606079536669),
+                 created: Timestamp = Timestamp(1606079436669), author: User = user(id = 1),
                  homeUser: User = user(id = 1), awayUser: User = user(id = 2),
                  streams: MutableSet<Channel> = mutableSetOf()) =
             Schedule(

@@ -14,6 +14,7 @@ import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.time.ZoneOffset
 
 @Aspect
 @Component
@@ -86,10 +87,12 @@ class NewsAspect(private val messageService: MessageService,
                 if (method == technicallyDeleted) {
                     logger.info("No news when schedule was technically deleted")
                 } else {
+                    val appointment: String =
+                            subject.appointment.toInstant().atZone(ZoneOffset.UTC).toString()
                     messageService.publishNews(
                             MessageNewsType.SCHEDULE, author, method,
                             subject.homeUser.username, subject.awayUser.username,
-                            subject.appointment)
+                            appointment)
                 }
             }
             else -> {
