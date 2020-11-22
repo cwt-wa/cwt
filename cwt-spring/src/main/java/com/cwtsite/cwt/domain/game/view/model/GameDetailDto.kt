@@ -29,6 +29,7 @@ data class GameDetailDto(
         val comments: List<Comment>,
         val voided: Boolean,
         val isReplayExists: Boolean,
+        val replayQuantity: Int?,
         val playoffRoundLocalized: String?
 ) {
 
@@ -53,6 +54,7 @@ data class GameDetailDto(
                     comments = game.comments.sortedBy { it.created },
                     voided = game.voided,
                     isReplayExists = game.replay != null,
+                    replayQuantity = game.replayQuantity,
                     playoffRoundLocalized = game.playoff?.let { playoff ->
                         localizePlayoffRound(
                                 game.tournament.threeWay!!,

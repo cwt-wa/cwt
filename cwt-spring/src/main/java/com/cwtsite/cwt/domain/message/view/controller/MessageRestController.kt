@@ -22,8 +22,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
-import java.io.IOException
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 

@@ -91,7 +91,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
                         return;
                     }
 
-                    this.setupEventSource();
+                    this.retrieveGameStats();
                     this.game.comments = this.game.comments.sort((c1, c2) =>
                         new Date(c2.created).getTime() - new Date(c1.created).getTime());
 
@@ -113,10 +113,24 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             .subscribe(res => this.waVersionWarn = res[0].value === 'true');
     }
 
+    retrieveGameStats() {
+        const now = Date.now();
+        const reportedAt = new Date(this.game.reportedAt).getTime();
+        const reportedAgo = now - reportedAt;
+        if (reportedAgo <= 1000 * 60 * 4) {
+            this.setupEventSource();
+        } else {
+            this.requestService.get<GameStats.GameStats[]>(`game/${this.game.id}/stats`)
+                .subscribe(res => this.stats = res);
+        }
+    }
+
     setupEventSource(): void {
         this.loadingStats = true;
         this.statsAreBeingProcessed = true;
-        this.eventSource = new EventSource(`${this.appConfig.apiEndpoint}game/${this.game.id}/stats-listen`);
+        this.eventSource = new EventSource(
+            `${this.appConfig.apiEndpoint}game/${this.game.id}`
+                + `/stats-listen?=quantity=${this.game.replayQuantity}`);
         this.eventSource.addEventListener('DONE', () => {
             this.eventSource.close();
             this.statsAreBeingProcessed = false;

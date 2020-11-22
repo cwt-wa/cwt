@@ -3,6 +3,8 @@ package com.cwtsite.cwt.domain.game.view
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.ClockInstance
 import com.cwtsite.cwt.core.event.SseEmitterFactory
+import com.cwtsite.cwt.core.event.SseEmitterWrapper
+import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.core.view.model.PageDto
@@ -18,12 +20,15 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.test.EntityDefaults
+import com.cwtsite.cwt.test.MockitoUtils
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import com.cwtsite.cwt.test.MockitoUtils.safeEq
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.assertThrows
 import org.junit.runner.RunWith
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -50,6 +55,8 @@ class GameRestControllerTest {
     @Mock private lateinit var authService: AuthService
     @Mock private lateinit var userService: UserService
     @Mock private lateinit var streamService: StreamService
+    @Captor private lateinit var subCaptor: ArgumentCaptor<GameStatSubscription>
+    @Captor private lateinit var onCompletionCaptor: ArgumentCaptor<() -> Unit>
 
     @Test
     fun `queryGamesPaged without users`() {
@@ -157,5 +164,26 @@ class GameRestControllerTest {
         assertThatThrownBy { cut.placeBetOnGame(game.id!!, dto, request) }
                 .isExactlyInstanceOf(RestException::class.java)
                 .satisfies { assertThat((it as RestException).status).isEqualTo(HttpStatus.FORBIDDEN) }
+    }
+
+    @Test
+    fun listenToStats() {
+        val game = EntityDefaults.game()
+        game.replayQuantity = 3
+        val sseEmitter = mock(SseEmitterWrapper::class.java)
+        `when`(sseEmitterFactory.createInstance(anyLong())).thenReturn(sseEmitter)
+        cut.listenToStats(game.id!!, game.replayQuantity!!)
+        verify(gameStatsEventListener).subscribe(MockitoUtils.capture(subCaptor))
+        verify(sseEmitter).onCompletion(MockitoUtils.capture(onCompletionCaptor))
+        subCaptor.value.callback("stats1")
+        subCaptor.value.callback("stats2")
+        subCaptor.value.callback("stats3")
+        verify(sseEmitter).send("EVENT", "stats1")
+        verify(sseEmitter).send("EVENT", "stats2")
+        verify(sseEmitter).send("EVENT", "stats3")
+        verify(sseEmitter).send("DONE", "DONE")
+        verify(sseEmitter).complete()
+        onCompletionCaptor.value.invoke()
+        verify(gameStatsEventListener).unsubscribe(subCaptor.value)
     }
 }

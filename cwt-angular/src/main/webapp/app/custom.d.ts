@@ -235,6 +235,7 @@ export interface GameDetailDto {
     tournament: TournamentDetailDto;
     voided: boolean;
     replayExists: boolean;
+    replayQuantity?: number;
     playoffRoundLocalized: string;
     created: string;
     reportedAt: string;
