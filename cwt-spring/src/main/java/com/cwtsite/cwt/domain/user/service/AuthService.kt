@@ -4,10 +4,12 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Component
 
 import java.security.MessageDigest
+import javax.servlet.http.HttpServletRequest
 
 @Component
 class AuthService {
@@ -35,6 +37,14 @@ class AuthService {
 
     fun createHash(plainPassword: String?): String {
         return if (plainPassword == null) "" else BCrypt.hashpw(plainPassword, bCryptSalt!!)
+    }
+
+    // TODO use this everywhere
+    fun authUser(request: HttpServletRequest): User? {
+        val token = request.getHeader(tokenHeaderName) ?: return null
+        val userFromToken = getUserFromToken(token) ?: return null
+        if (userFromToken.id == null) return null
+        return userRepository.findByIdOrNull(userFromToken.id)
     }
 
     fun createLegacyHash(plainPassword: String?): String {

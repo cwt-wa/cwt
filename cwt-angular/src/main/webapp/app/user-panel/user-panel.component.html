@@ -100,6 +100,7 @@
                     </div>
                     <div class="my-3 card bg-secondary">
                         <div class="card-body">
+                            <!-- Definitely need auto-join checkbox here, otherwise the Bot will be neglected. -->
                             <button (click)="revokeBot()" class="btn btn-danger"
                                     *ngIf="!userChannel.botInvited" [disabled]="togglingBotInvite">
                                 <i class="fa fa-robot"></i>
