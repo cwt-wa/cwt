@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
+import com.cwtsite.cwt.domain.schedule.service.ScheduleService
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -14,6 +15,7 @@ import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import com.cwtsite.cwt.test.EntityDefaults
 import org.mockito.Mockito.*
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory
+import java.sql.Timestamp
 import kotlin.test.Test
 
 
@@ -101,6 +103,103 @@ class NewsAspectTest {
         proxy.associateGame(stream, game)
         verify(messageService).publishNews(
         MessageNewsType.STREAM, stream.channel.user, stream.id, stream.title)
+    }
+    /*
+    <ng-container *ngSwitchCase="'removeStream'">cancelled the live stream for</ng-container>
+    <ng-container *ngSwitchCase="'scheduleStream'">scheduled a live stream for</ng-container>
+    <ng-container *ngSwitchCase="'createSchedule'">scheduled a game</ng-container>
+    <ng-container *ngSwitchCase="'cancelSchedule'">cancelled the game</ng-container>
+     */
+
+    @Test
+    fun removeStream() {
+        val homeUser = author
+        val awayUser = EntityDefaults.user(id = 4, username = "Rafka")
+        val channel = EntityDefaults.channel()
+        val schedule = EntityDefaults.schedule(
+                homeUser = homeUser,
+                awayUser = awayUser,
+                streams = mutableSetOf(channel))
+        val target = mock(ScheduleService::class.java)
+        `when`(target.removeStream(schedule, channel))
+                .thenReturn(schedule.copy(streams = mutableSetOf()))
+        val proxy = createProxy<ScheduleService>(target, author)
+        proxy.removeStream(schedule, channel)
+        verify(messageService).publishNews(
+                MessageNewsType.SCHEDULE, channel.user,
+                "removeStream",
+                homeUser.username, awayUser.username,
+                schedule.appointment)
+    }
+
+    @Test
+    fun scheduleStream() {
+        val homeUser = author
+        val awayUser = EntityDefaults.user(id = 4, username = "Rafka")
+        val channel = EntityDefaults.channel()
+        val schedule = EntityDefaults.schedule(
+                homeUser = homeUser, awayUser = awayUser)
+        val target = mock(ScheduleService::class.java)
+        `when`(target.scheduleStream(schedule, channel))
+                .thenReturn(schedule.copy(streams = mutableSetOf(channel)))
+        val proxy = createProxy<ScheduleService>(target, author)
+        proxy.scheduleStream(schedule, channel)
+        verify(messageService).publishNews(
+                MessageNewsType.SCHEDULE, channel.user,
+                "scheduleStream",
+                homeUser.username, awayUser.username,
+                schedule.appointment)
+    }
+
+    @Test
+    fun createSchedule() {
+        val homeUser = author
+        val awayUser = EntityDefaults.user(id = 4, username = "Rafka")
+        val appointment = Timestamp(1577813200000)
+        val schedule = EntityDefaults.schedule(
+                homeUser = homeUser, awayUser = awayUser)
+        val target = mock(ScheduleService::class.java)
+        `when`(target.createSchedule(homeUser, awayUser, appointment))
+                .thenReturn(schedule)
+        val proxy = createProxy<ScheduleService>(target, author)
+        proxy.createSchedule(homeUser, awayUser, appointment)
+        verify(messageService).publishNews(
+                MessageNewsType.SCHEDULE, author,
+                "createSchedule",
+                homeUser.username, awayUser.username,
+                schedule.appointment)
+    }
+
+    @Test
+    fun cancelSchedule() {
+        val homeUser = author
+        val awayUser = EntityDefaults.user(id = 4, username = "Rafka")
+        val schedule = EntityDefaults.schedule(
+                homeUser = homeUser, awayUser = awayUser)
+        val target = mock(ScheduleService::class.java)
+        `when`(target.cancelSchedule(schedule))
+                .thenReturn(schedule)
+        val proxy = createProxy<ScheduleService>(target, author)
+        proxy.cancelSchedule(schedule)
+        verify(messageService).publishNews(
+                MessageNewsType.SCHEDULE, author,
+                "cancelSchedule",
+                homeUser.username, awayUser.username,
+                schedule.appointment)
+    }
+
+    @Test
+    fun deleteSchedule() {
+        val homeUser = EntityDefaults.user(id = 5, username = "PavelB")
+        val awayUser = EntityDefaults.user(id = 4, username = "Rafka")
+        val schedule = EntityDefaults.schedule(
+                homeUser = homeUser, awayUser = awayUser)
+        val target = mock(ScheduleService::class.java)
+        `when`(target.deleteSchedule(schedule))
+                .thenReturn(schedule)
+        val proxy = createProxy<ScheduleService>(target, author)
+        proxy.deleteSchedule(schedule)
+        verifyNoInteractions(messageService)
     }
 
     private fun <T> createProxy(target: T, author: User): T {

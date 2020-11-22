@@ -2,7 +2,7 @@ package com.cwtsite.cwt.domain.message.service
 
 enum class MessageNewsType {
     REPORT, RATING, COMMENT, VOIDED, STREAM,
-    TWITCH_MESSAGE, DISCORD_MESSAGE;
+    TWITCH_MESSAGE, DISCORD_MESSAGE, SCHEDULE;
 
     companion object {
 

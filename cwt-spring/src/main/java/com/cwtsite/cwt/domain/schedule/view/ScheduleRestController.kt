@@ -36,7 +36,7 @@ class ScheduleRestController {
     fun save(@RequestBody dto: ScheduleCreationDto): ResponseEntity<ScheduleDto> {
         val author = userService.getById(dto.author).orElseThrow { RestException("No such author", HttpStatus.BAD_REQUEST, null) }
         val opponent = userService.getById(dto.opponent).orElseThrow { RestException("No such opponent", HttpStatus.BAD_REQUEST, null) }
-        return ResponseEntity.ok(ScheduleDto.toDto(scheduleService.save(author, opponent, Timestamp.from(dto.appointment.toInstant()))))
+        return ResponseEntity.ok(ScheduleDto.toDto(scheduleService.createSchedule(author, opponent, Timestamp.from(dto.appointment.toInstant()))))
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])
@@ -51,7 +51,7 @@ class ScheduleRestController {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
-        scheduleService.delete(schedule)
+        scheduleService.cancelSchedule(schedule)
     }
 
     @RequestMapping("/{scheduleId}/channel/{channelId}", method = [RequestMethod.POST])
@@ -63,13 +63,9 @@ class ScheduleRestController {
                 .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
         val channel = streamService.findChannel(channelId)
                 .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
-
         if (schedule.streams.contains(channel)) throw RestException(
                 "Channel is already scheduled to stream this game", HttpStatus.BAD_REQUEST, null)
-
-        schedule.streams.add(channel)
-        scheduleService.save(schedule)
-
+        scheduleService.scheduleStream(schedule, channel)
         return ResponseEntity.ok(channel)
     }
 
@@ -82,8 +78,6 @@ class ScheduleRestController {
                 .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
         val channel = streamService.findChannel(channelId)
                 .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
-
-        schedule.streams.remove(channel)
-        scheduleService.save(schedule)
+        scheduleService.removeStream(schedule, channel)
     }
 }
