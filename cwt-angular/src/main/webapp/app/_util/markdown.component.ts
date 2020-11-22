@@ -7,7 +7,7 @@ import 'marked/lib/marked.js';
     encapsulation: ViewEncapsulation.None,
     styles: [`
       .markdown img {
-        width: 100%;
+        max-width: 100%;
       }
     `]
 })
