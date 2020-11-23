@@ -1,10 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
 import {ChannelDto, CountryDto, JwtUser, PasswordChangeDto, UserChangeDto, UserDetailDto} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {finalize} from "rxjs/operators";
 import {BinaryService} from "../_services/binary.service";
+import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
     selector: 'cwt-user-panel',
@@ -23,6 +24,8 @@ export class UserPanelComponent implements OnInit {
     loadingPhoto: boolean = false;
     thereIsNoPhoto: boolean;
     userChannel: ChannelDto;
+    togglingBotInvite: boolean = false;
+    botInvited: boolean = null;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -31,7 +34,8 @@ export class UserPanelComponent implements OnInit {
     constructor(private requestService: RequestService,
                 private authService: AuthService,
                 private toastr: Toastr,
-                private binaryService: BinaryService) {
+                private binaryService: BinaryService,
+                @Inject(APP_CONFIG) private appConfig: AppConfig) {
     }
 
     async ngOnInit() {
@@ -53,8 +57,23 @@ export class UserPanelComponent implements OnInit {
 
         if (this.authUser) {
             this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
-                .subscribe(res => this.userChannel = res[0]);
+                .subscribe(async res => {
+                    this.userChannel = res[0]
+                    this.botInvited = (await this.twitchBotEndpoint('status')).joined;
+                });
         }
+    }
+
+    async twitchBotEndpoint(action: string) {
+        const method = action !== 'status' ? 'POST' : "GET";
+        return fetch(
+            `${this.appConfig.twitchBotEndpoint}/${this.userChannel.login}/${action}`, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.authService.getToken(),
+                }
+            }).then(res => res.json())
     }
 
     showCurrentPhoto() {
@@ -102,5 +121,23 @@ export class UserPanelComponent implements OnInit {
             this.toastr.success("Successfully deleted photo.");
             this.showPhoto = false;
         }, () => this.toastr.error("An unknown error occurred."));
+    }
+
+    async inviteBot() {
+        return this.toggleBot('join');
+    }
+
+    async revokeBot() {
+        return this.toggleBot('part');
+    }
+
+    private async toggleBot(joinOrPart: string) {
+        try {
+            await this.twitchBotEndpoint(joinOrPart);
+            this.botInvited = !this.botInvited;
+        } catch (err) {
+            console.error(err);
+            this.togglingBotInvite = false;
+        }
     }
 }

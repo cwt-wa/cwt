@@ -103,6 +103,7 @@ export interface ChannelDto {
     offlineImageUrl: string;
     login: string;
     description: string;
+    botInvited: boolean;
     modified: string;
     created: string;
 }

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository
 interface ChannelRepository: JpaRepository<Channel, String> {
 
     fun findAllByUserIn(users: List<User>): List<Channel>
+
+    fun findByUser(user: User): Channel?
 }

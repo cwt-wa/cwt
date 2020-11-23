@@ -35,7 +35,6 @@ data class ChannelDto(
                 offlineImageUrl = channel.offlineImageUrl,
                 login = channel.login,
                 description = channel.description,
-                modified = channel.modified,
                 created = channel.created
         )
     }
