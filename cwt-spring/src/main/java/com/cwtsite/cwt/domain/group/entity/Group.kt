@@ -26,6 +26,9 @@ data class Group (
         @JoinColumn(name = "group_id")
         val standings: MutableList<GroupStanding> = mutableListOf()
 ) {
+
+    override fun toString(): String = "Group{id=$id, labeel=$label}"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

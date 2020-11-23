@@ -24,11 +24,6 @@ data class GroupStanding(
         @Column(name = "round_ratio")
         var roundRatio: Int = 0,
 
-//        @JsonIgnore
-//        @ManyToOne
-//        @JoinColumn(name = "group_id")
-//        var group: Group,
-
         @ManyToOne(optional = false)
         @JoinColumn(nullable = false)
         var user: User
@@ -41,6 +36,11 @@ data class GroupStanding(
         games = 0
         gameRatio = 0
         roundRatio = 0
+    }
+
+    override fun toString(): String {
+        return "GroupStanding(id=$id, points=$points, games=$games, " +
+                "gameRatio=$gameRatio, roundRatio=$roundRatio)"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -39,6 +39,8 @@ data class Schedule(
         val created: Timestamp? = null
 ) {
 
+    override fun toString() = "Schedule{id=$id, appointment=$appointment}"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

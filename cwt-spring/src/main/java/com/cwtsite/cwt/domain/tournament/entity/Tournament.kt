@@ -55,6 +55,8 @@ data class Tournament(
                 inverseJoinColumns = [JoinColumn(name = "moderators_id", referencedColumnName = "ID")])
         var moderators: MutableSet<User> = mutableSetOf()
 ) {
+    override fun toString() = "Tournament{id=$id, created=$created, status=$status}"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

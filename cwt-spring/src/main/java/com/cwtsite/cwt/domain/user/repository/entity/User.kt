@@ -77,6 +77,8 @@ data class User(
 ) {
     fun isAdmin() = this.authorities.map { it.name }.contains(AuthorityName.ROLE_ADMIN)
 
+    override fun toString() = "User{id=$id, username=$username}"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

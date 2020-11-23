@@ -60,20 +60,6 @@ data class Stream(
         @ManyToOne(cascade = [CascadeType.ALL])
         var game: Game? = null
 ) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Stream
-
-        if (id != other.id) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
 
     fun createdAtAsTimestamp(): Timestamp {
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
@@ -96,5 +82,24 @@ data class Stream(
                 .filter { it.contains(Regex("\\w")) }
                 .map { it.trim() }
                 .toSet()
+    }
+
+    override fun toString(): String {
+        return "Stream(id=$id)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Stream
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
     }
 }

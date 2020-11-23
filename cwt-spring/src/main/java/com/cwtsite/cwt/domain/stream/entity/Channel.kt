@@ -64,6 +64,11 @@ data class Channel(
         @Column(nullable = false, insertable = false, updatable = false)
         var created: Timestamp? = null
 ) {
+
+    override fun toString(): String {
+        return "Channel{id=$id}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

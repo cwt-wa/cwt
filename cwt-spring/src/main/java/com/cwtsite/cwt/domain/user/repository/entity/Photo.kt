@@ -20,6 +20,8 @@ data class Photo(
         var extension: String
 ) {
 
+    override fun toString() = "Photo{id=$id}"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

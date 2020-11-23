@@ -17,6 +17,8 @@ data class PlayoffGame(
         @Column(name = "spot")
         var spot: Int
 ) {
+    override fun toString() = "PlayoffGame{id=$id, round=$round, spot=$spot}"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

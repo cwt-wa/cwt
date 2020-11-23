@@ -30,6 +30,10 @@ data class Configuration(
         @JoinColumn(nullable = false)
         var author: User? = null
 ) {
+    override fun toString(): String {
+        return "Configuration{id=$key, value=$value}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

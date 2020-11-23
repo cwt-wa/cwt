@@ -27,6 +27,10 @@ data class Country(
         fun unknown() = Country(1, "Unknown", "unknown.png")
     }
 
+    override fun toString(): String {
+        return "Country{id=$id}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

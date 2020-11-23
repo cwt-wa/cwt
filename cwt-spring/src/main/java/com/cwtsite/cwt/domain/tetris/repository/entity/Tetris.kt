@@ -24,4 +24,7 @@ data class Tetris(
 
         @field:CreationTimestamp
         val created: Timestamp? = null
-)
+) {
+
+        override fun toString() = "Tetris{id=$id}"
+}

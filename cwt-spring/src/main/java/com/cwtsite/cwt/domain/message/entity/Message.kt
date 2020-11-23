@@ -41,6 +41,8 @@ data class Message(
         @Column(nullable = false)
         var created: Timestamp? = null
 ) {
+    override fun toString() = "Message{id=$id, body=$body, category=$category, newsType=$newsType}"
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

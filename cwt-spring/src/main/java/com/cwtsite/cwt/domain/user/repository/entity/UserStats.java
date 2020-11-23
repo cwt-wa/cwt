@@ -65,6 +65,16 @@ public class UserStats {
     }
 
     @Override
+    public String toString() {
+        return "UserStats{"
+                + "userId=" + userId + ", "
+                + "timeline=" + timeline + ", "
+                + "trophyPoints=" + trophyPoints + ", "
+                + "participations=" + participations
+                + "}";
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
