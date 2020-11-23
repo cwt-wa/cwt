@@ -86,9 +86,10 @@ class StreamService {
             else -> gameRepository.findGame(user1, user2, tournament)
         }
                 .filter {
+                    logger.info("Filtering game $it")
                     when (tournament?.status) {
-                        TournamentStatus.GROUP -> it.playoff == null
-                        TournamentStatus.PLAYOFFS -> it.playoff != null
+                        TournamentStatus.GROUP -> it.group()
+                        TournamentStatus.PLAYOFFS -> it.playoff()
                         else -> true
                     }
                 }
@@ -100,7 +101,7 @@ class StreamService {
     fun associateGame(stream: Stream, game: Game): Stream {
         logger.info("Link game $game to stream $stream")
         stream.game = game
-        return stream
+        return streamRepository.save(stream)
     }
 
     fun findMatchingStreams(game: Game): Set<Stream> {

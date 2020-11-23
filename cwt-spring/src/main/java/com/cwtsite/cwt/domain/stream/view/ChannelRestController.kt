@@ -73,7 +73,7 @@ class ChannelRestController {
             if (videos.isNotEmpty()) {
                 val streams = streamService.saveStreams(videos.map { StreamDto.fromDto(it, channel) })
                 streams.forEach { stream ->
-                    streamService.findMatchingGame(stream)?.let { game ->
+                    streamService.findMatchingGame(stream)?.also { game ->
                         streamService.associateGame(stream, game)
                     }
                 }
