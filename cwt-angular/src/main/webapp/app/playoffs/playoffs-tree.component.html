@@ -34,9 +34,10 @@
                     {{game?.scoreHome}}
                 </td>
                 <td *ngIf="game?.reporter" rowspan="2" class="rounded-bottom-right" [ngClass]="{'rounded-top-right': !lastRound}">
-                    <a [href]="game.id | cwtReplayLink">
+                    <a [href]="game.id | cwtReplayLink" *ngIf="!game.techWin">
                         <i class="fa fa-arrow-circle-down"></i>
                     </a>
+                    <i class="fa fa-gavel" *ngIf="game.techWin" ngbTooltip="Tech. Win"></i>
                     <a [routerLink]="['/games', game?.id]">
                         <i class="fa fa-info-circle"></i>
                     </a>

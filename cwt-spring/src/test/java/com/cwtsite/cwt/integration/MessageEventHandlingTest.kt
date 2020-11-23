@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.integration
 
 import com.cwtsite.cwt.core.event.SseEmitterFactory
+import com.cwtsite.cwt.core.event.SseEmitterWrapper
 import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.message.service.MessageService
@@ -12,8 +13,8 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.Spy
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -25,11 +26,12 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.sql.Timestamp
 
 @RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = ["spring.profiles.include=sync"])
 @AutoConfigureMockMvc
 @EmbeddedPostgres
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -39,7 +41,7 @@ class MessageEventHandlingTest {
     @Autowired private lateinit var messageService: MessageService
     @Autowired private lateinit var userService: UserService
     @MockBean private lateinit var sseEmitterFactory: SseEmitterFactory
-    @Spy private lateinit var sseEmitter: SseEmitter
+    @Mock private lateinit var sseEmitter: SseEmitterWrapper
 
     companion object {
         private var user: User? = null
@@ -65,7 +67,7 @@ class MessageEventHandlingTest {
                 created = Timestamp(1605483348499)
         )
         messageService.save(message)
-        verify(sseEmitter).send(MockitoUtils.anyObject())
+        verify(sseEmitter).send("EVENT", message)
     }
 
     @Test
@@ -85,6 +87,6 @@ class MessageEventHandlingTest {
                 created = Timestamp(1605483348499)
         )
         messageService.save(message)
-        verify(sseEmitter, never()).send(MockitoUtils.anyObject())
+        verify(sseEmitter, never()).send(MockitoUtils.anyObject(), MockitoUtils.anyObject())
     }
 }

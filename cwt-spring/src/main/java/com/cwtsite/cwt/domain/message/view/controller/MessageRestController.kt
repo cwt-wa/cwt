@@ -22,8 +22,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
-import java.io.IOException
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 import kotlin.concurrent.fixedRateTimer
@@ -45,47 +43,21 @@ class MessageRestController {
         val emitter = sseEmitterFactory.createInstance()
         val authHeader = request.getHeader(authService.tokenHeaderName)
         val user = if (authHeader != null) authService.getUserFromToken(authHeader) else null
-        val emit = { message: MessageDto ->
+        val listener = { message: Message ->
+            logger.info("listener received message $message")
             if (message.category === MessageCategory.PRIVATE) {
-                if (user != null && (message.author.id == user.id || message.recipients.map { it.id }.contains(user.id))) {
+                if (user != null && (message.author.id == user.id
+                                || message.recipients.map { it.id }.contains(user.id))) {
                     logger.info("Not publishing message to user as it's private.")
-                    emitter.send(SseEmitter.event().data(message).name("EVENT"))
                 }
             } else {
                 logger.info("Publishing message to the user.")
-                emitter.send(SseEmitter.event().data(message).name("EVENT"))
+                emitter.send("EVENT", message)
             }
         }
-        messageEventListener.listen { message ->
-            logger.info("listener received message $message")
-            emit(MessageDto.toDto(message))
-        }
-        // we're always providing the latest few because there could've
-        //  been a few misses during a reconnection
-        logger.info("Sending the last few messages to the user initially.")
-        getMessages(
-                after = 0,
-                size = 7,
-                before = null,
-                request = request,
-                category = null).body!!.forEach { emit(it) }
-        val keepAliveTimer = fixedRateTimer(period = 10000, initialDelay = 10000) {
-            emitter.send(SseEmitter.event().data("KEEPALIVE").name("KEEPALIVE"))
-        }
-        emitter.onError {
-            if (it is IOException && it.message == "Broken pipe") {
-                logger.info("Broken pipe, probably the user has just left.")
-            } else {
-                logger.warn("Emitter onError", it)
-            }
-        }
-        emitter.onCompletion {
-            keepAliveTimer.cancel()
-        }
-        emitter.onTimeout {
-            keepAliveTimer.cancel()
-        }
-        return emitter
+        messageEventListener.listen(listener)
+        emitter.onCompletion { messageEventListener.deafen(listener) }
+        return emitter.delegate
     }
 
     @RequestMapping("", method = [RequestMethod.GET])

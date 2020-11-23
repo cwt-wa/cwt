@@ -145,9 +145,9 @@ constructor(private val gameRepository: GameRepository,
         }
 
         GlobalScope.launch {
-            scheduleService.delete(
-                    scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!)
-                            ?: return@launch)
+            scheduleService.findByPairing(reportedGame.homeUser!!, reportedGame.awayUser!!)?.let {
+                scheduleService.deleteSchedule(it)
+            }
             streamService.findMatchingStreams(reportedGame)
                     .forEach { stream -> streamService.associateGame(stream, reportedGame) }
         }

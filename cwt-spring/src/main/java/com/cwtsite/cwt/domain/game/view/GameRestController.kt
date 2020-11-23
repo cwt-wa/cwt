@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.controller.RestException
-import com.cwtsite.cwt.core.ClockInstance
 import com.cwtsite.cwt.core.event.SseEmitterFactory
 import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
@@ -19,10 +18,8 @@ import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.entity.Comment
-import org.json.JSONArray
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.data.domain.Sort
@@ -33,78 +30,41 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.io.IOException
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 import javax.ws.rs.Produces
-import kotlin.concurrent.schedule
 
 @RestController
 @RequestMapping("api/game")
 class GameRestController @Autowired
 constructor(private val gameService: GameService, private val userService: UserService,
             private val authService: AuthService,
-            private val clockInstance: ClockInstance,
             private val sseEmitterFactory: SseEmitterFactory,
             private val gameStatsEventListener: GameStatsEventListener,
             private val tournamentService: TournamentService,
             private val streamService: StreamService) {
 
-    @Value("\${stats-sse-timeout:#{180000}}") // default of 3 minutes
-    private var statsSseTimeout: Long? = null
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("/{id}/stats-listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun listenToStats(@PathVariable("id") gameId: Long): ResponseBodyEmitter {
-        val game = gameService
-                .findById(gameId)
-                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
-
-        val emitter = sseEmitterFactory.createInstance()
-        var isComplete = false
+    fun listenToStats(@PathVariable("id") gameId: Long,
+                      @RequestParam("quantity", required = true) replayQuantity: Int): ResponseBodyEmitter {
+        logger.info("Listening for $replayQuantity game stats on game $gameId")
+        val emitter = sseEmitterFactory.createInstance(1000 * 60 * 4)
         var emissions = 0
-        val complete: () -> Unit = {
-            if (!isComplete) {
-                emitter.send(SseEmitter.event().data("DONE").name("DONE"))
-                emitter.complete()
-                isComplete = true
-            }
-        }
-
-        if (game.techWin) {
-            complete()
-            return emitter
-        }
-
         val emit = { data: String ->
-            emitter.send(SseEmitter.event().data(data).name("EVENT"))
-            logger.info("Emitted game stats (length: ${data.length}) event to game $gameId")
-            emissions += 1
-            if (emissions == game.replayQuantity) {
-                complete()
+            emitter.send("EVENT", data)
+            logger.info("Emitted game stats event of length ${data.length} to game $gameId")
+            if (++emissions == replayQuantity) {
+                emitter.send("DONE", "DONE")
+                emitter.complete()
             }
         }
-
-        val existingStatsJsonArray = JSONArray(gameService.findGameStats(game))
-        var i = 0; while (existingStatsJsonArray.opt(i) != null) {
-            emit(existingStatsJsonArray.get(i).toString()); i++
-        }
-
-        val timePassedSinceReport = clockInstance.now.minusMillis(game.reportedAt!!.time).toEpochMilli()
-        if (emissions != game.replayQuantity && timePassedSinceReport < statsSseTimeout!!) {
-            Timer(Thread.currentThread().name, false).schedule(statsSseTimeout!!) { emitter.complete() }
-            val subscription = GameStatSubscription(gameId, emit)
-            gameStatsEventListener.subscribe(subscription)
-            emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
-            emitter.onTimeout { gameStatsEventListener.unsubscribe(subscription) }
-        } else {
-            complete()
-        }
-
-        return emitter
+        val subscription = GameStatSubscription(gameId, emit)
+        gameStatsEventListener.subscribe(subscription)
+        emitter.onCompletion { gameStatsEventListener.unsubscribe(subscription) }
+        return emitter.delegate
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
@@ -199,9 +159,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         if (authUser!!.id != rating.user) {
             throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null)
         }
-        val persistedRating = gameService.rateGame(id, rating.user, rating.type)
-
-        return persistedRating
+        return gameService.rateGame(id, rating.user, rating.type)
     }
 
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])

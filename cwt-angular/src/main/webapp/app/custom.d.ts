@@ -236,6 +236,7 @@ export interface GameDetailDto {
     tournament: TournamentDetailDto;
     voided: boolean;
     replayExists: boolean;
+    replayQuantity?: number;
     playoffRoundLocalized: string;
     created: string;
     reportedAt: string;
@@ -245,6 +246,7 @@ export interface PlayoffGameDto {
     id: number;
     homeUser?: User;
     awayUser?: User;
+    techWin: boolean;
     playoff: {
         round: number;
         spot: number;
