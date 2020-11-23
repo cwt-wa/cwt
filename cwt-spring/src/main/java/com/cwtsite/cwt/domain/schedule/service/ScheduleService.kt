@@ -44,11 +44,11 @@ class ScheduleService {
     @PublishNews
     @Transactional
     fun createSchedule(author: User, opponent: User, appointment: Timestamp): Schedule {
-        return Schedule(
+        return scheduleRepository.save(Schedule(
                 author = author,
                 homeUser = author,
                 awayUser = opponent,
-                appointment = appointment)
+                appointment = appointment))
     }
 
     /**
@@ -58,7 +58,7 @@ class ScheduleService {
     @Transactional
     fun scheduleStream(schedule: Schedule, channel: Channel): Schedule {
         schedule.streams.add(channel)
-        return schedule
+        return scheduleRepository.save(schedule)
     }
 
     /**
@@ -68,7 +68,7 @@ class ScheduleService {
     @Transactional
     fun removeStream(schedule: Schedule, channel: Channel): Schedule {
         schedule.streams.removeIf { it == channel }
-        return schedule
+        return scheduleRepository.save(schedule)
     }
 
     fun findByPairing(user1: User, user2: User): Schedule? =
