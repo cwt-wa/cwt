@@ -50,7 +50,7 @@ class ChannelRestControllerTest {
         val channel = EntityDefaults.channel(user = user)
         `when`(authService.authUser(anyObject())).thenReturn(user)
         `when`(streamService.findChannelByUser(user)).thenReturn(channel)
-        val actual = cut.writeAccess(channel.title, mock(HttpServletRequest::class.java))
+        val actual = cut.writeAccess(channel.login!!, mock(HttpServletRequest::class.java))
         assertThat(actual.body!!).isTrue()
     }
 
@@ -60,7 +60,7 @@ class ChannelRestControllerTest {
         val channel = EntityDefaults.channel()
         `when`(authService.authUser(anyObject())).thenReturn(authUser)
         `when`(streamService.findChannelByUser(authUser)).thenReturn(channel)
-        val actual = cut.writeAccess(channel.title, mock(HttpServletRequest::class.java))
+        val actual = cut.writeAccess(channel.login!!, mock(HttpServletRequest::class.java))
         assertThat(actual.body!!).isFalse()
     }
 
