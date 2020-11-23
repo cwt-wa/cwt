@@ -11,7 +11,6 @@ import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
 import com.cwtsite.cwt.domain.message.view.model.ThirdPartyMessageDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
-import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.slf4j.LoggerFactory
