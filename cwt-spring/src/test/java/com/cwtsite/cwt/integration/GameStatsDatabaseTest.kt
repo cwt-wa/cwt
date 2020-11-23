@@ -8,35 +8,33 @@ import com.cwtsite.cwt.domain.game.service.GameStatsRepository
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.FixMethodOrder
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.Order
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.io.BufferedReader
 import java.sql.Timestamp
 import java.time.Instant
-import kotlin.test.Test
 
 
-@RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@ExtendWith(SpringExtension::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @EmbeddedPostgres
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@DirtiesContext
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class GameStatsDatabaseTest {
 
-    @Autowired
-    private lateinit var gameService: GameService
-
-    @Autowired
-    private lateinit var gameRepository: GameRepository
-
-    @Autowired
-    private lateinit var gameStatsRepository: GameStatsRepository
-
-    @Autowired
-    private lateinit var tournamentRepository: TournamentRepository
+    @Autowired private lateinit var gameService: GameService
+    @Autowired private lateinit var gameRepository: GameRepository
+    @Autowired private lateinit var gameStatsRepository: GameStatsRepository
+    @Autowired private lateinit var tournamentRepository: TournamentRepository
 
     private val statsJson =
             javaClass.getResourceAsStream("/com/cwtsite/cwt/integration/1513/2.json")!!
@@ -44,19 +42,20 @@ class GameStatsDatabaseTest {
 
     companion object {
 
-        @JvmStatic
-        private var game: Game? = null
+        @JvmStatic private var game: Game? = null
     }
 
     @Test
-    fun `1 save game`() {
+    @Order(1)
+    fun `save game`() {
         game = gameRepository.save(Game(
                 tournament = tournamentRepository.save(
                         Tournament(created = Timestamp.from(Instant.now())))))
     }
 
     @Test
-    fun `2 save stats`() {
+    @Order(2)
+    fun `save stats`() {
         gameStatsRepository.save(GameStats(
                 game = game,
                 startedAt = Timestamp(1586284441226),
@@ -64,7 +63,8 @@ class GameStatsDatabaseTest {
     }
 
     @Test
-    fun `3 query stats`() {
+    @Order(2)
+    fun `query stats`() {
         assertThat(gameService.findGameStats(gameService.findById(game!!.id!!).orElseThrow()))
                 .isEqualTo("[$statsJson]")
     }

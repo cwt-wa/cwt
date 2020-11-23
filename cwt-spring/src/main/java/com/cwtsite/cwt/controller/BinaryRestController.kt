@@ -96,7 +96,7 @@ class BinaryRestController {
 
         assertBinaryDataStoreEndpoint()
 
-        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+        val authUser = authService.authUser(request)
         if (authUser!!.id != homeUser && authUser.id != awayUser) {
             throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
         }
@@ -144,10 +144,8 @@ class BinaryRestController {
     @PostMapping("game/{gameId}/stats", consumes = ["multipart/form-data"])
     @Secured(AuthorityRole.ROLE_ADMIN)
     @Produces("application/json")
-    fun saveStats(
-            @PathVariable gameId: Long,
-            @RequestParam("replay") replay: MultipartFile,
-            request: HttpServletRequest): ResponseEntity<String> {
+    fun saveStats(@PathVariable gameId: Long,
+                  @RequestParam("replay") replay: MultipartFile): ResponseEntity<String> {
         val game = gameService.findById(gameId)
                 .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
         if (!binaryOutboundService.waaasConfigured()) {

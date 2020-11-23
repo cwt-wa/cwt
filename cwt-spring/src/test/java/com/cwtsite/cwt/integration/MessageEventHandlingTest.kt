@@ -8,11 +8,11 @@ import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.test.MockitoUtils
-import org.junit.Before
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,20 +21,20 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.sql.Timestamp
 
-@RunWith(SpringRunner::class)
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = ["spring.profiles.include=sync"])
+@ExtendWith(SpringExtension::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @EmbeddedPostgres
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@DirtiesContext
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class MessageEventHandlingTest {
 
     @Autowired private lateinit var mockMvc: MockMvc
@@ -47,7 +47,7 @@ class MessageEventHandlingTest {
         private var user: User? = null
     }
 
-    @Before
+    @BeforeEach
     fun setup() {
         `when`(sseEmitterFactory.createInstance()).thenReturn(sseEmitter)
         if (user == null) user = userService.saveUser(User(username = "name", email = "master@example.com"))

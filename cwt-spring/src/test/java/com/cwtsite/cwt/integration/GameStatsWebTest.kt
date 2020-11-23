@@ -12,24 +12,23 @@ import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.entity.InputStreamEntity
+import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
-import org.junit.Before
-import org.junit.FixMethodOrder
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.MediaType.APPLICATION_JSON_UTF8
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
@@ -40,42 +39,26 @@ import java.io.File
 import java.io.FileInputStream
 import java.sql.Timestamp
 import java.time.Instant
-import kotlin.test.Test
-import kotlin.test.assertTrue
 
 
 private const val game1Id = 1559
 private const val game2Id = 1513
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @EmbeddedPostgres
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@DirtiesContext
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class GameStatsWebIntegration {
 
-    @Autowired
-    private lateinit var mockMvc: MockMvc
+    @Autowired private lateinit var mockMvc: MockMvc
+    @Autowired private lateinit var userRepository: UserRepository
+    @Autowired private lateinit var tournamentRepository: TournamentRepository
+    @Autowired private lateinit var gameRepository: GameRepository
 
-    @Autowired
-    private lateinit var userRepository: UserRepository
-
-    @Autowired
-    private lateinit var tournamentRepository: TournamentRepository
-
-    @Autowired
-    private lateinit var gameRepository: GameRepository
-
-    @Value("\${jwt.header}")
-    private lateinit var tokenHeader: String
-
-    @MockBean
-    private lateinit var authService: AuthService
-
-    @MockBean
-    private lateinit var binaryOutboundService: BinaryOutboundService
-
-    private val anyToken = "ANY_TOKEN"
+    @MockBean private lateinit var authService: AuthService
+    @MockBean private lateinit var binaryOutboundService: BinaryOutboundService
 
     private val game1ZipArchive = File(javaClass.getResource("$game1Id.zip").toURI())
     private val game2ZipArchive = File(javaClass.getResource("$game2Id.zip").toURI())
@@ -91,21 +74,13 @@ class GameStatsWebIntegration {
             javaClass.getResourceAsStream("$game2Id/4.json")!!)
 
     companion object {
-
-        @JvmStatic
-        private var zemkeUser: User? = null
-
-        @JvmStatic
-        private var rafkaUser: User? = null
-
-        @JvmStatic
-        private var game1: Game? = null
-
-        @JvmStatic
-        private var game2: Game? = null
+        @JvmStatic private var zemkeUser: User? = null
+        @JvmStatic private var rafkaUser: User? = null
+        @JvmStatic private var game1: Game? = null
+        @JvmStatic private var game2: Game? = null
     }
 
-    @Before
+    @BeforeEach
     fun setUp() {
         if (game1 == null) {
             game1 = gameRepository.save(Game(
@@ -120,16 +95,16 @@ class GameStatsWebIntegration {
         if (zemkeUser == null) zemkeUser = userRepository.save(User(username = "nOox", email = "nOox@cwtsite.com"))
         if (rafkaUser == null) rafkaUser = userRepository.save(User(username = "Boolc", email = "Boolc@cwtsite.com"))
 
-        `when`(authService.tokenHeaderName).thenReturn(tokenHeader)
-        `when`(authService.getUserFromToken(anyToken)).thenReturn(zemkeUser)
-
         `when`(binaryOutboundService.binaryDataStoreConfigured()).thenReturn(true)
         `when`(binaryOutboundService.waaasConfigured()).thenReturn(true)
     }
 
-    @Test
     @WithMockUser
-    fun `1 save replay file`() {
+    @Test
+    @Order(1)
+    fun `save replay file`() {
+        `when`(authService.authUser(anyObject())).thenReturn(zemkeUser)
+
         val resMock = createMockHttpResponse(
                 InputStreamEntity(game1StatsJson[0]), InputStreamEntity(game1StatsJson[1]),
                 InputStreamEntity(game1StatsJson[2]), InputStreamEntity(game1StatsJson[3]))
@@ -140,7 +115,6 @@ class GameStatsWebIntegration {
         mockMvc
                 .perform(multipart("/api/binary/game/${game1!!.id}/replay")
                         .file(MockMultipartFile("replay", game1ZipArchive.name, "application/zip", FileInputStream(game1ZipArchive)))
-                        .header(tokenHeader, anyToken)
                         .param("score-home", "3")
                         .param("score-away", "1")
                         .param("home-user", zemkeUser!!.id.toString())
@@ -151,10 +125,11 @@ class GameStatsWebIntegration {
     }
 
     @Test
-    fun `2 retrieve game stats json`() {
+    @Order(2)
+    fun `retrieve game stats json`() {
         mockMvc
                 .perform(get("/api/game/${game1!!.id}/stats")
-                        .contentType(APPLICATION_JSON_UTF8))
+                        .contentType(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<Any>(4)))
@@ -170,21 +145,23 @@ class GameStatsWebIntegration {
 
     @Test
     @WithMockUser(authorities = [AuthorityRole.ROLE_ADMIN])
-    fun `3 save game stats explicitly`() {
+    @Order(3)
+    fun `save game stats explicitly`() {
+        `when`(authService.authUser(anyObject())).thenReturn(zemkeUser)
+
         val resMock = createMockHttpResponse(
                 InputStreamEntity(game2StatsJson[0]), InputStreamEntity(game2StatsJson[1]),
                 InputStreamEntity(game2StatsJson[2]), InputStreamEntity(game2StatsJson[3]))
 
         `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
                 .thenAnswer { invocation ->
-                    assertTrue(invocation.getArgument<File>(1).exists())
+                    assertThat(invocation.getArgument<File>(1).exists()).isTrue()
                     resMock
                 }
 
         mockMvc
                 .perform(multipart("/api/binary/game/${game2!!.id}/stats")
                         .file(MockMultipartFile("replay", game2ZipArchive.name, "application/zip", FileInputStream(game2ZipArchive)))
-                        .header(tokenHeader, anyToken)
                         .param("home-user", zemkeUser!!.id.toString())
                         .param("away-user", rafkaUser!!.id.toString())
                 )

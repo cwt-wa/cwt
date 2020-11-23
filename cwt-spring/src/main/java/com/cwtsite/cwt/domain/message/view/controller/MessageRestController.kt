@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
-import kotlin.concurrent.fixedRateTimer
 
 @RestController
 @RequestMapping("api/message")
@@ -41,8 +40,7 @@ class MessageRestController {
     @GetMapping("/listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun listen(request: HttpServletRequest): ResponseBodyEmitter {
         val emitter = sseEmitterFactory.createInstance()
-        val authHeader = request.getHeader(authService.tokenHeaderName)
-        val user = if (authHeader != null) authService.getUserFromToken(authHeader) else null
+        val user = authService.authUser(request)
         val listener = { message: Message ->
             logger.info("listener received message $message")
             if (message.category === MessageCategory.PRIVATE) {
@@ -66,9 +64,7 @@ class MessageRestController {
                     @RequestParam("size", defaultValue = "30") size: Int,
                     @RequestParam("category", required = false) category: MessageCategory?,
                     request: HttpServletRequest): ResponseEntity<List<MessageDto>> {
-        val authorizationHeader = request.getHeader(authService.tokenHeaderName)
-        var user: User? = null
-        if (authorizationHeader != null) user = authService.getUserFromToken(authorizationHeader)
+        val user = authService.authUser(request)
         val categories = if (category == null) {
             if (user == null) MessageCategory.guestCategories() else MessageCategory.values().toList()
         } else {
@@ -110,9 +106,9 @@ class MessageRestController {
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun addMessage(@RequestBody dto: MessageCreationDto, request: HttpServletRequest): ResponseEntity<MessageDto> {
-        val authenticatedUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+        val user = authService.authUser(request)
         val savedMessage = messageService.save(MessageCreationDto.fromDto(
-                dto, authenticatedUser!!, userService.getByIds(dto.recipients!!)))
+                dto, user!!, userService.getByIds(dto.recipients!!)))
         return ResponseEntity.ok(MessageDto.toDto(savedMessage))
     }
 
