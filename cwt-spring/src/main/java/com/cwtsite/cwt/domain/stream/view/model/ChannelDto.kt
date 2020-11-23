@@ -18,7 +18,6 @@ data class ChannelDto(
         val offlineImageUrl: String? = null,
         val login: String? = null,
         val description: String? = null,
-        val botInvited: Boolean? = null,
         val modified: Date? = null,
         val created: Date? = null
 ) {
@@ -36,8 +35,6 @@ data class ChannelDto(
                 offlineImageUrl = channel.offlineImageUrl,
                 login = channel.login,
                 description = channel.description,
-                botInvited = channel.botInvited,
-                modified = channel.modified,
                 created = channel.created
         )
     }

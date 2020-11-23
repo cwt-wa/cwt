@@ -101,13 +101,14 @@
                     <div class="my-3 card bg-secondary">
                         <div class="card-body">
                             <!-- Definitely need auto-join checkbox here, otherwise the Bot will be neglected. -->
+                            <img src="../../img/loading.gif" *ngIf="botInvited == null"/>
                             <button (click)="revokeBot()" class="btn btn-danger"
-                                    *ngIf="!userChannel.botInvited" [disabled]="togglingBotInvite">
+                                    *ngIf="botInvited === true" [disabled]="togglingBotInvite">
                                 <i class="fa fa-robot"></i>
                                 Revoke CWT Bot
                             </button>
                             <button (click)="inviteBot()" class="btn btn-success"
-                                    *ngIf="userChannel.botInvited" [disabled]="togglingBotInvite">
+                                    *ngIf="botInvited === false" [disabled]="togglingBotInvite">
                                 <i class="fa fa-robot"></i>
                                 Invite CWT Bot
                             </button>
@@ -116,6 +117,9 @@
                                 to enrich the experience and also mirror the CWT chat.<br>
                                 Enter <code>!cwtcommands</code> once it has joined the Twitch chat.<br>
                                 You can revoke access at any time.
+                            </small>
+                            <small class="font-weight-bold">
+                                If the bot isn’t responding you might need to make it a moderator.
                             </small>
                         </div>
                     </div>

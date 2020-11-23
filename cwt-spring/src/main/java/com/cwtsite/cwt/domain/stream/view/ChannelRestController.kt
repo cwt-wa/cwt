@@ -82,32 +82,14 @@ class ChannelRestController {
         }
     }
 
-    // todo remove as its totally taken care of by the twitch bot endpoint
-    @PutMapping("{channelId}/invite-bot")
-    fun inviteBot(@PathVariable("channelId") channelId: String): ResponseEntity<ChannelDto> {
-        val channel = streamService.findChannel(channelId)
-                .orElseThrow { RestException("Channel not found", HttpStatus.NOT_FOUND, null) }
-        channel.botInvited = true
-        return ResponseEntity.ok(ChannelDto.toDto(streamService.saveChannel(channel)))
-    }
-
-    // todo remove as its totally taken care of by the twitch bot endpoint
-    @PutMapping("{channelId}/revoke-bot")
-    fun revokeBot(@PathVariable("channelId") channelId: String): ResponseEntity<ChannelDto> {
-        val channel = streamService.findChannel(channelId)
-                .orElseThrow { RestException("Channel not found", HttpStatus.NOT_FOUND, null) }
-        channel.botInvited = false
-        return ResponseEntity.ok(ChannelDto.toDto(streamService.saveChannel(channel)))
-    }
-
-    @GetMapping("{channelTitle}/write-access")
-    fun writeAccess(@PathVariable("channelTitle") channelTitle: String,
+    @GetMapping("/{channelLogin}/write-access")
+    fun writeAccess(@PathVariable("channelLogin") channelLogin: String,
                     request: HttpServletRequest): ResponseEntity<Boolean> {
         val user = authService.authUser(request) ?: return ResponseEntity.ok(false)
-        logger.info("checking with channel of title \"${channelTitle}\" belonging to user $user")
+        logger.info("checking with channel of login \"${channelLogin}\" belonging to user $user")
         val channel = streamService.findChannelByUser(user) ?: return ResponseEntity.ok(false)
-        logger.info("checking with channel \"${channelTitle}\" belonging to user $user")
-        val result = channelTitle.toLowerCase() == channel.title.toLowerCase() && channel.user.id === user.id
+        logger.info("checking with channel \"${channelLogin}\" belonging to user $user")
+        val result = channelLogin.toLowerCase() == channel.login!!.toLowerCase() && channel.user.id === user.id
         logger.info("result is $result")
         return ResponseEntity.ok(result)
     }

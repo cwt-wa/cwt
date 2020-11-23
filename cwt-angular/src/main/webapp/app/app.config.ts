@@ -7,13 +7,15 @@ export interface AppConfig {
     captchaKey: string;
     liveStreamProducer: string;
     liveStreamSubscriber: string;
+    twitchBotEndpoint: string;
 }
 
 export const appConfig: AppConfig = {
     apiEndpoint: process.env.apiEndpoint,
     captchaKey: process.env.captchaKey,
     liveStreamProducer: process.env.liveStreamProducer,
-    liveStreamSubscriber: process.env.liveStreamSubscriber
+    liveStreamSubscriber: process.env.liveStreamSubscriber,
+    twitchBotEndpoint: process.env.twitchBotEndpoint,
 };
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');

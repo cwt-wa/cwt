@@ -40,6 +40,7 @@ module.exports = webpackMerge(commonConfig, {
                 'captchaKey': JSON.stringify('6LcWgLYUAAAAAOvJrsE-KX2ZZNgHqkd9tBwm-tq4'),
                 'liveStreamProducer': JSON.stringify('https://twitch.cwtsite.com/produce'),
                 'liveStreamSubscriber': JSON.stringify('https://twitch.cwtsite.com/subscribe'),
+                'twitchBotEndpoint':  JSON.stringify('https://twitch-bot.zemke.io'),
             }
         })
     ]
