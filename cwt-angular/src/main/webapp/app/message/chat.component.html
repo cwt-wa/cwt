@@ -64,7 +64,7 @@
                     <a target="_blank" class="font-weight-bold"
                        [href]="messageData[1]">
                         <strong>{{messageData[0]}}</strong>&nbsp;<span class="font-weight-normal">via&nbsp;Twitch:</span>
-                        “<span *ngFor="let d of messageData; let indexd = index">{{indexd >= 2 ? d : ''}}</span>”&nbsp;<i class="fa fa-twitch text-success"></i>
+                        “<span *ngFor="let d of messageData; let indexd = index; let lastd = last">{{indexd >= 2 ? (lastd ? d : (d + ',')) : ''}}</span>”&nbsp;<i class="fa fa-twitch text-success"></i>
                     </a>
                 </ng-container>
                 <ng-container *ngIf="message.newsType === 'DISCORD_MESSAGE'">
