@@ -21,10 +21,9 @@ data class TwitchUserDto(
 
     companion object {
 
-        fun fromDto(dto: TwitchUserDto, user: User, title: String) = Channel(
+        fun fromDto(dto: TwitchUserDto, user: User) = Channel(
                 id = dto.id!!,
                 user = user,
-                title = title,
                 displayName = dto.displayName,
                 type = dto.type,
                 profileImageUrl = dto.profileImageUrl,

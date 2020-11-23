@@ -50,9 +50,9 @@ object EntityDefaults {
             reportedAt = reportedAt
     )
 
-    fun channel(id: String = "1111", title: String = "TitleTV", user: User = user(), login: String = "zemkecwt") = Channel(
+    fun channel(id: String = "1111", displayName: String = "TitleTV", user: User = user(), login: String = "zemkecwt") = Channel(
             id = id,
-            title = title,
+            displayName = displayName,
             login = login,
             user = user
     )

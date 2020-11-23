@@ -93,7 +93,6 @@ export interface UserDetailDto {
 
 export interface ChannelDto {
     id: string;
-    title: string;
     user: UserMinimalDto;
     displayName: string;
     type: string;
@@ -110,7 +109,6 @@ export interface ChannelDto {
 
 export interface ChannelCreationDto {
     twitchLoginName: string;
-    title: string;
     user: number;
 }
 

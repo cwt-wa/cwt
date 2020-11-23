@@ -8,7 +8,6 @@ import java.util.*
 @DataTransferObject
 data class ChannelDto(
         val id: String? = null,
-        val title: String? = null,
         val user: UserMinimalDto,
         val displayName: String? = null,
         val type: String? = null,
@@ -25,7 +24,6 @@ data class ChannelDto(
     companion object {
         fun toDto(channel: Channel) = ChannelDto(
                 id = channel.id,
-                title = channel.title,
                 user = UserMinimalDto.toDto(channel.user),
                 displayName = channel.displayName,
                 type = channel.type,

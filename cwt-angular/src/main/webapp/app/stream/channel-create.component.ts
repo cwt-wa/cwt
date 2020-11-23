@@ -11,11 +11,7 @@ import {APP_CONFIG, AppConfig} from "../app.config";
 })
 export class ChannelCreateComponent implements OnInit {
 
-    channel: ChannelCreationDto = {
-        twitchLoginName: null,
-        title: null,
-        user: null,
-    };
+    channel: ChannelCreationDto = {twitchLoginName: null, user: null};
     userAlreadyHasChannel: boolean = false;
     channelCreated: boolean = false;
     authUser: JwtUser;

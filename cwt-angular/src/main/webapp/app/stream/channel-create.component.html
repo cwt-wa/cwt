@@ -46,6 +46,10 @@
                     These features are all automated and work best when you include the players’ names as they
                     are on the CWT site in the title of your live stream.
                 </p>
+                <p>
+                    Please also make sure that your Twitch live streams persist throughout the duration of the live stream
+                    for people to be able to watch the tape.
+                </p>
             </div>
             <form class="mt-4" #channelForm=ngForm (ngSubmit)="submit()">
                 <div class="form-group">
@@ -54,18 +58,6 @@
                     <small class="form-text text-muted">
                         Your user account on Twitch used to fetch information from your Twitch account.
                     </small>
-                </div>
-                <div class="form-group">
-                    <label for="title">Channel name</label>
-                    <input type="text" id="title" required class="form-control" [(ngModel)]="channel.title" name="title" minlength="3" #channelTitle=ngModel>
-                    <small class="form-text text-muted">
-                        The name of your channel how it will appear throughout the CWT website.
-                    </small>
-                    <div class="text-danger" *ngIf="channelTitle.errors && channelTitle.dirty">
-                        <div [hidden]="!channelTitle.errors.minlength">
-                            Minimum length is three chars.
-                        </div>
-                    </div>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Submit" class="btn btn-primary float-right" [disabled]="channelForm.invalid">

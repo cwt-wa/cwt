@@ -38,8 +38,8 @@ class TwitchServiceProdImplTest {
                 "thisIsPaginationCursor2",
                 "thisIsPaginationCursor3")
         val channels = listOf(
-                Mockito.spy(EntityDefaults.channel("26027047", "Khamski")),
-                Mockito.spy(EntityDefaults.channel("25468719", "DarkOne")))
+                Mockito.spy(EntityDefaults.channel("26027047", displayName = "Khamski")),
+                Mockito.spy(EntityDefaults.channel("25468719", displayName = "DarkOne")))
         val expectedVideos = listOf(
                 createVideoDto(channels[0], "The First Video"),
                 createVideoDto(channels[1], "The Second Video"),
