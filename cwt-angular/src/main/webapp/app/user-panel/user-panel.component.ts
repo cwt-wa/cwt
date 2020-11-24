@@ -26,6 +26,7 @@ export class UserPanelComponent implements OnInit {
     userChannel: ChannelDto;
     togglingBotInvite: boolean = false;
     botInvited: boolean = null;
+    botRequestFailed: boolean = false;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -59,7 +60,12 @@ export class UserPanelComponent implements OnInit {
             this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
                 .subscribe(async res => {
                     this.userChannel = res[0]
-                    this.botInvited = (await this.twitchBotEndpoint('status')).joined;
+                    try {
+                        this.botInvited = (await this.twitchBotEndpoint('status')).joined;
+                    } catch (err) {
+                        this.botRequestFailed = true;
+                        console.error('bot status failed', err);
+                    }
                 });
         }
     }
@@ -136,7 +142,8 @@ export class UserPanelComponent implements OnInit {
             await this.twitchBotEndpoint(joinOrPart);
             this.botInvited = !this.botInvited;
         } catch (err) {
-            console.error(err);
+            console.error(`${joinOrPart} not working:`, err);
+            this.toastr.error("Excuse me, Beep Boop no working.");
             this.togglingBotInvite = false;
         }
     }

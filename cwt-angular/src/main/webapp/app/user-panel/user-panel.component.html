@@ -101,7 +101,10 @@
                     <div class="my-3 card bg-secondary">
                         <div class="card-body">
                             <!-- Definitely need auto-join checkbox here, otherwise the Bot will be neglected. -->
-                            <img src="../../img/loading.gif" *ngIf="botInvited == null"/>
+                            <img src="../../img/loading.gif" *ngIf="botInvited == null && !botRequestFailed"/>
+                            <div class="alert alert-danger" *ngIf="botRequestFailed">
+                                Twitch Bot is momentarily unavailable.
+                            </div>
                             <button (click)="revokeBot()" class="btn btn-danger"
                                     *ngIf="botInvited === true" [disabled]="togglingBotInvite">
                                 <i class="fa fa-robot"></i>
