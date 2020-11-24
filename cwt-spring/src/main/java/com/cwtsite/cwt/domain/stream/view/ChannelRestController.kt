@@ -82,6 +82,13 @@ class ChannelRestController {
         }
     }
 
+    @PutMapping("/{channelId}/auto-active")
+    fun autoActive(@PathVariable("channelId") channelId: String): ResponseEntity<Boolean> {
+        return streamService.findChannel(channelId)
+                .map { ResponseEntity.ok(it.botAutoJoin) }
+                .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
+    }
+
     @PutMapping("/{channelId}/botAutoJoin")
     fun botAutoJoin(@PathVariable("channelId") channelId: String,
                     @RequestBody botAutoJoin: Map<String, Boolean>): ResponseEntity<ChannelDto> {
