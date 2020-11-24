@@ -10,9 +10,7 @@ import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestMethodOrder
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -21,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
@@ -34,7 +33,6 @@ import java.sql.Timestamp
 @AutoConfigureMockMvc
 @EmbeddedPostgres
 @DirtiesContext
-@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class MessageEventHandlingTest {
 
     @Autowired private lateinit var mockMvc: MockMvc
@@ -58,6 +56,7 @@ class MessageEventHandlingTest {
     }
 
     @Test
+    @WithMockUser
     fun handle() {
         mockMvc
                 .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
@@ -72,6 +71,7 @@ class MessageEventHandlingTest {
     }
 
     @Test
+    @WithMockUser
     fun doNotPublishPrivateMessage() {
         mockMvc
                 .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
@@ -79,14 +79,13 @@ class MessageEventHandlingTest {
                 .andExpect(status().isOk)
         val author = userService.saveUser(User(username = "Author", email = "author@example.com"))
         val recipient = userService.saveUser(User(username = "HelloUser", email = "hello@example.com"))
-        val message = Message(
+        messageService.save(Message(
                 body = "Everybody needs to know this!",
                 author = author,
                 category = MessageCategory.PRIVATE,
                 recipients = mutableListOf(recipient),
                 created = Timestamp(1605483348499)
-        )
-        messageService.save(message)
+        ))
         verify(sseEmitter, never()).send(anyObject(), anyObject())
     }
 }
