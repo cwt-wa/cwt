@@ -56,6 +56,9 @@ data class Channel(
         @Column(name = "description")
         var description: String? = null,
 
+        @Column
+        var botAutoJoin: Boolean = false,
+
         @field:UpdateTimestamp
         @Column(nullable = false)
         var modified: Timestamp? = null,

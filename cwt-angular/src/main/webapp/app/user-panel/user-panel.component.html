@@ -105,16 +105,32 @@
                             <div class="alert alert-danger" *ngIf="botRequestFailed">
                                 Twitch Bot is momentarily unavailable.
                             </div>
-                            <button (click)="revokeBot()" class="btn btn-danger"
-                                    *ngIf="botInvited === true" [disabled]="togglingBotInvite">
-                                <i class="fa fa-robot"></i>
-                                Revoke CWT Bot
-                            </button>
-                            <button (click)="inviteBot()" class="btn btn-success"
-                                    *ngIf="botInvited === false" [disabled]="togglingBotInvite">
-                                <i class="fa fa-robot"></i>
-                                Invite CWT Bot
-                            </button>
+                            <ng-container *ngIf="!botRequestFailed">
+                                <button (click)="revokeBot()" class="btn btn-danger"
+                                        *ngIf="botInvited === true" [disabled]="togglingBotInvite">
+                                    <i class="fa fa-robot"></i>
+                                    Revoke CWT Bot
+                                </button>
+                                <button (click)="inviteBot()" class="btn btn-success"
+                                        *ngIf="botInvited === false" [disabled]="togglingBotInvite">
+                                    <i class="fa fa-robot"></i>
+                                    Invite CWT Bot
+                                </button>
+                                <div class="alert alert-success my-3">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" [disabled]="togglingBotAutoJoin"
+                                                   (change)="toggleBotAutoJoin()" [(ngModel)]="userChannel.botAutoJoin"
+                                                   name="botAutoJoin">
+                                            Allow the bot to join by itself
+                                        </label>
+                                        <small class="form-text text-muted">
+                                            Everytime you start live streaming with “CWT” in the title of your live stream,
+                                            the bot will join the chat and leave once the stream ends. Maximum comfort.
+                                        </small>
+                                    </div>
+                                </div>
+                            </ng-container>
                             <small class="form-text text-muted">
                                 Let the CWT Bot join your channel, it will provide a few commands
                                 to enrich the experience and also mirror the CWT chat.<br>

@@ -142,6 +142,11 @@ class StreamService {
                     .filter { it.second != null }
                     .map { associateGame(it.first, it.second!!) }
 
+    fun botAutoJoin(channel: Channel, botAutoJoin: Boolean): Channel {
+        channel.botAutoJoin = botAutoJoin
+        return channelRepository.save(channel)
+    }
+
     fun findStream(streamId: String): Optional<Stream> =
             streamRepository.findById(streamId)
 
