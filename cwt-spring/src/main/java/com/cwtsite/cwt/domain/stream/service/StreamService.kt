@@ -148,6 +148,9 @@ class StreamService {
         return channelRepository.save(channel)
     }
 
+    fun findChannelByLogin(login: String): Optional<Channel> =
+            channelRepository.findByLogin(login)
+
     fun findStream(streamId: String): Optional<Stream> =
             streamRepository.findById(streamId)
 
