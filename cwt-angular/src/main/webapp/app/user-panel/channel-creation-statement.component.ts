@@ -19,6 +19,10 @@ import {Component, Input} from "@angular/core";
             and thereby attract people early on.
         </p>
         <p>
+            There is a dedicated CWT Twitch chat bot which makes “beep boop” and has some nice commands
+            to enrich the live streaming experience for your viewers.
+        </p>
+        <p>
             These features will only trigger when you include “CWT” in the title of your live stream.<br>
             Therefore your Twitch channel will not publish information on CWT if you also perform other
             duties with your Twitch channel other than streaming CWT games.
