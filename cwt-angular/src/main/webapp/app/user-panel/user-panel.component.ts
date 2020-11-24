@@ -131,12 +131,12 @@ export class UserPanelComponent implements OnInit {
     }
 
     toggleBotAutoJoin() {
-       this.togglingBotAutoJoin = true;
-       this.requestService.put<ChannelDto>(
-               `channel/${this.userChannel.id}/botAutoJoin`,
-               !this.userChannel.botAutoJoin)
-           .pipe(finalize(() => this.togglingBotAutoJoin = false))
-           .subscribe(res => this.userChannel = res);
+        this.togglingBotAutoJoin = true;
+        this.requestService.put<ChannelDto>(
+                `channel/${this.userChannel.id}/botAutoJoin`,
+                {botAutoJoin: this.userChannel.botAutoJoin})
+            .pipe(finalize(() => this.togglingBotAutoJoin = false))
+            .subscribe(res => this.userChannel = res);
     }
 
     async inviteBot() {
