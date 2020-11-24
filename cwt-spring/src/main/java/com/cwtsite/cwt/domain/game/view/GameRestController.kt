@@ -155,8 +155,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/{id}/rating", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun rateGame(@PathVariable("id") id: Long, @RequestBody rating: RatingDto, request: HttpServletRequest): Rating {
-        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-        if (authUser!!.id != rating.user) {
+        if (authService.authUser(request)!!.id == rating.user) {
             throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null)
         }
         return gameService.rateGame(id, rating.user, rating.type)
@@ -165,8 +164,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun commentGame(@PathVariable("id") id: Long, @RequestBody comment: CommentDto, request: HttpServletRequest): Comment {
-        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-        if (authUser!!.id != comment.user) {
+        if (authService.authUser(request)!!.id == comment.user) {
             throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null)
         }
 
@@ -180,7 +178,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun addTechWin(@RequestBody dto: GameTechWinDto, request: HttpServletRequest): ResponseEntity<GameCreationDto> {
         tournamentService.getCurrentTournament()
                 ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
-        val reporter = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
+        val reporter = authService.authUser(request)
                 ?: throw RestException("Unauthorized.", HttpStatus.UNAUTHORIZED, null)
         val users = userService.findByIds(dto.winner, dto.loser)
         val winningUser = users.find { it.id == dto.winner }
@@ -196,7 +194,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         val game = gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
         val user = userService.getById(dto.user).orElseThrow { RestException("User ${dto.user} not found", HttpStatus.NOT_FOUND, null) }
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != dto.user) {
+        if (authService.authUser(request)?.id != dto.user) {
             throw RestException("You must not impersonate your bet.", HttpStatus.FORBIDDEN, null)
         }
 

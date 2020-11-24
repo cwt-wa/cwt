@@ -122,13 +122,11 @@ class GameRestControllerTest {
         val game = EntityDefaults.game(scoreHome = null, scoreAway = null, playoff = PlayoffGame(1, 1, 1))
         val user = EntityDefaults.user()
         val request = mock(HttpServletRequest::class.java)
-        val header = "Auth Bearer"
         val dto = BetCreationDto(user.id!!, game.id!!, false)
         val bet = Bet(id = 1, user = user, game = game, betOnHome = dto.betOnHome)
         `when`(gameService.findById(anyLong())).thenReturn(Optional.of(game))
         `when`(userService.getById(anyLong())).thenReturn(Optional.of(user))
-        `when`(request.getHeader(authService.tokenHeaderName)).thenReturn(header)
-        `when`(authService.getUserFromToken(header)).thenReturn(user)
+        `when`(authService.authUser(request)).thenReturn(user)
         `when`(gameService.placeBet(anyObject(), anyObject(), anyBoolean())).thenReturn(bet)
         cut.placeBetOnGame(game.id!!, dto, request)
         verify(gameService).placeBet(game, user, dto.betOnHome)
@@ -139,12 +137,10 @@ class GameRestControllerTest {
         val game = EntityDefaults.game(playoff = PlayoffGame(1, 1, 1))
         val user = EntityDefaults.user()
         val request = mock(HttpServletRequest::class.java)
-        val header = "Auth Bearer"
         val dto = BetCreationDto(user.id!!, game.id!!, false)
         `when`(gameService.findById(anyLong())).thenReturn(Optional.of(game))
         `when`(userService.getById(anyLong())).thenReturn(Optional.of(user))
-        `when`(request.getHeader(authService.tokenHeaderName)).thenReturn(header)
-        `when`(authService.getUserFromToken(header)).thenReturn(user)
+        `when`(authService.authUser(request)).thenReturn(user)
         assertThatThrownBy { cut.placeBetOnGame(game.id!!, dto, request) }
                 .isExactlyInstanceOf(RestException::class.java)
                 .satisfies { assertThat((it as RestException).status).isEqualTo(HttpStatus.BAD_REQUEST) }
@@ -155,12 +151,10 @@ class GameRestControllerTest {
         val game = EntityDefaults.game(playoff = PlayoffGame(1, 1, 1))
         val user = EntityDefaults.user()
         val request = mock(HttpServletRequest::class.java)
-        val header = "Auth Bearer"
         val dto = BetCreationDto(2, game.id!!, false)
         `when`(gameService.findById(anyLong())).thenReturn(Optional.of(game))
         `when`(userService.getById(anyLong())).thenReturn(Optional.of(user))
-        `when`(request.getHeader(authService.tokenHeaderName)).thenReturn(header)
-        `when`(authService.getUserFromToken(header)).thenReturn(user)
+        `when`(authService.authUser(request)).thenReturn(user)
         assertThatThrownBy { cut.placeBetOnGame(game.id!!, dto, request) }
                 .isExactlyInstanceOf(RestException::class.java)
                 .satisfies { assertThat((it as RestException).status).isEqualTo(HttpStatus.FORBIDDEN) }

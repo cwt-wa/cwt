@@ -73,7 +73,6 @@ constructor(private val tournamentService: TournamentService, private val userSe
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun createTournament(
-            request: HttpServletRequest,
             @RequestBody startNewTournamentDto: StartNewTournamentDto): ResponseEntity<TournamentDetailDto> {
         try {
             return ResponseEntity.ok(TournamentDetailDto.toDto(

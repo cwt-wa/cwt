@@ -77,8 +77,7 @@ constructor(private val userService: UserService, private val applicationService
         }
 
         if (includeEmail) {
-            val token: String? = request.getHeader(authService.tokenHeaderName)
-            if (token == null || authService.getUserFromToken(token)?.id != user.id) {
+            if (authService.authUser(request)!!.id != user.id) {
                 throw RestException("Email address inclusion forbidden.", HttpStatus.BAD_REQUEST, null)
             }
         }
@@ -120,8 +119,8 @@ constructor(private val userService: UserService, private val applicationService
         tournamentService.getCurrentTournament()
                 ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val userToApply = assertUser(id)
-        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!
-        if (authUser != userToApply && !authUser.isAdmin()) throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
+        val authUser = authService.authUser(request)
+        if (authUser != userToApply && !authUser!!.isAdmin()) throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         try {
             return ResponseEntity.ok(this.applicationService.apply(userToApply))
         } catch (e: ApplicationService.AlreadyAppliedException) {
@@ -160,7 +159,7 @@ constructor(private val userService: UserService, private val applicationService
         var user = assertUser(id)
         val upcomingUsernameChange = userChangeDto.username != user.username
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != user.id) {
+        if (authService.authUser(request)!!.id != user.id) {
             throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
         }
 
@@ -194,7 +193,7 @@ constructor(private val userService: UserService, private val applicationService
     fun changePassword(@RequestBody passwordChangeDto: PasswordChangeDto,
                        @PathVariable("id") id: Long,
                        request: HttpServletRequest) {
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != assertUser(id).id) {
+        if (authService.authUser(request)!!.id != assertUser(id).id) {
             throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
         }
         try {
@@ -209,7 +208,7 @@ constructor(private val userService: UserService, private val applicationService
     fun changePhoto(@RequestParam("photo") photo: MultipartFile, @PathVariable("id") userId: Long, request: HttpServletRequest) {
         val user = assertUser(userId)
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != user.id) {
+        if (authService.authUser(request)!!.id != user.id) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 

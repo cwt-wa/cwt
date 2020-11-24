@@ -42,15 +42,12 @@ class ScheduleRestController {
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])
     @Secured(AuthorityRole.ROLE_USER)
     fun delete(@PathVariable("id") id: Long, request: HttpServletRequest) {
-        val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
-
+        val authUser = authService.authUser(request)
         val schedule = scheduleService.findById(id)
                 .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
-
         if (schedule.homeUser != authUser && schedule.awayUser != authUser) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
-
         scheduleService.cancelSchedule(schedule)
     }
 

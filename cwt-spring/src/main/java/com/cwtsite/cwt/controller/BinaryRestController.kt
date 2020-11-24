@@ -63,7 +63,7 @@ class BinaryRestController {
             request: HttpServletRequest): ResponseEntity<Void> {
         assertBinaryDataStoreEndpoint()
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
+        if (authService.authUser(request)!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
@@ -225,7 +225,7 @@ class BinaryRestController {
                         request: HttpServletRequest): ResponseEntity<Void> {
         assertBinaryDataStoreEndpoint()
 
-        if (authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))!!.id != userId) {
+        if (authService.authUser(request)!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
 
