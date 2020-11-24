@@ -8,7 +8,7 @@ import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
-import com.cwtsite.cwt.test.MockitoUtils
+import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Test
@@ -54,7 +54,7 @@ class MessageEventHandlingTest {
     fun setup() {
         `when`(sseEmitterFactory.createInstance()).thenReturn(sseEmitter)
         if (user == null) user = userService.saveUser(User(username = "name", email = "master@example.com"))
-        `when`(authService.authUser(MockitoUtils.anyObject())).thenReturn(user)
+        `when`(authService.authUser(anyObject())).thenReturn(user)
     }
 
     @Test
@@ -63,13 +63,11 @@ class MessageEventHandlingTest {
                 .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk)
-        val message = Message(
+        val message = messageService.save(Message(
                 body = "Everybody needs to know this!",
                 author = user!!,
                 category = MessageCategory.SHOUTBOX,
-                created = Timestamp(1605483348499)
-        )
-        messageService.save(message)
+                created = Timestamp(1605483348499)))
         verify(sseEmitter).send("EVENT", message)
     }
 
@@ -89,6 +87,6 @@ class MessageEventHandlingTest {
                 created = Timestamp(1605483348499)
         )
         messageService.save(message)
-        verify(sseEmitter, never()).send(MockitoUtils.anyObject(), MockitoUtils.anyObject())
+        verify(sseEmitter, never()).send(anyObject(), anyObject())
     }
 }
