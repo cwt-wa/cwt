@@ -82,6 +82,23 @@ class ChannelRestController {
         }
     }
 
+    @GetMapping("/{channelLogin}/auto-active")
+    fun autoActive(@PathVariable("channelLogin") channelLogin: String): ResponseEntity<Boolean> {
+        return streamService.findChannelByLogin(channelLogin)
+                .map { ResponseEntity.ok(it.botAutoJoin) }
+                .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
+    }
+
+    @PutMapping("/{channelId}/botAutoJoin")
+    fun botAutoJoin(@PathVariable("channelId") channelId: String,
+                    @RequestBody botAutoJoin: Map<String, Boolean>): ResponseEntity<ChannelDto> {
+        val value = botAutoJoin["botAutoJoin"] ?: throw RestException("No value", HttpStatus.BAD_REQUEST, null)
+        val channel = streamService.findChannel(channelId)
+                .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
+        return ResponseEntity.ok(ChannelDto.toDto(streamService.botAutoJoin(channel, value)))
+    }
+
+
     @GetMapping("/{channelLogin}/write-access")
     fun writeAccess(@PathVariable("channelLogin") channelLogin: String,
                     request: HttpServletRequest): ResponseEntity<Boolean> {

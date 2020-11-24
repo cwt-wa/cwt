@@ -18,6 +18,7 @@ data class ChannelDto(
         val offlineImageUrl: String? = null,
         val login: String? = null,
         val description: String? = null,
+        val botAutoJoin: Boolean,
         val modified: Date? = null,
         val created: Date? = null
 ) {
@@ -34,6 +35,7 @@ data class ChannelDto(
                 broadcasterType = channel.broadcasterType,
                 offlineImageUrl = channel.offlineImageUrl,
                 login = channel.login,
+                botAutoJoin = channel.botAutoJoin,
                 description = channel.description,
                 created = channel.created
         )

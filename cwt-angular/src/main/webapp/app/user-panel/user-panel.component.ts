@@ -27,6 +27,7 @@ export class UserPanelComponent implements OnInit {
     togglingBotInvite: boolean = false;
     botInvited: boolean = null;
     botRequestFailed: boolean = false;
+    togglingBotAutoJoin: boolean = false;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -127,6 +128,15 @@ export class UserPanelComponent implements OnInit {
             this.toastr.success("Successfully deleted photo.");
             this.showPhoto = false;
         }, () => this.toastr.error("An unknown error occurred."));
+    }
+
+    toggleBotAutoJoin() {
+        this.togglingBotAutoJoin = true;
+        this.requestService.put<ChannelDto>(
+                `channel/${this.userChannel.id}/botAutoJoin`,
+                {botAutoJoin: this.userChannel.botAutoJoin})
+            .pipe(finalize(() => this.togglingBotAutoJoin = false))
+            .subscribe(res => this.userChannel = res);
     }
 
     async inviteBot() {
