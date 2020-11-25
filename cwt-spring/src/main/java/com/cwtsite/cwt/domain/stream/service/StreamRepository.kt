@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.domain.stream.service
 
 import com.cwtsite.cwt.domain.game.entity.Game
+import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import org.springframework.data.jpa.repository.JpaRepository
@@ -55,4 +56,6 @@ interface StreamRepository : JpaRepository<Stream, String> {
     fun findDistinctAwayUsernamesToLowercase(): List<String>
 
     fun findByGame(game: Game): List<Stream>
+
+    fun findByChannel(channel: Channel): List<Stream>
 }

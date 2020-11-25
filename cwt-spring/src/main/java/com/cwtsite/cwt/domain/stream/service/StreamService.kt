@@ -154,6 +154,9 @@ class StreamService {
     fun findStream(streamId: String): Optional<Stream> =
             streamRepository.findById(streamId)
 
+    fun findStreams(channel: Channel): List<Stream> =
+            streamRepository.findByChannel(channel)
+
     fun saveStreams(streams: Collection<Stream>): List<Stream> = streamRepository.saveAll(streams)
 
     fun findAll(): List<Stream> = streamRepository.findAll()

@@ -8,16 +8,16 @@ import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import javax.servlet.http.HttpServletRequest
-import kotlin.test.Test
 import kotlin.time.ExperimentalTime
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class ChannelRestControllerTest {
 
     @InjectMocks private lateinit var cut: ChannelRestController
@@ -42,6 +42,40 @@ class ChannelRestControllerTest {
         runBlocking { cut.pollForVideo(channel, listOf(0, 1)).join() }
         verify(streamService).findMatchingGame(anyObject())
         verify(streamService).associateGame(anyObject(), anyObject())
+    }
+
+    @ExperimentalTime
+    @Test
+    fun `pollForVideo existing streams`() {
+        val channel = EntityDefaults.channel()
+        val videosFromTwitch = listOf(
+                createTwitchVideoDto("1", channel.id),
+                createTwitchVideoDto("2", channel.id))
+        val streamsFromTwitch = listOf(
+                EntityDefaults.stream(id = videosFromTwitch[0].id, channel = channel),
+                EntityDefaults.stream(id = videosFromTwitch[1].id, channel = channel))
+        `when`(twitchService.requestVideos(listOf(channel))).thenReturn(videosFromTwitch)
+        val newStream = streamsFromTwitch[0]
+        val existingStreams = listOf(
+                streamsFromTwitch[1],
+                EntityDefaults.stream(id = "124", channel = channel),
+                EntityDefaults.stream(id = "125", channel = channel))
+        `when`(streamService.findStreams(channel)).thenReturn(existingStreams)
+        `when`(streamService.saveStreams(anyObject())).thenAnswer { it.getArgument(0) }
+        val game = EntityDefaults.game()
+        `when`(streamService.findMatchingGame(newStream)).thenReturn(game)
+        `when`(streamService.associateGame(newStream, game)).thenReturn(newStream.copy(game = game))
+        runBlocking { cut.pollForVideo(channel, listOf(0, 1)).join() }
+        verify(streamService).findMatchingGame(newStream)
+        verify(streamService).associateGame(newStream, game)
+    }
+
+    private fun createTwitchVideoDto(id: String, userId: String): TwitchVideoDto {
+        val twitchVideoDto = mock(TwitchVideoDto::class.java)
+        `when`(twitchVideoDto.id).thenReturn(id)
+        `when`(twitchVideoDto.userId).thenReturn(userId)
+        `when`(twitchVideoDto.hasCwtInTitle()).thenReturn(true)
+        return twitchVideoDto
     }
 
     @Test

@@ -32,6 +32,7 @@ class NewsAspect(private val messageService: MessageService,
             logger.warn("Not publishing news as \"subject\" is null")
             return
         }
+
         val authenticationName = securityContextHolderFacade.authenticationName
         if (authenticationName == null) {
             logger.warn("News cannot be published as there's no authenticated user.")

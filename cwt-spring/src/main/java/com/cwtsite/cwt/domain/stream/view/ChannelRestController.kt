@@ -71,8 +71,12 @@ class ChannelRestController {
                     .filter { it.hasCwtInTitle() }
                     .map { StreamDto.toDto(it, channel) }
             if (videos.isNotEmpty()) {
-                val streams = streamService.saveStreams(videos.map { StreamDto.fromDto(it, channel) })
-                streams.forEach { stream ->
+                val existingStreams = streamService.findStreams(channel).map { it.id }
+                val newStreams = videos
+                        .filter { !existingStreams.contains(it.id) }
+                        .map { StreamDto.fromDto(it, channel) }
+                val savedNewStreams = streamService.saveStreams(newStreams)
+                savedNewStreams.forEach { stream ->
                     streamService.findMatchingGame(stream)?.also { game ->
                         streamService.associateGame(stream, game)
                     }
