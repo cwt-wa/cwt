@@ -34,21 +34,19 @@ export class PlayoffsTreeComponent implements OnInit {
 
     public async ngOnInit() {
         this.authUser = await this.authService.authState;
-
-        if (this.tournamentId != null) {
-            this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId}/game/playoff`)
-                .pipe(finalize(() => this.loading = false))
-                .subscribe(this.createTree.bind(this));
-        } else {
-            if (await this.currentTournamentService.value) {
-                this.requestService.get<PlayoffGameDto[]>("tournament/current/game/playoff")
-                    .pipe(finalize(() => this.loading = false))
-                    .subscribe(this.createTree.bind(this));
-            } else {
+            try {
+                if (this.tournamentId == null) {
+                    this.tournamentId = (await this.currentTournamentService.value).id;
+                }
+                const playoffGames =
+                    await this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId}/game/playoff`)
+                        .toPromise()
+                this.createTree(playoffGames);
+            } catch (err) {
+                this.toastr.error("The tournament could not be fetched.");
+            } finally {
                 this.loading = false;
-                return;
             }
-        }
     }
 
     private createTree(res: PlayoffGameDto[]) {
