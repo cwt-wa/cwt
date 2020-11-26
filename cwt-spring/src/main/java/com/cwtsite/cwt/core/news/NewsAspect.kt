@@ -32,13 +32,19 @@ class NewsAspect(private val messageService: MessageService,
             logger.warn("Not publishing news as \"subject\" is null")
             return
         }
-
-        val authenticationName = securityContextHolderFacade.authenticationName
-        if (authenticationName == null) {
-            logger.warn("News cannot be published as there's no authenticated user.")
-            return
+        val author = when (subject) {
+            is Stream -> {
+                logger.info("Subject is Stream, author is the channel's owner ${subject.channel.user}")
+                subject.channel.user
+            }
+            else -> {
+                val name = securityContextHolderFacade.authenticationName ?: run {
+                    logger.warn("News cannot be published as there's no authenticated user.")
+                    return@publishNews
+                }
+                userRepository.findByUsername(name)!!
+            }
         }
-        val author = userRepository.findByUsername(authenticationName)!!
         logger.info("Publishing ${subject::class}")
         when (subject) {
             is Game -> {

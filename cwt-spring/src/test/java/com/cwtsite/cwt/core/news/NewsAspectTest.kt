@@ -100,16 +100,12 @@ class NewsAspectTest {
         val target = mock(StreamService::class.java)
         `when`(target.associateGame(stream, game)).thenReturn(stream.copy(game = game))
         val proxy = createProxy<StreamService>(target, author)
+        val securityCtx = mock(SecurityContextHolderFacade::class.java)
+        `when`(securityCtx.authenticationName).thenReturn(null)
         proxy.associateGame(stream, game)
         verify(messageService).publishNews(
         MessageNewsType.STREAM, stream.channel.user, stream.id, stream.title)
     }
-    /*
-    <ng-container *ngSwitchCase="'removeStream'">cancelled the live stream for</ng-container>
-    <ng-container *ngSwitchCase="'scheduleStream'">scheduled a live stream for</ng-container>
-    <ng-container *ngSwitchCase="'createSchedule'">scheduled a game</ng-container>
-    <ng-container *ngSwitchCase="'cancelSchedule'">cancelled the game</ng-container>
-     */
 
     @Test
     fun removeStream() {
