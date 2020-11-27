@@ -163,14 +163,13 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun commentGame(@PathVariable("id") id: Long, @RequestBody comment: CommentDto, request: HttpServletRequest): Comment {
+    fun commentGame(@PathVariable("id") id: Long,
+                    @RequestBody comment: CommentCreationDto,
+                    request: HttpServletRequest): CommentDto {
         if (authService.authUser(request)!!.id != comment.user) {
             throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null)
         }
-
-        val persistedComment = gameService.commentGame(id, comment.user, comment.body)
-
-        return persistedComment
+        return CommentDto.toDto(gameService.commentGame(id, comment.user, comment.body))
     }
 
     @RequestMapping("/tech-win", method = [RequestMethod.POST])
