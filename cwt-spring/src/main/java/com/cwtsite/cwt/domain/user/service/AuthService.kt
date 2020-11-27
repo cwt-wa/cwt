@@ -39,7 +39,6 @@ class AuthService {
         return if (plainPassword == null) "" else BCrypt.hashpw(plainPassword, bCryptSalt!!)
     }
 
-    // TODO use this everywhere
     fun authUser(request: HttpServletRequest): User? {
         val token = request.getHeader(tokenHeaderName) ?: return null
         val userFromToken = getUserFromToken(token) ?: return null
