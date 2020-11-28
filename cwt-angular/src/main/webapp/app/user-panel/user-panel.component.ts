@@ -72,7 +72,7 @@ export class UserPanelComponent implements OnInit {
     }
 
     async twitchBotEndpoint(action: string) {
-        const method = action !== 'status' ? 'POST' : "GET";
+        const method = action === 'status' ? 'GET' : "POST";
         return fetch(
             `${this.appConfig.twitchBotEndpoint}/${this.userChannel.login}/${action}`, {
                 method,
@@ -80,7 +80,11 @@ export class UserPanelComponent implements OnInit {
                     'Content-Type': 'application/json',
                     'Authorization': this.authService.getToken(),
                 }
-            }).then(res => res.json())
+            }).then(res => {
+                const statusStr = res.status.toString();
+                if (!statusStr.startsWith("2")) throw Error(statusStr);
+                return res.json();
+            });
     }
 
     showCurrentPhoto() {
@@ -151,6 +155,7 @@ export class UserPanelComponent implements OnInit {
         try {
             await this.twitchBotEndpoint(joinOrPart);
             this.botInvited = !this.botInvited;
+            this.toastr.success(`Successfully ${joinOrPart}ed.`);
         } catch (err) {
             console.error(`${joinOrPart} not working:`, err);
             this.toastr.error("Excuse me, Beep Boop no working.");
