@@ -6,7 +6,6 @@ import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
-import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.*
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
@@ -17,7 +16,6 @@ import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
-import com.cwtsite.cwt.entity.Comment
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.ByteArrayResource
