@@ -15,6 +15,7 @@ import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -33,6 +34,8 @@ class MessageRestController {
     @Autowired private lateinit var userService: UserService
     @Autowired private lateinit var sseEmitterFactory: SseEmitterFactory
     @Autowired private lateinit var messageEventListener: MessageEventListener
+
+    @Value("\${cwt.third-party-token}") private lateinit var thirdPartyToken: String
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -112,13 +115,14 @@ class MessageRestController {
     }
 
     @PostMapping("third-party")
-    fun createMessageFromTwitch(@RequestBody dto: ThirdPartyMessageDto): ResponseEntity<MessageDto> {
+    fun createMessageFromTwitch(@RequestBody dto: ThirdPartyMessageDto,
+                                @RequestHeader("third-party-token") thirdPartyTokenHeader: String,
+                                request: HttpServletRequest): ResponseEntity<MessageDto> {
+        if (thirdPartyTokenHeader != thirdPartyToken) throw RestException("Forbidden", HttpStatus.FORBIDDEN, null)
         if (!MessageNewsType.thirdPartyMessageTypes().contains(dto.newsType)) {
             throw RestException("Not a third party news type", HttpStatus.BAD_REQUEST, null)
         }
-        val message = messageService.thirdPartyMessage(
-                dto.displayName, dto.link, dto.body, dto.newsType)
+        val message = messageService.thirdPartyMessage(dto.displayName, dto.link, dto.body, dto.newsType)
         return ResponseEntity.ok(MessageDto.toDto(message))
     }
 }
-
