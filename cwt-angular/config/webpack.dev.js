@@ -1,8 +1,7 @@
-var webpack = require('webpack');
-var webpackMerge = require('webpack-merge');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var commonConfig = require('./webpack.common.js');
-var helpers = require('./helpers');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const commonConfig = require('./webpack.common.js');
+const helpers = require('./helpers');
 
 module.exports = webpackMerge(commonConfig, {
     devtool: 'cheap-module-eval-source-map',
@@ -28,8 +27,7 @@ module.exports = webpackMerge(commonConfig, {
                 'captchaKey': JSON.stringify('6LdAgLYUAAAAAJp86PhBUHQA33EQeJrDHBi-iWNR'),
                 'liveStreamProducer': JSON.stringify('https://twitch.cwtsite.com/produce'),
                 'liveStreamSubscriber': JSON.stringify('https://twitch.cwtsite.com/subscribe'),
-                // 'twitchBotEndpoint':  JSON.stringify('https://twitch-bot.zemke.io'),
-                'twitchBotEndpoint':  JSON.stringify('http://localhost:1235'),
+                'twitchBotEndpoint':  JSON.stringify('http://localhost:1234'),
             }
         })
     ]
