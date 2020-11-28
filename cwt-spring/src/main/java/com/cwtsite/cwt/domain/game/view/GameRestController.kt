@@ -227,7 +227,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         return ResponseEntity.ok(voidedGame)
     }
 
-    @GetMapping("/{gameId}/stats")
+    @GetMapping("/{gameId}/stats", headers = ["Content-Type: application/json"])
     @Produces("application/json")
     fun retrieveGameStats(@PathVariable gameId: Long): ResponseEntity<String> =
             ResponseEntity.ok(gameService.findGameStats(
