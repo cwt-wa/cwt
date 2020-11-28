@@ -2,5 +2,5 @@ package com.cwtsite.cwt.domain.game.view
 
 data class CommentCreationDto (
         val body: String,
-        val user: Long
+        val author: Long
 )

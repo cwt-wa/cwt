@@ -213,11 +213,6 @@ export interface Comment {
 
 export type RatingType = "DARKSIDE" | "LIGHTSIDE" | "LIKE" | "DISLIKE";
 
-export interface Rating {
-    type: RatingType
-    user: User;
-}
-
 export interface GameDetailDto {
     id: number;
     homeUser: User;
@@ -230,9 +225,9 @@ export interface GameDetailDto {
     scoreHome?: number;
     scoreAway?: number;
     group?: Group;
-    comments?: Comment[];
+    comments?: CommentDto[];
     reporter?: User;
-    ratings?: Rating[];
+    ratings?: RatingDto[];
     tournament: TournamentDetailDto;
     voided: boolean;
     replayExists: boolean;
@@ -256,7 +251,7 @@ export interface PlayoffGameDto {
     group?: Group;
     comments?: Comment[];
     reporter?: User;
-    ratings?: Rating[];
+    ratings?: RatingDto[];
     tournament: TournamentDetailDto;
     replayExists: boolean;
     bets: PlayoffTreeBetDto[];
@@ -337,14 +332,25 @@ export interface ReplacePlayerDto {
     replacement: number;
 }
 
-export interface RatingDto {
+export interface RatingCreationDto {
     type: RatingType;
     user: number
 }
 
-export interface CommentDto {
-    user: number;
+export interface RatingDto {
+    type: RatingType;
+    user: UserMinimalDto;
+}
+
+export interface CommentCreationDto {
     body: string;
+    author: number;
+}
+
+export interface CommentDto {
+    body: string;
+    author: UserMinimalDto;
+    created: string;
 }
 
 export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED";

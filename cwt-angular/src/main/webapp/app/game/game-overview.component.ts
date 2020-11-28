@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {GameDetailDto, PageDto, Rating, RatingType, StreamDto} from "../custom";
+import {GameDetailDto, PageDto, RatingDto, RatingType, StreamDto} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {finalize} from "rxjs/operators";
 import {Location} from "@angular/common";
@@ -85,7 +85,7 @@ export class GameOverviewComponent implements OnInit {
             });
     }
 
-    filterRatings(ratings: Rating[], type: RatingType): Rating[] {
+    filterRatings(ratings: RatingDto[], type: RatingType): RatingDto[] {
         return ratings.filter(r => r.type === type);
     }
 }

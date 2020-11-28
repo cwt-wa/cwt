@@ -154,11 +154,13 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("/{id}/rating", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun rateGame(@PathVariable("id") id: Long, @RequestBody rating: RatingDto, request: HttpServletRequest): Rating {
+    fun rateGame(@PathVariable("id") id: Long,
+                 @RequestBody rating: RatingCreationDto,
+                 request: HttpServletRequest): ResponseEntity<RatingDto> {
         if (authService.authUser(request)!!.id != rating.user) {
             throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null)
         }
-        return gameService.rateGame(id, rating.user, rating.type)
+        return ResponseEntity.ok(RatingDto.toDto(gameService.rateGame(id, rating.user, rating.type)))
     }
 
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
@@ -166,10 +168,10 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun commentGame(@PathVariable("id") id: Long,
                     @RequestBody comment: CommentCreationDto,
                     request: HttpServletRequest): CommentDto {
-        if (authService.authUser(request)!!.id != comment.user) {
+        if (authService.authUser(request)!!.id != comment.author) {
             throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null)
         }
-        return CommentDto.toDto(gameService.commentGame(id, comment.user, comment.body))
+        return CommentDto.toDto(gameService.commentGame(id, comment.author, comment.body))
     }
 
     @RequestMapping("/tech-win", method = [RequestMethod.POST])

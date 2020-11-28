@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {PageDto, Rating, RatingType, UserOverviewDto} from "../custom";
+import {PageDto, UserOverviewDto} from "../custom";
 import {APP_CONFIG, AppConfig} from "../app.config";
 
 @Component({
@@ -39,9 +39,5 @@ export class UserOverviewComponent implements OnInit {
             }, undefined, () => {
                 this.loading = false;
             });
-    }
-
-    filterRatings(ratings: Rating[], type: RatingType): Rating[] {
-        return ratings.filter(r => r.type === type);
     }
 }

@@ -2,11 +2,14 @@ package com.cwtsite.cwt.domain.game.view
 
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import com.cwtsite.cwt.entity.Comment
+import java.sql.Timestamp
+import java.util.*
 
 data class CommentDto (
         val id: Long,
         val body: String,
-        val user: UserMinimalDto
+        val author: UserMinimalDto,
+        val created: Date
 ) {
 
     companion object {
@@ -14,6 +17,8 @@ data class CommentDto (
         fun toDto(comment: Comment) = CommentDto(
                 id = comment.id!!,
                 body = comment.body!!,
-                user = UserMinimalDto.toDto(comment.author!!))
+                author = UserMinimalDto.toDto(comment.author!!),
+                created = Timestamp(comment.created!!.time)
+        )
     }
 }

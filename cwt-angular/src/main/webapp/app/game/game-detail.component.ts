@@ -2,12 +2,12 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RequestService} from "../_services/request.service";
 import {
-    Comment,
+    CommentCreationDto,
     CommentDto,
     GameDetailDto,
     JwtUser,
     PlayoffTreeBetDto,
-    Rating,
+    RatingCreationDto,
     RatingDto,
     RatingType,
     StreamDto
@@ -44,7 +44,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     submittingRating: RatingType;
     game: GameDetailDto;
     streams: StreamDto[];
-    newComment: CommentDto;
+    newComment: CommentCreationDto;
     authenticatedUser: JwtUser;
     betResult: BetResult;
     gameWasPlayed: boolean = true;
@@ -69,7 +69,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             : [];
     }
 
-    get ratings(): { [key in RatingType]: Rating[] } {
+    get ratings(): { [key in RatingType]: RatingDto[] } {
         return {
             DARKSIDE: this.game.ratings.filter(r => r.type === "DARKSIDE"),
             LIGHTSIDE: this.game.ratings.filter(r => r.type === "LIGHTSIDE"),
@@ -152,7 +152,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
     public submitComment(): void {
         this.submittingComment = true;
-        this.requestService.post<Comment>(`game/${this.game.id}/comment`, this.newComment)
+        this.requestService.post<CommentDto>(`game/${this.game.id}/comment`, this.newComment)
             .pipe(finalize(() => this.submittingComment = false))
             .subscribe(res => {
                 this.game.comments.unshift(res);
@@ -162,13 +162,13 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
     rate(ratingType: RatingType): void {
         this.submittingRating = ratingType;
-        const payload: RatingDto = {type: ratingType, user: this.authenticatedUser.id};
-        this.requestService.post<Rating>(`game/${this.game.id}/rating`, payload)
+        const payload: RatingCreationDto = {type: ratingType, user: this.authenticatedUser.id};
+        this.requestService.post<RatingDto>(`game/${this.game.id}/rating`, payload)
             .pipe(finalize(() => this.submittingRating = null))
             .subscribe(res => this.game.ratings.push(res));
     }
 
     private initNewComment() {
-        this.newComment = {user: this.authenticatedUser.id, body: null};
+        this.newComment = {author: this.authenticatedUser.id, body: null};
     }
 }

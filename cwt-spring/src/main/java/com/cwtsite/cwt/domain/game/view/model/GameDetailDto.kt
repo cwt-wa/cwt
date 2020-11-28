@@ -4,6 +4,8 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.entity.Rating
+import com.cwtsite.cwt.domain.game.view.CommentDto
+import com.cwtsite.cwt.domain.game.view.RatingDto
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.view.model.TournamentDetailDto
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -25,8 +27,8 @@ data class GameDetailDto(
         val homeUser: User?,
         val awayUser: User?,
         val reporter: User?,
-        val ratings: List<Rating>,
-        val comments: List<Comment>,
+        val ratings: List<RatingDto>,
+        val comments: List<CommentDto>,
         val voided: Boolean,
         val isReplayExists: Boolean,
         val replayQuantity: Int?,
@@ -50,8 +52,8 @@ data class GameDetailDto(
                     homeUser = game.homeUser,
                     awayUser = game.awayUser,
                     reporter = game.reporter,
-                    ratings = game.ratings,
-                    comments = game.comments.sortedBy { it.created },
+                    ratings = game.ratings.map { RatingDto.toDto(it) },
+                    comments = game.comments.sortedBy { it.created }.map { CommentDto.toDto(it) },
                     voided = game.voided,
                     isReplayExists = game.replay != null,
                     replayQuantity = game.replayQuantity,
