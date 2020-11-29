@@ -17,11 +17,9 @@ import java.io.File
 @Service
 class BinaryOutboundServiceProdImpl : BinaryOutboundService {
 
-    @Value("\${binary-data-store:#{null}}")
-    private var binaryDataStoreEndpoint: String? = null
-
-    @Value("\${waaas-endpoint:#{null}}")
-    private var waaasEndpoint: String? = null
+    @Value("\${binary-data-store:#{null}}") private var binaryDataStoreEndpoint: String? = null
+    @Value("\${waaas-endpoint:#{null}}") private var waaasEndpoint: String? = null
+    @Value("\${cwt.third-party-token}") private lateinit var thirdPartyToken: String
 
     override fun retrieveUserPhoto(userId: Long): Response =
             khttp.get(url = "${binaryDataStoreEndpoint}/user/$userId/photo")
@@ -66,6 +64,7 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
 
     fun sendMultipartEntity(url: String, file: File, fileFieldName: String): CloseableHttpResponse {
         val multipartEntity = with(HttpPost(url)) {
+            addHeader("third-part-token", thirdPartyToken)
             entity = MultipartEntityBuilder.create()
                     .addBinaryBody(
                             fileFieldName, file,
