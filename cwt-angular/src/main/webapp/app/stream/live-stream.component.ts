@@ -55,8 +55,8 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
         this.eventSource = new EventSource(this.appConfig.liveStreamProducer);
         this.eventSource.onerror = (err: any) =>
             err?.originalTarget?.readyState === 2 && setTimeout(() => this.setupEventSource(), 1000);
-        this.eventSource.onmessage = e => {
-            const eventData: LiveStream[] = JSON.parse(e.data);
+        this.eventSource.addEventListener("STREAMS", e => {
+            const eventData: LiveStream[] = JSON.parse((e as any).data);
             const newLiveStreams: LiveStream[] = eventData.filter(nS =>
                 this.liveStreams.find(s => s.event_id === nS.event_id) == null);
 
@@ -78,7 +78,7 @@ export class LiveStreamComponent implements OnInit, OnDestroy {
             this.liveStreams = eventData;
             this.queryChannelsIf((this.utils.isEmpty(this.userIdByChannelName) && this.liveStreams.length > 0 && newLiveStreams.length < 1) || (!this.initialRequestTookPlace));
             this.initialRequestTookPlace = true;
-        };
+        });
     }
 
     ngOnDestroy() {
