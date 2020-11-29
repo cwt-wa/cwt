@@ -217,7 +217,7 @@
         </div>
         <div [ngClass]="stats.length || statsAreBeingProcessed ? 'col-12 col-md-6 col-lg-7 col-xl-8 mt-4 mt-md-0' : 'col-12'">
             <div class="row mb-2 text-nowrap">
-                <div class="col text-left" *ngIf="streams.length">
+                <div class="col text-left" *ngIf="streams?.length">
                     <cwt-watch-on-twitch [streams]="streams"></cwt-watch-on-twitch>
                 </div>
                 <div class="col text-right" *ngIf="stats.length">
