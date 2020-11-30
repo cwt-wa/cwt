@@ -263,6 +263,10 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     }
 
     rate(ratingType: RatingType): void {
+        if (!this.authenticatedUser) {
+            this.toastr.error("Log in to rate.");
+            return;
+        }
         const payload: RatingCreationDto = {type: ratingType, user: this.authenticatedUser.id};
         const alreadyRated = this.game.ratings.find(r => r.type === payload.type && r.user.id === payload.user);
         if (alreadyRated) {
