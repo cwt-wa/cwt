@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="row mt-5">
+    <div class="row mt-4 mb-4">
         <div class="col d-flex flex-wrap justify-content-around align-items-center mt-children">
             <div class="rate">
                 <div class="quantity">{{ratings.LIKE.length}}</div>
@@ -145,7 +145,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-5" [hidden]="!showRatings">
+    <div class="row" [hidden]="!showRatings">
         <div class="col-12 col-md-7 offset-md-5">
             <div class="card bg-secondary">
                 <div class="card-body ratings">
@@ -194,7 +194,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-5">
+    <div class="row">
         <div class="col-12 col-md-6 col-lg-5 col-xl-4 text-center">
             <img *ngIf="loadingStats" src="../../img/loading.gif"/>
             <div *ngIf="!stats.length && statsAreBeingProcessed && !loadingStats"
