@@ -48,7 +48,8 @@ const rnd = (max: number) => Math.ceil(Math.random() * max) - (max / 2);
         border-radius: .3rem;
       }
       .mt-children > * {
-        margin-top: 3rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
       }
       .rate {
         display: flex;
@@ -57,7 +58,7 @@ const rnd = (max: number) => Math.ceil(Math.random() * max) - (max / 2);
         align-items: center;
         margin-left: 2rem;
         margin-right: 2rem;
-        width: 11rem;
+        width: 11.5rem;
         font-size: 2rem;
         white-space: nowrap;
       }
