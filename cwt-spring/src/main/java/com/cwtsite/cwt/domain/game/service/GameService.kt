@@ -192,12 +192,22 @@ constructor(private val gameRepository: GameRepository,
     }
 
     @PublishNews
-    fun rateGame(gameId: Long, userId: Long, type: RatingType): Rating {
-        val user = userRepository.findById(userId)
-                .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
-        val game = gameRepository.findById(gameId)
-                .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
-        return ratingRepository.save(Rating(type, user, game))
+    fun updateRating(rating: Rating, type: RatingType): Rating {
+        rating.type = type
+        return ratingRepository.save(rating)
+    }
+
+    @PublishNews
+    fun rateGame(user: User, game: Game, type: RatingType): Rating {
+        return ratingRepository.save(Rating(user = user, game = game, type = type))
+    }
+
+    fun findRating(user: User, game: Game, vararg type: RatingType): List<Rating> {
+        return ratingRepository.findByUserAndGameAndTypeIn(user, game, type.toList())
+    }
+
+    fun deleteRatings(ratings: List<Rating>) {
+        ratingRepository.deleteAll(ratings)
     }
 
     @PublishNews

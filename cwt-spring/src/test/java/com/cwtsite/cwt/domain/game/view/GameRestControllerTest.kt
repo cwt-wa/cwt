@@ -13,6 +13,9 @@ import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
+import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
+import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.stream.service.StreamService
@@ -38,6 +41,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import java.util.*
+import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 import kotlin.test.Test
 
@@ -179,5 +183,65 @@ class GameRestControllerTest {
         verify(sseEmitter).complete()
         onCompletionCaptor.value.invoke()
         verify(gameStatsEventListener).unsubscribe(subCaptor.value)
+    }
+
+    @Test
+    fun `place rating`() {
+        val game = EntityDefaults.game()
+        val user = EntityDefaults.user()
+        val rating = RatingCreationDto(user = user.id!!, type = RatingType.LIGHTSIDE)
+        `when`(authService.authUser(anyObject())).thenReturn(user)
+        `when`(gameService.findById(game.id!!)).thenReturn(Optional.of(game))
+        `when`(gameService.findRating(user, game, rating.type, rating.type.opposite()))
+                .thenReturn(emptyList())
+        val savedRating = Rating(
+                id = 1234231421,
+                game = game,
+                type = rating.type,
+                user = user,
+                modified = Timestamp(1606723883495))
+        `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
+        val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
+        assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(actual.body).isEqualTo(RatingDto.toDto(savedRating))
+    }
+
+    @Test
+    fun `update rating`() {
+        val game = EntityDefaults.game()
+        val user = EntityDefaults.user()
+        val existingRatings = listOf(EntityDefaults.rating())
+        val rating = RatingCreationDto(user = user.id!!, type = RatingType.LIGHTSIDE)
+        `when`(authService.authUser(anyObject())).thenReturn(user)
+        `when`(gameService.findById(game.id!!)).thenReturn(Optional.of(game))
+        `when`(gameService.findRating(user, game, rating.type, rating.type.opposite()))
+                .thenReturn(existingRatings)
+        `when`(gameService.updateRating(existingRatings[0], rating.type)).thenAnswer { it.getArgument(0) }
+        val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
+        assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(actual.body).isEqualTo(RatingDto.toDto(existingRatings[0]))
+    }
+
+    @Test
+    fun `deletes existing ratings when more than 1`() {
+        val game = EntityDefaults.game()
+        val user = EntityDefaults.user()
+        val existingRatings = listOf(EntityDefaults.rating(), EntityDefaults.rating(id = 2))
+        val rating = RatingCreationDto(user = user.id!!, type = RatingType.LIGHTSIDE)
+        `when`(authService.authUser(anyObject())).thenReturn(user)
+        `when`(gameService.findById(game.id!!)).thenReturn(Optional.of(game))
+        `when`(gameService.findRating(user, game, rating.type, rating.type.opposite()))
+                .thenReturn(existingRatings)
+        val savedRating = Rating(
+                id = 1234231421,
+                game = game,
+                type = rating.type,
+                user = user,
+                modified = Timestamp(1606723883495))
+        `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
+        val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
+        assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(actual.body).isEqualTo(RatingDto.toDto(savedRating))
+        verify(gameService).deleteRatings(existingRatings.toList())
     }
 }

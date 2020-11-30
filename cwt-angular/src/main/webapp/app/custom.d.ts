@@ -338,6 +338,7 @@ export interface RatingCreationDto {
 }
 
 export interface RatingDto {
+    id: number;
     type: RatingType;
     user: UserMinimalDto;
 }

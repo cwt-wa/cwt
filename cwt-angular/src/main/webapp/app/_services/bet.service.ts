@@ -7,7 +7,9 @@ export type BetResult = {
     homeUser: PlayoffTreeBetDto[];
     awayUserPercent: number;
     homeUserPercent: number;
-    userBet: PlayoffTreeBetDto | null
+    userBet: PlayoffTreeBetDto | null;
+    userBetOnHome: boolean;
+    userBetOnAway: boolean;
 }
 
 @Injectable()
@@ -18,7 +20,9 @@ export class BetService {
             total: bets.length,
             homeUser: bets.filter(b => b.betOnHome),
             awayUser: bets.filter(b => !b.betOnHome),
-            userBet: authUser ? (bets.find(b => b.user.id === authUser.id) || null) : null
+            userBet: authUser ? (bets.find(b => b.user.id === authUser.id) || null) : null,
+            userBetOnHome: authUser ? (bets.find(b => b.user.id === authUser.id && b.betOnHome) || false) : false,
+            userBetOnAway: authUser ? (bets.find(b => b.user.id === authUser.id && !b.betOnHome) || false) : false,
         } as BetResult;
 
         if (preliminaryBetResult.total === 0) {

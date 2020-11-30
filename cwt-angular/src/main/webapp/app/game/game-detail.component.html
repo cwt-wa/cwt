@@ -14,27 +14,24 @@
         {{game.scoreHome}}–{{game.scoreAway}}
         <cwt-user [username]="game.awayUser.username"></cwt-user>
     </h1>
-
-    <div class="row mt-1">
-        <div class="col-12">
-            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/playoffs']"
-               [fragment]="game.tournament.status === 'FINISHED' ? 'playoffs': undefined"
-               *ngIf="game.playoff" class="btn btn-primary btn text-white w-100 all-petite-caps " i18n>
+    <p class="lead all-petite-caps">
+        <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/playoffs']"
+           [fragment]="game.tournament.status === 'FINISHED' ? 'playoffs': undefined"
+           *ngIf="game.playoff" i18n>
                 <span class="font-weight-bold">
                     {{game.playoffRoundLocalized}}
                 </span>
-                {{game.tournament.created | cwtDate:'y'}}
-            </a>
-            <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/groups']"
-               [fragment]="game.tournament.status === 'FINISHED' ? game.group.label : undefined"
-               class="btn btn-secondary btn text-white w-100 all-petite-caps" *ngIf="game.group">
+            {{game.tournament.created | cwtDate:'y'}}
+        </a>
+        <a [routerLink]="game.tournament.status === 'FINISHED' ? ['/archive', (game.tournament.created | cwtDate:'y')] : ['/groups']"
+           [fragment]="game.tournament.status === 'FINISHED' ? game.group.label : undefined"
+           *ngIf="game.group">
                 <span class="font-weight-bold">
                     Group {{game.group.label}}
                 </span>
-                {{game.tournament.created | cwtDate:'y'}}
-            </a>
-        </div>
-    </div>
+            {{game.tournament.created | cwtDate:'y'}}
+        </a>
+    </p>
 
     <div class="mt-3" *ngIf="game.voided || game.tournament.status === 'FINISHED' || (hasOlderVersion && waVersionWarn)">
         <div class="alert alert-warning mt-1" role="alert"
@@ -58,143 +55,146 @@
         </div>
     </div>
 
-    <div class="bet-result mt-4" *ngIf="betResult">
-        <div class="bet-result-home" [ngStyle]="{'width': betResult.homeUserPercent + '%'}">
-            <ng-template #betsForHome>
-                <span *ngFor="let user of betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
-                <span *ngIf="!betResult.homeUser.length">No bets were placed.</span>
-            </ng-template>
-            <a [routerLink]="" [ngbPopover]="betsForHome" placement="left" class="d-none d-sm-inline-block text-secondary">
-                {{betResult.homeUser.length}}
-            </a>
-            <a [routerLink]="" [ngbPopover]="betsForHome" placement="bottom" class="d-sm-none text-secondary">
-                {{betResult.homeUser.length}}
-            </a>
-        </div>
-        <div class="bet-result-away" [ngStyle]="{'width': betResult.awayUserPercent + '%'}">
-            <ng-template #betsForAway>
-                <span *ngFor="let user of betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
-                <span *ngIf="!betResult.awayUser.length">No bets were placed.</span>
-            </ng-template>
-            <a [routerLink]="" [ngbPopover]="betsForAway" placement="right" class="d-none d-sm-inline-block text-secondary">
-                {{betResult.awayUser.length}}
-            </a>
-            <a [routerLink]="" [ngbPopover]="betsForAway" placement="bottom" class="d-sm-none text-secondary">
-                {{betResult.awayUser.length}}
-            </a>
-        </div>
-    </div>
-
-    <div class="row mt-4 no-gutters">
-        <div class="col-12 col-md-5 col-lg-4 mb-1 mb-md-0 pr-md-0">
-            <div class="btn-group w-100">
-                <button class="w-100 btn btn-success text-dark" (click)="rate('LIKE')" ngbTooltip="Like"
-                        [disabled]="['LIKE', 'DISLIKE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('LIKE') !== -1 || authenticatedUserRatings.indexOf('DISLIKE') !== -1">
-                    <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('LIKE') !== -1"></i>&nbsp;
-                    <ng-container *ngIf="submittingRating !== 'LIKE'">
-                        Like&nbsp;
-                        <span class="font-variant-none font-weight-bold">{{ratings.LIKE.length}}</span>
-                    </ng-container>
-                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIKE'"/>
-                </button>
-                <button class="w-100 btn btn-danger text-dark" (click)="rate('DISLIKE')"
-                        ngbTooltip="Dislike"
-                        [disabled]="['LIKE', 'DISLIKE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('DISLIKE') !== -1 || authenticatedUserRatings.indexOf('LIKE') !== -1">
-                    <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('DISLIKE') !== -1"></i>&nbsp;
-                    <ng-container *ngIf="submittingRating !== 'DISLIKE'">
-                        Dislike&nbsp;
-                        <span class="font-variant-none font-weight-bold">{{ratings.DISLIKE.length}}</span>
-                    </ng-container>
-                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'DISLIKE'"/>
-                </button>
+    <div class="row mt-4 mb-4">
+        <div class="col d-flex flex-wrap justify-content-around align-items-center mt-children">
+            <div class="rate">
+                <div class="quantity">{{ratings.LIKE.length}}</div>
+                <div class="circles">
+                    <button class="btn btn-lg rounded-circle text-center text-real-white bg-success rating"
+                            [class.pressed]="authenticatedUserRatings.indexOf('LIKE') !== -1"
+                            [class.pressing]="submittingRating === 'LIKE'"
+                            [class.more]="ratings.DISLIKE.length < ratings.LIKE.length"
+                            ngbTooltip="Like" container="body"
+                            (click)="rate('LIKE')"
+                            [disabled]="submittingRating === 'DISLIKE' || submittingRating === 'LIKE'">
+                        <i class="fa fa-thumbs-up"></i>
+                    </button>
+                    <button class="btn btn-lg rounded-circle text-center text-real-white bg-danger rating"
+                            [class.pressed]="authenticatedUserRatings.indexOf('DISLIKE') !== -1"
+                            [class.pressing]="submittingRating === 'DISLIKE'"
+                            [class.more]="ratings.DISLIKE.length > ratings.LIKE.length"
+                            ngbTooltip="Dislike" container="body"
+                            (click)="rate('DISLIKE')"
+                            [disabled]="submittingRating === 'DISLIKE' || submittingRating === 'LIKE'">
+                        <i class="fa fa-thumbs-down"></i>
+                    </button>
+                </div>
+                <div class="quantity">{{ratings.DISLIKE.length}}</div>
             </div>
-        </div>
-        <div class="col-12 col-md-5 col-lg-4 mb-1 mb-md-0 pl-md-1 pr-md-1">
-            <div class="btn-group w-100">
-                <button class="w-100 btn bg-danger text-dark" (click)="rate('LIGHTSIDE')"
-                        ngbTooltip="Aggressive playing"
-                        [disabled]="['LIGHTSIDE', 'DARKSIDE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1 || authenticatedUserRatings.indexOf('DARKSIDE') !== -1">
-                    <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1"></i>&nbsp;
-                    <ng-container *ngIf="submittingRating !== 'LIGHTSIDE'">
-                        Ligthside&nbsp;
-                        <span class="font-variant-none font-weight-bold">{{ratings.LIGHTSIDE.length}}</span>
-                    </ng-container>
-                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'LIGHTSIDE'"/>
-                </button>
-                <button class="w-100 btn bg-success text-dark" (click)="rate('DARKSIDE')"
-                        ngbTooltip="Thoughtful playing"
-                        [disabled]="['LIGHTSIDE', 'DARKSIDE'].indexOf(submittingRating) !== -1 || !authenticatedUser || authenticatedUserRatings.indexOf('DARKSIDE') !== -1 || authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1">
-                    <i class="fa fa-user" *ngIf="authenticatedUserRatings.indexOf('DARKSIDE') !== -1"></i>&nbsp;
-                    <ng-container *ngIf="submittingRating !== 'DARKSIDE'">
-                        Darkside&nbsp;
-                        <span class="font-variant-none font-weight-bold">{{ratings.DARKSIDE.length}}</span>
-                    </ng-container>
-                    <img src="../../img/loading.gif" class="loading" *ngIf="submittingRating === 'DARKSIDE'"/>
-                </button>
+            <div class="rate">
+                <div class="quantity">{{ratings.DARKSIDE.length}}</div>
+                <div class="circles">
+                    <button class="btn btn-lg rounded-circle text-center text-real-white bg-danger rating"
+                            [class.pressed]="authenticatedUserRatings.indexOf('DARKSIDE') !== -1"
+                            [class.pressing]="submittingRating === 'DARKSIDE'"
+                            [class.more]="ratings.DARKSIDE.length > ratings.LIGHTSIDE.length"
+                            ngbTooltip="Darkside" container="body"
+                            (click)="rate('DARKSIDE')"
+                            [disabled]="submittingRating === 'DARKSIDE' || submittingRating === 'LIGHTSIDE'">
+                        <i class="fa fa-stopwatch"></i>
+                    </button>
+                    <button class="btn btn-lg rounded-circle text-center text-real-white bg-success rating"
+                            [class.pressed]="authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1"
+                            [class.pressing]="submittingRating === 'LIGHTSIDE'"
+                            [class.more]="ratings.DARKSIDE.length < ratings.LIGHTSIDE.length"
+                            ngbTooltip="Lightside" container="body"
+                            (click)="rate('LIGHTSIDE')"
+                            [disabled]="submittingRating === 'DARKSIDE' || submittingRating === 'LIGHTSIDE'">
+                        <i class="fa fa-bolt"></i>
+                    </button>
+                </div>
+                <div class="quantity">{{ratings.LIGHTSIDE.length}}</div>
             </div>
-        </div>
-        <div class="col-6 col-md-1 col-lg-2 pr-1 pr-md-0">
-            <button class="btn btn-primary btn text-white w-100"
-                    [ngClass]="{'active': showRatings}" (click)="showRatings = !showRatings">
-                <span class="d-inline d-md-none d-lg-inline">Ratings</span>
-                <span class="d-none d-md-inline d-lg-none"><i class="fa fa-star"></i></span>
-            </button>
-        </div>
-        <div class="col-6 col-md-1 col-lg-2 pl-1">
-            <a *ngIf="!game.techWin" [href]="game.id | cwtReplayLink"
-               class="btn btn-primary text-white w-100">
-                <span class="d-inline d-md-none d-lg-inline">Download</span>
-                <span class="d-none d-md-inline d-lg-none"><i class="fa fa-download"></i></span>
-            </a>
-            <span *ngIf="game.techWin" class="btn btn-primary disabled text-white w-100 cursor-default">
-                <span class="d-inline d-md-none d-lg-inline">Tech. Win</span>
-                <span class="d-none d-md-inline d-lg-none" ngbTooltip="Tech. Win"><i class="fa fa-gavel"></i></span>
-            </span>
-        </div>
-    </div>
-    <div [hidden]="!showRatings">
-        <div class="row no-gutters popdown">
-            <div class="offset-md-10 offset-lg-8 col-6 col-md-1 col-lg-2 text-center pr-1 pr-md-0">
-                <i class="fa fa-2x fa-caret-up text-secondary"></i>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-8 offset-md-3 col-lg-7">
-                <div class="card bg-secondary">
-                    <div class="card-body" *ngIf="!game.ratings.length">
-                        There are no ratings.
+            <div class="rate" *ngIf="betResult">
+                <div class="quantity">{{betResult.homeUser.length}}</div>
+                <div class="circles">
+                    <div class="btn btn-lg rounded-circle text-center text-real-white cursor-default bet-result"
+                         [class.pressed]="betResult.userBetOnHome"
+                         [class.more]="betResult.homeUser.length > betResult.awayUser.length"
+                         [ngbTooltip]="'Voted for ' + game.homeUser.username" container="body">
+                        {{homeUserAbbr}}
                     </div>
-                    <div class="card-body" *ngIf="game.ratings.length">
+                    <div class="btn btn-lg rounded-circle text-center text-real-white cursor-default bet-result"
+                         [class.pressed]="betResult.userBetOnAway"
+                         [class.more]="betResult.homeUser.length < betResult.awayUser.length"
+                         [ngbTooltip]="'Voted for ' + game.awayUser.username" container="body">
+                        {{awayUserAbbr}}
+                    </div>
+                </div>
+                <div class="quantity">{{betResult.awayUser.length}}</div>
+            </div>
+            <div class="text-nowrap d-flex">
+                <div class="mr-2">
+                    <a class="btn btn-lg rounded-circle btn-primary text-white"
+                       ngbTooltip="Replay"
+                       *ngIf="!game.techWin" [href]="game.id | cwtReplayLink">
+                        <i class="fa fa-radiation"></i>
+                    </a>
+                    <span class="btn btn-lg disabled cursor-default rounded-circle btn-primary text-white" *ngIf="game.techWin"
+                          ngbTooltip="Tech. Win">
+                        <i class="fa fa-gavel"></i>
+                    </span>
+                </div>
+                <div>
+                    <button class="btn btn-lg btn-primary text-white rounded-circle"
+                            ngbTooltip="Ratings and Votes"
+                            [ngClass]="{'active': showRatings}" (click)="showRatings = !showRatings">
+                        <i class="fa fa-star"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" [hidden]="!showRatings">
+        <div class="col-12 col-md-7 offset-md-5">
+            <div class="card bg-secondary">
+                <div class="card-body ratings">
+                    <div *ngIf="!game.ratings.length">
+                        There are no ratings yet.
+                    </div>
+                    <ng-container *ngIf="game.ratings.length">
                         <div *ngIf="ratings.LIKE.length" class="mb-1">
-                            Liked by
+                            <i class="fa fa-thumbs-up"></i>&nbsp;
                             <span *ngFor="let rating of ratings.LIKE; let last = last">
                                 <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
                             </span>
                         </div>
                         <div *ngIf="ratings.DISLIKE.length" class="mb-1">
-                            Disliked by
+                            <i class="fa fa-thumbs-down"></i>&nbsp;
                             <span *ngFor="let rating of ratings.DISLIKE; let last = last">
                                 <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
                             </span>
                         </div>
-                        <div *ngIf="ratings.LIGHTSIDE.length" class="mb-1">
-                            Rated “ligthside” by
-                            <span *ngFor="let rating of ratings.LIGHTSIDE; let last = last">
-                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
-                            </span>
-                        </div>
                         <div *ngIf="ratings.DARKSIDE.length" class="mb-1">
-                            Rated “darkside” by
+                            <i class="fa fa-stopwatch"></i>&nbsp;
                             <span *ngFor="let rating of ratings.DARKSIDE; let last = last">
                                 <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
                             </span>
                         </div>
-                    </div>
+                        <div *ngIf="ratings.LIGHTSIDE.length" class="mb-1">
+                            <i class="fa fa-bolt"></i>&nbsp;
+                            <span *ngFor="let rating of ratings.LIGHTSIDE; let last = last">
+                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
+                            </span>
+                        </div>
+                        <ng-container *ngIf="betResult">
+                            <div class="mb-1 mt-3">
+                                <span class="vote">{{homeUserAbbr}}</span>
+                                <span *ngFor="let user of betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                                <span *ngIf="!betResult.homeUser.length">No bets were placed.</span>
+                            </div>
+                            <div>
+                                <span class="vote">{{awayUserAbbr}}</span>
+                                <span *ngFor="let user of betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
+                                <span *ngIf="!betResult.awayUser.length">No bets were placed.</span>
+                            </div>
+                        </ng-container>
+                    </ng-container>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-4">
+    <div class="row">
         <div class="col-12 col-md-6 col-lg-5 col-xl-4 text-center">
             <img *ngIf="loadingStats" src="../../img/loading.gif"/>
             <div *ngIf="!stats.length && statsAreBeingProcessed && !loadingStats"

@@ -84,10 +84,10 @@ class NewsAspectTest {
                 homeUser = author, awayUser = awayUser, scoreHome = 3, scoreAway = 0,
                 tournament = EntityDefaults.tournament())
         val target = mock(GameService::class.java)
-        val rating = Rating(RatingType.LIKE, author, game)
-        `when`(target.rateGame(game.id!!, author.id!!, rating.type)).thenReturn(rating)
+        val rating = Rating(type = RatingType.LIKE, user = author, game = game)
+        `when`(target.rateGame(author, game, rating.type)).thenReturn(rating)
         val proxy = createProxy<GameService>(target, author)
-        proxy.rateGame(game.id!!, author.id!!, rating.type)
+        proxy.rateGame(author, game, rating.type)
         verify(messageService).publishNews(
                 MessageNewsType.RATING, author, game.id!!, author.username,
                 awayUser.username, game.scoreHome, game.scoreAway, rating.type.name.toLowerCase())

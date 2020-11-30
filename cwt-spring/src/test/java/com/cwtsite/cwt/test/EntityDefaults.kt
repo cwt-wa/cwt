@@ -2,6 +2,8 @@ package com.cwtsite.cwt.test
 
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
+import com.cwtsite.cwt.domain.game.entity.Rating
+import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
 import com.cwtsite.cwt.domain.stream.entity.Channel
@@ -74,4 +76,13 @@ object EntityDefaults {
                     author = author,
                     created = created,
                     streams = streams)
+
+    fun rating(id: Long = 1, user: User = user(), type: RatingType = RatingType.LIKE,
+               game: Game = game(), modified: Timestamp = Timestamp(1606079436669)) =
+            Rating(
+                    id = id,
+                    user = user,
+                    type = type,
+                    game = game,
+                    modified = modified)
 }
