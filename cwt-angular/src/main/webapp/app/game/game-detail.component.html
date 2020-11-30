@@ -83,16 +83,16 @@
                 </div>
                 <div class="quantity">{{ratings.LIKE.length}}</div>
             </div>
-            <div class="rate">
+            <div class="rate" *ngIf="betResult">
                 <div class="quantity">{{betResult.homeUser.length}}</div>
                 <div class="circles">
-                    <div class="btn btn-lg rounded-circle text-center text-real-white bet-result"
+                    <div class="btn btn-lg rounded-circle text-center text-real-white cursor-default bet-result"
                             [class.pressed]="authenticatedUserRatings.indexOf('DARKSIDE') !== -1"
                             [class.more]="betResult.homeUser.length > betResult.awayUser.length"
                             [ngbTooltip]="'Voted for ' + game.awayUser.username" container="body">
                         {{homeUserAbbr}}
                     </div>
-                    <div class="btn btn-lg rounded-circle text-center text-real-white bet-result"
+                    <div class="btn btn-lg rounded-circle text-center text-real-white cursor-default bet-result"
                             [class.pressed]="authenticatedUserRatings.indexOf('LIGHTSIDE') !== -1"
                             [class.more]="betResult.homeUser.length < betResult.awayUser.length"
                             [ngbTooltip]="'Voted for ' + game.awayUser.username" container="body">
@@ -101,57 +101,54 @@
                 </div>
                 <div class="quantity">{{betResult.awayUser.length}}</div>
             </div>
-            <div>
-                <a class="btn btn-lg rounded-circle btn-primary text-white"
-                   *ngIf="!game.techWin" [href]="game.id | cwtReplayLink">
-                    <i class="fa fa-radiation"></i>
-                </a>
-                <span class="btn btn-lg rounded-circle btn-primary text-white" *ngIf="game.techWin">
-                    <i class="fa fa-gavel"></i>
-                </span>
-            </div>
-            <div>
-                <button class="btn btn-lg btn-primary text-white rounded-circle"
-                        [ngClass]="{'active': showRatings}" (click)="showRatings = !showRatings">
-                    <i class="fa fa-star"></i>
-                </button>
+            <div class="text-nowrap d-flex">
+                <div class="mr-2">
+                    <a class="btn btn-lg rounded-circle btn-primary text-white"
+                       *ngIf="!game.techWin" [href]="game.id | cwtReplayLink">
+                        <i class="fa fa-radiation"></i>
+                    </a>
+                    <span class="btn btn-lg rounded-circle btn-primary text-white" *ngIf="game.techWin">
+                        <i class="fa fa-gavel"></i>
+                    </span>
+                </div>
+                <div>
+                    <button class="btn btn-lg btn-primary text-white rounded-circle"
+                            [ngClass]="{'active': showRatings}" (click)="showRatings = !showRatings">
+                        <i class="fa fa-star"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div [hidden]="!showRatings">
-        <div class="row no-gutters popdown">
-            <div class="offset-10 offset-lg-11 col-1 text-center">
-                <i class="fa fa-2x fa-caret-up text-secondary"></i>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-10 offset-md-2">
-                <div class="card bg-secondary">
-                    <div class="card-body" *ngIf="game.ratings.length">
-                        <div *ngIf="ratings.LIKE.length" class="mb-1">
-                            Liked by
-                            <span *ngFor="let rating of ratings.LIKE; let last = last">
-                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
-                            </span>
-                        </div>
-                        <div *ngIf="ratings.DISLIKE.length" class="mb-1">
-                            Disliked by
-                            <span *ngFor="let rating of ratings.DISLIKE; let last = last">
-                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
-                            </span>
-                        </div>
-                        <div *ngIf="ratings.LIGHTSIDE.length" class="mb-1">
-                            Rated “ligthside” by
-                            <span *ngFor="let rating of ratings.LIGHTSIDE; let last = last">
-                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
-                            </span>
-                        </div>
-                        <div *ngIf="ratings.DARKSIDE.length" class="mb-1">
-                            Rated “darkside” by
-                            <span *ngFor="let rating of ratings.DARKSIDE; let last = last">
-                                <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
-                            </span>
-                        </div>
+    <div class="row mt-4" [hidden]="!showRatings">
+        <div class="col-12 col-md-10 offset-md-2">
+            <div class="card bg-secondary">
+                <div class="card-body" *ngIf="game.ratings.length">
+                    <div *ngIf="ratings.LIKE.length" class="mb-1">
+                        Liked by
+                        <span *ngFor="let rating of ratings.LIKE; let last = last">
+                            <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
+                        </span>
+                    </div>
+                    <div *ngIf="ratings.DISLIKE.length" class="mb-1">
+                        Disliked by
+                        <span *ngFor="let rating of ratings.DISLIKE; let last = last">
+                            <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
+                        </span>
+                    </div>
+                    <div *ngIf="ratings.LIGHTSIDE.length" class="mb-1">
+                        Rated “ligthside” by
+                        <span *ngFor="let rating of ratings.LIGHTSIDE; let last = last">
+                            <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
+                        </span>
+                    </div>
+                    <div *ngIf="ratings.DARKSIDE.length" class="mb-1">
+                        Rated “darkside” by
+                        <span *ngFor="let rating of ratings.DARKSIDE; let last = last">
+                            <cwt-user [username]="rating.user.username"></cwt-user><span *ngIf="!last">, </span>
+                        </span>
+                    </div>
+                    <ng-container *ngIf="betResult">
                         <div class="mb-1">
                             Voted for {{game.homeUser.username}}
                             <span *ngFor="let user of betResult.awayUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
@@ -162,7 +159,7 @@
                             <span *ngFor="let user of betResult.homeUser; let last = last"><cwt-user [username]="user.user.username"></cwt-user><span *ngIf="!last">, </span></span>
                             <span *ngIf="!betResult.homeUser.length">No bets were placed.</span>
                         </div>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
         </div>
