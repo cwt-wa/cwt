@@ -617,32 +617,6 @@ select.custom-select-sm {
   }
 }
 
-.bet-result {
-
-  & > .bet-result-home,
-  & > .bet-result-away {
-    display: inline-block;
-    max-width: 90%;
-    min-width: 10%;
-  }
-
-  & > .bet-result-home {
-    background-color: lighten(theme-color('primary'), 40);
-    text-align: right;
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
-    padding: 4px 10px 4px;
-  }
-
-  & > .bet-result-away {
-    background-color: lighten(theme-color('primary'), 30);
-    text-align: left;
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-    padding: 4px 10px 4px;
-  }
-}
-
 .cursor-pointer {
   cursor: pointer;
 }

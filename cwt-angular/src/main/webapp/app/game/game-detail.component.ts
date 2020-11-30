@@ -19,6 +19,9 @@ import {PlayoffsService} from "../_services/playoffs.service";
 import {GameStats} from "./game-stats.component";
 import {APP_CONFIG, AppConfig} from "../app.config";
 import {ConfigurationService} from "../_services/configuration.service";
+import {Toastr} from "../_services/toastr";
+
+const rnd = (max: number) => Math.ceil(Math.random() * max) - (max / 2);
 
 @Component({
     selector: 'cwt-game-detail',
@@ -34,6 +37,89 @@ import {ConfigurationService} from "../_services/configuration.service";
       img.map {
         width: 100%;
         border-radius: .3rem;
+      }
+      .mt-children > * {
+        margin-top: 3rem;
+      }
+      .rate {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        align-items: center;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        width: 11rem;
+        font-size: 2rem;
+        white-space: nowrap;
+      }
+      .rate .circles * {
+        border-width: 1px;
+        position: relative;
+        z-index: 0;
+      }
+      .rate .circles *[disabled] {
+        opacity: 1;
+     }
+      .rate .circles *.more {
+        transform: scale(1.3);
+        z-index: 1;
+      }
+      .rate .circles *.pressing::after,
+      .rate .circles *.pressed::after {
+        position: absolute;
+        z-index: 2;
+        top: -15px;
+        background: #322a21;
+        border-radius: 50%;
+        height: 2rem;
+        width: 2rem;
+      }
+      .rate .circles *:first-child.pressed::after,
+      .rate .circles *:first-child.pressing::after {
+        right: 35px;
+      }
+      .rate .circles *:nth-child(2).pressed::after,
+      .rate .circles *:nth-child(2).pressing::after {
+        right: -12px;
+      }
+      .rate .circles *.pressed::after {
+        font-family: 'Font Awesome 5 Free';
+        content: "\\f007";
+        font-weight: 900;
+        transform: rotate(${rnd(15)}deg);
+      }
+      .rate .circles *.pressing::after {
+        content: "";
+        background-image: url("/loading.gif");
+        background-position: center;
+        background-size: 1rem;
+        background-repeat: no-repeat;
+      }
+      .rate .circles *:first-child i {
+        transform: rotate(${rnd(30)}deg);
+      }
+      .rate .circles *:nth-child(2) i {
+        position: relative;
+        transform: rotate(${rnd(30)}deg);
+      }
+      .rate i {
+        width: 1rem;
+      }
+      .rate .circles .bet-result {
+        font-size: 1rem;
+        padding: 0;
+        padding-top: .6rem;
+        height: 3rem;
+        width: 3rem;
+      }
+      .rate .circles .bet-result:first-child {
+        background-color: #a69179;
+      }
+      .rate .circles .bet-result:nth-child(2) {
+        background-color: #8e775e;
+      }
+      .rate .circles *:not(.bet-result):nth-child(2) {
+        margin-left: -5px;
       }
     `],
     template: require('./game-detail.component.html')
@@ -56,11 +142,14 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     loadingStats: boolean = true;
     hasOlderVersion: boolean = false;
     waVersionWarn: boolean = false;
+    homeUserAbbr: string;
+    awayUserAbbr: string;
 
     constructor(private requestService: RequestService, private route: ActivatedRoute,
                 private authService: AuthService, private betService: BetService,
                 private playoffService: PlayoffsService, @Inject(APP_CONFIG) private appConfig: AppConfig,
-                private configurationService: ConfigurationService) {
+                private configurationService: ConfigurationService,
+                private toastr: Toastr) {
     }
 
     get authenticatedUserRatings(): RatingType[] {
@@ -84,6 +173,8 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             this.requestService.get<GameDetailDto>(`game/${gameId}`)
                 .subscribe(res => {
                     this.game = res;
+                    this.homeUserAbbr = this.game.homeUser.username.toUpperCase().slice(0, 3);
+                    this.awayUserAbbr = this.game.awayUser.username.toUpperCase().slice(0, 3);
                     this.loadingStats = false;
                     this.gameWasPlayed = this.playoffService.gameWasPlayed(this.game);
 
@@ -161,11 +252,25 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     }
 
     rate(ratingType: RatingType): void {
-        this.submittingRating = ratingType;
         const payload: RatingCreationDto = {type: ratingType, user: this.authenticatedUser.id};
+        const alreadyRated = this.game.ratings.find(r => r.type === payload.type && r.user.id === payload.user);
+        if (alreadyRated) {
+            this.toastr.success(`You’ve already ${ratingType.toLowerCase()}d this game.`);
+            return;
+        }
+        this.submittingRating = ratingType;
         this.requestService.post<RatingDto>(`game/${this.game.id}/rating`, payload)
             .pipe(finalize(() => this.submittingRating = null))
-            .subscribe(res => this.game.ratings.push(res));
+            .subscribe(res => {
+                const idx = this.game.ratings.findIndex(r => r.id === res.id);
+                if (idx !== -1) {
+                    this.game.ratings[idx] = res;
+                    this.toastr.success("Updated your rating.");
+                } else {
+                    this.game.ratings.push(res);
+                    this.toastr.success(`${ratingType[0]}${ratingType.slice(1).toLowerCase()}d this game.`);
+                }
+            });
     }
 
     private initNewComment() {
