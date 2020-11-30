@@ -34,6 +34,15 @@ const rnd = (max: number) => Math.ceil(Math.random() * max) - (max / 2);
         color: #aaa;
         margin-bottom: .5rem;
       }
+      .ratings i {
+        width: 1rem;
+        display: inline-block;
+      }
+      .ratings .vote {
+        width: 2.5rem;
+        font-weight: bold;
+        display: inline-block;
+      }
       img.map {
         width: 100%;
         border-radius: .3rem;
