@@ -155,10 +155,24 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun rateGame(@PathVariable("id") id: Long,
                  @RequestBody rating: RatingCreationDto,
                  request: HttpServletRequest): ResponseEntity<RatingDto> {
-        if (authService.authUser(request)!!.id != rating.user) {
-            throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null)
+        val user = authService.authUser(request)!!
+        if (user.id != rating.user) throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null)
+        val game = gameService.findById(id)
+                .orElseThrow { throw RestException("No such game.", HttpStatus.NOT_FOUND, null) }
+        val ratings = gameService.findRating(user, game, rating.type, rating.type.opposite())
+        if (ratings.size > 1) {
+            logger.warn("More than one like/dislike rating for $user on $game.")
+            logger.info("Proceeding to delete them.")
+            gameService.deleteRatings(ratings)
         }
-        return ResponseEntity.ok(RatingDto.toDto(gameService.rateGame(id, rating.user, rating.type)))
+        val savedRating = if (ratings.size == 1) {
+            logger.info("$user has already rated ($rating), updating rating.")
+            gameService.updateRating(ratings[0], rating.type)
+        } else {
+            logger.info("$user hasn't rated $game yet. Proceeding to create rating.")
+            gameService.rateGame(user, game, rating.type)
+        }
+        return ResponseEntity.ok(RatingDto.toDto(savedRating))
     }
 
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
