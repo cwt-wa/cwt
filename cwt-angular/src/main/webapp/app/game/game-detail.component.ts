@@ -80,21 +80,22 @@ const rnd = (max: number) => Math.ceil(Math.random() * max) - (max / 2);
         top: -15px;
         background: #322a21;
         border-radius: 50%;
-        height: 2rem;
-        width: 2rem;
+        height: 1.7rem;
+        width: 1.7rem;
       }
       .rate .circles *:first-child.pressed::after,
       .rate .circles *:first-child.pressing::after {
-        right: 35px;
+        right: 30px;
       }
       .rate .circles *:nth-child(2).pressed::after,
       .rate .circles *:nth-child(2).pressing::after {
-        right: -12px;
+        right: -10px;
       }
       .rate .circles *.pressed::after {
         font-family: 'Font Awesome 5 Free';
         content: "\\f007";
         font-weight: 900;
+        font-size: 1rem;
         transform: rotate(${rnd(15)}deg);
       }
       .rate .circles *.pressing::after {
@@ -118,8 +119,8 @@ const rnd = (max: number) => Math.ceil(Math.random() * max) - (max / 2);
         font-size: 1rem;
         padding: 0;
         padding-top: .6rem;
-        height: 3rem;
-        width: 3rem;
+        height: 2.8rem;
+        width: 2.8rem;
       }
       .rate .circles .bet-result:first-child {
         background-color: #a69179;
