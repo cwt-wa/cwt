@@ -225,10 +225,12 @@ constructor(private val gameService: GameService, private val userService: UserS
         return ResponseEntity.ok(voidedGame)
     }
 
-    @GetMapping("/{gameId}/stats", headers = ["Content-Type: application/json"])
-    @Produces("application/json")
-    fun retrieveGameStats(@PathVariable gameId: Long): ResponseEntity<String> =
-            ResponseEntity.ok(gameService.findGameStats(
-                    gameService.findById(gameId)
-                            .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }))
+    @GetMapping("/{gameId}/stats")
+    fun retrieveGameStats(@PathVariable("gameId") gameId: Long): ResponseEntity<String> =
+            ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(gameService.findGameStats(
+                            gameService.findById(gameId)
+                                    .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }))
 }
