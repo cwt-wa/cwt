@@ -33,6 +33,28 @@
         </a>
     </p>
 
+    <div class="mt-3" *ngIf="game.voided || game.tournament.status === 'FINISHED' || (hasOlderVersion && waVersionWarn)">
+        <div class="alert alert-warning mt-1" role="alert"
+             *ngIf="game.voided">
+            <i class="fa fa-warning"></i>
+            This game has been voided.
+        </div>
+        <div class="alert alert-warning mt-1" role="alert"
+             *ngIf="game.tournament.status === 'FINISHED'">
+            <i class="fa fa-warning"></i>
+            This game is from a past tournament.
+        </div>
+        <div class="alert alert-danger mt-1" role="alert"
+             *ngIf="hasOlderVersion">
+            <i class="fa fa-exclamation-triangle"></i>
+            The game was played with an older version.
+            <a target="_blank"
+               href="https://worms2d.info/files/WA_update-3.8_%5BCD%5D_Installer.exe">
+                Download WA 3.8 <i class="fa fa-external-link"></i>
+            </a>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col d-flex flex-wrap justify-content-around align-items-center mt-children">
             <div class="rate">
