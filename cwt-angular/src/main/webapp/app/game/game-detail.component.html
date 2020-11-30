@@ -103,13 +103,14 @@
                         <i class="fa fa-bolt"></i>
                     </button>
                 </div>
-                <div class="quantity">{{ratings.LIKE.length}}</div>
+                <div class="quantity">{{ratings.LIGHTSIDE.length}}</div>
             </div>
             <div class="rate" *ngIf="betResult">
                 <div class="quantity">{{betResult.homeUser.length}}</div>
                 <div class="circles">
                     <div class="btn btn-lg rounded-circle text-center text-real-white cursor-default bet-result"
                          [class.pressed]="betResult.userBetOnHome"
+                         [class.more]="betResult.homeUser.length > betResult.awayUser.length"
                          [ngbTooltip]="'Voted for ' + game.homeUser.username" container="body">
                         {{homeUserAbbr}}
                     </div>
