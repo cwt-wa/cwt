@@ -64,7 +64,7 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
 
     fun sendMultipartEntity(url: String, file: File, fileFieldName: String): CloseableHttpResponse {
         val multipartEntity = with(HttpPost(url)) {
-            addHeader("third-part-token", thirdPartyToken)
+            addHeader("third-party-token", thirdPartyToken)
             entity = MultipartEntityBuilder.create()
                     .addBinaryBody(
                             fileFieldName, file,
