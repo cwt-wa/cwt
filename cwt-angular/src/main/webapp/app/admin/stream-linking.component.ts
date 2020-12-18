@@ -18,6 +18,38 @@ import {finalize} from "rxjs/operators";
         <h1>Stream linking</h1>
         <p class="lead">Link streams to games manually if automated linking couldn’t do it</p>
 
+        <div class="row">
+            <h2 class="col">Game to Stream Linking</h2>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <form #gameToStreamForm="ngForm" (ngSubmit)="submitGameToStreamLink(gameToStreamForm.valid)" class="form-row">
+                    <div class="col">
+                        <input type="text" placeholder="Game ID" required name="gameId"
+                               [(ngModel)]="gameToStreamLink.gameId" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <input type="text" placeholder="Twitch Video ID" required name="videoId"
+                               [(ngModel)]="gameToStreamLink.videoId" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="Update" class="btn btn-primary"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <h2 class="col">Stream to Game Linking</h2>
+        </div>
+
         <div *ngFor="let stream of streams" class="row mt-5">
             <div class="col-12">
                 <h5>{{stream.title}}</h5>
@@ -70,6 +102,7 @@ export class StreamLinkingComponent implements OnInit {
     streams: StreamDto[];
     linkedStreams: StreamDto[];
     games: GameMinimalDto[];
+    gameToStreamLink: { gameId: number, videoId: string } = {} as GameToStream;
     forms: { [p: string]: FormGroup } = {};
     linkingLoading = false;
 
@@ -120,6 +153,19 @@ export class StreamLinkingComponent implements OnInit {
                 else if (res.length === 1) this.toastr.success(`1 stream was linked.`);
                 else if (res.length > 1) this.toastr.success(`${res.length} streams were linked.`);
             });
+    }
+
+    submitGameToStreamLink(isValid) {
+        if (!isValid) {
+            this.toastr.error("Specify game ID and Twitch video ID.");
+            return;
+        }
+        const {gameId, videoId} = this.gameToStreamLink;
+        const confirm = window.confirm(
+                `Do you really want to link game with ID ${gameId} to stream with video ${videoId}`);
+        if (!confirm) return;
+        this.requestService.post(`stream/${videoId}/game/${gameId}/link`)
+            .subscribe(res => this.toastr.success("Successfully linked game to stream."));
     }
 
     private buildForms(): void {
