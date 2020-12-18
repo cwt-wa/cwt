@@ -100,6 +100,17 @@ class RestTemplateProvider {
                     ))!!
             .accessToken
 
+    fun fetchVideo(videoId: String): TwitchVideoDto? {
+        var response = restTemplate.exchange(
+                RequestEntity<TwitchWrappedDto<TwitchVideoDto>>(
+                        HttpMethod.GET,
+                        URI.create("${twitchProperties.url}${twitchProperties.videosEndpoint}?first=1&id=$videoId")),
+                object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body!!
+        if (response.data.isEmpty()) {
+            return null
+        }
+        return response.data.get(0)
+    }
 
     fun fetchVideos(paginationCursor: String, channelId: String): TwitchWrappedDto<TwitchVideoDto> =
             restTemplate.exchange(

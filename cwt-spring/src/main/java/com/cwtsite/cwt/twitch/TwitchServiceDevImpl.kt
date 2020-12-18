@@ -14,6 +14,25 @@
         override var lastVideosRequest: LocalDateTime? = null
         override var lastStreamsRequest: LocalDateTime? = null
 
+        override fun requestVideo(videoId: String): TwitchVideoDto? {
+            return TwitchVideoDto(
+                    id = "1234",
+                    userId = "26027047",
+                    userName = "Khamski",
+                    title = "CWT Finale Deluxe",
+                    description = "This is the awesome CWT finale stream.",
+                    createdAt = "2017-03-02T20:53:41Z",
+                    publishedAt = "2017-03-03T20:53:41Z",
+                    url = "https://www.twitch.tv/videos/234482848",
+                    thumbnailUrl = "https://static-cdn.jtvnw.net/s3_vods/bebc8cba2926d1967418_chewiemelodies_27786761696_805342775/thumb/thumb0-%{width}x%{height}.jpg",
+                    viewable = "public",
+                    viewCount = 102,
+                    language = "en",
+                    type = "archive",
+                    duration = "1h43m2s"
+            )
+        }
+
         override fun requestVideos(channels: List<Channel>): List<TwitchVideoDto> {
             lastVideosRequest = LocalDateTime.now()
             return listOf(
