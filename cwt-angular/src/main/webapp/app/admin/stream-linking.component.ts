@@ -102,7 +102,7 @@ export class StreamLinkingComponent implements OnInit {
     streams: StreamDto[];
     linkedStreams: StreamDto[];
     games: GameMinimalDto[];
-    gameToStreamLink: { gameId: number, videoId: string } = {} as GameToStream;
+    gameToStreamLink: { gameId: number, videoId: string } = {} as any;
     forms: { [p: string]: FormGroup } = {};
     linkingLoading = false;
 
@@ -155,7 +155,7 @@ export class StreamLinkingComponent implements OnInit {
             });
     }
 
-    submitGameToStreamLink(isValid) {
+    submitGameToStreamLink(isValid: boolean) {
         if (!isValid) {
             this.toastr.error("Specify game ID and Twitch video ID.");
             return;
@@ -165,7 +165,7 @@ export class StreamLinkingComponent implements OnInit {
                 `Do you really want to link game with ID ${gameId} to stream with video ${videoId}`);
         if (!confirm) return;
         this.requestService.post(`stream/${videoId}/game/${gameId}/link`)
-            .subscribe(res => this.toastr.success("Successfully linked game to stream."));
+            .subscribe(() => this.toastr.success("Successfully linked game to stream."));
     }
 
     private buildForms(): void {
