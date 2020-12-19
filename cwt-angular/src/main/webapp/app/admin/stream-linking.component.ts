@@ -57,6 +57,9 @@ import {finalize} from "rxjs/operators";
                     </div>
                     <div class="col">
                         <input type="submit" value="Submit" class="btn btn-primary"/>
+                        <button type="button" class="btn btn-danger ml-3" (click)="deleteStream(stream)">
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -79,11 +82,14 @@ import {finalize} from "rxjs/operators";
             <div class="col-12 col-sm-6">
                 <form [formGroup]="forms[stream.id]" (ngSubmit)="submit(stream)" class="form-row">
                     <div class="col">
-                        <input type="text" placeholder="Game ID" required
+                        <input type="text" placeholder="Game ID"
                                formControlName="gameId" class="form-control"/>
                     </div>
                     <div class="col">
                         <input type="submit" value="Update" class="btn btn-primary"/>
+                        <button type="button" class="btn btn-danger ml-3" (click)="deleteStream(stream)">
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -121,20 +127,42 @@ export class StreamLinkingComponent implements OnInit {
     }
 
     submit(stream: StreamDto): void {
-        if (this.forms[stream.id].invalid) {
+        if (this.forms[stream.id].controls.gameId.invalid) {
             this.toastr.error("Please enter a game ID.");
             return;
         }
-        const gameId = this.forms[stream.id].get('gameId').value;
-        const confirm = window.confirm(`Link game ${gameId} to stream\n“${stream.title}”?`);
-        if (!confirm) return;
-            this.requestService.post(`stream/${stream.id}/game/${gameId}/link`)
-                .subscribe(() => {
+        const gameId = this.forms[stream.id].get('gameId').value.trim();
+        if (!!gameId) {
+            const confirm = window.confirm(`Link game ${gameId} to stream\n“${stream.title}”?`);
+            if (!confirm) return;
+            this.requestService.post<StreamDto>(`stream/${stream.id}/game/${gameId}/link`)
+                .subscribe(res => {
                     this.toastr.success("Successfully linked game.");
-                    const linked = this.streams.splice(
-                        this.streams.findIndex(s => s.id === stream.id), 1);
-                    this.linkedStreams.push(...linked);
-            });
+                    if (stream.game == null) {
+                        this.streams.splice(this.streams.findIndex(({id}) => id === stream.id), 1);
+                    } else { // new game to link to
+                        this.linkedStreams.splice(this.linkedStreams.findIndex(({id}) => id === stream.id), 1);
+                    }
+                    this.linkedStreams.push(res);
+                    this.linkedStreams = this.linkedStreams
+                            .sort((s1, s2) => (new Date(s2.createdAt).getTime()
+                                - new Date(s1.createdAt).getTime()))
+                    this.buildForms();
+                });
+        } else{
+            const confirm = window.confirm(`Unlink game ${gameId} from stream\n“${stream.title}”?`);
+            if (!confirm) return;
+            this.requestService.delete<StreamDto>(`stream/${stream.id}/link`)
+                .subscribe(res => {
+                    this.toastr.success("Successfully unlinked stream.");
+                    this.streams.push(res);
+                    this.linkedStreams.splice(this.linkedStreams.findIndex(s => s.id === stream.id), 1);
+                    this.streams = this.streams
+                            .sort((s1, s2) => (new Date(s2.createdAt).getTime()
+                                - new Date(s1.createdAt).getTime()))
+                    this.buildForms();
+                });
+        }
     }
 
     triggerLinking(): void {
@@ -147,6 +175,27 @@ export class StreamLinkingComponent implements OnInit {
                 else if (res.length === 1) this.toastr.success(`1 stream was linked.`);
                 else if (res.length > 1) this.toastr.success(`${res.length} streams were linked.`);
             });
+    }
+
+    deleteStream(stream: StreamDto) {
+        this.requestService.delete(`stream/${stream.id}`).subscribe(() => {
+            if (stream.game == null) {
+                const idx = this.streams.findIndex(s => s.id === stream.id);
+                this.streams.splice(idx, 1);
+            } else {
+                const idx = this.linkedStreams.findIndex(s => s.id === stream.id);
+                this.linkedStreams.splice(idx, 1);
+            }
+            this.toastr.success("Stream successfully deleted.");
+        });
+    }
+
+    deleteLink(stream: StreamDto) {
+        this.requestService.delete(`stream/${stream.id}/link`).subscribe(res => {
+            const idx = this.streams.findIndex(s => s.id === stream.id);
+            this.streams[idx] = res;
+            this.toastr.success("Stream successfully unlinked.");
+        });
     }
 
     submitGameToStreamLink(isValid: boolean) {
@@ -172,3 +221,4 @@ export class StreamLinkingComponent implements OnInit {
         }
     }
 }
+
