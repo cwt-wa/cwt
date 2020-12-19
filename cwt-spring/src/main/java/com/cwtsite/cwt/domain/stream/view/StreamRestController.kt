@@ -43,6 +43,7 @@ class StreamRestController {
     }
 
     @PostMapping("{id}/game/{gameId}/link")
+    @Secured(AuthorityRole.ROLE_ADMIN)
     fun linkGame(@PathVariable("id") videoId: String,
                  @PathVariable("gameId") gameId: Long): ResponseEntity<StreamDto> {
         val game = gameService.findById(gameId)
@@ -53,7 +54,7 @@ class StreamRestController {
                     val streamFromTwitch = twitchService.requestVideo(videoId) ?: return@orElseGet null
                     val channel = streamService.findChannel(streamFromTwitch.userId)
                             .orElseThrow { throw RestException(
-                                    "Channel of video is not registered.",
+                                    "Channel ${streamFromTwitch.userId} of video is not registered.",
                                     HttpStatus.BAD_REQUEST, null) }
                     val mapped = StreamDto.fromDto(StreamDto.toDto(streamFromTwitch, channel), channel)
                     return@orElseGet streamService.saveStream(mapped)
