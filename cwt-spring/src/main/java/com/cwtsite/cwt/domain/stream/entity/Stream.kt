@@ -57,7 +57,7 @@ data class Stream(
         @Column(name = "duration")
         var duration: String? = null,
 
-        @ManyToOne(cascade = [CascadeType.ALL])
+        @ManyToOne
         var game: Game? = null
 ) {
 

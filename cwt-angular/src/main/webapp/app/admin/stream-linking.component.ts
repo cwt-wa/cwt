@@ -16,9 +16,35 @@ import {finalize} from "rxjs/operators";
         </div>
 
         <h1>Stream linking</h1>
-        <p class="lead">Link streams to games manually if automated linking couldn’t do it</p>
+        <p class="lead">Manual stream/game linking.</p>
 
-        <div *ngFor="let stream of streams" class="row mt-5">
+        <div class="row mt-5">
+            <h2 class="col">Game to Stream Linking</h2>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+                <form #gameToStreamForm="ngForm" (ngSubmit)="submitGameToStreamLink(gameToStreamForm.valid)" class="form-row">
+                    <div class="col">
+                        <input type="text" placeholder="Game ID" required name="gameId"
+                               [(ngModel)]="gameToStreamLink.gameId" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <input type="text" placeholder="Twitch Video ID" required name="videoId"
+                               [(ngModel)]="gameToStreamLink.videoId" class="form-control"/>
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="Submit" class="btn btn-primary"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <h2 class="col">Stream to Game Linking</h2>
+        </div>
+
+        <div *ngFor="let stream of streams" class="row mt-3">
             <div class="col-12">
                 <h5>{{stream.title}}</h5>
                 <p>from {{stream.createdAt | cwtDate}}</p>
@@ -31,6 +57,9 @@ import {finalize} from "rxjs/operators";
                     </div>
                     <div class="col">
                         <input type="submit" value="Submit" class="btn btn-primary"/>
+                        <button type="button" class="btn btn-danger ml-3" (click)="deleteStream(stream)">
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -42,7 +71,7 @@ import {finalize} from "rxjs/operators";
             </div>
         </div>
 
-        <h2 class="mt-4">Linked streams</h2>
+        <h2 class="mt-4">Linked Streams</h2>
         <p class="lead">Streams that have already been linked.</p>
 
         <div *ngFor="let stream of linkedStreams" class="row mt-5">
@@ -53,11 +82,14 @@ import {finalize} from "rxjs/operators";
             <div class="col-12 col-sm-6">
                 <form [formGroup]="forms[stream.id]" (ngSubmit)="submit(stream)" class="form-row">
                     <div class="col">
-                        <input type="text" placeholder="Game ID" required
+                        <input type="text" placeholder="Game ID"
                                formControlName="gameId" class="form-control"/>
                     </div>
                     <div class="col">
                         <input type="submit" value="Update" class="btn btn-primary"/>
+                        <button type="button" class="btn btn-danger ml-3" (click)="deleteStream(stream)">
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -70,6 +102,7 @@ export class StreamLinkingComponent implements OnInit {
     streams: StreamDto[];
     linkedStreams: StreamDto[];
     games: GameMinimalDto[];
+    gameToStreamLink: { gameId: number, videoId: string } = {} as any;
     forms: { [p: string]: FormGroup } = {};
     linkingLoading = false;
 
@@ -94,20 +127,42 @@ export class StreamLinkingComponent implements OnInit {
     }
 
     submit(stream: StreamDto): void {
-        if (this.forms[stream.id].invalid) {
+        if (this.forms[stream.id].controls.gameId.invalid) {
             this.toastr.error("Please enter a game ID.");
             return;
         }
-        const gameId = this.forms[stream.id].get('gameId').value;
-        const confirm = window.confirm(`Link game ${gameId} to stream\n“${stream.title}”?`);
-        if (!confirm) return;
-            this.requestService.post(`stream/${stream.id}/game/${gameId}/link`)
-                .subscribe(() => {
+        const gameId = this.forms[stream.id].get('gameId').value.trim();
+        if (!!gameId) {
+            const confirm = window.confirm(`Link game ${gameId} to stream\n“${stream.title}”?`);
+            if (!confirm) return;
+            this.requestService.post<StreamDto>(`stream/${stream.id}/game/${gameId}/link`)
+                .subscribe(res => {
                     this.toastr.success("Successfully linked game.");
-                    const linked = this.streams.splice(
-                        this.streams.findIndex(s => s.id === stream.id), 1);
-                    this.linkedStreams.push(...linked);
-            });
+                    if (stream.game == null) {
+                        this.streams.splice(this.streams.findIndex(({id}) => id === stream.id), 1);
+                    } else { // new game to link to
+                        this.linkedStreams.splice(this.linkedStreams.findIndex(({id}) => id === stream.id), 1);
+                    }
+                    this.linkedStreams.push(res);
+                    this.linkedStreams = this.linkedStreams
+                            .sort((s1, s2) => (new Date(s2.createdAt).getTime()
+                                - new Date(s1.createdAt).getTime()))
+                    this.buildForms();
+                });
+        } else{
+            const confirm = window.confirm(`Unlink game ${gameId} from stream\n“${stream.title}”?`);
+            if (!confirm) return;
+            this.requestService.delete<StreamDto>(`stream/${stream.id}/link`)
+                .subscribe(res => {
+                    this.toastr.success("Successfully unlinked stream.");
+                    this.streams.push(res);
+                    this.linkedStreams.splice(this.linkedStreams.findIndex(s => s.id === stream.id), 1);
+                    this.streams = this.streams
+                            .sort((s1, s2) => (new Date(s2.createdAt).getTime()
+                                - new Date(s1.createdAt).getTime()))
+                    this.buildForms();
+                });
+        }
     }
 
     triggerLinking(): void {
@@ -122,6 +177,40 @@ export class StreamLinkingComponent implements OnInit {
             });
     }
 
+    deleteStream(stream: StreamDto) {
+        this.requestService.delete(`stream/${stream.id}`).subscribe(() => {
+            if (stream.game == null) {
+                const idx = this.streams.findIndex(s => s.id === stream.id);
+                this.streams.splice(idx, 1);
+            } else {
+                const idx = this.linkedStreams.findIndex(s => s.id === stream.id);
+                this.linkedStreams.splice(idx, 1);
+            }
+            this.toastr.success("Stream successfully deleted.");
+        });
+    }
+
+    deleteLink(stream: StreamDto) {
+        this.requestService.delete<StreamDto>(`stream/${stream.id}/link`).subscribe(res => {
+            const idx = this.streams.findIndex(s => s.id === stream.id);
+            this.streams[idx] = res;
+            this.toastr.success("Stream successfully unlinked.");
+        });
+    }
+
+    submitGameToStreamLink(isValid: boolean) {
+        if (!isValid) {
+            this.toastr.error("Specify game ID and Twitch video ID.");
+            return;
+        }
+        const {gameId, videoId} = this.gameToStreamLink;
+        const confirm = window.confirm(
+                `Do you really want to link game with ID ${gameId} to stream with video ${videoId}`);
+        if (!confirm) return;
+        this.requestService.post(`stream/${videoId}/game/${gameId}/link`)
+            .subscribe(() => this.toastr.success("Successfully linked game to stream."));
+    }
+
     private buildForms(): void {
         for (const stream of this.streams) {
             this.forms[stream.id] = this.fb.group({gameId: ['']});
@@ -132,3 +221,4 @@ export class StreamLinkingComponent implements OnInit {
         }
     }
 }
+

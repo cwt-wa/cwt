@@ -47,6 +47,11 @@ class TwitchServiceProdImpl : TwitchService {
 
     private fun authenticate() = restTemplateProvider.authenticate()
 
+    override fun requestVideo(videoId: String): TwitchVideoDto? {
+        authorize()
+        return restTemplateProvider.fetchVideo(videoId)
+    }
+
     override fun requestVideos(channels: List<Channel>): List<TwitchVideoDto> {
         if (channels.isEmpty()) return emptyList()
         authorize()
