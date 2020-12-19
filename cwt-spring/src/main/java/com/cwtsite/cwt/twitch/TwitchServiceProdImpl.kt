@@ -30,10 +30,6 @@ class TwitchServiceProdImpl : TwitchService {
         restTemplateProvider.addAuthTokenHeaderInterceptor()
     }
 
-    override fun requestVideo(videoId: String): TwitchVideoDto? {
-        return restTemplateProvider.fetchVideo(videoId)
-    }
-
     private fun authorize() {
         when (restTemplateProvider.authToken) {
             null -> restTemplateProvider.authToken = authenticate()
@@ -50,6 +46,11 @@ class TwitchServiceProdImpl : TwitchService {
     private fun validateAuthentication() = restTemplateProvider.validateAuthentication()
 
     private fun authenticate() = restTemplateProvider.authenticate()
+
+    override fun requestVideo(videoId: String): TwitchVideoDto? {
+        authorize()
+        return restTemplateProvider.fetchVideo(videoId)
+    }
 
     override fun requestVideos(channels: List<Channel>): List<TwitchVideoDto> {
         if (channels.isEmpty()) return emptyList()
