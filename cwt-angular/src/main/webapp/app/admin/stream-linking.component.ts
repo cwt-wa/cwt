@@ -34,7 +34,7 @@ import {finalize} from "rxjs/operators";
                                [(ngModel)]="gameToStreamLink.videoId" class="form-control"/>
                     </div>
                     <div class="col">
-                        <input type="submit" value="Update" class="btn btn-primary"/>
+                        <input type="submit" value="Submit" class="btn btn-primary"/>
                     </div>
                 </form>
             </div>
