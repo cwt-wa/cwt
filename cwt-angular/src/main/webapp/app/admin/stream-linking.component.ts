@@ -18,11 +18,11 @@ import {finalize} from "rxjs/operators";
         <h1>Stream linking</h1>
         <p class="lead">Link streams to games manually if automated linking couldn’t do it</p>
 
-        <div class="row">
+        <div class="row mt-5">
             <h2 class="col">Game to Stream Linking</h2>
         </div>
 
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
                 <form #gameToStreamForm="ngForm" (ngSubmit)="submitGameToStreamLink(gameToStreamForm.valid)" class="form-row">
                     <div class="col">
@@ -40,17 +40,11 @@ import {finalize} from "rxjs/operators";
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col">
-                <hr>
-            </div>
-        </div>
-
-        <div class="row">
+        <div class="row mt-5">
             <h2 class="col">Stream to Game Linking</h2>
         </div>
 
-        <div *ngFor="let stream of streams" class="row mt-5">
+        <div *ngFor="let stream of streams" class="row mt-3">
             <div class="col-12">
                 <h5>{{stream.title}}</h5>
                 <p>from {{stream.createdAt | cwtDate}}</p>
