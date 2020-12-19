@@ -7,6 +7,8 @@ import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.twitch.TwitchService
 
+import java.util.Optional
+
 import org.slf4j.LoggerFactory
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,24 +43,17 @@ class StreamRestController {
     @PostMapping("{id}/game/{gameId}/link")
     fun linkGame(@PathVariable("id") videoId: String,
                  @PathVariable("gameId") gameId: Long): ResponseEntity<StreamDto> {
-        val streamFromDb = streamService.findStream(videoId)
-        val stream = if (streamFromDb.isPresent()) {
-            streamFromDb.get()
-        } else {
-            val streamFromTwitch = twitchService.requestVideo(videoId)
-            if (streamFromTwitch == null) {
-                null
-            } else {
-                val channel = streamService.findChannel(streamFromTwitch.userId)
-                        .orElseThrow { throw RestException("Channel of video is not registered.", HttpStatus.BAD_REQUEST, null) }
-                val mapped = StreamDto.fromDto(StreamDto.toDto(streamFromTwitch, channel), channel)
-                val saved = streamService.saveStreams(listOf(mapped)).get(0)
-                saved
-            }
-        }
-        if (stream == null) {
-            throw RestException("Twitch video could not be found.", HttpStatus.BAD_REQUEST, null)
-        }
+        val stream = streamService.findStream(videoId)
+                .orElseGet {
+                    logger.info("Video $videoId is not in CWT database.")
+                    val streamFromTwitch = twitchService.requestVideo(videoId) ?: return@orElseGet null
+                    val channel = streamService.findChannel(streamFromTwitch.userId)
+                            .orElseThrow { throw RestException(
+                                    "Channel of video is not registered.",
+                                    HttpStatus.BAD_REQUEST, null) }
+                    val mapped = StreamDto.fromDto(StreamDto.toDto(streamFromTwitch, channel), channel)
+                    return@orElseGet streamService.saveStreams(listOf(mapped)).get(0)
+                } ?: throw RestException("Twitch video could not be found.", HttpStatus.BAD_REQUEST, null)
         val game = gameService.findById(gameId)
                 .orElseThrow { throw RestException("There is no such game.", HttpStatus.BAD_REQUEST, null) }
         return ResponseEntity.ok(StreamDto.toDto(streamService.associateGame(stream, game)))
