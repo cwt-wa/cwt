@@ -16,7 +16,7 @@ import {finalize} from "rxjs/operators";
         </div>
 
         <h1>Stream linking</h1>
-        <p class="lead">Link streams to games manually if automated linking couldn’t do it</p>
+        <p class="lead">Manual stream/game linking.</p>
 
         <div class="row mt-5">
             <h2 class="col">Game to Stream Linking</h2>
