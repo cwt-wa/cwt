@@ -191,7 +191,7 @@ export class StreamLinkingComponent implements OnInit {
     }
 
     deleteLink(stream: StreamDto) {
-        this.requestService.delete(`stream/${stream.id}/link`).subscribe(res => {
+        this.requestService.delete<StreamDto>(`stream/${stream.id}/link`).subscribe(res => {
             const idx = this.streams.findIndex(s => s.id === stream.id);
             this.streams[idx] = res;
             this.toastr.success("Stream successfully unlinked.");
