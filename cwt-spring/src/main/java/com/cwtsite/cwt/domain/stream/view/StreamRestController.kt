@@ -5,6 +5,7 @@ import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
+import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.twitch.TwitchService
 
 import java.util.Optional
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -61,8 +63,26 @@ class StreamRestController {
         return ResponseEntity.ok(StreamDto.toDto(saved))
     }
 
+    @DeleteMapping("{id}/link")
+    @Secured(AuthorityRole.ROLE_ADMIN)
+    fun unlinkGame(@PathVariable("id") id: String) : ResponseEntity<StreamDto> {
+        val stream = streamService.findStream(id)
+                .orElseThrow { throw RestException("No such stream.", HttpStatus.BAD_REQUEST, null) }
+        stream.game = null
+        return ResponseEntity.ok(StreamDto.toDto(streamService.saveStream(stream)))
+    }
+
     @PostMapping("linking")
     fun linkStreams(): ResponseEntity<List<StreamDto>> =
             ResponseEntity.ok(streamService.link().map { StreamDto.toDto(it) })
+
+    @DeleteMapping("/{id}")
+    @Secured(AuthorityRole.ROLE_ADMIN)
+    fun deleteStream(@PathVariable("id") id: String): ResponseEntity<Void> {
+        val stream = streamService.findStream(id)
+                .orElseThrow { throw RestException("No such stream.", HttpStatus.BAD_REQUEST, null) }
+        streamService.deleteStream(stream)
+        return ResponseEntity.status(HttpStatus.OK).build()
+    }
 }
 

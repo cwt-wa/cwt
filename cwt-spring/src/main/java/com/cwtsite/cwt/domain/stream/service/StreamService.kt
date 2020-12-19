@@ -179,4 +179,6 @@ class StreamService {
             channelRepository.save(with (channel) { this.videoCursor = videoCursor; this})
 
     fun findStreams(game: Game): List<Stream> = streamRepository.findByGame(game)
+
+    fun deleteStream(stream: Stream) = streamRepository.delete(stream)
 }
