@@ -43,6 +43,8 @@ class StreamRestController {
     @PostMapping("{id}/game/{gameId}/link")
     fun linkGame(@PathVariable("id") videoId: String,
                  @PathVariable("gameId") gameId: Long): ResponseEntity<StreamDto> {
+        val game = gameService.findById(gameId)
+                .orElseThrow { throw RestException("There is no such game.", HttpStatus.BAD_REQUEST, null) }
         val stream = streamService.findStream(videoId)
                 .orElseGet {
                     logger.info("Video $videoId is not in CWT database.")
@@ -52,11 +54,11 @@ class StreamRestController {
                                     "Channel of video is not registered.",
                                     HttpStatus.BAD_REQUEST, null) }
                     val mapped = StreamDto.fromDto(StreamDto.toDto(streamFromTwitch, channel), channel)
-                    return@orElseGet streamService.saveStreams(listOf(mapped)).get(0)
+                    return@orElseGet streamService.saveStream(mapped)
                 } ?: throw RestException("Twitch video could not be found.", HttpStatus.BAD_REQUEST, null)
-        val game = gameService.findById(gameId)
-                .orElseThrow { throw RestException("There is no such game.", HttpStatus.BAD_REQUEST, null) }
-        return ResponseEntity.ok(StreamDto.toDto(streamService.associateGame(stream, game)))
+        stream.game = game
+        val saved = streamService.saveStream(stream)
+        return ResponseEntity.ok(StreamDto.toDto(saved))
     }
 
     @PostMapping("linking")
