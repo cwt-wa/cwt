@@ -68,7 +68,7 @@ import {finalize} from "rxjs/operators";
             </div>
         </div>
 
-        <h2 class="mt-4">Linked streams</h2>
+        <h2 class="mt-4">Linked Streams</h2>
         <p class="lead">Streams that have already been linked.</p>
 
         <div *ngFor="let stream of linkedStreams" class="row mt-5">
