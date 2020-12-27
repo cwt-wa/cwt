@@ -32,17 +32,21 @@ export class GroupsOverviewComponent implements OnInit {
     }
 
     public async ngOnInit() {
-        const tournamentId = this.tournamentId || (await this.currentTournamentService.value).id;
-        if (tournamentId == null) {
-            this.toastr.error("There is currently no tournament.");
-            return;
+        try {
+            const tournamentId = this.tournamentId || (await this.currentTournamentService.value)?.id;
+            if (tournamentId == null) {
+                this.toastr.info("There is currently no tournament.");
+            } else {
+                this.requestService.get<GroupWithGamesDto[]>(`tournament/${tournamentId}/group`)
+                    .pipe(finalize(() => this.loading = false))
+                    .subscribe(res => {
+                        this.groups = res;
+                        this.numberOfGroupMembersAdvancing = res[0].tournament.numOfGroupAdvancing;
+                    });
+            }
+        } finally {
+            this.loading = false;
         }
-        this.requestService.get<GroupWithGamesDto[]>(`tournament/${tournamentId}/group`)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe(res => {
-                this.groups = res;
-                this.numberOfGroupMembersAdvancing = res[0].tournament.numOfGroupAdvancing;
-            });
     }
 
     public onMouseOverUser(event: { user: number, enter: boolean }) {
