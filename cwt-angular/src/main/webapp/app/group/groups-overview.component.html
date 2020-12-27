@@ -5,7 +5,10 @@
 
 <ng-container *ngIf="!loading && !groups?.length">
     <h1 class="mb-4" *ngIf="!hideTitle">Groups</h1>
-    <div class="alert alert-info">There are no groups currently.</div>
+    <div class="alert alert-info">
+        There are no playoffs currently.
+        See the <a routerLink="/archive" class="text-danger">Archive</a> for past tournaments.
+    </div>
 </ng-container>
 
 <ng-container *ngIf="!loading && groups?.length">
