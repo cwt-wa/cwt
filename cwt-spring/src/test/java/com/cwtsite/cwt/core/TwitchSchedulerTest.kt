@@ -47,7 +47,7 @@ class TwitchSchedulerTest {
         `when`(streamRepository.findAll()).thenReturn(streams)
         val twitchVideoDtos = listOf(
                 // existing
-                createTwitchVideoDto(streams[0].id, channels[0].id), 
+                createTwitchVideoDto(streams[0].id, channels[0].id),
                 // existing, update information
                 createTwitchVideoDto(streams[1].id, channels[1].id, title = "udpated"),
                 // existing
