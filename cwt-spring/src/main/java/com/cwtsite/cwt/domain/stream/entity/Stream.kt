@@ -84,6 +84,26 @@ data class Stream(
                 .toSet()
     }
 
+    /**
+     * Update fields which are information from Twitch
+     */
+    // TODO exhaustion test
+    fun updateTwitchInformation(dto: Stream) {
+        userName = dto.userName
+        title = dto.title
+        description = dto.description
+        createdAt = dto.createdAt
+        publishedAt = dto.publishedAt
+        url = dto.url
+        thumbnailUrl = dto.thumbnailUrl
+        viewable = dto.viewable
+        viewCount = dto.viewCount
+        language = dto.language
+        type = dto.type
+        duration = dto.duration
+    }
+
+
     override fun toString(): String {
         return "Stream(id=$id)"
     }
