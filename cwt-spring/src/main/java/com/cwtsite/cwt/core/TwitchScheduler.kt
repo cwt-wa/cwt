@@ -60,7 +60,8 @@ class TwitchScheduler {
                 .filter { it.second != null }
                 .forEach { streamService.associateGame(it.first, it.second!!) }
 
-        // TODO Re-attempt game association?
+        streamService.link()
+        // TODO Re-attempt game association? - yes
     }
 }
 

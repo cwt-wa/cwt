@@ -63,6 +63,7 @@ class TwitchSchedulerTest {
         twitchScheduler.schedule()
 
         verify(streamRepository).deleteAll(listOf(streams[3]))
+        verify(streamService).link()
         // TODO figure out argThat with ArgumentMatcher
         //verify(streamRepository).saveAll(safeArgThat {
         //    it as List
