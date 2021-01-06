@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.integration
 
+import com.cwtsite.cwt.core.TwitchScheduler
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.stream.entity.Stream
