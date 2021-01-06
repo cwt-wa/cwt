@@ -1,7 +1,5 @@
 package com.cwtsite.cwt.core
 
-import com.cwtsite.cwt.core.TwitchScheduler
-import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.ChannelRepository
 import com.cwtsite.cwt.domain.stream.service.StreamRepository
@@ -9,12 +7,9 @@ import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.test.EntityDefaults.channel
 import com.cwtsite.cwt.test.EntityDefaults.game
 import com.cwtsite.cwt.test.EntityDefaults.stream
-import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import com.cwtsite.cwt.test.MockitoUtils.safeArgThat
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
-
-import org.assertj.core.api.Assertions.assertThat
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

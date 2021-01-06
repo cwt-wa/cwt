@@ -1,23 +1,14 @@
 package com.cwtsite.cwt.integration
 
-import com.cwtsite.cwt.core.TwitchScheduler
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
-import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
-import com.cwtsite.cwt.domain.stream.service.ChannelRepository
 import com.cwtsite.cwt.domain.stream.service.StreamRepository
-import com.cwtsite.cwt.domain.stream.view.model.StreamDto
-import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
-import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
-import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
-
-import com.fasterxml.jackson.databind.ObjectMapper
 
 import org.assertj.core.api.Assertions.assertThat
 
@@ -31,18 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.MediaType
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 
 @ExtendWith(SpringExtension::class)

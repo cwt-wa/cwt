@@ -9,8 +9,6 @@ import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.twitch.TwitchService
 
-import java.util.Optional
-
 import org.slf4j.LoggerFactory
 
 import org.springframework.beans.factory.annotation.Autowired
