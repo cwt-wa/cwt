@@ -9,11 +9,11 @@ import com.cwtsite.cwt.twitch.TwitchService
 import org.slf4j.LoggerFactory
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.Scheduled
+import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-@Configuration
+@Component
 class TwitchScheduler {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
