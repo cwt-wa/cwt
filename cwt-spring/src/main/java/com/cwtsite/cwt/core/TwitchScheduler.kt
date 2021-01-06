@@ -53,15 +53,14 @@ class TwitchScheduler {
 
         // Save new videos from Twitch and associate game.
         val newVideos = twitchVideos.filter { !existingVideos.contains(it) }
-        streamRepository.saveAll(newVideos)
-        logger.info("Saved ${newVideos.size} new videos")
         newVideos
                 .map { Pair(it, streamService.findMatchingGame(it)) }
                 .filter { it.second != null }
-                .forEach { streamService.associateGame(it.first, it.second!!) }
+                .forEach { it.first.game = it.second }
+        streamRepository.saveAll(newVideos)
+        logger.info("Saved ${newVideos.size} new videos")
 
         streamService.link()
-        // TODO Re-attempt game association? - yes
     }
 }
 

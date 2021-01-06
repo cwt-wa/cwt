@@ -19,6 +19,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
+import org.mockito.ArgumentMatcher
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
@@ -58,19 +59,15 @@ class TwitchSchedulerTest {
         val newStream = stream(id = twitchVideoDtos[3].id)
         val associatedGame = game()
         `when`(streamService.findMatchingGame(newStream)).thenReturn(associatedGame)
-        `when`(streamService.associateGame(newStream, associatedGame))
-                .thenReturn(with (streams[3]) { game = associatedGame; this })
         twitchScheduler.schedule()
-
         verify(streamRepository).deleteAll(listOf(streams[3]))
         verify(streamService).link()
-        // TODO figure out argThat with ArgumentMatcher
-        //verify(streamRepository).saveAll(safeArgThat {
-        //    it as List
-        //    assertThat(it).hasSize(1)
-        //    assertThat(it[0].id).isEqualTo(streams[3].id)
-        //    assertThat(it[0].game).isEqualTo(associatedGame)
-        //})
+        verify(streamRepository).saveAll(safeArgThat<List<Stream>>(object : ArgumentMatcher<List<Stream>> {
+            override fun matches(argStreams: List<Stream>) =
+                    argStreams.size == 1
+                        && argStreams[0].id == twitchVideoDtos[3].id
+                        && argStreams[0].game == associatedGame
+        }))
     }
 
     private fun createTwitchVideoDto(id: String, userId: String, title: String = "original"): TwitchVideoDto {
