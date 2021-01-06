@@ -134,6 +134,9 @@ class StreamService {
                 .toSet()
     }
 
+    /**
+     * Try to find matching games to all streams which weren't associated a game yet.
+     */
     @Transactional
     fun link(): List<Stream> =
             streamRepository.findAll()

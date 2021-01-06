@@ -45,13 +45,13 @@ interface StreamRepository : JpaRepository<Stream, String> {
 
     @Query("""
        select distinct lower(g.homeUser.username) from Game g
-        where g.id not in (select s.game.id from Stream s)
+        where g.id not in (select s.game.id from Stream s where s.game is not null)
     """)
     fun findDistinctHomeUsernamesToLowercase(): List<String>
 
     @Query("""
        select distinct lower(g.awayUser.username) from Game g
-        where g.id not in (select s.game.id from Stream s)
+        where g.id not in (select s.game.id from Stream s where s.game is not null)
     """)
     fun findDistinctAwayUsernamesToLowercase(): List<String>
 

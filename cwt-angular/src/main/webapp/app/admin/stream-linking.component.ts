@@ -13,6 +13,9 @@ import {finalize} from "rxjs/operators";
             <button class="btn btn-primary" (click)="triggerLinking()" [disabled]="linkingLoading">
                 Trigger automatic linking
             </button>
+            <button class="btn btn-primary" (click)="triggerCleanupJob()" [disabled]="jobLoading">
+                Trigger stream cleanup job
+            </button>
         </div>
 
         <h1>Stream linking</h1>
@@ -105,6 +108,7 @@ export class StreamLinkingComponent implements OnInit {
     gameToStreamLink: { gameId: number, videoId: string } = {} as any;
     forms: { [p: string]: FormGroup } = {};
     linkingLoading = false;
+    jobLoading = false;
 
     constructor(private requestService: RequestService,
                 private fb: FormBuilder,
@@ -175,6 +179,13 @@ export class StreamLinkingComponent implements OnInit {
                 else if (res.length === 1) this.toastr.success(`1 stream was linked.`);
                 else if (res.length > 1) this.toastr.success(`${res.length} streams were linked.`);
             });
+    }
+
+    triggerCleanupJob() {
+        this.jobLoading = true;
+        this.requestService.post<void>('stream/job')
+            .pipe(finalize(() => this.jobLoading = false))
+            .subscribe(() => this.toastr.success("Job run successfully."));
     }
 
     deleteStream(stream: StreamDto) {

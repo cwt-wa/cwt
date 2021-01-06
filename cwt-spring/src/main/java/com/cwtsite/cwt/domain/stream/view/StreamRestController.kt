@@ -1,14 +1,13 @@
 package com.cwtsite.cwt.domain.stream.view
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.core.TwitchScheduler
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.twitch.TwitchService
-
-import java.util.Optional
 
 import org.slf4j.LoggerFactory
 
@@ -27,6 +26,7 @@ class StreamRestController {
     @Autowired private lateinit var streamService: StreamService
     @Autowired private lateinit var gameService: GameService
     @Autowired private lateinit var twitchService: TwitchService
+    @Autowired private lateinit var twitchScheduler: TwitchScheduler
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryAll(): ResponseEntity<List<StreamDto>> =
@@ -76,6 +76,12 @@ class StreamRestController {
     @PostMapping("linking")
     fun linkStreams(): ResponseEntity<List<StreamDto>> =
             ResponseEntity.ok(streamService.link().map { StreamDto.toDto(it) })
+
+    @PostMapping("job")
+    fun runJob(): ResponseEntity<Unit> {
+        twitchScheduler.schedule()
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+    }
 
     @DeleteMapping("/{id}")
     @Secured(AuthorityRole.ROLE_ADMIN)
