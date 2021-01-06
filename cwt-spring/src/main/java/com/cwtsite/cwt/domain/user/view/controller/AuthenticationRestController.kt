@@ -142,18 +142,20 @@ constructor(private val authenticationManager: AuthenticationManager, private va
 
     @RequestMapping("/refresh", method = [RequestMethod.GET])
     fun refreshAndGetAuthenticationToken(request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse?> {
-        val token = request.getHeader(authService.tokenHeaderName) ?: return ResponseEntity.ok(null)
+        val token = request.getHeader(authService.tokenHeaderName)
+                ?: return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
 
         val username = jwtTokenUtil.getUsernameFromToken(token)
                 ?: throw RestException("Username is null in token.", HttpStatus.BAD_REQUEST, null)
         val user = userDetailsService.loadUserByUsername(username) as JwtUser<*>
 
         return if (jwtTokenUtil.canTokenBeRefreshed(token, user.resetDate)!!) {
-            val refreshedToken = jwtTokenUtil.refreshToken(token) ?: return ResponseEntity.ok(null)
+            val refreshedToken = jwtTokenUtil.refreshToken(token)
+                ?: return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
             ResponseEntity.ok(JwtAuthenticationResponse(refreshedToken))
         } else {
             logger.warn("Token could not be refreshed.")
-            return ResponseEntity.ok(null)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
         }
     }
 }

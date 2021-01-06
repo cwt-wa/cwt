@@ -108,7 +108,7 @@ class StreamRestTest {
                 .andReturn().response.contentAsString
                 .let { objectMapper.readValue(it, StreamDto::class.java) }
         assertThat(response.id).isEqualTo(StreamRestTest.streamId)
-        assertThat(response.game!!.id!!).isEqualTo(game1!!.id!!)
+        assertThat(response.game!!.id).isEqualTo(game1!!.id)
     }
 
     @Test
@@ -145,7 +145,7 @@ class StreamRestTest {
     @WithMockUser(authorities = [AuthorityRole.ROLE_ADMIN])
     fun `remove stream`() {
         assertThat(streamRepository.findAll()).isNotEmpty()
-        val response = mockMvc
+        mockMvc
                 .perform(delete("/api/stream/${streamId}")
                             .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

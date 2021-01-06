@@ -45,6 +45,7 @@ class BinaryOutboundServiceDevImpl() : BinaryOutboundService {
                 get() = throw UnsupportedOperationException("not available in this mock")
             override var encoding: Charset
                 get() = throw UnsupportedOperationException("not available in this mock")
+                @Suppress("UNUSED_PARAMETER")
                 set(value) {}
             override val headers: Map<String, String>
                 get() = mapOf(

@@ -65,6 +65,7 @@ class GameRestControllerTest {
     @Test
     fun `queryGamesPaged without users`() {
         val game = EntityDefaults.game()
+        @Suppress("UNCHECKED_CAST")
         val pageDto = mock(PageDto::class.java) as PageDto<Game>
         `when`(pageDto.size).thenReturn(10)
         `when`(pageDto.start).thenReturn(1)
@@ -85,6 +86,7 @@ class GameRestControllerTest {
     @Test
     fun `queryGamesPaged with users`() {
         val game = EntityDefaults.game()
+        @Suppress("UNCHECKED_CAST")
         val pageDto = mock(PageDto::class.java) as PageDto<Game>
         `when`(pageDto.size).thenReturn(10)
         `when`(pageDto.start).thenReturn(1)
