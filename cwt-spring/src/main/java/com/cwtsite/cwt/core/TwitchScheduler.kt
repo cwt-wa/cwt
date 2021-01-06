@@ -26,7 +26,7 @@ class TwitchScheduler {
     @Autowired private lateinit var streamService: StreamService
 
     @Transactional
-    @Scheduled // TODO cron
+    @Scheduled(cron = "\${cwt.twitch-scheduler.cron}")
     fun schedule() {
         logger.info("Running ${this::class.simpleName}")
         val channels = channelRepository.findAll()
