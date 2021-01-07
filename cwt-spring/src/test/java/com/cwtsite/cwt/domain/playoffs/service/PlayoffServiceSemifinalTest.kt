@@ -1,7 +1,5 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
-import com.cwtsite.cwt.domain.configuration.entity.Configuration
-import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
@@ -19,7 +17,6 @@ import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*

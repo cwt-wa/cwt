@@ -10,8 +10,6 @@ import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 
 import java.util.Optional
 
-import javax.servlet.http.HttpServletRequest
-
 import org.assertj.core.api.Assertions.assertThat
 
 import org.junit.jupiter.api.Test

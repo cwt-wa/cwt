@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
-import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame

@@ -1,7 +1,5 @@
 package com.cwtsite.cwt.domain.playoffs.service
 
-import com.cwtsite.cwt.domain.configuration.entity.Configuration
-import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationRepository
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.game.entity.Game
@@ -15,7 +13,6 @@ import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils
 import org.assertj.core.api.Assertions
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks

@@ -20,7 +20,6 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import java.util.*
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("api/tournament")

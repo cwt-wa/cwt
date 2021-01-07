@@ -4,9 +4,7 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.ZoneId
-import java.util.Optional
 
 @DataTransferObject
 data class TournamentDto(

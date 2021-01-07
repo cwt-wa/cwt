@@ -8,11 +8,9 @@ import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner

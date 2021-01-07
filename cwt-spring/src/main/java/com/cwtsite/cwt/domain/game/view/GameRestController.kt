@@ -31,7 +31,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import java.io.IOException
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
-import javax.ws.rs.Produces
 
 @RestController
 @RequestMapping("api/game")
