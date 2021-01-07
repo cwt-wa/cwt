@@ -29,6 +29,7 @@ class TwitchScheduler {
     @Scheduled(cron = "\${cwt.twitch-scheduler.cron}")
     fun schedule() {
         logger.info("Running ${this::class.simpleName}")
+        streamService.cleanPaginationCursors()
         val channels = channelRepository.findAll()
         val existingVideos = streamRepository.findAll()
         val twitchVideos = twitchService.requestVideos(channels)

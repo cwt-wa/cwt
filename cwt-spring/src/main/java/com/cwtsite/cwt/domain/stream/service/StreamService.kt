@@ -151,6 +151,13 @@ class StreamService {
         return channelRepository.save(channel)
     }
 
+    /**
+     * Remove the pagination cursors of all channels.
+     */
+    @Transactional
+    fun cleanPaginationCursors() =
+            channelRepository.cleanPaginationCursors()
+
     fun findChannelByLogin(login: String): Optional<Channel> =
             channelRepository.findByLogin(login)
 
