@@ -12,7 +12,7 @@ import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
+import java.util.Optional
 
 @Component
 class TournamentService {

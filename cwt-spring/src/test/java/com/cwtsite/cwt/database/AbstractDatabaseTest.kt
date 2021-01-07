@@ -3,7 +3,7 @@ package com.cwtsite.cwt.database
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
-import java.util.*
+import java.util.UUID
 
 open class AbstractDatabaseTest {
 

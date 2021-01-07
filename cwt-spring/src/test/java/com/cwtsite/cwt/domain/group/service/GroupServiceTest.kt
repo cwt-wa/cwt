@@ -19,7 +19,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
-import java.util.*
+import java.util.Optional
 
 @RunWith(MockitoJUnitRunner::class)
 class GroupServiceTest {

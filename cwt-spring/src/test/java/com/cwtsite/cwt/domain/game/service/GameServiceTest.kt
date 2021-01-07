@@ -38,7 +38,7 @@ import org.mockito.Mockito.verify
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.BufferedReader
-import java.util.*
+import java.util.Optional
 
 @RunWith(MockitoJUnitRunner::class)
 class GameServiceTest {
