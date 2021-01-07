@@ -95,7 +95,7 @@ class NewsAspect(private val messageService: MessageService,
                     logger.info("No news when schedule was technically deleted")
                 } else {
                     val appointment: String =
-                            subject.appointment.toInstant().atZone(ZoneOffset.UTC).toString()
+                            subject.appointment.atZone(ZoneOffset.UTC).toString()
                     messageService.publishNews(
                             MessageNewsType.SCHEDULE, author, method,
                             subject.homeUser.username, subject.awayUser.username,

@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.game.entity
 
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -22,7 +22,7 @@ data class GameStats(
         var data: String,
 
         @Column(name = "started_at")
-        var startedAt: Timestamp? = null,
+        var startedAt: Instant? = null,
 
         @Column(name = "map")
         var map: String? = null,
@@ -32,7 +32,7 @@ data class GameStats(
 
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
-        var created: Timestamp? = null
+        var created: Instant? = null
 
 ) {
 

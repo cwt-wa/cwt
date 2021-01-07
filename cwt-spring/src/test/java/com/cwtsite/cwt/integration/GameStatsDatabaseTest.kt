@@ -19,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.io.BufferedReader
-import java.sql.Timestamp
 import java.time.Instant
 
 
@@ -50,7 +49,7 @@ class GameStatsDatabaseTest {
     fun `save game`() {
         game = gameRepository.save(Game(
                 tournament = tournamentRepository.save(
-                        Tournament(created = Timestamp.from(Instant.now())))))
+                        Tournament(created = Instant.now()))))
     }
 
     @Test
@@ -58,7 +57,7 @@ class GameStatsDatabaseTest {
     fun `save stats`() {
         gameStatsRepository.save(GameStats(
                 game = game,
-                startedAt = Timestamp(1586284441226),
+                startedAt = Instant.ofEpochMilli(1586284441226),
                 data = statsJson))
     }
 

@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
-import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -36,7 +35,7 @@ class ScheduleRestController {
     fun save(@RequestBody dto: ScheduleCreationDto): ResponseEntity<ScheduleDto> {
         val author = userService.getById(dto.author).orElseThrow { RestException("No such author", HttpStatus.BAD_REQUEST, null) }
         val opponent = userService.getById(dto.opponent).orElseThrow { RestException("No such opponent", HttpStatus.BAD_REQUEST, null) }
-        return ResponseEntity.ok(ScheduleDto.toDto(scheduleService.createSchedule(author, opponent, Timestamp.from(dto.appointment.toInstant()))))
+        return ResponseEntity.ok(ScheduleDto.toDto(scheduleService.createSchedule(author, opponent, dto.appointment)))
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])

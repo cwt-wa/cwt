@@ -5,10 +5,10 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import java.sql.Timestamp
-import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
+import java.time.Instant
+import java.util.Objects
 
 @Entity
 @Table(name = "comment")
@@ -25,11 +25,11 @@ data class Comment(
 
         @Column(name = "created", nullable = false)
         @field:CreationTimestamp
-        var created: Timestamp? = null,
+        var created: Instant? = null,
 
         @Column(name = "modified")
         @field:UpdateTimestamp
-        var modified: Timestamp? = null,
+        var modified: Instant? = null,
 
         @ManyToOne(optional = false)
         @JoinColumn(nullable = false)

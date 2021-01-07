@@ -4,7 +4,7 @@ import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.UpdateTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -31,7 +31,7 @@ data class Rating(
 
         @Column(name = "modified", nullable = false)
         @field:UpdateTimestamp
-        var modified: Timestamp? = null
+        var modified: Instant? = null
 ) {
 
     override fun toString(): String =

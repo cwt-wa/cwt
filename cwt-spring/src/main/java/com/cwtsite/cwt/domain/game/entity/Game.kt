@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.Formula
 import org.hibernate.annotations.UpdateTimestamp
-import java.sql.Timestamp
 import javax.persistence.*
+import java.time.Instant
 
 @Entity
 @Table(name = "game")
@@ -31,18 +31,18 @@ data class Game(
         var techWin: Boolean = false,
 
         @Column(name = "reported_at")
-        var reportedAt: Timestamp? = null,
+        var reportedAt: Instant? = null,
 
         @Column(name = "replay_quantity")
         var replayQuantity: Int? = null,
 
         @field:CreationTimestamp
         @Column(name = "created", nullable = false, updatable = false)
-        var created: Timestamp? = null,
+        var created: Instant? = null,
 
         @field:UpdateTimestamp
         @Column(name = "modified", nullable = false)
-        var modified: Timestamp? = null,
+        var modified: Instant? = null,
 
         @OneToOne(cascade = [CascadeType.ALL])
         @JoinColumn(unique = true)

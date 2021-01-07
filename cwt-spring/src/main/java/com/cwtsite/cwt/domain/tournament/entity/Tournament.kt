@@ -3,7 +3,7 @@ package com.cwtsite.cwt.domain.tournament.entity
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -38,7 +38,7 @@ data class Tournament(
 
         @Column(name = "created", nullable = false)
         @field:CreationTimestamp
-        var created: Timestamp? = null,
+        var created: Instant? = null,
 
         @ManyToOne
         var bronzeWinner: User? = null,

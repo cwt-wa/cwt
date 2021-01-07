@@ -28,10 +28,11 @@ import org.springframework.transaction.support.TransactionSynchronizationAdapter
 import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
-import java.sql.Timestamp
 import java.time.Duration
+import java.time.LocalDateTime
 import java.time.Instant
-import java.util.*
+import java.time.ZoneId
+import java.util.Optional
 import javax.security.auth.login.CredentialException
 
 @Component
@@ -131,7 +132,7 @@ constructor(private val userRepository: UserRepository,
     }
 
     fun createDefaultUserStatsTimeline(): String = tournamentRepository.findAll()
-            .joinToString(separator = ",") { "[${it.id},${it.created!!.toLocalDateTime().year},${it.threeWay?.toInt() ?: 0},${it.maxRounds},0]" }
+            .joinToString(separator = ",") { "[${it.id},${LocalDateTime.ofInstant(it.created!!, ZoneId.of("UTC")).year},${it.threeWay?.toInt() ?: 0},${it.maxRounds},0]" }
 
     fun findPaginated(page: Int, size: Int, sort: Sort): Page<User> {
         var extendedSort = sort
@@ -176,7 +177,7 @@ constructor(private val userRepository: UserRepository,
     @Transactional
     fun initiatePasswordReset(user: User) {
         user.resetKey = RandomStringUtils.random(20, true, true)
-        user.resetDate = Timestamp.from(Instant.now())
+        user.resetDate = Instant.now()
 
         if (TransactionSynchronizationManager.isSynchronizationActive()) {
             TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronizationAdapter() {
@@ -255,7 +256,7 @@ constructor(private val userRepository: UserRepository,
         if (user.resetKey != resetKey)
             throw IllegalArgumentException("The reset key is wrong.")
 
-        if (Duration.between(Instant.now(), user.resetDate!!.toInstant()).toMinutes() > resetKeyExpirationMinutes!!)
+        if (Duration.between(Instant.now(), user.resetDate!!).toMinutes() > resetKeyExpirationMinutes!!)
             throw IllegalStateException("The reset key has expired.")
 
         return with(user) {

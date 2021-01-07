@@ -3,7 +3,7 @@ package com.cwtsite.cwt.domain.stream.entity
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -61,11 +61,11 @@ data class Channel(
 
         @field:UpdateTimestamp
         @Column(nullable = false)
-        var modified: Timestamp? = null,
+        var modified: Instant? = null,
 
         @field:CreationTimestamp
         @Column(nullable = false, insertable = false, updatable = false)
-        var created: Timestamp? = null
+        var created: Instant? = null
 ) {
 
     override fun toString(): String {

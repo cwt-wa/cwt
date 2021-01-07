@@ -2,7 +2,7 @@ package com.cwtsite.cwt.domain.tetris.repository.entity
 
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -23,7 +23,7 @@ data class Tetris(
         val highscore: Long,
 
         @field:CreationTimestamp
-        val created: Timestamp? = null
+        val created: Instant? = null
 ) {
 
         override fun toString() = "Tetris{id=$id}"

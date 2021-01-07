@@ -3,8 +3,8 @@ package com.cwtsite.cwt.domain.schedule.entity
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
 import javax.persistence.*
+import java.time.Instant
 
 @Entity
 @Table(name = "schedule")
@@ -24,7 +24,7 @@ data class Schedule(
         val awayUser: User,
 
         @Column(name = "appointment", nullable = false)
-        val appointment: Timestamp,
+        val appointment: Instant,
 
         @ManyToOne(optional = false)
         @JoinColumn(name = "author_id", nullable = false)
@@ -36,7 +36,7 @@ data class Schedule(
         val streams: MutableSet<Channel> = mutableSetOf(),
 
         @field:CreationTimestamp
-        val created: Timestamp? = null
+        val created: Instant? = null
 ) {
 
     override fun toString() = "Schedule{id=$id, appointment=$appointment}"

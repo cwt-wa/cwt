@@ -40,8 +40,8 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
-import java.util.*
-import java.sql.Timestamp
+import java.util.Optional
+import java.time.Instant
 import javax.servlet.http.HttpServletRequest
 import kotlin.test.Test
 
@@ -201,7 +201,7 @@ class GameRestControllerTest {
                 game = game,
                 type = rating.type,
                 user = user,
-                modified = Timestamp(1606723883495))
+                modified = Instant.ofEpochMilli(1606723883495))
         `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
@@ -239,7 +239,7 @@ class GameRestControllerTest {
                 game = game,
                 type = rating.type,
                 user = user,
-                modified = Timestamp(1606723883495))
+                modified = Instant.ofEpochMilli(1606723883495))
         `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)

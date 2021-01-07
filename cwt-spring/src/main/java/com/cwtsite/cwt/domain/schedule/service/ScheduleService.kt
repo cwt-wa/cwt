@@ -7,7 +7,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
+import java.time.Instant
 import java.util.*
 
 
@@ -43,7 +43,7 @@ class ScheduleService {
      */
     @PublishNews
     @Transactional
-    fun createSchedule(author: User, opponent: User, appointment: Timestamp): Schedule {
+    fun createSchedule(author: User, opponent: User, appointment: Instant): Schedule {
         return scheduleRepository.save(Schedule(
                 author = author,
                 homeUser = author,

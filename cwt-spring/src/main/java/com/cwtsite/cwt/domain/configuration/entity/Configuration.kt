@@ -4,7 +4,7 @@ package com.cwtsite.cwt.domain.configuration.entity
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.UpdateTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -24,7 +24,7 @@ data class Configuration(
 
         @Column(name = "modified")
         @field:UpdateTimestamp
-        var modified: Timestamp? = null,
+        var modified: Instant? = null,
 
         @ManyToOne(optional = false, fetch = FetchType.LAZY)
         @JoinColumn(nullable = false)

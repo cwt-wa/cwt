@@ -1,7 +1,7 @@
 package com.cwtsite.cwt.domain.user.repository.entity
 
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -19,7 +19,7 @@ data class Country(
         val flag: String,
 
         @field:CreationTimestamp
-        var created: Timestamp? = null
+        var created: Instant? = null
 ) {
 
     companion object {

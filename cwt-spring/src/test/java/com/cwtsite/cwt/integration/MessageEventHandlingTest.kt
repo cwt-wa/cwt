@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.sql.Timestamp
+import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(
@@ -68,7 +68,7 @@ class MessageEventHandlingTest {
                 body = "Everybody needs to know this!",
                 author = user!!,
                 category = MessageCategory.SHOUTBOX,
-                created = Timestamp(1605483348499)))
+                created = Instant.ofEpochMilli(1605483348499)))
         verify(sseEmitter).send("EVENT", message)
     }
 
@@ -86,7 +86,7 @@ class MessageEventHandlingTest {
                 author = author,
                 category = MessageCategory.PRIVATE,
                 recipients = mutableListOf(recipient),
-                created = Timestamp(1605483348499)
+                created = Instant.ofEpochMilli(1605483348499)
         ))
         verify(sseEmitter, never()).send(anyObject(), anyObject())
     }

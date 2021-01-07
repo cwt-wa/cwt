@@ -15,7 +15,7 @@ import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import com.cwtsite.cwt.test.EntityDefaults
 import org.mockito.Mockito.*
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory
-import java.sql.Timestamp
+import java.time.Instant
 import kotlin.test.Test
 
 
@@ -151,7 +151,7 @@ class NewsAspectTest {
     fun createSchedule() {
         val homeUser = author
         val awayUser = EntityDefaults.user(id = 4, username = "Rafka")
-        val appointment = Timestamp(1577813200000)
+        val appointment = Instant.ofEpochMilli(1577813200000)
         val schedule = EntityDefaults.schedule(
                 homeUser = homeUser, awayUser = awayUser)
         val target = mock(ScheduleService::class.java)

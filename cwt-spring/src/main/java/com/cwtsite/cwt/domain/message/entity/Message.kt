@@ -4,7 +4,7 @@ import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -39,7 +39,7 @@ data class Message(
 
         @field:CreationTimestamp
         @Column(nullable = false)
-        var created: Timestamp? = null
+        var created: Instant? = null
 ) {
     override fun toString() = "Message{id=$id, body=$body, category=$category, newsType=$newsType}"
 

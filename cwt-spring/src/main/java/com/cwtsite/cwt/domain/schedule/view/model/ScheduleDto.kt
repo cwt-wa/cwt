@@ -4,17 +4,17 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
 import com.cwtsite.cwt.domain.stream.view.model.ChannelDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
-import java.util.*
+import java.time.Instant
 
 @DataTransferObject
 data class ScheduleDto(
         val id: Long,
         val homeUser: UserMinimalDto,
         val awayUser: UserMinimalDto,
-        val appointment: Date,
+        val appointment: Instant,
         val author: UserMinimalDto,
         val streams: List<ChannelDto>,
-        val created: Date
+        val created: Instant
 ) {
 
     companion object {
@@ -25,7 +25,7 @@ data class ScheduleDto(
                 appointment = schedule.appointment,
                 author = UserMinimalDto.toDto(schedule.author),
                 streams = schedule.streams.map { ChannelDto.toDto(it) },
-                created = Date.from(schedule.created!!.toInstant())
+                created = schedule.created!!
         )
     }
 }

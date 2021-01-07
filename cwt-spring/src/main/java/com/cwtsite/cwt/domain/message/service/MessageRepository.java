@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.util.List;
+import java.time.Instant;
 
 @Component
 public interface MessageRepository extends JpaRepository<Message, Long> {
@@ -18,15 +18,15 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findNewByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(
             @Param("author") User author,
             @Param("categories") List<MessageCategory> categories,
-            @Param("created") Timestamp created);
+            @Param("created") Instant created);
 
     @Query("select m from Message m where m.created < :created and ((:author member of m.recipients or m.author = :author or m.category <> 'PRIVATE') and m.category in :categories) order by m.created desc")
     List<Message> findOldByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(
             @Param("author") User author,
             @Param("categories") List<MessageCategory> categories,
-            @Param("created") Timestamp created);
+            @Param("created") Instant created);
 
-    List<Message> findAllByCreatedBeforeOrderByCreatedDesc(Timestamp created);
+    List<Message> findAllByCreatedBeforeOrderByCreatedDesc(Instant created);
 
-    List<Message> findAllByCreatedAfterOrderByCreatedDesc(Timestamp created);
+    List<Message> findAllByCreatedAfterOrderByCreatedDesc(Instant created);
 }

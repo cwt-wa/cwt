@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.*
+import java.time.Instant
 
 
 @ExtendWith(SpringExtension::class)
@@ -49,7 +49,7 @@ class NewMessagesTest {
 
         @JvmStatic private var zemkeUser: User? = null
         @JvmStatic private var rafkaUser: User? = null
-        @JvmStatic private var firstMessageCreated: Date? = null
+        @JvmStatic private var firstMessageCreated: Instant? = null
     }
 
     @BeforeEach
@@ -106,7 +106,7 @@ class NewMessagesTest {
         mockMvc
                 .perform(get("/api/message")
                         .contentType(APPLICATION_JSON)
-                        .queryParam("after", firstMessageCreated!!.time.dec().toString()))
+                        .queryParam("after", firstMessageCreated!!.toEpochMilli().dec().toString()))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$[1].body", `is`<String>("Hello, this is the body.")))
@@ -128,7 +128,7 @@ class NewMessagesTest {
         mockMvc
                 .perform(get("/api/message")
                         .contentType(APPLICATION_JSON)
-                        .queryParam("after", firstMessageCreated!!.time.toString()))
+                        .queryParam("after", firstMessageCreated!!.toEpochMilli().toString()))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<String>(1)))

@@ -1,15 +1,15 @@
 package com.cwtsite.cwt.controller;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class RestError {
 
     private String message;
     private String path;
     private Integer status;
-    private Date timestamp;
+    private Instant timestamp;
 
-    public RestError(String message, String path, Integer status, Date timestamp) {
+    public RestError(String message, String path, Integer status, Instant timestamp) {
         this.message = message;
         this.path = path;
         this.status = status;
@@ -40,11 +40,11 @@ public class RestError {
         this.status = status;
     }
 
-    public Date getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
 }

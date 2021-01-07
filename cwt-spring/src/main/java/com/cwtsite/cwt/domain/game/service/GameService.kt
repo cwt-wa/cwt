@@ -36,9 +36,12 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
 import java.util.*
+import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.Instant
+import java.time.ZoneOffset
 import kotlin.math.ceil
 
 @Component
@@ -151,7 +154,7 @@ constructor(private val gameRepository: GameRepository,
             streamService.findMatchingStreams(reportedGame)
                     .forEach { stream -> streamService.associateGame(stream, reportedGame) }
         }
-        reportedGame.reportedAt = Timestamp(System.currentTimeMillis())
+        reportedGame.reportedAt = Instant.now()
         return reportedGame
     }
 
@@ -261,13 +264,12 @@ constructor(private val gameRepository: GameRepository,
         val startedAt = JSONObject(data).getString("startedAt") // Formatting example: 2013-12-14 16:45:20 GMT
         val map = JSONObject(data).optString("map", null)
         val texture = JSONObject(data).optString("texture", null)
-        val format = with (SimpleDateFormat("yyyy-MM-dd HH:mm:ss z")) {
-            timeZone = TimeZone.getTimeZone("UTC")
-            this
-        }
+        val formatter = DateTimeFormatter
+                .ofPattern("yyyy-MM-dd HH:mm:ss z")
+                .withZone(ZoneId.of("UTC"))
         return gameStatsRepository.save(GameStats(
                 data = data,
-                startedAt = Timestamp(format.parse(startedAt).time),
+                startedAt = LocalDateTime.parse(startedAt, formatter).toInstant(ZoneOffset.UTC),
                 map = map,
                 texture = texture,
                 game = game

@@ -37,7 +37,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.io.File
 import java.io.FileInputStream
-import java.sql.Timestamp
 import java.time.Instant
 
 
@@ -85,12 +84,12 @@ class GameStatsWebIntegration {
         if (game1 == null) {
             game1 = gameRepository.save(Game(
                     tournament = tournamentRepository.save(
-                            Tournament(created = Timestamp.from(Instant.now())))))
+                            Tournament(created = Instant.now()))))
         }
         if (game2 == null) {
             game2 = gameRepository.save(Game(
                     tournament = tournamentRepository.save(
-                            Tournament(created = Timestamp.from(Instant.now())))))
+                            Tournament(created = Instant.now()))))
         }
         if (zemkeUser == null) zemkeUser = userRepository.save(User(username = "nOox", email = "nOox@cwtsite.com"))
         if (rafkaUser == null) rafkaUser = userRepository.save(User(username = "Boolc", email = "Boolc@cwtsite.com"))

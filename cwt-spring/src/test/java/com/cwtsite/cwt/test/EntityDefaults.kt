@@ -11,9 +11,7 @@ import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
-import java.sql.Timestamp
-import java.time.LocalDateTime
-
+import java.time.Instant
 
 object EntityDefaults {
 
@@ -23,11 +21,11 @@ object EntityDefaults {
             email = email
     )
 
-    fun tournament(created: LocalDateTime = LocalDateTime.now(), id: Long = 1, maxRounds: Int = 5, numOfGroupAdvancing: Int = 2,
+    fun tournament(created: Instant = Instant.now(), id: Long = 1, maxRounds: Int = 5, numOfGroupAdvancing: Int = 2,
                    moderators: MutableSet<User> = mutableSetOf(user()), threeWay: Boolean  = false,
                    status: TournamentStatus = TournamentStatus.FINISHED) = Tournament(
             id = id,
-            created = Timestamp.valueOf(created),
+            created = created,
             maxRounds = maxRounds,
             numOfGroupAdvancing = numOfGroupAdvancing,
             moderators = moderators,
@@ -37,7 +35,7 @@ object EntityDefaults {
 
     fun game(id: Long = 1, homeUser: User? = user(id = 1, username = "home"), awayUser: User? = user(id = 2, username = "away"),
              scoreHome: Int? = 3, scoreAway: Int? = 1, tournament: Tournament = tournament(),
-             playoff: PlayoffGame? = null, group: Group? = null, reportedAt: Timestamp? = null) = Game(
+             playoff: PlayoffGame? = null, group: Group? = null, reportedAt: Instant? = null) = Game(
             id = id,
             homeUser = homeUser,
             awayUser = awayUser,
@@ -47,8 +45,8 @@ object EntityDefaults {
             playoff = playoff,
             group = group,
             tournament = tournament,
-            modified = Timestamp(1577833200000),
-            created = Timestamp(1577833200000), // 1st Jan 2020
+            modified = Instant.ofEpochMilli(1577833200000),
+            created = Instant.ofEpochMilli(1577833200000), // 1st Jan 2020
             reportedAt = reportedAt
     )
 
@@ -64,8 +62,8 @@ object EntityDefaults {
             Stream(title = title, id = id, viewCount = viewCount, channel = channel,
                     game = game, createdAt = "2014-10-18T22:28:17Z")
 
-    fun schedule(id: Long = 1, appointment: Timestamp = Timestamp(1606079536669),
-                 created: Timestamp = Timestamp(1606079436669), author: User = user(id = 1),
+    fun schedule(id: Long = 1, appointment: Instant = Instant.ofEpochMilli(1606079536669),
+                 created: Instant = Instant.ofEpochMilli(1606079436669), author: User = user(id = 1),
                  homeUser: User = user(id = 1), awayUser: User = user(id = 2),
                  streams: MutableSet<Channel> = mutableSetOf()) =
             Schedule(
@@ -78,7 +76,7 @@ object EntityDefaults {
                     streams = streams)
 
     fun rating(id: Long = 1, user: User = user(), type: RatingType = RatingType.LIKE,
-               game: Game = game(), modified: Timestamp = Timestamp(1606079436669)) =
+               game: Game = game(), modified: Instant = Instant.ofEpochMilli(1606079436669)) =
             Rating(
                     id = id,
                     user = user,

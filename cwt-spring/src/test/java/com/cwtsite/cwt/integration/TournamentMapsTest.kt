@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.io.BufferedReader
-import java.sql.Timestamp
+import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -62,9 +62,9 @@ class TournamentMapsTest {
                 tournament = tournament!!,
                 scoreHome = 0, scoreAway = 3,
                 homeUser = user1, awayUser = user2,
-                reportedAt = Timestamp(1602940004706)))
-        gameStatsRepository.save(GameStats(data = manhattanJson, map = "/map/tx3qwuc3", game = game, startedAt = Timestamp(1602940004706)))
-        gameStatsRepository.save(GameStats(data = hellJson, map = "/map/dqp2fnf9", game = game, startedAt = Timestamp(1602940014706)))
+                reportedAt = Instant.ofEpochMilli(1602940004706)))
+        gameStatsRepository.save(GameStats(data = manhattanJson, map = "/map/tx3qwuc3", game = game, startedAt = Instant.ofEpochMilli(1602940004706)))
+        gameStatsRepository.save(GameStats(data = hellJson, map = "/map/dqp2fnf9", game = game, startedAt = Instant.ofEpochMilli(1602940014706)))
     }
 
     @Test

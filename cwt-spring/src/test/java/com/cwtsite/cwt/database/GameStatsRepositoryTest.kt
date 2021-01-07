@@ -13,7 +13,7 @@ import com.cwtsite.cwt.domain.game.entity.GameStats
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.integration.EmbeddedPostgres
-import java.sql.Timestamp
+import java.time.Instant
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
@@ -28,10 +28,10 @@ class GameStatsRepositoryTest : AbstractDatabaseTest() {
     fun findTextureDistinct() {
         val tournament = tournamentRepository.save(Tournament())
         val game = gameRepository.save(Game(tournament = tournament))
-        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Timestamp(1577833200001), texture = "Data\\Level\\Hell"))
-        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Timestamp(1577833200002), texture = "Data\\Level\\Hell"))
-        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Timestamp(1577833200003), texture = "Data\\Level\\Tentacles"))
-        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Timestamp(1577833200004), texture = null))
+        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Instant.ofEpochMilli(1577833200001), texture = "Data\\Level\\Hell"))
+        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Instant.ofEpochMilli(1577833200002), texture = "Data\\Level\\Hell"))
+        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Instant.ofEpochMilli(1577833200003), texture = "Data\\Level\\Tentacles"))
+        cut.save(GameStats(data = "", game = game, map = "/map/asdf", startedAt = Instant.ofEpochMilli(1577833200004), texture = null))
         val result = cut.findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull()
         assertThat(result).containsExactlyInAnyOrder("Data\\Level\\Hell", "Data\\Level\\Tentacles")
     }

@@ -15,8 +15,8 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.BufferedReader
-import java.sql.Timestamp
-import java.util.*
+import java.util.UUID
+import java.time.Instant
 import kotlin.test.Test
 
 @RunWith(MockitoJUnitRunner::class)
@@ -104,14 +104,14 @@ class StreamServiceTest {
         `when`(streamRepository.findByGameIsNull()).thenReturn(streams)
         testSet.forEach { record ->
             if (record.user1 == null || record.user2 == null) {
-                assertThat(cut.findMatchingStreams(EntityDefaults.game(reportedAt = Timestamp(1413672557000))))
+                assertThat(cut.findMatchingStreams(EntityDefaults.game(reportedAt = Instant.ofEpochMilli(1413672557000))))
                         .isEmpty()
                 return@forEach
             }
             val game = with(EntityDefaults.game()) {
                 homeUser?.let { it.username = record.user1 }
                 awayUser?.let { it.username = record.user2 }
-                reportedAt = Timestamp(1413672557000) // couple of minutes after the stream createdAt
+                reportedAt = Instant.ofEpochMilli(1413672557000) // couple of minutes after the stream createdAt
                 this
             }
             assertThat(cut.findMatchingStreams(game)).extracting<String> { it.title }

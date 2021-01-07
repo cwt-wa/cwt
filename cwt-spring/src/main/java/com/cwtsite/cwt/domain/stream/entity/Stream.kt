@@ -1,10 +1,15 @@
 package com.cwtsite.cwt.domain.stream.entity
 
 import com.cwtsite.cwt.domain.game.entity.Game
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.util.*
+
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+
 import java.util.regex.Pattern
+
 import javax.persistence.*
 
 @Entity
@@ -61,10 +66,11 @@ data class Stream(
         var game: Game? = null
 ) {
 
-    fun createdAtAsTimestamp(): Timestamp {
-        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        format.timeZone = TimeZone.getTimeZone("UTC")
-        return Timestamp(format.parse(createdAt).time)
+    fun createdAtAsInstant(): Instant {
+        val formatter = DateTimeFormatter
+                .ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .withZone(ZoneId.of("UTC"))
+        return LocalDateTime.parse(createdAt, formatter).toInstant(ZoneOffset.UTC)
     }
 
     fun relevantWordsInTitle(whitelist: Collection<String>): Set<String> {

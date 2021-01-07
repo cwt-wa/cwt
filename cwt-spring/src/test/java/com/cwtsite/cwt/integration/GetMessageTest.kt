@@ -78,7 +78,7 @@ class GetMessageTest {
         val expected = listOf(messages[4], messages[3], messages[2], messages[1]).sortedByDescending { it.created }
         mockMvc
                 .perform(get("/api/message")
-                        .queryParam("after", messages[0].created!!.time.toString())
+                        .queryParam("after", messages[0].created!!.toEpochMilli().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -95,7 +95,7 @@ class GetMessageTest {
         val expected = listOf(messages[0], messages[1]).sortedByDescending { it.created }
         mockMvc
                 .perform(get("/api/message")
-                        .queryParam("before", messages[2].created!!.time.toString())
+                        .queryParam("before", messages[2].created!!.toEpochMilli().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -110,7 +110,7 @@ class GetMessageTest {
         val expected = listOf(messages[2], messages[4]).sortedByDescending { it.created }
         mockMvc
                 .perform(get("/api/message")
-                        .queryParam("after", messages[1].created!!.time.toString())
+                        .queryParam("after", messages[1].created!!.toEpochMilli().toString())
                         .queryParam("category", MessageCategory.PRIVATE.name)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -125,8 +125,8 @@ class GetMessageTest {
     fun `bad request when before xor after query param violated`() {
         mockMvc
                 .perform(get("/api/message")
-                        .queryParam("before", messages[2].created!!.time.toString())
-                        .queryParam("after", messages[2].created!!.time.toString())
+                        .queryParam("before", messages[2].created!!.toEpochMilli().toString())
+                        .queryParam("after", messages[2].created!!.toEpochMilli().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest)

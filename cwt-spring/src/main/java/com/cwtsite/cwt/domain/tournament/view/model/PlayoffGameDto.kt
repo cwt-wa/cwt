@@ -8,7 +8,7 @@ import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Comment
-import java.util.*
+import java.time.Instant
 
 @DataTransferObject
 data class PlayoffGameDto(
@@ -16,9 +16,9 @@ data class PlayoffGameDto(
         val scoreHome: Int?,
         val scoreAway: Int?,
         val techWin: Boolean,
-        val created: Date,
-        val reportedAt: Date?,
-        val modified: Date,
+        val created: Instant,
+        val reportedAt: Instant?,
+        val modified: Instant,
         val playoff: PlayoffGame?,
         val group: Group?,
         val tournament: TournamentDetailDto,

@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.*
+import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -77,8 +77,8 @@ class SchedulerTest {
         val schedule = ScheduleCreationDto(
                 author = zemkeUser!!.id!!,
                 opponent = rafkaUser!!.id!!,
-                appointment = Date(appointment))
-       mockMvc
+                appointment = Instant.ofEpochMilli(appointment))
+        mockMvc
                 .perform(post("/api/schedule")
                         .header(tokenHeader, zemkeToken)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +114,7 @@ class SchedulerTest {
             assertThat(it.awayUser.username).isEqualTo(rafkaUser!!.username)
             assertThat(it.homeUser.id).isEqualTo(zemkeUser!!.id)
             assertThat(it.awayUser.id).isEqualTo(rafkaUser!!.id)
-            assertThat(it.appointment.time).isEqualTo(appointment)
+            assertThat(it.appointment.toEpochMilli()).isEqualTo(appointment)
             assertThat(it.author.id).isEqualTo(zemkeUser!!.id)
             assertThat(it.author.username).isEqualTo(zemkeUser!!.username)
             assertThat(it.streams).isEmpty()

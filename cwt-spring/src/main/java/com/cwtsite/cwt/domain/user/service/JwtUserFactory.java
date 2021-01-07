@@ -6,6 +6,8 @@ import com.cwtsite.cwt.domain.user.view.model.JwtUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Date;
+import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,9 @@ public class JwtUserFactory {
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getAuthorities()),
                 user.getActivated(),
-                user.getResetDate()
+                Optional.ofNullable(user.getResetDate())
+                        .map(d -> new Date(user.getResetDate().toEpochMilli()))
+                        .orElse(null)
         );
     }
 

@@ -5,7 +5,7 @@ import com.cwtsite.cwt.domain.user.repository.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -19,7 +19,7 @@ public class Application {
 
     @Column(name = "created", nullable = false)
     @CreationTimestamp
-    private Timestamp created;
+    private Instant created;
 
     @Column(name = "revoked")
     private Boolean revoked;
@@ -48,15 +48,15 @@ public class Application {
         this.id = id;
     }
 
-    public Timestamp getCreated() {
+    public Instant getCreated() {
         return created;
     }
 
-    public void setCreated(Timestamp created) {
+    public void setCreated(Instant created) {
         this.created = created;
     }
 
-    public Application created(Timestamp created) {
+    public Application created(Instant created) {
         this.created = created;
         return this;
     }

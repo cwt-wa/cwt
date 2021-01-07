@@ -3,7 +3,7 @@ package com.cwtsite.cwt.domain.stream.view.model
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
-import java.util.*
+import java.time.Instant
 
 @DataTransferObject
 data class ChannelDto(
@@ -19,8 +19,8 @@ data class ChannelDto(
         val login: String? = null,
         val description: String? = null,
         val botAutoJoin: Boolean,
-        val modified: Date? = null,
-        val created: Date? = null
+        val modified: Instant? = null,
+        val created: Instant? = null
 ) {
 
     companion object {

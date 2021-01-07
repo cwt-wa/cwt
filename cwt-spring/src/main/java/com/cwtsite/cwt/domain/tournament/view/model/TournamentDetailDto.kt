@@ -4,7 +4,7 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
-import java.util.*
+import java.time.Instant
 
 @DataTransferObject
 data class TournamentDetailDto(
@@ -14,7 +14,7 @@ data class TournamentDetailDto(
         val maxRounds: Int,
         val numOfGroupAdvancing: Int?,
         val threeWay: Boolean?,
-        val created: Date?,
+        val created: Instant?,
         val bronzeWinner: UserMinimalDto?,
         val silverWinner: UserMinimalDto?,
         val goldWinner: UserMinimalDto?,

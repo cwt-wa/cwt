@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
-import java.sql.Timestamp
+import java.time.Instant
 import kotlin.math.min
 
 @Component
@@ -19,13 +19,14 @@ constructor(private val messageRepository: MessageRepository,
             private val userService: UserService,
             private val messageEventListener: MessageEventListener) {
 
-    fun findNewMessages(after: Timestamp, size: Int, user: User?,
+    fun findNewMessages(after: Instant, size: Int, user: User?,
                         categories: List<MessageCategory> = MessageCategory.values().toList()): List<Message> {
-        val result = messageRepository.findNewByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(user, categories, after)
+        // offset by one because DB might store with greater precision
+        val result = messageRepository.findNewByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(user, categories, after.plusMillis(1))
         return result.subList(0, min(size, result.size))
     }
 
-    fun findOldMessages(before: Timestamp, size: Int, user: User?,
+    fun findOldMessages(before: Instant, size: Int, user: User?,
                         categories: List<MessageCategory> = MessageCategory.values().toList()): List<Message> {
         val result = messageRepository.findOldByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(user, categories, before)
         return result.subList(0, min(size, result.size))
@@ -65,13 +66,14 @@ constructor(private val messageRepository: MessageRepository,
         messageRepository.deleteById(id)
     }
 
-    fun findMessagesForAdminCreatedBefore(after: Timestamp, size: Int): List<Message> {
-        val result = messageRepository.findAllByCreatedBeforeOrderByCreatedDesc(after)
+    fun findMessagesForAdminCreatedBefore(before: Instant, size: Int): List<Message> {
+        val result = messageRepository.findAllByCreatedBeforeOrderByCreatedDesc(before)
         return result.subList(0, min(size, result.size))
     }
 
-    fun findMessagesForAdminCreatedAfter(after: Timestamp, size: Int): List<Message> {
-        val result = messageRepository.findAllByCreatedAfterOrderByCreatedDesc(after)
+    fun findMessagesForAdminCreatedAfter(after: Instant, size: Int): List<Message> {
+        // offset by one because DB might store with greater precision
+        val result = messageRepository.findAllByCreatedAfterOrderByCreatedDesc(after.plusMillis(1))
         return result.subList(0, min(size, result.size))
     }
 

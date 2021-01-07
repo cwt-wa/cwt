@@ -107,7 +107,7 @@ class StreamService {
     fun findMatchingStreams(game: Game): Set<Stream> {
         val streams = streamRepository.findByGameIsNull()
                 .filter {
-                    (abs(it.createdAtAsTimestamp().time - game.reportedAt!!.time)
+                    (abs(it.createdAtAsInstant().toEpochMilli().minus(game.reportedAt!!.toEpochMilli()))
                             < streamGameTolerance.toMillis())
                 }
         logger.info("stream available for matching: $streams")

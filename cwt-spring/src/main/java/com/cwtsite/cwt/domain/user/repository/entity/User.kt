@@ -4,10 +4,10 @@ import com.cwtsite.cwt.domain.user.repository.entity.enumeration.Authority
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import java.sql.Timestamp
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
+import java.time.Instant
 
 @Entity
 @Table(name = "\"user\"")
@@ -49,7 +49,7 @@ data class User(
         var resetKey: String? = null,
 
         @Column(name = "reset_date", length = 20)
-        var resetDate: Timestamp? = null,
+        var resetDate: Instant? = null,
 
         @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name = "USER_AUTHORITY", joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
@@ -70,10 +70,10 @@ data class User(
         var photo: Photo? = null,
 
         @field:CreationTimestamp
-        var created: Timestamp? = null,
+        var created: Instant? = null,
 
         @field:UpdateTimestamp
-        var modified: Timestamp? = null
+        var modified: Instant? = null
 ) {
     fun isAdmin() = this.authorities.map { it.name }.contains(AuthorityName.ROLE_ADMIN)
 

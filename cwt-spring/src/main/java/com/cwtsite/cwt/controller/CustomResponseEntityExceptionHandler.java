@@ -8,7 +8,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.Date;
+import java.time.Instant;
 
 @ControllerAdvice
 @RestController
@@ -20,7 +20,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
                 ex.getMessage(),
                 ((ServletWebRequest) request).getRequest().getRequestURI(),
                 ex.getStatus().value(),
-                new Date());
+                Instant.now());
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(ex.getStatus()).body(restError);
     }

@@ -3,7 +3,7 @@ package com.cwtsite.cwt.domain.bet.entity
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.UpdateTimestamp
-import java.sql.Timestamp
+import java.time.Instant
 import javax.persistence.*
 
 @Entity
@@ -28,7 +28,7 @@ data class Bet(
 
     @field:UpdateTimestamp
     @Column(nullable = false)
-    var modified: Timestamp? = null
+    var modified: Instant? = null
 
 ) {
 

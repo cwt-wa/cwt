@@ -22,8 +22,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
-import java.sql.Timestamp
 import javax.servlet.http.HttpServletRequest
+import java.time.Instant
 
 @RestController
 @RequestMapping("api/message")
@@ -73,13 +73,9 @@ class MessageRestController {
             if (user == null) listOf(category).filter { MessageCategory.guestCategories().contains(it) } else listOf(category)
         }
         val messages = if (after == null && before != null) {
-            messageService.findOldMessages(
-                    Timestamp(before), size, user,
-                    categories)
+            messageService.findOldMessages(Instant.ofEpochMilli(before), size, user, categories)
         } else if (after != null && before == null) {
-            messageService.findNewMessages(
-                    Timestamp(after), size, user,
-                    categories)
+            messageService.findNewMessages(Instant.ofEpochMilli(after), size, user, categories)
         } else {
             throw RestException("Either after or before must be specified", HttpStatus.BAD_REQUEST, null)
         }
@@ -92,9 +88,9 @@ class MessageRestController {
                             @RequestParam("before", required = false) before: Long?,
                             @RequestParam("size", defaultValue = "30") size: Int): ResponseEntity<List<MessageDto>> {
         val messages = if (after == null && before != null) {
-            messageService.findMessagesForAdminCreatedBefore(Timestamp(before), size)
+            messageService.findMessagesForAdminCreatedBefore(Instant.ofEpochMilli(before), size)
         } else if (after != null && before == null) {
-            messageService.findMessagesForAdminCreatedAfter(Timestamp(after), size)
+            messageService.findMessagesForAdminCreatedAfter(Instant.ofEpochMilli(after), size)
         } else {
             throw RestException("Either after or before must be specified", HttpStatus.BAD_REQUEST, null)
         }
