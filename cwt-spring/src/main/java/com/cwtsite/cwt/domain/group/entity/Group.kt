@@ -3,7 +3,19 @@ package com.cwtsite.cwt.domain.group.entity
 import com.cwtsite.cwt.domain.group.entity.enumeration.GroupLabel
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.entity.GroupStanding
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.Enumerated
+import javax.persistence.EnumType
+import javax.persistence.GenerationType
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
+import javax.persistence.SequenceGenerator
+import javax.persistence.Table
 
 @Entity
 @Table(name = "\"group\"")

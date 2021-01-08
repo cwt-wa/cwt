@@ -1,6 +1,11 @@
 package com.cwtsite.cwt.domain.user.repository.entity
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GenerationType
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.SequenceGenerator
 
 @Entity
 data class Photo(

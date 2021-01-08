@@ -2,9 +2,14 @@ package com.cwtsite.cwt.domain.user.repository.entity.enumeration;
 
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityName;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.Id;
+import javax.persistence.Table;;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import java.util.Objects;;
 
 @Entity
 @Table

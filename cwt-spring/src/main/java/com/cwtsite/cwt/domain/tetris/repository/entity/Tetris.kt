@@ -3,7 +3,15 @@ package com.cwtsite.cwt.domain.tetris.repository.entity
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import java.time.Instant
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.GenerationType
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.SequenceGenerator
+import javax.persistence.Table
 
 @Entity
 @Table(name = "tetris")

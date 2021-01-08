@@ -4,7 +4,12 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.Instant
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.OneToOne
+import javax.persistence.Table
 
 @Entity
 @Table(name = "channel")

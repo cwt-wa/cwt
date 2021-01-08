@@ -3,7 +3,19 @@ package com.cwtsite.cwt.domain.schedule.entity
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.GenerationType
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
+import javax.persistence.ManyToOne
+import javax.persistence.SequenceGenerator
+import javax.persistence.Table
 import java.time.Instant
 
 @Entity
