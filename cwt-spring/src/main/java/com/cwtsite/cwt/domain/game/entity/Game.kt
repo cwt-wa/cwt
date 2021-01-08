@@ -27,7 +27,7 @@ import java.time.Instant
 
 @Entity
 @Table(name = "game")
-@SequenceGenerator(name = "game_seq", sequenceName = "game_id_seq", allocationSize = 5)
+@SequenceGenerator(name = "game_seq", sequenceName = "game_id_seq", allocationSize = 1)
 data class Game(
 
         @Id

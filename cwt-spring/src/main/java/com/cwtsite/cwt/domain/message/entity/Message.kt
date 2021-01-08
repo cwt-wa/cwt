@@ -21,7 +21,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "message")
-@SequenceGenerator(name = "message_seq", sequenceName = "message_id_seq", allocationSize = 10)
+@SequenceGenerator(name = "message_seq", sequenceName = "message_id_seq", allocationSize = 1)
 data class Message(
 
         @Id

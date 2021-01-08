@@ -17,7 +17,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "bet")
-@SequenceGenerator(name = "bet_seq", sequenceName = "bet_id_seq", allocationSize = 10)
+@SequenceGenerator(name = "bet_seq", sequenceName = "bet_id_seq", allocationSize = 1)
 data class Bet(
 
     @Id

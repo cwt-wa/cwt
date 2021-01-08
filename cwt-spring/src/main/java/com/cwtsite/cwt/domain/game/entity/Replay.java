@@ -14,7 +14,7 @@ public class Replay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "replay_id_seq")
-    @SequenceGenerator(name = "replay_id_seq", sequenceName = "replay_id_seq", allocationSize = 5)
+    @SequenceGenerator(name = "replay_id_seq", sequenceName = "replay_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)

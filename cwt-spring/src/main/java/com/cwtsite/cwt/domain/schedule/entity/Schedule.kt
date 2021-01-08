@@ -24,7 +24,7 @@ data class Schedule(
 
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_id_seq")
-        @SequenceGenerator(name = "schedule_id_seq", sequenceName = "schedule_id_seq", allocationSize = 3)
+        @SequenceGenerator(name = "schedule_id_seq", sequenceName = "schedule_id_seq", allocationSize = 1)
         val id: Long? = null,
 
         @ManyToOne(optional = false)

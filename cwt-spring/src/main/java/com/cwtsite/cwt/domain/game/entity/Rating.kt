@@ -19,7 +19,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "rating")
-@SequenceGenerator(name = "rating_seq", sequenceName = "rating_id_seq", allocationSize = 10)
+@SequenceGenerator(name = "rating_seq", sequenceName = "rating_id_seq", allocationSize = 1)
 data class Rating(
 
         @Id

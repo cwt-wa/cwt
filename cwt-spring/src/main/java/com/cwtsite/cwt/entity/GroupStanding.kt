@@ -13,7 +13,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "group_standing")
-@SequenceGenerator(name = "group_standing_seq", sequenceName = "group_standing_id_seq", allocationSize = 32)
+@SequenceGenerator(name = "group_standing_seq", sequenceName = "group_standing_id_seq", allocationSize = 1)
 data class GroupStanding(
 
         @Id
