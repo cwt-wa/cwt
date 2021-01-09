@@ -15,7 +15,7 @@ class GameTest {
 
         val game2 = EntityDefaults.game(homeUser = null, awayUser = null, scoreHome = null, scoreAway = null)
         Assertions.assertThat(game2.wasPlayed()).isFalse()
-        Assertions.assertThatThrownBy { game2.winner() }.isExactlyInstanceOf(KotlinNullPointerException::class.java)
-        Assertions.assertThatThrownBy { game2.loser() }.isExactlyInstanceOf(KotlinNullPointerException::class.java)
+        Assertions.assertThatThrownBy { game2.winner() }.isExactlyInstanceOf(NullPointerException::class.java)
+        Assertions.assertThatThrownBy { game2.loser() }.isExactlyInstanceOf(NullPointerException::class.java)
     }
 }
