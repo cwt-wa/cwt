@@ -2,7 +2,6 @@ package com.cwtsite.cwt.core
 
 import com.cwtsite.cwt.core.HttpClient
 import com.cwtsite.cwt.core.profile.Prod
-import com.cwtsite.cwt.domain.core.WrappedCloseable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -14,6 +13,7 @@ import java.net.http.HttpRequest
 import java.net.URI
 import java.math.BigInteger
 import java.util.Random
+import java.io.File.createTempFile
 
 @Prod
 @Service
@@ -64,17 +64,20 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
                     fileFieldName = "replay",
                     file = extractedReplay)
 
-    override fun sendMap(response: String, gameId: Long, map: String): WrappedCloseable<File> {
+    override fun sendMap(gameId: Long, map: String): HttpResponse<String> {
         val response = httpClient.request(
-            HttpRequest.newBuilder().GET().uri(URI.create("${waaasEndpoint}$map")).build(),
-            BodyHandlers.ofByteArray())
-        val createTempFile = createTempFile()
-        createTempFile.writeBytes(response.body())
-        sendMultipartEntity(
-                uri = "${binaryDataStoreEndpoint}/game/$gameId/map/${map.split('/').last()}",
-                file = createTempFile,
-                fileFieldName = "map")
-        return WrappedCloseable(createTempFile) { createTempFile.deleteRecursively() }
+                HttpRequest.newBuilder().GET().uri(URI.create("${waaasEndpoint}$map")).build(),
+                BodyHandlers.ofByteArray())
+        val tempFile = createTempFile("cwt", "map")
+        try {
+            tempFile.writeBytes(response.body())
+            return sendMultipartEntity(
+                    uri = "${binaryDataStoreEndpoint}/game/$gameId/map/${map.split('/').last()}",
+                    file = tempFile,
+                    fileFieldName = "map")
+        } finally {
+            tempFile.deleteRecursively()
+        }
     }
 
     fun sendMultipartEntity(uri: String, file: File, fileFieldName: String): HttpResponse<String> =

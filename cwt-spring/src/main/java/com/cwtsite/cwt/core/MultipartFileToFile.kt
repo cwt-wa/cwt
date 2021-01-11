@@ -2,6 +2,7 @@ package com.cwtsite.cwt.core
 
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.io.File.createTempFile
 
 object MultipartFileToFile {
 

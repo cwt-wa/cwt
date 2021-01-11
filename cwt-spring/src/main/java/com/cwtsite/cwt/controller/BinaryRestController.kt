@@ -177,12 +177,9 @@ class BinaryRestController {
             launch {
                 try {
                     val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
-                    val body = response.body()
-                    val gameStats = gameService.saveGameStats(body, game)
+                    val gameStats = gameService.saveGameStats(response.body(), game)
                     if (gameStats.map != null) {
-                        binaryOutboundService
-                                .sendMap(body, gameStats.game!!.id!!, gameStats.map!!)
-                                .close()
+                        binaryOutboundService.sendMap(gameStats.game!!.id!!, gameStats.map!!)
                     }
                     gameStatsEventPublisher.publish(gameStats)
                 } catch (e: Exception) {

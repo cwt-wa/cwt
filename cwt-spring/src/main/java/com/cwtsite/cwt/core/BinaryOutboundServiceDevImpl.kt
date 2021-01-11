@@ -1,7 +1,6 @@
 package com.cwtsite.cwt.core
 
 import com.cwtsite.cwt.core.profile.Dev
-import com.cwtsite.cwt.domain.core.WrappedCloseable
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.File
@@ -48,7 +47,7 @@ class BinaryOutboundServiceDevImpl() : BinaryOutboundService {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun sendMap(response: String, gameId: Long, map: String): WrappedCloseable<File> {
+    override fun sendMap(gameId: Long, map: String): HttpResponse<String> {
         throw UnsupportedOperationException("Not implemented")
     }
 

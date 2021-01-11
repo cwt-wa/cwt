@@ -1,6 +1,5 @@
 package com.cwtsite.cwt.core
 
-import com.cwtsite.cwt.domain.core.WrappedCloseable
 import java.net.http.HttpResponse
 import java.io.File
 import java.io.InputStream
@@ -15,7 +14,7 @@ interface BinaryOutboundService {
     fun sendUserPhoto(userId: Long, photo: File): HttpResponse<String>
     fun sendReplay(gameId: Long, replayArchive: File): HttpResponse<String>
     fun extractGameStats(gameId: Long, extractedReplay: File): HttpResponse<String>
-    fun sendMap(response: String, gameId: Long, map: String): WrappedCloseable<File>
+    fun sendMap(gameId: Long, map: String): HttpResponse<String>
     fun binaryDataStoreConfigured(): Boolean
     fun waaasConfigured(): Boolean
 }
