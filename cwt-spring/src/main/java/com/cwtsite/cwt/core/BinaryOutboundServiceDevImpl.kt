@@ -2,7 +2,6 @@ package com.cwtsite.cwt.core
 
 import com.cwtsite.cwt.core.profile.Dev
 import com.cwtsite.cwt.domain.core.WrappedCloseable
-import org.apache.http.client.methods.CloseableHttpResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.File
@@ -37,15 +36,15 @@ class BinaryOutboundServiceDevImpl() : BinaryOutboundService {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun sendUserPhoto(userId: Long, photo: File): CloseableHttpResponse {
+    override fun sendUserPhoto(userId: Long, photo: File): HttpResponse<String> {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun sendReplay(gameId: Long, replayArchive: File): CloseableHttpResponse {
+    override fun sendReplay(gameId: Long, replayArchive: File): HttpResponse<String> {
         throw UnsupportedOperationException("Not implemented")
     }
 
-    override fun extractGameStats(gameId: Long, extractedReplay: File): CloseableHttpResponse {
+    override fun extractGameStats(gameId: Long, extractedReplay: File): HttpResponse<String> {
         throw UnsupportedOperationException("Not implemented")
     }
 
@@ -57,3 +56,4 @@ class BinaryOutboundServiceDevImpl() : BinaryOutboundService {
 
     override fun waaasConfigured(): Boolean = waaasEndpoint != null
 }
+

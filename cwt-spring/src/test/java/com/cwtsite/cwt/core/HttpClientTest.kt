@@ -11,6 +11,8 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandler
 import java.net.http.HttpResponse.BodyHandlers
+import java.math.BigInteger
+import java.util.Random
 
 class HttpClientTest {
 
@@ -51,4 +53,20 @@ class HttpClientTest {
         // assertThat(throwable.statusCode).isEqualTo(404) // TODO
         assertThat(throwable.message).isEqualTo("""{"status":404}""")
     }
+
+    @Test
+    fun request_form() {
+        val request = HttpRequest.newBuilder()
+            .postMultipartFormData(
+                    BigInteger(35, Random()).toString(),
+                    mapOf("hello" to "world"))
+            .uri(URI.create("http://postman-echo.com/post"))
+            .header("Content-Type", "multipart/form-data")
+            .build()
+        val response: HttpResponse<String> = cut.request(request, BodyHandlers.ofString())
+        val json = JSONObject(response.body())
+        assertThat(json.optJSONObject("form")?.optString("hello")).isEqualTo("world")
+        assertThat(response.statusCode()).isEqualTo(200)
+    }
 }
+

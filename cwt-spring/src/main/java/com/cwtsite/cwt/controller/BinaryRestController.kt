@@ -21,7 +21,6 @@ import org.springframework.http.*
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
 import java.io.IOException
@@ -177,18 +176,15 @@ class BinaryRestController {
         replayFiles.forEach { extractedReplay ->
             launch {
                 try {
-                    binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
-                        val content = response.entity.content
-                                .bufferedReader()
-                                .use(BufferedReader::readText)
-                        val gameStats = gameService.saveGameStats(content, game)
-                        if (gameStats.map != null) {
-                            binaryOutboundService
-                                    .sendMap(content, gameStats.game!!.id!!, gameStats.map!!)
-                                    .close()
-                        }
-                        gameStatsEventPublisher.publish(gameStats)
+                    val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
+                    val body = response.body()
+                    val gameStats = gameService.saveGameStats(body, game)
+                    if (gameStats.map != null) {
+                        binaryOutboundService
+                                .sendMap(body, gameStats.game!!.id!!, gameStats.map!!)
+                                .close()
                     }
+                    gameStatsEventPublisher.publish(gameStats)
                 } catch (e: Exception) {
                     logger.error("Replay stats could not be extracted.", e)
                 }

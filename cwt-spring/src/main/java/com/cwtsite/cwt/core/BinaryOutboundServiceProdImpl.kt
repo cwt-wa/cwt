@@ -3,12 +3,6 @@ package com.cwtsite.cwt.core
 import com.cwtsite.cwt.core.HttpClient
 import com.cwtsite.cwt.core.profile.Prod
 import com.cwtsite.cwt.domain.core.WrappedCloseable
-import org.apache.http.client.methods.CloseableHttpResponse
-import org.apache.http.client.methods.HttpPost
-import org.apache.http.entity.ContentType
-import org.apache.http.entity.mime.HttpMultipartMode
-import org.apache.http.entity.mime.MultipartEntityBuilder
-import org.apache.http.impl.client.HttpClients
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -18,6 +12,8 @@ import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.net.http.HttpRequest
 import java.net.URI
+import java.math.BigInteger
+import java.util.Random
 
 @Prod
 @Service
@@ -49,22 +45,22 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
                 .DELETE().uri(URI.create("${binaryDataStoreEndpoint}/user/$userId/photo")).build(),
                 BodyHandlers.ofString())
 
-    override fun sendUserPhoto(userId: Long, photo: File): CloseableHttpResponse =
+    override fun sendUserPhoto(userId: Long, photo: File): HttpResponse<String> =
             sendMultipartEntity(
-                    url = "${binaryDataStoreEndpoint}/user/$userId/photo",
+                    uri = "${binaryDataStoreEndpoint}/user/$userId/photo",
                     file = photo,
                     fileFieldName = "photo")
 
-    override fun sendReplay(gameId: Long, replayArchive: File): CloseableHttpResponse {
+    override fun sendReplay(gameId: Long, replayArchive: File): HttpResponse<String> {
         return sendMultipartEntity(
-                url = "${binaryDataStoreEndpoint}/game/$gameId/replay",
+                uri = "${binaryDataStoreEndpoint}/game/$gameId/replay",
                 file = replayArchive,
                 fileFieldName = "replay")
     }
 
     override fun extractGameStats(gameId: Long, extractedReplay: File) =
             sendMultipartEntity(
-                    url = waaasEndpoint!!,
+                    uri = waaasEndpoint!!,
                     fileFieldName = "replay",
                     file = extractedReplay)
 
@@ -72,28 +68,24 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
         val createTempFile = createTempFile()
         createTempFile.writeBytes(khttp.get("${waaasEndpoint}$map").content)
         sendMultipartEntity(
-                url = "${binaryDataStoreEndpoint}/game/$gameId/map/${map.split('/').last()}",
+                uri = "${binaryDataStoreEndpoint}/game/$gameId/map/${map.split('/').last()}",
                 file = createTempFile,
                 fileFieldName = "map")
         return WrappedCloseable(createTempFile) { createTempFile.deleteRecursively() }
     }
 
-    fun sendMultipartEntity(url: String, file: File, fileFieldName: String): CloseableHttpResponse {
-        val multipartEntity = with(HttpPost(url)) {
-            addHeader("third-party-token", thirdPartyToken)
-            entity = MultipartEntityBuilder.create()
-                    .addBinaryBody(
-                            fileFieldName, file,
-                            ContentType.DEFAULT_BINARY, file.nameWithoutExtension)
-                    .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-                    .build()
-            this
-        }
-
-        return HttpClients.createDefault().execute(multipartEntity)
-    }
+    fun sendMultipartEntity(uri: String, file: File, fileFieldName: String): HttpResponse<String> =
+            httpClient.request(
+                HttpRequest.newBuilder()
+                    .headers("third-party-token", thirdPartyToken)
+                    .postMultipartFormData(
+                            BigInteger(35, Random()).toString(),
+                            mapOf(fileFieldName to file))
+                    .uri(URI.create(uri)).build(),
+                BodyHandlers.ofString())
 
     override fun binaryDataStoreConfigured(): Boolean = binaryDataStoreEndpoint != null
 
     override fun waaasConfigured(): Boolean = waaasEndpoint != null
 }
+

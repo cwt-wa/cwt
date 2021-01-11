@@ -11,7 +11,6 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import org.apache.http.client.methods.CloseableHttpResponse
-import org.apache.http.entity.InputStreamEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
@@ -35,8 +34,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multi
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
+import java.net.http.HttpResponse
 import java.time.Instant
 
 
@@ -62,15 +64,15 @@ class GameStatsWebIntegration {
     private val game1ZipArchive = File(javaClass.getResource("$game1Id.zip").toURI())
     private val game2ZipArchive = File(javaClass.getResource("$game2Id.zip").toURI())
     private val game1StatsJson = listOf(
-            javaClass.getResourceAsStream("$game1Id/1.json")!!,
-            javaClass.getResourceAsStream("$game1Id/2.json")!!,
-            javaClass.getResourceAsStream("$game1Id/3.json")!!,
-            javaClass.getResourceAsStream("$game1Id/4.json")!!)
+            javaClass.getResourceAsStream("$game1Id/1.json")!!.bufferedReader().use(BufferedReader::readText),
+            javaClass.getResourceAsStream("$game1Id/2.json")!!.bufferedReader().use(BufferedReader::readText),
+            javaClass.getResourceAsStream("$game1Id/3.json")!!.bufferedReader().use(BufferedReader::readText),
+            javaClass.getResourceAsStream("$game1Id/4.json")!!.bufferedReader().use(BufferedReader::readText))
     private val game2StatsJson = listOf(
-            javaClass.getResourceAsStream("$game2Id/1.json")!!,
-            javaClass.getResourceAsStream("$game2Id/2.json")!!,
-            javaClass.getResourceAsStream("$game2Id/3.json")!!,
-            javaClass.getResourceAsStream("$game2Id/4.json")!!)
+            javaClass.getResourceAsStream("$game2Id/1.json")!!.bufferedReader().use(BufferedReader::readText),
+            javaClass.getResourceAsStream("$game2Id/2.json")!!.bufferedReader().use(BufferedReader::readText),
+            javaClass.getResourceAsStream("$game2Id/3.json")!!.bufferedReader().use(BufferedReader::readText),
+            javaClass.getResourceAsStream("$game2Id/4.json")!!.bufferedReader().use(BufferedReader::readText))
 
     companion object {
         @JvmStatic private var zemkeUser: User? = null
@@ -105,8 +107,8 @@ class GameStatsWebIntegration {
         `when`(authService.authUser(anyObject())).thenReturn(zemkeUser)
 
         val resMock = createMockHttpResponse(
-                InputStreamEntity(game1StatsJson[0]), InputStreamEntity(game1StatsJson[1]),
-                InputStreamEntity(game1StatsJson[2]), InputStreamEntity(game1StatsJson[3]))
+                game1StatsJson[0], game1StatsJson[1],
+                game1StatsJson[2], game1StatsJson[3])
 
         `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
                 .thenReturn(resMock)
@@ -149,8 +151,8 @@ class GameStatsWebIntegration {
         `when`(authService.authUser(anyObject())).thenReturn(zemkeUser)
 
         val resMock = createMockHttpResponse(
-                InputStreamEntity(game2StatsJson[0]), InputStreamEntity(game2StatsJson[1]),
-                InputStreamEntity(game2StatsJson[2]), InputStreamEntity(game2StatsJson[3]))
+                game2StatsJson[0], game2StatsJson[1],
+                game2StatsJson[2], game2StatsJson[3])
 
         `when`(binaryOutboundService.extractGameStats(anyLong(), anyObject()))
                 .thenAnswer { invocation ->
@@ -178,8 +180,9 @@ class GameStatsWebIntegration {
                 .andDo(print())
     }
 
-    private fun createMockHttpResponse(vararg mocks: InputStreamEntity): CloseableHttpResponse =
-            `when`(mock(CloseableHttpResponse::class.java).entity)
+    private fun createMockHttpResponse(vararg mocks: String): HttpResponse<String> =
+            `when`(mock(HttpResponse::class.java).body())
                     .thenReturn(mocks[0], *mocks.toList().subList(1, mocks.size).toTypedArray())
                     .getMock()
 }
+
