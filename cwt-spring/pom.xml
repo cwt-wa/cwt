@@ -32,6 +32,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20201115</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
@@ -127,11 +132,6 @@
             <artifactId>flyway-spring-test</artifactId>
             <version>5.2.4</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>khttp</groupId>
-            <artifactId>khttp</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.firebase</groupId>
