@@ -1,9 +1,17 @@
 package com.cwtsite.cwt.security
 
+import com.cwtsite.cwt.core.HttpClient
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.nio.charset.Charset
+import org.json.JSONObject
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import java.net.http.HttpResponse.BodyHandlers
+import java.net.URI
+
 
 @Service
 class SecurityService {
@@ -11,6 +19,8 @@ class SecurityService {
     @Value("\${captcha-secret:#{null}}") private var captchaSecret: String? = null
     @Value("\${firebase-api-key:#{null}}") private var firebaseApiKey: String? = null
     @Value("\${wormnet-channel}") private lateinit var wormnetChannel: String
+
+    @Autowired private lateinit var httpClient: HttpClient
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -20,20 +30,23 @@ class SecurityService {
             return true
         }
 
-        val response = khttp.get(
-                url = "https://www.google.com/recaptcha/api/siteverify",
-                params = mapOf("secret" to captchaSecret!!, "response" to captchaToken))
+        val uri = "https://www.google.com/recaptcha/api/siteverify" +
+                  "?secret=${captchaSecret!!}&response=$captchaToken"
+        val request = HttpRequest.newBuilder()
+             .GET()
+             .uri(URI.create(uri))
+             .header("Content-Type", "application/json")
+             .build();
+        val response: HttpResponse<String> = httpClient.request(request, BodyHandlers.ofString())
 
-        if (response.statusCode != 200) {
-            logger.error("""Captcha token validation status code ${response.statusCode}
-                |${response.content.toString(Charset.defaultCharset())}
-            """.trimMargin())
+        val body = response.body()
+        if (response.statusCode() != 200) {
+            logger.error("Captcha token validation status code ${response.statusCode()} $body");
             return false
         }
 
-        val jsonObject = response.jsonObject
-        logger.info(jsonObject.toString())
-        return jsonObject.getBoolean("success")
+        logger.info("Response $body")
+        return JSONObject(body).optBoolean("success") == true
     }
 
     fun verifySecretWord(secretWordFromUser: String) =

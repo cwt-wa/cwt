@@ -16,8 +16,10 @@ object MockitoUtils {
 
     fun <T : Any> safeEq(value: T): T = eq(value) ?: value
 
+    /** @Deprecated use [safeCapture] */
     fun <T> capture(argumentCaptor: ArgumentCaptor<T>): T = argumentCaptor.capture()
 
+    fun <T> safeCapture(argumentCaptor: ArgumentCaptor<T>): T = argumentCaptor.capture()
 
     fun <T> safeArgThat(matcher: ArgumentMatcher<T>): T {
         ArgumentMatchers.argThat(matcher)

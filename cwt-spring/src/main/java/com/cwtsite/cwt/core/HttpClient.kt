@@ -14,6 +14,7 @@ class HttpClient {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    @Throws(HttpClientException::class)
     fun <T> request(request: HttpRequest, bodyHandler: BodyHandler<T>): HttpResponse<T> {
         logger.info("Requesting $request")
         val response = HttpClient.newBuilder().build().send(request, bodyHandler)
