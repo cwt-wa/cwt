@@ -178,10 +178,14 @@ class BinaryRestController {
                 try {
                     val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
                     val gameStats = gameService.saveGameStats(response.body(), game)
-                    if (gameStats.map != null) {
-                        binaryOutboundService.sendMap(gameStats.game!!.id!!, gameStats.map!!)
-                    }
                     gameStatsEventPublisher.publish(gameStats)
+                    try {
+                        if (gameStats.map != null) {
+                            binaryOutboundService.sendMap(gameStats.game!!.id!!, gameStats.map!!)
+                        }
+                    } catch (e: Exception) {
+                        logger.error("Map could not be downloaded.", e)
+                    }
                 } catch (e: Exception) {
                     logger.error("Replay stats could not be extracted.", e)
                 }
