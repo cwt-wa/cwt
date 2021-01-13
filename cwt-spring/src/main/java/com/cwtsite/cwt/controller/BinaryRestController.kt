@@ -48,7 +48,7 @@ class BinaryRestController {
 
     @GetMapping("user/{userId}/photo")
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<InputStreamResource> {
-        assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint("User photo is not available at the moment")
         val response = runCatching { binaryOutboundService.retrieveUserPhoto(userId) }
                 .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         return createResponseEntity(response)
@@ -61,7 +61,7 @@ class BinaryRestController {
             @PathVariable userId: Long,
             @RequestParam("photo") photo: MultipartFile,
             request: HttpServletRequest): ResponseEntity<Void> {
-        assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint("Cannot save photo at the moment.")
 
         if (authService.authUser(request)!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
@@ -95,7 +95,7 @@ class BinaryRestController {
                 .findById(gameId)
                 .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
 
-        assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint("Replays cannot be saved at the moment")
 
         val authUser = authService.authUser(request)
         if (authUser!!.id != homeUser && authUser.id != awayUser) {
@@ -191,12 +191,11 @@ class BinaryRestController {
 
     @GetMapping("game/{gameId}/replay")
     fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<InputStreamResource> {
-        assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint("Replays cannot be retrieven at the moment")
         val response = runCatching { binaryOutboundService.retrieveReplay(gameId) }
                 .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         return createResponseEntity(response)
     }
-
 
     @GetMapping("game/{gameId}/map/{map}")
     fun retrieveGameMap(@PathVariable gameId: Long, @PathVariable map: String): ResponseEntity<InputStreamResource> {
@@ -219,7 +218,7 @@ class BinaryRestController {
     @Secured(AuthorityRole.ROLE_USER)
     fun deleteUserPhoto(@PathVariable userId: Long,
                         request: HttpServletRequest): ResponseEntity<Void> {
-        assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint("Photo cannot be deleted at the moment")
         if (authService.authUser(request)!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
@@ -238,11 +237,9 @@ class BinaryRestController {
     }
 
     @Throws(RestException::class)
-    fun assertBinaryDataStoreEndpoint() {
+    fun assertBinaryDataStoreEndpoint(message: String) {
         if (!binaryOutboundService.binaryDataStoreConfigured()) {
-            throw RestException(
-                    "Replay upload is currently not supported.",
-                    HttpStatus.BAD_REQUEST, null)
+            throw RestException(message, HttpStatus.BAD_GATEWAY, null)
         }
     }
 }
