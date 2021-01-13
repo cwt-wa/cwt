@@ -6013,7 +6013,7 @@ INSERT INTO application (id, applicant_id, created, tournament_id) VALUES (100, 
 INSERT INTO application (id, applicant_id, created, tournament_id) VALUES (101, 36, timestamp '2016-10-18 09:42:44', 15);
 
 insert into user_authority (user_id, authority_id)
-select id, 1 from "user";
+select id, 1 from user_;
 
 insert into user_authority (user_id, authority_id)
 values (1, 2);
