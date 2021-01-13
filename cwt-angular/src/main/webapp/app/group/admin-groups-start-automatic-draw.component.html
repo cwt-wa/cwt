@@ -19,7 +19,7 @@
 <form #groupDrawForm="ngForm" (submit)="submit()" *ngIf="applications && !loading">
     <div class="row mt-4">
         <div class="col-md-6 mb-4" *ngFor="let pot of pots; let potIndex = index; trackBy:trackByIdx">
-            <div class="card">
+            <div class="card bg-secondary">
                 <div class="card-body">
                     <h4 class="card-title">
                         <span class="text-muted">Pot</span>
