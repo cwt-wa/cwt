@@ -12,6 +12,7 @@ import java.net.http.HttpResponse.BodyHandler
 import java.nio.charset.StandardCharsets
 import java.nio.file.Path
 import java.nio.file.Files
+import java.time.Duration
 
 @Service
 class HttpClient {
@@ -21,7 +22,12 @@ class HttpClient {
     @Throws(HttpClientException::class)
     fun <T> request(request: HttpRequest, bodyHandler: BodyHandler<T>): HttpResponse<T> {
         logger.info("Requesting $request")
-        val response = HttpClient.newBuilder().build().send(request, bodyHandler)
+        val response = HttpClient.newBuilder()
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(20))
+            .build()
+            .send(request, bodyHandler)
         if (!response.statusCode().toString().startsWith("2")) {
             val body = response.body()
             val message = when (body) {

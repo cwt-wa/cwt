@@ -49,7 +49,6 @@ class HttpClientTest {
         val throwable = catchThrowable { cut.request(request, testBodyHandler.bodyHandler) }
         assertThat(throwable).isExactlyInstanceOf(HttpClient.HttpClientException::class.java)
         throwable is HttpClient.HttpClientException
-        println(throwable::class.simpleName)
         // assertThat(throwable.statusCode).isEqualTo(404) // TODO
         assertThat(throwable.message).isEqualTo("""{"status":404}""")
     }
