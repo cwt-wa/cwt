@@ -91,9 +91,9 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
                 BodyHandlers.ofString())
 
     override fun binaryDataStoreConfigured(): Boolean =
-            binaryDataStoreEndpoint != null && binaryDataStoreEndpoint?.isNotBlank()
+            binaryDataStoreEndpoint != null && binaryDataStoreEndpoint?.isNotBlank() ?: false
 
     override fun waaasConfigured(): Boolean =
-            waaasEndpoint != null && waaasEndpoint?.isNotBlank()
+            waaasEndpoint != null && waaasEndpoint?.isNotBlank() ?: false
 }
 
