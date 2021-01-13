@@ -90,8 +90,10 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
                     .uri(URI.create(uri)).build(),
                 BodyHandlers.ofString())
 
-    override fun binaryDataStoreConfigured(): Boolean = binaryDataStoreEndpoint != null
+    override fun binaryDataStoreConfigured(): Boolean =
+            binaryDataStoreEndpoint != null && binaryDataStoreEndpoint?.isNotBlank()
 
-    override fun waaasConfigured(): Boolean = waaasEndpoint != null
+    override fun waaasConfigured(): Boolean =
+            waaasEndpoint != null && waaasEndpoint?.isNotBlank()
 }
 
