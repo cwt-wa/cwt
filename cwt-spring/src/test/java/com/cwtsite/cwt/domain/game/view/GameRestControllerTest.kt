@@ -1,5 +1,4 @@
 package com.cwtsite.cwt.domain.game.view
-
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.ClockInstance
 import com.cwtsite.cwt.core.event.SseEmitterFactory
@@ -169,7 +168,6 @@ class GameRestControllerTest {
     @Test
     fun listenToStats() {
         val game = EntityDefaults.game()
-        game.replayQuantity = 3
         val sseEmitter = mock(SseEmitterWrapper::class.java)
         `when`(sseEmitterFactory.createInstance(anyLong())).thenReturn(sseEmitter)
         cut.listenToStats(game.id!!)

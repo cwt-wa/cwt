@@ -50,12 +50,11 @@ constructor(private val gameService: GameService, private val userService: UserS
         val emitter = sseEmitterFactory.createInstance(1000 * 60 * 4)
         var emissions = 0
         val emit = { data: String, isLast: Boolean ->
+            emitter.send("EVENT", data)
+            logger.info("Emitted game stats event of length ${data.length} to game $gameId")
             if (isLast) {
                 emitter.send("DONE", "DONE")
                 emitter.complete()
-            } else {
-                emitter.send("EVENT", data)
-                logger.info("Emitted game stats event of length ${data.length} to game $gameId")
             }
         }
         val subscription = GameStatSubscription(gameId, emit)
