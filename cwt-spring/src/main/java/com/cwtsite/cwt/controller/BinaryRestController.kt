@@ -173,12 +173,13 @@ class BinaryRestController {
     }
 
     private fun performGameStatsExtraction(game: Game, replayFiles: Set<File>) = runBlocking {
-        replayFiles.forEach { extractedReplay ->
+        val replayFilesList = replayFiles.toList()
+        replayFilesList.forEachIndexed { idx, extractedReplay ->
             launch {
                 try {
                     val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
                     val gameStats = gameService.saveGameStats(response.body(), game)
-                    gameStatsEventPublisher.publish(gameStats)
+                    gameStatsEventPublisher.publish(gameStats, idx == replayFilesList.lastIndex)
                     try {
                         if (gameStats.map != null) {
                             binaryOutboundService.sendMap(gameStats.game!!.id!!, gameStats.map!!)

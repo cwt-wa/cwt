@@ -45,17 +45,17 @@ constructor(private val gameService: GameService, private val userService: UserS
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @GetMapping("/{id}/stats-listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun listenToStats(@PathVariable("id") gameId: Long,
-                      @RequestParam("quantity", required = true) replayQuantity: Int): ResponseBodyEmitter {
-        logger.info("Listening for $replayQuantity game stats on game $gameId")
+    fun listenToStats(@PathVariable("id") gameId: Long): ResponseBodyEmitter {
+        logger.info("Listening for game stats on game $gameId")
         val emitter = sseEmitterFactory.createInstance(1000 * 60 * 4)
         var emissions = 0
-        val emit = { data: String ->
-            emitter.send("EVENT", data)
-            logger.info("Emitted game stats event of length ${data.length} to game $gameId")
-            if (++emissions == replayQuantity) {
+        val emit = { data: String, isLast: Boolean ->
+            if (isLast) {
                 emitter.send("DONE", "DONE")
                 emitter.complete()
+            } else {
+                emitter.send("EVENT", data)
+                logger.info("Emitted game stats event of length ${data.length} to game $gameId")
             }
         }
         val subscription = GameStatSubscription(gameId, emit)
