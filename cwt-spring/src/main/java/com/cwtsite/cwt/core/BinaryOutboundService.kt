@@ -1,21 +1,21 @@
 package com.cwtsite.cwt.core
 
-import com.cwtsite.cwt.domain.core.WrappedCloseable
-import khttp.responses.Response
-import org.apache.http.client.methods.CloseableHttpResponse
+import java.net.http.HttpResponse
 import java.io.File
+import java.io.InputStream
 
 
 interface BinaryOutboundService {
 
-    fun retrieveUserPhoto(userId: Long): Response
-    fun retrieveReplay(gameId: Long): Response
-    fun retrieveMap(gameId: Long, map: String): Response
-    fun deleteUserPhoto(userId: Long): Response
-    fun sendUserPhoto(userId: Long, photo: File): CloseableHttpResponse
-    fun sendReplay(gameId: Long, replayArchive: File): CloseableHttpResponse
-    fun extractGameStats(gameId: Long, extractedReplay: File): CloseableHttpResponse
-    fun sendMap(response: String, gameId: Long, map: String): WrappedCloseable<File>
+    fun retrieveUserPhoto(userId: Long): HttpResponse<InputStream>
+    fun retrieveReplay(gameId: Long): HttpResponse<InputStream>
+    fun retrieveMap(gameId: Long, map: String): HttpResponse<InputStream>
+    fun deleteUserPhoto(userId: Long): HttpResponse<String>
+    fun sendUserPhoto(userId: Long, photo: File): HttpResponse<String>
+    fun sendReplay(gameId: Long, replayArchive: File): HttpResponse<String>
+    fun extractGameStats(gameId: Long, extractedReplay: File): HttpResponse<String>
+    fun sendMap(gameId: Long, map: String): HttpResponse<String>
     fun binaryDataStoreConfigured(): Boolean
     fun waaasConfigured(): Boolean
 }
+

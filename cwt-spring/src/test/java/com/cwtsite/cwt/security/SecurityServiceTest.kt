@@ -1,17 +1,32 @@
 package com.cwtsite.cwt.security
 
-import org.assertj.core.api.Assertions
-import org.junit.Test
-import org.junit.runner.RunWith
+import com.cwtsite.cwt.core.HttpClient
+import com.cwtsite.cwt.test.MockitoUtils.safeEq
+import com.cwtsite.cwt.test.MockitoUtils.safeCapture
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Captor
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.Mockito.mock
+import org.mockito.InjectMocks
+import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.util.ReflectionTestUtils
+import org.assertj.core.api.Assertions.assertThat
+import java.net.http.HttpResponse
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse.BodyHandlers
+import org.mockito.ArgumentCaptor
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class SecurityServiceTest {
 
-    @Mock private lateinit var securityService: SecurityService
+    @InjectMocks private lateinit var securityService: SecurityService
+
+    @Mock private lateinit var httpClient: HttpClient
+
+    @Captor private lateinit var requestCaptor: ArgumentCaptor<HttpRequest>
+
     private val captchaSecret: String = ""
     private val wormnetChannel: String = "chocolate-chimpanze,chocolatechimpanze,chocolate chimpanze"
 
@@ -20,15 +35,37 @@ class SecurityServiceTest {
         ReflectionTestUtils.setField(securityService, "captchaSecret", captchaSecret)
         ReflectionTestUtils.setField(securityService, "wormnetChannel", wormnetChannel)
 
-        Mockito.`when`(securityService.verifySecretWord(Mockito.anyString())).thenCallRealMethod()
+        assertThat(securityService.verifySecretWord("#chocolatechimpanze")).isTrue()
+        assertThat(securityService.verifySecretWord("chocolatechimpanze")).isTrue()
+        assertThat(securityService.verifySecretWord("chocolate chimpanze")).isTrue()
+        assertThat(securityService.verifySecretWord("#chocolate-chimpanze")).isTrue()
+        assertThat(securityService.verifySecretWord("chocolate-chimpanze")).isTrue()
+        assertThat(securityService.verifySecretWord("#chocolate chimpanze")).isTrue()
+        assertThat(securityService.verifySecretWord("chocolateChimpanze")).isTrue()
+        assertThat(securityService.verifySecretWord("candyApe")).isFalse()
+    }
 
-        Assertions.assertThat(securityService.verifySecretWord("#chocolatechimpanze")).isTrue()
-        Assertions.assertThat(securityService.verifySecretWord("chocolatechimpanze")).isTrue()
-        Assertions.assertThat(securityService.verifySecretWord("chocolate chimpanze")).isTrue()
-        Assertions.assertThat(securityService.verifySecretWord("#chocolate-chimpanze")).isTrue()
-        Assertions.assertThat(securityService.verifySecretWord("chocolate-chimpanze")).isTrue()
-        Assertions.assertThat(securityService.verifySecretWord("#chocolate chimpanze")).isTrue()
-        Assertions.assertThat(securityService.verifySecretWord("chocolateChimpanze")).isTrue()
-        Assertions.assertThat(securityService.verifySecretWord("candyApe")).isFalse()
+    @Test
+    fun verifyToken() {
+        ReflectionTestUtils.setField(securityService, "captchaSecret", captchaSecret)
+        val captchaToken = "captchaToken"
+        val httpResponse = mock(HttpResponse::class.java) as HttpResponse<String>
+        val body = """{"success": true}"""
+        `when`(httpResponse.statusCode()).thenReturn(200)
+        `when`(httpResponse.body()).thenReturn(body)
+        `when`(httpClient.request(safeCapture(requestCaptor), safeEq(BodyHandlers.ofString())))
+                .thenReturn(httpResponse)
+        val actual = securityService.verifyToken(captchaToken)
+        assertThat(requestCaptor.value.method()).isEqualTo("GET")
+        assertThat(requestCaptor.value.headers().firstValue("content-type")).isPresent()
+        assertThat(requestCaptor.value.headers().firstValue("content-type").get())
+                .isEqualTo("application/json")
+        assertThat(requestCaptor.value.uri()).satisfies {
+            val expectedUri = "https://www.google.com/recaptcha/api/siteverify" +
+                      "?secret=$captchaSecret&response=$captchaToken"
+            assertThat(it.toString()).isEqualTo(expectedUri)
+        }
+        assertThat(actual).isTrue()
     }
 }
+

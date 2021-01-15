@@ -11,20 +11,20 @@ import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
-import khttp.responses.Response
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.io.InputStreamResource
 import org.springframework.http.*
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.io.BufferedReader
 import java.io.File
+import java.io.InputStream
 import java.io.IOException
-import java.nio.charset.Charset
+import java.net.http.HttpResponse
 import javax.servlet.http.HttpServletRequest
 import javax.ws.rs.Produces
 
@@ -47,11 +47,11 @@ class BinaryRestController {
     private lateinit var gameStatsEventPublisher: GameStatsEventPublisher
 
     @GetMapping("user/{userId}/photo")
-    fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<ByteArray> {
-        assertBinaryDataStoreEndpoint()
-        val response = binaryOutboundService.retrieveUserPhoto(userId)
-        if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-        return createResponseEntity(response.headers, response.content)
+    fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<InputStreamResource> {
+        assertBinaryDataStoreEndpoint("User photo is not available at the moment")
+        val response = runCatching { binaryOutboundService.retrieveUserPhoto(userId) }
+                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
+        return createResponseEntity(response)
     }
 
     @PostMapping("user/{userId}/photo", consumes = ["multipart/form-data"])
@@ -61,7 +61,7 @@ class BinaryRestController {
             @PathVariable userId: Long,
             @RequestParam("photo") photo: MultipartFile,
             request: HttpServletRequest): ResponseEntity<Void> {
-        assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint("Cannot save photo at the moment.")
 
         if (authService.authUser(request)!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
@@ -76,7 +76,8 @@ class BinaryRestController {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
-        binaryOutboundService.sendUserPhoto(userId, convertMultipartFileToFile(photo))
+        runCatching { binaryOutboundService.sendUserPhoto(userId, convertMultipartFileToFile(photo)) }
+                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
@@ -94,7 +95,7 @@ class BinaryRestController {
                 .findById(gameId)
                 .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
 
-        assertBinaryDataStoreEndpoint()
+        assertBinaryDataStoreEndpoint("Replays cannot be saved at the moment")
 
         val authUser = authService.authUser(request)
         if (authUser!!.id != homeUser && authUser.id != awayUser) {
@@ -175,17 +176,15 @@ class BinaryRestController {
         replayFiles.forEach { extractedReplay ->
             launch {
                 try {
-                    binaryOutboundService.extractGameStats(game.id!!, extractedReplay).use { response ->
-                        val content = response.entity.content
-                                .bufferedReader()
-                                .use(BufferedReader::readText)
-                        val gameStats = gameService.saveGameStats(content, game)
+                    val response = binaryOutboundService.extractGameStats(game.id!!, extractedReplay)
+                    val gameStats = gameService.saveGameStats(response.body(), game)
+                    gameStatsEventPublisher.publish(gameStats)
+                    try {
                         if (gameStats.map != null) {
-                            binaryOutboundService
-                                    .sendMap(content, gameStats.game!!.id!!, gameStats.map!!)
-                                    .close()
+                            binaryOutboundService.sendMap(gameStats.game!!.id!!, gameStats.map!!)
                         }
-                        gameStatsEventPublisher.publish(gameStats)
+                    } catch (e: Exception) {
+                        logger.error("Map could not be downloaded.", e)
                     }
                 } catch (e: Exception) {
                     logger.error("Replay stats could not be extracted.", e)
@@ -195,27 +194,27 @@ class BinaryRestController {
     }
 
     @GetMapping("game/{gameId}/replay")
-    fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<ByteArray> {
-        assertBinaryDataStoreEndpoint()
-        val response = binaryOutboundService.retrieveReplay(gameId)
-        if (assertResponse(response)) return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-        return createResponseEntity(response.headers, response.content)
+    fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<InputStreamResource> {
+        assertBinaryDataStoreEndpoint("Replays cannot be retrieven at the moment")
+        val response = runCatching { binaryOutboundService.retrieveReplay(gameId) }
+                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
+        return createResponseEntity(response)
     }
 
-
     @GetMapping("game/{gameId}/map/{map}")
-    fun retrieveGameMap(@PathVariable gameId: Long, @PathVariable map: String): ResponseEntity<ByteArray> {
+    fun retrieveGameMap(@PathVariable gameId: Long, @PathVariable map: String): ResponseEntity<InputStreamResource> {
         gameService.findById(gameId)
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
         val response = try {
-            binaryOutboundService.retrieveMap(gameId, map)
+            runCatching { binaryOutboundService.retrieveMap(gameId, map) }
+                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         } catch (e: Exception) {
             throw RestException(
                     "Could not get map from CWT Binary Store",
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     e)
         }
-        return createResponseEntity(response.headers, response.content)
+        return createResponseEntity(response)
     }
 
     @DeleteMapping("user/{userId}/photo")
@@ -223,50 +222,29 @@ class BinaryRestController {
     @Secured(AuthorityRole.ROLE_USER)
     fun deleteUserPhoto(@PathVariable userId: Long,
                         request: HttpServletRequest): ResponseEntity<Void> {
-        assertBinaryDataStoreEndpoint()
-
+        assertBinaryDataStoreEndpoint("Photo cannot be deleted at the moment")
         if (authService.authUser(request)!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
-
-        val response = binaryOutboundService.deleteUserPhoto(userId)
-
-        if (response.statusCode != 200) {
-            logger.error("HTTP ${response.statusCode}: ${response.content.toString(Charset.defaultCharset())}")
-            throw RestException("Ew, something went wrong.", HttpStatus.BAD_REQUEST, null)
-        }
-
+        runCatching { binaryOutboundService.deleteUserPhoto(userId) }
+                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         return ResponseEntity.status(HttpStatus.OK).build()
     }
 
-    @Throws(RestException::class)
-    private fun assertResponse(response: Response): Boolean {
-        if (response.statusCode != 200) {
-            if (response.statusCode == 404) {
-                return true
-            }
-            logger.error("HTTP ${response.statusCode}: ${response.content.toString(Charset.defaultCharset())}")
-            throw RestException("Ew, something went wrong.", HttpStatus.BAD_REQUEST, null)
-        }
-        return false
-    }
-
-    private fun createResponseEntity(requestHeaders: Map<String, String>,
-                                     fileContent: ByteArray): ResponseEntity<ByteArray> {
+    private fun createResponseEntity(response: HttpResponse<InputStream>): ResponseEntity<InputStreamResource> {
         val headers = HttpHeaders()
         headers.cacheControl = CacheControl.noCache().headerValue
-        headers.set("Content-Type", requestHeaders["Content-Type"])
-        headers.set("Content-Disposition", requestHeaders["Content-Disposition"])
-        headers.set("Cache-Control", requestHeaders["Cache-Control"])
-        return ResponseEntity(fileContent, headers, HttpStatus.OK)
+        response.headers().firstValue("Content-Type").ifPresent { headers.set("Content-Type", it) }
+        response.headers().firstValue("Content-Disposition").ifPresent { headers.set("Content-Disposition", it) }
+        response.headers().firstValue("Content-Length").ifPresent { headers.set("Content-Length", it) }
+        return ResponseEntity(InputStreamResource(response.body()), headers, HttpStatus.OK)
     }
 
     @Throws(RestException::class)
-    fun assertBinaryDataStoreEndpoint() {
+    fun assertBinaryDataStoreEndpoint(message: String) {
         if (!binaryOutboundService.binaryDataStoreConfigured()) {
-            throw RestException(
-                    "Replay upload is currently not supported.",
-                    HttpStatus.BAD_REQUEST, null)
+            throw RestException(message, HttpStatus.BAD_GATEWAY, null)
         }
     }
 }
+

@@ -67,7 +67,7 @@ class StreamService {
                 .map { word ->
                     usernames
                             .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }
-                            .maxBy { it.second }
+                            .maxByOrNull { it.second }
                 }
                 .filterNotNull()
                 .filter { it.second >= matchThreshold }
@@ -93,7 +93,7 @@ class StreamService {
                         else -> true
                     }
                 }
-                .maxBy { it.reportedAt!! }
+                .maxByOrNull { it.reportedAt!! }
     }
 
     @Transactional
@@ -121,10 +121,10 @@ class StreamService {
                     val relevantWordsInTitle = stream.relevantWordsInTitle(usernames)
                     val bestHomeUserMatch = relevantWordsInTitle
                             .map { word -> FuzzySearch.ratio(word, game.homeUser!!.username.toLowerCase()) }
-                            .max()!!
+                            .maxOrNull()!!
                     val bestAwayUserMatch = relevantWordsInTitle
                             .map { word -> FuzzySearch.ratio(word, game.awayUser!!.username.toLowerCase()) }
-                            .max()!!
+                            .maxOrNull()!!
                     Triple(stream, bestHomeUserMatch, bestAwayUserMatch).also {
                         logger.info("match result: (${it.first.title}, ${it.second} ${it.second})")
                     }

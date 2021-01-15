@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
-        <kotlin.version>1.3.70</kotlin.version>
+        <kotlin.version>1.4.21</kotlin.version>
     </properties>
 
     <repositories>
@@ -32,9 +32,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-            <version>4.3.1</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20201115</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -132,11 +132,6 @@
             <artifactId>flyway-spring-test</artifactId>
             <version>5.2.4</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>khttp</groupId>
-            <artifactId>khttp</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.firebase</groupId>

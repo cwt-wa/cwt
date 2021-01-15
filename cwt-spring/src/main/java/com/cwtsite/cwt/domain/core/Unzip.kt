@@ -44,3 +44,10 @@ object Unzip {
         }
     }
 }
+
+class WrappedCloseable<T>(val content: T, private val closer: () -> Unit) : AutoCloseable {
+    override fun close() {
+        closer.invoke()
+    }
+}
+
