@@ -3,7 +3,7 @@
     import com.cwtsite.cwt.core.profile.Dev
     import com.cwtsite.cwt.domain.stream.entity.Channel
     import com.cwtsite.cwt.twitch.model.TwitchStreamDto
-    import com.cwtsite.cwt.twitch.model.TwitchUserDto
+    import com.cwtsite.cwt.twitch.view.model.TwitchUserDto
     import com.cwtsite.cwt.twitch.model.TwitchVideoDto
     import org.springframework.stereotype.Service
     import java.time.LocalDateTime

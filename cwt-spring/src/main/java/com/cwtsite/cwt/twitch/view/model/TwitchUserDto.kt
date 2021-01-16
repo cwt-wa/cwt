@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.twitch.model
+package com.cwtsite.cwt.twitch.view.model
 
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.stream.entity.Channel

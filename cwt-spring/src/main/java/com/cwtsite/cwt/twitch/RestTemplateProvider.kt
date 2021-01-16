@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.twitch
 
 import com.cwtsite.cwt.twitch.model.*
+import com.cwtsite.cwt.twitch.view.model.TwitchUserDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory

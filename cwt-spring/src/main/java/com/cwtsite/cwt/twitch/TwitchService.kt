@@ -2,7 +2,7 @@ package com.cwtsite.cwt.twitch
 
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.twitch.model.TwitchStreamDto
-import com.cwtsite.cwt.twitch.model.TwitchUserDto
+import com.cwtsite.cwt.twitch.view.model.TwitchUserDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import java.time.LocalDateTime
 

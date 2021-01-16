@@ -3,9 +3,9 @@ package com.cwtsite.cwt.integration
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.game.service.GameRepository
-import com.cwtsite.cwt.domain.game.view.CommentCreationDto
-import com.cwtsite.cwt.domain.game.view.CommentDto
-import com.cwtsite.cwt.domain.game.view.RatingDto
+import com.cwtsite.cwt.domain.game.view.model.CommentCreationDto
+import com.cwtsite.cwt.domain.game.view.model.CommentDto
+import com.cwtsite.cwt.domain.game.view.model.RatingDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
 import com.cwtsite.cwt.domain.tournament.entity.Tournament

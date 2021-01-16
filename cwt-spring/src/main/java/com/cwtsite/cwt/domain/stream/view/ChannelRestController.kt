@@ -9,7 +9,7 @@ import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.twitch.TwitchService
-import com.cwtsite.cwt.twitch.model.TwitchUserDto
+import com.cwtsite.cwt.twitch.view.model.TwitchUserDto
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

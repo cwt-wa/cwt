@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.domain.game.view
+package com.cwtsite.cwt.domain.game.view.model
 
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import com.cwtsite.cwt.entity.Comment

@@ -1,4 +1,5 @@
 package com.cwtsite.cwt.domain.game.view
+
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.core.ClockInstance
 import com.cwtsite.cwt.core.event.SseEmitterFactory
@@ -12,6 +13,7 @@ import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.RatingDto
 import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.game.entity.Rating

@@ -3,8 +3,8 @@ package com.cwtsite.cwt.domain.game.view.model
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
-import com.cwtsite.cwt.domain.game.view.CommentDto
-import com.cwtsite.cwt.domain.game.view.RatingDto
+import com.cwtsite.cwt.domain.game.view.model.CommentDto
+import com.cwtsite.cwt.domain.game.view.model.RatingDto
 import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.view.model.TournamentDetailDto
 import com.cwtsite.cwt.domain.user.repository.entity.User

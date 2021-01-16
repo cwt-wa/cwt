@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.domain.game.view
+package com.cwtsite.cwt.domain.game.view.model
 
 data class CommentCreationDto (
         val body: String,

@@ -1,4 +1,4 @@
-package com.cwtsite.cwt.domain.game.view
+package com.cwtsite.cwt.domain.game.view.model
 
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
