@@ -1,6 +1,11 @@
 package com.cwtsite.cwt.twitch
 
-import com.cwtsite.cwt.twitch.model.*
+import com.cwtsite.cwt.twitch.model.TwitchAuthDto
+import com.cwtsite.cwt.twitch.model.TwitchAuthValidationDto
+import com.cwtsite.cwt.twitch.model.TwitchPaginationDto
+import com.cwtsite.cwt.twitch.model.TwitchStreamDto
+import com.cwtsite.cwt.twitch.model.TwitchVideoDto
+import com.cwtsite.cwt.twitch.model.TwitchWrappedDto
 import com.cwtsite.cwt.twitch.view.model.TwitchUserDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
