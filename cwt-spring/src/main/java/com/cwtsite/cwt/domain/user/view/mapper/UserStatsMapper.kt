@@ -1,11 +1,10 @@
 package com.cwtsite.cwt.domain.user.view.mapper
 
 import com.cwtsite.cwt.core.toBoolean
+import com.cwtsite.cwt.domain.user.view.model.UserStatsDto
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.cwtsite.cwt.domain.user.view.model.UserStatsDto
 import org.springframework.stereotype.Component
-import org.springframework.beans.factory.annotation.Autowired
 import java.io.IOException
 
 @Component
@@ -27,7 +26,8 @@ class UserStatsMapper {
             val playoffsRoundsMax = elem.get(3).asInt()
             val playoffsRoundAchieved = elem.get(4).asInt()
 
-            dtos.add(UserStatsDto(
+            dtos.add(
+                UserStatsDto(
                     participated = playoffsRoundsMax != 0,
                     year = elem.get(1).asInt(),
                     tournamentId = elem.get(0).asLong(),
@@ -35,7 +35,8 @@ class UserStatsMapper {
                     round = playoffsRoundAchieved,
                     threeWayFinal = threeWayFinal,
                     locRound = locRound(threeWayFinal, playoffsRoundsMax, playoffsRoundAchieved)
-            ))
+                )
+            )
         }
 
         return dtos
@@ -76,4 +77,3 @@ class UserStatsMapper {
         }
     }
 }
-
