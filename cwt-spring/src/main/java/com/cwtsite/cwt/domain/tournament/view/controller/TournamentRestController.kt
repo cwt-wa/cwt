@@ -2,13 +2,33 @@ package com.cwtsite.cwt.domain.tournament.view.controller
 
 import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.group.view.model.GroupDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
+import com.cwtsite.cwt.domain.game.view.model.ReportDto
+import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
+import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
+import com.cwtsite.cwt.domain.game.view.model.RatingDto
+import com.cwtsite.cwt.domain.game.view.model.CommentCreationDto
+import com.cwtsite.cwt.domain.game.view.model.CommentDto
+import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
+import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
+import com.cwtsite.cwt.domain.tournament.view.model.GroupWithGamesDto
+import com.cwtsite.cwt.domain.tournament.view.model.PlayoffGameDto
+import com.cwtsite.cwt.domain.tournament.view.model.TournamentDetailDto
+import com.cwtsite.cwt.domain.tournament.view.model.TournamentDto
+import com.cwtsite.cwt.domain.tournament.view.model.StartNewTournamentDto
+import com.cwtsite.cwt.domain.tournament.view.model.TournamentUpdateDto
+import com.cwtsite.cwt.domain.tournament.view.model.MapDto
+import com.cwtsite.cwt.domain.tournament.view.mapper.TournamentDetailMapper
+import com.cwtsite.cwt.domain.tournament.view.mapper.PlayoffTreeBetMapper
+import com.cwtsite.cwt.domain.tournament.view.mapper.PlayoffGameMapper
+import com.cwtsite.cwt.domain.tournament.view.mapper.TournamentMapper
+import com.cwtsite.cwt.domain.tournament.view.mapper.GroupWithGamesMapper
+import com.cwtsite.cwt.domain.tournament.view.mapper.MapMapper
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
-import com.cwtsite.cwt.domain.tournament.view.model.*
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
@@ -22,16 +42,25 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/tournament")
-class TournamentRestController @Autowired
-constructor(private val tournamentService: TournamentService, private val userService: UserService,
-            private val groupService: GroupService, private val playoffService: PlayoffService,
-            private val gameService: GameService, private val treeService: TreeService) {
+class TournamentRestController {
+
+	@Autowired private lateinit var tournamentService: TournamentService
+	@Autowired private lateinit var userService: UserService
+	@Autowired private lateinit var groupService: GroupService
+	@Autowired private lateinit var playoffService: PlayoffService
+	@Autowired private lateinit var gameService: GameService
+	@Autowired private lateinit var treeService: TreeService
+	@Autowired private lateinit var tournamentDetailMapper: TournamentDetailMapper
+	@Autowired private lateinit var playoffGameMapper: PlayoffGameMapper
+	@Autowired private lateinit var tournamentMapper: TournamentMapper
+	@Autowired private lateinit var groupWithGamesMapper: GroupWithGamesMapper
+	@Autowired private lateinit var mapMapper: MapMapper
 
     @RequestMapping("/current", method = [RequestMethod.GET])
     fun findCurrentTournament(): ResponseEntity<TournamentDetailDto> =
             when (val currentTournament = tournamentService.getCurrentTournament()) {
                 null -> ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-                else -> ResponseEntity.ok(TournamentDetailDto.toDto(currentTournament))
+                else -> ResponseEntity.ok(tournamentDetailMapper.toDto(currentTournament))
             }
 
     @RequestMapping("/current/applications", method = [RequestMethod.GET])
@@ -54,18 +83,18 @@ constructor(private val tournamentService: TournamentService, private val userSe
         val currentTournament = tournamentService.getCurrentTournament()
 
                 ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
-        if (voidable) return ResponseEntity.ok(treeService.getVoidablePlayoffGames().map { PlayoffGameDto.toDto(it) })
-        return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { PlayoffGameDto.toDto(it) })
+        if (voidable) return ResponseEntity.ok(treeService.getVoidablePlayoffGames().map { playoffGameMapper.toDto(it) })
+        return ResponseEntity.ok(playoffService.getGamesOfTournament(currentTournament).map { playoffGameMapper.toDto(it) })
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun getAllTournaments(): ResponseEntity<List<TournamentDetailDto>> =
-            ResponseEntity.ok(tournamentService.getAll().map { TournamentDetailDto.toDto(it) })
+            ResponseEntity.ok(tournamentService.getAll().map { tournamentDetailMapper.toDto(it) })
 
     @RequestMapping("/archive", method = [RequestMethod.GET])
     fun getTournamentsForArchive(): ResponseEntity<List<TournamentDto>> =
             ResponseEntity.ok(tournamentService.getAllFinished()
-                    .map { TournamentDto.toDto(it) }
+                    .map { tournamentMapper.toDto(it) }
                     .sortedByDescending { it.year })
 
     @RequestMapping("", method = [RequestMethod.POST])
@@ -73,7 +102,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
     fun createTournament(
             @RequestBody startNewTournamentDto: StartNewTournamentDto): ResponseEntity<TournamentDetailDto> {
         try {
-            return ResponseEntity.ok(TournamentDetailDto.toDto(
+            return ResponseEntity.ok(tournamentDetailMapper.toDto(
                     tournamentService.startNewTournament(startNewTournamentDto.moderatorIds)))
         } catch (e: IllegalStateException) {
             throw RestException("There are other unfinished tournaments.", HttpStatus.BAD_REQUEST, e)
@@ -88,7 +117,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
             tournamentService.getTournament(idOrYear)
 
         return ResponseEntity.ok(
-                TournamentDetailDto.toDto(tournament.orElseThrow { RestException("Tournament $idOrYear not found", HttpStatus.NOT_FOUND, null) }))
+                tournamentDetailMapper.toDto(tournament.orElseThrow { RestException("Tournament $idOrYear not found", HttpStatus.NOT_FOUND, null) }))
     }
 
     @RequestMapping("current/group/start", method = [RequestMethod.POST])
@@ -119,7 +148,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
         val games = gameService.findGroupGames(tournament)
         val groups = groupService.getGroupsForTournament(tournament)
                 .onEach { groupService.sortStandings(it.standings, games.filter { game -> game.group == it }) }
-                .map { GroupWithGamesDto.toDto(it, games.filter { game -> game.group == it }) }
+                .map { groupWithGamesMapper.toDto(it, games.filter { game -> game.group == it }) }
         return ResponseEntity.ok(groups)
     }
 
@@ -127,7 +156,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
     fun getPlayoffGames(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffGameDto>> {
         val tournament = tournamentService.getTournament(id)
                 .orElseThrow { RestException("No such tournament", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(playoffService.getGamesOfTournament(tournament, false).map { PlayoffGameDto.toDto(it) })
+        return ResponseEntity.ok(playoffService.getGamesOfTournament(tournament, false).map { playoffGameMapper.toDto(it) })
     }
 
     @RequestMapping("current/playoffs/start", method = [RequestMethod.POST])
@@ -153,7 +182,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
                             currentTournament
                     )
                 }
-        return ResponseEntity.ok(tournamentService.startPlayoffs(games).map { PlayoffGameDto.toDto(it) })
+        return ResponseEntity.ok(tournamentService.startPlayoffs(games).map { playoffGameMapper.toDto(it) })
     }
 
     @RequestMapping("current/group/users")
@@ -174,7 +203,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
                 .getTournament(id)
                 .orElseThrow { RestException("Tournament not found", HttpStatus.NOT_FOUND, null) }
         return ResponseEntity.ok(
-                TournamentDetailDto.toDto(dto.update(tournament) { if (it == null) null else userService.getById(it).orElse(null) }))
+                tournamentDetailMapper.toDto(dto.update(tournament) { if (it == null) null else userService.getById(it).orElse(null) }))
     }
 
     @RequestMapping("{id}/group/users")
@@ -197,7 +226,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
                     gameService.findFromGameStats(game, "map", "texture")
                             .filter { stat -> stat["map"] != null }
                             .filter { stat -> texture == null || stat["texture"] == texture }
-                            .map { stat -> MapDto.toDto(game, stat["map"].toString(), stat["texture"]?.toString()) }
+                            .map { stat -> mapMapper.toDto(game, stat["map"].toString(), stat["texture"]?.toString()) }
                 }
         return ResponseEntity.ok(maps)
     }

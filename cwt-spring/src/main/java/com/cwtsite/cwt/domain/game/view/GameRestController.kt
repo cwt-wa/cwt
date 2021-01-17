@@ -7,12 +7,28 @@ import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.view.model.*
+import com.cwtsite.cwt.domain.game.view.mapper.GameDetailMapper
+import com.cwtsite.cwt.domain.stream.view.mapper.StreamMapper
+import com.cwtsite.cwt.domain.game.view.model.BetDto
+import com.cwtsite.cwt.domain.game.view.model.ReportDto
+import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
+import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
+import com.cwtsite.cwt.domain.game.view.model.RatingDto
+import com.cwtsite.cwt.domain.game.view.model.CommentCreationDto
+import com.cwtsite.cwt.domain.game.view.model.CommentDto
+import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
+import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
+import com.cwtsite.cwt.domain.game.view.mapper.RatingMapper
+import com.cwtsite.cwt.domain.game.view.mapper.CommentMapper
+import com.cwtsite.cwt.domain.game.view.mapper.BetMapper
+import com.cwtsite.cwt.domain.game.view.mapper.GameCreationMapper
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffTreeBetDto
+import com.cwtsite.cwt.domain.tournament.view.mapper.PlayoffTreeBetMapper
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
@@ -32,6 +48,7 @@ import java.io.IOException
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 
+
 @RestController
 @RequestMapping("api/game")
 class GameRestController @Autowired
@@ -40,7 +57,14 @@ constructor(private val gameService: GameService, private val userService: UserS
             private val sseEmitterFactory: SseEmitterFactory,
             private val gameStatsEventListener: GameStatsEventListener,
             private val tournamentService: TournamentService,
-            private val streamService: StreamService) {
+            private val streamService: StreamService,
+			private val gameDetailMapper: GameDetailMapper,
+			private val streamMapper: StreamMapper,
+			private val ratingMapper: RatingMapper,
+			private val commentMapper: CommentMapper,
+			private val betMapper: BetMapper,
+			private val playoffTreeBetMapper: PlayoffTreeBetMapper,
+			private val gameCreationMapper: GameCreationMapper) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -66,7 +90,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
         return gameService.findById(id)
-                .map { ResponseEntity.ok(GameDetailDto.toDto(it)) }
+                .map { ResponseEntity.ok(gameDetailMapper.toDto(it)) }
                 .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
     }
 
@@ -74,7 +98,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     fun getStreamsForGame(@PathVariable("id") id: Long): ResponseEntity<List<StreamDto>> {
         val game = gameService.findById(id)
                 .orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(streamService.findStreams(game).map { StreamDto.toDto(it) })
+        return ResponseEntity.ok(streamService.findStreams(game).map { streamMapper.toDto(it) })
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
@@ -90,7 +114,7 @@ constructor(private val gameService: GameService, private val userService: UserS
                 reportDto.user!!, reportDto.opponent!!,
                 reportDto.scoreOfUser!!.toInt(), reportDto.scoreOfOpponent!!.toInt())
 
-        return ResponseEntity.ok(GameCreationDto.toDto(reportedGame))
+        return ResponseEntity.ok(gameCreationMapper.toDto(reportedGame))
     }
 
     @RequestMapping("/{gameId}/replay", method = [RequestMethod.GET])
@@ -144,7 +168,7 @@ constructor(private val gameService: GameService, private val userService: UserS
             }
         }
         return ResponseEntity.ok(PageDto.toDto(
-                games.map { GameDetailDto.toDto(it) },
+                games.map { gameDetailMapper.toDto(it) },
                 listOf("reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")))
     }
 
@@ -170,7 +194,7 @@ constructor(private val gameService: GameService, private val userService: UserS
             logger.info("$user hasn't rated $game yet. Proceeding to create rating.")
             gameService.rateGame(user, game, rating.type)
         }
-        return ResponseEntity.ok(RatingDto.toDto(savedRating))
+        return ResponseEntity.ok(ratingMapper.toDto(savedRating))
     }
 
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
@@ -181,7 +205,7 @@ constructor(private val gameService: GameService, private val userService: UserS
         if (authService.authUser(request)!!.id != comment.author) {
             throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null)
         }
-        return CommentDto.toDto(gameService.commentGame(id, comment.author, comment.body))
+        return commentMapper.toDto(gameService.commentGame(id, comment.author, comment.body))
     }
 
     @RequestMapping("/tech-win", method = [RequestMethod.POST])
@@ -196,7 +220,7 @@ constructor(private val gameService: GameService, private val userService: UserS
                 ?: throw RestException("Winning user not found.", HttpStatus.BAD_REQUEST, null)
         val losingUser = users.find { it.id == dto.loser }
                 ?: throw RestException("Losing user not found.", HttpStatus.BAD_REQUEST, null)
-        return ResponseEntity.ok(GameCreationDto.toDto(gameService.addTechWin(winningUser, losingUser, reporter)))
+        return ResponseEntity.ok(gameCreationMapper.toDto(gameService.addTechWin(winningUser, losingUser, reporter)))
     }
 
     @RequestMapping("/{id}/bet", method = [RequestMethod.POST])
@@ -213,13 +237,13 @@ constructor(private val gameService: GameService, private val userService: UserS
             throw RestException("The game has already been played.", HttpStatus.BAD_REQUEST, null)
         }
 
-        return ResponseEntity.ok(BetDto.toDto(gameService.placeBet(game, user, dto.betOnHome)))
+        return ResponseEntity.ok(betMapper.toDto(gameService.placeBet(game, user, dto.betOnHome)))
     }
 
     @RequestMapping("/{id}/bets", method = [RequestMethod.GET])
     fun queryBetsForGame(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffTreeBetDto>> = ResponseEntity.ok(
             gameService.findBetsByGame(gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) })
-                    .map { PlayoffTreeBetDto.toDto(it) })
+                    .map { playoffTreeBetMapper.toDto(it) })
 
     @RequestMapping("/{id}/void", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)

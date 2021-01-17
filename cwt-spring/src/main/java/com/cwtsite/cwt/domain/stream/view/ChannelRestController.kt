@@ -5,11 +5,14 @@ import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.ChannelCreationDto
 import com.cwtsite.cwt.domain.stream.view.model.ChannelDto
+import com.cwtsite.cwt.domain.stream.view.mapper.ChannelMapper
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
+import com.cwtsite.cwt.domain.stream.view.mapper.StreamMapper
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.view.model.TwitchUserDto
+import com.cwtsite.cwt.twitch.view.mapper.TwitchUserMapper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,6 +34,8 @@ class ChannelRestController {
     @Autowired private lateinit var twitchService: TwitchService
     @Autowired private lateinit var userService: UserService
     @Autowired private lateinit var authService: AuthService
+    @Autowired private lateinit var streamMapper: StreamMapper
+    @Autowired private lateinit var channelMapper: ChannelMapper
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -41,15 +46,15 @@ class ChannelRestController {
         val usersFromTwitch = twitchService.requestUsers(dto.twitchLoginName)
         if (usersFromTwitch.isEmpty()) throw RestException("Channel was not found at Twitch.", HttpStatus.BAD_REQUEST, null)
         if (streamService.findChannel(usersFromTwitch[0].id!!).isPresent) throw RestException("Channel already registered.", HttpStatus.BAD_REQUEST, null)
-        return ResponseEntity.ok(ChannelDto.toDto(streamService.saveChannel(TwitchUserDto.fromDto(usersFromTwitch[0], user, dto.title))))
+        return ResponseEntity.ok(channelMapper.toDto(streamService.saveChannel(TwitchUserDto.fromDto(usersFromTwitch[0], user, dto.title))))
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryChannel(@RequestParam("user") users: List<Long>?): ResponseEntity<List<ChannelDto>> {
         return when (users) {
-            null -> ResponseEntity.ok(streamService.findAllChannels().map { ChannelDto.toDto(it) })
+            null -> ResponseEntity.ok(streamService.findAllChannels().map { channelMapper.toDto(it) })
             else -> ResponseEntity.ok(streamService.findChannelByUsers(
-                    userService.findByIds(*users.toLongArray())).map { ChannelDto.toDto(it) })
+                    userService.findByIds(*users.toLongArray())).map { channelMapper.toDto(it) })
         }
     }
 
@@ -69,7 +74,7 @@ class ChannelRestController {
             delay(interval.minutes.toLongMilliseconds())
             val videos = twitchService.requestVideos(channels)
                     .filter { it.hasCwtInTitle() }
-                    .map { StreamDto.toDto(it, channel) }
+                    .map { streamMapper.toDto(it, channel) }
             if (videos.isNotEmpty()) {
                 val existingStreams = streamService.findStreams(channel).map { it.id }
                 val newStreams = videos
@@ -99,7 +104,7 @@ class ChannelRestController {
         val value = botAutoJoin["botAutoJoin"] ?: throw RestException("No value", HttpStatus.BAD_REQUEST, null)
         val channel = streamService.findChannel(channelId)
                 .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(ChannelDto.toDto(streamService.botAutoJoin(channel, value)))
+        return ResponseEntity.ok(channelMapper.toDto(streamService.botAutoJoin(channel, value)))
     }
 
 

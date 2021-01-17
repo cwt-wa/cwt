@@ -4,6 +4,7 @@ import com.cwtsite.cwt.controller.RestException
 import com.cwtsite.cwt.domain.schedule.service.ScheduleService
 import com.cwtsite.cwt.domain.schedule.view.model.ScheduleCreationDto
 import com.cwtsite.cwt.domain.schedule.view.model.ScheduleDto
+import com.cwtsite.cwt.domain.schedule.view.mapper.ScheduleMapper
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
@@ -24,10 +25,11 @@ class ScheduleRestController {
     @Autowired private lateinit var streamService: StreamService
     @Autowired private lateinit var userService: UserService
     @Autowired private lateinit var authService: AuthService
+    @Autowired private lateinit var scheduleMapper: ScheduleMapper
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun query(): ResponseEntity<List<ScheduleDto>> {
-        return ResponseEntity.ok(scheduleService.findAll().map { ScheduleDto.toDto(it) })
+        return ResponseEntity.ok(scheduleService.findAll().map { scheduleMapper.toDto(it) })
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
@@ -35,7 +37,7 @@ class ScheduleRestController {
     fun save(@RequestBody dto: ScheduleCreationDto): ResponseEntity<ScheduleDto> {
         val author = userService.getById(dto.author).orElseThrow { RestException("No such author", HttpStatus.BAD_REQUEST, null) }
         val opponent = userService.getById(dto.opponent).orElseThrow { RestException("No such opponent", HttpStatus.BAD_REQUEST, null) }
-        return ResponseEntity.ok(ScheduleDto.toDto(scheduleService.createSchedule(author, opponent, dto.appointment)))
+        return ResponseEntity.ok(scheduleMapper.toDto(scheduleService.createSchedule(author, opponent, dto.appointment)))
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])

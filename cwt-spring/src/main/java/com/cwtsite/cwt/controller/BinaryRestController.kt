@@ -9,6 +9,7 @@ import com.cwtsite.cwt.domain.core.WrappedCloseable
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
+import com.cwtsite.cwt.domain.game.view.mapper.GameCreationMapper
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import kotlinx.coroutines.GlobalScope

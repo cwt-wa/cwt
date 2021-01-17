@@ -5,6 +5,7 @@ import com.cwtsite.cwt.domain.configuration.entity.Configuration
 import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey
 import com.cwtsite.cwt.domain.configuration.service.ConfigurationService
 import com.cwtsite.cwt.domain.configuration.view.model.ConfigurationDto
+import com.cwtsite.cwt.domain.configuration.view.mapper.ConfigurationMapper
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole

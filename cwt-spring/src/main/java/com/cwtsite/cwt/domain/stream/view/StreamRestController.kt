@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
+import com.cwtsite.cwt.domain.stream.view.mapper.StreamMapper
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.twitch.TwitchService
 
@@ -27,13 +28,14 @@ class StreamRestController {
     @Autowired private lateinit var gameService: GameService
     @Autowired private lateinit var twitchService: TwitchService
     @Autowired private lateinit var twitchScheduler: TwitchScheduler
+    @Autowired private lateinit var streamMapper: StreamMapper
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun queryAll(): ResponseEntity<List<StreamDto>> =
             ResponseEntity.ok(
                     streamService.findAll()
                             .sortedByDescending { it.createdAt }
-                            .map { StreamDto.toDto(it) })
+                            .map { streamMapper.toDto(it) })
 
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getOne(@PathVariable("id") id: String): ResponseEntity<Stream> {
@@ -56,12 +58,12 @@ class StreamRestController {
                             .orElseThrow { throw RestException(
                                     "Channel ${streamFromTwitch.userId} of video is not registered.",
                                     HttpStatus.BAD_REQUEST, null) }
-                    val mapped = StreamDto.fromDto(StreamDto.toDto(streamFromTwitch, channel), channel)
+                    val mapped = StreamDto.fromDto(streamMapper.toDto(streamFromTwitch, channel), channel)
                     return@orElseGet streamService.saveStream(mapped)
                 } ?: throw RestException("Twitch video could not be found.", HttpStatus.BAD_REQUEST, null)
         stream.game = game
         val saved = streamService.saveStream(stream)
-        return ResponseEntity.ok(StreamDto.toDto(saved))
+        return ResponseEntity.ok(streamMapper.toDto(saved))
     }
 
     @DeleteMapping("{id}/link")
@@ -70,12 +72,12 @@ class StreamRestController {
         val stream = streamService.findStream(id)
                 .orElseThrow { throw RestException("No such stream.", HttpStatus.BAD_REQUEST, null) }
         stream.game = null
-        return ResponseEntity.ok(StreamDto.toDto(streamService.saveStream(stream)))
+        return ResponseEntity.ok(streamMapper.toDto(streamService.saveStream(stream)))
     }
 
     @PostMapping("linking")
     fun linkStreams(): ResponseEntity<List<StreamDto>> =
-            ResponseEntity.ok(streamService.link().map { StreamDto.toDto(it) })
+            ResponseEntity.ok(streamService.link().map { streamMapper.toDto(it) })
 
     @PostMapping("job")
     fun runJob(): ResponseEntity<Unit> {

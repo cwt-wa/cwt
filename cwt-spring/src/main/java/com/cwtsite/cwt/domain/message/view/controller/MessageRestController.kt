@@ -8,7 +8,9 @@ import com.cwtsite.cwt.domain.message.service.MessageEventListener
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.message.view.model.MessageCreationDto
+import com.cwtsite.cwt.domain.message.view.mapper.MessageCreationMapper
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
+import com.cwtsite.cwt.domain.message.view.mapper.MessageMapper
 import com.cwtsite.cwt.domain.message.view.model.ThirdPartyMessageDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -34,6 +36,7 @@ class MessageRestController {
     @Autowired private lateinit var userService: UserService
     @Autowired private lateinit var sseEmitterFactory: SseEmitterFactory
     @Autowired private lateinit var messageEventListener: MessageEventListener
+    @Autowired private lateinit var messageMapper: MessageMapper
 
     @Value("\${cwt.third-party-token}") private lateinit var thirdPartyToken: String
 
@@ -79,7 +82,7 @@ class MessageRestController {
         } else {
             throw RestException("Either after or before must be specified", HttpStatus.BAD_REQUEST, null)
         }
-        return ResponseEntity.ok(messages.map { MessageDto.toDto(it) })
+        return ResponseEntity.ok(messages.map { messageMapper.toDto(it) })
     }
 
     @RequestMapping("/admin", method = [RequestMethod.GET])
@@ -94,7 +97,7 @@ class MessageRestController {
         } else {
             throw RestException("Either after or before must be specified", HttpStatus.BAD_REQUEST, null)
         }
-        return ResponseEntity.ok(messages.map { MessageDto.toDto(it) })
+        return ResponseEntity.ok(messages.map { messageMapper.toDto(it) })
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.DELETE])
@@ -107,7 +110,7 @@ class MessageRestController {
         val user = authService.authUser(request)
         val savedMessage = messageService.save(MessageCreationDto.fromDto(
                 dto, user!!, userService.getByIds(dto.recipients!!)))
-        return ResponseEntity.ok(MessageDto.toDto(savedMessage))
+        return ResponseEntity.ok(messageMapper.toDto(savedMessage))
     }
 
     @PostMapping("third-party")
@@ -119,6 +122,6 @@ class MessageRestController {
             throw RestException("Not a third party news type", HttpStatus.BAD_REQUEST, null)
         }
         val message = messageService.thirdPartyMessage(dto.displayName, dto.link, dto.body, dto.newsType)
-        return ResponseEntity.ok(MessageDto.toDto(message))
+        return ResponseEntity.ok(messageMapper.toDto(message))
     }
 }

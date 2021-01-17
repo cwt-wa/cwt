@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.user.view.controller
 
 import com.cwtsite.cwt.domain.user.repository.CountryRepository
 import com.cwtsite.cwt.domain.user.view.model.CountryDto
+import com.cwtsite.cwt.domain.user.view.mapper.CountryMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController
 class CountryRestController {
 
     @Autowired private lateinit var countryRepository: CountryRepository
+    @Autowired private lateinit var countryMapper: CountryMapper
 
     @RequestMapping(method = [RequestMethod.GET])
     fun query(): ResponseEntity<List<CountryDto>> =
-            ResponseEntity.ok(countryRepository.findAll().map { CountryDto.toDto(it) })
+            ResponseEntity.ok(countryRepository.findAll().map { countryMapper.toDto(it) })
 }

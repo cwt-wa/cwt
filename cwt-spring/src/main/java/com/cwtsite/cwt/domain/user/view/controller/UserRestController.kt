@@ -7,6 +7,7 @@ import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.tetris.service.TetrisService
 import com.cwtsite.cwt.domain.tetris.view.model.TetrisDto
+import com.cwtsite.cwt.domain.tetris.view.mapper.TetrisMapper
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
@@ -14,7 +15,16 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
 import com.cwtsite.cwt.domain.user.service.UserService
-import com.cwtsite.cwt.domain.user.view.model.*
+import com.cwtsite.cwt.domain.user.view.mapper.UserDetailMapper
+import com.cwtsite.cwt.domain.user.view.mapper.UserOverviewMapper
+import com.cwtsite.cwt.domain.user.view.mapper.UserStatsMapper
+import com.cwtsite.cwt.domain.user.view.model.UserDetailDto
+import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
+import com.cwtsite.cwt.domain.user.view.model.UserOverviewDto
+import com.cwtsite.cwt.domain.user.view.model.UserChangeDto
+import com.cwtsite.cwt.domain.user.view.model.PasswordChangeDto
+import com.cwtsite.cwt.domain.user.view.model.PasswordResetDto
+import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse
 import com.cwtsite.cwt.entity.Application
 import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,13 +47,24 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("api/user")
-class UserRestController @Autowired
-constructor(private val userService: UserService, private val applicationService: ApplicationService,
-            private val authService: AuthService, private val tournamentService: TournamentService,
-            private val groupService: GroupService, private val playoffService: PlayoffService,
-            private val jwtTokenUtil: JwtTokenUtil, private val userDetailsService: UserDetailsService,
-            private val tetrisService: TetrisService, private val authenticationManager: AuthenticationManager,
-            private val securityContextHolderFacade: SecurityContextHolderFacade) {
+class UserRestController {
+
+    @Autowired private lateinit var userService: UserService
+    @Autowired private lateinit var applicationService: ApplicationService
+    @Autowired private lateinit var authService: AuthService
+    @Autowired private lateinit var tournamentService: TournamentService
+    @Autowired private lateinit var groupService: GroupService
+    @Autowired private lateinit var playoffService: PlayoffService
+    @Autowired private lateinit var jwtTokenUtil: JwtTokenUtil
+    @Autowired private lateinit var userDetailsService: UserDetailsService
+    @Autowired private lateinit var tetrisService: TetrisService
+    @Autowired private lateinit var authenticationManager: AuthenticationManager
+    @Autowired private lateinit var securityContextHolderFacade: SecurityContextHolderFacade
+    @Autowired private lateinit var userDetailMapper: UserDetailMapper
+    @Autowired private lateinit var userOverviewMapper: UserOverviewMapper
+    @Autowired private lateinit var userStatsMapper: UserStatsMapper
+    @Autowired private lateinit var tetrisMapper: TetrisMapper
+
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
@@ -82,9 +103,9 @@ constructor(private val userService: UserService, private val applicationService
             }
         }
 
-        return ResponseEntity.ok(UserDetailDto.toDto(
+        return ResponseEntity.ok(userDetailMapper.toDto(
                 user,
-                UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
+                userStatsMapper.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
     }
 
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
@@ -141,9 +162,9 @@ constructor(private val userService: UserService, private val applicationService
                         pageDto.start, pageDto.size,
                         pageDto.asSortWithFallback(Sort.Direction.DESC, "userStats.trophyPoints"))
                         .map { user ->
-                            UserOverviewDto.toDto(
+                            userOverviewMapper.toDto(
                                     user,
-                                    UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())) },
+                                    userStatsMapper.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())) },
                 listOf(
                         "userStats.trophyPoints,Trophies",
                         "userStats.participations,Participations",
@@ -256,7 +277,7 @@ constructor(private val userService: UserService, private val applicationService
         }
 
         val user = userService.getById(userId).orElseThrow { RestException("User $userId not found.", HttpStatus.NOT_FOUND, null) }
-        return ResponseEntity.ok(TetrisDto.toDto(tetrisService.add(user, highscore, null)))
+        return ResponseEntity.ok(tetrisMapper.toDto(tetrisService.add(user, highscore, null)))
     }
 
     @RequestMapping("/password-forgotten", method = [RequestMethod.POST])

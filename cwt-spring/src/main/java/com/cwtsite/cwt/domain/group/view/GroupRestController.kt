@@ -43,3 +43,4 @@ class GroupRestController {
         return ResponseEntity.ok().build()
     }
 }
+
