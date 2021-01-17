@@ -13,7 +13,7 @@ class BetMapper {
 
     fun toDto(bet: Bet): BetDto = BetDto(
         id = bet.id!!,
-        user = UserMinimalDto(id = bet.user!!.id!!, username = bet.user!!.username),
+        user = UserMinimalDto(id = bet.user.id!!, username = bet.user.username),
         game = gameDetailMapper.toDto(bet.game),
         betOnHome = bet.betOnHome
     )

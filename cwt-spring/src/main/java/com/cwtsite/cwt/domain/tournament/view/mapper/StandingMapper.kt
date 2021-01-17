@@ -14,6 +14,7 @@ class StandingMapper {
         games = standing.games,
         gameRatio = standing.gameRatio,
         roundRatio = standing.roundRatio,
-        user = UserMinimalDto(id = standing.user!!.id!!, username = standing.user!!.username)
+        user = UserMinimalDto(id = standing.user.id!!, username = standing.user.username)
     )
 }
+

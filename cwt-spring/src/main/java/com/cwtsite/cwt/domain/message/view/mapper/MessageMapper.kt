@@ -12,8 +12,8 @@ class MessageMapper {
         id = message.id!!,
         created = message.created!!,
         body = message.body,
-        recipients = message.recipients.map { UserMinimalDto(id = it!!.id!!, username = it!!.username) },
-        author = UserMinimalDto(id = message.author!!.id!!, username = message.author!!.username),
+        recipients = message.recipients.map { UserMinimalDto(id = it.id!!, username = it.username) },
+        author = UserMinimalDto(id = message.author.id!!, username = message.author.username),
         newsType = message.newsType,
         category = message.category
     )

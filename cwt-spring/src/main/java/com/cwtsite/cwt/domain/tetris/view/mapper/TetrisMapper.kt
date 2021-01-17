@@ -19,10 +19,11 @@ class TetrisMapper {
         } else {
             TetrisDto(
                 highscore = tetris.highscore,
-                user = UserMinimalDto(id = tetris.user!!.id!!, username = tetris.user!!.username),
+                user = UserMinimalDto(id = tetris.user.id!!, username = tetris.user.username),
                 guestname = null,
                 created = tetris.created
             )
         }
     }
 }
+

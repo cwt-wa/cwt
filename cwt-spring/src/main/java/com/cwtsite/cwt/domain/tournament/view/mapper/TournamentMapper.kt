@@ -13,9 +13,9 @@ class TournamentMapper {
     fun toDto(tournament: Tournament) = TournamentDto(
         id = tournament.id!!,
         year = LocalDateTime.ofInstant(tournament.created!!, ZoneId.of("UTC")).year,
-        goldWinner = tournament.goldWinner?.let { UserMinimalDto(id = it!!.id!!, username = it!!.username) },
-        silverWinner = tournament.silverWinner?.let { UserMinimalDto(id = it!!.id!!, username = it!!.username) },
-        bronzeWinner = tournament.bronzeWinner?.let { UserMinimalDto(id = it!!.id!!, username = it!!.username) },
-        moderators = tournament.moderators.map { UserMinimalDto(id = it!!.id!!, username = it!!.username) }
+        goldWinner = tournament.goldWinner?.let { UserMinimalDto(id = it.id!!, username = it.username) },
+        silverWinner = tournament.silverWinner?.let { UserMinimalDto(id = it.id!!, username = it.username) },
+        bronzeWinner = tournament.bronzeWinner?.let { UserMinimalDto(id = it.id!!, username = it.username) },
+        moderators = tournament.moderators.map { UserMinimalDto(id = it.id!!, username = it.username) }
     )
 }

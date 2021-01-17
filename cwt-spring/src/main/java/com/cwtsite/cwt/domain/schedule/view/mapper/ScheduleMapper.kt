@@ -14,10 +14,10 @@ class ScheduleMapper {
 
     fun toDto(schedule: Schedule) = ScheduleDto(
         id = schedule.id!!,
-        homeUser = UserMinimalDto(id = schedule.homeUser!!.id!!, username = schedule.homeUser!!.username),
-        awayUser = UserMinimalDto(id = schedule.awayUser!!.id!!, username = schedule.awayUser!!.username),
+        homeUser = UserMinimalDto(id = schedule.homeUser.id!!, username = schedule.homeUser.username),
+        awayUser = UserMinimalDto(id = schedule.awayUser.id!!, username = schedule.awayUser.username),
         appointment = schedule.appointment,
-        author = UserMinimalDto(id = schedule.author!!.id!!, username = schedule.author!!.username),
+        author = UserMinimalDto(id = schedule.author.id!!, username = schedule.author.username),
         streams = schedule.streams.map { channelMapper.toDto(it) },
         created = schedule.created!!
     )

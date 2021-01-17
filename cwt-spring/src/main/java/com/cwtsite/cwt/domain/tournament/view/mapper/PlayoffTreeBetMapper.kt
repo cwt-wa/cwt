@@ -10,7 +10,8 @@ class PlayoffTreeBetMapper {
 
     fun toDto(bet: Bet) = PlayoffTreeBetDto(
         id = bet.id!!,
-        user = UserMinimalDto(id = bet.user!!.id!!, username = bet.user!!.username),
+        user = UserMinimalDto(id = bet.user.id!!, username = bet.user.username),
         betOnHome = bet.betOnHome
     )
 }
+

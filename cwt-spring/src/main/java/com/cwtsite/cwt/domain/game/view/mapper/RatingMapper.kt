@@ -10,7 +10,7 @@ class RatingMapper {
 
     fun toDto(rating: Rating) = RatingDto(
         id = rating.id!!,
-        user = UserMinimalDto(id = rating.user!!.id!!, username = rating.user!!.username),
+        user = UserMinimalDto(id = rating.user.id!!, username = rating.user.username),
         type = rating.type
     )
 }

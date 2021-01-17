@@ -11,7 +11,7 @@ class ChannelMapper {
     fun toDto(channel: Channel) = ChannelDto(
         id = channel.id,
         title = channel.title,
-        user = UserMinimalDto(id = channel.user!!.id!!, username = channel.user!!.username),
+        user = UserMinimalDto(id = channel.user.id!!, username = channel.user.username),
         displayName = channel.displayName,
         type = channel.type,
         profileImageUrl = channel.profileImageUrl,
@@ -24,3 +24,4 @@ class ChannelMapper {
         created = channel.created
     )
 }
+
