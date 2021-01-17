@@ -14,15 +14,5 @@ data class TournamentDto(
         val silverWinner: UserMinimalDto?,
         val bronzeWinner: UserMinimalDto?,
         val moderators: List<UserMinimalDto>
-) {
-    companion object {
-        fun toDto(tournament: Tournament) = TournamentDto(
-                id = tournament.id!!,
-                year = LocalDateTime.ofInstant(tournament.created!!, ZoneId.of("UTC")).year,
-                goldWinner = tournament.goldWinner?.let { UserMinimalDto.toDto(it) },
-                silverWinner = tournament.silverWinner?.let { UserMinimalDto.toDto(it) },
-                bronzeWinner = tournament.bronzeWinner?.let { UserMinimalDto.toDto(it) },
-                moderators = tournament.moderators.map { UserMinimalDto.toDto(it) }
-        )
-    }
-}
+) 
+

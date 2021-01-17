@@ -4,8 +4,8 @@ import com.cwtsite.cwt.domain.stream.service.ChannelRepository
 import com.cwtsite.cwt.domain.stream.service.StreamRepository
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
+import com.cwtsite.cwt.domain.stream.view.mapper.StreamMapper
 import com.cwtsite.cwt.twitch.TwitchService
-
 import org.slf4j.LoggerFactory
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +24,7 @@ class TwitchScheduler {
     @Autowired private lateinit var streamRepository: StreamRepository
     @Autowired private lateinit var twitchService: TwitchService
     @Autowired private lateinit var streamService: StreamService
+    @Autowired private lateinit var streamMapper: StreamMapper
 
     @Transactional
     @Scheduled(cron = "\${cwt.twitch-scheduler.cron}")
@@ -37,8 +38,8 @@ class TwitchScheduler {
                 .map { twitchVideoDto ->
                     val channel = channels.find { channel -> twitchVideoDto.userId == channel.id }
                             ?: throw RuntimeException("Channel with ID ${twitchVideoDto.userId} not found.")
-                    val streamDto = StreamDto.toDto(twitchVideoDto, channel)
-                    StreamDto.fromDto(streamDto, channel)
+                    val streamDto = streamMapper.toDto(twitchVideoDto, channel)
+                    streamMapper.fromDto(streamDto, channel)
                 }
 
         // Delete videos that don't exist on Twitch.

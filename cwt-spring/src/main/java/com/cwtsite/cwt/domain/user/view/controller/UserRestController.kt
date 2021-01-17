@@ -17,11 +17,11 @@ import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.domain.user.view.mapper.UserDetailMapper
 import com.cwtsite.cwt.domain.user.view.mapper.UserOverviewMapper
-import com.cwtsite.cwt.domain.user.view.mapper.UserStatsMapper
 import com.cwtsite.cwt.domain.user.view.model.UserDetailDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import com.cwtsite.cwt.domain.user.view.model.UserOverviewDto
 import com.cwtsite.cwt.domain.user.view.model.UserChangeDto
+import com.cwtsite.cwt.domain.user.view.model.UserStatsDto
 import com.cwtsite.cwt.domain.user.view.model.PasswordChangeDto
 import com.cwtsite.cwt.domain.user.view.model.PasswordResetDto
 import com.cwtsite.cwt.domain.user.view.model.JwtAuthenticationResponse
@@ -62,7 +62,6 @@ class UserRestController {
     @Autowired private lateinit var securityContextHolderFacade: SecurityContextHolderFacade
     @Autowired private lateinit var userDetailMapper: UserDetailMapper
     @Autowired private lateinit var userOverviewMapper: UserOverviewMapper
-    @Autowired private lateinit var userStatsMapper: UserStatsMapper
     @Autowired private lateinit var tetrisMapper: TetrisMapper
 
 
@@ -105,7 +104,7 @@ class UserRestController {
 
         return ResponseEntity.ok(userDetailMapper.toDto(
                 user,
-                userStatsMapper.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
+                UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
     }
 
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
@@ -164,7 +163,7 @@ class UserRestController {
                         .map { user ->
                             userOverviewMapper.toDto(
                                     user,
-                                    userStatsMapper.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())) },
+                                    UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())) },
                 listOf(
                         "userStats.trophyPoints,Trophies",
                         "userStats.participations,Participations",

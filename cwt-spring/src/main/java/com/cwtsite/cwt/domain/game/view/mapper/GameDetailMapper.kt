@@ -36,7 +36,7 @@ class GameDetailMapper {
             isReplayExists = game.replay != null,
             replayQuantity = game.replayQuantity,
             playoffRoundLocalized = game.playoff?.let { playoff ->
-                localizePlayoffRound(
+                GameDetailDto.localizePlayoffRound(
                     game.tournament.threeWay!!,
                     // tournament max rounds is playoff max rounds minus group phase
                     game.tournament.maxRounds - 1,
@@ -45,34 +45,5 @@ class GameDetailMapper {
             }
         )
     }
-
-    fun localizePlayoffRound(threeWayFinal: Boolean, playoffsRoundMax: Int, achievedRound: Int): String {
-        return if (threeWayFinal) {
-            when (achievedRound) {
-                playoffsRoundMax -> "Three-way Final"
-                playoffsRoundMax - 1 -> "Last 6"
-                playoffsRoundMax - 2 -> "Last 12"
-                playoffsRoundMax - 3 -> "Last 24"
-                playoffsRoundMax - 4 -> "Last 48"
-                playoffsRoundMax - 5 -> "Last 96"
-                else -> throw RuntimeException(
-                    "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax"
-                )
-            }
-        } else {
-            when (achievedRound) {
-                playoffsRoundMax + 1 -> "Final"
-                playoffsRoundMax -> "Little Final"
-                playoffsRoundMax - 1 -> "Semifinal"
-                playoffsRoundMax - 2 -> "Quarterfinal"
-                playoffsRoundMax - 3 -> "Last 16"
-                playoffsRoundMax - 4 -> "Last 32"
-                playoffsRoundMax - 5 -> "Last 64"
-                playoffsRoundMax - 6 -> "Last 128"
-                else -> throw RuntimeException(
-                    "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax"
-                )
-            }
-        }
-    }
 }
+

@@ -8,13 +8,5 @@ data class RatingDto(
         val id: Long,
         val user: UserMinimalDto,
         val type: RatingType
-) {
+) 
 
-    companion object {
-        fun toDto(rating: Rating) = RatingDto(
-                id = rating.id!!,
-                user = UserMinimalDto.toDto(rating.user),
-                type = rating.type
-        )
-    }
-}

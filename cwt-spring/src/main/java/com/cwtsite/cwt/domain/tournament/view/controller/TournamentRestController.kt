@@ -8,6 +8,7 @@ import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.game.view.model.ReportDto
 import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
+import com.cwtsite.cwt.domain.game.view.mapper.GameCreationMapper
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
 import com.cwtsite.cwt.domain.game.view.model.RatingDto
@@ -55,6 +56,7 @@ class TournamentRestController {
 	@Autowired private lateinit var tournamentMapper: TournamentMapper
 	@Autowired private lateinit var groupWithGamesMapper: GroupWithGamesMapper
 	@Autowired private lateinit var mapMapper: MapMapper
+	@Autowired private lateinit var gameCreationMapper: GameCreationMapper
 
     @RequestMapping("/current", method = [RequestMethod.GET])
     fun findCurrentTournament(): ResponseEntity<TournamentDetailDto> =
@@ -175,7 +177,7 @@ class TournamentRestController {
         val users = userService.getByIds(userIds)
         val games = gameCreationDtoList
                 .map { dto ->
-                    GameCreationDto.fromDto(
+                    gameCreationMapper.fromDto(
                             dto,
                             users.find { it.id == dto.homeUser } ?: throw RuntimeException(),
                             users.find { it.id == dto.awayUser } ?: throw RuntimeException(),

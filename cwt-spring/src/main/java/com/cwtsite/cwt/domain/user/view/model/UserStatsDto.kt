@@ -19,7 +19,6 @@ data class UserStatsDto(
 ) {
 
     companion object {
-
         fun toDtos(timeline: String): List<UserStatsDto> {
             val timelineIterator: Iterator<JsonNode>
             try {
@@ -36,7 +35,8 @@ data class UserStatsDto(
                 val playoffsRoundsMax = elem.get(3).asInt()
                 val playoffsRoundAchieved = elem.get(4).asInt()
 
-                dtos.add(UserStatsDto(
+                dtos.add(
+                    UserStatsDto(
                         participated = playoffsRoundsMax != 0,
                         year = elem.get(1).asInt(),
                         tournamentId = elem.get(0).asLong(),
@@ -44,7 +44,8 @@ data class UserStatsDto(
                         round = playoffsRoundAchieved,
                         threeWayFinal = threeWayFinal,
                         locRound = locRound(threeWayFinal, playoffsRoundsMax, playoffsRoundAchieved)
-                ))
+                    )
+                )
             }
 
             return dtos
@@ -86,3 +87,4 @@ data class UserStatsDto(
         }
     }
 }
+

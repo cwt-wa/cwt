@@ -37,6 +37,7 @@ class MessageRestController {
     @Autowired private lateinit var sseEmitterFactory: SseEmitterFactory
     @Autowired private lateinit var messageEventListener: MessageEventListener
     @Autowired private lateinit var messageMapper: MessageMapper
+    @Autowired private lateinit var messageCreationMapper: MessageCreationMapper
 
     @Value("\${cwt.third-party-token}") private lateinit var thirdPartyToken: String
 
@@ -108,7 +109,7 @@ class MessageRestController {
     @Secured(AuthorityRole.ROLE_USER)
     fun addMessage(@RequestBody dto: MessageCreationDto, request: HttpServletRequest): ResponseEntity<MessageDto> {
         val user = authService.authUser(request)
-        val savedMessage = messageService.save(MessageCreationDto.fromDto(
+        val savedMessage = messageService.save(messageCreationMapper.fromDto(
                 dto, user!!, userService.getByIds(dto.recipients!!)))
         return ResponseEntity.ok(messageMapper.toDto(savedMessage))
     }

@@ -17,22 +17,5 @@ data class TwitchUserDto(
         @JsonProperty("profile_image_url") var profileImageUrl: String?,
         @JsonProperty("description") var description: String?,
         @JsonProperty("display_name") var displayName: String?
-) {
+)
 
-    companion object {
-
-        fun fromDto(dto: TwitchUserDto, user: User, title: String) = Channel(
-                id = dto.id!!,
-                user = user,
-                title = title,
-                displayName = dto.displayName,
-                type = dto.type,
-                profileImageUrl = dto.profileImageUrl,
-                viewCount = dto.viewCount,
-                broadcasterType = dto.broadcasterType,
-                offlineImageUrl = dto.offlineImageUrl,
-                login = dto.login,
-                description = dto.description
-        )
-    }
-}

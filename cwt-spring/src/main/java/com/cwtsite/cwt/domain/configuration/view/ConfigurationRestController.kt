@@ -21,7 +21,8 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("api/configuration")
 class ConfigurationRestController @Autowired
 constructor(private val configurationService: ConfigurationService, private val tournamentService: TournamentService,
-            private val authService: AuthService, private val gameService: GameService) {
+            private val authService: AuthService, private val gameService: GameService,
+            private val configurationMapper: ConfigurationMapper) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun query(@RequestParam(value = "keys", required = false) configurationKeys: List<ConfigurationKey>?): List<Configuration> {
@@ -32,7 +33,7 @@ constructor(private val configurationService: ConfigurationService, private val 
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun query(@RequestBody configurationDto: ConfigurationDto, request: HttpServletRequest): ResponseEntity<Configuration> {
         val authUser = authService.authUser(request)
-        val configuration = ConfigurationDto.fromDto(configurationDto, authUser!!)
+        val configuration = configurationMapper.fromDto(configurationDto, authUser!!)
         return ResponseEntity.ok(configurationService.save(configuration))
     }
 

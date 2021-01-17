@@ -10,16 +10,5 @@ data class  MessageCreationDto(
         var body: String,
         var category: MessageCategory,
         var recipients: List<Long>? = null
-) {
+) 
 
-    companion object {
-
-        fun fromDto(dto: MessageCreationDto, author: User, recipients: List<User>) = Message(
-                author = author,
-                body = dto.body,
-                category = dto.category,
-                recipients = recipients.toMutableList()
-        )
-    }
-
-}

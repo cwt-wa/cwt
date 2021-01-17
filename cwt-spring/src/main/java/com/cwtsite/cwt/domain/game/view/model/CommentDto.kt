@@ -9,15 +9,5 @@ data class CommentDto (
         val body: String,
         val author: UserMinimalDto,
         val created: Instant
-) {
+) 
 
-    companion object {
-
-        fun toDto(comment: Comment) = CommentDto(
-                id = comment.id!!,
-                body = comment.body!!,
-                author = UserMinimalDto.toDto(comment.author!!),
-                created = comment.created!!
-        )
-    }
-}

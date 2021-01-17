@@ -8,15 +8,5 @@ import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
 data class MapDto(
         val texture: String?,
         val game: GameMinimalDto,
-        val mapPath: String) {
-
-    companion object {
-
-        fun toDto(game: Game, mapPath: String, mapTexture: String?): MapDto =
-                MapDto(
-                        texture = mapTexture,
-                        game = GameMinimalDto.toDto(game),
-                        mapPath = mapPath)
-    }
-}
+        val mapPath: String) 
 

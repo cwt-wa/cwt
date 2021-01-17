@@ -16,18 +16,5 @@ data class MessageDto(
         val author: UserMinimalDto,
         val newsType: MessageNewsType?,
         val category: MessageCategory
-) {
+) 
 
-    companion object {
-
-        fun toDto(message: Message): MessageDto = MessageDto(
-                id = message.id!!,
-                created = message.created!!,
-                body = message.body,
-                recipients = message.recipients.map { UserMinimalDto.toDto(it) },
-                author = UserMinimalDto.toDto(message.author),
-                newsType = message.newsType,
-                category = message.category
-        )
-    }
-}

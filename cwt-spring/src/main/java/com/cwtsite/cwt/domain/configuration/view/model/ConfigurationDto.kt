@@ -9,15 +9,5 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 data class ConfigurationDto(
         val value: String,
         val key: ConfigurationKey
-) {
+) 
 
-    companion object {
-
-        fun fromDto(configurationDto: ConfigurationDto, author: User) =
-                Configuration(
-                        key = configurationDto.key,
-                        value = configurationDto.value,
-                        author = author
-                )
-    }
-}

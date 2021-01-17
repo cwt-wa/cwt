@@ -36,6 +36,7 @@ class ChannelRestController {
     @Autowired private lateinit var authService: AuthService
     @Autowired private lateinit var streamMapper: StreamMapper
     @Autowired private lateinit var channelMapper: ChannelMapper
+    @Autowired private lateinit var twitchUserMapper: TwitchUserMapper
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -46,7 +47,7 @@ class ChannelRestController {
         val usersFromTwitch = twitchService.requestUsers(dto.twitchLoginName)
         if (usersFromTwitch.isEmpty()) throw RestException("Channel was not found at Twitch.", HttpStatus.BAD_REQUEST, null)
         if (streamService.findChannel(usersFromTwitch[0].id!!).isPresent) throw RestException("Channel already registered.", HttpStatus.BAD_REQUEST, null)
-        return ResponseEntity.ok(channelMapper.toDto(streamService.saveChannel(TwitchUserDto.fromDto(usersFromTwitch[0], user, dto.title))))
+        return ResponseEntity.ok(channelMapper.toDto(streamService.saveChannel(twitchUserMapper.fromDto(usersFromTwitch[0], user, dto.title))))
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
@@ -79,7 +80,7 @@ class ChannelRestController {
                 val existingStreams = streamService.findStreams(channel).map { it.id }
                 val newStreams = videos
                         .filter { !existingStreams.contains(it.id) }
-                        .map { StreamDto.fromDto(it, channel) }
+                        .map { streamMapper.fromDto(it, channel) }
                 val savedNewStreams = streamService.saveStreams(newStreams)
                 savedNewStreams.forEach { stream ->
                     streamService.findMatchingGame(stream)?.also { game ->

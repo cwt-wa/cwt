@@ -21,23 +21,5 @@ data class ChannelDto(
         val botAutoJoin: Boolean,
         val modified: Instant? = null,
         val created: Instant? = null
-) {
+) 
 
-    companion object {
-        fun toDto(channel: Channel) = ChannelDto(
-                id = channel.id,
-                title = channel.title,
-                user = UserMinimalDto.toDto(channel.user),
-                displayName = channel.displayName,
-                type = channel.type,
-                profileImageUrl = channel.profileImageUrl,
-                viewCount = channel.viewCount,
-                broadcasterType = channel.broadcasterType,
-                offlineImageUrl = channel.offlineImageUrl,
-                login = channel.login,
-                botAutoJoin = channel.botAutoJoin,
-                description = channel.description,
-                created = channel.created
-        )
-    }
-}

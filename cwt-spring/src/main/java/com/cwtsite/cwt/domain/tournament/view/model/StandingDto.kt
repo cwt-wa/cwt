@@ -12,17 +12,5 @@ data class StandingDto(
         val gameRatio: Int,
         val roundRatio: Int,
         val user: UserMinimalDto
-) {
+) 
 
-    companion object {
-
-        fun toDto(standing: GroupStanding) = StandingDto(
-                id = standing.id!!,
-                points = standing.points,
-                games = standing.games,
-                gameRatio = standing.gameRatio,
-                roundRatio = standing.roundRatio,
-                user = UserMinimalDto.toDto(standing.user)
-        )
-    }
-}

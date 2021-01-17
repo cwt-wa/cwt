@@ -19,20 +19,5 @@ data class TournamentDetailDto(
         val silverWinner: UserMinimalDto?,
         val goldWinner: UserMinimalDto?,
         val moderators: Set<UserMinimalDto>?
-) {
-    companion object {
-        fun toDto(tournament: Tournament) = TournamentDetailDto(
-                id = tournament.id,
-                status = tournament.status,
-                review = tournament.review,
-                maxRounds = tournament.maxRounds,
-                numOfGroupAdvancing = tournament.numOfGroupAdvancing,
-                threeWay = tournament.threeWay,
-                created = tournament.created,
-                bronzeWinner = tournament.bronzeWinner?.let { UserMinimalDto.toDto(it) },
-                silverWinner = tournament.silverWinner?.let { UserMinimalDto.toDto(it) },
-                goldWinner = tournament.goldWinner?.let { UserMinimalDto.toDto(it) },
-                moderators = tournament.moderators.map { UserMinimalDto.toDto(it) }.toSet()
-        )
-    }
-}
+) 
+

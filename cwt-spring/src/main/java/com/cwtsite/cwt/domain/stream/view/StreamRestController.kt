@@ -58,7 +58,7 @@ class StreamRestController {
                             .orElseThrow { throw RestException(
                                     "Channel ${streamFromTwitch.userId} of video is not registered.",
                                     HttpStatus.BAD_REQUEST, null) }
-                    val mapped = StreamDto.fromDto(streamMapper.toDto(streamFromTwitch, channel), channel)
+                    val mapped = streamMapper.fromDto(streamMapper.toDto(streamFromTwitch, channel), channel)
                     return@orElseGet streamService.saveStream(mapped)
                 } ?: throw RestException("Twitch video could not be found.", HttpStatus.BAD_REQUEST, null)
         stream.game = game

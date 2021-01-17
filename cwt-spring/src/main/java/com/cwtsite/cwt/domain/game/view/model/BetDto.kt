@@ -10,15 +10,5 @@ data class BetDto(
         val user: UserMinimalDto,
         val game: GameDetailDto,
         val betOnHome: Boolean
-) {
+) 
 
-    companion object {
-
-        fun toDto(bet: Bet): BetDto = BetDto(
-                id = bet.id!!,
-                user = UserMinimalDto.toDto(bet.user),
-                game = GameDetailDto.toDto(bet.game),
-                betOnHome = bet.betOnHome
-        )
-    }
-}

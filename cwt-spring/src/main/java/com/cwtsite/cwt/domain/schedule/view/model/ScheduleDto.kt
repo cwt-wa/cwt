@@ -15,17 +15,5 @@ data class ScheduleDto(
         val author: UserMinimalDto,
         val streams: List<ChannelDto>,
         val created: Instant
-) {
+) 
 
-    companion object {
-        fun toDto(schedule: Schedule) = ScheduleDto(
-                id = schedule.id!!,
-                homeUser = UserMinimalDto.toDto(schedule.homeUser),
-                awayUser = UserMinimalDto.toDto(schedule.awayUser),
-                appointment = schedule.appointment,
-                author = UserMinimalDto.toDto(schedule.author),
-                streams = schedule.streams.map { ChannelDto.toDto(it) },
-                created = schedule.created!!
-        )
-    }
-}

@@ -32,39 +32,7 @@ data class GameDetailDto(
         val replayQuantity: Int?,
         val playoffRoundLocalized: String?
 ) {
-
     companion object {
-
-        fun toDto(game: Game): GameDetailDto {
-            return GameDetailDto(
-                    id = game.id!!,
-                    scoreHome = game.scoreHome,
-                    scoreAway = game.scoreAway,
-                    techWin = game.techWin,
-                    created = game.created!!,
-                    reportedAt = game.reportedAt,
-                    modified = game.modified!!,
-                    playoff = game.playoff,
-                    group = game.group,
-                    tournament = TournamentDetailDto.toDto(game.tournament),
-                    homeUser = game.homeUser,
-                    awayUser = game.awayUser,
-                    reporter = game.reporter,
-                    ratings = game.ratings.map { RatingDto.toDto(it) },
-                    comments = game.comments.sortedBy { it.created }.map { CommentDto.toDto(it) },
-                    voided = game.voided,
-                    isReplayExists = game.replay != null,
-                    replayQuantity = game.replayQuantity,
-                    playoffRoundLocalized = game.playoff?.let { playoff ->
-                        localizePlayoffRound(
-                                game.tournament.threeWay!!,
-                                // tournament max rounds is playoff max rounds minus group phase
-                                game.tournament.maxRounds - 1,
-                                playoff.round)
-                    }
-            )
-        }
-
         fun localizePlayoffRound(threeWayFinal: Boolean, playoffsRoundMax: Int, achievedRound: Int): String {
             return if (threeWayFinal) {
                 when (achievedRound) {
@@ -75,7 +43,8 @@ data class GameDetailDto(
                     playoffsRoundMax - 4 -> "Last 48"
                     playoffsRoundMax - 5 -> "Last 96"
                     else -> throw RuntimeException(
-                            "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax")
+                        "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax"
+                    )
                 }
             } else {
                 when (achievedRound) {
@@ -88,11 +57,11 @@ data class GameDetailDto(
                     playoffsRoundMax - 5 -> "Last 64"
                     playoffsRoundMax - 6 -> "Last 128"
                     else -> throw RuntimeException(
-                            "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax")
+                        "No localization for achievedRound $achievedRound with playoffsRoundMax $playoffsRoundMax"
+                    )
                 }
             }
-
         }
-
     }
 }
+

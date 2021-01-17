@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.tournament.view.mapper
 
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.view.mapper.GameDetailMapper
+import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffGameDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -33,7 +34,7 @@ class PlayoffGameMapper {
         comments = game.comments,
         isReplayExists = game.replay != null,
         bets = game.bets.map { playoffTreeBetMapper.toDto(it) },
-        playoffRoundLocalized = gameDetailMapper.localizePlayoffRound(
+        playoffRoundLocalized = GameDetailDto.localizePlayoffRound(
             game.tournament.threeWay!!, game.tournament.maxRounds - 1, game.playoff!!.round
         )
     )
