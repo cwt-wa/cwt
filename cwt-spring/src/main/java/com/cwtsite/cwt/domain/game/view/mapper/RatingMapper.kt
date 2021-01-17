@@ -4,8 +4,10 @@ import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.view.model.RatingDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class RatingMapper {
 
     fun toDto(rating: Rating) = RatingDto(

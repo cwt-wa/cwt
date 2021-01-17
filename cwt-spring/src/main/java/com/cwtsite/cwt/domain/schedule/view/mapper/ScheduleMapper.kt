@@ -6,8 +6,10 @@ import com.cwtsite.cwt.domain.stream.view.mapper.ChannelMapper
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class ScheduleMapper {
 
     @Autowired private lateinit var channelMapper: ChannelMapper

@@ -5,9 +5,11 @@ import com.cwtsite.cwt.domain.user.view.model.UserStatsDto
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.io.IOException
 
 @Component
+@Transactional
 class UserStatsMapper {
 
     fun toDtos(timeline: String): List<UserStatsDto> {

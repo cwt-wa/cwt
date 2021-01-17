@@ -6,8 +6,10 @@ import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.tournament.view.model.GroupWithGamesDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class GroupWithGamesMapper {
 
     @Autowired private lateinit var tournamentDetailMapper: TournamentDetailMapper

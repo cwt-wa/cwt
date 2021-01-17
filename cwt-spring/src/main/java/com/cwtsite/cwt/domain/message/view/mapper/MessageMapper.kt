@@ -4,8 +4,10 @@ import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.view.model.MessageDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class MessageMapper {
 
     fun toDto(message: Message): MessageDto = MessageDto(

@@ -4,8 +4,10 @@ import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.view.model.TournamentDetailDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class TournamentDetailMapper {
 
     fun toDto(tournament: Tournament) = TournamentDetailDto(

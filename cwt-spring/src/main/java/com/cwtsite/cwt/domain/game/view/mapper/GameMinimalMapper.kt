@@ -4,8 +4,10 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class GameMinimalMapper {
 
     fun toDto(game: Game): GameMinimalDto =

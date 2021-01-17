@@ -5,8 +5,10 @@ import com.cwtsite.cwt.domain.game.view.model.BetDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class BetMapper {
 
     @Autowired private lateinit var gameDetailMapper: GameDetailMapper

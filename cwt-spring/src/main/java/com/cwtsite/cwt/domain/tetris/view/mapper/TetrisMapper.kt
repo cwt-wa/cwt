@@ -4,8 +4,10 @@ import com.cwtsite.cwt.domain.tetris.repository.entity.Tetris
 import com.cwtsite.cwt.domain.tetris.view.model.TetrisDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class TetrisMapper {
 
     fun toDto(tetris: Tetris): TetrisDto {

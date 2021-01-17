@@ -7,8 +7,10 @@ import com.cwtsite.cwt.domain.game.view.model.PlayoffDto
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class GameCreationMapper {
 
     fun fromDto(

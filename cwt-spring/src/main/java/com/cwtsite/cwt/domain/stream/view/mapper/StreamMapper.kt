@@ -7,8 +7,10 @@ import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class StreamMapper {
 
     @Autowired private lateinit var channelMapper: ChannelMapper

@@ -5,8 +5,10 @@ import com.cwtsite.cwt.domain.game.view.mapper.GameDetailMapper
 import com.cwtsite.cwt.domain.tournament.view.model.PlayoffGameDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class PlayoffGameMapper {
 
     @Autowired private lateinit var gameDetailMapper: GameDetailMapper

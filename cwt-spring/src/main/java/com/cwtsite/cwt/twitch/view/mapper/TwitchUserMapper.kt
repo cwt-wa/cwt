@@ -4,8 +4,10 @@ import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.twitch.view.model.TwitchUserDto
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class TwitchUserMapper {
 
     fun fromDto(dto: TwitchUserDto, user: User, title: String) = Channel(
