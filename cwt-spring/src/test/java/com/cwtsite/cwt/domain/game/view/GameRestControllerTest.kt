@@ -7,10 +7,12 @@ import com.cwtsite.cwt.core.event.SseEmitterWrapper
 import com.cwtsite.cwt.core.event.stats.GameStatSubscription
 import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.domain.bet.entity.Bet
+import com.cwtsite.cwt.domain.game.view.mapper.RatingMapper
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.service.GameService
+import com.cwtsite.cwt.domain.game.view.mapper.GameDetailMapper
 import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.game.view.model.RatingDto
@@ -60,6 +62,8 @@ class GameRestControllerTest {
     @Mock private lateinit var authService: AuthService
     @Mock private lateinit var userService: UserService
     @Mock private lateinit var streamService: StreamService
+    @Mock private lateinit var ratingMapper: RatingMapper
+    @Mock private lateinit var gameDetailMapper: GameDetailMapper
     @Captor private lateinit var subCaptor: ArgumentCaptor<GameStatSubscription>
     @Captor private lateinit var onCompletionCaptor: ArgumentCaptor<() -> Unit>
 
@@ -74,7 +78,7 @@ class GameRestControllerTest {
         val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 1, Sort.by(Sort.Direction.DESC, "reportedAt")), 1)
         `when`(gameService.findPaginatedPlayedGames(anyInt(), anyInt(), anyObject())).thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, null)).extracting { it.body!! }.satisfies {
-            assertThat(it.content).containsExactly(GameDetailDto.toDto(game))
+            assertThat(it.content).containsExactly(gameDetailMapper.toDto(game))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
@@ -98,7 +102,7 @@ class GameRestControllerTest {
         `when`(gameService.findGameOfUsers(anyInt(), anyInt(), anyObject(), safeEq(game.homeUser!!), safeEq(game.awayUser!!)))
                 .thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, listOf(game.homeUser!!.id!!, game.awayUser!!.id!!))).extracting { it.body!! }.satisfies {
-            assertThat(it.content).containsExactly(GameDetailDto.toDto(game))
+            assertThat(it.content).containsExactly(gameDetailMapper.toDto(game))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
@@ -205,7 +209,7 @@ class GameRestControllerTest {
         `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(actual.body).isEqualTo(RatingDto.toDto(savedRating))
+        assertThat(actual.body).isEqualTo(ratingMapper.toDto(savedRating))
     }
 
     @Test
@@ -221,7 +225,7 @@ class GameRestControllerTest {
         `when`(gameService.updateRating(existingRatings[0], rating.type)).thenAnswer { it.getArgument(0) }
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(actual.body).isEqualTo(RatingDto.toDto(existingRatings[0]))
+        assertThat(actual.body).isEqualTo(ratingMapper.toDto(existingRatings[0]))
     }
 
     @Test
@@ -243,7 +247,7 @@ class GameRestControllerTest {
         `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(actual.body).isEqualTo(RatingDto.toDto(savedRating))
+        assertThat(actual.body).isEqualTo(ratingMapper.toDto(savedRating))
         verify(gameService).deleteRatings(existingRatings.toList())
     }
 }

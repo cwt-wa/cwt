@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.tournament.view.controller
 
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
+import com.cwtsite.cwt.domain.game.view.mapper.GameMinimalMapper
 import com.cwtsite.cwt.domain.group.service.GroupService
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
@@ -22,26 +23,14 @@ import kotlin.test.Test
 @RunWith(MockitoJUnitRunner::class)
 class TournamentRestControllerTest {
 
-    @InjectMocks
-    private lateinit var cut: TournamentRestController
-
-    @Mock
-    private lateinit var tournamentService: TournamentService
-
-    @Mock
-    private lateinit var userService: UserService
-
-    @Mock
-    private lateinit var groupService: GroupService
-
-    @Mock
-    private lateinit var playoffService: PlayoffService
-
-    @Mock
-    private lateinit var gameService: GameService
-
-    @Mock
-    private lateinit var treeService: TreeService
+    @InjectMocks private lateinit var cut: TournamentRestController
+    @Mock private lateinit var tournamentService: TournamentService
+    @Mock private lateinit var userService: UserService
+    @Mock private lateinit var groupService: GroupService
+    @Mock private lateinit var playoffService: PlayoffService
+    @Mock private lateinit var gameService: GameService
+    @Mock private lateinit var treeService: TreeService
+    @Mock private lateinit var gameMinimalMapper: GameMinimalMapper
 
     @Test
     fun getMapsOfCurrentTournament() {
@@ -61,7 +50,7 @@ class TournamentRestControllerTest {
                 .thenReturn(Optional.of(game.tournament))
         val actual = cut.getMapsOfCurrentTournament(game.tournament.id!!, null).body
         assertThat(actual).containsExactlyInAnyOrder(
-                MapDto(game1["texture"], GameMinimalDto.toDto(game), game1.getValue("map")),
-                MapDto(game2["texture"], GameMinimalDto.toDto(game), game2.getValue("map")))
+                MapDto(game1["texture"], gameMinimalMapper.toDto(game), game1.getValue("map")),
+                MapDto(game2["texture"], gameMinimalMapper.toDto(game), game2.getValue("map")))
     }
 }

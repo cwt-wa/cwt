@@ -5,6 +5,7 @@ import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.StreamRestController
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.test.EntityDefaults
+import com.cwtsite.cwt.domain.stream.view.mapper.StreamMapper
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
 
@@ -30,6 +31,7 @@ class StreamRestControllerTest {
     @Mock private lateinit var streamService: StreamService
     @Mock private lateinit var gameService: GameService
     @Mock private lateinit var twitchService: TwitchService
+    @Mock private lateinit var streamMapper: StreamMapper
 
     @Test
     fun `linkGame game and video exist in DB`() {
@@ -41,7 +43,7 @@ class StreamRestControllerTest {
         `when`(streamService.saveStream(stream)).thenReturn(stream)
         val result = cut.linkGame(videoId, game.id!!)
         assertThat(result.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(result.body).isEqualTo(StreamDto.toDto(stream))
+        assertThat(result.body).isEqualTo(streamMapper.toDto(stream))
     }
 
     @Test
@@ -54,13 +56,13 @@ class StreamRestControllerTest {
         `when`(twitchService.requestVideo(videoId)).thenReturn(twitchVideoDto)
         val channel = EntityDefaults.channel(id = twitchVideoDto.userId)
         `when`(streamService.findChannel(twitchVideoDto.userId)).thenReturn(Optional.of(channel))
-        val streamFromTwitchMapped = StreamDto.fromDto(StreamDto.toDto(twitchVideoDto, channel), channel)
+        val streamFromTwitchMapped = streamMapper.fromDto(streamMapper.toDto(twitchVideoDto, channel), channel)
         val stream = EntityDefaults.stream()
         `when`(streamService.saveStream(streamFromTwitchMapped)).thenReturn(stream)
         `when`(streamService.saveStream(stream)).thenReturn(stream)
         val result = cut.linkGame(videoId, game.id!!)
         assertThat(result.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(result.body).isEqualTo(StreamDto.toDto(stream))
+        assertThat(result.body).isEqualTo(streamMapper.toDto(stream))
     }
 
     private fun createTwitchVideoDto() =
