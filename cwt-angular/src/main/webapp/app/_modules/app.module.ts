@@ -25,6 +25,7 @@ import {SharedModule} from "./shared.module";
 import {TimeAgoService} from "../_services/time-ago.service";
 import {PlayoffsService} from "../_services/playoffs.service";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
+import {AdminCanActivateGuard} from "../_services/admin-can-activate-guard";
 
 const appRoutes: Routes = [
     {
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
     },
     {
         path: 'admin',
-        loadChildren: () => import('./admin.module').then(m => m.AdminModule)
+        loadChildren: () => import('./admin.module').then(m => m.AdminModule),
+        canActivate: [AdminCanActivateGuard]
     },
     {
         path: 'register',
@@ -129,6 +131,7 @@ const appRoutes: Routes = [
         LiveStreamComponent,
     ],
     providers: [
+        AdminCanActivateGuard,
         WebAppViewService,
         AuthService,
         RequestService,
