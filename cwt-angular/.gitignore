@@ -5,3 +5,5 @@ npm-debug.log
 yarn-error.log
 
 /src/test/e2e/screenshots/
+config/env.js
+

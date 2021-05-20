@@ -3,8 +3,7 @@ const webpackMerge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./helpers');
-
-const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
+const env = helpers.requireEnv(__filename);
 
 module.exports = webpackMerge(commonConfig, {
     devtool: 'source-map',
@@ -34,14 +33,7 @@ module.exports = webpackMerge(commonConfig, {
             allChunks: true
         }),
         new webpack.DefinePlugin({
-            'process.env': {
-                'ENV': JSON.stringify(ENV),
-                'apiEndpoint': JSON.stringify("/api/"),
-                'captchaKey': JSON.stringify('6LcWgLYUAAAAAOvJrsE-KX2ZZNgHqkd9tBwm-tq4'),
-                'liveStreamProducer': JSON.stringify('https://twitch.cwtsite.com/produce'),
-                'liveStreamSubscriber': JSON.stringify('https://twitch.cwtsite.com/subscribe'),
-                'twitchBotEndpoint':  JSON.stringify('https://twitch-bot.zemke.io'),
-            }
+            'process.env': env
         })
     ]
 });

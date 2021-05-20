@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./helpers');
+const env = helpers.requireEnv(__filename);
 
 module.exports = webpackMerge(commonConfig, {
     devtool: 'cheap-module-eval-source-map',
@@ -22,13 +23,7 @@ module.exports = webpackMerge(commonConfig, {
 
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': {
-                'apiEndpoint': JSON.stringify('http://localhost:9000/api/'),
-                'captchaKey': JSON.stringify('6LdAgLYUAAAAAJp86PhBUHQA33EQeJrDHBi-iWNR'),
-                'liveStreamProducer': JSON.stringify('https://twitch.cwtsite.com/produce'),
-                'liveStreamSubscriber': JSON.stringify('https://twitch.cwtsite.com/subscribe'),
-                'twitchBotEndpoint':  JSON.stringify('http://localhost:1234'),
-            }
+            'process.env': env
         })
     ]
 });
