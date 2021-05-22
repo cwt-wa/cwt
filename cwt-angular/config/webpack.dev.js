@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./helpers');
@@ -22,6 +23,7 @@ module.exports = webpackMerge(commonConfig, {
     },
 
     plugins: [
+        new HtmlWebpackPlugin(helpers.indexTemplate(env)),
         new webpack.DefinePlugin({
             'process.env': env
         })

@@ -23,3 +23,22 @@ exports.requireEnv = function (pp) {
     return result;
 }
 
+exports.indexTemplate = function (env) {
+    return {
+        template: './src/main/webapp/app/index.ejs',
+        inject: true,
+        meta: {
+            'description':  JSON.parse(env.description),
+            'theme-color': JSON.parse(env.themeColor),
+            'application-name': JSON.parse(env.nameLong),
+            'apple-mobile-web-app-title': JSON.parse(env.nameShort),
+        },
+        templateParameters: {
+            title: JSON.parse(env.title),
+            nameShort: JSON.parse(env.nameShort),
+            nameLong: JSON.parse(env.nameLong),
+            footer: JSON.parse(env.footer),
+        }
+    }
+};
+

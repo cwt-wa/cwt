@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const commonConfig = require('./webpack.common.js');
@@ -18,6 +19,7 @@ module.exports = webpackMerge(commonConfig, {
     },
 
     plugins: [
+        new HtmlWebpackPlugin(helpers.indexTemplate(env)),
         new webpack.LoaderOptionsPlugin({
             options: {
                 htmlLoader: {
