@@ -11,8 +11,8 @@ exports.requireEnv = function (pp) {
     let env;
     try {
         env = require('./env');
-    } catch (_err) {
-        console.warn(`no env for ${p} falling back to env.default.js`);
+    } catch (err) {
+        console.warn(`no env for ${p} falling back to env.default.js`, err);
         env = require('./env.default');
     }
     const resultRaw = { ...(env.common || {}), ...(env[p] || {}) };
