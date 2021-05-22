@@ -61,11 +61,13 @@ export class UserPanelComponent implements OnInit {
             this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
                 .subscribe(async res => {
                     this.userChannel = res[0]
-                    try {
-                        this.botInvited = (await this.twitchBotEndpoint('status')).joined;
-                    } catch (err) {
-                        this.botRequestFailed = true;
-                        console.error('bot status failed', err);
+                    if (this.userChannel) {
+                        try {
+                            this.botInvited = (await this.twitchBotEndpoint('status')).joined;
+                        } catch (err) {
+                            this.botRequestFailed = true;
+                            console.error('bot status failed', err);
+                        }
                     }
                 });
         }
