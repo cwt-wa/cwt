@@ -20,9 +20,11 @@ export class ChannelCreateComponent implements OnInit {
     channelCreated: boolean = false;
     authUser: JwtUser;
     loading: boolean = true;
+    nameShort: string;
 
     constructor(private requestService: RequestService, private authService: AuthService,
                 @Inject(APP_CONFIG) private appConfig: AppConfig) {
+        this.nameShort = this.appConfig.nameShort;
     }
 
     async ngOnInit() {

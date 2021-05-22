@@ -13,6 +13,7 @@ import {CommonModule} from "@angular/common";
 import {StandingsOrderPipe} from "../_util/standings-order.pipe";
 import {ReplayLinkPipe} from "../_util/replay-link.pipe";
 import {EmailNote} from "../_util/email-note.pipe";
+import {NameComponent} from "../_util/name.component";
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import {EmailNote} from "../_util/email-note.pipe";
         StandingsOrderPipe,
         ReplayLinkPipe,
         EmailNote,
+        NameComponent,
     ],
     exports: [
         MarkdownComponent,
@@ -43,6 +45,7 @@ import {EmailNote} from "../_util/email-note.pipe";
         StandingsOrderPipe,
         ReplayLinkPipe,
         EmailNote,
+        NameComponent,
     ],
     providers: [],
     bootstrap: [],

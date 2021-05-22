@@ -28,6 +28,7 @@ export class UserPanelComponent implements OnInit {
     botInvited: boolean = null;
     botRequestFailed: boolean = false;
     togglingBotAutoJoin: boolean = false;
+    nameShort: string;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -38,6 +39,7 @@ export class UserPanelComponent implements OnInit {
                 private toastr: Toastr,
                 private binaryService: BinaryService,
                 @Inject(APP_CONFIG) private appConfig: AppConfig) {
+        this.nameShort = this.appConfig.nameShort;
     }
 
     async ngOnInit() {

@@ -96,7 +96,7 @@
                     <div class="alert alert-success">
                         <i class="fa fa-check"></i>&nbsp;
                         <strong>{{userChannel.displayName}}</strong>
-                        is registered on CWT.
+                        is registered on {{nameShort}}.
                     </div>
                     <div class="my-3 card bg-secondary">
                         <div class="card-body">
@@ -109,12 +109,12 @@
                                 <button (click)="revokeBot()" class="btn btn-danger"
                                         *ngIf="botInvited === true" [disabled]="togglingBotInvite">
                                     <i class="fa fa-robot"></i>
-                                    Revoke CWT Bot
+                                    Revoke {{nameShort}} Bot
                                 </button>
                                 <button (click)="inviteBot()" class="btn btn-success"
                                         *ngIf="botInvited === false" [disabled]="togglingBotInvite">
                                     <i class="fa fa-robot"></i>
-                                    Invite CWT Bot
+                                    Invite {{nameShort}} Bot
                                 </button>
                                 <div class="alert alert-success my-3">
                                     <div class="form-check">
@@ -125,15 +125,15 @@
                                             Allow the bot to join by itself
                                         </label>
                                         <small class="form-text text-muted">
-                                            Everytime you start live streaming with “CWT” in the title of your live stream,
+                                            Everytime you start live streaming with “{{nameShort}}” in the title of your live stream,
                                             the bot will join the chat and leave once the stream ends. Maximum comfort.
                                         </small>
                                     </div>
                                 </div>
                             </ng-container>
                             <small class="form-text text-muted">
-                                Let the CWT Bot join your channel, it will provide a few commands
-                                to enrich the experience and also mirror the CWT chat.<br>
+                                Let the {{nameShort}} Bot join your channel, it will provide a few commands
+                                to enrich the experience and also mirror the {{nameShort}} chat.<br>
                                 Enter <code>!cwtcommands</code> once it has joined the Twitch chat.<br>
                                 You can revoke access at any time.
                             </small>

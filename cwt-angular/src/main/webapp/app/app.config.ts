@@ -8,6 +8,8 @@ export interface AppConfig {
     liveStreamProducer: string;
     liveStreamSubscriber: string;
     twitchBotEndpoint: string;
+    nameShort: string;
+    nameLong: string;
 }
 
 export const appConfig: AppConfig = {
@@ -16,6 +18,8 @@ export const appConfig: AppConfig = {
     liveStreamProducer: process.env.liveStreamProducer,
     liveStreamSubscriber: process.env.liveStreamSubscriber,
     twitchBotEndpoint: process.env.twitchBotEndpoint,
+    nameShort: process.env.nameShort,
+    nameLong: process.env.nameLong,
 };
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');

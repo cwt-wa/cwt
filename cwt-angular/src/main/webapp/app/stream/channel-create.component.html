@@ -10,7 +10,7 @@
     </div>
 
     <div class="alert alert-success" *ngIf="channelCreated">
-        Your channel has been successfully registered on CWT.
+        Your channel has been successfully registered on {{nameShort}}.
     </div>
 
     <div class="row justify-content-center" *ngIf="!userAlreadyHasChannel && !channelCreated">
@@ -23,28 +23,28 @@
             </p>
             <div class="alert alert-info">
                 <p>
-                    Register your channel to benefit from CWT and Twitch interoperation:
+                    Register your channel to benefit from {{nameShort}} and Twitch interoperation:
                 </p>
                 <p>
                     When you go live a very visible banner will appear on the top
-                    of the page advertising your live stream to the CWT visitors.
+                    of the page advertising your live stream to the {{nameShort}} visitors.
                 </p>
                 <p>
-                    Your live stream broadcasts will be linked to the respective game on the CWT site.<br>
-                    Allowing for easy finding of broadcasts and later watching in the context of CWT.
+                    Your live stream broadcasts will be linked to the respective game on the {{nameShort}} site.<br>
+                    Allowing for easy finding of broadcasts and later watching in the context of {{nameShort}}.
                 </p>
                 <p>
                     You can schedule live streams on games participants of the tournament have scheduled
                     and thereby attract people early on.
                 </p>
                 <p>
-                    These features will only trigger when you include “CWT” in the title of your live stream.<br>
-                    Therefore your Twitch channel will not publish information on CWT if you also perform other
-                    duties with your Twitch channel other than streaming CWT games.
+                    These features will only trigger when you include “{{nameShort}}” in the title of your live stream.<br>
+                    Therefore your Twitch channel will not publish information on {{nameShort}} if you also perform other
+                    duties with your Twitch channel other than streaming {{nameShort}} games.
                 </p>
                 <p>
                     These features are all automated and work best when you include the players’ names as they
-                    are on the CWT site in the title of your live stream.
+                    are on the {{nameShort}} site in the title of your live stream.
                 </p>
             </div>
             <form class="mt-4" #channelForm=ngForm (ngSubmit)="submit()">
@@ -59,7 +59,7 @@
                     <label for="title">Channel name</label>
                     <input type="text" id="title" required class="form-control" [(ngModel)]="channel.title" name="title" minlength="3" #channelTitle=ngModel>
                     <small class="form-text text-muted">
-                        The name of your channel how it will appear throughout the CWT website.
+                        The name of your channel how it will appear throughout the {{nameShort}} website.
                     </small>
                     <div class="text-danger" *ngIf="channelTitle.errors && channelTitle.dirty">
                         <div [hidden]="!channelTitle.errors.minlength">
