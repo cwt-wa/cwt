@@ -1,4 +1,5 @@
 var path = require('path');
+const fs = require('fs');
 var _root = path.resolve(__dirname, '..');
 function root(args) {
     args = Array.prototype.slice.call(arguments, 0);
@@ -40,5 +41,13 @@ exports.indexTemplate = function (env) {
             footer: JSON.parse(env.footer),
         }
     }
+};
+
+exports.custom = function (name, fallback) {
+    const f = root('custom', name);
+    if (fs.existsSync(f)) {
+        return f;
+    }
+    return root(fallback, name);
 };
 

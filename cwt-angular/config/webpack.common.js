@@ -16,7 +16,12 @@ const bootstrapCssExtractTextPlugin = new ExtractTextPlugin({
 
 module.exports = {
     entry: {
-        'app': './src/main/webapp/app/main.ts'
+        'app': './src/main/webapp/app/main.ts',
+        import: [
+                    ['favicon.ico', 'src/main/webapp/img/'],
+                    ['icon.png', 'src/main/webapp/img/'],
+                    ['manifest.json', 'src/main/webapp/'],
+                ].map(t => helpers.custom(...t))
     },
 
     resolve: {
@@ -67,7 +72,7 @@ module.exports = {
                 use: ['file-loader?name=assets/[name].[ext]']
             },
             {
-                test: /favicon.ico$/,
+                test: /favicon\.ico$/,
                 use: ['file-loader?name=favicon.ico']
             },
             {
