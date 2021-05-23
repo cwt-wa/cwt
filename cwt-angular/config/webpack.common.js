@@ -55,7 +55,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                exclude: /(favicon.ico|favicon.png|loading.gif|flags\/.*?.png|weapons\/.*?.gif)$/,
+                exclude: /(favicon.ico|icon.png|loading.gif|flags\/.*?.png|weapons\/.*?.gif)$/,
                 use: ['file-loader?name=assets/[name].[hash].[ext]']
             },
             {
@@ -75,8 +75,8 @@ module.exports = {
                 use: ['file-loader?name=loading.gif']
             },
             {
-                test: /favicon.png$/,
-                use: ['file-loader?name=assets/favicon.png']
+                test: /icon.png$/,
+                use: ['file-loader?name=assets/icon.png']
             },
             {
                 type: 'javascript/auto',
