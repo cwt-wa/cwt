@@ -1,6 +1,15 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const helpers = require('./helpers');
+const sass = require("node-sass");
+const sassUtils = require("node-sass-utils")(sass);
+let theme;
+try {
+    theme = require('../custom/theme');
+} catch (err) {
+    if (e.code !== 'MODULE_NOT_FOUND') throw err;
+    theme = require('../src/main/webapp/scss/theme');
+}
 
 const appCssExtractTextPlugin = new ExtractTextPlugin({
     filename: "app_[hash]_[name].css",
@@ -46,7 +55,17 @@ module.exports = {
                 test: /\.(scss)$/,
                 use: bootstrapCssExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
+                    use: [
+                        'css-loader',
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                functions: {
+                                    "get($key)": key => sassUtils.castToSass(sass.types.Color(...helpers.toRgba(theme[key.getValue()])))
+                                }
+                            }
+                        }
+                    ]
                 })
 
             },

@@ -51,3 +51,15 @@ exports.custom = function (name, fallback) {
     return root(fallback, name);
 };
 
+exports.toRgba = function (val) {
+    if (val.startsWith('#')) {
+        if (!/^#([A-Fa-f0-9]{3}){1,2}$/.test(val)) throw new Error(`Invalid val: ${val}`);
+        let c = val.substring(1).split('');
+        if (c.length == 3) c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+        c = `0xff${c.join('')}`;
+        return [Number(c)];
+    } else if (val.startsWith('rgb')) {
+        return val.substring(val.indexOf("(")+1, val.length-1).split(",").map(v => Number(v.trim()));
+    }
+}
+
