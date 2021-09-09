@@ -12,6 +12,8 @@ import com.cwtsite.cwt.entity.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import java.time.Duration
+import java.time.Instant
 import java.util.Optional
 
 @Component
@@ -94,6 +96,15 @@ class TournamentService {
     @Throws(RuntimeException::class)
     fun getCurrentTournament(): Tournament? =
             tournamentRepository.findByStatusNot(TournamentStatus.FINISHED)
+
+    /**
+     * Get the tournament whose creation is after and closest to the given creation.
+     *
+     * @return Can be `null` when there's no tournament created before the given creation instant.
+     */
+    fun getCurrentTournamentAt(at: Instant): Tournament? =
+            tournamentRepository.findByCreatedBefore(at)
+              .minByOrNull { Duration.between(it.created, at) }
 
     fun getAll(): List<Tournament> = tournamentRepository.findAll()
 

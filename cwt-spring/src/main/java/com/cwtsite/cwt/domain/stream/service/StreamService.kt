@@ -42,7 +42,7 @@ class StreamService {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun findMatchingGame(stream: Stream): Game? {
-        val tournament = tournamentService.getCurrentTournament()
+        val tournament = tournamentService.getCurrentTournamentAt(stream.createdAtAsInstant())
         logger.info("Finding matching game for stream \"${stream.title}\" in tournament ${tournament?.id}")
         val usernames = if (tournament == null) {
             setOf(
