@@ -16,5 +16,3 @@ alter sequence application_id_seq increment by 1;
 alter sequence comment_id_seq increment by 1;
 alter sequence group_standing_id_seq increment by 1;
 
-drop sequence if exists restores_id_seq;
-
