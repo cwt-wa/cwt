@@ -15,8 +15,11 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.BufferedReader
-import java.util.UUID
 import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.UUID
 import kotlin.test.Test
 
 @RunWith(MockitoJUnitRunner::class)
@@ -68,15 +71,20 @@ class StreamServiceTest {
     @Test
     fun findMatchingGame() {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
-        `when`(tournamentService.getCurrentTournament())
-                .thenReturn(tournament)
+        val streamCreatedAt = tournament.created!!.plus(5, ChronoUnit.DAYS)
         `when`(streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament))
                 .thenReturn(usernames.subList(0, 30))
         `when`(streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament))
                 .thenReturn(usernames.subList(30, usernames.size))
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withZone(ZoneOffset.UTC)
         testSet.forEach { record ->
+            val stream = EntityDefaults.stream(
+              title = record.streamTitle,
+              createdAt = formatter.format(streamCreatedAt))
+            `when`(tournamentService.getCurrentTournamentAt(stream.createdAtAsInstant()))
+                    .thenReturn(tournament)
             if (record.user1 == null || record.user2 == null) {
-                assertThat(cut.findMatchingGame(EntityDefaults.stream(title = record.streamTitle))).isNull()
+                assertThat(cut.findMatchingGame(stream)).isNull()
                 return@forEach
             }
             val user1 = EntityDefaults.user(username = record.user1)
@@ -84,7 +92,7 @@ class StreamServiceTest {
             `when`(userRepository.findByUsernameIgnoreCase(anyString())).thenReturn(user1).thenReturn(user2)
             val game = EntityDefaults.game(homeUser = user1, awayUser = user2, playoff = PlayoffGame(1, 1, 1))
             `when`(gameRepository.findGame(user1, user2, tournament)).thenReturn(listOf(game))
-            assertThat(cut.findMatchingGame(EntityDefaults.stream(title = record.streamTitle)))
+            assertThat(cut.findMatchingGame(stream))
                     .satisfies { matchingGame ->
                         assertThat(matchingGame).isNotNull
                         assertThat(matchingGame).satisfiesAnyOf({

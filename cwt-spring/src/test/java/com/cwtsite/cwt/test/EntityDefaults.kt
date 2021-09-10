@@ -58,9 +58,9 @@ object EntityDefaults {
     )
 
     fun stream(title: String = "epic stream", id: String = "1", viewCount: Long = 2,
-               game: Game? = null, channel: Channel = channel()) =
+               game: Game? = null, channel: Channel = channel(), createdAt: String = "2014-10-18T22:28:17Z") =
             Stream(title = title, id = id, viewCount = viewCount, channel = channel,
-                    game = game, createdAt = "2014-10-18T22:28:17Z")
+                    game = game, createdAt = createdAt)
 
     fun schedule(id: Long = 1, appointment: Instant = Instant.ofEpochMilli(1606079536669),
                  created: Instant = Instant.ofEpochMilli(1606079436669), author: User = user(id = 1),
