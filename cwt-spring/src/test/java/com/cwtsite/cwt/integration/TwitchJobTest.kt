@@ -106,6 +106,7 @@ class TwitchJobTest {
         `when`(twitchVideoDto.id).thenReturn(id)
         `when`(twitchVideoDto.userId).thenReturn(userId)
         `when`(twitchVideoDto.title).thenReturn(title)
+        `when`(twitchVideoDto.createdAt).thenReturn("2021-09-10T15:19:46Z")
         `when`(twitchVideoDto.hasCwtInTitle()).thenReturn(true)
         return twitchVideoDto
     }
