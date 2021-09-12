@@ -90,13 +90,10 @@ class SecurityService {
     @Throws(IllegalStateException::class, HttpClient.HttpClientException::class)
     fun refreshFirebaseToken(refreshToken: String): FirebaseIdentityTokenDto {
         firebaseApiKey ?: throw IllegalStateException()
-        val payload = JSONObject(mapOf(
-                "grant_type" to "refresh_token",
-                "refresh_token" to refreshToken))
         val uri = "https://securetoken.googleapis.com/v1/token?key=$firebaseApiKey"
         val request = HttpRequest.newBuilder()
             .uri(URI.create(uri))
-            .POST(BodyPublishers.ofString(payload.toString()))
+            .POST(BodyPublishers.ofString("grant_type=refresh_token&refresh_token=${refreshToken}"))
             .header("Content-Type", "application/x-www-form-urlencoded")
             .build()
         val response = httpClient.request(request, BodyHandlers.ofString())
