@@ -1,5 +1,5 @@
 <h1 class="float-left">
-    {{twitchActive ? 'Streams' : 'Game'}}
+    {{twitchActive ? 'Streams' : 'Games'}}
 </h1>
 
 <div class="float-right text-nowrap">
@@ -161,7 +161,7 @@
 </div>
 <div class="row mt-4 clear" *ngIf="twitchActive && unlinkedTwitchies && unlinkedTwitchies.length">
     <div class="col-12">
-        <h2>Other</h2>
+        <h2>Others</h2>
         <p class="lead">Recorded live streams not linked to any particular game.</p>
 
         <div class="card bg-secondary text-white border-0 mb-1" *ngIf="unlinkedTwitchies.length">
