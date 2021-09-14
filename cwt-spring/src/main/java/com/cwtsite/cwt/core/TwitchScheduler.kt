@@ -53,7 +53,10 @@ class TwitchScheduler {
         logger.info("Updated ${updatedVideos.size} videos")
 
         // Save new videos from Twitch and associate game.
+        logger.info("twitchVideos: ${twitchVideos.map { it.id }}")
+        logger.info("existingVideos: ${existingVideos.map { it.id }}")
         val newVideos = twitchVideos.filter { !existingVideos.contains(it) }
+        logger.info("newVideos: ${newVideos.map { it.id }}")
         newVideos
                 .map { Pair(it, streamService.findMatchingGame(it)) }
                 .filter { it.second != null }
