@@ -1,4 +1,6 @@
-<h1 class="float-left">Games</h1>
+<h1 class="float-left">
+    {{twitchActive ? 'Streams' : 'Game'}}
+</h1>
 
 <div class="float-right text-nowrap">
     <div class="d-flex">
@@ -97,7 +99,7 @@
 <div class="row mt-2 clear" *ngIf="twitchies && !loading && twitchActive">
     <div class="col-12">
         <div class="alert alert-info" *ngIf="!twitchies.length">
-            There are have been now live stream broadcasts yet.
+            There are no live stream broadcasts related to a game yet.
         </div>
         <div class="card bg-secondary text-white border-0 mb-1" *ngIf="twitchies.length">
             <div class="card-body py-2" *ngFor="let t of twitchies"
@@ -157,3 +159,45 @@
         </div>
     </div>
 </div>
+<div class="row mt-4 clear" *ngIf="twitchActive && unlinkedTwitchies && unlinkedTwitchies.length">
+    <div class="col-12">
+        <h2>Other</h2>
+        <p class="lead">Recorded live streams not linked to any particular game.</p>
+
+        <div class="card bg-secondary text-white border-0 mb-1" *ngIf="unlinkedTwitchies.length">
+            <div class="card-body py-2" *ngFor="let t of unlinkedTwitchies"
+                 style="border-bottom: 1px solid black !important;">
+                <div class="row">
+                    <div class="col pt-lg-4">
+                        <h6 class="d-md-none">
+                            {{t.title}}
+                        </h6>
+                        <h5 class="d-none d-md-block">
+                            {{t.title}}
+                        </h5>
+                    </div>
+                    <div class="col-12 col-sm-5 mt-1">
+                        <div class="row">
+                            <div class="col col-lg-12">
+                                <cwt-watch-on-twitch [streams]="[t]"></cwt-watch-on-twitch>
+                                <span class="d-lg-none text-nowrap">
+                                    Streamed by
+                                    <strong>
+                                        <cwt-user [username]="t.channel.user.username"></cwt-user>
+                                    </strong>
+                                </span>
+                            </div>
+                            <div class="col col-lg-12 d-none mt-1 d-lg-block text-nowrap">
+                                Streamed by
+                                <strong>
+                                    <cwt-user [username]="t.channel.user.username"></cwt-user>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                <div>
+            </div>
+        </div>
+    </div>
+</div>
+

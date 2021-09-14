@@ -23,6 +23,7 @@ export class GameOverviewComponent implements OnInit {
     loading: boolean;
     twitchActive = false
     twitchies: StreamDto[];
+    unlinkedTwitchies: StreamDto[];
 
     constructor(private requestService: RequestService,
                 @Inject(APP_CONFIG) public appConfig: AppConfig,
@@ -82,6 +83,10 @@ export class GameOverviewComponent implements OnInit {
                     .filter(s => s.game != null)
                     .sort((s1, s2) => (new Date(s2.game.reportedAt).getTime()
                         - new Date(s1.game.reportedAt).getTime()))
+                this.unlinkedTwitchies = res
+                    .filter(s => s.game == null)
+                    .sort((s1, s2) => (new Date(s2.createdAt).getTime()
+                        - new Date(s1.createdAt).getTime()))
             });
     }
 
