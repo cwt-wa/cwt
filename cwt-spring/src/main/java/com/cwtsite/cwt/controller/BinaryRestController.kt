@@ -234,7 +234,7 @@ class BinaryRestController {
 
     private fun createResponseEntity(response: HttpResponse<InputStream>): ResponseEntity<InputStreamResource> {
         val headers = HttpHeaders()
-        headers.cacheControl = CacheControl.noCache().headerValue
+        response.headers().firstValue("Cache-Control").ifPresent { headers.set("Cache-Control", it) }
         response.headers().firstValue("Content-Type").ifPresent { headers.set("Content-Type", it) }
         response.headers().firstValue("Content-Disposition").ifPresent { headers.set("Content-Disposition", it) }
         response.headers().firstValue("Content-Length").ifPresent { headers.set("Content-Length", it) }
