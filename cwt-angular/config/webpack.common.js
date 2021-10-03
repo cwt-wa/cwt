@@ -56,7 +56,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                exclude: /(favicon.ico|favicon.png|loading.gif|flags\/.*?.png|weapons\/.*?.gif)$/,
+                exclude: /(favicon.ico|favicon.png|loading.gif|flags\/.*?.png|weapons\/.*?.png)$/,
                 use: ['file-loader?name=assets/[name].[hash].[ext]']
             },
             {
@@ -64,7 +64,7 @@ module.exports = {
                 use: ['file-loader?name=assets/[name].[ext]']
             },
             {
-                test: /weapons\/.*?.gif$/,
+                test: /weapons\/.*?.png$/,
                 use: ['file-loader?name=assets/[name].[ext]']
             },
             {
