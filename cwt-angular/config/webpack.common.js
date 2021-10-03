@@ -56,8 +56,16 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                exclude: /(favicon.ico|favicon.png|loading.gif|flags\/.*?.png|weapons\/.*?.png)$/,
+                exclude: /(favicon.ico|favicon.png|loading.gif|flags\/.*?.png|weapons\/.*?.png)|grave\.png|water\.gif$/,
                 use: ['file-loader?name=assets/[name].[hash].[ext]']
+            },
+            {
+                test: /grave.png$/,
+                use: ['file-loader?name=assets/[name].[ext]']
+            },
+            {
+                test: /water.gif$/,
+                use: ['file-loader?name=assets/[name].[ext]']
             },
             {
                 test: /flags\/.*?.png$/,
