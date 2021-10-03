@@ -104,7 +104,7 @@ class BinaryRestController {
 
         try {
             FileValidator.validate(
-                    replay, 150000,
+                    replay, 300000,
                     listOf("application/zip", "application/x-zip-compressed",
                             "application/octet-stream"),
                     listOf("zip"))
