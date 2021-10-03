@@ -17,7 +17,7 @@ export class WeaponComponent {
         try {
             return require('../../img/weapons/' + this.weapon.toLowerCase().split(' ').join('') + '.png');
         } catch (e) {
-            return require('../../img/weapons/unknown.png');
+            return require('../../img/weapons/unknown.gif');
         }
     }
 }
