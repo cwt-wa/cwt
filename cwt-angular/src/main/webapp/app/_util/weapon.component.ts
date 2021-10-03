@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'cwt-weapon',
-    template: `<img *ngIf="weapon" [src]="img()" [alt]="title" [ngbTooltip]="title">`
+    template: `<img *ngIf="weapon" [src]="img()" [alt]="title" [ngbTooltip]="title" height="32">`
 })
 export class WeaponComponent {
 
