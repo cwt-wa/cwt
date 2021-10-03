@@ -33,6 +33,7 @@ describe('Chat', () => {
                 fn(messages as any);
             }
         });
+        // @ts-ignore
         spyOn(authService, 'authState');
         toastr = {} as unknown as Toastr;
         appConfig = {} as unknown as AppConfig;

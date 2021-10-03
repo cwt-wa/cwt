@@ -16,6 +16,7 @@ describe('TimeAgoService', () => {
     it('works well', inject([TimeAgoService], (timeAgoService: TimeAgoService) => {
         let timeAgo: TimeAgo;
         const fakeNow: Date = new Date('2015-05-05T15:05:05.555Z');
+        // @ts-ignore
         spyOn<DateConstructor>(Date, "now").and.callFake(() => fakeNow);
 
         timeAgo = timeAgoService.timeAgo(new Date('2015-05-05T15:05:04.555Z'));
