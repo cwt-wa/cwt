@@ -29,9 +29,7 @@ export class RequestService {
         return this.httpClient
             .get(
                 this.appConfig.apiEndpoint + relativePath,
-                {responseType: 'blob', observe: 'body', headers: this.generateDefaultHeaders()})
-            .pipe(
-                catchError(this.catch.bind(this)));
+                {responseType: 'blob', observe: 'body', headers: this.generateDefaultHeaders()});
     }
 
     public getPaged<T>(relativePath: string, params?: PageDto<T>): Observable<PageDto<T, ValueLabel>> {
