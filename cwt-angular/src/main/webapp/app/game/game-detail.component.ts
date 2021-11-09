@@ -150,7 +150,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     rightColumnViewToggle: 'MAPS' | 'IN_GAME_CHAT' | 'COMMENTS' = 'COMMENTS';
     statsAreBeingProcessed: boolean = false;
     private eventSource: EventSource;
-    loadingStats: boolean = true;
+    loadingStats: boolean = false;
     hasOlderVersion: boolean = false;
     waVersionWarn: boolean = false;
     homeUserAbbr: string;
@@ -186,7 +186,6 @@ export class GameDetailComponent implements OnInit, OnDestroy {
                     this.game = res;
                     this.homeUserAbbr = this.game.homeUser.username.toUpperCase().slice(0, 3);
                     this.awayUserAbbr = this.game.awayUser.username.toUpperCase().slice(0, 3);
-                    this.loadingStats = false;
                     this.gameWasPlayed = this.playoffService.gameWasPlayed(this.game);
 
                     if (!this.gameWasPlayed) {
@@ -217,11 +216,15 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
     retrieveGameStats() {
         this.requestService.get<GameStats.GameStats[]>(`game/${this.game.id}/stats`)
-            .subscribe(res => this.stats.push(...res));
-        const now = Date.now();
-        const reportedAt = new Date(this.game.reportedAt).getTime();
-        const reportedAgo = now - reportedAt;
-        if (reportedAgo <= 1000 * 60 * 4) this.setupEventSource();
+            .subscribe(res => {
+                this.stats.push(...res)
+                if (this.game.replayQuantity > this.stats.length) {
+                    const now = Date.now();
+                    const reportedAt = new Date(this.game.reportedAt).getTime();
+                    const reportedAgo = now - reportedAt;
+                    if (reportedAgo <= 1000 * 60 * 4) this.setupEventSource();
+                }
+            });
     }
 
     setupEventSource(): void {
