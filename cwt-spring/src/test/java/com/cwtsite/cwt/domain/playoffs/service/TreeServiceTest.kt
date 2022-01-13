@@ -168,37 +168,17 @@ class TreeServiceTest {
 
     @Test
     fun isPlayoffTreeWithThreeWayFinal() {
-        val tournament = EntityDefaults.tournament()
-        val fn = { listSize: Int ->
-            `when`(mock(List::class.java).size)
-                    .thenReturn(listSize)
-                    .getMock<List<Any>>()
-        }
-
-        `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
-                .thenAnswer { fn(4 / 2) }
-                .thenAnswer { fn(6 / 2) }
-                .thenAnswer { fn(8 / 2) }
-                .thenAnswer { fn(12 / 2) }
-                .thenAnswer { fn(16 / 2) }
-                .thenAnswer { fn(24 / 2) }
-                .thenAnswer { fn(32 / 2) }
-                .thenAnswer { fn(48 / 2) }
-                .thenAnswer { fn(64 / 2) }
-                .thenAnswer { fn(96 / 2) }
-                .thenAnswer { fn(128 / 2) }
-
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(tournament)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(  4 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(  6 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(  8 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 12 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 16 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 24 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 32 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 48 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 64 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 96 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(128 * 2)).isFalse()
     }
 
     @Test

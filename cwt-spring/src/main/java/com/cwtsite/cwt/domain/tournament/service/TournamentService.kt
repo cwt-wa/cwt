@@ -64,7 +64,7 @@ class TournamentService {
         currentTournament.status = TournamentStatus.PLAYOFFS
         // group stage plus number of playoff rounds
         currentTournament.maxRounds = treeService.getNumberOfPlayoffRoundsInTournament(currentTournament) + 1
-        currentTournament.threeWay = treeService.isPlayoffTreeWithThreeWayFinal(currentTournament)
+        currentTournament.threeWay = treeService.isPlayoffTreeWithThreeWayFinal(games.size * 2)
         tournamentRepository.save(currentTournament)
         return gameRepository.saveAll(games)
     }

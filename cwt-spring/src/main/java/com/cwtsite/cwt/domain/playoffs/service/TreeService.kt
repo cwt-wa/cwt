@@ -120,16 +120,12 @@ class TreeService {
         }
     }
 
-
-    fun isPlayoffTreeWithThreeWayFinal(tournament: Tournament) =
-            isPlayoffTreeWithThreeWayFinal(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1).size * 2)
-
     fun getNextGameForUser(user: User): Game? {
         val currentTournament = tournamentService.getCurrentTournament()
                 ?: return null
         return gameRepository.findNextPlayoffGameForUser(currentTournament, user)
     }
 
-    private fun isPlayoffTreeWithThreeWayFinal(playersInFirstRound: Int) =
+    fun isPlayoffTreeWithThreeWayFinal(playersInFirstRound: Int) =
             log2(playersInFirstRound.toDouble()) % 1 != 0.0
 }
