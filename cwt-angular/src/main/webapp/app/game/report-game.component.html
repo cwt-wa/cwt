@@ -1,9 +1,6 @@
 <div class="row justify-content-center" *ngIf="authenticatedUser">
     <div class="col-lg-6 col-md-8 col-sm-10">
         <h1 class="mb-4">Report</h1>
-        <div class="alert alert-warning my-2">
-            RAR archives are not supported anymore. Please use Zip archives.
-        </div>
         <form #reportForm="ngForm" (submit)="submit()" enctype="multipart/form-data"
               [cwtValidateResult]="[scoreOfUserElem, scoreOfOpponentElem]">
             <div class="form-row">
