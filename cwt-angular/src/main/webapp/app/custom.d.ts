@@ -354,7 +354,7 @@ export interface CommentDto {
     created: string;
 }
 
-export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED";
+export type TournamentStatus = "OPEN" | "GROUP" | "PLAYOFFS" | "FINISHED" | "ARCHIVED";
 
 export interface TournamentDetailDto {
     id: number;
