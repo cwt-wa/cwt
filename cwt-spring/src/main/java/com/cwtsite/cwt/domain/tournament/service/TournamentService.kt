@@ -36,12 +36,12 @@ class TournamentService {
 
 
     /**
-     * @throws IllegalStateException When there are unfinished tournaments.
+     * @throws IllegalStateException When there are unarchived tournaments.
      */
     @Throws(IllegalStateException::class)
     fun startNewTournament(moderatorIds: List<Long>): Tournament {
-        if (tournamentRepository.countByStatusNot(TournamentStatus.FINISHED) > 0) {
-            throw IllegalStateException("For a new tournament to start it is required that all tournaments are finished.")
+        if (tournamentRepository.countByStatusNot(TournamentStatus.ARCHIVED) > 0) {
+            throw IllegalStateException("For a new tournament to start it is required that all tournaments are archived.")
         }
 
         val tournament = Tournament()
@@ -95,7 +95,7 @@ class TournamentService {
 
     @Throws(RuntimeException::class)
     fun getCurrentTournament(): Tournament? =
-            tournamentRepository.findByStatusNot(TournamentStatus.FINISHED)
+            tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED)
 
     /**
      * Get the tournament whose creation is after and closest to the given creation.
@@ -109,6 +109,8 @@ class TournamentService {
     fun getAll(): List<Tournament> = tournamentRepository.findAll()
 
     fun getAllFinished(): List<Tournament> = tournamentRepository.findByStatus(TournamentStatus.FINISHED)
+
+    fun getAllArchived(): List<Tournament> = tournamentRepository.findByStatus(TournamentStatus.ARCHIVED)
 
     fun save(tournament: Tournament): Tournament = tournamentRepository.save(tournament)
 }

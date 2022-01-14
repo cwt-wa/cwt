@@ -64,7 +64,7 @@ constructor(private val tournamentService: TournamentService, private val userSe
 
     @RequestMapping("/archive", method = [RequestMethod.GET])
     fun getTournamentsForArchive(): ResponseEntity<List<TournamentDto>> =
-            ResponseEntity.ok(tournamentService.getAllFinished()
+            ResponseEntity.ok(tournamentService.getAllArchived()
                     .map { TournamentDto.toDto(it) }
                     .sortedByDescending { it.year })
 
