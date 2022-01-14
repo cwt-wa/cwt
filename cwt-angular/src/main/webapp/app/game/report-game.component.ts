@@ -5,6 +5,7 @@ import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
 import {CanReportService} from "../_services/can-report.service";
 import {Toastr} from "../_services/toastr";
+import {GoldWinnerService} from "../_services/gold-winner.service";
 
 @Component({
     selector: 'cwt-report-game',
@@ -19,8 +20,12 @@ export class ReportGameComponent implements OnInit {
     private authenticatedUser: JwtUser;
     private possibleScores: number[];
 
-    public constructor(private authService: AuthService, private requestService: RequestService, private router: Router,
-                       private canReportService: CanReportService, private toastr: Toastr) {
+    public constructor(private authService: AuthService,
+                       private requestService: RequestService,
+                       private router: Router,
+                       private canReportService: CanReportService,
+                       private toastr: Toastr,
+                       private goldWinnerService: GoldWinnerService) {
     }
 
     public async ngOnInit() {
@@ -66,6 +71,8 @@ export class ReportGameComponent implements OnInit {
             this.router.navigateByUrl(`/games/${res.id}`);
             this.toastr.success("Successfully saved.");
             this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
+
+            this.goldWinnerService.highlight();
 
             const formData = new FormData();
             formData.append('replay', this.replayFile.nativeElement.files[0]);

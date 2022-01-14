@@ -24,7 +24,7 @@ from (select TO_CHAR(t.CREATED, 'yyyy') as year,
                                join PLAYOFF_GAME po1 on g.PLAYOFF_ID = po1.ID
                         group by TOURNAMENT_ID, HOME_USER_ID, AWAY_USER_ID) po
                on po.TOURNAMENT_ID = t.id and (po.HOME_USER_ID = $1 or po.AWAY_USER_ID = $1)
-      where t.status = 'FINISHED'
+      where t.status in ('FINISHED', 'ARCHIVED')
       group by year, g.g_id, t.GOLD_WINNER_ID, t.SILVER_WINNER_ID, t.BRONZE_WINNER_ID, t.max_rounds, t.id
       order by year asc) as x;
 $$;

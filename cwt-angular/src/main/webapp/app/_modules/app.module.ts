@@ -21,6 +21,7 @@ import {DatePipe} from "@angular/common";
 import {BinaryService} from "../_services/binary.service";
 import {LiveStreamComponent} from "../stream/live-stream.component";
 import {CurrentTournamentService} from "../_services/current-tournament.service";
+import {GoldWinnerService} from "../_services/gold-winner.service";
 import {SharedModule} from "./shared.module";
 import {TimeAgoService} from "../_services/time-ago.service";
 import {PlayoffsService} from "../_services/playoffs.service";
@@ -144,6 +145,7 @@ const appRoutes: Routes = [
         CanReportService,
         BinaryService,
         CurrentTournamentService,
+        GoldWinnerService,
         Toastr,
         TimeAgoService,
         PlayoffsService,

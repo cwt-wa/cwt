@@ -12,6 +12,7 @@ import {ConfigurationService} from "./_services/configuration.service";
 import {map} from "rxjs/operators";
 import {forkJoin} from "rxjs";
 import {CurrentTournamentService} from "./_services/current-tournament.service";
+import {GoldWinnerService} from "./_services/gold-winner.service";
 
 @Component({
     selector: 'my-app',
@@ -36,16 +37,20 @@ export class AppComponent implements AfterViewInit, OnInit {
     constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
                 private router: Router, private authService: AuthService, private canReportService: CanReportService,
                 private toastr: Toastr, private configurationService: ConfigurationService,
-                private currentTournamentService: CurrentTournamentService) {
+                private currentTournamentService: CurrentTournamentService,
+                private goldWinnerService: GoldWinnerService) {
         this.isAppleStandalone = this.webAppViewService.isAppleStandalone;
         this.isStandalone = this.webAppViewService.isStandalone;
     }
 
     public ngOnInit(): void {
         this.authService.authState
-            .then(user => {
+            .then(async user => {
                 this.authenticatedUser = user;
                 !!this.authenticatedUser && this.canReportService.requestInitialValue(this.authenticatedUser.id);
+                this.goldWinnerService.doHighlight(
+                    await this.currentTournamentService.value,
+                    this.authenticatedUser);
             });
 
         if (this.authService.validateToken()) {
@@ -58,19 +63,6 @@ export class AppComponent implements AfterViewInit, OnInit {
             this.authService.resolveAuthState(null);
             this.authService.voidToken();
         }
-
-        Promise
-            .all([this.authService.authState, this.currentTournamentService.value])
-            .then(([authUser, currentTournament]) => {
-                const userIsGoldWinner =
-                    currentTournament
-                    && currentTournament.status === 'FINISHED'
-                    && currentTournament.goldWinner
-                    && currentTournament.goldWinner.id === authUser.id;
-                if (userIsGoldWinner) {
-                    document.body.classList.add('goldWinner');
-                }
-            });
 
         forkJoin([
             this.currentTournamentService.value,

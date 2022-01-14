@@ -23,6 +23,10 @@ export class AdminComponent implements OnInit {
     }
 
     archive(): void {
+        const msg = "Do you really want to archive the current tournament?";
+        if (!confirm(msg)) {
+            return;
+        }
         this.requestService.put<TournamentDetailDto>(
             `tournament/${this.tournament.id}`,
             {status: "ARCHIVED"} as TournamentUpdateDto)

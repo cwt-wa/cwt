@@ -43,9 +43,9 @@
         <h2>Tournament</h2>
         <ul>
             <li *ngIf="tournament?.status === 'FINISHED'">
-                <button class="btn btn-link" (click)="archive()">
+                <a href="" (click)="$event.preventDefault(); archive()">
                     Archive tournament
-                </button>
+                </a>
             </li>
             <li *ngIf="tournament?.status == null">
                 <a routerLink="/admin/tournaments/start">
