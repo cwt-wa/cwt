@@ -77,10 +77,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public keydown(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        console.log(key, e.shiftKey);
         if (!this.suggestions.length || !['ArrowDown', 'ArrowUp', 'Tab'].includes(key)) {
             return;
         }
+        console.log('prevented');
         e.preventDefault();
         const buttons = Array.from(document.querySelectorAll('#chat-suggestions button'));
         let active;
@@ -90,7 +90,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                 break;
             }
         }
-        console.log(buttons);
         if (active == null) {
             buttons[0].classList.add('active');
         } else {
@@ -106,14 +105,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public keypress(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        console.log(key);
         const isAtSign = key === '@';
         const isProcessing = !!this.suggestions.length;
         if (!isAtSign && !isProcessing) return;
 
         const inpElem = e.target
         const caretPos = inpElem.selectionStart;
-        const v = inpElem.value.substring(0, caretPos);
+        const v = inpElem.value.substring(0, caretPos) + (isAtSign ? '@' : '');
 
         const rev = v.split("").reverse().join("");
         const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("").toLowerCase();
@@ -127,7 +125,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         inpElem.parentElement.insertAdjacentHTML(
             'beforebegin',
-            `<span id='dummy'>${v.substring(0, v.length-proc.length}</span>`);
+            `<span id='dummy'>${v.substring(0, v.length-proc.length)}</span>`);
 
         const dummyElem = document.getElementById('dummy');
         const {fontSize, fontFamily} = window.getComputedStyle(inpElem);
