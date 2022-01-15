@@ -1,6 +1,25 @@
 <div class="row" *ngIf="authUser && !hideInput">
-    <div class="col pr-0 overflow-hidden">
-        <chatInput (message)="submit($event[0], $event[1])"></chatInput>
+    <div class="col pr-0 chat-input">
+        <form>
+            <div class="input-group input-group-lg chat-input">
+                <input type="text" name="chat-input" class="single-line form-control" (keyup)="keyup($event)">
+                <span class="input-group-append">
+                    <button class="btn btn-primary submit" type="button">
+                        <i class="fa fa-send"></i>
+                    </button>
+                </span>
+                <div class="chat-suggestions position-absolute"
+                     style="top: 3rem;"
+                     [ngStyle]="{'left': suggOffset+'px'}"
+                     *ngIf="suggestions.length">
+                    <div class="dropdown-menu show">
+                        <button *ngFor="let sugg of suggestions;" class="dropdown-item" type="button">
+                            {{ sugg.username }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="col-auto pl-1">
         <div class="" ngbDropdown>

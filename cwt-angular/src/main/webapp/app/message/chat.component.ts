@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     filter: MessageCategory | null = null;
     authUser: JwtUser;
+    suggestions = [];
     private readonly messagesSize = 30;
     private oldestMessage: number;
     private endpoint: string;
@@ -68,6 +69,36 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (this.eventSource != null && this.eventSource.readyState !== 2) {
             this.eventSource.close();
         }
+    }
+
+    public keyup(e) {
+        //if (!(event.key === '@' || (event.key === 'Unidentified' && event.which === 229))) return;
+
+        console.log(event.key);
+
+        let inpElem = e.target
+
+        inpElem.parentElement.insertAdjacentHTML('beforebegin', `<span id='dummy'>${inpElem.value}</span>`);
+
+        const dummyElem = document.getElementById('dummy');
+        const {fontSize, fontFamily} = window.getComputedStyle(inpElem);
+        dummyElem.style.fontSize = fontSize;
+        dummyElem.style.fontFamily = fontFamily;
+        dummyElem.style.paddingLeft = '17px';
+
+        const offset = 80;
+	    this.suggOffset = Math.min(
+            inpElem.getBoundingClientRect().width - offset,
+            dummyElem.getBoundingClientRect().width + offset) - offset;
+
+        dummy.remove();
+
+        this.suggestions = [
+            { key: 1, username: "Zemke" },
+            { key: 10, username: "Kayz" },
+            { key: 10, username: "Koras" },
+            { key: 15, username: "Dario" },
+        ];
     }
 
     private setupEventSource() {
