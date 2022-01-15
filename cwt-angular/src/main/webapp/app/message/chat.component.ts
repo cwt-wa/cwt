@@ -77,8 +77,10 @@ export class ChatComponent implements OnInit, OnDestroy {
         console.log(event.key);
 
         let inpElem = e.target
+        const v = inpElem.value.substring(0, inpElem.selectionStart);
+        console.log(inpElem.value.substring(0, inpElem.selectionStart));
 
-        inpElem.parentElement.insertAdjacentHTML('beforebegin', `<span id='dummy'>${inpElem.value}</span>`);
+        inpElem.parentElement.insertAdjacentHTML('beforebegin', `<span id='dummy'>${v}</span>`);
 
         const dummyElem = document.getElementById('dummy');
         const {fontSize, fontFamily} = window.getComputedStyle(inpElem);
