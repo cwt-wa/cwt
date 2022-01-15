@@ -3,7 +3,7 @@
         <form>
             <div class="input-group input-group-lg chat-input">
                 <input type="text" name="chat-input" class="single-line form-control"
-                       (keydown)="keydown($event)" (keypress)="keypress($event)">
+                       (keydown)="keydown($event)" (keypress)="keypress($event)" id="chat-input">
                 <span class="input-group-append">
                     <button class="btn btn-primary submit" type="button">
                         <i class="fa fa-send"></i>
@@ -17,7 +17,7 @@
                     <div class="dropdown-menu show">
                         <button *ngFor="let sugg of suggestions; let first = first;"
                                 class="dropdown-item" [class.active]="first"
-                                type="button" [value]="sugg.id">
+                                type="button" [value]="sugg.id" (click)="complete(sugg, true)">
                             {{ sugg.username }}
                         </button>
                     </div>

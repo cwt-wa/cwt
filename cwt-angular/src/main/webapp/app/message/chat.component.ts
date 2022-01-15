@@ -92,18 +92,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (key === 'Enter') {
             const user = this.suggestions.find(x => x.id == buttons[active].value);
             if (user == null) return;
-            const inpElem = e.target
-            const caretPos = inpElem.selectionStart;
-            const v = inpElem.value
-            const rev = v.substring(0, caretPos).split("").reverse().join("")
-            const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("")
-            inpElem.value =
-                v.substring(0, caretPos - proc.length)
-                + user.username
-                + v.substring(caretPos, v.length+1);
-            this.suggestions = [];
-            inpElem.selectionStart = caretPos - proc.length + user.username.length;
-            inpElem.selectionEnd = inpElem.selectionStart;
+            this.complete(user);
         } else {
             if (active == null) {
                 buttons[0].classList.add('active');
@@ -117,6 +106,22 @@ export class ChatComponent implements OnInit, OnDestroy {
                 }
             }
         }
+    }
+
+    public complete(user, fromClick=false) {
+        const inpElem = document.getElementById('chat-input');
+        const caretPos = inpElem.selectionStart;
+        const v = inpElem.value
+        const rev = v.substring(0, caretPos).split("").reverse().join("")
+        const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("")
+        inpElem.value =
+            v.substring(0, caretPos - proc.length)
+            + user.username
+            + v.substring(caretPos, v.length+1);
+        this.suggestions = [];
+        fromClick && inpElem.focus();
+        inpElem.selectionStart = caretPos - proc.length + user.username.length;
+        inpElem.selectionEnd = inpElem.selectionStart;
     }
 
     public keypress(e) {
