@@ -77,6 +77,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public keydown(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
+        if (key === 'ArrowLeft' || key === 'Backspace') {
+            const caretPos = e.target.selectionStart;
+            if (e.target.value.charAt(caretPos-1) === '@') {
+                this.suggestions = [];
+                return;
+            }
+        }
         if (!this.suggestions.length || !['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
             return;
         }
