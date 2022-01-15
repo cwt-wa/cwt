@@ -77,10 +77,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public keydown(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        if (!this.suggestions.length || !['ArrowDown', 'ArrowUp', 'Tab'].includes(key)) {
+        if (!this.suggestions.length || !['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
             return;
         }
-        console.log('prevented');
         e.preventDefault();
         const buttons = Array.from(document.querySelectorAll('#chat-suggestions button'));
         let active;
@@ -90,15 +89,32 @@ export class ChatComponent implements OnInit, OnDestroy {
                 break;
             }
         }
-        if (active == null) {
-            buttons[0].classList.add('active');
+        if (key === 'Enter') {
+            const user = this.suggestions.find(x => x.id == buttons[active].value);
+            if (user == null) return;
+            const inpElem = e.target
+            const caretPos = inpElem.selectionStart;
+            const v = inpElem.value
+            const rev = v.substring(0, caretPos).split("").reverse().join("")
+            const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("")
+            inpElem.value =
+                v.substring(0, caretPos - proc.length)
+                + user.username
+                + v.substring(caretPos, v.length+1);
+            this.suggestions = [];
+            inpElem.selectionStart = caretPos - proc.length + user.username.length;
+            inpElem.selectionEnd = inpElem.selectionStart;
         } else {
-            const up = key === 'ArrowUp' || (e.shiftKey && key === 'Tab')
-            buttons[active].classList.remove('active');
-            if (up && active == 0) {
-                buttons[buttons.length-1].classList.add('active');
+            if (active == null) {
+                buttons[0].classList.add('active');
             } else {
-                buttons[(active + (up ? -1 : +1)) % buttons.length].classList.add('active');
+                const up = key === 'ArrowUp' || (e.shiftKey && key === 'Tab')
+                buttons[active].classList.remove('active');
+                if (up && active == 0) {
+                    buttons[buttons.length-1].classList.add('active');
+                } else {
+                    buttons[(active + (up ? -1 : +1)) % buttons.length].classList.add('active');
+                }
             }
         }
     }
@@ -141,10 +157,10 @@ export class ChatComponent implements OnInit, OnDestroy {
         dummy.remove();
 
         this.suggestions = [
-            { key: 1, username: "Zemke" },
-            { key: 10, username: "Kayz" },
-            { key: 10, username: "Koras" },
-            { key: 15, username: "Dario" },
+            { id: 1, username: "Zemke" },
+            { id: 10, username: "Kayz" },
+            { id: 12, username: "Koras" },
+            { id: 15, username: "Dario" },
         ];
     }
 

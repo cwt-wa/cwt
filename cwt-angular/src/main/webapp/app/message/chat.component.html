@@ -17,7 +17,7 @@
                     <div class="dropdown-menu show">
                         <button *ngFor="let sugg of suggestions; let first = first;"
                                 class="dropdown-item" [class.active]="first"
-                                type="button">
+                                type="button" [value]="sugg.id">
                             {{ sugg.username }}
                         </button>
                     </div>
