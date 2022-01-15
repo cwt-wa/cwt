@@ -3,7 +3,8 @@
         <form>
             <div class="input-group input-group-lg chat-input">
                 <input type="text" name="chat-input" class="single-line form-control"
-                       (keydown)="keydown($event)" (keypress)="keypress($event)" id="chat-input">
+                       (keydown)="keydown($event)" (keypress)="keypress($event)"
+                       (focus)="focus($event)" id="chat-input">
                 <span class="input-group-append">
                     <button class="btn btn-primary submit" type="button">
                         <i class="fa fa-send"></i>

@@ -22,6 +22,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     private endpoint: string;
     private eventSource: EventSource;
 
+    private static readonly DELIMITER = /[A-Za-z0-9-]/;
+
     constructor(private requestService: RequestService,
                 private authService: AuthService,
                 private toastr: Toastr,
@@ -65,7 +67,25 @@ export class ChatComponent implements OnInit, OnDestroy {
             });
 
         document.addEventListener('click', e => {
-            this.suggestions = [];
+            if (e.target.id === 'chat-input') {
+                const v = e.target.value.substring(0, e.target.selectionStart);
+                if (v.indexOf('@') === -1) {
+                    this.suggestions = [];
+                } else {
+                    const rev = v.split("").reverse().join("");
+                    const subj = rev.substring(0, rev.indexOf("@")).split("")
+                        .every(s => s.match(ChatComponent.DELIMITER))
+                    if (subj) {
+                        this.suggestions = [
+                            { id: 1, username: 'Zemke'};
+                        ];
+                    } else {
+                        this.suggestions = [];
+                    }
+                }
+            } else {
+                this.suggestions = [];
+            }
         });
     }
 
@@ -73,6 +93,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (this.eventSource != null && this.eventSource.readyState !== 2) {
             this.eventSource.close();
         }
+    }
+
+    public focus(e) {
     }
 
     public keydown(e) {
@@ -145,7 +168,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("").toLowerCase();
 
         if (isProcessing) {
-            if (key.match(/[A-Za-z0-9-]/) == null) {
+            if (key.match(ChatComponent.DELIMITER) == null) {
                 this.suggestions = [];
                 return;
             }
