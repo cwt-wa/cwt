@@ -63,6 +63,10 @@ export class ChatComponent implements OnInit, OnDestroy {
                 this.messages = res;
                 this.setupEventSource();
             });
+
+        document.addEventListener('click', e => {
+            this.suggestions = [];
+        });
     }
 
     ngOnDestroy(): void {
@@ -71,16 +75,59 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
     }
 
-    public keyup(e) {
-        //if (!(event.key === '@' || (event.key === 'Unidentified' && event.which === 229))) return;
+    public keydown(e) {
+        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
+        console.log(key, e.shiftKey);
+        if (!this.suggestions.length || !['ArrowDown', 'ArrowUp', 'Tab'].includes(key)) {
+            return;
+        }
+        e.preventDefault();
+        const buttons = Array.from(document.querySelectorAll('#chat-suggestions button'));
+        let active;
+        for (let i = 0; i < buttons.length; i++) {
+            if (buttons[i].classList.contains('active')) {
+                active = i;
+                break;
+            }
+        }
+        console.log(buttons);
+        if (active == null) {
+            buttons[0].classList.add('active');
+        } else {
+            const up = key === 'ArrowUp' || (e.shiftKey && key === 'Tab')
+            buttons[active].classList.remove('active');
+            if (up && active == 0) {
+                buttons[buttons.length-1].classList.add('active');
+            } else {
+                buttons[(active + (up ? -1 : +1)) % buttons.length].classList.add('active');
+            }
+        }
+    }
 
-        console.log(event.key);
+    public keypress(e) {
+        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
+        console.log(key);
+        const isAtSign = key === '@';
+        const isProcessing = !!this.suggestions.length;
+        if (!isAtSign && !isProcessing) return;
 
-        let inpElem = e.target
-        const v = inpElem.value.substring(0, inpElem.selectionStart);
-        console.log(inpElem.value.substring(0, inpElem.selectionStart));
+        const inpElem = e.target
+        const caretPos = inpElem.selectionStart;
+        const v = inpElem.value.substring(0, caretPos);
 
-        inpElem.parentElement.insertAdjacentHTML('beforebegin', `<span id='dummy'>${v}</span>`);
+        const rev = v.split("").reverse().join("");
+        const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("").toLowerCase();
+
+        if (isProcessing) {
+            if (key.match(/[A-Za-z0-9-]/) == null) {
+                this.suggestions = [];
+                return;
+            }
+        }
+
+        inpElem.parentElement.insertAdjacentHTML(
+            'beforebegin',
+            `<span id='dummy'>${v.substring(0, v.length-proc.length}</span>`);
 
         const dummyElem = document.getElementById('dummy');
         const {fontSize, fontFamily} = window.getComputedStyle(inpElem);

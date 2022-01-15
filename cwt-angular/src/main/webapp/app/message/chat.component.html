@@ -2,18 +2,22 @@
     <div class="col pr-0 chat-input">
         <form>
             <div class="input-group input-group-lg chat-input">
-                <input type="text" name="chat-input" class="single-line form-control" (keyup)="keyup($event)">
+                <input type="text" name="chat-input" class="single-line form-control"
+                       (keydown)="keydown($event)" (keypress)="keypress($event)">
                 <span class="input-group-append">
                     <button class="btn btn-primary submit" type="button">
                         <i class="fa fa-send"></i>
                     </button>
                 </span>
-                <div class="chat-suggestions position-absolute"
+                <div id="chat-suggestions"
+                     class="position-absolute"
                      style="top: 3rem;"
                      [ngStyle]="{'left': suggOffset+'px'}"
                      *ngIf="suggestions.length">
                     <div class="dropdown-menu show">
-                        <button *ngFor="let sugg of suggestions;" class="dropdown-item" type="button">
+                        <button *ngFor="let sugg of suggestions; let first = first;"
+                                class="dropdown-item" [class.active]="first"
+                                type="button">
                             {{ sugg.username }}
                         </button>
                     </div>
