@@ -1,9 +1,10 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
+import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto, UserMinimaDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {APP_CONFIG, AppConfig} from "../app.config";
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: 'cwt-chat',
@@ -16,7 +17,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     filter: MessageCategory | null = null;
     authUser: JwtUser;
-    suggestions = [];
+    suggestions: UserMinimalDto[] = [];
+    private allSuggestions: UserMinimalDto[] = [];
     private readonly messagesSize = 30;
     private oldestMessage: number;
     private endpoint: string;
@@ -66,6 +68,9 @@ export class ChatComponent implements OnInit, OnDestroy {
                 this.setupEventSource();
             });
 
+        this.requestService.get<UserMinimalDto[]>("message/suggestions")
+            .subscribe(res => this.allSuggestions = res);
+
         document.addEventListener('click', e => {
             if (e.target.id === 'chat-input') {
                 const v = e.target.value.substring(0, e.target.selectionStart);
@@ -76,9 +81,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                     const subj = rev.substring(0, rev.indexOf("@")).split("")
                         .every(s => s.match(ChatComponent.DELIMITER))
                     if (subj) {
-                        this.suggestions = [
-                            { id: 1, username: 'Zemke'};
-                        ];
+                        this.showSuggestions(subj);
                     } else {
                         this.suggestions = [];
                     }
@@ -89,13 +92,24 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
     }
 
+    private showSuggestions(q: string) {
+        this.suggestions = this.suggestions
+            .filter(({username}) => username.toLowerCase().startsWith(proc.toLowerCase()))
+        if (this.suggestions.length < 4) {
+            this.loadingSuggestions = true;
+            this.requestService.get<UserMinimalDto[]>("message/suggestions", {q}))
+                .pipe(finalize(() => this.loadingSuggestions = false))
+                .subscribe(res => {
+                    this.allSuggestions.push(*res);
+                    this.suggestions = res.slice(0, 5);
+                });
+        }
+    }
+
     ngOnDestroy(): void {
         if (this.eventSource != null && this.eventSource.readyState !== 2) {
             this.eventSource.close();
         }
-    }
-
-    public focus(e) {
     }
 
     public keydown(e) {
@@ -191,12 +205,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         dummy.remove();
 
-        this.suggestions = [
-            { id: 1, username: "Zemke" },
-            { id: 10, username: "Kayz" },
-            { id: 12, username: "Koras" },
-            { id: 15, username: "Dario" },
-        ];
+        this.suggestions = this.showSuggestions(proc);
     }
 
     private setupEventSource() {

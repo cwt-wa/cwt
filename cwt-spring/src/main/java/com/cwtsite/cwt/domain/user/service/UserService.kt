@@ -224,6 +224,9 @@ constructor(private val userRepository: UserRepository,
 
     fun findByUsernameContaining(term: String): List<User> = userRepository.findAllByUsernameContaining(term)
 
+    fun findByUsernameStartsWithIgnoreCase(q: String): List<User> =
+        userRepository.findByUsernameStartsWithIgnoreCase(q)
+
     fun findCountryById(countryId: Long): Optional<Country> = countryRepository.findById(countryId)
 
     @Throws(FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class)

@@ -13,6 +13,7 @@ import com.cwtsite.cwt.domain.message.view.model.ThirdPartyMessageDto
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.service.AuthService
 import com.cwtsite.cwt.domain.user.service.UserService
+import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -108,6 +109,19 @@ class MessageRestController {
         val savedMessage = messageService.save(MessageCreationDto.fromDto(
                 dto, user!!, userService.getByIds(dto.recipients!!)))
         return ResponseEntity.ok(MessageDto.toDto(savedMessage))
+    }
+
+    @GetMapping("/suggestions")
+    @Secured(AuthorityRole.ROLE_USER)
+    fun findSuggestions(@RequestParam("q", required = false) q: String?,
+                        request: HttpServletRequest): ResponseEntity<List<UserMinimalDto>> {
+        val res = if (q != null) {
+            userService.findByUsernameStartsWithIgnoreCase(q)
+        } else {
+            val user = authService.authUser(request)
+            messageService.genSuggestions(user!!)
+        }
+        return ResponseEntity.ok(res.map { UserMinimalDto.toDto(it) })
     }
 
     @PostMapping("third-party")

@@ -1,7 +1,9 @@
 package com.cwtsite.cwt.domain.message.service
 
+import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
+import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
+import java.time.Duration
 import java.time.Instant
 import kotlin.math.min
 
@@ -17,7 +20,9 @@ import kotlin.math.min
 class MessageService @Autowired
 constructor(private val messageRepository: MessageRepository,
             private val userService: UserService,
-            private val messageEventListener: MessageEventListener) {
+            private val messageEventListener: MessageEventListener,
+            private val tournamentService: TournamentService,
+            private val applicationRepository: ApplicationRepository) {
 
     fun findNewMessages(after: Instant, size: Int, user: User?,
                         categories: List<MessageCategory> = MessageCategory.values().toList()): List<Message> {
@@ -84,4 +89,42 @@ constructor(private val messageRepository: MessageRepository,
                     newsType,
                     userService.getById(1).orElseThrow(),
                     displayName, link, body)
+
+    /**
+     * The eagerly loaded suggestions are the remaining opponents,
+     * the most recent private message interactions, the recent chatbox users,
+     * the applicants to the current tournament.
+     */
+    fun genSuggestions(user: User): List<User> {
+        val remainingOpponents = userService.getRemainingOpponents(user)
+        val resList = remainingOpponents.toMutableList()
+        val pms = messageRepository.findPrivateMessages(user)
+        var idx = 0
+        val now = Instant.now()
+        var lastCreated = now
+        while (Duration.between(now, lastCreated).toDays() < 20) {
+            if (pms[idx].author == user) {
+                pms[idx].recipients.forEach { if (it !in resList) resList.add(it) }
+            } else {
+                if (pms[idx].author !in resList) {
+                    resList.add(pms[idx].author)
+                }
+            }
+            lastCreated = pms[idx].created
+            idx++
+        }
+        if (idx > 0) {
+            // best priority to first PM
+            resList.add(0, resList.removeAt(remainingOpponents.size))
+        }
+        messageRepository.findTop50OrderByCreatedDesc()
+            .forEach { if (it.author !in resList) resList.add(it.author) }
+        tournamentService.getCurrentTournament()?.let { currentTournament ->
+            applicationRepository.findByTournament(currentTournament)
+                .map { it.applicant }
+                .forEach { if (it !in resList) resList.add(it) }
+        }
+        return resList
+    }
 }
+
