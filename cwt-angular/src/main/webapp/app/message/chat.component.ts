@@ -209,7 +209,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         if (this.authUser != null) {
             // TODO Debounce
-            // TODO One char too few
             // TODO backspace not registered
             // TODO suggestion box is flashing while typing
             this.suggestions = this.showSuggestions(proc);
