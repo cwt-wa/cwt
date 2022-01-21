@@ -16,5 +16,5 @@ class CountryRestController {
 
     @RequestMapping(method = [RequestMethod.GET])
     fun query(): ResponseEntity<List<CountryDto>> =
-            ResponseEntity.ok(countryRepository.findAll().map { CountryDto.toDto(it) })
+        ResponseEntity.ok(countryRepository.findAll().map { CountryDto.toDto(it) })
 }

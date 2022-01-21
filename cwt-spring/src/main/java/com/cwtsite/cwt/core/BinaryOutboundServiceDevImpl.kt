@@ -55,4 +55,3 @@ class BinaryOutboundServiceDevImpl() : BinaryOutboundService {
 
     override fun waaasConfigured(): Boolean = waaasEndpoint != null
 }
-

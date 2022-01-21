@@ -38,12 +38,19 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("api/user")
 class UserRestController @Autowired
-constructor(private val userService: UserService, private val applicationService: ApplicationService,
-            private val authService: AuthService, private val tournamentService: TournamentService,
-            private val groupService: GroupService, private val playoffService: PlayoffService,
-            private val jwtTokenUtil: JwtTokenUtil, private val userDetailsService: UserDetailsService,
-            private val tetrisService: TetrisService, private val authenticationManager: AuthenticationManager,
-            private val securityContextHolderFacade: SecurityContextHolderFacade) {
+constructor(
+    private val userService: UserService,
+    private val applicationService: ApplicationService,
+    private val authService: AuthService,
+    private val tournamentService: TournamentService,
+    private val groupService: GroupService,
+    private val playoffService: PlayoffService,
+    private val jwtTokenUtil: JwtTokenUtil,
+    private val userDetailsService: UserDetailsService,
+    private val tetrisService: TetrisService,
+    private val authenticationManager: AuthenticationManager,
+    private val securityContextHolderFacade: SecurityContextHolderFacade
+) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
@@ -60,9 +67,11 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     @RequestMapping("/{usernameOrId}", method = [RequestMethod.GET])
-    fun getOne(@PathVariable("usernameOrId") usernameOrId: String,
-               @RequestParam("include-email", defaultValue = "false") includeEmail: Boolean,
-               request: HttpServletRequest): ResponseEntity<UserDetailDto> {
+    fun getOne(
+        @PathVariable("usernameOrId") usernameOrId: String,
+        @RequestParam("include-email", defaultValue = "false") includeEmail: Boolean,
+        request: HttpServletRequest
+    ): ResponseEntity<UserDetailDto> {
         val isId = try {
             usernameOrId.toLong()
             true
@@ -73,7 +82,7 @@ constructor(private val userService: UserService, private val applicationService
         val user = when {
             isId -> assertUser(usernameOrId.toLong())
             else -> userService.findByUsername(usernameOrId)
-                    ?: throw RestException("User not found.", HttpStatus.NOT_FOUND, null)
+                ?: throw RestException("User not found.", HttpStatus.NOT_FOUND, null)
         }
 
         if (includeEmail) {
@@ -82,9 +91,12 @@ constructor(private val userService: UserService, private val applicationService
             }
         }
 
-        return ResponseEntity.ok(UserDetailDto.toDto(
+        return ResponseEntity.ok(
+            UserDetailDto.toDto(
                 user,
-                UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())))
+                UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())
+            )
+        )
     }
 
     @RequestMapping("/still-in-tournament", method = [RequestMethod.GET])
@@ -96,16 +108,17 @@ constructor(private val userService: UserService, private val applicationService
                 groupService.findAllGroupMembers(currentTournament)
             currentTournament.status == TournamentStatus.PLAYOFFS ->
                 playoffService.getGamesOfTournament(currentTournament)
-                        .flatMap { listOf(it.homeUser, it.awayUser) }
-                        .filterNotNull()
-                        .distinct()
+                    .flatMap { listOf(it.homeUser, it.awayUser) }
+                    .filterNotNull()
+                    .distinct()
             else ->
                 emptyList()
         }
         return ResponseEntity.ok(
-                users
-                        .filter { userService.userCanReportForCurrentTournament(it) }
-                        .map { UserMinimalDto.toDto(it) })
+            users
+                .filter { userService.userCanReportForCurrentTournament(it) }
+                .map { UserMinimalDto.toDto(it) }
+        )
     }
 
     @RequestMapping("/{id}/can-report", method = [RequestMethod.GET])
@@ -117,7 +130,7 @@ constructor(private val userService: UserService, private val applicationService
     @Secured(AuthorityRole.ROLE_USER)
     fun applyForTournament(@PathVariable("id") id: Long, request: HttpServletRequest): ResponseEntity<Application> {
         tournamentService.getCurrentTournament()
-                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val userToApply = assertUser(id)
         val authUser = authService.authUser(request)
         if (authUser != userToApply && !authUser!!.isAdmin()) throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
@@ -136,26 +149,35 @@ constructor(private val userService: UserService, private val applicationService
 
     @RequestMapping("/page", method = [RequestMethod.GET])
     fun queryUsersPaged(pageDto: PageDto<UserOverviewDto>): ResponseEntity<PageDto<UserOverviewDto>> {
-        return ResponseEntity.ok(PageDto.toDto(
+        return ResponseEntity.ok(
+            PageDto.toDto(
                 userService.findPaginated(
-                        pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "userStats.trophyPoints"))
-                        .map { user ->
-                            UserOverviewDto.toDto(
-                                    user,
-                                    UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())) },
+                    pageDto.start, pageDto.size,
+                    pageDto.asSortWithFallback(Sort.Direction.DESC, "userStats.trophyPoints")
+                )
+                    .map { user ->
+                        UserOverviewDto.toDto(
+                            user,
+                            UserStatsDto.toDtos(user.userStats?.timeline ?: userService.createDefaultUserStatsTimeline())
+                        )
+                    },
                 listOf(
-                        "userStats.trophyPoints,Trophies",
-                        "userStats.participations,Participations",
-                        "username,Username",
-                        "country.name,Country")))
+                    "userStats.trophyPoints,Trophies",
+                    "userStats.participations,Participations",
+                    "username,Username",
+                    "country.name,Country"
+                )
+            )
+        )
     }
 
     @RequestMapping("/{id}", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun changeUser(@RequestBody userChangeDto: UserChangeDto,
-                   @PathVariable("id") id: Long,
-                   request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse>? {
+    fun changeUser(
+        @RequestBody userChangeDto: UserChangeDto,
+        @PathVariable("id") id: Long,
+        request: HttpServletRequest
+    ): ResponseEntity<JwtAuthenticationResponse>? {
         var user = assertUser(id)
         val upcomingUsernameChange = userChangeDto.username != user.username
 
@@ -165,9 +187,10 @@ constructor(private val userService: UserService, private val applicationService
 
         try {
             user = userService.changeUser(
-                    user, userChangeDto.about, userChangeDto.username,
-                    if (userChangeDto.country != null) userService.findCountryById(userChangeDto.country).orElse(null) else null,
-                    userChangeDto.email)
+                user, userChangeDto.about, userChangeDto.username,
+                if (userChangeDto.country != null) userService.findCountryById(userChangeDto.country).orElse(null) else null,
+                userChangeDto.email
+            )
 
             if (upcomingUsernameChange) {
                 val userDetails = userDetailsService.loadUserByUsername(user.username)
@@ -190,9 +213,11 @@ constructor(private val userService: UserService, private val applicationService
 
     @RequestMapping("/{id}/change-password", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun changePassword(@RequestBody passwordChangeDto: PasswordChangeDto,
-                       @PathVariable("id") id: Long,
-                       request: HttpServletRequest) {
+    fun changePassword(
+        @RequestBody passwordChangeDto: PasswordChangeDto,
+        @PathVariable("id") id: Long,
+        request: HttpServletRequest
+    ) {
         if (authService.authUser(request)!!.id != assertUser(id).id) {
             throw RestException("You are not allowed to change another user.", HttpStatus.BAD_REQUEST, null)
         }
@@ -227,10 +252,10 @@ constructor(private val userService: UserService, private val applicationService
         val resource = ByteArrayResource(user.photo!!.file)
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=${user.username}.${user.photo!!.extension}")
-                .contentLength(resource.contentLength())
-                .contentType(MediaType.parseMediaType(user.photo!!.mediaType))
-                .body(resource)
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=${user.username}.${user.photo!!.extension}")
+            .contentLength(resource.contentLength())
+            .contentType(MediaType.parseMediaType(user.photo!!.mediaType))
+            .body(resource)
     }
 
     @RequestMapping("/{userId}/photo", method = [RequestMethod.DELETE])
@@ -262,19 +287,20 @@ constructor(private val userService: UserService, private val applicationService
     @RequestMapping("/password-forgotten", method = [RequestMethod.POST])
     fun passwordForgotten(@RequestBody body: Map<String, String>) {
         val user = body["email"]?.let { userService.findByEmail(it) }
-                ?: throw RestException("Bad request", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("Bad request", HttpStatus.BAD_REQUEST, null)
         userService.initiatePasswordReset(user)
     }
 
     @RequestMapping("/reset-password", method = [RequestMethod.POST])
     fun resetPassword(@RequestBody dto: PasswordResetDto): ResponseEntity<JwtAuthenticationResponse>? {
         val user = userService.findByResetKey(dto.resetKey)
-                ?: throw RestException("Bad request", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("Bad request", HttpStatus.BAD_REQUEST, null)
         try {
             userService.executePasswordReset(user, dto.resetKey, dto.password)
 
             val authentication = authenticationManager.authenticate(
-                    UsernamePasswordAuthenticationToken(user.username, dto.password))
+                UsernamePasswordAuthenticationToken(user.username, dto.password)
+            )
 
             securityContextHolderFacade.authentication = authentication
 
@@ -290,5 +316,5 @@ constructor(private val userService: UserService, private val applicationService
     }
 
     private fun assertUser(id: Long): User = userService.getById(id)
-            .orElseThrow { RestException("User $id not found", HttpStatus.NOT_FOUND, null) }
+        .orElseThrow { RestException("User $id not found", HttpStatus.NOT_FOUND, null) }
 }

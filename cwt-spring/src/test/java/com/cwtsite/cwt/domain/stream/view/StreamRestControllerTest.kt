@@ -2,26 +2,19 @@ package com.cwtsite.cwt.domain.stream.view
 
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.stream.service.StreamService
-import com.cwtsite.cwt.domain.stream.view.StreamRestController
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
 import com.cwtsite.cwt.test.EntityDefaults
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
-
-import java.util.Optional
-
 import org.assertj.core.api.Assertions.assertThat
-
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-
 import org.springframework.http.HttpStatus
-
+import java.util.Optional
 
 @ExtendWith(MockitoExtension::class)
 class StreamRestControllerTest {
@@ -64,20 +57,20 @@ class StreamRestControllerTest {
     }
 
     private fun createTwitchVideoDto() =
-            TwitchVideoDto(
-                    userId = "123F7084",
-                    id = "231dn598x",
-                    userName = null,
-                    title = null,
-                    description = null,
-                    createdAt = null,
-                    publishedAt = null,
-                    url = null,
-                    thumbnailUrl = null,
-                    viewable = null,
-                    viewCount = 1,
-                    language = null,
-                    type = null,
-                    duration = null)
+        TwitchVideoDto(
+            userId = "123F7084",
+            id = "231dn598x",
+            userName = null,
+            title = null,
+            description = null,
+            createdAt = null,
+            publishedAt = null,
+            url = null,
+            thumbnailUrl = null,
+            viewable = null,
+            viewCount = 1,
+            language = null,
+            type = null,
+            duration = null
+        )
 }
-

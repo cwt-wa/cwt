@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 import java.util.Optional
 
-
 @Service
 class ScheduleService {
 
@@ -44,11 +43,14 @@ class ScheduleService {
     @PublishNews
     @Transactional
     fun createSchedule(author: User, opponent: User, appointment: Instant): Schedule {
-        return scheduleRepository.save(Schedule(
+        return scheduleRepository.save(
+            Schedule(
                 author = author,
                 homeUser = author,
                 awayUser = opponent,
-                appointment = appointment))
+                appointment = appointment
+            )
+        )
     }
 
     /**
@@ -72,7 +74,7 @@ class ScheduleService {
     }
 
     fun findByPairing(user1: User, user2: User): Schedule? =
-            scheduleRepository.findByPairing(user1, user2)
+        scheduleRepository.findByPairing(user1, user2)
 
     fun findAll(): MutableList<Schedule> = scheduleRepository.findAll()
 

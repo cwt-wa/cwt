@@ -6,19 +6,19 @@ import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 
 @DataTransferObject
 data class BetDto(
-        val id: Long,
-        val user: UserMinimalDto,
-        val game: GameDetailDto,
-        val betOnHome: Boolean
+    val id: Long,
+    val user: UserMinimalDto,
+    val game: GameDetailDto,
+    val betOnHome: Boolean
 ) {
 
     companion object {
 
         fun toDto(bet: Bet): BetDto = BetDto(
-                id = bet.id!!,
-                user = UserMinimalDto.toDto(bet.user),
-                game = GameDetailDto.toDto(bet.game),
-                betOnHome = bet.betOnHome
+            id = bet.id!!,
+            user = UserMinimalDto.toDto(bet.user),
+            game = GameDetailDto.toDto(bet.game),
+            betOnHome = bet.betOnHome
         )
     }
 }

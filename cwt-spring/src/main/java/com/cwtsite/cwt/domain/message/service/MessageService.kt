@@ -18,21 +18,31 @@ import kotlin.math.min
 
 @Component
 class MessageService @Autowired
-constructor(private val messageRepository: MessageRepository,
-            private val userService: UserService,
-            private val messageEventListener: MessageEventListener,
-            private val tournamentService: TournamentService,
-            private val applicationRepository: ApplicationRepository) {
+constructor(
+    private val messageRepository: MessageRepository,
+    private val userService: UserService,
+    private val tournamentService: TournamentService,
+    private val messageEventListener: MessageEventListener,
+    private val applicationRepository: ApplicationRepository
+) {
 
-    fun findNewMessages(after: Instant, size: Int, user: User?,
-                        categories: List<MessageCategory> = MessageCategory.values().toList()): List<Message> {
+    fun findNewMessages(
+        after: Instant,
+        size: Int,
+        user: User?,
+        categories: List<MessageCategory> = MessageCategory.values().toList()
+    ): List<Message> {
         // offset by one because DB might store with greater precision
         val result = messageRepository.findNewByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(user, categories, after.plusMillis(1))
         return result.subList(0, min(size, result.size))
     }
 
-    fun findOldMessages(before: Instant, size: Int, user: User?,
-                        categories: List<MessageCategory> = MessageCategory.values().toList()): List<Message> {
+    fun findOldMessages(
+        before: Instant,
+        size: Int,
+        user: User?,
+        categories: List<MessageCategory> = MessageCategory.values().toList()
+    ): List<Message> {
         val result = messageRepository.findOldByAuthorOrRecipientsInOrCategoryInOrderByCreatedDesc(user, categories, before)
         return result.subList(0, min(size, result.size))
     }
@@ -56,9 +66,12 @@ constructor(private val messageRepository: MessageRepository,
                 "${data[0]},${data[1]},${data.drop(2).joinToString("")}"
             else -> data.joinToString(separator = ",")
         }
-        val persisted = messageRepository.save(Message(
+        val persisted = messageRepository.save(
+            Message(
                 category = MessageCategory.NEWS,
-                author = author, newsType = type, body = body))
+                author = author, newsType = type, body = body
+            )
+        )
         TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
             override fun afterCommit() {
                 messageEventListener.publish(persisted)
@@ -83,12 +96,17 @@ constructor(private val messageRepository: MessageRepository,
     }
 
     @Transactional
-    fun thirdPartyMessage(displayName: String, link: String, body: String,
-                          newsType: MessageNewsType): Message =
-            publishNews(
-                    newsType,
-                    userService.getById(1).orElseThrow(),
-                    displayName, link, body)
+    fun thirdPartyMessage(
+        displayName: String,
+        link: String,
+        body: String,
+        newsType: MessageNewsType
+    ): Message =
+        publishNews(
+            newsType,
+            userService.getById(1).orElseThrow(),
+            displayName, link, body
+        )
 
     /**
      * The eagerly loaded suggestions are the remaining opponents,
@@ -127,4 +145,3 @@ constructor(private val messageRepository: MessageRepository,
         return resList
     }
 }
-

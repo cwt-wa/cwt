@@ -5,48 +5,48 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import java.time.Instant
+import java.util.Objects
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 import javax.validation.constraints.NotNull
-import java.time.Instant
-import java.util.Objects
 
 @Entity
 @Table(name = "comment")
 @SequenceGenerator(name = "comment_seq", sequenceName = "comment_id_seq", allocationSize = 1)
 data class Comment(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
-        var id: Long? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
+    var id: Long? = null,
 
-        @NotNull
-        @Column(name = "body", nullable = false, columnDefinition = "text")
-        var body: String? = null,
+    @NotNull
+    @Column(name = "body", nullable = false, columnDefinition = "text")
+    var body: String? = null,
 
-        @Column(name = "created", nullable = false)
-        @field:CreationTimestamp
-        var created: Instant? = null,
+    @Column(name = "created", nullable = false)
+    @field:CreationTimestamp
+    var created: Instant? = null,
 
-        @Column(name = "modified")
-        @field:UpdateTimestamp
-        var modified: Instant? = null,
+    @Column(name = "modified")
+    @field:UpdateTimestamp
+    var modified: Instant? = null,
 
-        @ManyToOne(optional = false)
-        @JoinColumn(nullable = false)
-        var author: User? = null,
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    var author: User? = null,
 
-        @JsonIgnore
-        @ManyToOne(optional = false)
-        @JoinColumn(nullable = false)
-        var game: Game? = null
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    var game: Game? = null
 ) {
 
     constructor(body: String, author: User, game: Game) : this(id = null, body = body, author = author, game = game)
@@ -70,10 +70,10 @@ data class Comment(
 
     override fun toString(): String {
         return "Comment{" +
-                "id=" + id +
-                ", body='" + body + "'" +
-                ", created='" + created + "'" +
-                ", modified='" + modified + "'" +
-                '}'.toString()
+            "id=" + id +
+            ", body='" + body + "'" +
+            ", created='" + created + "'" +
+            ", modified='" + modified + "'" +
+            '}'.toString()
     }
 }

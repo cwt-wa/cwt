@@ -7,14 +7,14 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 
 @DataTransferObject
 data class TournamentUpdateDto(
-        val status: TournamentStatus?,
-        val review: String?,
-        val maxRounds: Int?,
-        val numOfGroupAdvancing: Int?,
-        val bronzeWinner: Long?,
-        val silverWinner: Long?,
-        val goldWinner: Long?,
-        val moderators: List<Long>?
+    val status: TournamentStatus?,
+    val review: String?,
+    val maxRounds: Int?,
+    val numOfGroupAdvancing: Int?,
+    val bronzeWinner: Long?,
+    val silverWinner: Long?,
+    val goldWinner: Long?,
+    val moderators: List<Long>?
 ) {
 
     fun update(tournament: Tournament, findUserById: (userId: Long?) -> User?): Tournament {

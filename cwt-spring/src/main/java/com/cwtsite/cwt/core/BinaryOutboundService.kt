@@ -1,9 +1,8 @@
 package com.cwtsite.cwt.core
 
-import java.net.http.HttpResponse
 import java.io.File
 import java.io.InputStream
-
+import java.net.http.HttpResponse
 
 interface BinaryOutboundService {
 
@@ -18,4 +17,3 @@ interface BinaryOutboundService {
     fun binaryDataStoreConfigured(): Boolean
     fun waaasConfigured(): Boolean
 }
-

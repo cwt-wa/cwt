@@ -24,7 +24,7 @@ class ConfigurationRepositoryTest {
 
         for (configurationKey in configurationKeys) {
             val configuration = configurations
-                    .find { it.key == configurationKey } ?: throw RuntimeException()
+                .find { it.key == configurationKey } ?: throw RuntimeException()
 
             parseValue(configuration.value!!, configuration.key.type)
         }
@@ -38,5 +38,4 @@ class ConfigurationRepositoryTest {
             ConfigurationKey.ConfigurationValueType.BOOLEAN -> value.toBoolean()
         }
     }
-
 }

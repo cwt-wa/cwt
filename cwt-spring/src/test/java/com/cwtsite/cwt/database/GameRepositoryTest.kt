@@ -18,10 +18,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.test.context.junit4.SpringRunner
+import java.time.Instant
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import java.time.Instant
 
 @RunWith(SpringRunner::class)
 @DataJpaTest
@@ -41,42 +41,60 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         val dummyUser = persistDummyUser()
         val dummyGroup = em.persist(Group(tournament = tournament))
 
-        val expectedGame1 = em.persist(Game(
+        val expectedGame1 = em.persist(
+            Game(
                 homeUser = user, awayUser = dummyUser,
                 reporter = user, tournament = tournament,
-                group = group))
+                group = group
+            )
+        )
 
-        val expectedGame2 = em.persist(Game(
+        val expectedGame2 = em.persist(
+            Game(
                 homeUser = user, awayUser = dummyUser,
                 reporter = user, tournament = tournament,
-                group = group))
+                group = group
+            )
+        )
 
         // Not yet reported.
-        em.persist(Game(
+        em.persist(
+            Game(
                 homeUser = dummyUser, awayUser = user,
                 tournament = tournament,
-                group = group))
+                group = group
+            )
+        )
 
         // Other group.
-        em.persist(Game(
+        em.persist(
+            Game(
                 homeUser = dummyUser, awayUser = user,
                 tournament = tournament,
-                group = dummyGroup))
+                group = dummyGroup
+            )
+        )
 
         // Opponent is null.
-        em.persist(Game(
+        em.persist(
+            Game(
                 awayUser = user,
                 tournament = tournament,
                 reporter = dummyUser,
-                group = group))
+                group = group
+            )
+        )
 
         // User not included.
-        em.persist(Game(
+        em.persist(
+            Game(
                 homeUser = dummyUser,
                 awayUser = dummyUser,
                 reporter = dummyUser,
                 tournament = tournament,
-                group = group))
+                group = group
+            )
+        )
 
         em.flush()
 
@@ -85,8 +103,9 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         val actualUser = em.find(User::class.java, user.id!!)
 
         assertEquals(
-                gameRepository.findAllById(listOf(expectedGame1.id!!, expectedGame2.id!!)),
-                gameRepository.findPlayedByUserInGroup(actualUser, actualGroup))
+            gameRepository.findAllById(listOf(expectedGame1.id!!, expectedGame2.id!!)),
+            gameRepository.findPlayedByUserInGroup(actualUser, actualGroup)
+        )
     }
 
     @Test
@@ -112,23 +131,30 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         em.flush()
 
         Assert.assertEquals(
-                em.find(Game::class.java, game22.id!!),
-                gameRepository.findNextPlayoffGameForUser(
-                        em.find(Tournament::class.java, tournament.id!!),
-                        em.find(User::class.java, user.id!!)))
+            em.find(Game::class.java, game22.id!!),
+            gameRepository.findNextPlayoffGameForUser(
+                em.find(Tournament::class.java, tournament.id!!),
+                em.find(User::class.java, user.id!!)
+            )
+        )
     }
 
     private fun createPlayoffGame(tournament: Tournament, round: Int, spot: Int): Game {
-        val playoffGame = em.persist(PlayoffGame(
-                round = round, spot = spot))
+        val playoffGame = em.persist(
+            PlayoffGame(
+                round = round, spot = spot
+            )
+        )
 
-        return em.persist(Game(
+        return em.persist(
+            Game(
                 tournament = tournament,
                 playoff = playoffGame,
                 homeUser = persistDummyUser(),
                 awayUser = persistDummyUser(),
                 reporter = persistDummyUser()
-        ))
+            )
+        )
     }
 
     @Test
@@ -153,49 +179,60 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         em.flush()
 
         Assert.assertEquals(
-                gameRepository.findGameInPlayoffTree(
-                        em.find(Tournament::class.java, tournament.id!!), 2, 2).get().id,
-                gameToAdvanceTo.id!!)
+            gameRepository.findGameInPlayoffTree(
+                em.find(Tournament::class.java, tournament.id!!), 2, 2
+            ).get().id,
+            gameToAdvanceTo.id!!
+        )
     }
 
     @Test
     fun findReadyFinals_positive() {
         val tournament = em.persist(Tournament())
 
-        val thirdPlaceGame = em.persist(Game(
+        val thirdPlaceGame = em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 4, spot = 1)),
                 homeUser = persistDummyUser(),
                 awayUser = persistDummyUser(),
                 tournament = tournament
-        ))
+            )
+        )
 
-        val finalGame = em.persist(Game(
+        val finalGame = em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 5, spot = 1)),
                 homeUser = persistDummyUser(),
                 awayUser = persistDummyUser(),
                 tournament = tournament
-        ))
+            )
+        )
 
-        em.persist(Game(
+        em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 3, spot = 1)),
                 homeUser = thirdPlaceGame.homeUser,
                 awayUser = finalGame.homeUser,
                 tournament = tournament
-        ))
+            )
+        )
 
-        em.persist(Game(
+        em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 3, spot = 2)),
                 homeUser = finalGame.homeUser,
                 awayUser = thirdPlaceGame.homeUser,
                 tournament = tournament
-        ))
+            )
+        )
 
         em.flush()
 
         assertThat(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4, tournament))
-                .containsExactlyInAnyOrder(
-                        em.find(Game::class.java, finalGame.id!!),
-                        em.find(Game::class.java, thirdPlaceGame.id!!))
+            .containsExactlyInAnyOrder(
+                em.find(Game::class.java, finalGame.id!!),
+                em.find(Game::class.java, thirdPlaceGame.id!!)
+            )
 
         Assert.assertEquals(4, gameRepository.findReadyGamesInRoundEqualOrGreaterThan(1, tournament).size.toLong())
     }
@@ -204,25 +241,37 @@ class GameRepositoryTest : AbstractDatabaseTest() {
     fun findReadyFinals_negative() {
         val tournament = em.persist(Tournament())
 
-        em.persist(Game(
+        em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 4, spot = 1)),
-                tournament = tournament))
+                tournament = tournament
+            )
+        )
 
-        em.persist(Game(
+        em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 5, spot = 1)),
-                tournament = tournament))
+                tournament = tournament
+            )
+        )
 
-        em.persist(Game(
+        em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 3, spot = 1)),
                 tournament = tournament,
                 homeUser = persistDummyUser(),
-                awayUser = persistDummyUser()))
+                awayUser = persistDummyUser()
+            )
+        )
 
-        em.persist(Game(
+        em.persist(
+            Game(
                 playoff = em.persist(PlayoffGame(round = 3, spot = 2)),
                 tournament = tournament,
                 homeUser = persistDummyUser(),
-                awayUser = persistDummyUser()))
+                awayUser = persistDummyUser()
+            )
+        )
 
         em.flush()
 
@@ -236,42 +285,56 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         val gameWithTwoComments = em.persist(Game(tournament = tournament))
         val gameWithOneComment = em.persist(Game(tournament = tournament))
 
-        em.persist(Comment(
+        em.persist(
+            Comment(
                 body = "Some comment",
                 author = persistDummyUser(),
-                game = gameWithOneComment))
+                game = gameWithOneComment
+            )
+        )
 
-        em.persist(Comment(
+        em.persist(
+            Comment(
                 body = "Some other comment",
                 author = persistDummyUser(),
-                game = gameWithTwoComments))
+                game = gameWithTwoComments
+            )
+        )
 
-        em.persist(Comment(
+        em.persist(
+            Comment(
                 body = "Even more other comments",
                 author = persistDummyUser(),
-                game = gameWithTwoComments))
+                game = gameWithTwoComments
+            )
+        )
 
         val gameWithNoComment = em.persist(Game(tournament = tournament))
 
         em.flush()
 
         val actualPagedGames = gameRepository.findAll(
-                PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "commentsSize")))
+            PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "commentsSize"))
+        )
 
         assertThat(actualPagedGames.content.map { it.id })
-                .containsExactly(
-                        gameWithTwoComments.id!!,
-                        gameWithOneComment.id!!,
-                        gameWithNoComment.id!!)
+            .containsExactly(
+                gameWithTwoComments.id!!,
+                gameWithOneComment.id!!,
+                gameWithNoComment.id!!
+            )
     }
 
     @Test
     @Ignore("Kotlin data class entity appears to eagerly load this.")
     fun lazyPropertyFetching() {
         val tournament = em.persist(Tournament())
-        em.persist(Comment(
+        em.persist(
+            Comment(
                 author = persistDummyUser(),
-                game = em.persist(Game(tournament = tournament))))
+                game = em.persist(Game(tournament = tournament))
+            )
+        )
 
         em.flush()
 
@@ -286,23 +349,27 @@ class GameRepositoryTest : AbstractDatabaseTest() {
         val homeUser = persistDummyUser()
         val awayUser = persistDummyUser()
         val tournament = em.persist(Tournament())
-        val game = em.persist(Game(
+        val game = em.persist(
+            Game(
                 homeUser = homeUser,
                 awayUser = awayUser,
                 tournament = tournament,
                 reportedAt = Instant.ofEpochMilli(1605360542307)
-        ))
+            )
+        )
         val otherUser = persistDummyUser()
-        em.persist(Game(
+        em.persist(
+            Game(
                 homeUser = homeUser,
                 awayUser = otherUser,
                 tournament = tournament,
                 reportedAt = Instant.ofEpochMilli(1605360542307)
-        ))
+            )
+        )
         em.flush()
         val actual = gameRepository.findGameOfUsers(PageRequest.of(0, 5), awayUser, homeUser)
         assertThat(actual.content).hasSize(1)
-        assertThat(actual.content).allSatisfy { assertThat(it).isEqualTo(game)}
+        assertThat(actual.content).allSatisfy { assertThat(it).isEqualTo(game) }
         assertThat(actual.size).isEqualTo(5)
         assertThat(actual.totalElements).isEqualTo(1)
     }

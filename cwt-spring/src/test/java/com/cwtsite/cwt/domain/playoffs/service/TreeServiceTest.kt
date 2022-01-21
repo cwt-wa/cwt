@@ -41,72 +41,72 @@ class TreeServiceTest {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
 
         `when`(tournamentService.getCurrentTournament())
-                .thenReturn(tournament)
+            .thenReturn(tournament)
 
         val allPlayoffGames = listOf(
-                EntityDefaults.game(
-                        id = 1, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 1),
-                        awayUser = EntityDefaults.user(id = 2),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 1, round = 1, spot = 1)
-                ),
-                EntityDefaults.game(
-                        id = 2, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 3),
-                        awayUser = EntityDefaults.user(id = 4),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 2, round = 1, spot = 2)
-                ),
-                EntityDefaults.game(
-                        id = 3, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 4),
-                        awayUser = EntityDefaults.user(id = 5),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 3, round = 1, spot = 3)
-                ),
-                EntityDefaults.game(
-                        id = 4, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 6),
-                        awayUser = EntityDefaults.user(id = 7),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 4, round = 1, spot = 4)
-                ),
-                EntityDefaults.game( // semifinal
-                        id = 5, tournament = tournament,
-                        homeUser = EntityDefaults.user(id = 4),
-                        awayUser = EntityDefaults.user(id = 7),
-                        scoreHome = 3, scoreAway = 0,
-                        playoff = PlayoffGame(id = 5, round = 2, spot = 2)
-                ),
-                EntityDefaults.game( // little final
-                        id = 6, tournament = tournament,
-                        homeUser = null,
-                        awayUser = EntityDefaults.user(id = 7),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 6, round = 3, spot = 1)
-                ),
-                EntityDefaults.game( // final
-                        id = 7, tournament = tournament,
-                        homeUser = null,
-                        awayUser = EntityDefaults.user(id = 4),
-                        scoreHome = null, scoreAway = null,
-                        playoff = PlayoffGame(id = 7, round = 4, spot = 1)
-                )
+            EntityDefaults.game(
+                id = 1, tournament = tournament,
+                homeUser = EntityDefaults.user(id = 1),
+                awayUser = EntityDefaults.user(id = 2),
+                scoreHome = null, scoreAway = null,
+                playoff = PlayoffGame(id = 1, round = 1, spot = 1)
+            ),
+            EntityDefaults.game(
+                id = 2, tournament = tournament,
+                homeUser = EntityDefaults.user(id = 3),
+                awayUser = EntityDefaults.user(id = 4),
+                scoreHome = null, scoreAway = null,
+                playoff = PlayoffGame(id = 2, round = 1, spot = 2)
+            ),
+            EntityDefaults.game(
+                id = 3, tournament = tournament,
+                homeUser = EntityDefaults.user(id = 4),
+                awayUser = EntityDefaults.user(id = 5),
+                scoreHome = null, scoreAway = null,
+                playoff = PlayoffGame(id = 3, round = 1, spot = 3)
+            ),
+            EntityDefaults.game(
+                id = 4, tournament = tournament,
+                homeUser = EntityDefaults.user(id = 6),
+                awayUser = EntityDefaults.user(id = 7),
+                scoreHome = null, scoreAway = null,
+                playoff = PlayoffGame(id = 4, round = 1, spot = 4)
+            ),
+            EntityDefaults.game( // semifinal
+                id = 5, tournament = tournament,
+                homeUser = EntityDefaults.user(id = 4),
+                awayUser = EntityDefaults.user(id = 7),
+                scoreHome = 3, scoreAway = 0,
+                playoff = PlayoffGame(id = 5, round = 2, spot = 2)
+            ),
+            EntityDefaults.game( // little final
+                id = 6, tournament = tournament,
+                homeUser = null,
+                awayUser = EntityDefaults.user(id = 7),
+                scoreHome = null, scoreAway = null,
+                playoff = PlayoffGame(id = 6, round = 3, spot = 1)
+            ),
+            EntityDefaults.game( // final
+                id = 7, tournament = tournament,
+                homeUser = null,
+                awayUser = EntityDefaults.user(id = 4),
+                scoreHome = null, scoreAway = null,
+                playoff = PlayoffGame(id = 7, round = 4, spot = 1)
+            )
         )
 
         `when`(gameRepository.findByTournamentAndPlayoffIsNotNull(tournament))
-                .thenReturn(allPlayoffGames)
+            .thenReturn(allPlayoffGames)
 
         `when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject(), anyInt(), anyInt()))
-                .thenAnswer {
-                    val round = it.getArgument<Int>(1)
-                    val spot = it.getArgument<Int>(2)
-                    Optional.of(allPlayoffGames.find { pG -> pG.playoff!!.round == round && pG.playoff!!.spot == spot }!!)
-                }
+            .thenAnswer {
+                val round = it.getArgument<Int>(1)
+                val spot = it.getArgument<Int>(2)
+                Optional.of(allPlayoffGames.find { pG -> pG.playoff!!.round == round && pG.playoff!!.spot == spot }!!)
+            }
 
         assertThat(treeService.getVoidablePlayoffGames())
-                .containsExactlyInAnyOrder(allPlayoffGames.find { it.id == 5L }!!)
+            .containsExactlyInAnyOrder(allPlayoffGames.find { it.id == 5L }!!)
     }
 
     @Test
@@ -114,17 +114,17 @@ class TreeServiceTest {
         val tournament = EntityDefaults.tournament()
 
         `when`(groupRepository.countByTournament(tournament))
-                .thenReturn(4 / 2)
-                .thenReturn(6 / 2)
-                .thenReturn(8 / 2)
-                .thenReturn(12 / 2)
-                .thenReturn(16 / 2)
-                .thenReturn(24 / 2)
-                .thenReturn(32 / 2)
-                .thenReturn(48 / 2)
-                .thenReturn(64 / 2)
-                .thenReturn(96 / 2)
-                .thenReturn(128 / 2)
+            .thenReturn(4 / 2)
+            .thenReturn(6 / 2)
+            .thenReturn(8 / 2)
+            .thenReturn(12 / 2)
+            .thenReturn(16 / 2)
+            .thenReturn(24 / 2)
+            .thenReturn(32 / 2)
+            .thenReturn(48 / 2)
+            .thenReturn(64 / 2)
+            .thenReturn(96 / 2)
+            .thenReturn(128 / 2)
 
         assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
         assertThat(treeService.getNumberOfPlayoffRoundsInTournament(tournament)).isEqualTo(2)
@@ -142,7 +142,7 @@ class TreeServiceTest {
     @Test
     fun onlyFinalGamesAreLeftToPlay() {
         `when`(groupRepository.countByTournament(MockitoUtils.anyObject<Tournament>()))
-                .thenReturn(8)
+            .thenReturn(8)
 
         val mockListSize = { listSize: Int ->
             val list = mock(List::class.java)
@@ -154,12 +154,12 @@ class TreeServiceTest {
         val playoffTournament = EntityDefaults.tournament(id = 2, status = TournamentStatus.PLAYOFFS)
 
         `when`(tournamentService.getCurrentTournament())
-                .thenReturn(groupTournament)
-                .thenReturn(playoffTournament)
+            .thenReturn(groupTournament)
+            .thenReturn(playoffTournament)
 
         `when`(gameRepository.findReadyGamesInRoundEqualOrGreaterThan(4, playoffTournament))
-                .thenAnswer { mockListSize(2) }
-                .thenAnswer { mockListSize(0) }
+            .thenAnswer { mockListSize(2) }
+            .thenAnswer { mockListSize(0) }
 
         Assert.assertFalse(treeService.onlyFinalGamesAreLeftToPlay())
         Assert.assertTrue(treeService.onlyFinalGamesAreLeftToPlay())
@@ -168,16 +168,16 @@ class TreeServiceTest {
 
     @Test
     fun isPlayoffTreeWithThreeWayFinal() {
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(  4 * 2)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(  6 * 2)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(  8 * 2)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 12 * 2)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 16 * 2)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 24 * 2)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 32 * 2)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 48 * 2)).isTrue()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 64 * 2)).isFalse()
-        assertThat(treeService.isPlayoffTreeWithThreeWayFinal( 96 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(4 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(6 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(8 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(12 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(16 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(24 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(32 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(48 * 2)).isTrue()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(64 * 2)).isFalse()
+        assertThat(treeService.isPlayoffTreeWithThreeWayFinal(96 * 2)).isTrue()
         assertThat(treeService.isPlayoffTreeWithThreeWayFinal(128 * 2)).isFalse()
     }
 
@@ -196,7 +196,7 @@ class TreeServiceTest {
         `when`(game.pairingInvolves(user)).thenReturn(true)
         `when`(game.wasPlayed()).thenReturn(true)
         assertThatThrownBy { treeService.removePartOfPlayoffGame(game, user, false) }
-                .isInstanceOf(IllegalStateException::class.java)
+            .isInstanceOf(IllegalStateException::class.java)
     }
 
     @Test
@@ -205,7 +205,7 @@ class TreeServiceTest {
         val game = mock(Game::class.java)
         `when`(game.pairingInvolves(user)).thenReturn(false)
         assertThatThrownBy { treeService.removePartOfPlayoffGame(game, user, false) }
-                .isInstanceOf(IllegalArgumentException::class.java)
+            .isInstanceOf(IllegalArgumentException::class.java)
     }
 
     @Test

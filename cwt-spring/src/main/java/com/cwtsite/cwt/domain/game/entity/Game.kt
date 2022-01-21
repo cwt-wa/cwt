@@ -9,13 +9,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.Formula
 import org.hibernate.annotations.UpdateTimestamp
+import java.time.Instant
 import javax.persistence.Basic
-import javax.persistence.Column
 import javax.persistence.CascadeType
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
-import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -23,86 +24,85 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
-import java.time.Instant
 
 @Entity
 @Table(name = "game")
 @SequenceGenerator(name = "game_seq", sequenceName = "game_id_seq", allocationSize = 1)
 data class Game(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_seq")
-        var id: Long? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_seq")
+    var id: Long? = null,
 
-        @Column(name = "score_home")
-        var scoreHome: Int? = null,
+    @Column(name = "score_home")
+    var scoreHome: Int? = null,
 
-        @Column(name = "score_away")
-        var scoreAway: Int? = null,
+    @Column(name = "score_away")
+    var scoreAway: Int? = null,
 
-        @Column(name = "tech_win")
-        var techWin: Boolean = false,
+    @Column(name = "tech_win")
+    var techWin: Boolean = false,
 
-        @Column(name = "reported_at")
-        var reportedAt: Instant? = null,
+    @Column(name = "reported_at")
+    var reportedAt: Instant? = null,
 
-        @Column(name = "replay_quantity")
-        var replayQuantity: Int? = null,
+    @Column(name = "replay_quantity")
+    var replayQuantity: Int? = null,
 
-        @field:CreationTimestamp
-        @Column(name = "created", nullable = false, updatable = false)
-        var created: Instant? = null,
+    @field:CreationTimestamp
+    @Column(name = "created", nullable = false, updatable = false)
+    var created: Instant? = null,
 
-        @field:UpdateTimestamp
-        @Column(name = "modified", nullable = false)
-        var modified: Instant? = null,
+    @field:UpdateTimestamp
+    @Column(name = "modified", nullable = false)
+    var modified: Instant? = null,
 
-        @OneToOne(cascade = [CascadeType.ALL])
-        @JoinColumn(unique = true)
-        var playoff: PlayoffGame? = null,
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(unique = true)
+    var playoff: PlayoffGame? = null,
 
-        @ManyToOne(optional = false)
-        @JoinColumn(nullable = false)
-        var tournament: Tournament,
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    var tournament: Tournament,
 
-        @JsonIgnore
-        @ManyToOne
-        @JoinColumn(name = "group_id")
-        var group: Group? = null,
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    var group: Group? = null,
 
-        @ManyToOne
-        var homeUser: User? = null,
+    @ManyToOne
+    var homeUser: User? = null,
 
-        @ManyToOne
-        var awayUser: User? = null,
+    @ManyToOne
+    var awayUser: User? = null,
 
-        @ManyToOne
-        @JoinColumn
-        var reporter: User? = null,
+    @ManyToOne
+    @JoinColumn
+    var reporter: User? = null,
 
-        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-        val ratings: List<Rating> = mutableListOf(),
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+    val ratings: List<Rating> = mutableListOf(),
 
-        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-        val comments: List<Comment> = mutableListOf(),
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+    val comments: List<Comment> = mutableListOf(),
 
-        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-        val bets: List<Bet> = mutableListOf(),
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+    val bets: List<Bet> = mutableListOf(),
 
-        @JsonIgnore
-        @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-        @JoinColumn(unique = true)
-        var replay: Replay? = null,
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(unique = true)
+    var replay: Replay? = null,
 
-        @Basic(fetch = FetchType.LAZY)
-        @Formula("(select count(*) from COMMENT c where c.GAME_ID = id)")
-        val commentsSize: Int? = null,
+    @Basic(fetch = FetchType.LAZY)
+    @Formula("(select count(*) from COMMENT c where c.GAME_ID = id)")
+    val commentsSize: Int? = null,
 
-        @Basic(fetch = FetchType.LAZY)
-        @Formula("(select count(*) from RATING r where r.GAME_ID = id)")
-        val ratingsSize: Int? = null,
+    @Basic(fetch = FetchType.LAZY)
+    @Formula("(select count(*) from RATING r where r.GAME_ID = id)")
+    val ratingsSize: Int? = null,
 
-        var voided: Boolean = false
+    var voided: Boolean = false
 ) {
 
     fun pairingInvolves(user: User?) = (user != null) && (homeUser == user || awayUser == user)

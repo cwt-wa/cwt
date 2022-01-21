@@ -19,8 +19,12 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("api/configuration")
 class ConfigurationRestController @Autowired
-constructor(private val configurationService: ConfigurationService, private val tournamentService: TournamentService,
-            private val authService: AuthService, private val gameService: GameService) {
+constructor(
+    private val configurationService: ConfigurationService,
+    private val tournamentService: TournamentService,
+    private val authService: AuthService,
+    private val gameService: GameService
+) {
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun query(@RequestParam(value = "keys", required = false) configurationKeys: List<ConfigurationKey>?): List<Configuration> {
@@ -38,7 +42,7 @@ constructor(private val configurationService: ConfigurationService, private val 
     @RequestMapping("/score-best-of", method = [RequestMethod.GET])
     fun fetchBestOfScore(): ResponseEntity<Configuration> {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         return ResponseEntity.ok(gameService.getBestOfValue(currentTournament.status))
     }
 }

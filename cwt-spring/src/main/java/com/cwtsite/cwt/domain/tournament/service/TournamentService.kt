@@ -34,7 +34,6 @@ class TournamentService {
     @Autowired
     private lateinit var treeService: TreeService
 
-
     /**
      * @throws IllegalStateException When there are unarchived tournaments.
      */
@@ -95,7 +94,7 @@ class TournamentService {
 
     @Throws(RuntimeException::class)
     fun getCurrentTournament(): Tournament? =
-            tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED)
+        tournamentRepository.findByStatusNot(TournamentStatus.ARCHIVED)
 
     /**
      * Get the tournament whose creation is after and closest to the given creation.
@@ -103,8 +102,8 @@ class TournamentService {
      * @return Can be `null` when there's no tournament created before the given creation instant.
      */
     fun getCurrentTournamentAt(at: Instant): Tournament? =
-            tournamentRepository.findByCreatedBefore(at)
-              .minByOrNull { Duration.between(it.created, at) }
+        tournamentRepository.findByCreatedBefore(at)
+            .minByOrNull { Duration.between(it.created, at) }
 
     fun getAll(): List<Tournament> = tournamentRepository.findAll()
 

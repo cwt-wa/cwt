@@ -10,15 +10,11 @@ import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.test.MockitoUtils.anyObject
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
-
 import org.assertj.core.api.Assertions.assertThat
-
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
-
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -27,7 +23,6 @@ import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -99,7 +94,7 @@ class TwitchJobTest {
     }
 
     private fun toTwitchVideoDto(stream: Stream): TwitchVideoDto =
-            createTwitchVideoDto(stream.id, stream.userId!!)
+        createTwitchVideoDto(stream.id, stream.userId!!)
 
     private fun createTwitchVideoDto(id: String, userId: String, title: String = "default title"): TwitchVideoDto {
         val twitchVideoDto = mock(TwitchVideoDto::class.java)
@@ -111,4 +106,3 @@ class TwitchJobTest {
         return twitchVideoDto
     }
 }
-

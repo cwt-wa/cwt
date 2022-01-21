@@ -4,6 +4,6 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 
 @DataTransferObject
 data class PasswordResetDto(
-        val password: String,
-        val resetKey: String
+    val password: String,
+    val resetKey: String
 )

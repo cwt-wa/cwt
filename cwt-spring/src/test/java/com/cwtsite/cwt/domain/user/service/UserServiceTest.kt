@@ -53,22 +53,22 @@ class UserServiceTest {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.GROUP)
 
         Mockito
-                .`when`(tournamentService.getCurrentTournament())
-                .thenReturn(tournament)
+            .`when`(tournamentService.getCurrentTournament())
+            .thenReturn(tournament)
 
         val group = Group()
         group.standings.addAll(createStandings(user))
 
         Mockito
-                .`when`(groupRepository.findByTournamentAndUser(anyObject(), anyObject()))
-                .thenReturn(group)
+            .`when`(groupRepository.findByTournamentAndUser(anyObject(), anyObject()))
+            .thenReturn(group)
         Mockito
-                .`when`(gameRepository.findPlayedByUserInGroup(anyObject(), anyObject()))
-                .thenReturn(createGames(group, tournament))
+            .`when`(gameRepository.findPlayedByUserInGroup(anyObject(), anyObject()))
+            .thenReturn(createGames(group, tournament))
 
         Assertions
-                .assertThat(userService.getRemainingOpponents(user))
-                .containsExactlyInAnyOrder(getUser(group, 3), getUser(group, 4))
+            .assertThat(userService.getRemainingOpponents(user))
+            .containsExactlyInAnyOrder(getUser(group, 3), getUser(group, 4))
     }
 
     private fun createGames(group: Group, tournament: Tournament): List<Game> {
@@ -82,16 +82,17 @@ class UserServiceTest {
 
     private fun getUser(group: Group, userId: Long): User {
         return group.standings
-                .map { it.user }
-                .find { it.id == userId } ?: throw IllegalArgumentException()
+            .map { it.user }
+            .find { it.id == userId } ?: throw IllegalArgumentException()
     }
 
     private fun createStandings(user: User): List<GroupStanding> =
-            listOf(
-                    GroupStanding(user),
-                    GroupStanding(EntityDefaults.user(2)),
-                    GroupStanding(EntityDefaults.user(3)),
-                    GroupStanding(EntityDefaults.user(4)))
+        listOf(
+            GroupStanding(user),
+            GroupStanding(EntityDefaults.user(2)),
+            GroupStanding(EntityDefaults.user(3)),
+            GroupStanding(EntityDefaults.user(4))
+        )
 
     @Test
     fun validateUsername() {
@@ -122,11 +123,14 @@ class UserServiceTest {
     @Test
     fun createDefaultTimeline() {
         Mockito
-                .`when`(tournamentRepository.findAll())
-                .thenReturn(listOf(
-                        EntityDefaults.tournament(id = 1, created = LocalDateTime.of(2002, 10, 1, 13, 32).toInstant(ZoneOffset.UTC), maxRounds = 5, threeWay = true),
-                        EntityDefaults.tournament(id = 2, created = LocalDateTime.of(2003, 5, 13, 17, 32).toInstant(ZoneOffset.UTC), maxRounds = 7, threeWay = false),
-                        EntityDefaults.tournament(id = 3, created = LocalDateTime.of(2004, 12, 1, 19, 32).toInstant(ZoneOffset.UTC), maxRounds = 5, threeWay = false)))
+            .`when`(tournamentRepository.findAll())
+            .thenReturn(
+                listOf(
+                    EntityDefaults.tournament(id = 1, created = LocalDateTime.of(2002, 10, 1, 13, 32).toInstant(ZoneOffset.UTC), maxRounds = 5, threeWay = true),
+                    EntityDefaults.tournament(id = 2, created = LocalDateTime.of(2003, 5, 13, 17, 32).toInstant(ZoneOffset.UTC), maxRounds = 7, threeWay = false),
+                    EntityDefaults.tournament(id = 3, created = LocalDateTime.of(2004, 12, 1, 19, 32).toInstant(ZoneOffset.UTC), maxRounds = 5, threeWay = false)
+                )
+            )
 
         Assert.assertEquals("[1,2002,1,5,0],[2,2003,0,7,0],[3,2004,0,5,0]", userService.createDefaultUserStatsTimeline())
     }
@@ -137,8 +141,8 @@ class UserServiceTest {
         user.about = "hello i am an about text"
 
         Mockito
-                .`when`<Any>(userRepository.save(anyObject()))
-                .thenAnswer { it.getArgument(0) }
+            .`when`<Any>(userRepository.save(anyObject()))
+            .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, "hello i am not the same about text!", null, null)
         Assert.assertEquals("hello i am not the same about text!", newUser.about)
@@ -150,8 +154,8 @@ class UserServiceTest {
         user.username = "leasOldName"
 
         Mockito
-                .`when`<Any>(userRepository.save(anyObject()))
-                .thenAnswer { it.getArgument(0) }
+            .`when`<Any>(userRepository.save(anyObject()))
+            .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, null, "leasNewName", null)
         Assert.assertEquals("leasNewName", newUser.username)
@@ -175,8 +179,8 @@ class UserServiceTest {
         user.email = "lea@flori"
 
         Mockito
-                .`when`<Any>(userRepository.save(anyObject()))
-                .thenAnswer { it.getArgument(0) }
+            .`when`<Any>(userRepository.save(anyObject()))
+            .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, null, null, null, "flori@lea")
         Assert.assertEquals("flori@lea", newUser.email)
@@ -188,8 +192,8 @@ class UserServiceTest {
         user.about = "england"
 
         Mockito
-                .`when`<Any>(userRepository.save(anyObject()))
-                .thenAnswer { it.getArgument(0) }
+            .`when`<Any>(userRepository.save(anyObject()))
+            .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, null, null, createCountry("Germany"))
         Assert.assertEquals("Germany", newUser.country.name)
@@ -204,8 +208,8 @@ class UserServiceTest {
         user.email = "old@email"
 
         Mockito
-                .`when`<Any>(userRepository.save(anyObject()))
-                .thenAnswer { it.getArgument(0) }
+            .`when`<Any>(userRepository.save(anyObject()))
+            .thenAnswer { it.getArgument(0) }
 
         val newUser = userService.changeUser(user, "new about text", "newUsernameXoXo", createCountry("Germany"), "new@email")
         Assert.assertEquals("new about text", newUser.about)
@@ -215,8 +219,8 @@ class UserServiceTest {
     }
 
     private fun createCountry(name: String) = Country(
-            id = 1,
-            name = name,
-            flag = "${name.toLowerCase().replace(" ", "_")}.png"
+        id = 1,
+        name = name,
+        flag = "${name.toLowerCase().replace(" ", "_")}.png"
     )
 }

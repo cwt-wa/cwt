@@ -35,20 +35,23 @@ import org.springframework.web.bind.annotation.RestController
 import java.io.File
 import javax.servlet.http.HttpServletRequest
 
-
 @RestController
 @RequestMapping("api/auth")
 class AuthenticationRestController @Autowired
-constructor(private val authenticationManager: AuthenticationManager, private val jwtTokenUtil: JwtTokenUtil,
-            private val userDetailsService: UserDetailsService, private val userService: UserService,
-            private val securityContextHolderFacade: SecurityContextHolderFacade,
-            private val authService: AuthService, private val securityService: SecurityService) {
+constructor(
+    private val authenticationManager: AuthenticationManager,
+    private val jwtTokenUtil: JwtTokenUtil,
+    private val userDetailsService: UserDetailsService,
+    private val userService: UserService,
+    private val securityContextHolderFacade: SecurityContextHolderFacade,
+    private val authService: AuthService,
+    private val securityService: SecurityService
+) {
 
     @Value("\${firebase-credentials-location}")
     private lateinit var firebaseCredentialsLocation: String
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
 
     @RequestMapping(path = ["/register"], method = [RequestMethod.POST])
     fun register(@RequestBody userRegistrationDto: UserRegistrationDto): ResponseEntity<*> {
@@ -63,7 +66,8 @@ constructor(private val authenticationManager: AuthenticationManager, private va
         val user: User
         try {
             user = userService.registerUser(
-                    userRegistrationDto.username, userRegistrationDto.email, userRegistrationDto.password)
+                userRegistrationDto.username, userRegistrationDto.email, userRegistrationDto.password
+            )
         } catch (e: UserService.UserExistsByEmailOrUsernameException) {
             throw RestException("User already exists.", HttpStatus.BAD_REQUEST, e)
         } catch (e: UserService.InvalidUsernameException) {
@@ -73,19 +77,21 @@ constructor(private val authenticationManager: AuthenticationManager, private va
         }
 
         return createAuthenticationToken(
-                JwtAuthenticationRequest(user.username, userRegistrationDto.password))
+            JwtAuthenticationRequest(user.username, userRegistrationDto.password)
+        )
     }
 
     @RequestMapping("/login", method = [RequestMethod.POST])
     @Throws(AuthenticationException::class)
     fun createAuthenticationToken(
-            @RequestBody authenticationRequest: JwtAuthenticationRequest): ResponseEntity<JwtAuthenticationResponse> {
+        @RequestBody authenticationRequest: JwtAuthenticationRequest
+    ): ResponseEntity<JwtAuthenticationResponse> {
         val authentication = try {
             authenticationManager.authenticate(
-                    UsernamePasswordAuthenticationToken(
-                            authenticationRequest.username,
-                            authenticationRequest.password
-                    )
+                UsernamePasswordAuthenticationToken(
+                    authenticationRequest.username,
+                    authenticationRequest.password
+                )
             )
         } catch (e: UsernameNotFoundException) {
             throw RestException("Wrong credentials.", HttpStatus.BAD_REQUEST, null)
@@ -104,35 +110,44 @@ constructor(private val authenticationManager: AuthenticationManager, private va
     @RequestMapping("/firebase-login", method = [RequestMethod.POST])
     @Throws(AuthenticationException::class)
     fun createAuthenticationTokenForFirebase(
-            @RequestBody authRequest: JwtAuthenticationRequest): ResponseEntity<FirebaseIdentityTokenDto> {
-        authenticationManager.authenticate(UsernamePasswordAuthenticationToken(
-                authRequest.username, authRequest.password))
+        @RequestBody authRequest: JwtAuthenticationRequest
+    ): ResponseEntity<FirebaseIdentityTokenDto> {
+        authenticationManager.authenticate(
+            UsernamePasswordAuthenticationToken(
+                authRequest.username, authRequest.password
+            )
+        )
 
         val firebaseApp = when (FirebaseApp.getApps().isEmpty()) {
             false -> FirebaseApp.getInstance()
             true -> File(firebaseCredentialsLocation).inputStream().use {
-                FirebaseApp.initializeApp(FirebaseOptions.Builder()
+                FirebaseApp.initializeApp(
+                    FirebaseOptions.Builder()
                         .setCredentials(GoogleCredentials.fromStream(it))
-                        .build())
+                        .build()
+                )
             }
         }
 
         val userDetails = userDetailsService.loadUserByUsername(authRequest.username) as JwtUser<*>
 
         val additionalClaims = mapOf<String, Any?>(
-                "username" to userDetails.username,
-                "id" to userDetails.id,
-                "email" to userDetails.email,
-                "isAdmin" to userDetails.roles.contains(AuthorityRole.ROLE_ADMIN))
+            "username" to userDetails.username,
+            "id" to userDetails.id,
+            "email" to userDetails.email,
+            "isAdmin" to userDetails.roles.contains(AuthorityRole.ROLE_ADMIN)
+        )
         val customToken = FirebaseAuth.getInstance(firebaseApp!!).createCustomToken(
-                "${authRequest.username}_${userDetails.id}", additionalClaims)
+            "${authRequest.username}_${userDetails.id}", additionalClaims
+        )
 
         return ResponseEntity.ok(securityService.exchangeFirebaseCustomTokenForIdToken(customToken))
     }
 
     @RequestMapping("/firebase-refresh", method = [RequestMethod.POST])
     fun refreshAndGetAuthenticationTokenForFirebase(
-            @RequestBody jwtAuthenticationResponse: JwtAuthenticationResponse): ResponseEntity<FirebaseIdentityTokenDto> {
+        @RequestBody jwtAuthenticationResponse: JwtAuthenticationResponse
+    ): ResponseEntity<FirebaseIdentityTokenDto> {
         try {
             return ResponseEntity.ok(securityService.refreshFirebaseToken(jwtAuthenticationResponse.token))
         } catch (e: Exception) {
@@ -143,10 +158,10 @@ constructor(private val authenticationManager: AuthenticationManager, private va
     @RequestMapping("/refresh", method = [RequestMethod.GET])
     fun refreshAndGetAuthenticationToken(request: HttpServletRequest): ResponseEntity<JwtAuthenticationResponse?> {
         val token = request.getHeader(authService.tokenHeaderName)
-                ?: return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+            ?: return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
 
         val username = jwtTokenUtil.getUsernameFromToken(token)
-                ?: throw RestException("Username is null in token.", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("Username is null in token.", HttpStatus.BAD_REQUEST, null)
         val user = userDetailsService.loadUserByUsername(username) as JwtUser<*>
 
         return if (jwtTokenUtil.canTokenBeRefreshed(token, user.resetDate)!!) {

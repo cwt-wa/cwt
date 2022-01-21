@@ -4,5 +4,6 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 
 @DataTransferObject
 data class PasswordChangeDto(
-        val currentPassword: String,
-        val newPassword: String)
+    val currentPassword: String,
+    val newPassword: String
+)

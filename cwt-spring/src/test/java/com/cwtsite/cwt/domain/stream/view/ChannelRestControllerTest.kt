@@ -49,17 +49,20 @@ class ChannelRestControllerTest {
     fun `pollForVideo existing streams`() {
         val channel = EntityDefaults.channel()
         val videosFromTwitch = listOf(
-                createTwitchVideoDto("1", channel.id),
-                createTwitchVideoDto("2", channel.id))
+            createTwitchVideoDto("1", channel.id),
+            createTwitchVideoDto("2", channel.id)
+        )
         val streamsFromTwitch = listOf(
-                EntityDefaults.stream(id = videosFromTwitch[0].id, channel = channel),
-                EntityDefaults.stream(id = videosFromTwitch[1].id, channel = channel))
+            EntityDefaults.stream(id = videosFromTwitch[0].id, channel = channel),
+            EntityDefaults.stream(id = videosFromTwitch[1].id, channel = channel)
+        )
         `when`(twitchService.requestVideos(listOf(channel))).thenReturn(videosFromTwitch)
         val newStream = streamsFromTwitch[0]
         val existingStreams = listOf(
-                streamsFromTwitch[1],
-                EntityDefaults.stream(id = "124", channel = channel),
-                EntityDefaults.stream(id = "125", channel = channel))
+            streamsFromTwitch[1],
+            EntityDefaults.stream(id = "124", channel = channel),
+            EntityDefaults.stream(id = "125", channel = channel)
+        )
         `when`(streamService.findStreams(channel)).thenReturn(existingStreams)
         `when`(streamService.saveStreams(anyObject())).thenAnswer { it.getArgument(0) }
         val game = EntityDefaults.game()

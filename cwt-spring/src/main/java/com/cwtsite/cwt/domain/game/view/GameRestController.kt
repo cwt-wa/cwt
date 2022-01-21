@@ -35,12 +35,15 @@ import javax.transaction.Transactional
 @RestController
 @RequestMapping("api/game")
 class GameRestController @Autowired
-constructor(private val gameService: GameService, private val userService: UserService,
-            private val authService: AuthService,
-            private val sseEmitterFactory: SseEmitterFactory,
-            private val gameStatsEventListener: GameStatsEventListener,
-            private val tournamentService: TournamentService,
-            private val streamService: StreamService) {
+constructor(
+    private val gameService: GameService,
+    private val userService: UserService,
+    private val authService: AuthService,
+    private val sseEmitterFactory: SseEmitterFactory,
+    private val gameStatsEventListener: GameStatsEventListener,
+    private val tournamentService: TournamentService,
+    private val streamService: StreamService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -66,29 +69,32 @@ constructor(private val gameService: GameService, private val userService: UserS
     @RequestMapping("/{id}", method = [RequestMethod.GET])
     fun getGame(@PathVariable("id") id: Long): ResponseEntity<GameDetailDto> {
         return gameService.findById(id)
-                .map { ResponseEntity.ok(GameDetailDto.toDto(it)) }
-                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+            .map { ResponseEntity.ok(GameDetailDto.toDto(it)) }
+            .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
     }
 
     @GetMapping("/{id}/stream")
     fun getStreamsForGame(@PathVariable("id") id: Long): ResponseEntity<List<StreamDto>> {
         val game = gameService.findById(id)
-                .orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) }
         return ResponseEntity.ok(streamService.findStreams(game).map { StreamDto.toDto(it) })
     }
 
     @RequestMapping("", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun reportGameWithoutReplay(@RequestBody reportDto: ReportDto,
-                                request: HttpServletRequest): ResponseEntity<GameCreationDto> {
+    fun reportGameWithoutReplay(
+        @RequestBody reportDto: ReportDto,
+        request: HttpServletRequest
+    ): ResponseEntity<GameCreationDto> {
         val authUser = authService.getUserFromToken(request.getHeader(authService.tokenHeaderName))
         if (authUser!!.id != reportDto.user) {
             throw RestException("Please report your own games.", HttpStatus.FORBIDDEN, null)
         }
 
         val reportedGame = gameService.reportGame(
-                reportDto.user!!, reportDto.opponent!!,
-                reportDto.scoreOfUser!!.toInt(), reportDto.scoreOfOpponent!!.toInt())
+            reportDto.user!!, reportDto.opponent!!,
+            reportDto.scoreOfUser!!.toInt(), reportDto.scoreOfOpponent!!.toInt()
+        )
 
         return ResponseEntity.ok(GameCreationDto.toDto(reportedGame))
     }
@@ -97,7 +103,7 @@ constructor(private val gameService: GameService, private val userService: UserS
     @Throws(IOException::class)
     fun download(@PathVariable("gameId") gameId: Long): ResponseEntity<Resource> {
         val game = gameService.findById(gameId)
-                .orElseThrow { RestException("Game $gameId not found", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("Game $gameId not found", HttpStatus.NOT_FOUND, null) }
 
         if (game.replay == null) {
             throw RestException("There's no replay file for this game.", HttpStatus.NOT_FOUND, null)
@@ -106,57 +112,67 @@ constructor(private val gameService: GameService, private val userService: UserS
         val resource = ByteArrayResource(game.replay!!.file)
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + gameService.createReplayFileName(game))
-                .contentLength(resource.contentLength())
-                .contentType(MediaType.parseMediaType(game.replay!!.mediaType))
-                .body(resource)
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + gameService.createReplayFileName(game))
+            .contentLength(resource.contentLength())
+            .contentType(MediaType.parseMediaType(game.replay!!.mediaType))
+            .body(resource)
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun queryGamesPaged(pageDto: PageDto<Game>,
-                        @RequestParam("user", required = true) users: List<Long>?): ResponseEntity<PageDto<GameDetailDto>> {
+    fun queryGamesPaged(
+        pageDto: PageDto<Game>,
+        @RequestParam("user", required = true) users: List<Long>?
+    ): ResponseEntity<PageDto<GameDetailDto>> {
         val games = when (users?.size ?: 0) {
             0 -> {
                 gameService.findPaginatedPlayedGames(
-                        pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"))
+                    pageDto.start, pageDto.size,
+                    pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt")
+                )
             }
             1 -> {
                 val user = userService.getById(users!![0])
-                        .orElseThrow { RestException("user ${users[0]} does not exist.", HttpStatus.BAD_REQUEST, null) }
+                    .orElseThrow { RestException("user ${users[0]} does not exist.", HttpStatus.BAD_REQUEST, null) }
                 gameService.findGameOfUser(
-                        pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"),
-                        user)
+                    pageDto.start, pageDto.size,
+                    pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"),
+                    user
+                )
             }
             2 -> {
                 val user1 = userService.getById(users!![0])
-                        .orElseThrow { RestException("User ${users[0]} does not exist", HttpStatus.NOT_FOUND, null) }
+                    .orElseThrow { RestException("User ${users[0]} does not exist", HttpStatus.NOT_FOUND, null) }
                 val user2 = userService.getById(users[1])
-                        .orElseThrow { RestException("User ${users[1]} does not exist", HttpStatus.NOT_FOUND, null) }
+                    .orElseThrow { RestException("User ${users[1]} does not exist", HttpStatus.NOT_FOUND, null) }
                 gameService.findGameOfUsers(
-                        pageDto.start, pageDto.size,
-                        pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"),
-                        user1, user2)
+                    pageDto.start, pageDto.size,
+                    pageDto.asSortWithFallback(Sort.Direction.DESC, "reportedAt"),
+                    user1, user2
+                )
             }
             else -> {
                 throw RestException("Two users must be supplied", HttpStatus.BAD_REQUEST, null)
             }
         }
-        return ResponseEntity.ok(PageDto.toDto(
+        return ResponseEntity.ok(
+            PageDto.toDto(
                 games.map { GameDetailDto.toDto(it) },
-                listOf("reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")))
+                listOf("reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")
+            )
+        )
     }
 
     @RequestMapping("/{id}/rating", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun rateGame(@PathVariable("id") id: Long,
-                 @RequestBody rating: RatingCreationDto,
-                 request: HttpServletRequest): ResponseEntity<RatingDto> {
+    fun rateGame(
+        @PathVariable("id") id: Long,
+        @RequestBody rating: RatingCreationDto,
+        request: HttpServletRequest
+    ): ResponseEntity<RatingDto> {
         val user = authService.authUser(request)!!
         if (user.id != rating.user) throw RestException("Please rate as yourself.", HttpStatus.FORBIDDEN, null)
         val game = gameService.findById(id)
-                .orElseThrow { throw RestException("No such game.", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { throw RestException("No such game.", HttpStatus.NOT_FOUND, null) }
         val ratings = gameService.findRating(user, game, rating.type, rating.type.opposite())
         if (ratings.size > 1) {
             logger.warn("More than one like/dislike rating for $user on $game.")
@@ -175,9 +191,11 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("/{id}/comment", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
-    fun commentGame(@PathVariable("id") id: Long,
-                    @RequestBody comment: CommentCreationDto,
-                    request: HttpServletRequest): CommentDto {
+    fun commentGame(
+        @PathVariable("id") id: Long,
+        @RequestBody comment: CommentCreationDto,
+        request: HttpServletRequest
+    ): CommentDto {
         if (authService.authUser(request)!!.id != comment.author) {
             throw RestException("Please comment as yourself.", HttpStatus.FORBIDDEN, null)
         }
@@ -188,14 +206,14 @@ constructor(private val gameService: GameService, private val userService: UserS
     @Secured(AuthorityRole.ROLE_ADMIN)
     fun addTechWin(@RequestBody dto: GameTechWinDto, request: HttpServletRequest): ResponseEntity<GameCreationDto> {
         tournamentService.getCurrentTournament()
-                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val reporter = authService.authUser(request)
-                ?: throw RestException("Unauthorized.", HttpStatus.UNAUTHORIZED, null)
+            ?: throw RestException("Unauthorized.", HttpStatus.UNAUTHORIZED, null)
         val users = userService.findByIds(dto.winner, dto.loser)
         val winningUser = users.find { it.id == dto.winner }
-                ?: throw RestException("Winning user not found.", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("Winning user not found.", HttpStatus.BAD_REQUEST, null)
         val losingUser = users.find { it.id == dto.loser }
-                ?: throw RestException("Losing user not found.", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("Losing user not found.", HttpStatus.BAD_REQUEST, null)
         return ResponseEntity.ok(GameCreationDto.toDto(gameService.addTechWin(winningUser, losingUser, reporter)))
     }
 
@@ -218,16 +236,19 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @RequestMapping("/{id}/bets", method = [RequestMethod.GET])
     fun queryBetsForGame(@PathVariable("id") id: Long): ResponseEntity<List<PlayoffTreeBetDto>> = ResponseEntity.ok(
-            gameService.findBetsByGame(gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) })
-                    .map { PlayoffTreeBetDto.toDto(it) })
+        gameService.findBetsByGame(gameService.findById(id).orElseThrow { RestException("Game $id not found", HttpStatus.NOT_FOUND, null) })
+            .map { PlayoffTreeBetDto.toDto(it) }
+    )
 
     @RequestMapping("/{id}/void", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_ADMIN)
     @Transactional
     fun voidGame(@PathVariable("id") id: Long, request: HttpServletRequest): ResponseEntity<Game> {
         val voidedGame = try {
-            gameService.voidGame(gameService.findById(id)
-                    .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) })
+            gameService.voidGame(
+                gameService.findById(id)
+                    .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+            )
         } catch (e: PlayoffService.PlayoffGameNotVoidableException) {
             throw RestException("The game is not voidable.", HttpStatus.BAD_REQUEST, e)
         } catch (e: IllegalStateException) {
@@ -239,10 +260,13 @@ constructor(private val gameService: GameService, private val userService: UserS
 
     @GetMapping("/{gameId}/stats")
     fun retrieveGameStats(@PathVariable("gameId") gameId: Long): ResponseEntity<String> =
-            ResponseEntity
-                    .ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(gameService.findGameStats(
-                            gameService.findById(gameId)
-                                    .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }))
+        ResponseEntity
+            .ok()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(
+                gameService.findGameStats(
+                    gameService.findById(gameId)
+                        .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+                )
+            )
 }

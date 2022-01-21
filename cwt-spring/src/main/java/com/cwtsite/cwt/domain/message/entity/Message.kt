@@ -7,10 +7,10 @@ import org.hibernate.annotations.CreationTimestamp
 import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.Enumerated
 import javax.persistence.EnumType
-import javax.persistence.GenerationType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
@@ -24,34 +24,35 @@ import javax.persistence.Table
 @SequenceGenerator(name = "message_seq", sequenceName = "message_id_seq", allocationSize = 1)
 data class Message(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "message_seq")
-        var id: Long? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "message_seq")
+    var id: Long? = null,
 
-        @Column(columnDefinition = "text", nullable = false)
-        var body: String,
+    @Column(columnDefinition = "text", nullable = false)
+    var body: String,
 
-        @ManyToOne(optional = false)
-        @JoinColumn(nullable = false)
-        var author: User,
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    var author: User,
 
-        @ManyToMany
-        @JoinTable(
-                name = "message_recipient",
-                joinColumns = [JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID")],
-                inverseJoinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")])
-        var recipients: MutableList<User> = mutableListOf(),
+    @ManyToMany
+    @JoinTable(
+        name = "message_recipient",
+        joinColumns = [JoinColumn(name = "MESSAGE_ID", referencedColumnName = "ID")],
+        inverseJoinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")]
+    )
+    var recipients: MutableList<User> = mutableListOf(),
 
-        @Enumerated(EnumType.STRING)
-        @Column(nullable = false)
-        var category: MessageCategory = MessageCategory.SHOUTBOX,
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    var category: MessageCategory = MessageCategory.SHOUTBOX,
 
-        @Enumerated(EnumType.STRING)
-        var newsType: MessageNewsType? = null,
+    @Enumerated(EnumType.STRING)
+    var newsType: MessageNewsType? = null,
 
-        @field:CreationTimestamp
-        @Column(nullable = false)
-        var created: Instant? = null
+    @field:CreationTimestamp
+    @Column(nullable = false)
+    var created: Instant? = null
 ) {
     override fun toString() = "Message{id=$id, body=$body, category=$category, newsType=$newsType}"
 

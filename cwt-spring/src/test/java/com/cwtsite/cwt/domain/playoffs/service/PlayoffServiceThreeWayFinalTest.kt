@@ -67,12 +67,12 @@ class PlayoffServiceThreeWayFinalTest {
     @Test
     fun advanceByGame_firstToReachFinal() {
         val game = Game(
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 2),
-                playoff = PlayoffGame(round = 1, spot = 2),
-                tournament = tournament
+            scoreHome = 3,
+            scoreAway = 1,
+            homeUser = EntityDefaults.user(),
+            awayUser = EntityDefaults.user(id = 2),
+            playoff = PlayoffGame(round = 1, spot = 2),
+            tournament = tournament
         )
 
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1)).thenReturn(emptyList())
@@ -88,35 +88,37 @@ class PlayoffServiceThreeWayFinalTest {
     fun advanceByGame_secondToReachFinal() {
         val firstUserToReachFinals = EntityDefaults.user(1)
         val game = Game(
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 22),
-                playoff = PlayoffGame(round = 1, spot = 2),
-                tournament = tournament
+            scoreHome = 3,
+            scoreAway = 1,
+            homeUser = EntityDefaults.user(),
+            awayUser = EntityDefaults.user(id = 22),
+            playoff = PlayoffGame(round = 1, spot = 2),
+            tournament = tournament
         )
 
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 2))
-                .thenReturn(listOf(
-                        Game(
-                                awayUser = null,
-                                homeUser = firstUserToReachFinals,
-                                playoff = PlayoffGame(round = 2, spot = 1),
-                                tournament = tournament
-                        ),
-                        Game(
-                                awayUser = firstUserToReachFinals,
-                                homeUser = null,
-                                playoff = PlayoffGame(round = 2, spot = 2),
-                                tournament = tournament
-                        ),
-                        Game(
-                                awayUser = null,
-                                homeUser = null,
-                                playoff = PlayoffGame(round = 2, spot = 3),
-                                tournament = tournament
-                        )
-                ))
+            .thenReturn(
+                listOf(
+                    Game(
+                        awayUser = null,
+                        homeUser = firstUserToReachFinals,
+                        playoff = PlayoffGame(round = 2, spot = 1),
+                        tournament = tournament
+                    ),
+                    Game(
+                        awayUser = firstUserToReachFinals,
+                        homeUser = null,
+                        playoff = PlayoffGame(round = 2, spot = 2),
+                        tournament = tournament
+                    ),
+                    Game(
+                        awayUser = null,
+                        homeUser = null,
+                        playoff = PlayoffGame(round = 2, spot = 3),
+                        tournament = tournament
+                    )
+                )
+            )
 
         val gameToAdvanceTo = playoffService.advanceByGame(game)
 
@@ -143,35 +145,37 @@ class PlayoffServiceThreeWayFinalTest {
         val firstUserToReachFinals = EntityDefaults.user(1)
         val secondUserToReachFinals = EntityDefaults.user(2)
         val game = Game(
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 28),
-                playoff = PlayoffGame(round = 1, spot = 3),
-                tournament = tournament
+            scoreHome = 3,
+            scoreAway = 1,
+            homeUser = EntityDefaults.user(),
+            awayUser = EntityDefaults.user(id = 28),
+            playoff = PlayoffGame(round = 1, spot = 3),
+            tournament = tournament
         )
 
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 2))
-                .thenReturn(listOf(
-                        Game(
-                                awayUser = secondUserToReachFinals,
-                                homeUser = firstUserToReachFinals,
-                                playoff = PlayoffGame(round = 2, spot = 1),
-                                tournament = tournament
-                        ),
-                        Game(
-                                awayUser = firstUserToReachFinals,
-                                homeUser = null,
-                                playoff = PlayoffGame(round = 2, spot = 2),
-                                tournament = tournament
-                        ),
-                        Game(
-                                awayUser = null,
-                                homeUser = secondUserToReachFinals,
-                                playoff = PlayoffGame(round = 2, spot = 3),
-                                tournament = tournament
-                        )
-                ))
+            .thenReturn(
+                listOf(
+                    Game(
+                        awayUser = secondUserToReachFinals,
+                        homeUser = firstUserToReachFinals,
+                        playoff = PlayoffGame(round = 2, spot = 1),
+                        tournament = tournament
+                    ),
+                    Game(
+                        awayUser = firstUserToReachFinals,
+                        homeUser = null,
+                        playoff = PlayoffGame(round = 2, spot = 2),
+                        tournament = tournament
+                    ),
+                    Game(
+                        awayUser = null,
+                        homeUser = secondUserToReachFinals,
+                        playoff = PlayoffGame(round = 2, spot = 3),
+                        tournament = tournament
+                    )
+                )
+            )
 
         val gameToAdvanceTo = playoffService.advanceByGame(game)
 
@@ -196,21 +200,21 @@ class PlayoffServiceThreeWayFinalTest {
     @Test
     fun advanceByGame_threeWayFinalPlayed() {
         val game = Game(
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 2),
-                playoff = PlayoffGame(round = 2, spot = 2),
-                tournament = tournament
+            scoreHome = 3,
+            scoreAway = 1,
+            homeUser = EntityDefaults.user(),
+            awayUser = EntityDefaults.user(id = 2),
+            playoff = PlayoffGame(round = 2, spot = 2),
+            tournament = tournament
         )
 
-
-
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, 1))
-                .thenReturn(spy<ArrayList<Game>>(object : ArrayList<Game>() {
+            .thenReturn(
+                spy<ArrayList<Game>>(object : ArrayList<Game>() {
                     override val size: Int
                         get() = 3
-                }))
+                })
+            )
 
         Assertions.assertThat(playoffService.advanceByGame(game)).isEmpty()
     }

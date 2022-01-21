@@ -7,6 +7,6 @@ enum class MessageNewsType {
     companion object {
 
         fun thirdPartyMessageTypes(): Set<MessageNewsType> =
-                setOf(TWITCH_MESSAGE, DISCORD_MESSAGE)
+            setOf(TWITCH_MESSAGE, DISCORD_MESSAGE)
     }
 }

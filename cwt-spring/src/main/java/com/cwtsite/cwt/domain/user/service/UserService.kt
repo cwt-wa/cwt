@@ -29,24 +29,26 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.time.Duration
-import java.time.LocalDateTime
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Optional
 import javax.security.auth.login.CredentialException
 
 @Component
 class UserService @Autowired
-constructor(private val userRepository: UserRepository,
-            private val authService: AuthService,
-            private val tournamentService: TournamentService,
-            private val tournamentRepository: TournamentRepository,
-            private val applicationRepository: ApplicationRepository,
-            private val groupRepository: GroupRepository,
-            private val treeService: TreeService,
-            private val gameRepository: GameRepository,
-            private val countryRepository: CountryRepository,
-            @Lazy private val emailService: EmailService) {
+constructor(
+    private val userRepository: UserRepository,
+    private val authService: AuthService,
+    private val tournamentService: TournamentService,
+    private val tournamentRepository: TournamentRepository,
+    private val applicationRepository: ApplicationRepository,
+    private val groupRepository: GroupRepository,
+    private val treeService: TreeService,
+    private val gameRepository: GameRepository,
+    private val countryRepository: CountryRepository,
+    @Lazy private val emailService: EmailService
+) {
 
     @Value("\${reset-key-expiration-minutes}") private val resetKeyExpirationMinutes: Int? = null
 
@@ -62,17 +64,22 @@ constructor(private val userRepository: UserRepository,
         if (userRepository.findByEmailEqualsOrUsernameEquals(trimmedEmail, trimmedUsername).isPresent) {
             throw UserExistsByEmailOrUsernameException()
         }
-        return userRepository.save(User(
+        return userRepository.save(
+            User(
                 username = trimmedUsername,
                 email = trimmedEmail,
-                password = authService.createHash(password)))
+                password = authService.createHash(password)
+            )
+        )
     }
 
     fun userCanApplyForCurrentTournament(user: User): Boolean {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: return false
-        return (TournamentStatus.OPEN == currentTournament.status
-                && !applicationRepository.findByApplicantAndTournament(user, currentTournament).isPresent)
+            ?: return false
+        return (
+            TournamentStatus.OPEN == currentTournament.status &&
+                !applicationRepository.findByApplicantAndTournament(user, currentTournament).isPresent
+            )
     }
 
     fun userCanReportForCurrentTournament(user: User): Boolean {
@@ -84,8 +91,8 @@ constructor(private val userRepository: UserRepository,
                 false
             } else {
                 val numberOfGamesAlreadyPlayed = group.standings
-                        .find { it.user == user }
-                        ?.games ?: throw IllegalArgumentException()
+                    .find { it.user == user }
+                    ?.games ?: throw IllegalArgumentException()
                 val numberOfTotalGamesToPlay = group.standings.size - 1
                 numberOfTotalGamesToPlay > numberOfGamesAlreadyPlayed
             }
@@ -98,7 +105,7 @@ constructor(private val userRepository: UserRepository,
 
     fun getRemainingOpponents(user: User): List<User> {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: return emptyList()
+            ?: return emptyList()
         val remainingOpponents: List<User>
 
         when (currentTournament.status) {
@@ -107,15 +114,15 @@ constructor(private val userRepository: UserRepository,
                 val games = gameRepository.findPlayedByUserInGroup(user, group)
 
                 remainingOpponents = group.standings
-                        .filter { groupStanding -> groupStanding.user != user }
-                        .map { it.user }
-                        .filter { u ->
-                            !games
-                                    .flatMap { g -> listOf(g.homeUser, g.awayUser) }
-                                    .distinct()
-                                    .contains(u)
-                        }
-                        .filter { u -> u != user }
+                    .filter { groupStanding -> groupStanding.user != user }
+                    .map { it.user }
+                    .filter { u ->
+                        !games
+                            .flatMap { g -> listOf(g.homeUser, g.awayUser) }
+                            .distinct()
+                            .contains(u)
+                    }
+                    .filter { u -> u != user }
             }
             TournamentStatus.PLAYOFFS -> {
                 val nextPlayoffGameForUser = treeService.getNextGameForUser(user)
@@ -132,12 +139,13 @@ constructor(private val userRepository: UserRepository,
     }
 
     fun createDefaultUserStatsTimeline(): String = tournamentRepository.findAll()
-            .joinToString(separator = ",") { "[${it.id},${LocalDateTime.ofInstant(it.created!!, ZoneId.of("UTC")).year},${it.threeWay?.toInt() ?: 0},${it.maxRounds},0]" }
+        .joinToString(separator = ",") { "[${it.id},${LocalDateTime.ofInstant(it.created!!, ZoneId.of("UTC")).year},${it.threeWay?.toInt() ?: 0},${it.maxRounds},0]" }
 
     fun findPaginated(page: Int, size: Int, sort: Sort): Page<User> {
         var extendedSort = sort
-        if (extendedSort == Sort.by(Sort.Direction.DESC, "userStats.trophyPoints")
-                || extendedSort == Sort.by(Sort.Direction.ASC, "userStats.trophyPoints")) {
+        if (extendedSort == Sort.by(Sort.Direction.DESC, "userStats.trophyPoints") ||
+            extendedSort == Sort.by(Sort.Direction.ASC, "userStats.trophyPoints")
+        ) {
             extendedSort = extendedSort.and(Sort.by(Sort.Direction.DESC, "userStats.participations"))
         }
         extendedSort = extendedSort.and(Sort.by(Sort.Direction.ASC, "username"))
@@ -146,8 +154,13 @@ constructor(private val userRepository: UserRepository,
 
     @Throws(InvalidUsernameException::class, UsernameTakenException::class, InvalidEmailException::class, EmailExistsException::class)
     @Transactional
-    fun changeUser(user: User, newAboutText: String? = null, newUsername: String? = null, newCountry: Country? = null,
-                   newEmail: String? = null): User {
+    fun changeUser(
+        user: User,
+        newAboutText: String? = null,
+        newUsername: String? = null,
+        newCountry: Country? = null,
+        newEmail: String? = null
+    ): User {
         if (newUsername != null) {
             if (validateUsername(newUsername)) user.username = newUsername
             else throw InvalidUsernameException()
@@ -194,11 +207,12 @@ constructor(private val userRepository: UserRepository,
             If you have questions, please do not answer to this email but rather contact our support via support@cwtsite.com.
             
             Kind regards
-        """.trimIndent()
+                    """.trimIndent()
 
                     emailService.sendMail(
-                            message, "Password reset", user.email,
-                            EmailService.EmailAddress.NOREPLY)
+                        message, "Password reset", user.email,
+                        EmailService.EmailAddress.NOREPLY
+                    )
                 }
             })
         }
@@ -232,15 +246,16 @@ constructor(private val userRepository: UserRepository,
     @Throws(FileValidator.UploadSecurityException::class, FileValidator.IllegalFileContentTypeException::class, FileValidator.FileEmptyException::class, FileValidator.FileTooLargeException::class, FileValidator.IllegalFileExtension::class)
     fun changePhoto(user: User, photo: MultipartFile) {
         FileValidator.validate(
-                photo, 3000000,
-                listOf("image/jpeg", "image/png", "image/gif"), // Yes, image/jpg is invalid.
-                listOf("jpg", "jpeg", "png", "gif"))
+            photo, 3000000,
+            listOf("image/jpeg", "image/png", "image/gif"), // Yes, image/jpg is invalid.
+            listOf("jpg", "jpeg", "png", "gif")
+        )
 
         user.photo = Photo(file = photo.bytes, mediaType = photo.contentType!!, extension = StringUtils.getFilenameExtension(photo.originalFilename)!!)
         userRepository.save(user)
     }
 
-    fun findByUsernamesIgnoreCase(usernames: List<String>): List<User> = userRepository.findAllByUsernameLowercaseIn(usernames.map {it.toLowerCase()})
+    fun findByUsernamesIgnoreCase(usernames: List<String>): List<User> = userRepository.findAllByUsernameLowercaseIn(usernames.map { it.toLowerCase() })
 
     fun findByEmail(email: String): User? {
         val users = userRepository.findAllByEmailIgnoreCase(email)

@@ -10,8 +10,8 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandler
 import java.nio.charset.StandardCharsets
-import java.nio.file.Path
 import java.nio.file.Files
+import java.nio.file.Path
 import java.time.Duration
 
 @Service
@@ -52,7 +52,7 @@ fun HttpRequest.Builder.postMultipartFormData(boundary: String, data: Map<String
     val separator = "--$boundary\r\nContent-Disposition: form-data; name=".toByteArray(StandardCharsets.UTF_8)
     for (entry in data.entries) {
         byteArrays.add(separator)
-        when(entry.value) {
+        when (entry.value) {
             is File -> {
                 val file = entry.value as File
                 val path = Path.of(file.toURI())
@@ -69,4 +69,3 @@ fun HttpRequest.Builder.postMultipartFormData(boundary: String, data: Map<String
         .POST(HttpRequest.BodyPublishers.ofByteArrays(byteArrays))
     return this
 }
-

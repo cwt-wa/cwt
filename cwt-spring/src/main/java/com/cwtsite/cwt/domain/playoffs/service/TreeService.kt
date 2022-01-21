@@ -28,31 +28,31 @@ class TreeService {
 
     fun getVoidablePlayoffGames(): List<Game> {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: return emptyList()
+            ?: return emptyList()
         return gameRepository.findByTournamentAndPlayoffIsNotNull(currentTournament)
-                .filter {
-                    if (!it.wasPlayed()) return@filter false
-                    if (isSomeKindOfFinalGame(it)) return@filter true
-                    val (nextRound, nextSpot) = nextPlayoffSpotForOneWayFinalTree(it.playoff!!.round, it.playoff!!.spot)
-                    val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(it.tournament, nextRound, nextSpot)
+            .filter {
+                if (!it.wasPlayed()) return@filter false
+                if (isSomeKindOfFinalGame(it)) return@filter true
+                val (nextRound, nextSpot) = nextPlayoffSpotForOneWayFinalTree(it.playoff!!.round, it.playoff!!.spot)
+                val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(it.tournament, nextRound, nextSpot)
 
-                    if (!gameToAdvanceTo.isPresent) {
-                        this.logger.warn("Playoff game ${it.id} has been played but a subsequent game has not been found in the playoff tree.")
-                        return@filter true
-                    }
-
-                    if (isThreeWayFinalGame(gameToAdvanceTo.get().tournament, gameToAdvanceTo.get().playoff!!.round)) {
-                        return@filter true
-                    }
-
-                    return@filter !gameToAdvanceTo.get().wasPlayed()
+                if (!gameToAdvanceTo.isPresent) {
+                    this.logger.warn("Playoff game ${it.id} has been played but a subsequent game has not been found in the playoff tree.")
+                    return@filter true
                 }
+
+                if (isThreeWayFinalGame(gameToAdvanceTo.get().tournament, gameToAdvanceTo.get().playoff!!.round)) {
+                    return@filter true
+                }
+
+                return@filter !gameToAdvanceTo.get().wasPlayed()
+            }
     }
 
     fun isSomeKindOfFinalGame(game: Game): Boolean =
-            isFinalGame(game.tournament, game.playoff!!.round)
-                    || isThirdPlaceGame(game.tournament, game.playoff!!.round)
-                    || isThreeWayFinalGame(game.tournament, game.playoff!!.round)
+        isFinalGame(game.tournament, game.playoff!!.round) ||
+            isThirdPlaceGame(game.tournament, game.playoff!!.round) ||
+            isThreeWayFinalGame(game.tournament, game.playoff!!.round)
 
     fun isFinalGame(tournament: Tournament, round: Int): Boolean {
         return round == getNumberOfPlayoffRoundsInTournament(tournament) + 1 && !isThreeWayFinalGame(tournament, round)
@@ -91,11 +91,12 @@ class TreeService {
 
     fun onlyFinalGamesAreLeftToPlay(): Boolean {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: return false
+            ?: return false
         return if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             gameRepository.findReadyGamesInRoundEqualOrGreaterThan(
-                    getNumberOfPlayoffRoundsInTournament(currentTournament),
-                    currentTournament).size == 2
+                getNumberOfPlayoffRoundsInTournament(currentTournament),
+                currentTournament
+            ).size == 2
         } else {
             false
         }
@@ -122,10 +123,10 @@ class TreeService {
 
     fun getNextGameForUser(user: User): Game? {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: return null
+            ?: return null
         return gameRepository.findNextPlayoffGameForUser(currentTournament, user)
     }
 
     fun isPlayoffTreeWithThreeWayFinal(playersInFirstRound: Int) =
-            log2(playersInFirstRound.toDouble()) % 1 != 0.0
+        log2(playersInFirstRound.toDouble()) % 1 != 0.0
 }

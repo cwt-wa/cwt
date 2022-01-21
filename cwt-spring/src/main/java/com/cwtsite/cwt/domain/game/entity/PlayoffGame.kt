@@ -2,8 +2,8 @@ package com.cwtsite.cwt.domain.game.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
@@ -13,15 +13,15 @@ import javax.persistence.Table
 @SequenceGenerator(name = "playoff_game_seq", sequenceName = "playoff_game_id_seq", allocationSize = 1)
 data class PlayoffGame(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playoff_game_seq")
-        var id: Long? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playoff_game_seq")
+    var id: Long? = null,
 
-        @Column(name = "round")
-        var round: Int,
+    @Column(name = "round")
+    var round: Int,
 
-        @Column(name = "spot")
-        var spot: Int
+    @Column(name = "spot")
+    var spot: Int
 ) {
     override fun toString() = "PlayoffGame{id=$id, round=$round, spot=$spot}"
 

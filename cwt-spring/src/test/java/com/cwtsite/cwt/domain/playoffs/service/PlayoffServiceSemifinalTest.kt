@@ -63,12 +63,12 @@ class PlayoffServiceSemifinalTest {
         val loser = EntityDefaults.user(id = 2)
 
         val reportedGame = Game(
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = winner,
-                awayUser = loser,
-                playoff = PlayoffGame(round = 3, spot = 2),
-                tournament = tournament
+            scoreHome = 3,
+            scoreAway = 1,
+            homeUser = winner,
+            awayUser = loser,
+            playoff = PlayoffGame(round = 3, spot = 2),
+            tournament = tournament
         )
 
         val changedOrUpdatedGames = playoffService.advanceByGame(reportedGame)
@@ -93,37 +93,37 @@ class PlayoffServiceSemifinalTest {
         val existingLittleFinalist = EntityDefaults.user(id = 4)
 
         val reportedGame = Game(
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = winner,
-                awayUser = loser,
-                playoff = PlayoffGame(round = 3, spot = 2),
-                tournament = tournament
+            scoreHome = 3,
+            scoreAway = 1,
+            homeUser = winner,
+            awayUser = loser,
+            playoff = PlayoffGame(round = 3, spot = 2),
+            tournament = tournament
         )
 
         val existingLittleFinal = Game(
-                scoreHome = null,
-                scoreAway = null,
-                homeUser = existingLittleFinalist,
-                awayUser = null,
-                playoff = PlayoffGame(round = 4, spot = 1),
-                tournament = tournament
+            scoreHome = null,
+            scoreAway = null,
+            homeUser = existingLittleFinalist,
+            awayUser = null,
+            playoff = PlayoffGame(round = 4, spot = 1),
+            tournament = tournament
         )
 
         val existingFinal = Game(
-                scoreHome = null,
-                scoreAway = null,
-                homeUser = existingFinalist,
-                awayUser = null,
-                playoff = PlayoffGame(round = 5, spot = 1),
-                tournament = tournament
+            scoreHome = null,
+            scoreAway = null,
+            homeUser = existingFinalist,
+            awayUser = null,
+            playoff = PlayoffGame(round = 5, spot = 1),
+            tournament = tournament
         )
 
         `when`(gameRepository.findGameInPlayoffTree(tournament, existingLittleFinal.playoff!!.round, existingLittleFinal.playoff!!.spot))
-                .thenReturn(Optional.of(existingLittleFinal))
+            .thenReturn(Optional.of(existingLittleFinal))
 
         `when`(gameRepository.findGameInPlayoffTree(tournament, existingFinal.playoff!!.round, existingFinal.playoff!!.spot))
-                .thenReturn(Optional.of(existingFinal))
+            .thenReturn(Optional.of(existingFinal))
 
         val changedOrUpdatedGames = playoffService.advanceByGame(reportedGame)
 
@@ -131,7 +131,6 @@ class PlayoffServiceSemifinalTest {
 
         val final = changedOrUpdatedGames.find { it.playoff!!.round == 5 }!!
         val littleFinal = changedOrUpdatedGames.find { it.playoff!!.round == 4 }!!
-
 
         assertThat(final.homeUser).isEqualTo(existingFinalist)
         assertThat(final.awayUser).isEqualTo(winner)

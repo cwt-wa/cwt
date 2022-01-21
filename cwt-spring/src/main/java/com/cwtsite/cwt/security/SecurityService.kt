@@ -1,18 +1,16 @@
 package com.cwtsite.cwt.security
 
 import com.cwtsite.cwt.core.HttpClient
-import org.slf4j.LoggerFactory
 import org.json.JSONObject
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.nio.charset.Charset
+import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
-import java.net.URI
-
 
 @Service
 class SecurityService {
@@ -32,17 +30,17 @@ class SecurityService {
         }
 
         val uri = "https://www.google.com/recaptcha/api/siteverify" +
-                  "?secret=${captchaSecret!!}&response=$captchaToken"
+            "?secret=${captchaSecret!!}&response=$captchaToken"
         val request = HttpRequest.newBuilder()
-             .GET()
-             .uri(URI.create(uri))
-             .header("Content-Type", "application/json")
-             .build();
+            .GET()
+            .uri(URI.create(uri))
+            .header("Content-Type", "application/json")
+            .build()
         val response: HttpResponse<String> = httpClient.request(request, BodyHandlers.ofString())
 
         val body = response.body()
         if (response.statusCode() != 200) {
-            logger.error("Captcha token validation status code ${response.statusCode()} $body");
+            logger.error("Captcha token validation status code ${response.statusCode()} $body")
             return false
         }
 
@@ -51,8 +49,8 @@ class SecurityService {
     }
 
     fun verifySecretWord(secretWordFromUser: String) =
-            wormnetChannel.split(",").map { it.toLowerCase() }
-                    .contains(secretWordFromUser.replace("#", "").toLowerCase())
+        wormnetChannel.split(",").map { it.toLowerCase() }
+            .contains(secretWordFromUser.replace("#", "").toLowerCase())
 
     /**
      * [Firebase Custom Token REST Authentication](https://zemke.io/firebase-custom-token-rest-auth)
@@ -65,7 +63,7 @@ class SecurityService {
     fun exchangeFirebaseCustomTokenForIdToken(customToken: String): FirebaseIdentityTokenDto {
         firebaseApiKey ?: throw IllegalStateException()
         val uri = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyCustomToken" +
-                  "?key=$firebaseApiKey"
+            "?key=$firebaseApiKey"
         val payload = JSONObject(mapOf("returnSecureToken" to true, "token" to customToken))
         val request = HttpRequest.newBuilder()
             .uri(URI.create(uri))
@@ -76,11 +74,12 @@ class SecurityService {
         val json = JSONObject(response.body())
         logger.info(json.toString())
         return FirebaseIdentityTokenDto(
-                kind = json.optString("kind"),
-                idToken = json.getString("idToken"),
-                refreshToken = json.getString("refreshToken"),
-                expiresIn = json.optString("expiresIn"),
-                isNewUser = json.optBoolean("isNewUser"))
+            kind = json.optString("kind"),
+            idToken = json.getString("idToken"),
+            refreshToken = json.getString("refreshToken"),
+            expiresIn = json.optString("expiresIn"),
+            isNewUser = json.optBoolean("isNewUser")
+        )
     }
 
     /**
@@ -93,15 +92,15 @@ class SecurityService {
         val uri = "https://securetoken.googleapis.com/v1/token?key=$firebaseApiKey"
         val request = HttpRequest.newBuilder()
             .uri(URI.create(uri))
-            .POST(BodyPublishers.ofString("grant_type=refresh_token&refresh_token=${refreshToken}"))
+            .POST(BodyPublishers.ofString("grant_type=refresh_token&refresh_token=$refreshToken"))
             .header("Content-Type", "application/x-www-form-urlencoded")
             .build()
         val response = httpClient.request(request, BodyHandlers.ofString())
         val json = JSONObject(response.body())
         logger.info(json.toString())
         return FirebaseIdentityTokenDto(
-                idToken = json.getString("access_token"),
-                refreshToken = json.getString("refresh_token"))
+            idToken = json.getString("access_token"),
+            refreshToken = json.getString("refresh_token")
+        )
     }
 }
-

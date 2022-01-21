@@ -7,10 +7,10 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.Enumerated
 import javax.persistence.EnumType
-import javax.persistence.GenerationType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -22,30 +22,30 @@ import javax.persistence.Table
 @SequenceGenerator(name = "rating_seq", sequenceName = "rating_id_seq", allocationSize = 1)
 data class Rating(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_seq")
-        var id: Long? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_seq")
+    var id: Long? = null,
 
-        @Column(name = "type")
-        @Enumerated(EnumType.STRING)
-        var type: RatingType,
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    var type: RatingType,
 
-        @ManyToOne(optional = false)
-        @JoinColumn(nullable = false)
-        var user: User,
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    var user: User,
 
-        @JsonIgnore
-        @ManyToOne(optional = false)
-        @JoinColumn(nullable = false)
-        var game: Game,
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    var game: Game,
 
-        @Column(name = "modified", nullable = false)
-        @field:UpdateTimestamp
-        var modified: Instant? = null
+    @Column(name = "modified", nullable = false)
+    @field:UpdateTimestamp
+    var modified: Instant? = null
 ) {
 
     override fun toString(): String =
-            "Rating{id=$id, type=$type}"
+        "Rating{id=$id, type=$type}"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -7,27 +7,28 @@ import java.time.Instant
 
 @DataTransferObject
 data class TetrisDto(
-        val highscore: Long,
-        val user: UserMinimalDto?,
-        val guestname : String?,
-        val created: Instant?) {
+    val highscore: Long,
+    val user: UserMinimalDto?,
+    val guestname: String?,
+    val created: Instant?
+) {
 
     companion object {
 
-        fun toDto(tetris: Tetris) : TetrisDto {
+        fun toDto(tetris: Tetris): TetrisDto {
             return if (tetris.user == null) {
                 TetrisDto(
-                        highscore = tetris.highscore,
-                        user = null,
-                        guestname = tetris.guestname,
-                        created = tetris.created
+                    highscore = tetris.highscore,
+                    user = null,
+                    guestname = tetris.guestname,
+                    created = tetris.created
                 )
             } else {
                 TetrisDto(
-                        highscore = tetris.highscore,
-                        user = UserMinimalDto.toDto(tetris.user),
-                        guestname = null,
-                        created = tetris.created
+                    highscore = tetris.highscore,
+                    user = UserMinimalDto.toDto(tetris.user),
+                    guestname = null,
+                    created = tetris.created
                 )
             }
         }

@@ -46,11 +46,11 @@ class TournamentMapsTest {
         @JvmStatic private var game: Game? = null
         @JvmStatic private var tournament: Tournament? = null
         @JvmStatic val manhattanJson = TournamentMapsTest::class.java
-                .getResourceAsStream("/com/cwtsite/cwt/domain/game/service/manhattan.json")!!
-                .bufferedReader().use(BufferedReader::readText)
+            .getResourceAsStream("/com/cwtsite/cwt/domain/game/service/manhattan.json")!!
+            .bufferedReader().use(BufferedReader::readText)
         @JvmStatic val hellJson = TournamentMapsTest::class.java
-                .getResourceAsStream("/com/cwtsite/cwt/domain/game/service/hell.json")!!
-                .bufferedReader().use(BufferedReader::readText)
+            .getResourceAsStream("/com/cwtsite/cwt/domain/game/service/hell.json")!!
+            .bufferedReader().use(BufferedReader::readText)
     }
 
     @BeforeEach
@@ -58,11 +58,14 @@ class TournamentMapsTest {
         tournament = tournamentRepository.save(Tournament())
         val user1 = userRepository.save(User(email = "email1@example.com", username = "example1"))
         val user2 = userRepository.save(User(email = "email2@example.com", username = "example2"))
-        game = gameRepository.save(Game(
+        game = gameRepository.save(
+            Game(
                 tournament = tournament!!,
                 scoreHome = 0, scoreAway = 3,
                 homeUser = user1, awayUser = user2,
-                reportedAt = Instant.ofEpochMilli(1602940004706)))
+                reportedAt = Instant.ofEpochMilli(1602940004706)
+            )
+        )
         gameStatsRepository.save(GameStats(data = manhattanJson, map = "/map/tx3qwuc3", game = game, startedAt = Instant.ofEpochMilli(1602940004706)))
         gameStatsRepository.save(GameStats(data = hellJson, map = "/map/dqp2fnf9", game = game, startedAt = Instant.ofEpochMilli(1602940014706)))
     }
@@ -71,16 +74,18 @@ class TournamentMapsTest {
     fun `get maps of tournament`() {
         assertThat(game!!.wasPlayed()).isTrue()
         mockMvc
-                .perform(get("/api/tournament/${tournament!!.id}/maps")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$", hasSize<String>(2)))
-                .andExpect(jsonPath("$[0].texture", `is`("DATA\\Level\\Manhattan")))
-                .andExpect(jsonPath("$[0].game.id", `is`(game!!.id!!.toInt())))
-                .andExpect(jsonPath("$[0].mapPath", `is`("/map/tx3qwuc3")))
-                .andExpect(jsonPath("$[1].texture", `is`("DATA\\Level\\Hell")))
-                .andExpect(jsonPath("$[1].game.id", `is`(game!!.id!!.toInt())))
-                .andExpect(jsonPath("$[1].mapPath", `is`("/map/dqp2fnf9")))
+            .perform(
+                get("/api/tournament/${tournament!!.id}/maps")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$", hasSize<String>(2)))
+            .andExpect(jsonPath("$[0].texture", `is`("DATA\\Level\\Manhattan")))
+            .andExpect(jsonPath("$[0].game.id", `is`(game!!.id!!.toInt())))
+            .andExpect(jsonPath("$[0].mapPath", `is`("/map/tx3qwuc3")))
+            .andExpect(jsonPath("$[1].texture", `is`("DATA\\Level\\Hell")))
+            .andExpect(jsonPath("$[1].game.id", `is`(game!!.id!!.toInt())))
+            .andExpect(jsonPath("$[1].mapPath", `is`("/map/dqp2fnf9")))
     }
 }

@@ -22,8 +22,8 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
-import java.io.InputStream
 import java.io.IOException
+import java.io.InputStream
 import java.net.http.HttpResponse
 import javax.servlet.http.HttpServletRequest
 import javax.ws.rs.Produces
@@ -50,7 +50,7 @@ class BinaryRestController {
     fun getUserPhoto(@PathVariable userId: Long): ResponseEntity<InputStreamResource> {
         assertBinaryDataStoreEndpoint("User photo is not available at the moment")
         val response = runCatching { binaryOutboundService.retrieveUserPhoto(userId) }
-                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
+            .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         return createResponseEntity(response)
     }
 
@@ -58,9 +58,10 @@ class BinaryRestController {
     @Throws(IOException::class)
     @Secured(AuthorityRole.ROLE_USER)
     fun saveUserPhoto(
-            @PathVariable userId: Long,
-            @RequestParam("photo") photo: MultipartFile,
-            request: HttpServletRequest): ResponseEntity<Void> {
+        @PathVariable userId: Long,
+        @RequestParam("photo") photo: MultipartFile,
+        request: HttpServletRequest
+    ): ResponseEntity<Void> {
         assertBinaryDataStoreEndpoint("Cannot save photo at the moment.")
 
         if (authService.authUser(request)!!.id != userId) {
@@ -69,15 +70,16 @@ class BinaryRestController {
 
         try {
             FileValidator.validate(
-                    photo, 3000000,
-                    listOf("image/jpeg", "image/png", "image/gif"),
-                    listOf("jpg", "jpeg", "png", "gif"))
+                photo, 3000000,
+                listOf("image/jpeg", "image/png", "image/gif"),
+                listOf("jpg", "jpeg", "png", "gif")
+            )
         } catch (e: FileValidator.AbstractFileException) {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
 
         runCatching { binaryOutboundService.sendUserPhoto(userId, convertMultipartFileToFile(photo)) }
-                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
+            .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
@@ -86,14 +88,15 @@ class BinaryRestController {
     @Throws(IOException::class)
     @Secured(AuthorityRole.ROLE_USER)
     fun saveReplayFile(
-            @PathVariable gameId: Long,
-            @RequestParam("replay") replay: MultipartFile,
-            @RequestParam("home-user") homeUser: Long,
-            @RequestParam("away-user") awayUser: Long,
-            request: HttpServletRequest): ResponseEntity<GameCreationDto> {
+        @PathVariable gameId: Long,
+        @RequestParam("replay") replay: MultipartFile,
+        @RequestParam("home-user") homeUser: Long,
+        @RequestParam("away-user") awayUser: Long,
+        request: HttpServletRequest
+    ): ResponseEntity<GameCreationDto> {
         val game = gameService
-                .findById(gameId)
-                .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
+            .findById(gameId)
+            .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
 
         assertBinaryDataStoreEndpoint("Replays cannot be saved at the moment")
 
@@ -104,10 +107,13 @@ class BinaryRestController {
 
         try {
             FileValidator.validate(
-                    replay, 300000,
-                    listOf("application/zip", "application/x-zip-compressed",
-                            "application/octet-stream"),
-                    listOf("zip"))
+                replay, 300000,
+                listOf(
+                    "application/zip", "application/x-zip-compressed",
+                    "application/octet-stream"
+                ),
+                listOf("zip")
+            )
         } catch (e: FileValidator.AbstractFileException) {
             throw RestException(e.message!!, HttpStatus.BAD_REQUEST, e)
         }
@@ -145,10 +151,12 @@ class BinaryRestController {
     @PostMapping("game/{gameId}/stats", consumes = ["multipart/form-data"])
     @Secured(AuthorityRole.ROLE_ADMIN)
     @Produces("application/json")
-    fun saveStats(@PathVariable gameId: Long,
-                  @RequestParam("replay") replay: MultipartFile): ResponseEntity<String> {
+    fun saveStats(
+        @PathVariable gameId: Long,
+        @RequestParam("replay") replay: MultipartFile
+    ): ResponseEntity<String> {
         val game = gameService.findById(gameId)
-                .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("No such game", HttpStatus.NOT_FOUND, null) }
         if (!binaryOutboundService.waaasConfigured()) {
             throw RestException("WAaaS is not configured", HttpStatus.NOT_IMPLEMENTED, null)
         }
@@ -162,8 +170,8 @@ class BinaryRestController {
             tempArchive.deleteRecursively()
         }
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(gameService.findGameStats(game))
+            .status(HttpStatus.CREATED)
+            .body(gameService.findGameStats(game))
     }
 
     private fun extractReplayArchive(replay: File): WrappedCloseable<Set<File>> {
@@ -198,22 +206,23 @@ class BinaryRestController {
     fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<InputStreamResource> {
         assertBinaryDataStoreEndpoint("Replays cannot be retrieven at the moment")
         val response = runCatching { binaryOutboundService.retrieveReplay(gameId) }
-                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
+            .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         return createResponseEntity(response)
     }
 
     @GetMapping("game/{gameId}/map/{map}")
     fun retrieveGameMap(@PathVariable gameId: Long, @PathVariable map: String): ResponseEntity<InputStreamResource> {
         gameService.findById(gameId)
-                .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("Game not found", HttpStatus.NOT_FOUND, null) }
         val response = try {
             runCatching { binaryOutboundService.retrieveMap(gameId, map) }
                 .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         } catch (e: Exception) {
             throw RestException(
-                    "Could not get map from CWT Binary Store",
-                    HttpStatus.INTERNAL_SERVER_ERROR,
-                    e)
+                "Could not get map from CWT Binary Store",
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                e
+            )
         }
         return createResponseEntity(response)
     }
@@ -221,14 +230,16 @@ class BinaryRestController {
     @DeleteMapping("user/{userId}/photo")
     @Throws(IOException::class)
     @Secured(AuthorityRole.ROLE_USER)
-    fun deleteUserPhoto(@PathVariable userId: Long,
-                        request: HttpServletRequest): ResponseEntity<Void> {
+    fun deleteUserPhoto(
+        @PathVariable userId: Long,
+        request: HttpServletRequest
+    ): ResponseEntity<Void> {
         assertBinaryDataStoreEndpoint("Photo cannot be deleted at the moment")
         if (authService.authUser(request)!!.id != userId) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
         runCatching { binaryOutboundService.deleteUserPhoto(userId) }
-                .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
+            .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
         return ResponseEntity.status(HttpStatus.OK).build()
     }
 
@@ -248,4 +259,3 @@ class BinaryRestController {
         }
     }
 }
-
