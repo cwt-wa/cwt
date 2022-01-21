@@ -54,6 +54,21 @@ data class Message(
     @Column(nullable = false)
     var created: Instant? = null
 ) {
+    init {
+        if (recipients.isNotEmpty() && category != MessageCategory.PRIVATE) {
+            throw IllegalStateException(
+                "message is category $category (should be ${MessageCategory.PRIVATE})" +
+                    " but has recipients $recipients"
+            )
+        }
+        if (newsType != null && category != MessageCategory.NEWS) {
+            throw IllegalStateException(
+                "message has newsType $newsType but category is $category" +
+                    " should be ${MessageCategory.NEWS}"
+            )
+        }
+    }
+
     override fun toString() = "Message{id=$id, body=$body, category=$category, newsType=$newsType}"
 
     override fun equals(other: Any?): Boolean {

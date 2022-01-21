@@ -21,8 +21,8 @@ class MessageService @Autowired
 constructor(
     private val messageRepository: MessageRepository,
     private val userService: UserService,
-    private val tournamentService: TournamentService,
     private val messageEventListener: MessageEventListener,
+    private val tournamentService: TournamentService,
     private val applicationRepository: ApplicationRepository
 ) {
 
@@ -117,25 +117,25 @@ constructor(
         val remainingOpponents = userService.getRemainingOpponents(user)
         val resList = remainingOpponents.toMutableList()
         val pms = messageRepository.findPrivateMessages(user)
-        var idx = 0
-        val now = Instant.now()
-        var lastCreated = now
-        while (Duration.between(now, lastCreated).toDays() < 20) {
-            if (pms[idx].author == user) {
-                pms[idx].recipients.forEach { if (it !in resList) resList.add(it) }
-            } else {
-                if (pms[idx].author !in resList) {
-                    resList.add(pms[idx].author)
+        if (pms.isNotEmpty()) {
+            var idx = 0
+            val now = Instant.now()
+            while (idx < pms.size && Duration.between(pms[idx].created, now).toDays() < 20) {
+                if (pms[idx].author == user) {
+                    pms[idx].recipients.forEach { if (it !in resList) resList.add(it) }
+                } else {
+                    if (pms[idx].author !in resList) {
+                        resList.add(pms[idx].author)
+                    }
                 }
+                idx++
             }
-            lastCreated = pms[idx].created
-            idx++
+            if (idx > 0) {
+                // best priority to first PM
+                resList.add(0, resList.removeAt(remainingOpponents.size))
+            }
         }
-        if (idx > 0) {
-            // best priority to first PM
-            resList.add(0, resList.removeAt(remainingOpponents.size))
-        }
-        messageRepository.findTop50OrderByCreatedDesc()
+        messageRepository.findTop50WhereCategoryNotInOrderByCreatedDesc(setOf(MessageCategory.PRIVATE))
             .forEach { if (it.author !in resList) resList.add(it.author) }
         tournamentService.getCurrentTournament()?.let { currentTournament ->
             applicationRepository.findByTournament(currentTournament)

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
+import java.util.Set;
 import java.time.Instant;
 
 @Component
@@ -30,7 +30,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     List<Message> findAllByCreatedAfterOrderByCreatedDesc(Instant created);
 
-    List<Message> findTop50OrderByCreatedDesc();
+    List<Message> findTop50WhereCategoryNotInOrderByCreatedDesc(Set<MessageCategory> categories);
 
     @Query("select m from Message m where (:author member of m.recipients or m.author = :author) and m.category = MessageCategory.PRIVATE order by m.created desc")
     List<Message> findPrivateMessages(@Param("author") User author);

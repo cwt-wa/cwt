@@ -5,6 +5,9 @@ import com.cwtsite.cwt.domain.game.entity.PlayoffGame
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.group.entity.Group
+import com.cwtsite.cwt.domain.message.entity.Message
+import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
+import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
@@ -116,5 +119,24 @@ object EntityDefaults {
             type = type,
             game = game,
             modified = modified
+        )
+
+    fun message(
+        id: Long = 1,
+        author: User = user(),
+        category: MessageCategory = MessageCategory.SHOUTBOX,
+        body: String = "Hello, World!",
+        newsType: MessageNewsType? = null,
+        recipients: MutableList<User> = mutableListOf(),
+        created: Instant = Instant.now()
+    ) =
+        Message(
+            id = id,
+            author = author,
+            category = category,
+            body = body,
+            newsType = newsType,
+            recipients = recipients,
+            created = created
         )
 }
