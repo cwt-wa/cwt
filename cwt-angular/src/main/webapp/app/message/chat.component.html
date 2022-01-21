@@ -3,7 +3,9 @@
         <form>
             <div class="input-group input-group-lg chat-input">
                 <input type="text" name="chat-input" class="single-line form-control"
-                       (keydown)="keydown($event)" (keypress)="keypress($event)"
+                       (keydown)="onKeydown($event)"
+                       (keyup)="onKeyup($event)"
+                       (input)="onInput($event)"
                        id="chat-input">
                 <span class="input-group-append">
                     <button class="btn btn-primary submit" type="button">
@@ -16,7 +18,7 @@
                      [ngStyle]="{'left': suggOffset+'px'}"
                      *ngIf="suggestions">
                     <div class="dropdown-menu show">
-                        <small class="form-text text-muted" *ngIf="!suggestions.length">No such user.</small>
+                        <small class="form-text text-muted ml-2" *ngIf="!suggestions.length">No such user.</small>
                         <button *ngFor="let sugg of suggestions; let first = first;"
                                 class="dropdown-item" [class.active]="first"
                                 type="button" [value]="sugg.id" (click)="complete(sugg, true)">

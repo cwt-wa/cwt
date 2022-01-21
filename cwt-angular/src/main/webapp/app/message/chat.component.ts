@@ -68,19 +68,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
             document.addEventListener('click', e => {
                 if (e.target.id === 'chat-input') {
-                    const v = e.target.value.substring(0, e.target.selectionStart);
-                    if (v.indexOf('@') === -1) {
-                        this.suggestions = null;
-                    } else {
-                        const rev = v.split("").reverse().join("");
-                        const subj = rev.substring(0, rev.indexOf("@")).split("")
-                            .every(s => s.match(ChatComponent.DELIMITER))
-                        if (subj) {
-                            this.showSuggestions(subj);
-                        } else {
-                            this.suggestions = [];
-                        }
-                    }
+                    this.suggest();
                 } else {
                     this.suggestions = null;
                 }
@@ -94,36 +82,33 @@ export class ChatComponent implements OnInit, OnDestroy {
             });
     }
 
-    private showSuggestions(q: string) {
-        this.suggestions = (this.suggestions || [])
-            .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
-        if (this.suggestions.length < 4) {
-            this.loadingSuggestions = true;
-            this.requestService.get<UserMinimalDto[]>("message/suggestions", {q})
-                .pipe(finalize(() => this.loadingSuggestions = false))
-                .subscribe(res => {
-                    this.allSuggestions.push(...res);
-                    this.suggestions = res.slice(0, 5);
-                });
-        }
-    }
-
     ngOnDestroy(): void {
         if (this.eventSource != null && this.eventSource.readyState !== 2) {
             this.eventSource.close();
         }
     }
 
-    public keydown(e) {
+    public complete(user, fromClick=false) {
+        const inpElem = document.getElementById('chat-input');
+        const [q, v, caret] = this.getProc();
+        inpElem.value =
+            v.substring(0, caret - q.length)
+            + user.username
+            + inpElem.value.substring(caret);
+        this.suggestions = null;
+        fromClick && inpElem.focus();
+        inpElem.selectionStart = caret - q.length + user.username.length;
+        inpElem.selectionEnd = inpElem.selectionStart;
+    }
+
+    public onInput(e) {
+        if (this.authUser == null) return;
+        this.suggest();
+    }
+
+    public onKeydown(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        if (key === 'ArrowLeft' || key === 'Backspace') {
-            const caretPos = e.target.selectionStart;
-            if (e.target.value.charAt(caretPos-1) === '@') {
-                this.suggestions = null;
-                return;
-            }
-        }
-        if (!this.suggestions?.length || !['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
+        if (!(this.suggestions?.length && ['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key))) {
             return;
         }
         e.preventDefault();
@@ -154,65 +139,68 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
     }
 
-    public complete(user, fromClick=false) {
-        const inpElem = document.getElementById('chat-input');
-        const caretPos = inpElem.selectionStart;
-        const v = inpElem.value
-        const rev = v.substring(0, caretPos).split("").reverse().join("")
-        const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("")
-        inpElem.value =
-            v.substring(0, caretPos - proc.length)
-            + user.username
-            + v.substring(caretPos, v.length+1);
-        this.suggestions = null;
-        fromClick && inpElem.focus();
-        inpElem.selectionStart = caretPos - proc.length + user.username.length;
-        inpElem.selectionEnd = inpElem.selectionStart;
+    public onKeyup(e) {
+        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
+        if (!['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) this.suggest();
     }
 
-    public keypress(e) {
-        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        const isAtSign = key === '@';
-        const isProcessing = this.suggestions != null;
-        if (!isAtSign && !isProcessing) return;
-
-        const inpElem = e.target
-        const caretPos = inpElem.selectionStart;
-        const v = inpElem.value.substring(0, caretPos) + key;
-
-        const rev = v.split("").reverse().join("");
-        const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("").toLowerCase();
-
-        if (isProcessing) {
-            if (key.match(ChatComponent.DELIMITER) == null) {
-                this.suggestions = null;
-                return;
-            }
+    private suggest() {
+        const [q, v, caret] = this.getProc();
+        if (q == null) {
+            this.suggestions = null;
+            return;
         }
 
+        // suggestions box positioning
+        const inpElem = document.getElementById('chat-input');
         inpElem.parentElement.insertAdjacentHTML(
             'beforebegin',
-            `<span id='dummy'>${v.substring(0, v.length-proc.length)}</span>`);
-
+            `<span id='dummy'>${v.substring(0, v.length-q.length)}</span>`);
         const dummyElem = document.getElementById('dummy');
         const {fontSize, fontFamily} = window.getComputedStyle(inpElem);
         dummyElem.style.fontSize = fontSize;
         dummyElem.style.fontFamily = fontFamily;
         dummyElem.style.paddingLeft = '17px';
-
         const offset = 80;
 	    this.suggOffset = Math.min(
             inpElem.getBoundingClientRect().width - offset,
             dummyElem.getBoundingClientRect().width + offset) - offset;
-
         dummy.remove();
 
-        if (this.authUser != null) {
-            // TODO Debounce
-            // TODO backspace not registered
-            // TODO suggestion box is flashing while typing
-            this.suggestions = this.showSuggestions(proc);
+        this.suggestions = (this.suggestions || [])
+            .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
+
+        if (this.suggestions.length < 4) {
+            this.loadingSuggestions = true;
+            this.requestService.get<UserMinimalDto[]>("message/suggestions", {q})
+                .pipe(finalize(() => this.loadingSuggestions = false))
+                .subscribe(res => {
+                    this.allSuggestions.push(...res);
+                    this.suggestions = res.slice(0, 5);
+                });
         }
+
+    }
+
+    /**
+     * Get current input typeahead process information.
+     *
+     * @params {string} Char just typed that's not yet part of the inputs
+     *   value at the moment of calling this method.
+     * @returns {Array} The current typeahead string and the string
+     *   until associated @ sign and the caret index.
+     */
+    private getProc(key='') {
+        const {selectionStart, value} = document.getElementById('chat-input');
+        const v = value.substring(0, selectionStart) + key;
+        if (key === '@') return ['', v, selectionStart];
+        if (v.indexOf('@') === -1) return [null, v, selectionStart];
+        const rev = v.split("").reverse()
+        const qRev = rev.slice(0, rev.indexOf("@"))
+        const subj = qRev.every(s => s.match(ChatComponent.DELIMITER))
+        if (!subj) return [null, v, selectionStart]
+        const q = qRev.reverse().join('')
+        return [q, v, selectionStart];
     }
 
     private setupEventSource() {
