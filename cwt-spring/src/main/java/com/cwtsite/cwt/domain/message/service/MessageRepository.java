@@ -32,6 +32,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     List<Message> findTop50WhereCategoryNotInOrderByCreatedDesc(Set<MessageCategory> categories);
 
-    @Query("select m from Message m where (:author member of m.recipients or m.author = :author) and m.category = MessageCategory.PRIVATE order by m.created desc")
+    @Query("select m from Message m where (:author member of m.recipients or m.author = :author) and m.category = 'PRIVATE' order by m.created desc")
     List<Message> findPrivateMessages(@Param("author") User author);
 }
