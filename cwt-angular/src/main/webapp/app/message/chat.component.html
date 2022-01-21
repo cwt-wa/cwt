@@ -1,7 +1,7 @@
 <div class="row" *ngIf="authUser && !hideInput">
     <div class="col pr-0 chat-input">
         <form>
-            <div class="input-group input-group-lg chat-input">
+            <div class="input-group input-group chat-input">
                 <input type="text" name="chat-input" class="single-line form-control"
                        (keydown)="onKeydown($event)"
                        (keyup)="onKeyup($event)"
@@ -31,7 +31,7 @@
     </div>
     <div class="col-auto pl-1">
         <div class="" ngbDropdown>
-            <button type="button" class="btn px-1 btn-danger btn-lg no-caret" ngbDropdownToggle>
+            <button type="button" class="btn px-1 btn-danger btn no-caret" ngbDropdownToggle>
                 <i class="fa fa-filter"></i>
             </button>
             <div ngbDropdownMenu class="text-right">
