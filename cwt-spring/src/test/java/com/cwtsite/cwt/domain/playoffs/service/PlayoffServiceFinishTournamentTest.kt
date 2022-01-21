@@ -36,7 +36,7 @@ class PlayoffServiceFinishTournamentTest {
         lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
 
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, finalGame.playoff!!.round - 1))
-                .thenReturn(listOf(thirdPlaceGame))
+            .thenReturn(listOf(thirdPlaceGame))
 
         playoffService.advanceByGame(finalGame)
 
@@ -52,7 +52,7 @@ class PlayoffServiceFinishTournamentTest {
         lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
 
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, thirdPlaceGame.playoff!!.round + 1))
-                .thenReturn(listOf(finalGame))
+            .thenReturn(listOf(finalGame))
 
         playoffService.advanceByGame(thirdPlaceGame)
 
@@ -66,13 +66,13 @@ class PlayoffServiceFinishTournamentTest {
         val user3 = EntityDefaults.user(id = 3, username = "user3")
 
         val game = Game(
-                id = 3,
-                scoreHome = 4,
-                scoreAway = 1,
-                homeUser = user1,
-                awayUser = user3,
-                playoff = PlayoffGame(round = 2, spot = 2),
-                tournament = tournament
+            id = 3,
+            scoreHome = 4,
+            scoreAway = 1,
+            homeUser = user1,
+            awayUser = user3,
+            playoff = PlayoffGame(round = 2, spot = 2),
+            tournament = tournament
         )
 
         lenient().`when`(treeService.isFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
@@ -80,25 +80,29 @@ class PlayoffServiceFinishTournamentTest {
         lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(true)
 
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
-                .thenReturn(listOf(
-                        EntityDefaults.game(
-                                id = 1,
-                                homeUser = user1,
-                                awayUser = user2,
-                                scoreHome = 4,
-                                scoreAway = 1,
-                                playoff = PlayoffGame(round = game.playoff!!.round, spot = 1),
-                                tournament = tournament),
-                        EntityDefaults.game(
-                                id = 2,
-                                homeUser = user3,
-                                awayUser = user2,
-                                scoreHome = 4,
-                                scoreAway = 1,
-                                playoff = PlayoffGame(round = game.playoff!!.round, spot = 3),
-                                tournament = tournament),
-                        game.copy(scoreHome = null, scoreAway = null, reporter = null)
-                ))
+            .thenReturn(
+                listOf(
+                    EntityDefaults.game(
+                        id = 1,
+                        homeUser = user1,
+                        awayUser = user2,
+                        scoreHome = 4,
+                        scoreAway = 1,
+                        playoff = PlayoffGame(round = game.playoff!!.round, spot = 1),
+                        tournament = tournament
+                    ),
+                    EntityDefaults.game(
+                        id = 2,
+                        homeUser = user3,
+                        awayUser = user2,
+                        scoreHome = 4,
+                        scoreAway = 1,
+                        playoff = PlayoffGame(round = game.playoff!!.round, spot = 3),
+                        tournament = tournament
+                    ),
+                    game.copy(scoreHome = null, scoreAway = null, reporter = null)
+                )
+            )
 
         playoffService.advanceByGame(game)
 
@@ -112,40 +116,43 @@ class PlayoffServiceFinishTournamentTest {
         val user3 = EntityDefaults.user(id = 3, username = "user3")
 
         val game = Game(
-                id = 2,
-                scoreHome = 3,
-                scoreAway = 1,
-                homeUser = user3,
-                awayUser = user1,
-                playoff = PlayoffGame(round = 2, spot = 2),
-                tournament = tournament
+            id = 2,
+            scoreHome = 3,
+            scoreAway = 1,
+            homeUser = user3,
+            awayUser = user1,
+            playoff = PlayoffGame(round = 2, spot = 2),
+            tournament = tournament
         )
 
         val threeWayFinalGames = listOf(
-                EntityDefaults.game(
-                        id = 1,
-                        homeUser = user1,
-                        awayUser = user2,
-                        scoreHome = 4,
-                        scoreAway = 1,
-                        playoff = PlayoffGame(round = 2, spot = 1),
-                        tournament = tournament),
-                EntityDefaults.game(
-                        id = 2,
-                        homeUser = user3,
-                        awayUser = user1,
-                        scoreHome = 4,
-                        scoreAway = 1,
-                        playoff = PlayoffGame(round = 2, spot = 2),
-                        tournament = tournament),
-                EntityDefaults.game(
-                        id = 3,
-                        homeUser = user2,
-                        awayUser = user3,
-                        scoreHome = 4,
-                        scoreAway = 1,
-                        playoff = PlayoffGame(round = 2, spot = 3),
-                        tournament = tournament)
+            EntityDefaults.game(
+                id = 1,
+                homeUser = user1,
+                awayUser = user2,
+                scoreHome = 4,
+                scoreAway = 1,
+                playoff = PlayoffGame(round = 2, spot = 1),
+                tournament = tournament
+            ),
+            EntityDefaults.game(
+                id = 2,
+                homeUser = user3,
+                awayUser = user1,
+                scoreHome = 4,
+                scoreAway = 1,
+                playoff = PlayoffGame(round = 2, spot = 2),
+                tournament = tournament
+            ),
+            EntityDefaults.game(
+                id = 3,
+                homeUser = user2,
+                awayUser = user3,
+                scoreHome = 4,
+                scoreAway = 1,
+                playoff = PlayoffGame(round = 2, spot = 3),
+                tournament = tournament
+            )
         )
 
         lenient().`when`(treeService.isFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(false)
@@ -153,45 +160,46 @@ class PlayoffServiceFinishTournamentTest {
         lenient().`when`(treeService.isThreeWayFinalGame(MockitoUtils.anyObject(), anyInt())).thenReturn(true)
 
         `when`(gameRepository.findByTournamentAndRoundAndNotVoided(tournament, game.playoff!!.round))
-                .thenReturn(threeWayFinalGames)
+            .thenReturn(threeWayFinalGames)
 
         `when`(gameRepository.saveAll(MockitoUtils.anyObject<MutableIterable<Game>>()))
-                .thenAnswer { answer ->
-                    val games = answer.getArgument<MutableIterable<Game>>(0)
-                    Assertions.assertThat(games).containsExactlyInAnyOrder(*threeWayFinalGames.toTypedArray())
-                    Assertions.assertThat(games.map { it.voided }.any { !it }).isFalse()
-                    games
-                }
-                .thenAnswer { answer ->
-                    val games = answer.getArgument<MutableIterable<Game>>(0)
-                    Assertions.assertThat(games.map { it.wasPlayed() }.any { it }).isFalse()
-                    Assertions.assertThat(games.count { it.pairingInvolves(user1) }).isEqualTo(2)
-                    Assertions.assertThat(games.count { it.pairingInvolves(user2) }).isEqualTo(2)
-                    Assertions.assertThat(games.count { it.pairingInvolves(user3) }).isEqualTo(2)
-                    Assertions.assertThat(games.any { it.homeUser == it.awayUser }).isFalse()
-                    games
-                }
+            .thenAnswer { answer ->
+                val games = answer.getArgument<MutableIterable<Game>>(0)
+                Assertions.assertThat(games).containsExactlyInAnyOrder(*threeWayFinalGames.toTypedArray())
+                Assertions.assertThat(games.map { it.voided }.any { !it }).isFalse()
+                games
+            }
+            .thenAnswer { answer ->
+                val games = answer.getArgument<MutableIterable<Game>>(0)
+                Assertions.assertThat(games.map { it.wasPlayed() }.any { it }).isFalse()
+                Assertions.assertThat(games.count { it.pairingInvolves(user1) }).isEqualTo(2)
+                Assertions.assertThat(games.count { it.pairingInvolves(user2) }).isEqualTo(2)
+                Assertions.assertThat(games.count { it.pairingInvolves(user3) }).isEqualTo(2)
+                Assertions.assertThat(games.any { it.homeUser == it.awayUser }).isFalse()
+                games
+            }
 
         playoffService.advanceByGame(game)
     }
 
     private fun createOneWayFinalGames(): Pair<Game, Game> {
         val finalGame = EntityDefaults.game(
-                homeUser = EntityDefaults.user(id = 1, username = "finalGameWinner"),
-                awayUser = EntityDefaults.user(id = 2, username = "finalGameLoser"),
-                scoreHome = 4,
-                scoreAway = 1,
-                playoff = PlayoffGame(round = 5, spot = 1),
-                tournament = tournament)
+            homeUser = EntityDefaults.user(id = 1, username = "finalGameWinner"),
+            awayUser = EntityDefaults.user(id = 2, username = "finalGameLoser"),
+            scoreHome = 4,
+            scoreAway = 1,
+            playoff = PlayoffGame(round = 5, spot = 1),
+            tournament = tournament
+        )
 
         val thirdPlaceGame = finalGame.copy(
-                homeUser = EntityDefaults.user(id = 3, username = "thirdPlaceGameLoser"),
-                awayUser = EntityDefaults.user(id = 4, username = "thirdPlaceGameWinner"),
-                scoreHome = 2,
-                scoreAway = 4,
-                playoff = PlayoffGame(round = finalGame.playoff!!.round - 1, spot = 1))
+            homeUser = EntityDefaults.user(id = 3, username = "thirdPlaceGameLoser"),
+            awayUser = EntityDefaults.user(id = 4, username = "thirdPlaceGameWinner"),
+            scoreHome = 2,
+            scoreAway = 4,
+            playoff = PlayoffGame(round = finalGame.playoff!!.round - 1, spot = 1)
+        )
 
         return Pair(finalGame, thirdPlaceGame)
     }
-
 }

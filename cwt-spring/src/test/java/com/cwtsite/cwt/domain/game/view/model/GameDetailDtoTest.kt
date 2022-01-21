@@ -8,33 +8,31 @@ class GameDetailDtoTest {
     @Test
     fun localizePlayoffRound() {
         Assertions
-                .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 1))
-                .isEqualTo("Last 16")
+            .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 1))
+            .isEqualTo("Last 16")
 
         Assertions
-                .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 2))
-                .isEqualTo("Quarterfinal")
+            .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 2))
+            .isEqualTo("Quarterfinal")
 
         Assertions
-                .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 3))
-                .isEqualTo("Semifinal")
+            .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 3))
+            .isEqualTo("Semifinal")
 
         Assertions
-                .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 4))
-                .isEqualTo("Little Final")
+            .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 4))
+            .isEqualTo("Little Final")
 
         Assertions
-                .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 5))
-                .isEqualTo("Final")
-
-
-        Assertions
-                .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = true, playoffsRoundMax = 4, achievedRound = 4))
-                .isEqualTo("Three-way Final")
-
+            .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = false, playoffsRoundMax = 4, achievedRound = 5))
+            .isEqualTo("Final")
 
         Assertions
-                .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = true, playoffsRoundMax = 2, achievedRound = 1))
-                .isEqualTo("Last 6")
+            .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = true, playoffsRoundMax = 4, achievedRound = 4))
+            .isEqualTo("Three-way Final")
+
+        Assertions
+            .assertThat(GameDetailDto.localizePlayoffRound(threeWayFinal = true, playoffsRoundMax = 2, achievedRound = 1))
+            .isEqualTo("Last 6")
     }
 }

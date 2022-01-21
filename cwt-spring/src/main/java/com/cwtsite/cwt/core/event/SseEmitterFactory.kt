@@ -13,7 +13,6 @@ class SseEmitterFactory {
     fun createInstance(timeout: Long = -1L): SseEmitterWrapper = SseEmitterWrapper(SseEmitter(timeout))
 }
 
-
 class SseEmitterWrapper(val delegate: SseEmitter) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)

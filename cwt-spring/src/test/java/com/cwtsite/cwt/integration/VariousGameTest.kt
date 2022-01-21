@@ -34,7 +34,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -63,7 +62,6 @@ class VariousGameTest {
         @JvmStatic private var rating: RatingDto? = null
     }
 
-
     @BeforeEach
     fun before() {
         if (game == null) {
@@ -82,13 +80,15 @@ class VariousGameTest {
         `when`(securityContextHolderFacade.authenticationName).thenReturn(author!!.username)
         val payload = CommentCreationDto(body = "Wow, such a comment.", author = author!!.id!!)
         val response = mockMvc
-                .perform(post("/api/game/${game!!.id}/comment")
-                        .content(objectMapper.writeValueAsString(payload))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andReturn()
-                .response
+            .perform(
+                post("/api/game/${game!!.id}/comment")
+                    .content(objectMapper.writeValueAsString(payload))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andReturn()
+            .response
         comment = objectMapper.readValue(response.contentAsString, CommentDto::class.java)
         assertThat(comment!!.body).isEqualTo(comment!!.body)
         assertThat(comment!!.author.id).isEqualTo(comment!!.author.id)
@@ -102,13 +102,15 @@ class VariousGameTest {
         `when`(securityContextHolderFacade.authenticationName).thenReturn(author!!.username)
         val payload = RatingCreationDto(type = RatingType.LIKE, user = author!!.id!!)
         val response = mockMvc
-                .perform(post("/api/game/${game!!.id}/rating")
-                        .content(objectMapper.writeValueAsString(payload))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andReturn()
-                .response
+            .perform(
+                post("/api/game/${game!!.id}/rating")
+                    .content(objectMapper.writeValueAsString(payload))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andReturn()
+            .response
         rating = objectMapper.readValue(response.contentAsString, RatingDto::class.java)
         assertThat(rating!!.type).isEqualTo(rating!!.type)
         assertThat(rating!!.user.id).isEqualTo(rating!!.user.id)
@@ -118,13 +120,15 @@ class VariousGameTest {
     @Test
     fun `get game`() {
         val contentAsString = mockMvc
-                .perform(get("/api/game/${game!!.id}")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andReturn()
-                .response
-                .contentAsString
+            .perform(
+                get("/api/game/${game!!.id}")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andReturn()
+            .response
+            .contentAsString
         val res = objectMapper.readValue(contentAsString, GameDetailDto::class.java)!!
         assertThat(res.id).isEqualTo(game!!.id)
         assertThat(res.homeUser!!.id).isEqualTo(game!!.homeUser!!.id)

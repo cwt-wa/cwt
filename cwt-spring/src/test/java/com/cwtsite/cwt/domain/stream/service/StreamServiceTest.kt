@@ -33,10 +33,10 @@ class StreamServiceTest {
     @Mock private lateinit var gameRepository: GameRepository
 
     data class TestRecord(
-            val user1: String?,
-            val user2: String?,
-            val streamTitle: String,
-            val matchingStreamTitles: List<String>
+        val user1: String?,
+        val user2: String?,
+        val streamTitle: String,
+        val matchingStreamTitles: List<String>
     )
 
     companion object {
@@ -44,27 +44,26 @@ class StreamServiceTest {
         private lateinit var usernames: List<String>
         private lateinit var testSet: Set<TestRecord>
         private var setup: Boolean = false
-
     }
 
     @Before
     fun setUp() {
         if (setup) return
         val tsv = StreamServiceTest::class.java.getResourceAsStream("testset.tsv")
-                .bufferedReader().use(BufferedReader::readText)
+            .bufferedReader().use(BufferedReader::readText)
         testSet = tsv.lines().filter { it.isNotEmpty() }.map { ln ->
             val split = ln.split("\t")
             val usernames = split[0].split(',')
             TestRecord(
-                    user1 = usernames[0],
-                    user2 = usernames[1],
-                    streamTitle = split[1],
-                    matchingStreamTitles = split.subList(2, split.size)
+                user1 = usernames[0],
+                user2 = usernames[1],
+                streamTitle = split[1],
+                matchingStreamTitles = split.subList(2, split.size)
             )
         }.toSet()
         usernames = StreamServiceTest::class.java.getResourceAsStream("usernames.txt")
-                .bufferedReader().use(BufferedReader::readText)
-                .lines()
+            .bufferedReader().use(BufferedReader::readText)
+            .lines()
         setup = true
     }
 
@@ -73,16 +72,17 @@ class StreamServiceTest {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
         val streamCreatedAt = tournament.created!!.plus(5, ChronoUnit.DAYS)
         `when`(streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament))
-                .thenReturn(usernames.subList(0, 30))
+            .thenReturn(usernames.subList(0, 30))
         `when`(streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament))
-                .thenReturn(usernames.subList(30, usernames.size))
+            .thenReturn(usernames.subList(30, usernames.size))
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withZone(ZoneOffset.UTC)
         testSet.forEach { record ->
             val stream = EntityDefaults.stream(
-              title = record.streamTitle,
-              createdAt = formatter.format(streamCreatedAt))
+                title = record.streamTitle,
+                createdAt = formatter.format(streamCreatedAt)
+            )
             `when`(tournamentService.getCurrentTournamentAt(stream.createdAtAsInstant()))
-                    .thenReturn(tournament)
+                .thenReturn(tournament)
             if (record.user1 == null || record.user2 == null) {
                 assertThat(cut.findMatchingGame(stream)).isNull()
                 return@forEach
@@ -93,16 +93,19 @@ class StreamServiceTest {
             val game = EntityDefaults.game(homeUser = user1, awayUser = user2, playoff = PlayoffGame(1, 1, 1))
             `when`(gameRepository.findGame(user1, user2, tournament)).thenReturn(listOf(game))
             assertThat(cut.findMatchingGame(stream))
-                    .satisfies { matchingGame ->
-                        assertThat(matchingGame).isNotNull
-                        assertThat(matchingGame).satisfiesAnyOf({
+                .satisfies { matchingGame ->
+                    assertThat(matchingGame).isNotNull
+                    assertThat(matchingGame).satisfiesAnyOf(
+                        {
                             assertThat(it!!.homeUser).isEqualTo(user1)
                             assertThat(it.awayUser).isEqualTo(user2)
-                        }, {
+                        },
+                        {
                             assertThat(it!!.homeUser).isEqualTo(user2)
                             assertThat(it.awayUser).isEqualTo(user1)
-                        })
-                    }
+                        }
+                    )
+                }
         }
     }
 
@@ -113,7 +116,7 @@ class StreamServiceTest {
         testSet.forEach { record ->
             if (record.user1 == null || record.user2 == null) {
                 assertThat(cut.findMatchingStreams(EntityDefaults.game(reportedAt = Instant.ofEpochMilli(1413672557000))))
-                        .isEmpty()
+                    .isEmpty()
                 return@forEach
             }
             val game = with(EntityDefaults.game()) {
@@ -123,7 +126,7 @@ class StreamServiceTest {
                 this
             }
             assertThat(cut.findMatchingStreams(game)).extracting<String> { it.title }
-                    .containsExactlyInAnyOrder(*record.matchingStreamTitles.toTypedArray())
+                .containsExactlyInAnyOrder(*record.matchingStreamTitles.toTypedArray())
         }
     }
 }

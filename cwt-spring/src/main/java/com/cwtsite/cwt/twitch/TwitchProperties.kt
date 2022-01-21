@@ -62,4 +62,3 @@ class TwitchProperties {
      */
     var millisToRequest: Long? = 5000
 }
-

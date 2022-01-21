@@ -4,8 +4,8 @@ import org.hibernate.annotations.CreationTimestamp
 import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GenerationType
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
@@ -13,19 +13,19 @@ import javax.persistence.Table
 @Entity
 @Table(name = "country")
 data class Country(
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_seq")
-        @SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq", allocationSize = 1)
-        val id: Long? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_seq")
+    @SequenceGenerator(name = "country_id_seq", sequenceName = "country_id_seq", allocationSize = 1)
+    val id: Long? = null,
 
-        @Column(nullable = false)
-        val name: String,
+    @Column(nullable = false)
+    val name: String,
 
-        @Column(nullable = false)
-        val flag: String,
+    @Column(nullable = false)
+    val flag: String,
 
-        @field:CreationTimestamp
-        var created: Instant? = null
+    @field:CreationTimestamp
+    var created: Instant? = null
 ) {
 
     companion object {

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Component
-
 import java.security.MessageDigest
 import javax.servlet.http.HttpServletRequest
 
@@ -28,7 +27,6 @@ class AuthService {
 
     @Value("\${password.bcrypt-salt}")
     private val bCryptSalt: String? = null
-
 
     fun getUserFromToken(token: String): User? {
         val usernameFromToken = jwtTokenUtil.getUsernameFromToken(token) ?: return null
@@ -63,6 +61,5 @@ class AuthService {
         } catch (e: Exception) {
             throw RuntimeException("No hash implementation.", e)
         }
-
     }
 }

@@ -5,10 +5,9 @@ import java.io.File
 
 object MultipartFileToFile {
 
-     fun convertMultipartFileToFile(multipartFile: MultipartFile): File {
+    fun convertMultipartFileToFile(multipartFile: MultipartFile): File {
         val tempFile = File.createTempFile("cwt_", "_multipart")
         multipartFile.transferTo(tempFile)
         return tempFile
     }
 }
-

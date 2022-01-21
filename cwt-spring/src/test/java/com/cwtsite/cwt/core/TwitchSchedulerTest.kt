@@ -10,10 +10,8 @@ import com.cwtsite.cwt.test.EntityDefaults.stream
 import com.cwtsite.cwt.test.MockitoUtils.safeArgThat
 import com.cwtsite.cwt.twitch.TwitchService
 import com.cwtsite.cwt.twitch.model.TwitchVideoDto
-
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-
 import org.mockito.ArgumentMatcher
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -36,20 +34,22 @@ class TwitchSchedulerTest {
         val channels = listOf(channel(id = "1"), channel(id = "2"), channel(id = "3"))
         `when`(channelRepository.findAll()).thenReturn(channels)
         val streams = listOf(
-                stream(id = "10", channel = channels[0]),
-                stream(id = "11", channel = channels[1]),
-                stream(id = "12", channel = channels[2]),
-                stream(id = "99", channel = channels[2])) // doesn't exist anymore
+            stream(id = "10", channel = channels[0]),
+            stream(id = "11", channel = channels[1]),
+            stream(id = "12", channel = channels[2]),
+            stream(id = "99", channel = channels[2])
+        ) // doesn't exist anymore
         `when`(streamRepository.findAll()).thenReturn(streams)
         val twitchVideoDtos = listOf(
-                // existing
-                createTwitchVideoDto(streams[0].id, channels[0].id),
-                // existing, update information
-                createTwitchVideoDto(streams[1].id, channels[1].id, title = "udpated"),
-                // existing
-                createTwitchVideoDto(streams[2].id, channels[2].id),
-                // new
-                createTwitchVideoDto("13", channels[2].id))
+            // existing
+            createTwitchVideoDto(streams[0].id, channels[0].id),
+            // existing, update information
+            createTwitchVideoDto(streams[1].id, channels[1].id, title = "udpated"),
+            // existing
+            createTwitchVideoDto(streams[2].id, channels[2].id),
+            // new
+            createTwitchVideoDto("13", channels[2].id)
+        )
         `when`(twitchService.requestVideos(channels)).thenReturn(twitchVideoDtos)
         val newStream = stream(id = twitchVideoDtos[3].id)
         val associatedGame = game()
@@ -57,12 +57,14 @@ class TwitchSchedulerTest {
         twitchScheduler.schedule()
         verify(streamRepository).deleteAll(listOf(streams[3]))
         verify(streamService).link()
-        verify(streamRepository).saveAll(safeArgThat<List<Stream>>(object : ArgumentMatcher<List<Stream>> {
-            override fun matches(argStreams: List<Stream>) =
-                    argStreams.size == 1
-                        && argStreams[0].id == twitchVideoDtos[3].id
-                        && argStreams[0].game == associatedGame
-        }))
+        verify(streamRepository).saveAll(
+            safeArgThat<List<Stream>>(object : ArgumentMatcher<List<Stream>> {
+                override fun matches(argStreams: List<Stream>) =
+                    argStreams.size == 1 &&
+                        argStreams[0].id == twitchVideoDtos[3].id &&
+                        argStreams[0].game == associatedGame
+            })
+        )
     }
 
     private fun createTwitchVideoDto(id: String, userId: String, title: String = "original"): TwitchVideoDto {
@@ -74,4 +76,3 @@ class TwitchSchedulerTest {
         return twitchVideoDto
     }
 }
-

@@ -26,14 +26,14 @@ class UserRepositoryTest : AbstractDatabaseTest() {
         em.flush()
 
         Assertions
-                .assertThat(findAllActual("userStats.participations").content.map { it.id })
-                .containsExactly(2L, 1L, 3L)
+            .assertThat(findAllActual("userStats.participations").content.map { it.id })
+            .containsExactly(2L, 1L, 3L)
 
         Assertions
-                .assertThat(findAllActual("userStats.trophyPoints").content.map { it.id })
-                .containsExactly(1L, 2L, 3L)
+            .assertThat(findAllActual("userStats.trophyPoints").content.map { it.id })
+            .containsExactly(1L, 2L, 3L)
     }
 
     private fun findAllActual(sortColumn: String): Page<User> =
-            userRepository.findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, sortColumn)))
+        userRepository.findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, sortColumn)))
 }

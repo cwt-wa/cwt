@@ -19,4 +19,3 @@ class GameStatsEventPublisher {
         applicationEventPublisher.publishEvent(GameStatsEvent(this, gameStats, isLast))
     }
 }
-

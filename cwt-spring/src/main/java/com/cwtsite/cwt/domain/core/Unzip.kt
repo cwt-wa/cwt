@@ -50,4 +50,3 @@ class WrappedCloseable<T>(val content: T, private val closer: () -> Unit) : Auto
         closer.invoke()
     }
 }
-

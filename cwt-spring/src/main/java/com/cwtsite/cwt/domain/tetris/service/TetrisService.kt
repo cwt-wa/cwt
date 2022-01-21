@@ -13,7 +13,7 @@ class TetrisService {
     private lateinit var tetrisRepository: TetrisRepository
 
     fun add(user: User?, highscore: Long, guestname: String?): Tetris =
-            tetrisRepository.save(Tetris(user = user, highscore = highscore, guestname = guestname))
+        tetrisRepository.save(Tetris(user = user, highscore = highscore, guestname = guestname))
 
     fun findAll(): List<Tetris> = tetrisRepository.findAll()
 }

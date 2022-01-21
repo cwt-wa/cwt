@@ -22,4 +22,3 @@ interface GameStatsRepository : JpaRepository<GameStats, Long> {
     @Query("select distinct s.texture from GameStats s where s.texture is not null and s.map is not null")
     fun findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull(): List<String?>
 }
-

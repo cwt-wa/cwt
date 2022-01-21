@@ -15,8 +15,8 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import java.util.Optional
 import java.time.Instant
+import java.util.Optional
 import kotlin.test.Test
 
 @RunWith(MockitoJUnitRunner::class)
@@ -54,14 +54,15 @@ class TournamentRestControllerTest {
         val game1 = mapOf("texture" to "Level\\DATA\\Manhattan", "map" to "/map/tx3qwuc3")
         val game2 = mapOf("texture" to "Level\\DATA\\Hell", "map" to "/map/m7d7ys8y")
         `when`(gameService.findFromGameStats(game, "map", "texture"))
-                .thenReturn(listOf(game1, game2))
+            .thenReturn(listOf(game1, game2))
         `when`(gameService.findAllOfTournament(game.tournament))
-                .thenReturn(listOf(game))
+            .thenReturn(listOf(game))
         `when`(tournamentService.getTournament(game.tournament.id!!))
-                .thenReturn(Optional.of(game.tournament))
+            .thenReturn(Optional.of(game.tournament))
         val actual = cut.getMapsOfCurrentTournament(game.tournament.id!!, null).body
         assertThat(actual).containsExactlyInAnyOrder(
-                MapDto(game1["texture"], GameMinimalDto.toDto(game), game1.getValue("map")),
-                MapDto(game2["texture"], GameMinimalDto.toDto(game), game2.getValue("map")))
+            MapDto(game1["texture"], GameMinimalDto.toDto(game), game1.getValue("map")),
+            MapDto(game2["texture"], GameMinimalDto.toDto(game), game2.getValue("map"))
+        )
     }
 }

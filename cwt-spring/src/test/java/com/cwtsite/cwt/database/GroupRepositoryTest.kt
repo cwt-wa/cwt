@@ -29,29 +29,38 @@ class GroupRepositoryTest : AbstractDatabaseTest() {
         val dummyUser3 = persistDummyUser()
         val dummyUser4 = persistDummyUser()
 
-        em.persist(Group(
+        em.persist(
+            Group(
                 tournament = tournament,
                 standings = mutableListOf(
-                        em.persist(GroupStanding(user = dummyUser1)),
-                        em.persist(GroupStanding(user = dummyUser2)),
-                        em.persist(GroupStanding(user = dummyUser3)),
-                        em.persist(GroupStanding(user = dummyUser4)))))
+                    em.persist(GroupStanding(user = dummyUser1)),
+                    em.persist(GroupStanding(user = dummyUser2)),
+                    em.persist(GroupStanding(user = dummyUser3)),
+                    em.persist(GroupStanding(user = dummyUser4))
+                )
+            )
+        )
 
-
-        em.persist(Group(
+        em.persist(
+            Group(
                 tournament = em.persist(Tournament()),
                 standings = mutableListOf(
-                        em.persist(GroupStanding(user = persistDummyUser())))))
+                    em.persist(GroupStanding(user = persistDummyUser()))
+                )
+            )
+        )
 
         em.flush()
 
         Assertions
-                .assertThat(groupRepository
-                        .findAllGroupMembers(em.find(Tournament::class.java, tournament.id!!))
-                        .map { it.id })
-                .containsExactlyInAnyOrder(
-                        dummyUser1.id!!, dummyUser2.id!!,
-                        dummyUser3.id!!, dummyUser4.id!!)
+            .assertThat(
+                groupRepository
+                    .findAllGroupMembers(em.find(Tournament::class.java, tournament.id!!))
+                    .map { it.id }
+            )
+            .containsExactlyInAnyOrder(
+                dummyUser1.id!!, dummyUser2.id!!,
+                dummyUser3.id!!, dummyUser4.id!!
+            )
     }
-
 }

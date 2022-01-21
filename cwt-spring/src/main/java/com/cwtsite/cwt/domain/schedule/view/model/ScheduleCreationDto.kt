@@ -4,8 +4,8 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 import java.time.Instant
 
 @DataTransferObject
-data class ScheduleCreationDto (
-        val author: Long,
-        val opponent: Long,
-        val appointment: Instant
+data class ScheduleCreationDto(
+    val author: Long,
+    val opponent: Long,
+    val appointment: Instant
 )

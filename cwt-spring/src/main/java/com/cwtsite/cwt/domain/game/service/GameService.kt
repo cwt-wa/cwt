@@ -36,42 +36,44 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.util.Optional
-import java.time.format.DateTimeFormatter
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.Instant
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.util.Optional
 import kotlin.math.ceil
 
 @Component
 class GameService
-
 @Autowired
-constructor(private val gameRepository: GameRepository,
-            private val tournamentService: TournamentService,
-            private val groupRepository: GroupRepository,
-            private val userRepository: UserRepository,
-            private val groupService: GroupService,
-            private val ratingRepository: RatingRepository,
-            private val commentRepository: CommentRepository,
-            private val configurationService: ConfigurationService,
-            private val userService: UserService,
-            private val playoffService: PlayoffService,
-            private val betRepository: BetRepository,
-            private val scheduleService: ScheduleService,
-            private val treeService: TreeService,
-            private val gameStatsRepository: GameStatsRepository,
-            private val streamService: StreamService) {
+constructor(
+    private val gameRepository: GameRepository,
+    private val tournamentService: TournamentService,
+    private val groupRepository: GroupRepository,
+    private val userRepository: UserRepository,
+    private val groupService: GroupService,
+    private val ratingRepository: RatingRepository,
+    private val commentRepository: CommentRepository,
+    private val configurationService: ConfigurationService,
+    private val userService: UserService,
+    private val playoffService: PlayoffService,
+    private val betRepository: BetRepository,
+    private val scheduleService: ScheduleService,
+    private val treeService: TreeService,
+    private val gameStatsRepository: GameStatsRepository,
+    private val streamService: StreamService
+) {
 
     fun createReplayFileName(game: Game): String {
         return String.format(
-                "%s_%s_%s-%s_%s.%s",
-                game.id,
-                game.homeUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
-                game.scoreHome, game.scoreAway,
-                game.awayUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
-                game.replay!!.extension)
+            "%s_%s_%s-%s_%s.%s",
+            game.id,
+            game.homeUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
+            game.scoreHome, game.scoreAway,
+            game.awayUser!!.username.replace("[^a-zA-Z0-9-_\\\\.]".toRegex(), "_"),
+            game.replay!!.extension
+        )
     }
 
     @Transactional
@@ -79,17 +81,23 @@ constructor(private val gameRepository: GameRepository,
     @PublishNews
     fun reportGame(homeUserId: Long, awayUserId: Long, homeScore: Int, awayScore: Int, persist: Boolean = true): Game {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
+            ?: throw RestException("There's no tournament currently.", HttpStatus.BAD_REQUEST, null)
         val bestOfValue = Integer.valueOf(getBestOfValue(currentTournament.status).value)
         val winnerScore = ceil(bestOfValue.toDouble() / 2)
 
         if (homeScore.toDouble() != winnerScore && awayScore.toDouble() != winnerScore || homeScore + awayScore > bestOfValue) {
-            throw InvalidScoreException(String.format(
+            throw InvalidScoreException(
+                String.format(
                     "Score %s-%s should have been best of %s.",
-                    homeScore, awayScore, bestOfValue))
+                    homeScore, awayScore, bestOfValue
+                )
+            )
         } else if (homeScore < 0 || awayScore < 0) {
-            throw InvalidScoreException(String.format(
-                    "Score %s-%s should not include negative scores.", homeScore, awayScore))
+            throw InvalidScoreException(
+                String.format(
+                    "Score %s-%s should not include negative scores.", homeScore, awayScore
+                )
+            )
         }
 
         val homeUser = userRepository.findById(homeUserId).orElseThrow<RuntimeException> { throw RuntimeException() }
@@ -97,9 +105,12 @@ constructor(private val gameRepository: GameRepository,
         val awayUser = userRepository.findById(awayUserId).orElseThrow<RuntimeException> { throw RuntimeException() }
 
         if (!remainingOpponents.contains(awayUser)) {
-            throw InvalidOpponentException(String.format(
+            throw InvalidOpponentException(
+                String.format(
                     "Opponent %s is not in %s",
-                    awayUser.id, remainingOpponents.map { it.id }))
+                    awayUser.id, remainingOpponents.map { it.id }
+                )
+            )
         }
 
         val reportedGame: Game
@@ -122,13 +133,17 @@ constructor(private val gameRepository: GameRepository,
             reportedGame = if (persist) gameRepository.save(game) else game
         } else if (currentTournament.status == TournamentStatus.PLAYOFFS) {
             val playoffGameToBeReported = gameRepository.findNextPlayoffGameForUser(currentTournament, homeUser)
-                    ?: throw IllegalStateException("There's no playoff game to be reported for $homeUser")
+                ?: throw IllegalStateException("There's no playoff game to be reported for $homeUser")
 
             if (!listOf(playoffGameToBeReported.homeUser, playoffGameToBeReported.awayUser)
-                            .containsAll(listOf(homeUser, awayUser))) {
-                throw InvalidOpponentException(String.format(
+                .containsAll(listOf(homeUser, awayUser))
+            ) {
+                throw InvalidOpponentException(
+                    String.format(
                         "Next playoff game is expected to be %s vs. %s.",
-                        homeUser.username, awayUser.username))
+                        homeUser.username, awayUser.username
+                    )
+                )
             }
 
             playoffGameToBeReported.reporter = homeUser
@@ -152,7 +167,7 @@ constructor(private val gameRepository: GameRepository,
                 scheduleService.deleteSchedule(it)
             }
             streamService.findMatchingStreams(reportedGame)
-                    .forEach { stream -> streamService.associateGame(stream, reportedGame) }
+                .forEach { stream -> streamService.associateGame(stream, reportedGame) }
         }
         reportedGame.reportedAt = Instant.now()
         return reportedGame
@@ -216,25 +231,26 @@ constructor(private val gameRepository: GameRepository,
     @PublishNews
     fun commentGame(gameId: Long, userId: Long, body: String): Comment {
         val user = userRepository.findById(userId)
-                .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
+            .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
         val game = gameRepository.findById(gameId)
-                .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
+            .orElseThrow<IllegalArgumentException> { throw IllegalArgumentException() }
         return commentRepository.save(Comment(body, user, game))
     }
 
     fun findPaginatedPlayedGames(page: Int, size: Int, sort: Sort): Page<Game> =
-            gameRepository.findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(
-                    PageRequest.of(page, size, sort))
+        gameRepository.findByHomeUserNotNullAndAwayUserNotNullAndScoreHomeNotNullAndScoreAwayNotNull(
+            PageRequest.of(page, size, sort)
+        )
 
     fun findGameOfUsers(page: Int, size: Int, sort: Sort, user1: User, user2: User): Page<Game> =
-            gameRepository.findGameOfUsers(PageRequest.of(page, size, sort), user1, user2);
+        gameRepository.findGameOfUsers(PageRequest.of(page, size, sort), user1, user2)
 
     fun findGameOfUser(page: Int, size: Int, sort: Sort, user: User): Page<Game> {
         return gameRepository.findGameOfUser(PageRequest.of(page, size, sort), user)
     }
 
     fun findAllOfTournament(tournament: Tournament): List<Game> =
-            gameRepository.findByTournament(tournament)
+        gameRepository.findByTournament(tournament)
 
     /**
      * @throws IllegalStateException There's no current tournament.
@@ -244,10 +260,11 @@ constructor(private val gameRepository: GameRepository,
     @PublishNews
     fun addTechWin(winner: User, loser: User, reporter: User): Game {
         val currentTournament = tournamentService.getCurrentTournament()
-                ?: throw IllegalStateException("There's no current tournament.")
+            ?: throw IllegalStateException("There's no current tournament.")
         val game = reportGame(
-                winner.id!!, loser.id!!,
-                ceil(getBestOfValue(currentTournament.status).value!!.toDouble() / 2).toInt(), 0)
+            winner.id!!, loser.id!!,
+            ceil(getBestOfValue(currentTournament.status).value!!.toDouble() / 2).toInt(), 0
+        )
         game.techWin = true
         game.reporter = reporter
         return game
@@ -255,8 +272,8 @@ constructor(private val gameRepository: GameRepository,
 
     fun placeBet(game: Game, user: User, betOnHome: Boolean): Bet {
         val bet = betRepository.findByUserAndGame(user, game)
-                .map { with(it) { it.betOnHome = betOnHome; it } }
-                .orElse(Bet(user = user, game = game, betOnHome = betOnHome))
+            .map { with(it) { it.betOnHome = betOnHome; it } }
+            .orElse(Bet(user = user, game = game, betOnHome = betOnHome))
         return betRepository.save(bet)
     }
 
@@ -265,36 +282,37 @@ constructor(private val gameRepository: GameRepository,
         val map = JSONObject(data).optString("map", null)
         val texture = JSONObject(data).optString("texture", null)
         val formatter = DateTimeFormatter
-                .ofPattern("yyyy-MM-dd HH:mm:ss z")
-                .withZone(ZoneId.of("UTC"))
-        return gameStatsRepository.save(GameStats(
+            .ofPattern("yyyy-MM-dd HH:mm:ss z")
+            .withZone(ZoneId.of("UTC"))
+        return gameStatsRepository.save(
+            GameStats(
                 data = data,
                 startedAt = LocalDateTime.parse(startedAt, formatter).toInstant(ZoneOffset.UTC),
                 map = map,
                 texture = texture,
                 game = game
-        ))
+            )
+        )
     }
 
     fun findMaps(page: Int, size: Int, texture: String?): Page<GameStats> {
-        val pageRequest  = PageRequest.of(page, size, Sort.Direction.DESC, "created")
+        val pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, "created")
         return when (texture) {
             null -> gameStatsRepository.findByMapIsNotNullAndTextureIsNotNull(pageRequest)
             else -> gameStatsRepository.findByMapIsNotNullAndTextureEquals(texture, pageRequest)
         }
     }
 
-
     fun findGameStats(page: Int, size: Int): Page<GameStats> =
-            gameStatsRepository.findAll(PageRequest.of(page, size, Sort.Direction.DESC, "created"))
+        gameStatsRepository.findAll(PageRequest.of(page, size, Sort.Direction.DESC, "created"))
 
     fun findGameStats(game: Game?): String =
-            (game?.let { gameStatsRepository.findAllByGame(it) } ?: gameStatsRepository.findAll())
-                    .sortedBy { it.startedAt }
-                    .joinToString(prefix = "[", postfix = "]") { it.data }
+        (game?.let { gameStatsRepository.findAllByGame(it) } ?: gameStatsRepository.findAll())
+            .sortedBy { it.startedAt }
+            .joinToString(prefix = "[", postfix = "]") { it.data }
 
     fun retrieveDistinctTextures(): List<String?> =
-            gameStatsRepository.findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull()
+        gameStatsRepository.findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull()
 
     fun findFromGameStats(game: Game?, vararg fields: String): List<Map<String, Any?>> {
         val result = mutableListOf<Map<String, Any?>>()
@@ -314,8 +332,8 @@ constructor(private val gameRepository: GameRepository,
 
     fun countTextures(): Map<String, Long> {
         return gameStatsRepository.findDistinctByTextureAndMapIsNotNullAndTextureIsNotNull()
-                .map { texture -> (texture ?: "Unknown") to gameStatsRepository.countByTexture(texture) }
-                .toMap()
+            .map { texture -> (texture ?: "Unknown") to gameStatsRepository.countByTexture(texture) }
+            .toMap()
     }
 
     fun findBetsByGame(game: Game): List<Bet> = betRepository.findAllByGame(game)
@@ -326,4 +344,3 @@ constructor(private val gameRepository: GameRepository,
 
     inner class InvalidOpponentException internal constructor(message: String) : RuntimeException(message)
 }
-

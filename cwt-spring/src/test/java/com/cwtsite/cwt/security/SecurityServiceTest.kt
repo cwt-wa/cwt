@@ -1,22 +1,22 @@
 package com.cwtsite.cwt.security
 
 import com.cwtsite.cwt.core.HttpClient
-import com.cwtsite.cwt.test.MockitoUtils.safeEq
 import com.cwtsite.cwt.test.MockitoUtils.safeCapture
+import com.cwtsite.cwt.test.MockitoUtils.safeEq
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentCaptor
 import org.mockito.Captor
-import org.mockito.Mock
-import org.mockito.Mockito.mock
 import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.util.ReflectionTestUtils
-import org.assertj.core.api.Assertions.assertThat
-import java.net.http.HttpResponse
 import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
-import org.mockito.ArgumentCaptor
 
 @ExtendWith(MockitoExtension::class)
 class SecurityServiceTest {
@@ -54,18 +54,17 @@ class SecurityServiceTest {
         `when`(httpResponse.statusCode()).thenReturn(200)
         `when`(httpResponse.body()).thenReturn(body)
         `when`(httpClient.request(safeCapture(requestCaptor), safeEq(BodyHandlers.ofString())))
-                .thenReturn(httpResponse)
+            .thenReturn(httpResponse)
         val actual = securityService.verifyToken(captchaToken)
         assertThat(requestCaptor.value.method()).isEqualTo("GET")
         assertThat(requestCaptor.value.headers().firstValue("content-type")).isPresent()
         assertThat(requestCaptor.value.headers().firstValue("content-type").get())
-                .isEqualTo("application/json")
+            .isEqualTo("application/json")
         assertThat(requestCaptor.value.uri()).satisfies {
             val expectedUri = "https://www.google.com/recaptcha/api/siteverify" +
-                      "?secret=$captchaSecret&response=$captchaToken"
+                "?secret=$captchaSecret&response=$captchaToken"
             assertThat(it.toString()).isEqualTo(expectedUri)
         }
         assertThat(actual).isTrue()
     }
 }
-

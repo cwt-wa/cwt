@@ -6,12 +6,12 @@ import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
+import java.math.BigInteger
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandler
 import java.net.http.HttpResponse.BodyHandlers
-import java.math.BigInteger
 import java.util.Random
 
 class HttpClientTest {
@@ -57,8 +57,9 @@ class HttpClientTest {
     fun request_form() {
         val request = HttpRequest.newBuilder()
             .postMultipartFormData(
-                    BigInteger(35, Random()).toString(),
-                    mapOf("hello" to "world"))
+                BigInteger(35, Random()).toString(),
+                mapOf("hello" to "world")
+            )
             .uri(URI.create("http://postman-echo.com/post"))
             .header("Content-Type", "multipart/form-data")
             .build()
@@ -68,4 +69,3 @@ class HttpClientTest {
         assertThat(response.statusCode()).isEqualTo(200)
     }
 }
-

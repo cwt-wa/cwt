@@ -12,48 +12,49 @@ import java.time.Instant
 
 @DataTransferObject
 data class PlayoffGameDto(
-        val id: Long,
-        val scoreHome: Int?,
-        val scoreAway: Int?,
-        val techWin: Boolean,
-        val created: Instant,
-        val reportedAt: Instant?,
-        val modified: Instant,
-        val playoff: PlayoffGame?,
-        val group: Group?,
-        val tournament: TournamentDetailDto,
-        val homeUser: User?,
-        val awayUser: User?,
-        val reporter: User?,
-        val ratings: List<Rating>,
-        val comments: List<Comment>,
-        val isReplayExists: Boolean,
-        val bets: List<PlayoffTreeBetDto>,
-        val playoffRoundLocalized: String?
+    val id: Long,
+    val scoreHome: Int?,
+    val scoreAway: Int?,
+    val techWin: Boolean,
+    val created: Instant,
+    val reportedAt: Instant?,
+    val modified: Instant,
+    val playoff: PlayoffGame?,
+    val group: Group?,
+    val tournament: TournamentDetailDto,
+    val homeUser: User?,
+    val awayUser: User?,
+    val reporter: User?,
+    val ratings: List<Rating>,
+    val comments: List<Comment>,
+    val isReplayExists: Boolean,
+    val bets: List<PlayoffTreeBetDto>,
+    val playoffRoundLocalized: String?
 ) {
 
     companion object {
 
         fun toDto(game: Game) = PlayoffGameDto(
-                id = game.id!!,
-                scoreHome = game.scoreHome,
-                scoreAway = game.scoreAway,
-                techWin = game.techWin,
-                created = game.created!!,
-                reportedAt = game.reportedAt,
-                modified = game.modified!!,
-                playoff = game.playoff,
-                group = game.group,
-                tournament = TournamentDetailDto.toDto(game.tournament),
-                homeUser = game.homeUser,
-                awayUser = game.awayUser,
-                reporter = game.reporter,
-                ratings = game.ratings,
-                comments = game.comments,
-                isReplayExists = game.replay != null,
-                bets = game.bets.map { PlayoffTreeBetDto.toDto(it) },
-                playoffRoundLocalized = GameDetailDto.localizePlayoffRound(
-                        game.tournament.threeWay!!, game.tournament.maxRounds - 1, game.playoff!!.round)
+            id = game.id!!,
+            scoreHome = game.scoreHome,
+            scoreAway = game.scoreAway,
+            techWin = game.techWin,
+            created = game.created!!,
+            reportedAt = game.reportedAt,
+            modified = game.modified!!,
+            playoff = game.playoff,
+            group = game.group,
+            tournament = TournamentDetailDto.toDto(game.tournament),
+            homeUser = game.homeUser,
+            awayUser = game.awayUser,
+            reporter = game.reporter,
+            ratings = game.ratings,
+            comments = game.comments,
+            isReplayExists = game.replay != null,
+            bets = game.bets.map { PlayoffTreeBetDto.toDto(it) },
+            playoffRoundLocalized = GameDetailDto.localizePlayoffRound(
+                game.tournament.threeWay!!, game.tournament.maxRounds - 1, game.playoff!!.round
+            )
         )
     }
 }

@@ -60,9 +60,9 @@ class JwtTokenUtil {
     private fun getClaimsFromToken(token: String): Claims? {
         return try {
             Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token)
-                    .body
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .body
         } catch (e: Exception) {
             null
         }
@@ -96,10 +96,10 @@ class JwtTokenUtil {
 
     private fun generateToken(claims: Map<String, Any>): String {
         return Jwts.builder()
-                .setClaims(claims)
-                .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact()
+            .setClaims(claims)
+            .setExpiration(generateExpirationDate())
+            .signWith(SignatureAlgorithm.HS512, secret)
+            .compact()
     }
 
     fun canTokenBeRefreshed(token: String, lastPasswordReset: Date?): Boolean? {
@@ -125,9 +125,11 @@ class JwtTokenUtil {
         val user = userDetails as JwtUser<*>
         val username = getUsernameFromToken(token)
         val created = getCreatedDateFromToken(token)
-        return (username == user.username
-                && !isTokenExpired(token)
-                && !isCreatedBeforeLastPasswordReset(created, user.resetDate))
+        return (
+            username == user.username &&
+                !isTokenExpired(token) &&
+                !isCreatedBeforeLastPasswordReset(created, user.resetDate)
+            )
     }
 
     companion object {

@@ -57,19 +57,20 @@ class TwitchServiceProdImpl : TwitchService {
         authorize()
 
         return channels
-                .map {
-                    val videosToPaginationCursor = recursivelyRequestNewVideos(it.id, it.videoCursor ?: "")
-                    streamService.saveVideoCursor(it, videosToPaginationCursor.second)
-                    lastVideosRequest = LocalDateTime.now()
-                    return@map videosToPaginationCursor.first
-                }
-                .flatten()
+            .map {
+                val videosToPaginationCursor = recursivelyRequestNewVideos(it.id, it.videoCursor ?: "")
+                streamService.saveVideoCursor(it, videosToPaginationCursor.second)
+                lastVideosRequest = LocalDateTime.now()
+                return@map videosToPaginationCursor.first
+            }
+            .flatten()
     }
 
     private fun recursivelyRequestNewVideos(
-            channelId: String,
-            paginationCursor: String,
-            videos: MutableList<TwitchVideoDto> = mutableListOf()): Pair<List<TwitchVideoDto>, String?> {
+        channelId: String,
+        paginationCursor: String,
+        videos: MutableList<TwitchVideoDto> = mutableListOf()
+    ): Pair<List<TwitchVideoDto>, String?> {
         val res = restTemplateProvider.fetchVideos(paginationCursor, channelId)
 
         videos.addAll(res.data)

@@ -26,5 +26,4 @@ constructor(private val tetrisService: TetrisService, private val userService: U
 
     @RequestMapping("", method = [RequestMethod.GET])
     fun get(): ResponseEntity<List<Tetris>> = ResponseEntity.ok(tetrisService.findAll())
-
 }

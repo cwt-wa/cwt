@@ -22,8 +22,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
-import javax.servlet.http.HttpServletRequest
 import java.time.Instant
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("api/message")
@@ -46,8 +46,11 @@ class MessageRestController {
         val listener = { message: Message ->
             logger.info("listener received message $message")
             if (message.category === MessageCategory.PRIVATE) {
-                if (user != null && (message.author.id == user.id
-                                || message.recipients.map { it.id }.contains(user.id))) {
+                if (user != null && (
+                    message.author.id == user.id ||
+                        message.recipients.map { it.id }.contains(user.id)
+                    )
+                ) {
                     logger.info("Not publishing message to user as it's private.")
                 }
             } else {
@@ -61,11 +64,13 @@ class MessageRestController {
     }
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun getMessages(@RequestParam("after", required = false) after: Long?,
-                    @RequestParam("before", required = false) before: Long?,
-                    @RequestParam("size", defaultValue = "30") size: Int,
-                    @RequestParam("category", required = false) category: MessageCategory?,
-                    request: HttpServletRequest): ResponseEntity<List<MessageDto>> {
+    fun getMessages(
+        @RequestParam("after", required = false) after: Long?,
+        @RequestParam("before", required = false) before: Long?,
+        @RequestParam("size", defaultValue = "30") size: Int,
+        @RequestParam("category", required = false) category: MessageCategory?,
+        request: HttpServletRequest
+    ): ResponseEntity<List<MessageDto>> {
         val user = authService.authUser(request)
         val categories = if (category == null) {
             if (user == null) MessageCategory.guestCategories() else MessageCategory.values().toList()
@@ -84,9 +89,11 @@ class MessageRestController {
 
     @RequestMapping("/admin", method = [RequestMethod.GET])
     @Secured(AuthorityRole.ROLE_ADMIN)
-    fun getMessagesForAdmin(@RequestParam("after", required = false) after: Long?,
-                            @RequestParam("before", required = false) before: Long?,
-                            @RequestParam("size", defaultValue = "30") size: Int): ResponseEntity<List<MessageDto>> {
+    fun getMessagesForAdmin(
+        @RequestParam("after", required = false) after: Long?,
+        @RequestParam("before", required = false) before: Long?,
+        @RequestParam("size", defaultValue = "30") size: Int
+    ): ResponseEntity<List<MessageDto>> {
         val messages = if (after == null && before != null) {
             messageService.findMessagesForAdminCreatedBefore(Instant.ofEpochMilli(before), size)
         } else if (after != null && before == null) {
@@ -105,15 +112,20 @@ class MessageRestController {
     @Secured(AuthorityRole.ROLE_USER)
     fun addMessage(@RequestBody dto: MessageCreationDto, request: HttpServletRequest): ResponseEntity<MessageDto> {
         val user = authService.authUser(request)
-        val savedMessage = messageService.save(MessageCreationDto.fromDto(
-                dto, user!!, userService.getByIds(dto.recipients!!)))
+        val savedMessage = messageService.save(
+            MessageCreationDto.fromDto(
+                dto, user!!, userService.getByIds(dto.recipients!!)
+            )
+        )
         return ResponseEntity.ok(MessageDto.toDto(savedMessage))
     }
 
     @PostMapping("third-party")
-    fun createMessageFromTwitch(@RequestBody dto: ThirdPartyMessageDto,
-                                @RequestHeader("third-party-token") thirdPartyTokenHeader: String,
-                                request: HttpServletRequest): ResponseEntity<MessageDto> {
+    fun createMessageFromTwitch(
+        @RequestBody dto: ThirdPartyMessageDto,
+        @RequestHeader("third-party-token") thirdPartyTokenHeader: String,
+        request: HttpServletRequest
+    ): ResponseEntity<MessageDto> {
         if (thirdPartyTokenHeader != thirdPartyToken) throw RestException("Forbidden", HttpStatus.FORBIDDEN, null)
         if (!MessageNewsType.thirdPartyMessageTypes().contains(dto.newsType)) {
             throw RestException("Not a third party news type", HttpStatus.BAD_REQUEST, null)

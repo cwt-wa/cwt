@@ -21,7 +21,6 @@ import kotlin.math.abs
 @Service
 class StreamService {
 
-
     @Autowired
     private lateinit var streamRepository: StreamRepository
 
@@ -46,35 +45,39 @@ class StreamService {
         logger.info("Finding matching game for stream \"${stream.title}\" in tournament ${tournament?.id}")
         val usernames = if (tournament == null) {
             setOf(
-                    *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
-                    *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
+                *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
+                *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray()
+            )
         } else {
             when (tournament.status) {
                 TournamentStatus.GROUP -> setOf(
-                        *streamRepository.findDistinctHomeUsernamesToLowercaseInGroup(tournament).toTypedArray(),
-                        *streamRepository.findDistinctAwayUsernamesToLowercaseInGroup(tournament).toTypedArray())
+                    *streamRepository.findDistinctHomeUsernamesToLowercaseInGroup(tournament).toTypedArray(),
+                    *streamRepository.findDistinctAwayUsernamesToLowercaseInGroup(tournament).toTypedArray()
+                )
                 TournamentStatus.PLAYOFFS -> setOf(
-                        *streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
-                        *streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray())
+                    *streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
+                    *streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray()
+                )
                 else -> setOf(
-                        *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
-                        *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
+                    *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
+                    *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray()
+                )
             }
         }
         logger.info("usernames available for fuzzy matching: $usernames")
         val matchingUsernames = stream.relevantWordsInTitle(usernames)
-                .asSequence()
-                .map { word ->
-                    usernames
-                            .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }
-                            .maxByOrNull { it.second }
-                }
-                .filterNotNull()
-                .filter { it.second >= matchThreshold }
-                .sortedByDescending { it.second }
-                .take(2)
-                .map { it.first }
-                .toList()
+            .asSequence()
+            .map { word ->
+                usernames
+                    .map { username -> Pair(username, FuzzySearch.ratio(username, word)) }
+                    .maxByOrNull { it.second }
+            }
+            .filterNotNull()
+            .filter { it.second >= matchThreshold }
+            .sortedByDescending { it.second }
+            .take(2)
+            .map { it.first }
+            .toList()
         logger.info("Matching usernames: $matchingUsernames")
         if (matchingUsernames.size != 2) return null
         val user1 = userRepository.findByUsernameIgnoreCase(matchingUsernames[0])
@@ -85,15 +88,15 @@ class StreamService {
             null -> gameRepository.findGame(user1, user2)
             else -> gameRepository.findGame(user1, user2, tournament)
         }
-                .filter {
-                    logger.info("Filtering game $it")
-                    when (tournament?.status) {
-                        TournamentStatus.GROUP -> it.group()
-                        TournamentStatus.PLAYOFFS -> it.playoff()
-                        else -> true
-                    }
+            .filter {
+                logger.info("Filtering game $it")
+                when (tournament?.status) {
+                    TournamentStatus.GROUP -> it.group()
+                    TournamentStatus.PLAYOFFS -> it.playoff()
+                    else -> true
                 }
-                .maxByOrNull { it.reportedAt!! }
+            }
+            .maxByOrNull { it.reportedAt!! }
     }
 
     @Transactional
@@ -106,32 +109,35 @@ class StreamService {
 
     fun findMatchingStreams(game: Game): Set<Stream> {
         val streams = streamRepository.findByGameIsNull()
-                .filter {
-                    (abs(it.createdAtAsInstant().toEpochMilli().minus(game.reportedAt!!.toEpochMilli()))
-                            < streamGameTolerance.toMillis())
-                }
+            .filter {
+                (
+                    abs(it.createdAtAsInstant().toEpochMilli().minus(game.reportedAt!!.toEpochMilli()))
+                        < streamGameTolerance.toMillis()
+                    )
+            }
         logger.info("stream available for matching: $streams")
         if (streams.isEmpty()) return emptySet()
         val usernames = setOf(
-                *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
-                *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray())
+            *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
+            *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray()
+        )
         logger.info("usernames to fuzzy match in stream title: $usernames")
         return streams
-                .map { stream ->
-                    val relevantWordsInTitle = stream.relevantWordsInTitle(usernames)
-                    val bestHomeUserMatch = relevantWordsInTitle
-                            .map { word -> FuzzySearch.ratio(word, game.homeUser!!.username.toLowerCase()) }
-                            .maxOrNull()!!
-                    val bestAwayUserMatch = relevantWordsInTitle
-                            .map { word -> FuzzySearch.ratio(word, game.awayUser!!.username.toLowerCase()) }
-                            .maxOrNull()!!
-                    Triple(stream, bestHomeUserMatch, bestAwayUserMatch).also {
-                        logger.info("match result: (${it.first.title}, ${it.second} ${it.second})")
-                    }
+            .map { stream ->
+                val relevantWordsInTitle = stream.relevantWordsInTitle(usernames)
+                val bestHomeUserMatch = relevantWordsInTitle
+                    .map { word -> FuzzySearch.ratio(word, game.homeUser!!.username.toLowerCase()) }
+                    .maxOrNull()!!
+                val bestAwayUserMatch = relevantWordsInTitle
+                    .map { word -> FuzzySearch.ratio(word, game.awayUser!!.username.toLowerCase()) }
+                    .maxOrNull()!!
+                Triple(stream, bestHomeUserMatch, bestAwayUserMatch).also {
+                    logger.info("match result: (${it.first.title}, ${it.second} ${it.second})")
                 }
-                .filter { it.second >= matchThreshold && it.third >= matchThreshold }
-                .map { it.first }
-                .toSet()
+            }
+            .filter { it.second >= matchThreshold && it.third >= matchThreshold }
+            .map { it.first }
+            .toSet()
     }
 
     /**
@@ -139,11 +145,11 @@ class StreamService {
      */
     @Transactional
     fun link(): List<Stream> =
-            streamRepository.findAll()
-                    .filter { it.game == null }
-                    .map { Pair(it, findMatchingGame(it)) }
-                    .filter { it.second != null }
-                    .map { associateGame(it.first, it.second!!) }
+        streamRepository.findAll()
+            .filter { it.game == null }
+            .map { Pair(it, findMatchingGame(it)) }
+            .filter { it.second != null }
+            .map { associateGame(it.first, it.second!!) }
 
     @Transactional
     fun botAutoJoin(channel: Channel, botAutoJoin: Boolean): Channel {
@@ -156,16 +162,16 @@ class StreamService {
      */
     @Transactional
     fun cleanPaginationCursors() =
-            channelRepository.cleanPaginationCursors()
+        channelRepository.cleanPaginationCursors()
 
     fun findChannelByLogin(login: String): Optional<Channel> =
-            channelRepository.findByLogin(login)
+        channelRepository.findByLogin(login)
 
     fun findStream(streamId: String): Optional<Stream> =
-            streamRepository.findById(streamId)
+        streamRepository.findById(streamId)
 
     fun findStreams(channel: Channel): List<Stream> =
-            streamRepository.findByChannel(channel)
+        streamRepository.findByChannel(channel)
 
     fun saveStream(stream: Stream): Stream = streamRepository.save(stream)
 
@@ -186,7 +192,7 @@ class StreamService {
     fun findChannelByUser(user: User): Channel? = channelRepository.findByUser(user)
 
     fun saveVideoCursor(channel: Channel, videoCursor: String?): Channel =
-            channelRepository.save(with (channel) { this.videoCursor = videoCursor; this})
+        channelRepository.save(with(channel) { this.videoCursor = videoCursor; this })
 
     fun findStreams(game: Game): List<Stream> = streamRepository.findByGame(game)
 

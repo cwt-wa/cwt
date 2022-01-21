@@ -7,17 +7,17 @@ import com.cwtsite.cwt.domain.user.repository.entity.User
 
 @DataTransferObject
 data class ConfigurationDto(
-        val value: String,
-        val key: ConfigurationKey
+    val value: String,
+    val key: ConfigurationKey
 ) {
 
     companion object {
 
         fun fromDto(configurationDto: ConfigurationDto, author: User) =
-                Configuration(
-                        key = configurationDto.key,
-                        value = configurationDto.value,
-                        author = author
-                )
+            Configuration(
+                key = configurationDto.key,
+                value = configurationDto.value,
+                author = author
+            )
     }
 }

@@ -34,41 +34,41 @@ class PlayoffServiceVoidGameTest {
     fun `delete one-way final games when semifinal is voided`() {
         val game = createVoidableGame() // semifinal game to be voided
         val littleFinal = EntityDefaults.game(
-                id = 2,
-                homeUser = game.loser(),
-                awayUser = null,
-                playoff = PlayoffGame(id = 2, round = game.playoff!!.round + 1, spot = 1)
+            id = 2,
+            homeUser = game.loser(),
+            awayUser = null,
+            playoff = PlayoffGame(id = 2, round = game.playoff!!.round + 1, spot = 1)
         )
         val final = EntityDefaults.game(
-                id = 2,
-                homeUser = game.winner(),
-                awayUser = null,
-                playoff = PlayoffGame(id = 2, round = littleFinal.playoff!!.round + 1, spot = 1)
+            id = 2,
+            homeUser = game.winner(),
+            awayUser = null,
+            playoff = PlayoffGame(id = 2, round = littleFinal.playoff!!.round + 1, spot = 1)
         )
 
         `when`(treeService.getVoidablePlayoffGames())
-                .thenReturn(listOf(game, final, littleFinal))
+            .thenReturn(listOf(game, final, littleFinal))
 
         `when`(treeService.isSomeKindOfFinalGame(game))
-                .thenReturn(false)
+            .thenReturn(false)
 
         `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
-                .thenReturn(game.playoff!!.round + 1 to 1)
+            .thenReturn(game.playoff!!.round + 1 to 1)
 
         `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round + 1))
-                .thenReturn(false)
+            .thenReturn(false)
 
         `when`(gameRepository.findGameInPlayoffTree(MockitoUtils.anyObject<Tournament>(), anyInt(), anyInt()))
-                .thenReturn(Optional.of(littleFinal))
+            .thenReturn(Optional.of(littleFinal))
 
         `when`(treeService.isThirdPlaceGame(littleFinal.tournament, littleFinal.playoff!!.round))
-                .thenReturn(true)
+            .thenReturn(true)
 
         `when`(gameRepository.findGameInPlayoffTree(littleFinal.tournament, littleFinal.playoff!!.round + 1, 1))
-                .thenReturn(Optional.of(final))
+            .thenReturn(Optional.of(final))
 
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
-                .thenAnswer { it.getArgument<Game>(0) }
+            .thenAnswer { it.getArgument<Game>(0) }
 
         val replacementPlayoffGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementPlayoffGame, game)
@@ -80,47 +80,46 @@ class PlayoffServiceVoidGameTest {
     fun `delete affected three-way final games when semifinal game is voided`() {
         val game = createVoidableGame()
         val threeWayFinals = listOf(
-                Game(
-                        id = 2,
-                        tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
-                        homeUser = game.winner(),
-                        awayUser = null,
-                        playoff = PlayoffGame(id = 1, round = 3, spot = 1)
-                ),
-                Game(
-                        id = 3,
-                        tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
-                        homeUser = game.winner(),
-                        awayUser = null,
-                        playoff = PlayoffGame(id = 1, round = 3, spot = 2)
-                ),
-                Game(
-                        id = 4,
-                        tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
-                        homeUser = null,
-                        awayUser = null,
-                        playoff = PlayoffGame(id = 1, round = 3, spot = 3)
-                )
+            Game(
+                id = 2,
+                tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                homeUser = game.winner(),
+                awayUser = null,
+                playoff = PlayoffGame(id = 1, round = 3, spot = 1)
+            ),
+            Game(
+                id = 3,
+                tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                homeUser = game.winner(),
+                awayUser = null,
+                playoff = PlayoffGame(id = 1, round = 3, spot = 2)
+            ),
+            Game(
+                id = 4,
+                tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+                homeUser = null,
+                awayUser = null,
+                playoff = PlayoffGame(id = 1, round = 3, spot = 3)
+            )
         )
 
-
         `when`(treeService.getVoidablePlayoffGames())
-                .thenReturn(listOf(game, *threeWayFinals.toTypedArray()))
+            .thenReturn(listOf(game, *threeWayFinals.toTypedArray()))
 
         `when`(treeService.isSomeKindOfFinalGame(game))
-                .thenReturn(false)
+            .thenReturn(false)
 
         `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
-                .thenReturn(game.playoff!!.round + 1 to 1)
+            .thenReturn(game.playoff!!.round + 1 to 1)
 
         `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round + 1))
-                .thenReturn(true)
+            .thenReturn(true)
 
         `when`(gameRepository.findGameInPlayoffTree(game.tournament, game.winner(), game.playoff!!.round + 1))
-                .thenReturn(threeWayFinals)
+            .thenReturn(threeWayFinals)
 
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>()))
-                .thenAnswer { it.getArgument<Game>(0) }
+            .thenAnswer { it.getArgument<Game>(0) }
 
         val replacementGame = playoffService.voidPlayoffGame(game)
         assertReplacementGame(replacementGame, game)
@@ -132,22 +131,22 @@ class PlayoffServiceVoidGameTest {
     fun `delete game to advance to when it's not a final`() {
         val game = createVoidableGame()
         val gameToAdvanceTo = Game(
-                id = 2,
-                homeUser = EntityDefaults.user(id = 20, username = "AdvanceGameOpponent"),
-                awayUser = game.winner(),
-                scoreHome = null,
-                scoreAway = null,
-                reporter = null,
-                playoff = PlayoffGame(id = 99, round = game.playoff!!.round + 1, spot = 1),
-                tournament = game.tournament
+            id = 2,
+            homeUser = EntityDefaults.user(id = 20, username = "AdvanceGameOpponent"),
+            awayUser = game.winner(),
+            scoreHome = null,
+            scoreAway = null,
+            reporter = null,
+            playoff = PlayoffGame(id = 99, round = game.playoff!!.round + 1, spot = 1),
+            tournament = game.tournament
         )
         `when`(treeService.getVoidablePlayoffGames()).thenReturn(listOf(game))
         `when`(treeService.isSomeKindOfFinalGame(game)).thenReturn(false)
         `when`(treeService.nextPlayoffSpotForOneWayFinalTree(game.playoff!!.round, game.playoff!!.spot))
-                .thenReturn(2 to 1)
+            .thenReturn(2 to 1)
         `when`(treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round + 1)).thenReturn(false)
         `when`(gameRepository.findGameInPlayoffTree(game.tournament, game.playoff!!.round + 1, 1))
-                .thenReturn(Optional.of(gameToAdvanceTo))
+            .thenReturn(Optional.of(gameToAdvanceTo))
         `when`(gameRepository.save(MockitoUtils.anyObject<Game>())).thenAnswer { it.getArgument<Game>(0) }
 
         val replacementGame = playoffService.voidPlayoffGame(game)
@@ -170,18 +169,18 @@ class PlayoffServiceVoidGameTest {
     fun `crash when voiding a playoff game which is not voidable`() {
         `when`(treeService.getVoidablePlayoffGames()).thenReturn(emptyList())
         assertThatThrownBy { playoffService.voidPlayoffGame(mock(Game::class.java)) }
-                .isInstanceOf(PlayoffService.PlayoffGameNotVoidableException::class.java)
+            .isInstanceOf(PlayoffService.PlayoffGameNotVoidableException::class.java)
     }
 
     private fun createVoidableGame(): Game {
         return Game(
-                id = 1,
-                tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
-                homeUser = EntityDefaults.user(),
-                awayUser = EntityDefaults.user(id = 2, username = "Kayz"),
-                scoreHome = 3,
-                scoreAway = 2,
-                playoff = PlayoffGame(id = 1, round = 1, spot = 2)
+            id = 1,
+            tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS),
+            homeUser = EntityDefaults.user(),
+            awayUser = EntityDefaults.user(id = 2, username = "Kayz"),
+            scoreHome = 3,
+            scoreAway = 2,
+            playoff = PlayoffGame(id = 1, round = 1, spot = 2)
         )
     }
 

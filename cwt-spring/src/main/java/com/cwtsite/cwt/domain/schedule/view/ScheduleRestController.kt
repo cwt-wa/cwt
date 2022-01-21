@@ -43,7 +43,7 @@ class ScheduleRestController {
     fun delete(@PathVariable("id") id: Long, request: HttpServletRequest) {
         val authUser = authService.authUser(request)
         val schedule = scheduleService.findById(id)
-                .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
         if (schedule.homeUser != authUser && schedule.awayUser != authUser) {
             throw RestException("Forbidden.", HttpStatus.FORBIDDEN, null)
         }
@@ -53,14 +53,16 @@ class ScheduleRestController {
     @RequestMapping("/{scheduleId}/channel/{channelId}", method = [RequestMethod.POST])
     @Secured(AuthorityRole.ROLE_USER)
     fun scheduleStream(
-            @PathVariable("scheduleId") scheduleId: Long,
-            @PathVariable("channelId") channelId: String): ResponseEntity<Channel> {
+        @PathVariable("scheduleId") scheduleId: Long,
+        @PathVariable("channelId") channelId: String
+    ): ResponseEntity<Channel> {
         val schedule = scheduleService.findById(scheduleId)
-                .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
         val channel = streamService.findChannel(channelId)
-                .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
         if (schedule.streams.contains(channel)) throw RestException(
-                "Channel is already scheduled to stream this game", HttpStatus.BAD_REQUEST, null)
+            "Channel is already scheduled to stream this game", HttpStatus.BAD_REQUEST, null
+        )
         scheduleService.scheduleStream(schedule, channel)
         return ResponseEntity.ok(channel)
     }
@@ -68,12 +70,13 @@ class ScheduleRestController {
     @RequestMapping("/{scheduleId}/channel/{channelId}", method = [RequestMethod.DELETE])
     @Secured(AuthorityRole.ROLE_USER)
     fun removeScheduledStream(
-            @PathVariable("scheduleId") scheduleId: Long,
-            @PathVariable("channelId") channelId: String) {
+        @PathVariable("scheduleId") scheduleId: Long,
+        @PathVariable("channelId") channelId: String
+    ) {
         val schedule = scheduleService.findById(scheduleId)
-                .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("No such schedule.", HttpStatus.NOT_FOUND, null) }
         val channel = streamService.findChannel(channelId)
-                .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("No such channel.", HttpStatus.NOT_FOUND, null) }
         scheduleService.removeStream(schedule, channel)
     }
 }

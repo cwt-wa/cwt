@@ -26,7 +26,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -69,7 +68,7 @@ class GetMessageTest {
             messages.add(messageRepository.save(Message(body = "@Uninvolved Third private", author = rafkaUser!!, category = MessageCategory.PRIVATE, recipients = mutableListOf(uninvolvedUser!!))))
         }
 
-        `when`(authService.authUser(MockitoUtils.anyObject())).thenReturn(zemkeUser);
+        `when`(authService.authUser(MockitoUtils.anyObject())).thenReturn(zemkeUser)
     }
 
     @Test
@@ -77,16 +76,18 @@ class GetMessageTest {
     fun `get message after without uninvolved private messages`() {
         val expected = listOf(messages[4], messages[3], messages[2], messages[1]).sortedByDescending { it.created }
         mockMvc
-                .perform(get("/api/message")
-                        .queryParam("after", messages[0].created!!.toEpochMilli().toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$", hasSize<String>(4)))
-                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
-                .andExpect(jsonPath("$[2].id", `is`(expected[2].id!!.toInt())))
-                .andExpect(jsonPath("$[3].id", `is`(expected[3].id!!.toInt())))
+            .perform(
+                get("/api/message")
+                    .queryParam("after", messages[0].created!!.toEpochMilli().toString())
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$", hasSize<String>(4)))
+            .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+            .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
+            .andExpect(jsonPath("$[2].id", `is`(expected[2].id!!.toInt())))
+            .andExpect(jsonPath("$[3].id", `is`(expected[3].id!!.toInt())))
     }
 
     @Test
@@ -94,14 +95,16 @@ class GetMessageTest {
     fun `get message before without uninvolved private messages`() {
         val expected = listOf(messages[0], messages[1]).sortedByDescending { it.created }
         mockMvc
-                .perform(get("/api/message")
-                        .queryParam("before", messages[2].created!!.toEpochMilli().toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$", hasSize<String>(2)))
-                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
+            .perform(
+                get("/api/message")
+                    .queryParam("before", messages[2].created!!.toEpochMilli().toString())
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$", hasSize<String>(2)))
+            .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+            .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
     }
 
     @Test
@@ -109,50 +112,58 @@ class GetMessageTest {
     fun `only private messages`() {
         val expected = listOf(messages[2], messages[4]).sortedByDescending { it.created }
         mockMvc
-                .perform(get("/api/message")
-                        .queryParam("after", messages[1].created!!.toEpochMilli().toString())
-                        .queryParam("category", MessageCategory.PRIVATE.name)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$", hasSize<String>(2)))
-                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
+            .perform(
+                get("/api/message")
+                    .queryParam("after", messages[1].created!!.toEpochMilli().toString())
+                    .queryParam("category", MessageCategory.PRIVATE.name)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$", hasSize<String>(2)))
+            .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+            .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
     }
 
     @Test
     @WithMockUser
     fun `bad request when before xor after query param violated`() {
         mockMvc
-                .perform(get("/api/message")
-                        .queryParam("before", messages[2].created!!.toEpochMilli().toString())
-                        .queryParam("after", messages[2].created!!.toEpochMilli().toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isBadRequest)
+            .perform(
+                get("/api/message")
+                    .queryParam("before", messages[2].created!!.toEpochMilli().toString())
+                    .queryParam("after", messages[2].created!!.toEpochMilli().toString())
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
         mockMvc
-                .perform(get("/api/message")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isBadRequest)
+            .perform(
+                get("/api/message")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest)
     }
 
     @Test
     @WithMockUser
     fun `limit result set`() {
-        `when`(authService.authUser(MockitoUtils.anyObject())).thenReturn(null);
+        `when`(authService.authUser(MockitoUtils.anyObject())).thenReturn(null)
         val expected = messages
-                .filter { it.category != MessageCategory.PRIVATE}
-                .sortedByDescending { it.created }
+            .filter { it.category != MessageCategory.PRIVATE }
+            .sortedByDescending { it.created }
         mockMvc
-                .perform(get("/api/message")
-                        .queryParam("after", "0")
-                        .queryParam("size", "2")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$", hasSize<String>(2)))
-                .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
-                .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
+            .perform(
+                get("/api/message")
+                    .queryParam("after", "0")
+                    .queryParam("size", "2")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$", hasSize<String>(2)))
+            .andExpect(jsonPath("$[0].id", `is`(expected[0].id!!.toInt())))
+            .andExpect(jsonPath("$[1].id", `is`(expected[1].id!!.toInt())))
     }
 }

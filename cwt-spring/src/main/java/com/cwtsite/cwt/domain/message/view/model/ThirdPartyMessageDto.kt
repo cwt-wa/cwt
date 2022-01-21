@@ -5,9 +5,8 @@ import com.cwtsite.cwt.domain.message.service.MessageNewsType
 
 @DataTransferObject
 data class ThirdPartyMessageDto(
-        val body: String,
-        val displayName: String,
-        val link: String,
-        val newsType: MessageNewsType
+    val body: String,
+    val displayName: String,
+    val link: String,
+    val newsType: MessageNewsType
 )
-

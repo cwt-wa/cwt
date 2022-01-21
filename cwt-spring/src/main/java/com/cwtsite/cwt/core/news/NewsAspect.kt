@@ -18,12 +18,13 @@ import java.time.ZoneOffset
 
 @Aspect
 @Component
-class NewsAspect(private val messageService: MessageService,
-                 private val securityContextHolderFacade: SecurityContextHolderFacade,
-                 private val userRepository: UserRepository) {
+class NewsAspect(
+    private val messageService: MessageService,
+    private val securityContextHolderFacade: SecurityContextHolderFacade,
+    private val userRepository: UserRepository
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
 
     @AfterReturning(pointcut = "@annotation(PublishNews)", returning = "subject")
     fun publishNews(jp: JoinPoint, subject: Any?) {
@@ -50,34 +51,38 @@ class NewsAspect(private val messageService: MessageService,
             is Game -> {
                 val messageNewsType = if (subject.voided) MessageNewsType.VOIDED else MessageNewsType.REPORT
                 messageService.publishNews(
-                        messageNewsType, author, subject.id!!,
-                        subject.homeUser!!.username, subject.awayUser!!.username,
-                        subject.scoreHome, subject.scoreAway
+                    messageNewsType, author, subject.id!!,
+                    subject.homeUser!!.username, subject.awayUser!!.username,
+                    subject.scoreHome, subject.scoreAway
                 )
             }
             is Rating -> {
                 messageService.publishNews(
-                        MessageNewsType.RATING, author, subject.game.id,
-                        subject.game.homeUser!!.username, subject.game.awayUser!!.username,
-                        subject.game.scoreHome, subject.game.scoreAway, subject.type.name.toLowerCase())
+                    MessageNewsType.RATING, author, subject.game.id,
+                    subject.game.homeUser!!.username, subject.game.awayUser!!.username,
+                    subject.game.scoreHome, subject.game.scoreAway, subject.type.name.toLowerCase()
+                )
             }
             is Comment -> {
                 messageService.publishNews(
-                        MessageNewsType.COMMENT, author, subject.game!!.id!!,
-                        subject.game!!.homeUser!!.username, subject.game!!.awayUser!!.username,
-                        subject.game!!.scoreHome, subject.game!!.scoreAway)
+                    MessageNewsType.COMMENT, author, subject.game!!.id!!,
+                    subject.game!!.homeUser!!.username, subject.game!!.awayUser!!.username,
+                    subject.game!!.scoreHome, subject.game!!.scoreAway
+                )
             }
             is Stream -> {
                 messageService.publishNews(
-                        MessageNewsType.STREAM, subject.channel.user,
-                        subject.id, subject.title)
+                    MessageNewsType.STREAM, subject.channel.user,
+                    subject.id, subject.title
+                )
             }
             is Schedule -> {
                 val fallbackMethod = "scheduleStream"
                 val technicallyDeleted = "deleteSchedule"
                 val methods = arrayOf(
-                        "removeStream", fallbackMethod,
-                        "createSchedule", technicallyDeleted, "cancelSchedule")
+                    "removeStream", fallbackMethod,
+                    "createSchedule", technicallyDeleted, "cancelSchedule"
+                )
                 val method = runCatching { jp.signature.name }.getOrElse {
                     logger.error("Error when getting method name", it)
                     logger.info("Falling back to $fallbackMethod")
@@ -95,11 +100,12 @@ class NewsAspect(private val messageService: MessageService,
                     logger.info("No news when schedule was technically deleted")
                 } else {
                     val appointment: String =
-                            subject.appointment.atZone(ZoneOffset.UTC).toString()
+                        subject.appointment.atZone(ZoneOffset.UTC).toString()
                     messageService.publishNews(
-                            MessageNewsType.SCHEDULE, author, method,
-                            subject.homeUser.username, subject.awayUser.username,
-                            appointment)
+                        MessageNewsType.SCHEDULE, author, method,
+                        subject.homeUser.username, subject.awayUser.username,
+                        appointment
+                    )
                 }
             }
             else -> {
@@ -108,4 +114,3 @@ class NewsAspect(private val messageService: MessageService,
         }
     }
 }
-

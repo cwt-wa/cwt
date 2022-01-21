@@ -4,7 +4,7 @@ import com.cwtsite.cwt.domain.core.DataTransferObject
 
 @DataTransferObject
 data class BetCreationDto(
-        val user: Long,
-        val game: Long,
-        val betOnHome: Boolean
+    val user: Long,
+    val game: Long,
+    val betOnHome: Boolean
 )

@@ -9,12 +9,12 @@ import com.cwtsite.cwt.domain.bet.entity.Bet
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.PlayoffGame
+import com.cwtsite.cwt.domain.game.entity.Rating
+import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
 import com.cwtsite.cwt.domain.game.service.GameService
 import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
 import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
 import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
-import com.cwtsite.cwt.domain.game.entity.enumeration.RatingType
-import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.message.service.MessageService
 import com.cwtsite.cwt.domain.playoffs.service.TreeService
 import com.cwtsite.cwt.domain.stream.service.StreamService
@@ -39,8 +39,8 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
-import java.util.Optional
 import java.time.Instant
+import java.util.Optional
 import javax.servlet.http.HttpServletRequest
 import kotlin.test.Test
 
@@ -76,7 +76,8 @@ class GameRestControllerTest {
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
-                    "reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")
+                "reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments"
+            )
             assertThat(it.sortBy).isEqualTo("reportedAt")
             assertThat(it.isSortAscending).isFalse()
         }
@@ -94,17 +95,17 @@ class GameRestControllerTest {
         `when`(userService.getById(game.awayUser!!.id!!)).thenReturn(Optional.of(game.awayUser!!))
         val result = PageImpl<Game>(listOf(game), PageRequest.of(1, 2, Sort.by(Sort.Direction.DESC, "reportedAt")), 2)
         `when`(gameService.findGameOfUsers(anyInt(), anyInt(), anyObject(), safeEq(game.homeUser!!), safeEq(game.awayUser!!)))
-                .thenReturn(result)
+            .thenReturn(result)
         assertThat(cut.queryGamesPaged(pageDto, listOf(game.homeUser!!.id!!, game.awayUser!!.id!!))).extracting { it.body!! }.satisfies {
             assertThat(it.content).containsExactly(GameDetailDto.toDto(game))
             assertThat(it.size).isEqualTo(result.size)
             assertThat(it.start).isEqualTo(pageDto.start)
             assertThat(it.sortables).containsExactlyInAnyOrder(
-                    "reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments")
+                "reportedAt,Reported at", "ratingsSize,Ratings", "commentsSize,Comments"
+            )
             assertThat(it.sortBy).isEqualTo("reportedAt")
             assertThat(it.isSortAscending).isFalse()
         }
-
     }
 
     @Test
@@ -116,8 +117,9 @@ class GameRestControllerTest {
         assertThat(exception1.status).isEqualTo(HttpStatus.BAD_REQUEST)
         val exception2 = assertThrows<RestException> {
             cut.queryGamesPaged(
-                    pageDto,
-                    listOf(EntityDefaults.user().id!!, EntityDefaults.user().id!!, EntityDefaults.user().id!!))
+                pageDto,
+                listOf(EntityDefaults.user().id!!, EntityDefaults.user().id!!, EntityDefaults.user().id!!)
+            )
         }
         assertThat(exception2.status).isEqualTo(HttpStatus.BAD_REQUEST)
     }
@@ -147,8 +149,8 @@ class GameRestControllerTest {
         `when`(userService.getById(anyLong())).thenReturn(Optional.of(user))
         `when`(authService.authUser(request)).thenReturn(user)
         assertThatThrownBy { cut.placeBetOnGame(game.id!!, dto, request) }
-                .isExactlyInstanceOf(RestException::class.java)
-                .satisfies { assertThat((it as RestException).status).isEqualTo(HttpStatus.BAD_REQUEST) }
+            .isExactlyInstanceOf(RestException::class.java)
+            .satisfies { assertThat((it as RestException).status).isEqualTo(HttpStatus.BAD_REQUEST) }
     }
 
     @Test
@@ -161,8 +163,8 @@ class GameRestControllerTest {
         `when`(userService.getById(anyLong())).thenReturn(Optional.of(user))
         `when`(authService.authUser(request)).thenReturn(user)
         assertThatThrownBy { cut.placeBetOnGame(game.id!!, dto, request) }
-                .isExactlyInstanceOf(RestException::class.java)
-                .satisfies { assertThat((it as RestException).status).isEqualTo(HttpStatus.FORBIDDEN) }
+            .isExactlyInstanceOf(RestException::class.java)
+            .satisfies { assertThat((it as RestException).status).isEqualTo(HttpStatus.FORBIDDEN) }
     }
 
     @Test
@@ -193,13 +195,14 @@ class GameRestControllerTest {
         `when`(authService.authUser(anyObject())).thenReturn(user)
         `when`(gameService.findById(game.id!!)).thenReturn(Optional.of(game))
         `when`(gameService.findRating(user, game, rating.type, rating.type.opposite()))
-                .thenReturn(emptyList())
+            .thenReturn(emptyList())
         val savedRating = Rating(
-                id = 1234231421,
-                game = game,
-                type = rating.type,
-                user = user,
-                modified = Instant.ofEpochMilli(1606723883495))
+            id = 1234231421,
+            game = game,
+            type = rating.type,
+            user = user,
+            modified = Instant.ofEpochMilli(1606723883495)
+        )
         `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
@@ -215,7 +218,7 @@ class GameRestControllerTest {
         `when`(authService.authUser(anyObject())).thenReturn(user)
         `when`(gameService.findById(game.id!!)).thenReturn(Optional.of(game))
         `when`(gameService.findRating(user, game, rating.type, rating.type.opposite()))
-                .thenReturn(existingRatings)
+            .thenReturn(existingRatings)
         `when`(gameService.updateRating(existingRatings[0], rating.type)).thenAnswer { it.getArgument(0) }
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)
@@ -231,13 +234,14 @@ class GameRestControllerTest {
         `when`(authService.authUser(anyObject())).thenReturn(user)
         `when`(gameService.findById(game.id!!)).thenReturn(Optional.of(game))
         `when`(gameService.findRating(user, game, rating.type, rating.type.opposite()))
-                .thenReturn(existingRatings)
+            .thenReturn(existingRatings)
         val savedRating = Rating(
-                id = 1234231421,
-                game = game,
-                type = rating.type,
-                user = user,
-                modified = Instant.ofEpochMilli(1606723883495))
+            id = 1234231421,
+            game = game,
+            type = rating.type,
+            user = user,
+            modified = Instant.ofEpochMilli(1606723883495)
+        )
         `when`(gameService.rateGame(user, game, rating.type)).thenReturn(savedRating)
         val actual = cut.rateGame(user.id!!, rating, mock(HttpServletRequest::class.java))
         assertThat(actual.statusCode).isEqualTo(HttpStatus.OK)

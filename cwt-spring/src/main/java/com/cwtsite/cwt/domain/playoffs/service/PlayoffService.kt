@@ -87,22 +87,25 @@ class PlayoffService {
             return emptyList()
         } else if (treeService.isThreeWayFinalGame(game.tournament, game.playoff!!.round)) {
             val threeWayFinalGames = gameRepository.findByTournamentAndRoundAndNotVoided(game.tournament, game.playoff!!.round)
-                    .map { if (it == game) game else it }
+                .map { if (it == game) game else it }
             if (threeWayFinalGames.size == 3 && !threeWayFinalGames.any { !it.wasPlayed() }) {
                 try {
                     val (gold, silver, bronze) = ThreeWayFinalResult.fromThreeWayFinalGames(threeWayFinalGames)
                     tournamentService.finish(gold, silver, bronze)
                 } catch (e: TiedThreeWayFinalResult) {
                     return listOf(
-                            *gameRepository.saveAll(threeWayFinalGames.onEach { it.voided = true }).toTypedArray(),
-                            *gameRepository.saveAll(threeWayFinalGames.map {
+                        *gameRepository.saveAll(threeWayFinalGames.onEach { it.voided = true }).toTypedArray(),
+                        *gameRepository.saveAll(
+                            threeWayFinalGames.map {
                                 Game(
-                                        homeUser = it.homeUser,
-                                        awayUser = it.awayUser,
-                                        playoff = PlayoffGame(round = it.playoff!!.round, spot = it.playoff!!.spot),
-                                        tournament = it.tournament
+                                    homeUser = it.homeUser,
+                                    awayUser = it.awayUser,
+                                    playoff = PlayoffGame(round = it.playoff!!.round, spot = it.playoff!!.spot),
+                                    tournament = it.tournament
                                 )
-                            }).toTypedArray())
+                            }
+                        ).toTypedArray()
+                    )
                 }
             }
             return emptyList()
@@ -121,35 +124,42 @@ class PlayoffService {
                 affectedGames.add(gameRepository.save(Game(playoff = PlayoffGame(round = nextRound, spot = 3), tournament = game.tournament)))
             } else {
                 existingThreeWayFinalGames
-                        .fold(mutableListOf<Game>()) { acc, threeWayFinalGame ->
-                            if (threeWayFinalGame.pairingCompleted()
-                                    || (threeWayFinalGame.pairingEmpty() && acc.any { it.pairingEmpty() })
-                                    || acc.any { it.pairingInvolves(threeWayFinalGame.homeUser) || it.pairingInvolves(threeWayFinalGame.awayUser) }) {
-                                return@fold acc
-                            }
+                    .fold(mutableListOf<Game>()) { acc, threeWayFinalGame ->
+                        if (threeWayFinalGame.pairingCompleted() ||
+                            (threeWayFinalGame.pairingEmpty() && acc.any { it.pairingEmpty() }) ||
+                            acc.any { it.pairingInvolves(threeWayFinalGame.homeUser) || it.pairingInvolves(threeWayFinalGame.awayUser) }
+                        ) {
+                            return@fold acc
+                        }
 
-                            acc.add(threeWayFinalGame)
-                            acc
-                        }
-                        .forEach {
-                            if (it.pairingHalfCompleted()) it.pairUser(winner)
-                            else it.homeUser = winner
-                            affectedGames.add(gameRepository.save(it))
-                        }
+                        acc.add(threeWayFinalGame)
+                        acc
+                    }
+                    .forEach {
+                        if (it.pairingHalfCompleted()) it.pairUser(winner)
+                        else it.homeUser = winner
+                        affectedGames.add(gameRepository.save(it))
+                    }
             }
         } else {
             if (treeService.isSemifinalGame(game.tournament, game.playoff!!.round)) {
                 affectedGames.add(
-                        advanceBasedOnGameExistence(
-                                loser, nextRound, 1, game.playoff!!.spot, game.tournament)) // little final
+                    advanceBasedOnGameExistence(
+                        loser, nextRound, 1, game.playoff!!.spot, game.tournament
+                    )
+                ) // little final
 
                 affectedGames.add(
-                        advanceBasedOnGameExistence(
-                                winner, nextRound + 1, 1, game.playoff!!.spot, game.tournament)) // final
+                    advanceBasedOnGameExistence(
+                        winner, nextRound + 1, 1, game.playoff!!.spot, game.tournament
+                    )
+                ) // final
             } else {
                 affectedGames.add(
-                        advanceBasedOnGameExistence(
-                                winner, nextRound, nextSpot, game.playoff!!.spot, game.tournament))
+                    advanceBasedOnGameExistence(
+                        winner, nextRound, nextSpot, game.playoff!!.spot, game.tournament
+                    )
+                )
             }
         }
 
@@ -160,9 +170,13 @@ class PlayoffService {
      * When you advance you wouldn't want to create the game to advance to when it's already there
      * because your upcoming opponent has already advanced to it.
      */
-    private fun advanceBasedOnGameExistence(userToAdvance: User,
-                                            destinationRound: Int, destinationSpot: Int,
-                                            originSpot: Int, tournament: Tournament): Game {
+    private fun advanceBasedOnGameExistence(
+        userToAdvance: User,
+        destinationRound: Int,
+        destinationSpot: Int,
+        originSpot: Int,
+        tournament: Tournament
+    ): Game {
         val nextGameAsHomeUser = originSpot % 2 != 0
         val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(tournament, destinationRound, destinationSpot)
 
@@ -174,12 +188,14 @@ class PlayoffService {
             }
             gameRepository.save(gameToAdvanceTo.get())
         } else {
-            gameRepository.save(Game(
+            gameRepository.save(
+                Game(
                     homeUser = if (nextGameAsHomeUser) userToAdvance else null,
                     awayUser = if (nextGameAsHomeUser) null else userToAdvance,
                     playoff = PlayoffGame(round = destinationRound, spot = destinationSpot),
                     tournament = tournament
-            ))
+                )
+            )
         }
     }
 
@@ -196,9 +212,9 @@ class PlayoffService {
             if (treeService.isThreeWayFinalGame(game.tournament, nextRound)) {
                 val threeWayGamesToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, game.winner(), nextRound)
                 threeWayGamesToAdvanceTo
-                        .filter { !it.wasPlayed() }
-                        .filter { it.pairingInvolves(game.winner()) }
-                        .forEach { treeService.removePartOfPlayoffGame(it, game.winner(), true) }
+                    .filter { !it.wasPlayed() }
+                    .filter { it.pairingInvolves(game.winner()) }
+                    .forEach { treeService.removePartOfPlayoffGame(it, game.winner(), true) }
             } else {
                 val gameToAdvanceTo = gameRepository.findGameInPlayoffTree(game.tournament, nextRound, nextSpot)
 
@@ -207,8 +223,9 @@ class PlayoffService {
 
                     if (treeService.isThirdPlaceGame(gameToAdvanceTo.get().tournament, gameToAdvanceTo.get().playoff!!.round)) {
                         val finalGame = gameRepository.findGameInPlayoffTree(
-                                gameToAdvanceTo.get().tournament,
-                                gameToAdvanceTo.get().playoff!!.round + 1, 1) // final
+                            gameToAdvanceTo.get().tournament,
+                            gameToAdvanceTo.get().playoff!!.round + 1, 1
+                        ) // final
 
                         treeService.removePartOfPlayoffGame(finalGame.get(), game.loser(), false)
                     }
@@ -218,12 +235,14 @@ class PlayoffService {
             }
         }
 
-        return gameRepository.save(Game(
+        return gameRepository.save(
+            Game(
                 homeUser = game.homeUser,
                 awayUser = game.awayUser,
                 tournament = game.tournament,
                 playoff = game.playoff!!.copy(id = null)
-        ))
+            )
+        )
     }
 
     inner class PlayoffGameNotVoidableException internal constructor(message: String) : RuntimeException(message)

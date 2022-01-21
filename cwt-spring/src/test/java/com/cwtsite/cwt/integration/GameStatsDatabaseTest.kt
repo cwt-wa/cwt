@@ -21,7 +21,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.io.BufferedReader
 import java.time.Instant
 
-
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -36,8 +35,8 @@ class GameStatsDatabaseTest {
     @Autowired private lateinit var tournamentRepository: TournamentRepository
 
     private val statsJson =
-            javaClass.getResourceAsStream("/com/cwtsite/cwt/integration/1513/2.json")!!
-                    .bufferedReader().use(BufferedReader::readText)
+        javaClass.getResourceAsStream("/com/cwtsite/cwt/integration/1513/2.json")!!
+            .bufferedReader().use(BufferedReader::readText)
 
     companion object {
 
@@ -47,24 +46,31 @@ class GameStatsDatabaseTest {
     @Test
     @Order(1)
     fun `save game`() {
-        game = gameRepository.save(Game(
+        game = gameRepository.save(
+            Game(
                 tournament = tournamentRepository.save(
-                        Tournament(created = Instant.now()))))
+                    Tournament(created = Instant.now())
+                )
+            )
+        )
     }
 
     @Test
     @Order(2)
     fun `save stats`() {
-        gameStatsRepository.save(GameStats(
+        gameStatsRepository.save(
+            GameStats(
                 game = game,
                 startedAt = Instant.ofEpochMilli(1586284441226),
-                data = statsJson))
+                data = statsJson
+            )
+        )
     }
 
     @Test
     @Order(2)
     fun `query stats`() {
         assertThat(gameService.findGameStats(gameService.findById(game!!.id!!).orElseThrow()))
-                .isEqualTo("[$statsJson]")
+            .isEqualTo("[$statsJson]")
     }
 }

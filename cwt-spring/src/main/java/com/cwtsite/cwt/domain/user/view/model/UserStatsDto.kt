@@ -4,18 +4,17 @@ import com.cwtsite.cwt.core.toBoolean
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-
 import java.io.IOException
 
 @DataTransferObject
 data class UserStatsDto(
-        val participated: Boolean,
-        val year: Int,
-        val tournamentId: Long,
-        val tournamentMaxRound: Int,
-        val threeWayFinal: Boolean,
-        val round: Int,
-        val locRound: String
+    val participated: Boolean,
+    val year: Int,
+    val tournamentId: Long,
+    val tournamentMaxRound: Int,
+    val threeWayFinal: Boolean,
+    val round: Int,
+    val locRound: String
 ) {
 
     companion object {
@@ -36,7 +35,8 @@ data class UserStatsDto(
                 val playoffsRoundsMax = elem.get(3).asInt()
                 val playoffsRoundAchieved = elem.get(4).asInt()
 
-                dtos.add(UserStatsDto(
+                dtos.add(
+                    UserStatsDto(
                         participated = playoffsRoundsMax != 0,
                         year = elem.get(1).asInt(),
                         tournamentId = elem.get(0).asLong(),
@@ -44,7 +44,8 @@ data class UserStatsDto(
                         round = playoffsRoundAchieved,
                         threeWayFinal = threeWayFinal,
                         locRound = locRound(threeWayFinal, playoffsRoundsMax, playoffsRoundAchieved)
-                ))
+                    )
+                )
             }
 
             return dtos

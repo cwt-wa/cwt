@@ -38,74 +38,88 @@ class RestTemplateProvider {
     @PostConstruct
     fun postConstruct() {
         restTemplate = RestTemplateBuilder()
-                .requestFactory { BufferingClientHttpRequestFactory(SimpleClientHttpRequestFactory()) }
-                .messageConverters(
-                        with(MappingJackson2HttpMessageConverter()) {
-                            supportedMediaTypes = listOf(MediaType.APPLICATION_JSON)
-                            objectMapper = with(ObjectMapper()) {
-                                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                                setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"))
-                            }
-                            this
-                        })
-                .interceptors(ClientHttpRequestInterceptor { request, body, execution ->
+            .requestFactory { BufferingClientHttpRequestFactory(SimpleClientHttpRequestFactory()) }
+            .messageConverters(
+                with(MappingJackson2HttpMessageConverter()) {
+                    supportedMediaTypes = listOf(MediaType.APPLICATION_JSON)
+                    objectMapper = with(ObjectMapper()) {
+                        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                        setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"))
+                    }
+                    this
+                }
+            )
+            .interceptors(
+                ClientHttpRequestInterceptor { request, body, execution ->
                     logger.info("Adding client-id header: ${twitchProperties.clientId}")
                     request.headers.add("client-id", twitchProperties.clientId!!)
                     execution.execute(request, body)
-                }, ClientHttpRequestInterceptor { request, body, execution ->
-                    logger.info("""
+                },
+                ClientHttpRequestInterceptor { request, body, execution ->
+                    logger.info(
+                        """
                             method: ${request.method} 
                             uri: ${request.uri} 
                             headers: ${request.headers} 
-                            body: ${body.toString(Charset.defaultCharset())}""".trimIndent())
+                            body: ${body.toString(Charset.defaultCharset())}
+                        """.trimIndent()
+                    )
                     val response = execution.execute(request, body)
-                    logger.info("""
+                    logger.info(
+                        """
                             statusCode: ${response.statusCode}
                             headers: ${response.headers} 
-                            body: ${response.body.bufferedReader().use { it.readText() }}""".trimIndent())
+                            body: ${response.body.bufferedReader().use { it.readText() }}
+                        """.trimIndent()
+                    )
                     response
-                })
-                .build()
+                }
+            )
+            .build()
     }
-
 
     fun addAuthTokenHeaderInterceptor() {
         restTemplate.interceptors.add(
-                ClientHttpRequestInterceptor { request, body, execution ->
-                    logger.info("Adding ${twitchProperties.authorizationHeaderName} header: $authToken")
-                    request.headers.add(twitchProperties.authorizationHeaderName!!, "Bearer $authToken")
-                    execution.execute(request, body)
-                })
+            ClientHttpRequestInterceptor { request, body, execution ->
+                logger.info("Adding ${twitchProperties.authorizationHeaderName} header: $authToken")
+                request.headers.add(twitchProperties.authorizationHeaderName!!, "Bearer $authToken")
+                execution.execute(request, body)
+            }
+        )
     }
 
     fun validateAuthentication(): ResponseEntity<TwitchAuthValidationDto> = restTemplate
-            .exchange(
-                    RequestEntity(
-                            mapOf("${twitchProperties.authorizationHeaderName}" to "OAuth $authToken"),
-                            HttpMethod.GET,
-                            URI.create("${twitchProperties.authValidateUrl}"))
+        .exchange(
+            RequestEntity(
+                mapOf("${twitchProperties.authorizationHeaderName}" to "OAuth $authToken"),
+                HttpMethod.GET,
+                URI.create("${twitchProperties.authValidateUrl}")
             )
+        )
 
     fun authenticate(): String? = restTemplate
-            .postForObject(
-                    "${twitchProperties.authUrl}" +
-                            "?client_id={clientId}" +
-                            "&client_secret={clientSecret}" +
-                            "&grant_type=client_credentials",
-                    null,
-                    TwitchAuthDto::class.java,
-                    mapOf(
-                            "clientId" to twitchProperties.clientId,
-                            "clientSecret" to twitchProperties.clientSecret
-                    ))!!
-            .accessToken
+        .postForObject(
+            "${twitchProperties.authUrl}" +
+                "?client_id={clientId}" +
+                "&client_secret={clientSecret}" +
+                "&grant_type=client_credentials",
+            null,
+            TwitchAuthDto::class.java,
+            mapOf(
+                "clientId" to twitchProperties.clientId,
+                "clientSecret" to twitchProperties.clientSecret
+            )
+        )!!
+        .accessToken
 
     fun fetchVideo(videoId: String): TwitchVideoDto? {
         var response = restTemplate.exchange(
-                RequestEntity<TwitchWrappedDto<TwitchVideoDto>>(
-                        HttpMethod.GET,
-                        URI.create("${twitchProperties.url}${twitchProperties.videosEndpoint}?first=1&id=$videoId")),
-                object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body!!
+            RequestEntity<TwitchWrappedDto<TwitchVideoDto>>(
+                HttpMethod.GET,
+                URI.create("${twitchProperties.url}${twitchProperties.videosEndpoint}?first=1&id=$videoId")
+            ),
+            object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}
+        ).body!!
         if (response.data.isEmpty()) {
             return null
         }
@@ -113,29 +127,41 @@ class RestTemplateProvider {
     }
 
     fun fetchVideos(paginationCursor: String, channelId: String): TwitchWrappedDto<TwitchVideoDto> =
-            restTemplate.exchange(
-                    RequestEntity<TwitchWrappedDto<TwitchVideoDto>>(
-                            HttpMethod.GET,
-                            URI.create("${twitchProperties.url}${twitchProperties.videosEndpoint}" +
-                                    "?first=${twitchProperties.resultLimit}" +
-                                    "&after=$paginationCursor" +
-                                    "&user_id=$channelId")),
-                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}).body!!
+        restTemplate.exchange(
+            RequestEntity<TwitchWrappedDto<TwitchVideoDto>>(
+                HttpMethod.GET,
+                URI.create(
+                    "${twitchProperties.url}${twitchProperties.videosEndpoint}" +
+                        "?first=${twitchProperties.resultLimit}" +
+                        "&after=$paginationCursor" +
+                        "&user_id=$channelId"
+                )
+            ),
+            object : ParameterizedTypeReference<TwitchWrappedDto<TwitchVideoDto>>() {}
+        ).body!!
 
     fun fetchStreams(channelIds: List<String>): List<TwitchStreamDto> =
-            restTemplate.exchange(
-                    RequestEntity<TwitchWrappedDto<TwitchStreamDto>>(
-                            HttpMethod.GET,
-                            URI.create("${twitchProperties.url}${twitchProperties.streamsEndpoint}" +
-                                    channelIds.joinToString(separator = "") { "&user_id=$it" })),
-                    object : ParameterizedTypeReference<TwitchWrappedDto<TwitchStreamDto>>() {}).body!!.data
+        restTemplate.exchange(
+            RequestEntity<TwitchWrappedDto<TwitchStreamDto>>(
+                HttpMethod.GET,
+                URI.create(
+                    "${twitchProperties.url}${twitchProperties.streamsEndpoint}" +
+                        channelIds.joinToString(separator = "") { "&user_id=$it" }
+                )
+            ),
+            object : ParameterizedTypeReference<TwitchWrappedDto<TwitchStreamDto>>() {}
+        ).body!!.data
 
     fun fetchUsers(vararg loginNames: String): List<TwitchUserDto> {
         return restTemplate.exchange(
-                RequestEntity<TwitchWrappedDto<TwitchUserDto>>(
-                        HttpMethod.GET,
-                        URI.create("${twitchProperties.url}${twitchProperties.usersEndpoint}" +
-                                "?${loginNames.joinToString(separator = "") { "&login=$it" }}")),
-                object : ParameterizedTypeReference<TwitchWrappedDto<TwitchUserDto>>() {}).body!!.data
+            RequestEntity<TwitchWrappedDto<TwitchUserDto>>(
+                HttpMethod.GET,
+                URI.create(
+                    "${twitchProperties.url}${twitchProperties.usersEndpoint}" +
+                        "?${loginNames.joinToString(separator = "") { "&login=$it" }}"
+                )
+            ),
+            object : ParameterizedTypeReference<TwitchWrappedDto<TwitchUserDto>>() {}
+        ).body!!.data
     }
 }

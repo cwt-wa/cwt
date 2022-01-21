@@ -57,12 +57,18 @@ class SchedulerTest {
     @Test
     @Order(1)
     fun `register Rafka and Zemke`() {
-        zemkeUser = userRepository.save(User(
+        zemkeUser = userRepository.save(
+            User(
                 username = "Zemke", email = "zemke@cwtsite.com",
-                password = authService.createHash(zemkePassword)))
-        rafkaUser = userRepository.save(User(
+                password = authService.createHash(zemkePassword)
+            )
+        )
+        rafkaUser = userRepository.save(
+            User(
                 username = "Rafka", email = "rafka@cwtsite.com",
-                password = authService.createHash("rafkaPassword")))
+                password = authService.createHash("rafkaPassword")
+            )
+        )
     }
 
     @Test
@@ -75,39 +81,45 @@ class SchedulerTest {
     @Order(3)
     fun `Zemke schedule a game with Rafka`() {
         val schedule = ScheduleCreationDto(
-                author = zemkeUser!!.id!!,
-                opponent = rafkaUser!!.id!!,
-                appointment = Instant.ofEpochMilli(appointment))
+            author = zemkeUser!!.id!!,
+            opponent = rafkaUser!!.id!!,
+            appointment = Instant.ofEpochMilli(appointment)
+        )
         mockMvc
-                .perform(post("/api/schedule")
-                        .header(tokenHeader, zemkeToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(schedule)))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.id").isNumber)
-                .andExpect(jsonPath("$.homeUser.id").value(zemkeUser!!.id!!))
-                .andExpect(jsonPath("$.homeUser.username").value(zemkeUser!!.username))
-                .andExpect(jsonPath("$.awayUser.id").value(rafkaUser!!.id!!))
-                .andExpect(jsonPath("$.awayUser.username").value(rafkaUser!!.username))
-                .andExpect(jsonPath("$.appointment").value("2020-11-23T18:29:05.446Z"))
-                .andReturn().response.contentAsString.let {
-                    scheduleId = objectMapper.readValue(it, ScheduleDto::class.java).id
-                }
+            .perform(
+                post("/api/schedule")
+                    .header(tokenHeader, zemkeToken)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(schedule))
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").isNumber)
+            .andExpect(jsonPath("$.homeUser.id").value(zemkeUser!!.id!!))
+            .andExpect(jsonPath("$.homeUser.username").value(zemkeUser!!.username))
+            .andExpect(jsonPath("$.awayUser.id").value(rafkaUser!!.id!!))
+            .andExpect(jsonPath("$.awayUser.username").value(rafkaUser!!.username))
+            .andExpect(jsonPath("$.appointment").value("2020-11-23T18:29:05.446Z"))
+            .andReturn().response.contentAsString.let {
+                scheduleId = objectMapper.readValue(it, ScheduleDto::class.java).id
+            }
     }
 
     @Test
     @Order(4)
     fun `get scheduled games`() {
         val response = mockMvc
-                .perform(get("/api/schedule")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andReturn()
-                .response
+            .perform(
+                get("/api/schedule")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andReturn()
+            .response
         val schedules = objectMapper.readValue(
-                response.contentAsString, object : TypeReference<List<ScheduleDto>>() {})
+            response.contentAsString, object : TypeReference<List<ScheduleDto>>() {}
+        )
         assertThat(schedules).anySatisfy {
             assertThat(it.id).isEqualTo(scheduleId)
             assertThat(it.homeUser.username).isEqualTo(zemkeUser!!.username)
@@ -124,12 +136,14 @@ class SchedulerTest {
     fun login(username: String, password: String): String {
         val authReq = JwtAuthenticationRequest(username, password)
         val resAsString = mockMvc
-                .perform(post("/api/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(authReq)))
-                .andExpect(status().isOk)
-                .andReturn()
-                .response.contentAsString
+            .perform(
+                post("/api/auth/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(authReq))
+            )
+            .andExpect(status().isOk)
+            .andReturn()
+            .response.contentAsString
         val responseBody = objectMapper.readValue(resAsString, JwtAuthenticationResponse::class.java)
         return responseBody!!.token
     }

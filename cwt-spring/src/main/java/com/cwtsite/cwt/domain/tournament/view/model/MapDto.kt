@@ -6,17 +6,18 @@ import com.cwtsite.cwt.domain.game.view.model.GameMinimalDto
 
 @DataTransferObject
 data class MapDto(
-        val texture: String?,
-        val game: GameMinimalDto,
-        val mapPath: String) {
+    val texture: String?,
+    val game: GameMinimalDto,
+    val mapPath: String
+) {
 
     companion object {
 
         fun toDto(game: Game, mapPath: String, mapTexture: String?): MapDto =
-                MapDto(
-                        texture = mapTexture,
-                        game = GameMinimalDto.toDto(game),
-                        mapPath = mapPath)
+            MapDto(
+                texture = mapTexture,
+                game = GameMinimalDto.toDto(game),
+                mapPath = mapPath
+            )
     }
 }
-

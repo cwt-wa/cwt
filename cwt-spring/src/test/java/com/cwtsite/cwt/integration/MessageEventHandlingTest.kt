@@ -30,8 +30,9 @@ import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = ["spring.profiles.include=sync"])
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    properties = ["spring.profiles.include=sync"]
+)
 @AutoConfigureMockMvc
 @EmbeddedPostgres
 @DirtiesContext
@@ -61,14 +62,17 @@ class MessageEventHandlingTest {
     @WithMockUser
     fun handle() {
         mockMvc
-                .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
-        val message = messageService.save(Message(
+            .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk)
+        val message = messageService.save(
+            Message(
                 body = "Everybody needs to know this!",
                 author = user!!,
                 category = MessageCategory.SHOUTBOX,
-                created = Instant.ofEpochMilli(1605483348499)))
+                created = Instant.ofEpochMilli(1605483348499)
+            )
+        )
         verify(sseEmitter).send("EVENT", message)
     }
 
@@ -76,18 +80,20 @@ class MessageEventHandlingTest {
     @WithMockUser
     fun doNotPublishPrivateMessage() {
         mockMvc
-                .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk)
+            .perform(get("/api/message/listen").contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk)
         val author = userService.saveUser(User(username = "Author", email = "author@example.com"))
         val recipient = userService.saveUser(User(username = "HelloUser", email = "hello@example.com"))
-        messageService.save(Message(
+        messageService.save(
+            Message(
                 body = "Everybody needs to know this!",
                 author = author,
                 category = MessageCategory.PRIVATE,
                 recipients = mutableListOf(recipient),
                 created = Instant.ofEpochMilli(1605483348499)
-        ))
+            )
+        )
         verify(sseEmitter, never()).send(anyObject(), anyObject())
     }
 }

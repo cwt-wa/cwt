@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest
 import kotlin.time.ExperimentalTime
 import kotlin.time.minutes
 
-
 @RestController
 @RequestMapping("api/channel")
 class ChannelRestController {
@@ -48,8 +47,11 @@ class ChannelRestController {
     fun queryChannel(@RequestParam("user") users: List<Long>?): ResponseEntity<List<ChannelDto>> {
         return when (users) {
             null -> ResponseEntity.ok(streamService.findAllChannels().map { ChannelDto.toDto(it) })
-            else -> ResponseEntity.ok(streamService.findChannelByUsers(
-                    userService.findByIds(*users.toLongArray())).map { ChannelDto.toDto(it) })
+            else -> ResponseEntity.ok(
+                streamService.findChannelByUsers(
+                    userService.findByIds(*users.toLongArray())
+                ).map { ChannelDto.toDto(it) }
+            )
         }
     }
 
@@ -57,7 +59,7 @@ class ChannelRestController {
     @PostMapping("ping/{twitchUserId}")
     fun saveStream(@PathVariable("twitchUserId") twitchUserId: String): ResponseEntity<Unit> {
         val channel = streamService.findChannel(twitchUserId)
-                .orElseThrow { throw RestException("I don't know this Twitch user.", HttpStatus.BAD_REQUEST, null) }
+            .orElseThrow { throw RestException("I don't know this Twitch user.", HttpStatus.BAD_REQUEST, null) }
         pollForVideo(channel, listOf(0, 1, 3, 6, 10, 20))
         return ResponseEntity.ok().build<Unit>()
     }
@@ -68,13 +70,13 @@ class ChannelRestController {
         for (interval in intervals) {
             delay(interval.minutes.toLongMilliseconds())
             val videos = twitchService.requestVideos(channels)
-                    .filter { it.hasCwtInTitle() }
-                    .map { StreamDto.toDto(it, channel) }
+                .filter { it.hasCwtInTitle() }
+                .map { StreamDto.toDto(it, channel) }
             if (videos.isNotEmpty()) {
                 val existingStreams = streamService.findStreams(channel).map { it.id }
                 val newStreams = videos
-                        .filter { !existingStreams.contains(it.id) }
-                        .map { StreamDto.fromDto(it, channel) }
+                    .filter { !existingStreams.contains(it.id) }
+                    .map { StreamDto.fromDto(it, channel) }
                 val savedNewStreams = streamService.saveStreams(newStreams)
                 savedNewStreams.forEach { stream ->
                     streamService.findMatchingGame(stream)?.also { game ->
@@ -89,23 +91,26 @@ class ChannelRestController {
     @GetMapping("/{channelLogin}/auto-active")
     fun autoActive(@PathVariable("channelLogin") channelLogin: String): ResponseEntity<Boolean> {
         return streamService.findChannelByLogin(channelLogin)
-                .map { ResponseEntity.ok(it.botAutoJoin) }
-                .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
+            .map { ResponseEntity.ok(it.botAutoJoin) }
+            .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
     }
 
     @PutMapping("/{channelId}/botAutoJoin")
-    fun botAutoJoin(@PathVariable("channelId") channelId: String,
-                    @RequestBody botAutoJoin: Map<String, Boolean>): ResponseEntity<ChannelDto> {
+    fun botAutoJoin(
+        @PathVariable("channelId") channelId: String,
+        @RequestBody botAutoJoin: Map<String, Boolean>
+    ): ResponseEntity<ChannelDto> {
         val value = botAutoJoin["botAutoJoin"] ?: throw RestException("No value", HttpStatus.BAD_REQUEST, null)
         val channel = streamService.findChannel(channelId)
-                .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
+            .orElseThrow { RestException("Channel not found.", HttpStatus.NOT_FOUND, null) }
         return ResponseEntity.ok(ChannelDto.toDto(streamService.botAutoJoin(channel, value)))
     }
 
-
     @GetMapping("/{channelLogin}/write-access")
-    fun writeAccess(@PathVariable("channelLogin") channelLogin: String,
-                    request: HttpServletRequest): ResponseEntity<Boolean> {
+    fun writeAccess(
+        @PathVariable("channelLogin") channelLogin: String,
+        request: HttpServletRequest
+    ): ResponseEntity<Boolean> {
         val user = authService.authUser(request) ?: return ResponseEntity.ok(false)
         logger.info("checking with channel of login \"${channelLogin}\" belonging to user $user")
         val channel = streamService.findChannelByUser(user) ?: return ResponseEntity.ok(false)

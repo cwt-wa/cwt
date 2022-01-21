@@ -15,8 +15,8 @@ class GameStatsEventListener : ApplicationListener<GameStatsEvent> {
     override fun onApplicationEvent(event: GameStatsEvent) {
         logger.info("New GameStats event for game " + event.gameStats.game!!.id)
         subscribers
-                .filter { it.gameId == event.gameStats.game!!.id }
-                .forEach { it.callback(event.gameStats.data, event.isLast) }
+            .filter { it.gameId == event.gameStats.game!!.id }
+            .forEach { it.callback(event.gameStats.data, event.isLast) }
     }
 
     fun subscribe(subscription: GameStatSubscription) {
@@ -27,4 +27,3 @@ class GameStatsEventListener : ApplicationListener<GameStatsEvent> {
         synchronized(subscribers) { subscribers.removeIf { it == subscription } }
     }
 }
-
