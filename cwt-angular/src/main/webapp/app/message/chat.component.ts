@@ -141,7 +141,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public onKeyup(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        if (!['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) this.suggest();
+        if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
+            this.suggest();
+        }
     }
 
     private suggest() {
