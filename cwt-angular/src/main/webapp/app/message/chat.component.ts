@@ -187,7 +187,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     /**
      * Get current input typeahead process information.
      *
-     * @params {string} Char just typed that's not yet part of the inputs
+     * @param {string} Char just typed that's not yet part of the inputs
      *   value at the moment of calling this method.
      * @returns {Array} The current typeahead string and the string
      *   until associated @ sign and the caret index.
