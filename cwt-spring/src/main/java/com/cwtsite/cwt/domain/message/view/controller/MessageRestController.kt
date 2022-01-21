@@ -127,7 +127,7 @@ class MessageRestController {
         @RequestParam("q", required = false) q: String?,
         request: HttpServletRequest
     ): ResponseEntity<List<UserMinimalDto>> {
-        val res = if (q != null) {
+        val res = if (q != null && q.isNotEmpty()) {
             userService.findByUsernameStartsWithIgnoreCase(q)
         } else {
             val user = authService.authUser(request)

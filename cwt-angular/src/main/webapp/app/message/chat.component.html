@@ -4,7 +4,7 @@
             <div class="input-group input-group-lg chat-input">
                 <input type="text" name="chat-input" class="single-line form-control"
                        (keydown)="keydown($event)" (keypress)="keypress($event)"
-                       (focus)="focus($event)" id="chat-input">
+                       id="chat-input">
                 <span class="input-group-append">
                     <button class="btn btn-primary submit" type="button">
                         <i class="fa fa-send"></i>
@@ -14,7 +14,7 @@
                      class="position-absolute"
                      style="top: 3rem;"
                      [ngStyle]="{'left': suggOffset+'px'}"
-                     *ngIf="suggestions.length">
+                     *ngIf="suggestions?.length">
                     <div class="dropdown-menu show">
                         <button *ngFor="let sugg of suggestions; let first = first;"
                                 class="dropdown-item" [class.active]="first"

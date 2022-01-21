@@ -60,47 +60,49 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.endpoint = this.admin ? 'message/admin' : 'message';
-        this.authService.authState.then(user => this.authUser = user);
+        this.authService.authState.then(user => {
+            this.authUser = user
+
+            this.requestService.get<UserMinimalDto[]>("message/suggestions")
+                .subscribe(res => this.allSuggestions = res);
+
+            document.addEventListener('click', e => {
+                if (e.target.id === 'chat-input') {
+                    const v = e.target.value.substring(0, e.target.selectionStart);
+                    if (v.indexOf('@') === -1) {
+                        this.suggestions = [];
+                    } else {
+                        const rev = v.split("").reverse().join("");
+                        const subj = rev.substring(0, rev.indexOf("@")).split("")
+                            .every(s => s.match(ChatComponent.DELIMITER))
+                        if (subj) {
+                            this.showSuggestions(subj);
+                        } else {
+                            this.suggestions = [];
+                        }
+                    }
+                } else {
+                    this.suggestions = [];
+                }
+            });
+        });
         this.requestService
             .get<MessageDto[]>(`${this.endpoint}`, {after: "0", size: this.messagesSize.toString()})
             .subscribe(res => {
                 this.messages = res;
                 this.setupEventSource();
             });
-
-        this.requestService.get<UserMinimalDto[]>("message/suggestions")
-            .subscribe(res => this.allSuggestions = res);
-
-        document.addEventListener('click', e => {
-            if (e.target.id === 'chat-input') {
-                const v = e.target.value.substring(0, e.target.selectionStart);
-                if (v.indexOf('@') === -1) {
-                    this.suggestions = [];
-                } else {
-                    const rev = v.split("").reverse().join("");
-                    const subj = rev.substring(0, rev.indexOf("@")).split("")
-                        .every(s => s.match(ChatComponent.DELIMITER))
-                    if (subj) {
-                        this.showSuggestions(subj);
-                    } else {
-                        this.suggestions = [];
-                    }
-                }
-            } else {
-                this.suggestions = [];
-            }
-        });
     }
 
     private showSuggestions(q: string) {
         this.suggestions = this.suggestions
             .filter(({username}) => username.toLowerCase().startsWith(proc.toLowerCase()))
-        if (this.suggestions.length < 4) {
+        if (this.suggestions?.length < 4) {
             this.loadingSuggestions = true;
-            this.requestService.get<UserMinimalDto[]>("message/suggestions", {q}))
+            this.requestService.get<UserMinimalDto[]>("message/suggestions", {q})
                 .pipe(finalize(() => this.loadingSuggestions = false))
                 .subscribe(res => {
-                    this.allSuggestions.push(*res);
+                    this.allSuggestions.push(...res);
                     this.suggestions = res.slice(0, 5);
                 });
         }
@@ -121,7 +123,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 return;
             }
         }
-        if (!this.suggestions.length || !['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
+        if (!this.suggestions?.length || !['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
             return;
         }
         e.preventDefault();
@@ -171,7 +173,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     public keypress(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
         const isAtSign = key === '@';
-        const isProcessing = !!this.suggestions.length;
+        const isProcessing = !!this.suggestions?.length;
         if (!isAtSign && !isProcessing) return;
 
         const inpElem = e.target
@@ -205,7 +207,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         dummy.remove();
 
-        this.suggestions = this.showSuggestions(proc);
+        if (this.authUser != null) {
+            this.suggestions = this.showSuggestions(proc);
+        }
     }
 
     private setupEventSource() {
