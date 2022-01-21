@@ -135,7 +135,7 @@ constructor(
                 resList.add(0, resList.removeAt(remainingOpponents.size))
             }
         }
-        messageRepository.findTop50WhereCategoryNotInOrderByCreatedDesc(setOf(MessageCategory.PRIVATE))
+        messageRepository.findTop50ByCategoryNotInOrderByCreatedDesc(setOf(MessageCategory.PRIVATE))
             .forEach { if (it.author !in resList) resList.add(it.author) }
         tournamentService.getCurrentTournament()?.let { currentTournament ->
             applicationRepository.findByTournament(currentTournament)

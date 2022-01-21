@@ -52,7 +52,7 @@ class MessageServiceTest {
         )
         val messages = (10..61).map { message(id = it.toLong(), author = user(id = 20)) }
         `when`(messageRepository.findPrivateMessages(reqUser)).thenReturn(pms)
-        `when`(messageRepository.findTop50WhereCategoryNotInOrderByCreatedDesc(setOf(MessageCategory.PRIVATE)))
+        `when`(messageRepository.findTop50ByCategoryNotInOrderByCreatedDesc(setOf(MessageCategory.PRIVATE)))
             .thenReturn(messages)
 
         val expSuggs = listOf(
