@@ -14,8 +14,9 @@
                      class="position-absolute"
                      style="top: 3rem;"
                      [ngStyle]="{'left': suggOffset+'px'}"
-                     *ngIf="suggestions?.length">
+                     *ngIf="suggestions">
                     <div class="dropdown-menu show">
+                        <small class="form-text text-muted" *ngIf="!suggestions.length">No such user.</small>
                         <button *ngFor="let sugg of suggestions; let first = first;"
                                 class="dropdown-item" [class.active]="first"
                                 type="button" [value]="sugg.id" (click)="complete(sugg, true)">

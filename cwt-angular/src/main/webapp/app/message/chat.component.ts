@@ -17,7 +17,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     filter: MessageCategory | null = null;
     authUser: JwtUser;
-    suggestions: UserMinimalDto[] = [];
+    suggestions: UserMinimalDto[]? = null;
     private allSuggestions: UserMinimalDto[] = [];
     private readonly messagesSize = 30;
     private oldestMessage: number;
@@ -70,7 +70,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 if (e.target.id === 'chat-input') {
                     const v = e.target.value.substring(0, e.target.selectionStart);
                     if (v.indexOf('@') === -1) {
-                        this.suggestions = [];
+                        this.suggestions = null;
                     } else {
                         const rev = v.split("").reverse().join("");
                         const subj = rev.substring(0, rev.indexOf("@")).split("")
@@ -82,7 +82,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                         }
                     }
                 } else {
-                    this.suggestions = [];
+                    this.suggestions = null;
                 }
             });
         });
@@ -95,9 +95,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     private showSuggestions(q: string) {
-        this.suggestions = this.suggestions
-            .filter(({username}) => username.toLowerCase().startsWith(proc.toLowerCase()))
-        if (this.suggestions?.length < 4) {
+        this.suggestions = (this.suggestions || [])
+            .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
+        if (this.suggestions.length < 4) {
             this.loadingSuggestions = true;
             this.requestService.get<UserMinimalDto[]>("message/suggestions", {q})
                 .pipe(finalize(() => this.loadingSuggestions = false))
@@ -119,7 +119,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (key === 'ArrowLeft' || key === 'Backspace') {
             const caretPos = e.target.selectionStart;
             if (e.target.value.charAt(caretPos-1) === '@') {
-                this.suggestions = [];
+                this.suggestions = null;
                 return;
             }
         }
@@ -164,7 +164,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             v.substring(0, caretPos - proc.length)
             + user.username
             + v.substring(caretPos, v.length+1);
-        this.suggestions = [];
+        this.suggestions = null;
         fromClick && inpElem.focus();
         inpElem.selectionStart = caretPos - proc.length + user.username.length;
         inpElem.selectionEnd = inpElem.selectionStart;
@@ -173,19 +173,19 @@ export class ChatComponent implements OnInit, OnDestroy {
     public keypress(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
         const isAtSign = key === '@';
-        const isProcessing = !!this.suggestions?.length;
+        const isProcessing = this.suggestions != null;
         if (!isAtSign && !isProcessing) return;
 
         const inpElem = e.target
         const caretPos = inpElem.selectionStart;
-        const v = inpElem.value.substring(0, caretPos) + (isAtSign ? '@' : '');
+        const v = inpElem.value.substring(0, caretPos) + key;
 
         const rev = v.split("").reverse().join("");
         const proc = rev.substring(0, rev.indexOf("@")).split("").reverse().join("").toLowerCase();
 
         if (isProcessing) {
             if (key.match(ChatComponent.DELIMITER) == null) {
-                this.suggestions = [];
+                this.suggestions = null;
                 return;
             }
         }
@@ -208,6 +208,10 @@ export class ChatComponent implements OnInit, OnDestroy {
         dummy.remove();
 
         if (this.authUser != null) {
+            // TODO Debounce
+            // TODO One char too few
+            // TODO backspace not registered
+            // TODO suggestion box is flashing while typing
             this.suggestions = this.showSuggestions(proc);
         }
     }
