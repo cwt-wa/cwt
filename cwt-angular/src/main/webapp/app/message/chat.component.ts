@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     authUser: JwtUser;
     suggestions: UserMinimalDto[]? = null;
     recipients: UserMinimalDto[] = [];
+    // TODO when pasting a PM there are potentially unqueried users
     private allSuggestions: UserMinimalDto[] = [];
     private readonly messagesSize = 30;
     private oldestMessage: number;
@@ -107,53 +108,86 @@ export class ChatComponent implements OnInit, OnDestroy {
     public onInput(e) {
         if (this.authUser == null) return;
         this.suggest();
-        this.updateRecipients();
     }
 
     private updateRecipients() {
-        const value = document.getElementById("chat-input").value;
+        const {value, scrollLeft} = document.getElementById("chat-input");
+
         // make sure the regex is somewhat similar to DELIMITER
-        this.recipients = Array.from((" " + value).matchAll(/[^a-z0-9-_]@([a-z0-9-_]+)/ig))
-            .map(m => m[1])
-            .map(username => this.allSuggestions.find(u => u.username.toLowerCase() === username.toLowerCase()))
-            .filter(x => x != null)
-            .reduce((acc, curr) => {
-                acc.find(({id}) => id == curr.id) == null && acc.push(curr);
-                return acc;
-            }, []);
+        const matches = Array.from((" " + value).matchAll(/[^a-z0-9-_]@([a-z0-9-_]+)/ig))
+            .map(m => ({
+                index: m.index,
+                user: this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase())
+            }))
+            .filter(({user}) => user != null);
+        this.recipients = matches.map(({user}) => user).filter((v,i,a) => a.indexOf(v) === i);
+
+        const elem = document.getElementById('chat-container');
+        Array.from(elem.getElementsByClassName("offset")).forEach(elem => elem.remove());
+
+        // TODO Any change to the input dimensions (i.e. resizing the window) clutters the highlights.
+
+        const offset = 5; // 5 is an arbitrary offset
+        matches
+            .map(m => [this.getOffset(m.user.username), this.getOffset(value.substring(0, m.index))])
+            .forEach((([width, x]) => {
+                const offsetElem = document.createElement("div");
+                offsetElem.classList.add('offset');
+                offsetElem.style.width = `${width+offset}px`;
+                offsetElem.style.left = `${x-scrollLeft+offset}px`;
+                elem.insertBefore(offsetElem, elem.firstChild);
+                elem.app
+            });
+    }
+
+    private getOffset(v: string) {
+        const inpElem = document.getElementById('chat-input');
+        document.getElementById('dummy')?.remove();
+        inpElem.parentElement.insertAdjacentHTML(
+            'beforebegin',
+            `<span id='dummy'>${v}</span>`);
+        const dummyElem = document.getElementById('dummy');
+        const {fontSize, fontFamily, paddingLeft} = window.getComputedStyle(inpElem);
+        dummyElem.style.fontSize = fontSize;
+        dummyElem.style.fontFamily = fontFamily;
+        dummyElem.style.paddingLeft = paddingLeft;
+        dummyElem.style.marginLeft = `-${inpElem.scrollLeft}px`;
+        const res = dummyElem.getBoundingClientRect().width;
+        dummyElem.remove();
+        return res;
     }
 
     public onKeydown(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        if (!(this.suggestions?.length && ['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key))) {
-            return;
-        }
-        e.preventDefault();
-        const buttons = Array.from(document.querySelectorAll('#chat-suggestions button'));
-        let active;
-        for (let i = 0; i < buttons.length; i++) {
-            if (buttons[i].classList.contains('active')) {
-                active = i;
-                break;
+        if (this.suggestions?.length && ['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
+            e.preventDefault();
+            const buttons = Array.from(document.querySelectorAll('#chat-suggestions button'));
+            let active;
+            for (let i = 0; i < buttons.length; i++) {
+                if (buttons[i].classList.contains('active')) {
+                    active = i;
+                    break;
+                }
             }
-        }
-        if (key === 'Enter') {
-            const user = this.suggestions.find(x => x.id == buttons[active].value);
-            if (user == null) return;
-            this.complete(user);
-        } else {
-            if (active == null) {
-                buttons[0].classList.add('active');
+            if (key === 'Enter') {
+                const user = this.suggestions.find(x => x.id == buttons[active].value);
+                if (user == null) return;
+                this.complete(user);
             } else {
-                const up = key === 'ArrowUp' || (e.shiftKey && key === 'Tab')
-                buttons[active].classList.remove('active');
-                if (up && active == 0) {
-                    buttons[buttons.length-1].classList.add('active');
+                if (active == null) {
+                    buttons[0].classList.add('active');
                 } else {
-                    buttons[(active + (up ? -1 : +1)) % buttons.length].classList.add('active');
+                    const up = key === 'ArrowUp' || (e.shiftKey && key === 'Tab')
+                    buttons[active].classList.remove('active');
+                    if (up && active == 0) {
+                        buttons[buttons.length-1].classList.add('active');
+                    } else {
+                        buttons[(active + (up ? -1 : +1)) % buttons.length].classList.add('active');
+                    }
                 }
             }
         }
+        this.updateRecipients();
     }
 
     public onKeyup(e) {
@@ -161,6 +195,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter', 'Backspace', 'Delete'].includes(key)) {
             this.suggest();
         }
+        this.updateRecipients();
     }
 
     private suggest() {
@@ -170,6 +205,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             return;
         }
 
+        // TODO can be combined with getOffset() method?
         // suggestions box positioning
         const inpElem = document.getElementById('chat-input');
         inpElem.parentElement.insertAdjacentHTML(
@@ -180,11 +216,12 @@ export class ChatComponent implements OnInit, OnDestroy {
         dummyElem.style.fontSize = fontSize;
         dummyElem.style.fontFamily = fontFamily;
         dummyElem.style.paddingLeft = '17px';
+        dummyElem.style.marginLeft = `-${inpElem.scrollLeft}px`;
         const offset = 80;
 	    this.suggOffset = Math.min(
             inpElem.getBoundingClientRect().width - offset,
-            dummyElem.getBoundingClientRect().width + offset) - offset;
-        dummy.remove();
+            dummyElem.getBoundingClientRect().width - inpElem.scrollLeft + offset) - offset;
+        dummyElem.remove();
 
         this.suggestions = (this.suggestions || [])
             .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
