@@ -1,7 +1,5 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto, UserMinimaDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
@@ -21,8 +19,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     authUser: JwtUser;
     suggestions: UserMinimalDto[]? = null;
     recipients: UserMinimalDto[] = [];
-    chatInputValue = "";
-    chatInputChange = new Subject<string>();
     private allSuggestions: UserMinimalDto[] = [];
     private readonly messagesSize = 30;
     private oldestMessage: number;
@@ -35,11 +31,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                 private authService: AuthService,
                 private toastr: Toastr,
                 @Inject(APP_CONFIG) private appConfig: AppConfig) {
-        this.chatInputChange.pipe(debounceTime(200), distinctUntilChanged())
-            .subscribe(v => {
-                    this.chatInputValue = v;
-                    this.onInput();
-                });
 
     }
 
@@ -207,7 +198,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                     this.suggestions = res.slice(0, 5);
                 });
         }
-
     }
 
     /**
@@ -298,3 +288,4 @@ ${message.author.username}: ${message.body}`;
                     : this.toastr.info('There are no more messages.'));
     }
 }
+
