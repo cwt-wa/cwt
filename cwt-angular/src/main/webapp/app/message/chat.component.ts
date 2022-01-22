@@ -199,12 +199,12 @@ export class ChatComponent implements OnInit, OnDestroy {
         const rev = v.split("").reverse()
         const qRev = rev.slice(0, rev.indexOf("@"))
         const charBefAt = rev.slice(0, rev.indexOf("@")+2).pop();
-        if (charBefAt != null && charBefAt.match(ChatComponent.DELIMITER) != null) {
+        if (charBefAt != null && ChatComponent.DELIMITER.test(charBefAt)) {
             return [null, v, selectionStart];
         }
         const q = qRev.reverse().join('')
         console.log(q);
-        if (!q.match(ChatComponent.DELIMITER)) return [null, v, selectionStart]
+        if (!ChatComponent.DELIMITER.test(q)) return [null, v, selectionStart]
         return [q, v, selectionStart];
     }
 
