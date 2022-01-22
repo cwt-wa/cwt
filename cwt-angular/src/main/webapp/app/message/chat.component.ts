@@ -127,16 +127,17 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         // TODO Any change to the input dimensions (i.e. resizing the window) clutters the highlights.
 
-        const offset = 5; // 5 is an arbitrary offset
-        matches
-            .map(m => [this.getOffset(m.user.username), this.getOffset(value.substring(0, m.index))])
-            .forEach((([width, x]) => {
-                const offsetElem = document.createElement("div");
-                offsetElem.classList.add('offset');
-                offsetElem.style.width = `${width+offset}px`;
-                offsetElem.style.left = `${x-scrollLeft+offset}px`;
-                elem.insertBefore(offsetElem, elem.firstChild);
-            });
+        matches.forEach(match => {
+            const [width, x] = [
+                this.getOffset(match.user.username),
+                this.getOffset(value.substring(0, match.index))];
+            const offset = match.index === 0 ? 0 : 5; // 5 is an arbitrary offset
+            const offsetElem = document.createElement("div");
+            offsetElem.classList.add('offset');
+            offsetElem.style.width = `${width+5}px`;
+            offsetElem.style.left = `${x-scrollLeft+offset}px`;
+            elem.insertBefore(offsetElem, elem.firstChild);
+        });
     }
 
     private getOffset(v: string) {
