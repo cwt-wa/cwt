@@ -1,7 +1,21 @@
 <div class="row" *ngIf="authUser && !hideInput">
-    <div class="col pr-0 chat-input">
+    <div class="col pr-0" id="chat-container">
+        <div id="chat-suggestions"
+             class="position-absolute"
+             style="top: 2.5rem;"
+             [ngStyle]="{'left': suggOffset+'px'}"
+             *ngIf="suggestions">
+            <div class="dropdown-menu show">
+                <small class="form-text text-muted ml-2" *ngIf="!suggestions.length">No such user.</small>
+                <button *ngFor="let sugg of suggestions; let first = first;"
+                        class="dropdown-item" [class.active]="first"
+                        type="button" [value]="sugg.id" (click)="complete(sugg, true)">
+                    {{ sugg.username }}
+                </button>
+            </div>
+        </div>
         <form>
-            <div class="input-group input-group chat-input">
+            <div class="input-group input-group">
                 <input type="text" name="chat-input" class="single-line form-control"
                        (keydown)="onKeydown($event)"
                        (keyup)="onKeyup($event)"
@@ -12,20 +26,6 @@
                         <i class="fa fa-send"></i>
                     </button>
                 </span>
-                <div id="chat-suggestions"
-                     class="position-absolute"
-                     style="top: 3rem;"
-                     [ngStyle]="{'left': suggOffset+'px'}"
-                     *ngIf="suggestions">
-                    <div class="dropdown-menu show">
-                        <small class="form-text text-muted ml-2" *ngIf="!suggestions.length">No such user.</small>
-                        <button *ngFor="let sugg of suggestions; let first = first;"
-                                class="dropdown-item" [class.active]="first"
-                                type="button" [value]="sugg.id" (click)="complete(sugg, true)">
-                            {{ sugg.username }}
-                        </button>
-                    </div>
-                </div>
             </div>
         </form>
     </div>
