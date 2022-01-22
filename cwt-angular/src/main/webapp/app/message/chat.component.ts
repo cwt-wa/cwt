@@ -18,6 +18,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     filter: MessageCategory | null = null;
     authUser: JwtUser;
     suggestions: UserMinimalDto[]? = null;
+    recipients: UserMinimalDto[];
     private allSuggestions: UserMinimalDto[] = [];
     private readonly messagesSize = 30;
     private oldestMessage: number;
@@ -99,11 +100,26 @@ export class ChatComponent implements OnInit, OnDestroy {
         fromClick && inpElem.focus();
         inpElem.selectionStart = caret - q.length + user.username.length;
         inpElem.selectionEnd = inpElem.selectionStart;
+        this.updateRecipients();
     }
 
     public onInput(e) {
         if (this.authUser == null) return;
         this.suggest();
+        this.updateRecipients();
+    }
+
+    private updateRecipients() {
+        const value = document.getElementById("chat-input").value;
+        // make sure the regex is somewhat similar to DELIMITER
+        this.recipients = Array.from((" " + value).matchAll(/[^a-z0-9-_]@([a-z0-9-_]+)/ig))
+            .map(m => m[1])
+            .map(username => this.allSuggestions.find(u => u.username.toLowerCase() === username.toLowerCase()))
+            .filter(x => x != null)
+            .reduce((acc, curr) => {
+                acc.find(({id}) => id == curr.id) == null && acc.push(curr);
+                return acc;
+            }, []);
     }
 
     public onKeydown(e) {
