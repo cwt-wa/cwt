@@ -136,7 +136,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                 offsetElem.style.width = `${width+offset}px`;
                 offsetElem.style.left = `${x-scrollLeft+offset}px`;
                 elem.insertBefore(offsetElem, elem.firstChild);
-                elem.app
             });
     }
 
