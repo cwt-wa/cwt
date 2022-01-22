@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private endpoint: string;
     private eventSource: EventSource;
 
-    private static readonly DELIMITER = /[a-z0-9-_]/i;
+    private static readonly DELIMITER = /^[a-z0-9-_]*$/i;
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
@@ -202,9 +202,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (charBefAt != null && charBefAt.match(ChatComponent.DELIMITER) != null) {
             return [null, v, selectionStart];
         }
-        const subj = qRev.every(s => s.match(ChatComponent.DELIMITER))
-        if (!subj) return [null, v, selectionStart]
         const q = qRev.reverse().join('')
+        console.log(q);
+        if (!q.match(ChatComponent.DELIMITER)) return [null, v, selectionStart]
         return [q, v, selectionStart];
     }
 
