@@ -3,9 +3,10 @@
         <form>
             <div class="input-group input-group chat-input">
                 <input type="text" name="chat-input" class="single-line form-control"
+                       [ngModel]="chatInputValue"
+                       (ngModelChange)="chatInputChange.next($event)"
                        (keydown)="onKeydown($event)"
                        (keyup)="onKeyup($event)"
-                       (input)="onInput($event)"
                        id="chat-input">
                 <span class="input-group-append">
                     <button class="btn btn-primary submit" type="button">

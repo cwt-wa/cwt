@@ -1,5 +1,7 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
+import {Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto, UserMinimaDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
@@ -18,7 +20,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     filter: MessageCategory | null = null;
     authUser: JwtUser;
     suggestions: UserMinimalDto[]? = null;
-    recipients: UserMinimalDto[];
+    recipients: UserMinimalDto[] = [];
+    chatInputValue = "";
+    chatInputChange = new Subject<string>();
     private allSuggestions: UserMinimalDto[] = [];
     private readonly messagesSize = 30;
     private oldestMessage: number;
@@ -31,6 +35,12 @@ export class ChatComponent implements OnInit, OnDestroy {
                 private authService: AuthService,
                 private toastr: Toastr,
                 @Inject(APP_CONFIG) private appConfig: AppConfig) {
+        this.chatInputChange.pipe(debounceTime(200), distinctUntilChanged())
+            .subscribe(v => {
+                    this.chatInputValue = v;
+                    this.onInput();
+                });
+
     }
 
     _messages: MessageDto[] = [];
@@ -157,7 +167,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public onKeyup(e) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
+        if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter', 'Backspace', 'Delete'].includes(key)) {
             this.suggest();
         }
     }
@@ -219,7 +229,6 @@ export class ChatComponent implements OnInit, OnDestroy {
             return [null, v, selectionStart];
         }
         const q = qRev.reverse().join('')
-        console.log(q);
         if (!ChatComponent.DELIMITER.test(q)) return [null, v, selectionStart]
         return [q, v, selectionStart];
     }
