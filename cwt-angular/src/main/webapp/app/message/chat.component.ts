@@ -114,7 +114,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         const {value, scrollLeft} = document.getElementById("chat-input");
 
         // make sure the regex is somewhat similar to DELIMITER
-        const matches = Array.from((" " + value).matchAll(/[^a-z0-9-_]@([a-z0-9-_]+)/ig))
+        const matches = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig))
             .map(m => ({
                 index: m.index,
                 user: this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase())
