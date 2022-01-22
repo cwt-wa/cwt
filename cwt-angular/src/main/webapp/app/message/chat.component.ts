@@ -151,6 +151,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         dummyElem.style.fontSize = fontSize;
         dummyElem.style.fontFamily = fontFamily;
         dummyElem.style.paddingLeft = paddingLeft;
+        dummyElem.style.whiteSpace = 'pre';
         dummyElem.style.marginLeft = `-${inpElem.scrollLeft}px`;
         const res = dummyElem.getBoundingClientRect().width;
         dummyElem.remove();
@@ -216,6 +217,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         dummyElem.style.fontSize = fontSize;
         dummyElem.style.fontFamily = fontFamily;
         dummyElem.style.paddingLeft = '17px';
+        dummyElem.style.whiteSpace = 'pre';
         dummyElem.style.marginLeft = `-${inpElem.scrollLeft}px`;
         const offset = 80;
 	    this.suggOffset = Math.min(
