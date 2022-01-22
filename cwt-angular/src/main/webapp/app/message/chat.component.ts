@@ -192,10 +192,9 @@ export class ChatComponent implements OnInit, OnDestroy {
      * @returns {Array} The current typeahead string and the string
      *   until associated @ sign and the caret index.
      */
-    private getProc(key='') {
+    private getProc() {
         const {selectionStart, value} = document.getElementById('chat-input');
-        const v = value.substring(0, selectionStart) + key;
-        if (key === '@') return ['', v, selectionStart];
+        const v = value.substring(0, selectionStart);
         if (v.indexOf('@') === -1) return [null, v, selectionStart];
         const rev = v.split("").reverse()
         const qRev = rev.slice(0, rev.indexOf("@"))
