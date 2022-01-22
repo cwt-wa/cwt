@@ -5,7 +5,7 @@
              style="top: 2.5rem;"
              [ngStyle]="{'left': suggOffset+'px'}"
              *ngIf="suggestions">
-            <div class="dropdown-menu show">
+            <div class="dropdown-menu p-0 overflow-hidden show">
                 <small class="form-text text-muted ml-2" *ngIf="!suggestions.length">No such user.</small>
                 <button *ngFor="let sugg of suggestions; let first = first;"
                         class="dropdown-item" [class.active]="first"
