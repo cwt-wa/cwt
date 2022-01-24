@@ -121,16 +121,29 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.suggest();
     }
 
-    private updateRecipients() {
+    private async updateRecipients(lazyLoad=true) {
         const {value, scrollLeft} = document.getElementById("chat-input");
 
-        // make sure the regex is somewhat similar to DELIMITER
+        const unknownUsernames = [];
         const matches = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig))
-            .map(m => ({
-                index: m.index,
-                user: this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase())
-            }))
-            .filter(({user}) => user != null);
+            .map(m => {
+                const user = this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase());
+                if (user == null) {
+                    unknownUsernames.push(m[1]);
+                    return null;
+                }
+                return { index: m.index, user };
+            })
+            .filter(m => m != null);
+
+        if (lazyLoad && unknownUsernames.length) {
+            const fetchedUsers = await this.requestService
+                .get<User[]>("user", {username: unknownUsernames})
+                .toPromise()
+                .then(users => this.allSuggestions.push(...users.map(({id, username}) => ({id, username}))));
+            return;
+        }
+
         this.recipients = matches.map(({user}) => user).filter((v,i,a) => a.indexOf(v) === i);
 
         const elem = document.getElementById('chat-container');
