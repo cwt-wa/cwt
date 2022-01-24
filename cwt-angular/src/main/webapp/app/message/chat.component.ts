@@ -33,11 +33,8 @@ export class ChatComponent implements OnInit, OnDestroy {
                 }
             });
 
-            console.log(elem);
-            new ResizeObserver(([entry, ..._]) => {
-                console.log(entry, _);
-                this.updateRecipients();
-            }).observe(document.getElementById('chat-input'));
+            new ResizeObserver(([entry, ..._]) => this.updateRecipients())
+                .observe(document.getElementById('chat-input'));
         });
         //this.chatInput = elem;
     }
