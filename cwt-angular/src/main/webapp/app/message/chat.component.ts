@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {ViewChild, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto, UserMinimaDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
@@ -14,6 +14,33 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
+
+    chatinputisset = false
+    @ViewChild('chatInput') set chatInput(elem: ElementRef<HTMLInputElement>) {
+        if (elem == null || this.chatinputisset) return;
+        this.chatinputisset = true;
+        this.authService.authState.then(user => {
+            if (!user) return;
+
+            this.requestService.get<UserMinimalDto[]>("message/suggestions")
+                .subscribe(res => this.allSuggestions = res);
+
+            document.addEventListener('click', e => {
+                if (e.target.id === 'chat-input') {
+                    this.suggest();
+                } else {
+                    this.suggestions = null;
+                }
+            });
+
+            console.log(elem);
+            new ResizeObserver(([entry, ..._]) => {
+                console.log(entry, _);
+                this.updateRecipients();
+            }).observe(document.getElementById('chat-input'));
+        });
+        //this.chatInput = elem;
+    }
 
     filter: MessageCategory | null = null;
     authUser: JwtUser;
@@ -63,20 +90,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.endpoint = this.admin ? 'message/admin' : 'message';
-        this.authService.authState.then(user => {
-            this.authUser = user
-
-            this.requestService.get<UserMinimalDto[]>("message/suggestions")
-                .subscribe(res => this.allSuggestions = res);
-
-            document.addEventListener('click', e => {
-                if (e.target.id === 'chat-input') {
-                    this.suggest();
-                } else {
-                    this.suggestions = null;
-                }
-            });
-        });
+        this.authService.authState.then(user => this.authUser = user);
         this.requestService
             .get<MessageDto[]>(`${this.endpoint}`, {after: "0", size: this.messagesSize.toString()})
             .subscribe(res => {
@@ -124,8 +138,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         const elem = document.getElementById('chat-container');
         Array.from(elem.getElementsByClassName("offset")).forEach(elem => elem.remove());
-
-        // TODO Any change to the input dimensions (i.e. resizing the window) clutters the highlights.
 
         matches.forEach(match => {
             const [width, x] = [
