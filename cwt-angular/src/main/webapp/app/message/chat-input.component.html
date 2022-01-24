@@ -1,13 +1,38 @@
-<div *ngIf="message" class="input-group input-group-lg chat-input">
-    <div class="single-line form-control" [contentEditable]="!submitting"
-         (copy)="onCopy($event)" (cut)="onCut($event)" (paste)="onPaste($event)"
-         (keydown.enter)="$event.preventDefault();" (keyup.enter)="sendMessage()" (keyup.control.enter)="sendMessage()"
-         (keydown)="keyDown($event)" #chatInput [ngClass]="{'contenteditable-disabled': submitting}">
+<div *ngIf="message" class="chat-container">
+    <form>
+        <div class="input-group">
+            <input type="text" name="chat-input" class="single-line form-control"
+                   #chatInput
+                   (keydown)="onKeydown($event)"
+                   (keyup)="onKeyup($event)"
+                   (input)="onInput($event)">
+            <span class="input-group-append">
+                <button class="btn btn-primary submit" type="button">
+                    <i class="fa fa-send"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <div #offsets class="offsets">
+        <div *ngFor="let tag of tags"
+             #recipients
+             class="offset"
+             [ngStyle]="tag.style"
+             [attr.data-id]="tag.user.id"
+             [attr.data-username]="tag.user.username">
+        </div>
     </div>
-  <span class="input-group-append">
-        <button class="btn btn-primary submit" type="button" (click)="sendMessage()">
-            <i *ngIf="!submitting" class="fa fa-send"></i>
-            <img *ngIf="submitting" src="../../img/loading.gif" class="loading"/>
-        </button>
-  </span>
+    <div #dummy class="d-inline-block">Hey there.</div>
+    <div [ngStyle]="{'left': suggOffset+'px'}"
+         *ngIf="suggestions">
+        <div class="dropdown-menu p-0 overflow-hidden show">
+            <small class="form-text text-muted ml-2" *ngIf="!suggestions.length">No such user.</small>
+            <button *ngFor="let sugg of suggestions; let first = first;"
+                    #suggestions
+                    class="dropdown-item" [class.active]="first"
+                    type="button" [value]="sugg.id" (click)="complete(sugg, true)">
+                {{ sugg.username }}
+            </button>
+        </div>
+    </div>
 </div>

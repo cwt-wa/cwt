@@ -738,16 +738,3 @@ hr {
   border: 1px inset #aaa;
 }
 
-.offset {
-  background-color: rgba(99, 1, 45, 0.35);
-  pointer-events: none;
-  position: absolute;
-  top: .5rem;
-  bottom: .5rem;
-  z-index: 99;
-  border-top-left-radius: 1rem;
-  border-bottom-left-radius: 1rem;
-  border-top-right-radius: .5rem;
-  border-bottom-right-radius: .5rem;
-  margin-left: .9rem;
-}

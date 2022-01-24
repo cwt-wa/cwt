@@ -9,274 +9,283 @@ import {
     Injector,
     OnInit,
     Output,
-    ViewChild
+    Input,
+    ViewChild,
+    ViewChildren,
+    AfterViewInit,
+    QueryList
 } from '@angular/core';
 import {MentionComponent} from './mention.component';
 import {Message, User} from "../custom";
+import {AuthService} from "../_services/auth.service";
 import {RequestService} from "../_services/request.service";
 import {Utils} from "../_util/utils";
 
-type ContentEditableKeyboardEvent = KeyboardEvent & {
-    target: HTMLDivElement;
-}
-
 @Component({
-    selector: 'chatInput',
+    selector: 'cwt-chat-input',
     template: require('./chat-input.component.html'),
-    styles: [
-            `
-            .chat-input {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: nowrap;
-                justify-content: space-between;
-                align-items: stretch;
-            }`,
-
-            `
-            .chat-input button.submit {
-                border: 1px solid #40352a;
-            }`,
-
-            `
-            .chat-input > .form-control[contenteditable] {
-                flex-grow: 5;
-                font-size: 16px;
-            }`,
-
-            `
-            .chat-input > .form-control[contenteditable]:empty::before {
-                content: "Type message...";
-                color: gray;
-            }`,
-
-            `
-            .chat-input > .form-control[contenteditable].single-line {
-                white-space: nowrap;
-                height: 48px;
-                overflow: hidden;
-                padding-top: 12px;
-            }`,
-
-            `
-            .chat-input > .form-control[contenteditable].single-line br {
-                display: none;
-            }`,
-
-            `
-            .chat-input > .form-control[contenteditable].single-line * {
-                display: inline;
-                white-space: nowrap;
-            }`
-    ]
+    styles: [`
+        .chat-container {
+            position: relative;
+        }
+        .chat-suggestions {
+            position: absolute;
+        }
+        .offsets {
+            border: 1px solid red;
+            position: absolute;
+            pointer-events: none;
+            overflow: hidden;
+            top: 0;
+        }
+        .offset {
+            background-color: rgba(99, 1, 45, 0.35);
+            pointer-events: none;
+            position: absolute;
+            top: .5rem;
+            bottom: .5rem;
+            z-index: 99;
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+            border-top-right-radius: .5rem;
+            border-bottom-right-radius: .5rem;
+        }
+    `]
 })
-export class ChatInputComponent implements OnInit {
+export class ChatInputComponent implements OnInit, AfterViewInit {
+
+    private static readonly DELIMITER = /^[a-z0-9-_]*$/i;
 
     @Output()
     message: EventEmitter<[Message, (success: boolean) => void]> = new EventEmitter();
 
+    @Input()
+    messages: MessageDto[];
+
     @ViewChild("chatInput")
-    private chatInput: ElementRef;
+    private chatInputEl: ElementRef<HTMLInputElement>;
 
-    private mentions: ComponentRef<MentionComponent>[] = [];
-    private users: User[];
-    private readonly isMobileDevice: boolean;
+    @ViewChild("dummy")
+    private dummyEl: ElementRef<HTMLDivElement>;
 
-    submitting: boolean = false;
+    @ViewChild("offsets")
+    private offsetsEl: ElementRef<HTMLDivElement>;
 
-    constructor(private resolver: ComponentFactoryResolver,
-                private injector: Injector,
-                private app: ApplicationRef,
-                private requestService: RequestService,
-                utils: Utils) {
-        this.isMobileDevice = utils.isMobileDevice();
+    @ViewChildren("suggestions")
+    private suggestionsEl: QueryList<ElementRef<HTMLDivElement>>;
+
+    @ViewChildren("recipients")
+    private recipientsEl: QueryList<ElementRef<HTMLDivElement>>;
+
+    suggestions: UserMinimalDto[]? = null;
+    recipients: UserMinimalDto[] = [];
+    tags = [];
+
+    private authUser: JwtUser;
+    private allSuggestions: UserMinimalDto[] = [];
+    private lazyLoadedSuggestions: boolean = false;
+
+    constructor(private requestService: RequestService,
+                private authService: AuthService) {
     }
 
-    public ngOnInit(): void {
-        this.requestService.get<User[]>("user").subscribe(res => this.users = res);
+    ngOnInit(): void {
+        this.authService.authState.then(user => {
+            this.authUser = user;
+            const mm = this.messages;
+            this.allSuggestions = [
+                mm.find(m => m.recipients.map(u => u.id).includes(this.authUser.id))?.author,
+                ...(mm.find(m => m.author.id === this.authUser.id && m.recipients.length)?.recipients || []),
+                ...(mm.map(m => m.author) || []),
+                ...(mm.flatMap(m => m.recipients) || [])
+            ].reduce((acc, curr) => {
+                if (curr != null
+                    && curr.id !== this.authUser.id
+                    && !acc.map(u => u.id).includes(curr.id)) {
+                    acc.push(curr);
+                }
+                return acc;
+            }, []);
+        });
     }
 
-    public sendMessage(): void {
-        const mentionHasJustBeenAdded = this.mentions.find(m => m.instance.enterKeyDown);
-        if (mentionHasJustBeenAdded != null) {
-            mentionHasJustBeenAdded.instance.enterKeyDown = false;
-            return;
-        }
+    ngAfterViewInit() {
+        // TODO uninstall in OnDestroy
+        document.addEventListener('click', e => {
+            if (e.target.id === 'chat-input') {
+                this.suggest();
+            } else {
+                this.suggestions = null;
+            }
+        });
 
-        const body = this.convertContentEditableToRawTextContent();
-        if (body === "" || body == null) return;
-        this.disable(true);
-        this.mentions = this.mentions.filter(m => m.location.nativeElement.parentElement);
-        const message: Message = {
-            body: body,
-            recipients: this.mentions.map(ref => ref.instance.mentionedUser),
-            category: this.mentions.length === 0 ? 'SHOUTBOX' : 'PRIVATE'
-        } as Message;
-        this.message.emit([message, (success: boolean) => {
-            this.disable(false);
-            success === true && this.reset();
-            setTimeout(() => (this.chatInput.nativeElement as HTMLDivElement).focus(), 0);
-        }]);
+        // TODO uninstall in OnDestroy
+        new ResizeObserver(([entry, ..._]) => this.updateRecipients())
+            .observe(this.chatInputEl.nativeElement);
+
+        const {fontSize, fontFamily, paddingLeft, paddingRight, width, height} =
+            window.getComputedStyle(this.chatInputEl.nativeElement);
+
+        // TODO make part of ResizeObserver, maybe
+        this.dummyEl.nativeElement.style.fontSize = fontSize;
+        this.dummyEl.nativeElement.style.fontFamily = fontFamily;
+        this.dummyEl.nativeElement.style.paddingLeft = paddingLeft;
+        //this.dummyEl.nativeElement.style.whiteSpace = 'pre';
+        this.dummyEl.nativeElement.style.marginLeft = `-${this.chatInputEl.nativeElement.scrollLeft}px`;
+
+        // TODO make part of ResizeObserver
+        this.offsetsEl.nativeElement.style.width =
+            parseFloat(width) - parseFloat(paddingLeft) - parseFloat(paddingRight) + 'px';
+        this.offsetsEl.nativeElement.style.marginLeft = paddingLeft;
+        this.offsetsEl.nativeElement.style.marginRight = paddingRight;
+        this.offsetsEl.nativeElement.style.height = height;
     }
 
-    private disable(disable: boolean) {
-        this.submitting = disable;
-        this.mentions.forEach(value => value.instance.disabled = disable);
+    public complete(user, fromClick=false) {
+        const inpElem = this.chatInputEl.nativeElement;
+        const [q, v, caret] = this.getProc();
+        inpElem.value =
+            v.substring(0, caret - q.length)
+            + user.username
+            + inpElem.value.substring(caret);
+        this.suggestions = null;
+        fromClick && inpElem.focus();
+        inpElem.selectionStart = caret - q.length + user.username.length;
+        inpElem.selectionEnd = inpElem.selectionStart;
+        this.updateRecipients();
     }
 
-    private reset() {
-        this.chatInput.nativeElement.innerHTML = '';
-    }
+    public onKeydown(e) {
+        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
+        if (this.suggestions?.length && ['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
+            e.preventDefault();
+            const buttons = Array.from(this.suggestionsEl).map(el => el.nativeElement);
 
-    public async keyDown(e: ContentEditableKeyboardEvent) {
-        this.isMobileDevice && await new Promise((resolve, _) => setTimeout(() => resolve(), 100));
-        if (this.submitting) return;
-        if (e.target !== this.chatInput.nativeElement) return;
-        let selection = window.getSelection();
-        if (!(e.key === '@'
-            || (e.key === 'Unidentified'
-                && selection.anchorNode.textContent[selection.getRangeAt(0).startOffset - 1] === '@'))) {
-            return;
-        }
-
-        e.preventDefault();
-
-        const precedingChar = this.retrievePrecedingChar(e);
-        if (precedingChar !== "" && precedingChar !== "—" /* em-dash */ && precedingChar.match(/\s/) == null) {
-            return;
-        }
-
-        this.instantiateMention();
-
-        if (this.isMobileDevice) {
-            const orphanedAtSign = Array.from(e.target.childNodes)
-                .findIndex(n => n.nodeType === Node.TEXT_NODE && n.textContent.endsWith('@'));
-
-            if (orphanedAtSign + 1 < e.target.childNodes.length
-                    && Array.from(e.target.childNodes)[orphanedAtSign + 1].textContent.startsWith("@[m")) {
-                if (e.target.childNodes[orphanedAtSign].textContent === '@') {
-                    e.target.childNodes[orphanedAtSign].remove();
+            let active;
+            for (let i = 0; i < buttons.length; i++) {
+                if (buttons[i].classList.contains('active')) {
+                    active = i;
+                    break;
+                }
+            }
+            if (key === 'Enter') {
+                const user = this.suggestions.find(x => x.id == buttons[active].value);
+                if (user == null) return;
+                this.complete(user);
+            } else {
+                if (active == null) {
+                    buttons[0].classList.add('active');
                 } else {
-                    e.target.childNodes[orphanedAtSign].textContent =
-                        e.target.childNodes[orphanedAtSign].textContent
-                            .substring(0, e.target.childNodes[orphanedAtSign].textContent.length - 1);
+                    const up = key === 'ArrowUp' || (e.shiftKey && key === 'Tab')
+                    buttons[active].classList.remove('active');
+                    if (up && active == 0) {
+                        buttons[buttons.length-1].classList.add('active');
+                    } else {
+                        buttons[(active + (up ? -1 : +1)) % buttons.length].classList.add('active');
+                    }
                 }
             }
         }
+        this.updateRecipients();
     }
 
-    private retrievePrecedingChar(e: ContentEditableKeyboardEvent) {
-        let textToGoAbout;
-        if (this.isMobileDevice) {
-            if (e.target.textContent.length === 1) {
-                return '';
-            } else {
-                textToGoAbout = e.target.textContent.substring(e.target.textContent.length - 1);
-            }
-        } else {
-            textToGoAbout = e.target.textContent;
+    public onKeyup(e) {
+        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
+        if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter', 'Backspace', 'Delete'].includes(key)) {
+            this.suggest();
         }
-        return textToGoAbout.substring(window.getSelection().anchorOffset - 1);
+        this.updateRecipients();
     }
 
-    public onPaste(e: ClipboardEvent) {
-        document.execCommand("insertHTML", false, e.clipboardData.getData('text/plain'));
-        e.preventDefault();
+    public onInput(e) {
+        if (this.authUser == null) return;
+        this.suggest();
+        this.updateRecipients();
     }
 
-    public onCopy(e: ClipboardEvent) {
-        e.clipboardData.setData('text/plain', this.selectionToTextContent());
-        e.preventDefault();
-    }
+    private async updateRecipients() {
+        if (this.authUser == null) return;
 
-    public onCut(e: ClipboardEvent) {
-        e.clipboardData.setData('text/plain', this.selectionToTextContent(true));
-        e.preventDefault();
-    }
-
-    private selectionToTextContent(cut: boolean = false) {
-        const selection = window.getSelection();
-        const range = selection.getRangeAt(0);
-        const rememberedStartOffset = range.startOffset;
-        const rangeIsOneContainerOnly = range.startContainer === range.endContainer;
-        const middleNodes = [];
-        let textToCut = '';
-
-        let node: Node = null;
-        do {
-            node = node === null ? range.startContainer : node.nextSibling;
-
-            if (rangeIsOneContainerOnly) {
-                textToCut += node.textContent.split('').splice(range.startOffset, range.endOffset - range.startOffset).join('');
-            } else if (node === range.startContainer) {
-                textToCut += node.textContent.split('').splice(range.startOffset).join('');
-            } else if (node === range.endContainer) {
-                textToCut += node.textContent.split('').splice(0, range.endOffset).join('');
-            } else {
-                textToCut += node.textContent;
-                middleNodes.push(node);
-            }
-
-        } while (node !== range.endContainer);
-
-        function cutFromNodes(textContent: string, cutStart: number, cutCount?: number) {
-            const charArr = textContent.split('');
-            cutCount != null ? charArr.splice(cutStart, cutCount): charArr.splice(cutStart);
-            return charArr.join('');
+        const {value, scrollLeft} = this.chatInputEl.nativeElement;
+        const matchAll = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig));
+        const matches = [];
+        for (const m of matchAll) {
+             let user;
+             for (let i = 0; i < 2; i++) {
+                 user = this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase());
+                 if (user == null && !this.lazyLoadedSuggestions) {
+                    await this.lazyLoadAllSuggestions();
+                 }
+             }
+             if (user != null) {
+                 matches.push({ index: m.index, user });
+             }
         }
 
-        if (cut) {
-            middleNodes.forEach(n => n.parentNode.removeChild(n));
-            if (rangeIsOneContainerOnly) {
-                range.startContainer.textContent = cutFromNodes(
-                    range.startContainer.textContent, range.startOffset, range.endOffset - range.startOffset);
-            } else {
-                range.startContainer.textContent = cutFromNodes(range.startContainer.textContent, range.startOffset);
-                range.endContainer.textContent = cutFromNodes(range.endContainer.textContent, 0, range.endOffset);
+        this.recipients = matches.map(({user}) => user).filter((v,i,a) => a.indexOf(v) === i);
+        this.tags = matches.map(m => ({
+            user: m.user
+            style: {
+                width: `${this.getOffset(m.user.username)}px`
+                left: `${this.getOffset(value.substring(0, m.index))-12-scrollLeft}px`
             }
+        }));
+    }
 
-            const newRange = document.createRange();
-            newRange.collapse(true);
-            newRange.setStart(range.startContainer, rememberedStartOffset);
-            selection.removeAllRanges();
-            selection.addRange(newRange);
+    private getOffset(v: string) {
+        // TODO CSS white-space: pre; or &nbsp; who knows?
+        this.dummyEl.nativeElement.innerHTML = v.replaceAll(/\ /g, "&nbsp;"); // v;
+        const res = this.dummyEl.nativeElement.getBoundingClientRect().width;
+        return res;
+    }
+
+    private suggest() {
+        if (this.authUser == null) return;
+
+        const [q, v, caret] = this.getProc();
+        if (q == null) {
+            this.suggestions = null;
+            return;
         }
 
-        return this.convertContentEditableToRawTextContent(textToCut);
+        this.suggestions = this.allSuggestions
+            .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
+            .slice(0, 4);
+
+        this.lazyLoadAllSuggestions();
     }
 
-    private convertContentEditableToRawTextContent(textContent: string = this.chatInput.nativeElement.textContent): string {
-        let body: string = textContent;
-
-        body = body.trim();
-        body = body.replace(/(\[m.*?m])\n/g, "$1"); // Remove carriage return after mention.
-        body = body.replace(/\s+/g, " "); // Multiple whitespaces into one.
-        body = body.replace(/(@\[m.*?m])([^\s?!.…—-])/g, "$1 $2"); // I guess it's likely people forgot a space after the mention.
-        body = body.replace(/@\[m(.*?)m]/g, "@$1"); // Convert mention which is wrapped in `[m` and `m]` to simply `@Mention`.
-
-        return body;
+    private async lazyLoadAllSuggestions() {
+        if (this.lazyLoadedSuggestions) {
+            return;
+        }
+        await this.requestService.get<UserMinimalDto[]>("user", {minimal: true}).toPromise()
+            .then(users => this.allSuggestions.push(
+                ...users.filter(user =>
+                    !this.allSuggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)));
+        this.lazyLoadedSuggestions = true;
     }
 
-    private instantiateMention(): void {
-        const selection: Selection = window.getSelection();
-        const range: Range = selection.getRangeAt(0);
-        range.deleteContents();
-
-        const node: HTMLDivElement = document.createElement('div');
-        node.style.display = 'inline-block';
-        range.insertNode(node);
-
-        const factory: ComponentFactory<MentionComponent> = this.resolver.resolveComponentFactory(MentionComponent);
-        const ref: ComponentRef<MentionComponent> = factory.create(this.injector, [], node);
-
-        ref.instance.removeMention
-            .subscribe(() => {
-                ref.destroy();
-                this.chatInput.nativeElement.focus();
-            });
-        ref.instance.suggestedUsers = this.users;
-
-        this.mentions.push(ref);
-        this.app.attachView(ref.hostView);
+    /**
+     * Get current input typeahead process information.
+     *
+     * @param {string} Char just typed that's not yet part of the inputs
+     *   value at the moment of calling this method.
+     * @returns {Array} The current typeahead string and the string
+     *   until associated @ sign and the caret index.
+     */
+    private getProc() {
+        const {selectionStart, value} = this.chatInputEl.nativeElement;
+        const v = value.substring(0, selectionStart);
+        if (v.indexOf('@') === -1) return [null, v, selectionStart];
+        const rev = v.split("").reverse()
+        const qRev = rev.slice(0, rev.indexOf("@"))
+        const charBefAt = rev.slice(0, rev.indexOf("@")+2).pop();
+        if (charBefAt != null && ChatInputComponent.DELIMITER.test(charBefAt)) {
+            return [null, v, selectionStart];
+        }
+        const q = qRev.reverse().join('')
+        if (!ChatInputComponent.DELIMITER.test(q)) return [null, v, selectionStart]
+        return [q, v, selectionStart];
     }
 }

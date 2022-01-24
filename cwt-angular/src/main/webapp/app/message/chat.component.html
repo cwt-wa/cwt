@@ -1,34 +1,9 @@
 <div class="row" *ngIf="authUser && !hideInput">
-    <div class="col pr-0" id="chat-container">
-        <div id="chat-suggestions"
-             class="position-absolute"
-             style="top: 2.5rem;"
-             [ngStyle]="{'left': suggOffset+'px'}"
-             *ngIf="suggestions">
-            <div class="dropdown-menu p-0 overflow-hidden show">
-                <small class="form-text text-muted ml-2" *ngIf="!suggestions.length">No such user.</small>
-                <button *ngFor="let sugg of suggestions; let first = first;"
-                        class="dropdown-item" [class.active]="first"
-                        type="button" [value]="sugg.id" (click)="complete(sugg, true)">
-                    {{ sugg.username }}
-                </button>
-            </div>
-        </div>
-        <form>
-            <div class="input-group input-group">
-                <input type="text" name="chat-input" class="single-line form-control"
-                       #chatInput
-                       (keydown)="onKeydown($event)"
-                       (keyup)="onKeyup($event)"
-                       (input)="onInput($event)"
-                       id="chat-input">
-                <span class="input-group-append">
-                    <button class="btn btn-primary submit" type="button">
-                        <i class="fa fa-send"></i>
-                    </button>
-                </span>
-            </div>
-        </form>
+    <div class="col pr-0">
+        <cwt-chat-input *ngIf="messages"
+                        (message)="submit($event[0], $event[1])"
+                        [messages]="messages">
+        </cwt-chat-input>
     </div>
     <div class="col-auto pl-1">
         <div class="" ngbDropdown>

@@ -15,40 +15,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     @Input() hideInput: boolean = false;
     @Input() admin: boolean = false;
 
-    chatinputisset = false
-    @ViewChild('chatInput') set chatInput(elem: ElementRef<HTMLInputElement>) {
-        if (elem == null || this.chatinputisset) return;
-        this.chatinputisset = true;
-        this.authService.authState.then(user => {
-            if (!user) return;
-
-            document.addEventListener('click', e => {
-                if (e.target.id === 'chat-input') {
-                    this.suggest();
-                } else {
-                    this.suggestions = null;
-                }
-            });
-
-            new ResizeObserver(([entry, ..._]) => this.updateRecipients())
-                .observe(document.getElementById('chat-input'));
-        });
-        //this.chatInput = elem;
-    }
-
     filter: MessageCategory | null = null;
     authUser: JwtUser;
-    suggestions: UserMinimalDto[]? = null;
-    recipients: UserMinimalDto[] = [];
-    // TODO when pasting a PM there are potentially unqueried users
-    private allSuggestions: UserMinimalDto[] = [];
-    private lazyLoadedSuggestions: boolean = false;
+
     private readonly messagesSize = 30;
     private oldestMessage: number;
     private endpoint: string;
     private eventSource: EventSource;
-
-    private static readonly DELIMITER = /^[a-z0-9-_]*$/i;
 
     constructor(private requestService: RequestService,
                 private authService: AuthService,
@@ -57,9 +30,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     }
 
-    _messages: MessageDto[] = [];
+    _messages?: MessageDto[] = null;
 
     get messages(): MessageDto[] {
+        if (this._messages == null) return null;
         return (this.filter === null ? this._messages : this._messages.filter(m => m.category === this.filter))
             .sort((o1, o2) => new Date(o2.created).getTime() - new Date(o1.created).getTime());
     }
@@ -90,20 +64,6 @@ export class ChatComponent implements OnInit, OnDestroy {
             .get<MessageDto[]>(`${this.endpoint}`, {after: "0", size: this.messagesSize.toString()})
             .subscribe(res => {
                 this.messages = res;
-                const mm = this.messages;
-                this.allSuggestions = [
-                    mm.find(m => m.recipients.map(u => u.id).includes(this.authUser.id))?.author,
-                    ...(mm.find(m => m.author.id === this.authUser.id && m.recipients.length)?.recipients || []),
-                    ...(mm.map(m => m.author) || []),
-                    ...(mm.flatMap(m => m.recipients) || [])
-                ].reduce((acc, curr) => {
-                    if (curr != null
-                        && curr.id !== this.authUser.id
-                        && !acc.map(u => u.id).includes(curr.id)) {
-                        acc.push(curr);
-                    }
-                    return acc;
-                }, []);
                 this.setupEventSource();
             });
     }
@@ -112,191 +72,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (this.eventSource != null && this.eventSource.readyState !== 2) {
             this.eventSource.close();
         }
-    }
-
-    public complete(user, fromClick=false) {
-        const inpElem = document.getElementById('chat-input');
-        const [q, v, caret] = this.getProc();
-        inpElem.value =
-            v.substring(0, caret - q.length)
-            + user.username
-            + inpElem.value.substring(caret);
-        this.suggestions = null;
-        fromClick && inpElem.focus();
-        inpElem.selectionStart = caret - q.length + user.username.length;
-        inpElem.selectionEnd = inpElem.selectionStart;
-        this.updateRecipients();
-    }
-
-    public onInput(e) {
-        if (this.authUser == null) return;
-        this.suggest();
-        this.updateRecipients();
-    }
-
-    private async updateRecipients() {
-        if (this.authUser == null) return;
-
-        const {value, scrollLeft} = document.getElementById("chat-input");
-        const matchAll = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig));
-        const matches = [];
-        for (const m of matchAll) {
-             let user;
-             for (let i = 0; i < 2; i++) {
-                 user = this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase());
-                 if (user == null && !this.lazyLoadedSuggestions) {
-                    await this.lazyLoadAllSuggestions();
-                 }
-             }
-             if (user != null) {
-                 matches.push({ index: m.index, user });
-             }
-        }
-
-        this.recipients = matches.map(({user}) => user).filter((v,i,a) => a.indexOf(v) === i);
-
-        const elem = document.getElementById('chat-container');
-        Array.from(elem.getElementsByClassName("offset")).forEach(elem => elem.remove());
-
-        matches.forEach(match => {
-            const [width, x] = [
-                this.getOffset(match.user.username),
-                this.getOffset(value.substring(0, match.index))];
-            const offset = match.index === 0 ? 0 : 5; // 5 is an arbitrary offset
-            const offsetElem = document.createElement("div");
-            offsetElem.classList.add('offset');
-            offsetElem.style.width = `${width+5}px`;
-            offsetElem.style.left = `${x-scrollLeft+offset}px`;
-            elem.insertBefore(offsetElem, elem.firstChild);
-        });
-    }
-
-    private getOffset(v: string) {
-        const inpElem = document.getElementById('chat-input');
-        document.getElementById('dummy')?.remove();
-        inpElem.parentElement.insertAdjacentHTML(
-            'beforebegin',
-            `<span id='dummy'>${v}</span>`);
-        const dummyElem = document.getElementById('dummy');
-        const {fontSize, fontFamily, paddingLeft} = window.getComputedStyle(inpElem);
-        dummyElem.style.fontSize = fontSize;
-        dummyElem.style.fontFamily = fontFamily;
-        dummyElem.style.paddingLeft = paddingLeft;
-        dummyElem.style.whiteSpace = 'pre';
-        dummyElem.style.marginLeft = `-${inpElem.scrollLeft}px`;
-        const res = dummyElem.getBoundingClientRect().width;
-        dummyElem.remove();
-        return res;
-    }
-
-    public onKeydown(e) {
-        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        if (this.suggestions?.length && ['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
-            e.preventDefault();
-            const buttons = Array.from(document.querySelectorAll('#chat-suggestions button'));
-            let active;
-            for (let i = 0; i < buttons.length; i++) {
-                if (buttons[i].classList.contains('active')) {
-                    active = i;
-                    break;
-                }
-            }
-            if (key === 'Enter') {
-                const user = this.suggestions.find(x => x.id == buttons[active].value);
-                if (user == null) return;
-                this.complete(user);
-            } else {
-                if (active == null) {
-                    buttons[0].classList.add('active');
-                } else {
-                    const up = key === 'ArrowUp' || (e.shiftKey && key === 'Tab')
-                    buttons[active].classList.remove('active');
-                    if (up && active == 0) {
-                        buttons[buttons.length-1].classList.add('active');
-                    } else {
-                        buttons[(active + (up ? -1 : +1)) % buttons.length].classList.add('active');
-                    }
-                }
-            }
-        }
-        this.updateRecipients();
-    }
-
-    public onKeyup(e) {
-        const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
-        if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter', 'Backspace', 'Delete'].includes(key)) {
-            this.suggest();
-        }
-        this.updateRecipients();
-    }
-
-    private suggest() {
-        if (this.authUser == null) return;
-
-        const [q, v, caret] = this.getProc();
-        if (q == null) {
-            this.suggestions = null;
-            return;
-        }
-
-        // TODO can be combined with getOffset() method?
-        // suggestions box positioning
-        const inpElem = document.getElementById('chat-input');
-        inpElem.parentElement.insertAdjacentHTML(
-            'beforebegin',
-            `<span id='dummy'>${v.substring(0, v.length-q.length)}</span>`);
-        const dummyElem = document.getElementById('dummy');
-        const {fontSize, fontFamily} = window.getComputedStyle(inpElem);
-        dummyElem.style.fontSize = fontSize;
-        dummyElem.style.fontFamily = fontFamily;
-        dummyElem.style.paddingLeft = '17px';
-        dummyElem.style.whiteSpace = 'pre';
-        dummyElem.style.marginLeft = `-${inpElem.scrollLeft}px`;
-        const offset = 80;
-	    this.suggOffset = Math.min(
-            inpElem.getBoundingClientRect().width - offset,
-            dummyElem.getBoundingClientRect().width - inpElem.scrollLeft + offset) - offset;
-        dummyElem.remove();
-
-        this.suggestions = this.allSuggestions
-            .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
-            .slice(0, 4);
-
-        this.lazyLoadAllSuggestions();
-    }
-
-    private async lazyLoadAllSuggestions() {
-        if (this.lazyLoadedSuggestions) {
-            return;
-        }
-        await this.requestService.get<UserMinimalDto[]>("user", {minimal: true}).toPromise()
-            .then(users => this.allSuggestions.push(
-                ...users.filter(user =>
-                    !this.allSuggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)));
-        this.lazyLoadedSuggestions = true;
-    }
-
-    /**
-     * Get current input typeahead process information.
-     *
-     * @param {string} Char just typed that's not yet part of the inputs
-     *   value at the moment of calling this method.
-     * @returns {Array} The current typeahead string and the string
-     *   until associated @ sign and the caret index.
-     */
-    private getProc() {
-        const {selectionStart, value} = document.getElementById('chat-input');
-        const v = value.substring(0, selectionStart);
-        if (v.indexOf('@') === -1) return [null, v, selectionStart];
-        const rev = v.split("").reverse()
-        const qRev = rev.slice(0, rev.indexOf("@"))
-        const charBefAt = rev.slice(0, rev.indexOf("@")+2).pop();
-        if (charBefAt != null && ChatComponent.DELIMITER.test(charBefAt)) {
-            return [null, v, selectionStart];
-        }
-        const q = qRev.reverse().join('')
-        if (!ChatComponent.DELIMITER.test(q)) return [null, v, selectionStart]
-        return [q, v, selectionStart];
     }
 
     private setupEventSource() {
