@@ -137,11 +137,12 @@ export class ChatComponent implements OnInit, OnDestroy {
             .filter(m => m != null);
 
         if (lazyLoad && unknownUsernames.length) {
-            const fetchedUsers = await this.requestService
-                .get<User[]>("user", {username: unknownUsernames})
-                .toPromise()
+            const bef = this.allSuggestions.length;
+            await this.requestService.get<User[]>("user", {username: unknownUsernames}).toPromise()
                 .then(users => this.allSuggestions.push(...users.map(({id, username}) => ({id, username}))));
-            return;
+            if (this.allSuggestions.length > bef) {
+                return;
+            }
         }
 
         this.recipients = matches.map(({user}) => user).filter((v,i,a) => a.indexOf(v) === i);
