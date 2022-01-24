@@ -53,12 +53,16 @@ constructor(
 ) {
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun findAll(@RequestParam("term") term: String?, @RequestParam("username") usernames: List<String>?): ResponseEntity<List<User>> {
-        return when {
-            term != null -> ResponseEntity.ok(userService.findByUsernameContaining(term))
-            usernames != null -> ResponseEntity.ok(userService.findByUsernamesIgnoreCase(usernames))
-            else -> ResponseEntity.ok(userService.findAllOrderedByUsername())
+    fun findAll(@RequestParam("term") term: String?,
+                @RequestParam("username") usernames: List<String>?,
+                @RequestParam("minimal", defaultValue = "false") minimal: Boolean): ResponseEntity<List<*>> {
+        val result =  when {
+            term != null -> userService.findByUsernameContaining(term)
+            usernames != null -> userService.findByUsernamesIgnoreCase(usernames)
+            else -> userService.findAllOrderedByUsername()
         }
+        if (!minimal) return ResponseEntity.ok(result)
+        return ResponseEntity.ok(result.map { UserMinimalDto.toDto(it) })
     }
 
     @RequestMapping("/{id}/can-apply", method = [RequestMethod.GET])

@@ -22,9 +22,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.authService.authState.then(user => {
             if (!user) return;
 
-            this.requestService.get<UserMinimalDto[]>("message/suggestions")
-                .subscribe(res => this.allSuggestions = res);
-
             document.addEventListener('click', e => {
                 if (e.target.id === 'chat-input') {
                     this.suggest();
@@ -45,6 +42,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     recipients: UserMinimalDto[] = [];
     // TODO when pasting a PM there are potentially unqueried users
     private allSuggestions: UserMinimalDto[] = [];
+    private lazyLoadedSuggestions: boolean = false;
     private readonly messagesSize = 30;
     private oldestMessage: number;
     private endpoint: string;
@@ -92,6 +90,20 @@ export class ChatComponent implements OnInit, OnDestroy {
             .get<MessageDto[]>(`${this.endpoint}`, {after: "0", size: this.messagesSize.toString()})
             .subscribe(res => {
                 this.messages = res;
+                const mm = this.messages;
+                this.allSuggestions = [
+                    mm.find(m => m.recipients.map(u => u.id).includes(this.authUser.id))?.author,
+                    ...(mm.find(m => m.author.id === this.authUser.id && m.recipients.length)?.recipients || []),
+                    ...(mm.map(m => m.author) || []),
+                    ...(mm.flatMap(m => m.recipients) || [])
+                ].reduce((acc, curr) => {
+                    if (curr != null
+                        && curr.id !== this.authUser.id
+                        && !acc.map(u => u.id).includes(curr.id)) {
+                        acc.push(curr);
+                    }
+                    return acc;
+                }, []);
                 this.setupEventSource();
             });
     }
@@ -119,30 +131,26 @@ export class ChatComponent implements OnInit, OnDestroy {
     public onInput(e) {
         if (this.authUser == null) return;
         this.suggest();
+        this.updateRecipients();
     }
 
-    private async updateRecipients(lazyLoad=true) {
+    private async updateRecipients() {
+        if (this.authUser == null) return;
+
         const {value, scrollLeft} = document.getElementById("chat-input");
-
-        const unknownUsernames = [];
-        const matches = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig))
-            .map(m => {
-                const user = this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase());
-                if (user == null) {
-                    unknownUsernames.push(m[1]);
-                    return null;
-                }
-                return { index: m.index, user };
-            })
-            .filter(m => m != null);
-
-        if (lazyLoad && unknownUsernames.length) {
-            const bef = this.allSuggestions.length;
-            await this.requestService.get<User[]>("user", {username: unknownUsernames}).toPromise()
-                .then(users => this.allSuggestions.push(...users.map(({id, username}) => ({id, username}))));
-            if (this.allSuggestions.length > bef) {
-                return;
-            }
+        const matchAll = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig));
+        const matches = [];
+        for (const m of matchAll) {
+             let user;
+             for (let i = 0; i < 2; i++) {
+                 user = this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase());
+                 if (user == null && !this.lazyLoadedSuggestions) {
+                    await this.lazyLoadAllSuggestions();
+                 }
+             }
+             if (user != null) {
+                 matches.push({ index: m.index, user });
+             }
         }
 
         this.recipients = matches.map(({user}) => user).filter((v,i,a) => a.indexOf(v) === i);
@@ -223,6 +231,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     private suggest() {
+        if (this.authUser == null) return;
+
         const [q, v, caret] = this.getProc();
         if (q == null) {
             this.suggestions = null;
@@ -248,18 +258,22 @@ export class ChatComponent implements OnInit, OnDestroy {
             dummyElem.getBoundingClientRect().width - inpElem.scrollLeft + offset) - offset;
         dummyElem.remove();
 
-        this.suggestions = (this.suggestions || [])
+        this.suggestions = this.allSuggestions
             .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
+            .slice(0, 4);
 
-        if (this.suggestions.length < 4) {
-            this.loadingSuggestions = true;
-            this.requestService.get<UserMinimalDto[]>("message/suggestions", {q})
-                .pipe(finalize(() => this.loadingSuggestions = false))
-                .subscribe(res => {
-                    this.allSuggestions.push(...res);
-                    this.suggestions = res.slice(0, 5);
-                });
+        this.lazyLoadAllSuggestions();
+    }
+
+    private async lazyLoadAllSuggestions() {
+        if (this.lazyLoadedSuggestions) {
+            return;
         }
+        await this.requestService.get<UserMinimalDto[]>("user", {minimal: true}).toPromise()
+            .then(users => this.allSuggestions.push(
+                ...users.filter(user =>
+                    !this.allSuggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)));
+        this.lazyLoadedSuggestions = true;
     }
 
     /**
