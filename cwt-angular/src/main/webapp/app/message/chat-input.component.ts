@@ -84,6 +84,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit {
     private authUser: JwtUser;
     private allSuggestions: UserMinimalDto[] = [];
     private lazyLoadedSuggestions: boolean = false;
+    private paddingLeft: number = 0;
 
     constructor(private requestService: RequestService,
                 private authService: AuthService) {
@@ -130,12 +131,13 @@ export class ChatInputComponent implements OnInit, AfterViewInit {
         this.dummyEl.nativeElement.style.fontSize = fontSize;
         this.dummyEl.nativeElement.style.fontFamily = fontFamily;
         this.dummyEl.nativeElement.style.paddingLeft = paddingLeft;
-        //this.dummyEl.nativeElement.style.whiteSpace = 'pre';
+        this.dummyEl.nativeElement.style.whiteSpace = 'pre';
         this.dummyEl.nativeElement.style.marginLeft = `-${this.chatInputEl.nativeElement.scrollLeft}px`;
 
         // TODO make part of ResizeObserver
+        this.paddingLeft = parseFloat(paddingLeft);
         this.offsetsEl.nativeElement.style.width =
-            parseFloat(width) - parseFloat(paddingLeft) - parseFloat(paddingRight) + 'px';
+            parseFloat(width) - this.paddingLeft - parseFloat(paddingRight) + 'px';
         this.offsetsEl.nativeElement.style.marginLeft = paddingLeft;
         this.offsetsEl.nativeElement.style.marginRight = paddingRight;
         this.offsetsEl.nativeElement.style.height = height;
@@ -218,24 +220,24 @@ export class ChatInputComponent implements OnInit, AfterViewInit {
                  }
              }
              if (user != null) {
-                 matches.push({ index: m.index, user });
+                 matches.push({ index: m.index + m[0].indexOf('@'), user });
              }
         }
 
         this.recipients = matches.map(({user}) => user).filter((v,i,a) => a.indexOf(v) === i);
         this.tags = matches.map(m => ({
-            user: m.user
+            user: m.user,
             style: {
-                width: `${this.getOffset(m.user.username)}px`
-                left: `${this.getOffset(value.substring(0, m.index))-12-scrollLeft}px`
+                width: `${this.getOffset(m.user.username)+4}px`, // 4 is arbitrary width increase
+                left: `${this.getOffset(value.substring(0, m.index))-this.paddingLeft-scrollLeft}px`,
             }
         }));
     }
 
     private getOffset(v: string) {
-        // TODO CSS white-space: pre; or &nbsp; who knows?
-        this.dummyEl.nativeElement.innerHTML = v.replaceAll(/\ /g, "&nbsp;"); // v;
+        this.dummyEl.nativeElement.textContent = v;
         const res = this.dummyEl.nativeElement.getBoundingClientRect().width;
+        // TODO remove dummy
         return res;
     }
 
