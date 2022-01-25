@@ -25,7 +25,7 @@
     <div #dummy class="d-inline"></div>
     <div class="dropdown-menu suggestions p-0 overflow-hidden"
          #dropdown [class.show]="suggestions">
-        <small class="form-text text-muted ml-2" *ngIf="!suggestions?.length">No such user.</small>
+        <small class="form-text text-muted mx-1" *ngIf="!suggestions?.length">No such user.</small>
         <button *ngFor="let sugg of suggestions; let first = first;"
                 #suggestions
                 class="dropdown-item px-2" [class.active]="first"
