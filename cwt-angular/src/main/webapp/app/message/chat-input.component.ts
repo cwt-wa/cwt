@@ -85,6 +85,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     suggestions: UserMinimalDto[]? = null;
     recipients: UserMinimalDto[] = [];
     tags = [];
+    disabled = false;
 
     private authUser: JwtUser;
     private allSuggestions: UserMinimalDto[] = [];
@@ -139,6 +140,25 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy() {
         this.resizeObserver.disconnect();
         document.removeEventListener('click', this.documentClickListener);
+    }
+
+    public submit() {
+        this.disabled = true;
+        const message = {
+            body: this.chatInputEl.nativeElement.value,
+            recipients: this.recipients,
+            category: this.recipients?.length ? 'PRIVATE' : 'SHOUTBOX',
+        };
+        this.message.emit([message, (success: boolean) => {
+            this.disabled = false;
+            if (success) {
+                this.recipients = [];
+                this.tags = [];
+                this.suggestions = null;
+                this.chatInputEl.nativeElement.value = '';
+            }
+            setTimeout(() => this.chatInputEl.nativeElement.focus());
+        }]);
     }
 
     private styleOffsetsEl() {
