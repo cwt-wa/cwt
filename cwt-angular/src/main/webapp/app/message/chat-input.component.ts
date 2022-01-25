@@ -33,7 +33,6 @@ import {Utils} from "../_util/utils";
             position: absolute;
         }
         .offsets {
-            border: 1px solid red;
             position: absolute;
             pointer-events: none;
             overflow: hidden;
