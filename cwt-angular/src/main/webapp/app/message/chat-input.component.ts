@@ -142,19 +142,18 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private styleOffsetsEl() {
-        const {paddingLeft, paddingRight, width, height} =
-            window.getComputedStyle(this.chatInputEl.nativeElement);
+        const {width, height} = this.chatInputEl.nativeElement.getBoundingClientRect();
+        const {paddingLeft, paddingRight} = window.getComputedStyle(this.chatInputEl.nativeElement);
         this.paddingLeft = parseFloat(paddingLeft);
         this.offsetsEl.nativeElement.style.width =
-            parseFloat(width) - this.paddingLeft - parseFloat(paddingRight) + 'px';
+            width - this.paddingLeft - parseFloat(paddingRight) + 'px';
         this.offsetsEl.nativeElement.style.marginLeft = paddingLeft;
         this.offsetsEl.nativeElement.style.marginRight = paddingRight;
-        this.offsetsEl.nativeElement.style.height = height;
+        this.offsetsEl.nativeElement.style.height = height + 'px';
     }
 
     private styleDummyEl() {
-        const {fontSize, fontFamily, paddingLeft} =
-            window.getComputedStyle(this.chatInputEl.nativeElement);
+        const {fontSize, fontFamily, paddingLeft} = window.getComputedStyle(this.chatInputEl.nativeElement);
         this.dummyEl.nativeElement.style.fontSize = fontSize;
         this.dummyEl.nativeElement.style.fontFamily = fontFamily;
         this.dummyEl.nativeElement.style.whiteSpace = 'pre';
