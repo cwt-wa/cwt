@@ -22,17 +22,15 @@
              [attr.data-username]="tag.user.username">
         </div>
     </div>
-    <div #dummy class="d-inline-block">Hey there.</div>
-    <div [ngStyle]="{'left': suggOffset+'px'}"
-         *ngIf="suggestions">
-        <div class="dropdown-menu p-0 overflow-hidden show">
-            <small class="form-text text-muted ml-2" *ngIf="!suggestions.length">No such user.</small>
-            <button *ngFor="let sugg of suggestions; let first = first;"
-                    #suggestions
-                    class="dropdown-item" [class.active]="first"
-                    type="button" [value]="sugg.id" (click)="complete(sugg, true)">
-                {{ sugg.username }}
-            </button>
-        </div>
+    <div #dummy class="d-inline"></div>
+    <div class="dropdown-menu suggestions p-0 overflow-hidden"
+         #dropdown [class.show]="suggestions">
+        <small class="form-text text-muted ml-2" *ngIf="!suggestions?.length">No such user.</small>
+        <button *ngFor="let sugg of suggestions; let first = first;"
+                #suggestions
+                class="dropdown-item px-2" [class.active]="first"
+                type="button" [value]="sugg.id" (click)="complete(sugg, true)">
+            {{ sugg.username }}
+        </button>
     </div>
 </div>

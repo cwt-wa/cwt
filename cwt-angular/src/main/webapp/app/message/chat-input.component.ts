@@ -29,8 +29,10 @@ import {Utils} from "../_util/utils";
         .chat-container {
             position: relative;
         }
-        .chat-suggestions {
-            position: absolute;
+        .suggestions {
+            min-width: auto;
+            background-clip: border-box;
+            box-shadow: .4rem .9rem 1.5rem #000;
         }
         .offsets {
             position: absolute;
@@ -70,6 +72,9 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild("offsets")
     private offsetsEl: ElementRef<HTMLDivElement>;
+
+    @ViewChild("dropdown")
+    private dropdownEl: ElementRef<HTMLDivElement>;
 
     @ViewChildren("suggestions")
     private suggestionsEl: QueryList<ElementRef<HTMLDivElement>>;
@@ -117,12 +122,16 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
+        this.styleOffsetsEl();
+        this.styleDummyEl();
+
         document.addEventListener('click', this.documentClickListener);
 
         this.resizeObserver = new ResizeObserver(([entry, ..._]) => {
             this.updateRecipients();
             this.styleOffsetsEl();
             this.styleDummyEl();
+            this.styleDropdownEl();
         });
         this.resizeObserver.observe(this.chatInputEl.nativeElement);
     }
@@ -148,9 +157,18 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
             window.getComputedStyle(this.chatInputEl.nativeElement);
         this.dummyEl.nativeElement.style.fontSize = fontSize;
         this.dummyEl.nativeElement.style.fontFamily = fontFamily;
-        this.dummyEl.nativeElement.style.paddingLeft = paddingLeft;
         this.dummyEl.nativeElement.style.whiteSpace = 'pre';
-        this.dummyEl.nativeElement.style.marginLeft = `-${this.chatInputEl.nativeElement.scrollLeft}px`;
+    }
+
+    private styleDropdownEl(q=null, v=null) {
+        if (this.dropdownEl?.nativeElement == null) return;
+        if (q == null || v == null) {
+            [q, v] = this.getProc();
+        }
+        if (q == null || v == null) return;
+        this.dropdownEl.nativeElement.style.left = Math.min(
+            this.getOffset(v.substring(0, v.length-q.length)) - this.chatInputEl.nativeElement.scrollLeft,
+            window.innerWidth - 200) + 'px';
     }
 
     public complete(user, fromClick=false) {
@@ -246,19 +264,29 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private getOffset(v: string) {
         this.dummyEl.nativeElement.textContent = v;
+        this.dummyEl.nativeElement.style.paddingLeft = `${this.paddingLeft}px`;
+        // scrollLeft is subtracted in the result, it's done here just for visual reasons when debugging
+        this.dummyEl.nativeElement.style.marginLeft = `-${this.chatInputEl.nativeElement.scrollLeft}px`;
         const res = this.dummyEl.nativeElement.getBoundingClientRect().width;
-        // TODO remove dummy
+
+        // visually hide in conjuction with inline display the element loses any dimensionality
+        this.dummyEl.nativeElement.style.paddingLeft = '0';
+        this.dummyEl.nativeElement.style.marginLeft = '0';
+        this.dummyEl.nativeElement.innerHTML = '';
+
         return res;
     }
 
     private suggest() {
         if (this.authUser == null) return;
 
-        const [q, v, caret] = this.getProc();
+        const [q, v, _] = this.getProc();
         if (q == null) {
             this.suggestions = null;
             return;
         }
+
+        this.styleDropdownEl(q,v);
 
         this.suggestions = this.allSuggestions
             .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
