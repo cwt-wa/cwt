@@ -228,14 +228,11 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public onInput(e) {
-        if (this.authUser == null) return;
         this.suggest();
         this.updateRecipients();
     }
 
     private async updateRecipients() {
-        if (this.authUser == null) return;
-
         const {value, scrollLeft} = this.chatInputEl.nativeElement;
         const matchAll = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig));
         const matches = [];
@@ -278,8 +275,6 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private suggest() {
-        if (this.authUser == null) return;
-
         const [q, v, _] = this.getProc();
         if (q == null) {
             this.suggestions = null;
