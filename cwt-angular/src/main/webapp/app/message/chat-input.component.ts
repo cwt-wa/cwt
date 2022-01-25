@@ -10,6 +10,7 @@ import {
     OnInit,
     Output,
     Input,
+    OnDestroy,
     ViewChild,
     ViewChildren,
     AfterViewInit,
@@ -52,7 +53,7 @@ import {Utils} from "../_util/utils";
         }
     `]
 })
-export class ChatInputComponent implements OnInit, AfterViewInit {
+export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private static readonly DELIMITER = /^[a-z0-9-_]*$/i;
 
@@ -85,6 +86,12 @@ export class ChatInputComponent implements OnInit, AfterViewInit {
     private allSuggestions: UserMinimalDto[] = [];
     private lazyLoadedSuggestions: boolean = false;
     private paddingLeft: number = 0;
+    private resizeObserver: ResizeObserver;
+    private documentClickListener = (e: ClickEvent) => {
+        e.target.id === 'chat-input'
+            ? this.suggest()
+            : (this.suggestions = null);
+    }
 
     constructor(private requestService: RequestService,
                 private authService: AuthService) {
@@ -111,36 +118,40 @@ export class ChatInputComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // TODO uninstall in OnDestroy
-        document.addEventListener('click', e => {
-            if (e.target.id === 'chat-input') {
-                this.suggest();
-            } else {
-                this.suggestions = null;
-            }
+        document.addEventListener('click', this.documentClickListener);
+
+        this.resizeObserver = new ResizeObserver(([entry, ..._]) => {
+            this.updateRecipients();
+            this.styleOffsetsEl();
+            this.styleDummyEl();
         });
+        this.resizeObserver.observe(this.chatInputEl.nativeElement);
+    }
 
-        // TODO uninstall in OnDestroy
-        new ResizeObserver(([entry, ..._]) => this.updateRecipients())
-            .observe(this.chatInputEl.nativeElement);
+    ngOnDestroy() {
+        this.resizeObserver.disconnect();
+        document.removeEventListener('click', this.documentClickListener);
+    }
 
-        const {fontSize, fontFamily, paddingLeft, paddingRight, width, height} =
+    private styleOffsetsEl() {
+        const {paddingLeft, paddingRight, width, height} =
             window.getComputedStyle(this.chatInputEl.nativeElement);
-
-        // TODO make part of ResizeObserver, maybe
-        this.dummyEl.nativeElement.style.fontSize = fontSize;
-        this.dummyEl.nativeElement.style.fontFamily = fontFamily;
-        this.dummyEl.nativeElement.style.paddingLeft = paddingLeft;
-        this.dummyEl.nativeElement.style.whiteSpace = 'pre';
-        this.dummyEl.nativeElement.style.marginLeft = `-${this.chatInputEl.nativeElement.scrollLeft}px`;
-
-        // TODO make part of ResizeObserver
         this.paddingLeft = parseFloat(paddingLeft);
         this.offsetsEl.nativeElement.style.width =
             parseFloat(width) - this.paddingLeft - parseFloat(paddingRight) + 'px';
         this.offsetsEl.nativeElement.style.marginLeft = paddingLeft;
         this.offsetsEl.nativeElement.style.marginRight = paddingRight;
         this.offsetsEl.nativeElement.style.height = height;
+    }
+
+    private styleDummyEl() {
+        const {fontSize, fontFamily, paddingLeft} =
+            window.getComputedStyle(this.chatInputEl.nativeElement);
+        this.dummyEl.nativeElement.style.fontSize = fontSize;
+        this.dummyEl.nativeElement.style.fontFamily = fontFamily;
+        this.dummyEl.nativeElement.style.paddingLeft = paddingLeft;
+        this.dummyEl.nativeElement.style.whiteSpace = 'pre';
+        this.dummyEl.nativeElement.style.marginLeft = `-${this.chatInputEl.nativeElement.scrollLeft}px`;
     }
 
     public complete(user, fromClick=false) {
