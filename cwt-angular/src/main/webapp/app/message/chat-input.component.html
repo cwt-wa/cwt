@@ -22,7 +22,7 @@
              [attr.data-username]="tag.user.username">
         </div>
     </div>
-    <div #dummy class="d-inline"></div>
+    <div #dummy class="dummy d-inline"></div>
     <div class="dropdown-menu suggestions p-0 overflow-hidden"
          #dropdown [class.show]="suggestions">
         <small class="form-text text-muted mx-1" *ngIf="!suggestions?.length">No such user.</small>

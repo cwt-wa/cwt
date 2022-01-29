@@ -26,6 +26,12 @@ import {Utils} from "../_util/utils";
     selector: 'cwt-chat-input',
     template: require('./chat-input.component.html'),
     styles: [`
+        .dummy {
+            position: absolute;
+            visibility: hidden;
+            pointer-events: none;
+            white-space: pre;
+        }
         .chat-container {
             position: relative;
         }
@@ -92,6 +98,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     private lazyLoadedSuggestions: boolean = false;
     private paddingLeft: number = 0;
     private resizeObserver: ResizeObserver;
+    private scrollLeft = 0;
     private documentClickListener = (e: ClickEvent) => {
         e.target.name === 'chat-input'
             ? this.suggest()
@@ -129,12 +136,23 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         document.addEventListener('click', this.documentClickListener);
 
         this.resizeObserver = new ResizeObserver(([entry, ..._]) => {
-            this.updateRecipients();
-            this.styleOffsetsEl();
-            this.styleDummyEl();
-            this.styleDropdownEl();
+            window.requestAnimationFrame(() => {
+                this.updateRecipients();
+                this.styleOffsetsEl();
+                this.styleDummyEl();
+                this.styleDropdownEl();
+            });
         });
         this.resizeObserver.observe(this.chatInputEl.nativeElement);
+
+        setInterval(() => {
+            const scrollLeft = this.chatInputEl.nativeElement.scrollLeft;
+            if (scrollLeft === this.scrollLeft) return;
+            window.requestAnimationFrame(() => {
+                this.updateRecipients();
+                this.scrollLeft = scrollLeft;
+            });
+        });
     }
 
     ngOnDestroy() {
@@ -176,7 +194,6 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         const {fontSize, fontFamily, paddingLeft} = window.getComputedStyle(this.chatInputEl.nativeElement);
         this.dummyEl.nativeElement.style.fontSize = fontSize;
         this.dummyEl.nativeElement.style.fontFamily = fontFamily;
-        this.dummyEl.nativeElement.style.whiteSpace = 'pre';
     }
 
     private styleDropdownEl(q=null, v=null) {
@@ -235,7 +252,6 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             }
         }
-        this.updateRecipients();
     }
 
     public onKeyup(e) {
@@ -243,12 +259,11 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter', 'Backspace', 'Delete'].includes(key)) {
             this.suggest();
         }
-        this.updateRecipients();
     }
 
     public onInput(e) {
         this.suggest();
-        this.updateRecipients();
+        setTimeout(() => this.updateRecipients());
     }
 
     private async updateRecipients() {
@@ -283,13 +298,9 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dummyEl.nativeElement.style.paddingLeft = `${this.paddingLeft}px`;
         // scrollLeft is subtracted in the result, it's done here just for visual reasons when debugging
         this.dummyEl.nativeElement.style.marginLeft = `-${this.chatInputEl.nativeElement.scrollLeft}px`;
+
         const res = this.dummyEl.nativeElement.getBoundingClientRect().width;
-
-        // visually hide in conjuction with inline display the element loses any dimensionality
-        this.dummyEl.nativeElement.style.paddingLeft = '0';
-        this.dummyEl.nativeElement.style.marginLeft = '0';
         this.dummyEl.nativeElement.innerHTML = '';
-
         return res;
     }
 
