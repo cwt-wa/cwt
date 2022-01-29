@@ -100,7 +100,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     private resizeObserver: ResizeObserver;
     private scrollLeft = 0;
     private documentClickListener = (e: ClickEvent) => {
-        e.target.name === 'chat-input'
+        e.target === this.chatInputEl.nativeElement
             ? this.suggest()
             : (this.suggestions = null);
     }
