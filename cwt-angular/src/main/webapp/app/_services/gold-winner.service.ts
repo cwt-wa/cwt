@@ -18,10 +18,9 @@ export class GoldWinnerService {
 
     doHighlight(currentTournament: TournamentDetailDto, authUser: JwtUser): boolean {
         const userIsGoldWinner =
-            currentTournament
+            currentTournament != null && authUser != null
             && currentTournament.status === 'FINISHED'
-            && currentTournament.goldWinner
-            && currentTournament.goldWinner.id === authUser.id;
+            && currentTournament.goldWinner?.id === authUser.id;
         if (userIsGoldWinner) {
             document.body.classList.add('goldWinner');
         }
