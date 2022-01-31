@@ -1,12 +1,7 @@
 import {
-    ApplicationRef,
-    Component,
-    ComponentFactory,
-    ComponentFactoryResolver,
-    ComponentRef,
     ElementRef,
     EventEmitter,
-    Injector,
+    Component,
     OnInit,
     Output,
     Input,
@@ -16,11 +11,9 @@ import {
     AfterViewInit,
     QueryList
 } from '@angular/core';
-import {MentionComponent} from './mention.component';
-import {Message, User} from "../custom";
+import {Message, UserMinimalDto, MessageDto, JwtUser} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {RequestService} from "../_services/request.service";
-import {Utils} from "../_util/utils";
 
 @Component({
     selector: 'cwt-chat-input',
@@ -88,24 +81,22 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren("suggestions")
     private suggestionsEl: QueryList<ElementRef<HTMLDivElement>>;
 
-    @ViewChildren("recipients")
-    private recipientsEl: QueryList<ElementRef<HTMLDivElement>>;
-
-    suggestions: UserMinimalDto[]? = null;
+    suggestions: UserMinimalDto[] = null;
     recipients: UserMinimalDto[] = [];
-    tags = [];
+    tags: {user: UserMinimalDto, style: {width: string; left: string}}[] = [];
     disabled = false;
     suggestionsSlice = 4;
 
     private authUser: JwtUser;
     private allSuggestions: UserMinimalDto[] = [];
+    private lazyLoadedSuggestions: boolean = false;
     private lazyLoadingSuggestions: boolean = false;
     private lazySuggestionsResolver: () => void;
     private lazySuggestionsPromise: Promise<void>;
     private paddingLeft: number = 0;
     private resizeObserver: ResizeObserver;
     private scrollLeft = 0;
-    private documentClickListener = (e: ClickEvent) => {
+    private documentClickListener = (e: MouseEvent) => {
         e.target === this.chatInputEl.nativeElement
             ? this.suggest()
             : (this.suggestions = null);
@@ -142,7 +133,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
         document.addEventListener('click', this.documentClickListener);
 
-        this.resizeObserver = new ResizeObserver(([entry, ..._]) => {
+        this.resizeObserver = new ResizeObserver(() => {
             window.requestAnimationFrame(() => {
                 this.updateRecipients();
                 this.styleOffsetsEl();
@@ -173,7 +164,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
             body: this.chatInputEl.nativeElement.value,
             recipients: this.recipients,
             category: this.recipients?.length ? 'PRIVATE' : 'SHOUTBOX',
-        };
+        } as Message;
         this.message.emit([message, (success: boolean) => {
             this.disabled = false;
             if (success) {
@@ -198,12 +189,12 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private styleDummyEl() {
-        const {fontSize, fontFamily, paddingLeft} = window.getComputedStyle(this.chatInputEl.nativeElement);
+        const {fontSize, fontFamily} = window.getComputedStyle(this.chatInputEl.nativeElement);
         this.dummyEl.nativeElement.style.fontSize = fontSize;
         this.dummyEl.nativeElement.style.fontFamily = fontFamily;
     }
 
-    private styleDropdownEl(q=null, v=null) {
+    private styleDropdownEl(q: string = null, v: string = null) {
         if (this.dropdownEl?.nativeElement == null) return;
         if (q == null || v == null) {
             [q, v] = this.getProc();
@@ -214,7 +205,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
             window.innerWidth - 200) + 'px';
     }
 
-    public complete(user, fromClick=false) {
+    public complete(user: UserMinimalDto, fromClick: boolean = false) {
         const inpElem = this.chatInputEl.nativeElement;
         const [q, v, caret] = this.getProc();
         inpElem.value =
@@ -228,13 +219,14 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         this.updateRecipients();
     }
 
-    public onKeydown(e) {
+    public onKeydown(e: KeyboardEvent) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
         if (this.suggestions?.length && ['ArrowDown', 'ArrowUp', 'Tab', 'Enter'].includes(key)) {
             e.preventDefault();
-            const buttons = Array.from(this.suggestionsEl).map(el => el.nativeElement);
+            const buttons = Array.from(this.suggestionsEl as unknown as Iterable<ElementRef>)
+                    .map(el => el.nativeElement);
 
-            let active;
+            let active: number;
             for (let i = 0; i < buttons.length; i++) {
                 if (buttons[i].classList.contains('active')) {
                     active = i;
@@ -261,14 +253,14 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    public onKeyup(e) {
+    public onKeyup(e: KeyboardEvent) {
         const key = e.key === 'Unidentified' ? String.fromCharCode(e.which) : e.key;
         if (key.length > 1 && !['ArrowDown', 'ArrowUp', 'Tab', 'Enter', 'Backspace', 'Delete'].includes(key)) {
             this.suggest();
         }
     }
 
-    public onInput(e) {
+    public onInput() {
         this.suggest();
         setTimeout(() => this.updateRecipients());
     }
@@ -311,7 +303,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private suggest() {
-        const [q, v, _] = this.getProc();
+        const [q, v,] = this.getProc();
         if (q == null) {
             this.suggestions = null;
             return;
@@ -335,7 +327,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
             return this.lazySuggestionsPromise;
         }
         this.lazyLoadingSuggestions = true;
-        return this.requestService.get<UserMinimalDto[]>("user", {minimal: true}).toPromise()
+        return this.requestService.get<UserMinimalDto[]>("user", {minimal: "true"}).toPromise()
             .then(users => this.allSuggestions.push(
                 ...users.filter(user =>
                     !this.allSuggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)))
@@ -354,7 +346,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
      * @returns {Array} The current typeahead string and the string
      *   until associated @ sign and the caret index.
      */
-    private getProc() {
+    private getProc(): [string, string, number] {
         const {selectionStart, value} = this.chatInputEl.nativeElement;
         const v = value.substring(0, selectionStart);
         if (v.indexOf('@') === -1) return [null, v, selectionStart];

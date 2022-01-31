@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "es5",
+    "target": "es6",
     "moduleResolution": "node",
     "lib": [
-      "es2015",
+      "es2020",
       "dom"
     ],
     "emitDecoratorMetadata": true,
@@ -20,7 +20,8 @@
     "experimentalDecorators": true,
     "types": [
       "node",
-      "jasmine"
+      "jasmine",
+      "resize-observer-browser"
     ]
   },
   "include": [
