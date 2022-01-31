@@ -40,6 +40,9 @@ import {Utils} from "../_util/utils";
             background-clip: border-box;
             box-shadow: .4rem .9rem 1.5rem #000;
         }
+        .suggestions img {
+            height: 1rem;
+        }
         .offsets {
             position: absolute;
             pointer-events: none;
@@ -92,10 +95,13 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     recipients: UserMinimalDto[] = [];
     tags = [];
     disabled = false;
+    suggestionsSlice = 4;
 
     private authUser: JwtUser;
     private allSuggestions: UserMinimalDto[] = [];
-    private lazyLoadedSuggestions: boolean = false;
+    private lazyLoadingSuggestions: boolean = false;
+    private lazySuggestionsResolver: () => void;
+    private lazySuggestionsPromise: Promise<void>;
     private paddingLeft: number = 0;
     private resizeObserver: ResizeObserver;
     private scrollLeft = 0;
@@ -107,6 +113,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private requestService: RequestService,
                 private authService: AuthService) {
+        this.lazySuggestionsPromise = new Promise((resolve, _) => this.lazySuggestionsResolver = resolve);
     }
 
     ngOnInit(): void {
@@ -271,12 +278,11 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         const matchAll = Array.from(value.matchAll(/(?:^|[^a-z0-9-_])@([a-z0-9-_]+)/ig));
         const matches = [];
         for (const m of matchAll) {
-             let user;
-             for (let i = 0; i < 2; i++) {
+             let user = this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase());
+             if (user == null) {
+                 await this.lazyLoadAllSuggestions();
+                 // TODO double houble
                  user = this.allSuggestions.find(u => u.username.toLowerCase() === m[1].toLowerCase());
-                 if (user == null && !this.lazyLoadedSuggestions) {
-                    await this.lazyLoadAllSuggestions();
-                 }
              }
              if (user != null) {
                  matches.push({ index: m.index + m[0].indexOf('@'), user });
@@ -313,22 +319,31 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.styleDropdownEl(q,v);
 
+        console.log('bef', this.allSuggestions.length, q);
         this.suggestions = this.allSuggestions
             .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
-            .slice(0, 4);
+            .slice(0, this.suggestionsSlice);
 
-        this.lazyLoadAllSuggestions();
+        if (!this.lazyLoadedSuggestions && !this.lazyLoadingSuggestions) {
+            this.lazyLoadAllSuggestions().then(this.suggest.bind(this));
+        }
     }
 
-    private async lazyLoadAllSuggestions() {
-        if (this.lazyLoadedSuggestions) {
-            return;
+    private lazyLoadAllSuggestions() {
+        if (this.lazyLoadedSuggestions) return Promise.resolve();
+        if (this.lazyLoadingSuggestions) {
+            return this.lazySuggestionsPromise;
         }
-        await this.requestService.get<UserMinimalDto[]>("user", {minimal: true}).toPromise()
+        this.lazyLoadingSuggestions = true;
+        return this.requestService.get<UserMinimalDto[]>("user", {minimal: true}).toPromise()
             .then(users => this.allSuggestions.push(
                 ...users.filter(user =>
-                    !this.allSuggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)));
-        this.lazyLoadedSuggestions = true;
+                    !this.allSuggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)))
+            .then(() => this.lazySuggestionsResolver())
+            .finally(() => {
+                this.lazyLoadedSuggestions = true
+                this.lazyLoadingSuggestions = false;
+            });
     }
 
     /**

@@ -25,13 +25,17 @@
     <div #dummy class="dummy d-inline"></div>
     <div class="dropdown-menu suggestions p-0 overflow-hidden"
          #dropdown [class.show]="suggestions">
-        <small class="form-text text-muted mx-1" *ngIf="!suggestions?.length">No such user.</small>
+        <small class="form-text text-muted mx-2"
+               *ngIf="!suggestions?.length && !lazyLoadingSuggestions">No such user.</small>
         <button *ngFor="let sugg of suggestions; let first = first;"
                 #suggestions
                 class="dropdown-item px-2" [class.active]="first"
                 type="button" [value]="sugg.id" (click)="complete(sugg, true)">
             {{ sugg.username }}
         </button>
+        <img *ngIf="lazyLoadingSuggestions && suggestions?.length < suggestionsSlice"
+             class="mx-2"
+             src="../../img/loading.gif"/>
     </div>
 </div>
 
