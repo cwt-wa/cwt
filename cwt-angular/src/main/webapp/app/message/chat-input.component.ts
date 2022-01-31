@@ -311,7 +311,6 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.styleDropdownEl(q,v);
 
-        console.log('bef', this.allSuggestions.length, q);
         this.suggestions = this.allSuggestions
             .filter(({username}) => username.toLowerCase().startsWith(q.toLowerCase()))
             .slice(0, this.suggestionsSlice);
