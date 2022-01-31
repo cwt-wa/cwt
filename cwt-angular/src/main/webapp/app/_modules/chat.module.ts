@@ -6,7 +6,6 @@ import {ChatInputComponent} from "../message/chat-input.component";
 import {ChatComponent} from "../message/chat.component";
 import {SharedModule} from "./shared.module";
 import {RouterModule} from "@angular/router";
-import {MentionComponent} from "../message/mention.component";
 
 @NgModule({
     imports: [
@@ -19,7 +18,6 @@ import {MentionComponent} from "../message/mention.component";
     declarations: [
         ChatInputComponent,
         ChatComponent,
-        MentionComponent
     ],
     exports: [
         ChatInputComponent,
@@ -27,7 +25,7 @@ import {MentionComponent} from "../message/mention.component";
     ],
     providers: [],
     bootstrap: [],
-    entryComponents: [MentionComponent],
+    entryComponents: [],
 })
 export class ChatModule {
 }
