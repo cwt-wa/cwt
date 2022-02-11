@@ -1,11 +1,24 @@
+ul.cwt-podest {
+    padding-left: 0;
+}
+
+ul.cwt-podest > li {
+    margin: 0;
+    padding: 1rem 0rem 1rem 3.3rem;
+    list-style: none;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 3rem;
+}
+
 ul.cwt-podest > li:first-child {
-    list-style-image: url('../img/gold.png');
+    background-image: url('../img/reach/gold.png');
 }
 
 ul.cwt-podest > li:nth-child(2) {
-    list-style-image: url('../img/silver.png');
+    background-image: url('../img/reach/silver.png');
 }
 
 ul.cwt-podest > li:nth-child(3) {
-    list-style-image: url('../img/bronze.png');
+    background-image: url('../img/reach/bronze.png');
 }
