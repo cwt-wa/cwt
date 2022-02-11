@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import java.time.Instant
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -60,7 +61,7 @@ data class Tournament(
     @ManyToOne
     var goldWinner: User? = null,
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "tournament_moderator",
         joinColumns = [JoinColumn(name = "tournaments_id", referencedColumnName = "ID")],
