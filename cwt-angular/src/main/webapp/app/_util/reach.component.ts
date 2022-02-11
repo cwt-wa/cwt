@@ -27,6 +27,6 @@ export class ReachComponent {
         assoc[1] = 'group.png';
         assoc[0] = 'void.png';
 
-        return require(`../../img/reach/${assoc[this.round]}`);
+        return require(`../../img/reach/${assoc[this.round] || 'last16.png'}`);
     }
 }
