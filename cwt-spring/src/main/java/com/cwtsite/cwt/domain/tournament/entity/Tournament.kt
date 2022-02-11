@@ -61,7 +61,7 @@ data class Tournament(
     @ManyToOne
     var goldWinner: User? = null,
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(
         name = "tournament_moderator",
         joinColumns = [JoinColumn(name = "tournaments_id", referencedColumnName = "ID")],
