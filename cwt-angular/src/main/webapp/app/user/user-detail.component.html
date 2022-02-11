@@ -4,24 +4,27 @@
 </h1>
 
 <div class="row">
-    <div class="col-6 col-sm-4 col-md-3 col-lg-3">
+    <div class="col-12 col-md-3 order-2 order-md-1 mt-4 mt-md-0">
         <div class="card bg-secondary border-0" *ngIf="user">
-            <div class="card-body text-center" *ngFor="let reach of user.userStats;"
+            <div class="card-body text-center p-2" *ngFor="let reach of user.userStats;"
                  style="border-bottom: 1px solid black !important;">
-                <div class="text-white">
-                    <cwt-reach [maxRound]="reach.tournamentMaxRound"
-                               [round]="reach.round">
-                    </cwt-reach>
-                    <br>
-                    <span class="text-nowrap">{{reach.locRound}}</span><br>
-                    <a [routerLink]="['/archive', reach.year]">
-                        {{reach.year}}
-                    </a>
+                <div class="row">
+                    <div class="col-6 col-md-12 col-lg-4 text-right text-md-center text-lg-right">
+                        <cwt-reach [maxRound]="reach.tournamentMaxRound"
+                                   [round]="reach.round">
+                        </cwt-reach>
+                    </div>
+                    <div class="col-6 col-md-12 col-lg-8 text-left text-md-center text-lg-left">
+                        <span class="text-nowrap">{{reach.locRound}}</span><br>
+                        <a [routerLink]="['/archive', reach.year]">
+                            {{reach.year}}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col">
+    <div class="col-12 col-md-9 order-1 order-md-2">
         <div class="row">
             <div class="col-12">
                 <img #userPhoto class="rounded" style="width: 100%">
@@ -33,14 +36,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-4 d-none d-md-block">
+            <div class="col-12 mt-4">
                 <cwt-game-overview *ngIf="user" [user]="user.id"></cwt-game-overview>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-12 mt-4 d-md-none">
-        <cwt-game-overview *ngIf="user" [user]="user.id"></cwt-game-overview>
-    </div>
-</div>
+
