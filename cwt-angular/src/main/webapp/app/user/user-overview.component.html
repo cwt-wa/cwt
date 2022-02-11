@@ -14,13 +14,13 @@
             <div class="card-body" *ngFor="let user of pageOfUsers.content"
                  style="border-bottom: 1px solid black !important;">
                 <div class="row">
-                    <div class="col-md col-12">
+                    <div class="col-lg-4 col-12">
                         <h2>
                             <cwt-country [country]="user.country"></cwt-country>&nbsp;
                             <cwt-user [username]="user.username"></cwt-user>
                         </h2>
                     </div>
-                    <div class="col-md col-12 text-md-right">
+                    <div class="col-lg-6 col-12 text-lg-right">
                         <ng-container *ngFor="let reach of user.userStats;">
                             <a *ngIf="reach.round >= reach.tournamentMaxRound"
                                [routerLink]="['/archive', reach.year]"
@@ -32,7 +32,7 @@
                             </a>
                         </ng-container>
                     </div>
-                    <div class="col-md col-12 mt-2 mt-md-0" style="font-size: 22px">
+                    <div class="col-lg-2 col-12 mt-2 mt-lg-3 text-nowrap" style="font-size: .9rem;">
                         {{user.participations}} <span class="all-petite-caps">Participations</span>
                     </div>
                 </div>
