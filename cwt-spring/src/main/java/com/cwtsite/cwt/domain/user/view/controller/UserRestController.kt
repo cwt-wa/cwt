@@ -53,10 +53,12 @@ constructor(
 ) {
 
     @RequestMapping("", method = [RequestMethod.GET])
-    fun findAll(@RequestParam("term") term: String?,
-                @RequestParam("username") usernames: List<String>?,
-                @RequestParam("minimal", defaultValue = "false") minimal: Boolean): ResponseEntity<List<*>> {
-        val result =  when {
+    fun findAll(
+        @RequestParam("term") term: String?,
+        @RequestParam("username") usernames: List<String>?,
+        @RequestParam("minimal", defaultValue = "false") minimal: Boolean
+    ): ResponseEntity<List<*>> {
+        val result = when {
             term != null -> userService.findByUsernameContaining(term)
             usernames != null -> userService.findByUsernamesIgnoreCase(usernames)
             else -> userService.findAllOrderedByUsername()

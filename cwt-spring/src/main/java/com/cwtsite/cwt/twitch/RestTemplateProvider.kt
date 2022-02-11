@@ -1,6 +1,11 @@
 package com.cwtsite.cwt.twitch
 
-import com.cwtsite.cwt.twitch.model.*
+import com.cwtsite.cwt.twitch.model.TwitchAuthDto
+import com.cwtsite.cwt.twitch.model.TwitchAuthValidationDto
+import com.cwtsite.cwt.twitch.model.TwitchStreamDto
+import com.cwtsite.cwt.twitch.model.TwitchUserDto
+import com.cwtsite.cwt.twitch.model.TwitchVideoDto
+import com.cwtsite.cwt.twitch.model.TwitchWrappedDto
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory

@@ -7,7 +7,13 @@ import com.cwtsite.cwt.core.event.stats.GameStatsEventListener
 import com.cwtsite.cwt.domain.core.view.model.PageDto
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameService
-import com.cwtsite.cwt.domain.game.view.model.*
+import com.cwtsite.cwt.domain.game.view.model.BetCreationDto
+import com.cwtsite.cwt.domain.game.view.model.BetDto
+import com.cwtsite.cwt.domain.game.view.model.GameCreationDto
+import com.cwtsite.cwt.domain.game.view.model.GameDetailDto
+import com.cwtsite.cwt.domain.game.view.model.GameTechWinDto
+import com.cwtsite.cwt.domain.game.view.model.RatingCreationDto
+import com.cwtsite.cwt.domain.game.view.model.ReportDto
 import com.cwtsite.cwt.domain.playoffs.service.PlayoffService
 import com.cwtsite.cwt.domain.stream.service.StreamService
 import com.cwtsite.cwt.domain.stream.view.model.StreamDto
