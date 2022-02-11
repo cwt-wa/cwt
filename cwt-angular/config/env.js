@@ -16,7 +16,7 @@ module.exports = {
         'captchaKey': '6LcWgLYUAAAAAOvJrsE-KX2ZZNgHqkd9tBwm-tq4',
         'liveStreamProducer': 'https://twitch.cwtsite.com/produce',
         'liveStreamSubscriber': 'https://twitch.cwtsite.com/subscribe',
-        'twitchBotEndpoint':  'https://twitch-bot.zemke.io',
+        'twitchBotEndpoint':  'https://twitch-bot.cwtsite.com',
     },
 };
 
