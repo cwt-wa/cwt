@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {JwtUser, PlayoffGameDto, PlayoffTreeBetDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
@@ -15,7 +15,7 @@ interface PlayoffTreeBetDtoWithBetResults extends PlayoffGameDto {
     selector: 'cwt-playoffs-tree',
     template: require('./playoffs-tree.component.html')
 })
-export class PlayoffsTreeComponent implements OnInit {
+export class PlayoffsTreeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input() tournamentId: number;
     @Input() hideTitle: boolean;
@@ -26,6 +26,8 @@ export class PlayoffsTreeComponent implements OnInit {
     placingBet: number[] = [];
     loading: boolean = true;
     authUser: JwtUser;
+    playoffUserOutsideTouchListener =
+        (e: TouchEvent) => (e.target as HTMLElement).closest('.playoff-user') == null && this.highlightUser(null, false);
 
     public constructor(private requestService: RequestService, private authService: AuthService,
                        private toastr: Toastr, private betService: BetService,
@@ -49,6 +51,14 @@ export class PlayoffsTreeComponent implements OnInit {
         } finally {
             this.loading = false;
         }
+    }
+
+    public ngAfterViewInit() {
+        document.addEventListener('touchstart', this.playoffUserOutsideTouchListener.bind(this));
+    }
+
+    public ngOnDestroy() {
+        document.removeEventListener('touchstart', this.playoffUserOutsideTouchListener.bind(this));
     }
 
     private createTree(res: PlayoffGameDto[]) {
@@ -109,6 +119,11 @@ export class PlayoffsTreeComponent implements OnInit {
 
     public getExistingGamesInRound(round: number, games: PlayoffGameDto[]): PlayoffGameDto[] {
         return games.filter(g => g.playoff.round === round);
+    }
+
+    public highlightUser(id: number, enter: boolean) {
+        document.querySelectorAll('.playoff-user').forEach(elem =>
+            elem.classList.toggle('highlight', enter && parseInt(elem.attributes.getNamedItem("data-user").value) === id));
     }
 
     public async placeBet(betOnHome: boolean, game: PlayoffTreeBetDtoWithBetResults) {

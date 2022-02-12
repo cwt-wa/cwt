@@ -38,6 +38,10 @@ table.playoff-spot.odd {
 
 .playoff-spot .playoff-user {
   width: 175px;
+
+  &.highlight {
+      background-color: rgba(0, 0, 0, .4);
+  }
 }
 
 .playoff-score,
