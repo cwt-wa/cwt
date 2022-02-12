@@ -85,6 +85,10 @@ const colors: { [key: string]: string } = {
         flex-wrap: nowrap;
       }
 
+      .turn .kills img {
+        height: 2rem;
+      }
+
       .turn .kills:first-child {
         text-align: left;
       }
