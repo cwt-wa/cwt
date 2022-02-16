@@ -32,7 +32,6 @@
             <tr>
                 <td class="playoff-user" [attr.data-user]="game?.homeUser?.id"
                     (mouseenter)="highlightUser(game?.homeUser?.id, true)" (mouseleave)="highlightUser(game?.homeUser?.id, false)"
-                    (touchstart)="highlightUser(game?.homeUser?.id, true)"
                     [ngClass]="{'rounded-top-left': !lastRound, 'rounded-top-right': (!game?.homeUser || !game?.awayUser) && !lastRound}">
                     <cwt-user *ngIf="game?.homeUser?.username" [username]="game?.homeUser?.username"></cwt-user>
                 </td>
@@ -68,7 +67,6 @@
             <tr>
                 <td class="playoff-user rounded-bottom-left" [attr.data-user]="game?.awayUser?.id"
                     (mouseenter)="highlightUser(game?.awayUser?.id, true)" (mouseleave)="highlightUser(game?.awayUser?.id, false)"
-                    (touchstart)="highlightUser(game?.awayUser?.id, true)"
                     [ngClass]="{'rounded-bottom-right': !game?.homeUser || !game?.awayUser}">
                     <cwt-user *ngIf="game?.awayUser?.username" [username]="game?.awayUser?.username"></cwt-user>
                 </td>
