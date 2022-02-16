@@ -19,10 +19,10 @@ export class SFigure extends Figure {
     }
 
     rotateFigure(clone: any): void {
+        let counterX = 0;
         switch (this.getRotateCounter()) {
             case 0:
                 let counterY = -1;
-                let counterX = 0;
 
                 for (let i = 0; i < this.getCells().length; i++) {
                     if (clone.cells[i].yPos === clone.cells[clone.indexOfHighestYPosition].yPos) continue;
@@ -34,8 +34,6 @@ export class SFigure extends Figure {
                 break;
 
             case 1:
-                counterX = 0;
-
                 for (let i = 0; i < this.getCells().length; i++) {
                     if (clone.cells[i].yPos === (clone.cells[clone.indexOfHighestYPosition].yPos - 1)) continue;
 
