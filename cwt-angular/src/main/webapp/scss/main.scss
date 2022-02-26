@@ -50,7 +50,7 @@ body {
 }
 
 .cwt-top-bar {
-  background-color: theme-color('primary');
+  background: #0057b7;
   color: #cecece;
   font-size: 14px;
   height: 30px;
@@ -89,7 +89,7 @@ body {
 }
 
 .cwt-nav-container .cwt-navbar {
-  background-color: theme-color('secondary');
+  background: #ffd700;
 }
 
 .cwt-nav-container .nav-item {
@@ -125,9 +125,10 @@ body {
 }
 
 .cwt-mobile-nav {
+  background: linear-gradient(#0057b7 50%, #ffd700 50%);
   padding: 16px 16px 10px;
   width: 100%;
-  color: #cecece;
+  color: #000;
 }
 
 .fa-user-o.cwt-user-panel-icon,
