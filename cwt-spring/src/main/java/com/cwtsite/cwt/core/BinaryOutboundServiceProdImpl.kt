@@ -42,6 +42,7 @@ class BinaryOutboundServiceProdImpl : BinaryOutboundService {
     override fun deleteUserPhoto(userId: Long): HttpResponse<String> =
         httpClient.request(
             HttpRequest.newBuilder()
+                .headers("third-party-token", thirdPartyToken)
                 .DELETE().uri(URI.create("$binaryDataStoreEndpoint/user/$userId/photo")).build(),
             BodyHandlers.ofString()
         )
