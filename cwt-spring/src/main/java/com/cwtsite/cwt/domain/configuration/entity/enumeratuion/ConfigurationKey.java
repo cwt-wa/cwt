@@ -61,7 +61,12 @@ public enum ConfigurationKey {
     /**
      * Display an alert on the game detail page when the game wasn't played with WA version 3.8.
      */
-    WA_3_8_WARNING(ConfigurationValueType.BOOLEAN);
+    WA_3_8_WARNING(ConfigurationValueType.BOOLEAN),
+
+    /**
+     * Disable registration of further users.
+     */
+    DISABLE_REGISTRATION(ConfigurationValueType.BOOLEAN);
 
     private final ConfigurationValueType type;
 

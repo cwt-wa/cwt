@@ -1,6 +1,8 @@
 package com.cwtsite.cwt.domain.user.view.controller
 
 import com.cwtsite.cwt.controller.RestException
+import com.cwtsite.cwt.domain.configuration.entity.enumeratuion.ConfigurationKey;
+import com.cwtsite.cwt.domain.configuration.service.ConfigurationService;
 import com.cwtsite.cwt.domain.user.repository.entity.AuthorityRole
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.AuthService
@@ -45,7 +47,8 @@ constructor(
     private val userService: UserService,
     private val securityContextHolderFacade: SecurityContextHolderFacade,
     private val authService: AuthService,
-    private val securityService: SecurityService
+    private val securityService: SecurityService,
+    private val configurationService: ConfigurationService,
 ) {
 
     @Value("\${firebase-credentials-location}")
@@ -61,6 +64,11 @@ constructor(
 
         if (!securityService.verifyToken(userRegistrationDto.captchaToken)) {
             throw RestException("Registration is forbidden for you.", HttpStatus.FORBIDDEN, null)
+        }
+
+        var configuration = configurationService.getOne(ConfigurationKey.DISABLE_REGISTRATION);
+        if (configuration.value?.toBoolean() == true) {
+            throw RestException("Registration is currently disabled", HttpStatus.FORBIDDEN, null)
         }
 
         val user: User

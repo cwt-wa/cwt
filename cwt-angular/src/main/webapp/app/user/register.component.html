@@ -1,4 +1,7 @@
-<div class="row justify-content-center">
+<div class="alert alert-danger" *ngIf="disabled === true">
+    Registration is currently disabled.
+</div>
+<div class="row justify-content-center" *ngIf="disabled === false">
     <div class="col-xs-6 col-sm-6 col-md-5">
         <form #registerForm="ngForm" (ngSubmit)="submit()" cwtConfirmValidator="password,passwordConfirm">
             <div class="form-group">
