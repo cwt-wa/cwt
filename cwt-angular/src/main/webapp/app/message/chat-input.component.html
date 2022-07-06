@@ -3,6 +3,7 @@
         <div class="input-group">
             <input type="text" name="chat-input" class="single-line form-control"
                    #chatInput [disabled]="disabled"
+                   autocomplete="off"
                    (keydown)="onKeydown($event)"
                    (keyup)="onKeyup($event)"
                    (input)="onInput($event)">
