@@ -60,7 +60,7 @@ class HttpClientTest {
                 BigInteger(35, Random()).toString(),
                 mapOf("hello" to "world")
             )
-            .uri(URI.create("http://postman-echo.com/post"))
+            .uri(URI.create("https://postman-echo.com/post"))
             .header("Content-Type", "multipart/form-data")
             .build()
         val response: HttpResponse<String> = cut.request(request, BodyHandlers.ofString())
