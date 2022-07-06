@@ -19,6 +19,7 @@ public class JwtUser<T extends GrantedAuthority> implements UserDetails {
     private final boolean activated;
     private final Date resetDate;
     private final List<String> roles;
+    private final boolean locked;
 
     public JwtUser(Long id,
                    String username,
@@ -26,7 +27,8 @@ public class JwtUser<T extends GrantedAuthority> implements UserDetails {
                    String password,
                    Collection<T> authorities,
                    boolean activated,
-                   Date resetDate) {
+                   Date resetDate,
+                   boolean locked) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -37,6 +39,7 @@ public class JwtUser<T extends GrantedAuthority> implements UserDetails {
                 .collect(Collectors.toList());
         this.activated = activated;
         this.resetDate = resetDate;
+        this.locked = locked;
     }
 
     public Long getId() {
@@ -57,7 +60,7 @@ public class JwtUser<T extends GrantedAuthority> implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !Boolean.TRUE.equals(locked);
     }
 
     @JsonIgnore

@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.user.service.JwtTokenUtil
 import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -46,11 +47,21 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
 
         val username = jwtTokenUtil.getUsernameFromToken(authToken)
 
+        logger.info(username)
+
         if (username != null && securityContextHolderFacade.authentication == null) {
             val userDetails: UserDetails
             try {
                 userDetails = this.userDetailsService.loadUserByUsername(username)
+                if (!userDetails.isAccountNonLocked()) {
+                    throw LockedException("${username} is locked")
+                }
+                logger.info("locked: ${!userDetails.isAccountNonLocked()}")
             } catch (e: UsernameNotFoundException) {
+                logger.info(e.message)
+                chain.doFilter(request, response)
+                return
+            } catch (e: LockedException) {
                 logger.info(e.message)
                 chain.doFilter(request, response)
                 return

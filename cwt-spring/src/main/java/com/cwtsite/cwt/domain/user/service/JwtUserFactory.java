@@ -26,7 +26,8 @@ public class JwtUserFactory {
                 user.getActivated(),
                 Optional.ofNullable(user.getResetDate())
                         .map(d -> new Date(user.getResetDate().toEpochMilli()))
-                        .orElse(null)
+                        .orElse(null),
+                user.getLocked()
         );
     }
 
