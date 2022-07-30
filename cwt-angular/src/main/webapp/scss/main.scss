@@ -738,3 +738,25 @@ hr {
   border: 1px inset #aaa;
 }
 
+zemke-tagbox::part(tag) {
+  top: .5rem;
+  bottom: .5rem;
+}
+
+zemke-tagbox::part(input) {
+  @extend .form-control;
+}
+
+.input-group {
+  zemke-tagbox::part(input) {
+    height: inherit;
+    box-sizing: border-box;
+  }
+
+  zemke-tagbox {
+    flex: 1 1 0%;
+    box-sizing: border-box;
+    position: relative;
+  }
+}
+

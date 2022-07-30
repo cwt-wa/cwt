@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
+import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto, UserMinimalDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {APP_CONFIG, AppConfig} from "../app.config";
@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     filter: MessageCategory | null = null;
     authUser: JwtUser;
+    suggestions: UserMinimalDto[];
 
     private readonly messagesSize = 30;
     private oldestMessage: number;
@@ -65,6 +66,8 @@ export class ChatComponent implements OnInit, OnDestroy {
                 this.messages = res;
                 this.setupEventSource();
             });
+        this.requestService.get<UserMinimalDto[]>("user", {minimal: "true"}).toPromise()
+            .then(users => this.suggestions = users)
     }
 
     ngOnDestroy(): void {
