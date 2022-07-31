@@ -1,21 +1,19 @@
-<div *ngIf="message" class="chat-container">
-    <form (submit)="submit()">
-        <div class="input-group">
-            <zemke-tagbox>
-                <input type="text" name="chat-input">
-                <select multiple>
-                    <option *ngFor="let opt of allSuggestions"
-                            [value]="opt.id">
-                        {{ opt.username }}
-                    </option>
-                </select>
-            </zemke-tagbox>
-            <span class="input-group-append">
-                <button class="btn btn-primary submit" type="submit" [disabled]="disabled">
-                    <i class="fa fa-send"></i>
-                </button>
-            </span>
-        </div>
-    </form>
-</div>
+<form (submit)="submit()">
+    <div class="input-group">
+        <zemke-tagbox #tagbox>
+            <input #valueEl type="text" name="value" [(ngModel)]="value" required>
+            <select multiple name="recipients" [(ngModel)]="recipients">
+                <option *ngFor="let opt of allSuggestions"
+                        [value]="opt.id">
+                    {{ opt.username }}
+                </option>
+            </select>
+        </zemke-tagbox>
+        <span class="input-group-append">
+            <button class="btn btn-primary submit" type="submit" [disabled]="disabled">
+                <i class="fa fa-send"></i>
+            </button>
+        </span>
+    </div>
+</form>
 

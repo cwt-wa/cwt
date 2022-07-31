@@ -91,13 +91,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
     }
 
-    submit(message: Message, cb: (success: boolean) => void): void {
-        const messageDto: MessageCreationDto = {
-            body: message.body,
-            category: message.category,
-            recipients: message.recipients?.map(u => u.id) || [],
-        };
-        this.requestService.post<MessageCreationDto>('message', messageDto)
+    submit(message: MessageCreationDto , cb: (success: boolean) => void): void {
+        this.requestService.post<MessageCreationDto>('message', message)
             .subscribe(res => {
                 this.messages = [res as unknown as MessageDto, ...this._messages];
                 cb(true);

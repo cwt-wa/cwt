@@ -11,7 +11,7 @@ import {
     AfterViewInit,
     QueryList
 } from '@angular/core';
-import {Message, UserMinimalDto, MessageDto, JwtUser} from "../custom";
+import {MessageCreationDto, UserMinimalDto, MessageDto, JwtUser} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {RequestService} from "../_services/request.service";
 
@@ -21,21 +21,41 @@ import {RequestService} from "../_services/request.service";
 })
 export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    private static readonly DELIMITER = /^[a-z0-9-_]*$/i;
-
     @Output()
-    message: EventEmitter<[Message, (success: boolean) => void]> = new EventEmitter();
+    message: EventEmitter<[MessageCreationDto, (success: boolean) => void]> = new EventEmitter();
 
     @Input()
     messages: MessageDto[];
 
+    @ViewChild('tagbox') tagbox: ElementRef<HTMLElement>;
+    @ViewChild('valueEl') valueEl: ElementRef<HTMLInputElement>;
+
     suggestions: UserMinimalDto[] = null;
+
+    value = '';
+    recipients = [];
+    _disabled = false;
 
     private authUser: JwtUser;
     private allSuggestions: UserMinimalDto[] = [];
 
     constructor(private requestService: RequestService,
                 private authService: AuthService) {
+    }
+
+    get chatInputEl() {
+        return this.tagbox.nativeElement.chatInputEl;
+    }
+
+    get disabled() {
+        return this._disabled;
+    }
+
+    set disabled(v) {
+        this._disabled = v;
+        v
+            ? this.chatInputEl.setAttribute('disabled', '')
+            : this.chatInputEl.removeAttribute('disabled');
     }
 
     ngOnInit(): void {
@@ -58,22 +78,22 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    public submit() {
+    submit() {
         this.disabled = true;
-        const message = {
-            body: this.chatInputEl.nativeElement.value,
+        const message: MessageCreationDto = {
+            body: this.value,
             recipients: this.recipients,
             category: this.recipients?.length ? 'PRIVATE' : 'SHOUTBOX',
-        } as Message;
+        };
         this.message.emit([message, (success: boolean) => {
             this.disabled = false;
             if (success) {
-                //this.recipients = [];
-                //this.tags = [];
-                //this.suggestions = null;
-                //this.chatInputEl.nativeElement.value = '';
+                this.valueEl.nativeElement.value = '';
+                this.valueEl.nativeElement.dispatchEvent(new Event('input'));
+                this.value = '';
+                this.recipients = [];
             }
-            //setTimeout(() => this.chatInputEl.nativeElement.focus());
+            setTimeout(() => this.chatInputEl.focus());
         }]);
     }
 }
