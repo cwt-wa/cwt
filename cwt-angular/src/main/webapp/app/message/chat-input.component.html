@@ -3,7 +3,7 @@
         <zemke-tagbox #tagbox>
             <input #valueEl type="text" name="value" [(ngModel)]="value" required>
             <select multiple name="recipients" [(ngModel)]="recipients">
-                <option *ngFor="let opt of allSuggestions"
+                <option *ngFor="let opt of suggestions"
                         [value]="opt.id">
                     {{ opt.username }}
                 </option>

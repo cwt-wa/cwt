@@ -37,7 +37,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     _disabled = false;
 
     private authUser: JwtUser;
-    private allSuggestions: UserMinimalDto[] = [];
+    private suggestions: UserMinimalDto[] = [];
 
     constructor(private requestService: RequestService,
                 private authService: AuthService) {
@@ -62,7 +62,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         this.authService.authState.then(user => {
             this.authUser = user;
             const mm = this.messages;
-            this.allSuggestions = [
+            this.suggestions = [
                 mm.find(m => m.recipients.map(u => u.id).includes(this.authUser.id))?.author,
                 ...(mm.find(m => m.author.id === this.authUser.id && m.recipients.length)?.recipients || []),
                 ...(mm.map(m => m.author) || []),
