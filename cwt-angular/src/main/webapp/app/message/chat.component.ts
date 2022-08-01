@@ -16,7 +16,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     filter: MessageCategory | null = null;
     authUser: JwtUser;
-    suggestions: UserMinimalDto[];
 
     private readonly messagesSize = 30;
     private oldestMessage: number;
@@ -66,8 +65,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                 this.messages = res;
                 this.setupEventSource();
             });
-        this.requestService.get<UserMinimalDto[]>("user", {minimal: "true"}).toPromise()
-            .then(users => this.suggestions = users)
     }
 
     ngOnDestroy(): void {
