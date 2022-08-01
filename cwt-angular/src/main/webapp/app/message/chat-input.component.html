@@ -1,7 +1,12 @@
 <form (submit)="submit()">
     <div class="input-group">
-        <zemke-tagbox #tagbox>
-            <input #valueEl type="text" name="value" [(ngModel)]="value" required>
+        <zemke-tagbox #tagbox ci>
+            <input #valueEl
+                   (input)="lazyLoad($event)"
+                   type="text"
+                   name="value"
+                   [(ngModel)]="value"
+                   required>
             <select multiple name="recipients" [(ngModel)]="recipients">
                 <option *ngFor="let opt of suggestions"
                         [value]="opt.id">

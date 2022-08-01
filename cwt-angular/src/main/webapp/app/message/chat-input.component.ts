@@ -78,6 +78,14 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
+    lazyLoad(e: KeyboardEvent) {
+        if (!e.target.value.includes('@')) return;
+        this.requestService.get<UserMinimalDto[]>("user", {minimal: "true"}).toPromise()
+            .then(users => this.suggestions.push(
+                ...users.filter(user =>
+                    !this.suggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)));
+    }
+
     submit() {
         this.disabled = true;
         const message: MessageCreationDto = {
