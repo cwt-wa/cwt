@@ -752,6 +752,15 @@ zemke-tagbox::part(input):disabled {
 }
 
 .input-group {
+  zemke-tagbox::part(dropdown-container) {
+    border: 1px solid #fff;
+  }
+
+  zemke-tagbox::part(dropdown-item) {
+    font-variant: all-petite-caps;
+    font-size: 1rem;
+  }
+
   zemke-tagbox::part(input) {
     height: inherit;
     box-sizing: border-box;
