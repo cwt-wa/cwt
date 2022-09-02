@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto, UserMinimalDto} from "../custom";
+import {JwtUser, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {APP_CONFIG, AppConfig} from "../app.config";

@@ -2,14 +2,9 @@ import {
     ElementRef,
     EventEmitter,
     Component,
-    OnInit,
     Output,
     Input,
-    OnDestroy,
     ViewChild,
-    ViewChildren,
-    AfterViewInit,
-    QueryList
 } from '@angular/core';
 import {MessageCreationDto, UserMinimalDto, MessageDto, JwtUser} from "../custom";
 import {AuthService} from "../_services/auth.service";
@@ -19,7 +14,7 @@ import {RequestService} from "../_services/request.service";
     selector: 'cwt-chat-input',
     template: require('./chat-input.component.html'),
 })
-export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ChatInputComponent {
 
     @Output()
     message: EventEmitter<[MessageCreationDto, (success: boolean) => void]> = new EventEmitter();
@@ -30,14 +25,12 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('tagbox') tagbox: ElementRef<HTMLElement>;
     @ViewChild('valueEl') valueEl: ElementRef<HTMLInputElement>;
 
+    value = '';
+    recipients: number[] = [];
+    _disabled = false;
     suggestions: UserMinimalDto[] = null;
 
-    value = '';
-    recipients = [];
-    _disabled = false;
-
     private authUser: JwtUser;
-    private suggestions: UserMinimalDto[] = [];
 
     constructor(private requestService: RequestService,
                 private authService: AuthService) {
@@ -79,7 +72,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     lazyLoad(e: KeyboardEvent) {
-        if (!e.target.value.includes('@')) return;
+        if (!(e.target as HTMLInputElement).value.includes('@')) return;
         this.requestService.get<UserMinimalDto[]>("user", {minimal: "true"}).toPromise()
             .then(users => this.suggestions.push(
                 ...users.filter(user =>
