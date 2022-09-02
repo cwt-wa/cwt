@@ -1,42 +1,24 @@
-<div *ngIf="message" class="chat-container">
-    <form (submit)="submit()">
-        <div class="input-group">
-            <input type="text" name="chat-input" class="single-line form-control"
-                   #chatInput [disabled]="disabled"
-                   autocomplete="off"
-                   (keydown)="onKeydown($event)"
-                   (keyup)="onKeyup($event)"
-                   (input)="onInput($event)">
-            <span class="input-group-append">
-                <button class="btn btn-primary submit" type="submit" [disabled]="disabled">
-                    <i class="fa fa-send"></i>
-                </button>
-            </span>
-        </div>
-    </form>
-    <div #offsets class="offsets">
-        <div *ngFor="let tag of tags"
-             #recipients
-             class="offset"
-             [ngStyle]="tag.style"
-             [attr.data-id]="tag.user.id"
-             [attr.data-username]="tag.user.username">
-        </div>
+<form #chatForm="ngForm" (submit)="submit(chatForm.valid)">
+    <div class="input-group">
+        <zemke-tagbox #tagbox ci>
+            <input #valueEl
+                   (input)="lazyLoad($event)"
+                   type="text"
+                   name="value"
+                   [(ngModel)]="value"
+                   required>
+            <select multiple name="recipients" [(ngModel)]="recipients">
+                <option *ngFor="let opt of suggestions"
+                        [value]="opt.id">
+                    {{ opt.username }}
+                </option>
+            </select>
+        </zemke-tagbox>
+        <span class="input-group-append">
+            <button class="btn btn-primary submit" type="submit" [disabled]="disabled">
+                <i class="fa fa-send"></i>
+            </button>
+        </span>
     </div>
-    <div #dummy class="dummy d-inline"></div>
-    <div class="dropdown-menu suggestions p-0 overflow-hidden"
-         #dropdown [class.show]="suggestions">
-        <small class="form-text text-muted mx-2"
-               *ngIf="!suggestions?.length && !lazyLoadingSuggestions">No such user.</small>
-        <button *ngFor="let sugg of suggestions; let first = first;"
-                #suggestions
-                class="dropdown-item px-2" [class.active]="first"
-                type="button" [value]="sugg.id" (click)="complete(sugg, true)">
-            {{ sugg.username }}
-        </button>
-        <img *ngIf="lazyLoadingSuggestions && suggestions?.length < suggestionsSlice"
-             class="mx-2"
-             src="../../img/loading.gif"/>
-    </div>
-</div>
+</form>
 

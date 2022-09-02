@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {JwtUser, Message, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
+import {JwtUser, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
 import {APP_CONFIG, AppConfig} from "../app.config";
@@ -88,13 +88,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
     }
 
-    submit(message: Message, cb: (success: boolean) => void): void {
-        const messageDto: MessageCreationDto = {
-            body: message.body,
-            category: message.category,
-            recipients: message.recipients?.map(u => u.id) || [],
-        };
-        this.requestService.post<MessageCreationDto>('message', messageDto)
+    submit(message: MessageCreationDto , cb: (success: boolean) => void): void {
+        this.requestService.post<MessageCreationDto>('message', message)
             .subscribe(res => {
                 this.messages = [res as unknown as MessageDto, ...this._messages];
                 cb(true);

@@ -12,9 +12,5 @@ import '@fortawesome/fontawesome-free/css/v4-shims.css';
 import 'toastr/toastr.js';
 import 'toastr/build/toastr.css';
 
-
-
-
-
-
+import '@zemke/tagbox/js.js';
 

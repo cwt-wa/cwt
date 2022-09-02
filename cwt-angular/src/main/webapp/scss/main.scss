@@ -738,3 +738,38 @@ hr {
   border: 1px inset #aaa;
 }
 
+zemke-tagbox::part(tag) {
+  top: .5rem;
+  bottom: .5rem;
+}
+
+zemke-tagbox::part(input) {
+  @extend .form-control;
+}
+
+zemke-tagbox::part(input):disabled {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.input-group {
+  zemke-tagbox::part(dropdown-container) {
+    border: 1px solid #fff;
+  }
+
+  zemke-tagbox::part(dropdown-item) {
+    font-variant: all-petite-caps;
+    font-size: 1rem;
+  }
+
+  zemke-tagbox::part(input) {
+    height: inherit;
+    box-sizing: border-box;
+  }
+
+  zemke-tagbox {
+    flex: 1 1 0%;
+    box-sizing: border-box;
+    position: relative;
+  }
+}
+

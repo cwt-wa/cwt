@@ -39,6 +39,23 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.m?js$/,
+                include: /node_modules\/@zemke\/tagbox/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    targets: "defaults"
+                                }
+                            ]
+                        ]
+                    }
+                },
+            },
+            {
                 test: /\.(scss)$/,
                 use: bootstrapCssExtractTextPlugin.extract({
                     fallback: 'style-loader',
