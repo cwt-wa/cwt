@@ -79,7 +79,8 @@ export class ChatInputComponent {
                     !this.suggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)));
     }
 
-    submit() {
+    submit(valid: boolean) {
+        if (!valid) return;
         this.disabled = true;
         const message: MessageCreationDto = {
             body: this.value,

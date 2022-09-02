@@ -1,4 +1,4 @@
-<form (submit)="submit()">
+<form #chatForm="ngForm" (submit)="submit(chatForm.valid)">
     <div class="input-group">
         <zemke-tagbox #tagbox ci>
             <input #valueEl
