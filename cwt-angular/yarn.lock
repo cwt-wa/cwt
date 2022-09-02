@@ -1233,11 +1233,9 @@
   resolved "https://registry.yarnpkg.com/@zemke/http-mock/-/http-mock-4.0.2.tgz#8d93c0c5d72662ac4bf901766725a361ac6ec9f1"
   integrity sha512-M8pnl8LGZcpGBNRbHb0l0FchauN1hxmiNoURpZpy4ziFyBN3FgyK821ZszjnQ7+3kFkdx+JvEix3FBgdEscdag==
 
-"@zemke/tagbox@/Users/lair/fun/tagbox/":
-  version "1.0.0"
-
-"@zemke/tagbox@file:../../../tagbox":
-  version "1.0.0"
+"@zemke/tagbox@https://github.com/zemke/tagbox#v0.1.0":
+  version "0.1.0"
+  resolved "https://github.com/zemke/tagbox#b798ea3dd4c2d2736f8b831a910bef766aee67ba"
 
 abbrev@1:
   version "1.1.1"
