@@ -40,8 +40,7 @@ module.exports = {
         rules: [
             {
                 test: /\.m?js$/,
-                //exclude: /node_modules/,
-                // TODO exclude node_modules except for @zemke/tagbox
+                include: /node_modules\/@zemke\/tagbox/,
                 use: {
                     loader: 'babel-loader',
                     options: {
