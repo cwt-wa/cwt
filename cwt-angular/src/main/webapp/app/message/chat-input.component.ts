@@ -6,7 +6,7 @@ import {
     Input,
     ViewChild,
 } from '@angular/core';
-import {MessageCreationDto, UserMinimalDto, MessageDto, JwtUser} from "../custom";
+import {MessageCreationDto, UserMinimalDto, MessageDto, JwtUser, ZemkeTagboxElement} from "../custom";
 import {AuthService} from "../_services/auth.service";
 import {RequestService} from "../_services/request.service";
 
@@ -22,7 +22,7 @@ export class ChatInputComponent {
     @Input()
     messages: MessageDto[];
 
-    @ViewChild('tagbox') tagbox: ElementRef<HTMLElement>;
+    @ViewChild('tagbox') tagbox: ElementRef<ZemkeTagboxElement>;
     @ViewChild('valueEl') valueEl: ElementRef<HTMLInputElement>;
 
     value = '';
@@ -37,7 +37,7 @@ export class ChatInputComponent {
     }
 
     get chatInputEl() {
-        return this.tagbox.nativeElement.chatInputEl;
+        return this.tagbox.nativeElement.zemkeInput;
     }
 
     get disabled() {

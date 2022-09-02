@@ -469,3 +469,8 @@ export interface MapDto {
     texture: string;
     game: GameMinimalDto;
 }
+
+export interface ZemkeTagboxElement extends HTMLElement {
+    zemkeInput: HTMLInputElement;
+}
+

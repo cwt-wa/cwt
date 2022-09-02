@@ -20,7 +20,7 @@
     "@angular/router": "^7",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@ng-bootstrap/ng-bootstrap": "4.x",
-    "@zemke/tagbox": "https://github.com/zemke/tagbox#v0.1.0",
+    "@zemke/tagbox": "https://github.com/zemke/tagbox#v0.2.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.7",
     "hamburgers": "^1.1.3",
