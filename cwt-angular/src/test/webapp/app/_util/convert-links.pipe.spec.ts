@@ -59,4 +59,9 @@ describe('ConvertLinksPipe can convert a string', () => {
         expect(pipe.transform("Emails at support@cwtsite.com and internet at http://cwtsite.com for much fun."))
             .toEqual('Emails at <a href="mailto:support@cwtsite.com">support@cwtsite.com</a> and internet at <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> for much fun.');
     });
+
+    it('containing a small sub-domain', () => {
+        expect(pipe.transform('Spend your waiting-for-opponent-time with a bit of One Of Everything https://wl.zemke.io/'))
+            .toEqual('Spend your waiting-for-opponent-time with a bit of One Of Everything <a href="https://wl.zemke.io" target="_blank">https://wl.zemke.io</a>/');
+    });
 });
