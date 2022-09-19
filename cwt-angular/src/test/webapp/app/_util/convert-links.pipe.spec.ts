@@ -4,23 +4,19 @@ describe('ConvertLinksPipe can convert a string', () => {
     const pipe = new ConvertLinksPipe();
 
     it('containing nothing more than a link', () => {
-        expect(pipe.transform("www.cwtsite.com"))
-            .toEqual('<a href="http://www.cwtsite.com" target="_blank">www.cwtsite.com</a>')
+        expect(pipe.transform("http://www.cwtsite.com"))
+            .toEqual('<a href="http://www.cwtsite.com" target="_blank">http://www.cwtsite.com</a>')
     });
 
     it('with a link surrounded by strings.', () => {
-        expect(pipe.transform("The greatest page in the world is www.cwtsite.com I swear!"))
-            .toEqual('The greatest page in the world is <a href="http://www.cwtsite.com" target="_blank">www.cwtsite.com</a> I swear!')
+        expect(pipe.transform("The greatest page in the world is http://www.cwtsite.com I swear!"))
+            .toEqual('The greatest page in the world is <a href="http://www.cwtsite.com" target="_blank">http://www.cwtsite.com</a> I swear!')
     });
 
     it('containing http or www or https.', () => {
         expect(pipe.transform("A page called http://cwtsite.com is a nice page."))
             .toEqual('A page called <a href="http://cwtsite.com" target="_blank">http://cwtsite.com</a> is a nice page.',
                 'http failed');
-
-        expect(pipe.transform("A page called www.cwtsite.com is a nice page."))
-            .toEqual('A page called <a href="http://www.cwtsite.com" target="_blank">www.cwtsite.com</a> is a nice page.',
-                'www failed');
 
         expect(pipe.transform("A page called https://cwtsite.com is a nice page."))
             .toEqual('A page called <a href="https://cwtsite.com" target="_blank">https://cwtsite.com</a> is a nice page.',
