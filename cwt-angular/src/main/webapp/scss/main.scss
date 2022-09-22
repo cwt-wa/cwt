@@ -703,6 +703,21 @@ code {
   }
 }
 
+footer {
+  position: relative;
+  padding: 1rem 0 .5rem;
+}
+
+footer::before {
+  content: "";
+  height: 0.5rem;
+  background: linear-gradient(#0057b7 50%, #ffd700 50%);
+  display: block;
+  top: 0;
+  position: absolute;
+  width: 100%;
+}
+
 my-app.nav-is-expanded + footer {
   display: none;
 }
