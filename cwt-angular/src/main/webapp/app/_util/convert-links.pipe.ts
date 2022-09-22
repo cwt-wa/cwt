@@ -18,7 +18,7 @@ export class ConvertLinksPipe implements PipeTransform {
           value = value.replace(regexWithProtocol, `<a href="http://$1"${htmlClasses}target="_blank">$1</a>`);
           value = value.replace(/http?:\/\/(http[s]?:\/\/)/gi, '$1');
         } catch {
-          const regexWithProtocol = /(\b(?:http[s]?:\/\/)[a-z0-9-]+?\.(?:[a-z]{2,})(?:[.a-z0-9-\/]+)?(?:[^\s]*)?\b)/gi;
+          const regexWithProtocol = /(\b(?:http[s]?:\/\/)[a-z0-9-.]+?\.(?:[a-z]{2,})(?:[.a-z0-9-\/]+)?(?:[^\s]*)?\b)/gi;
           value = value.replace(regexWithProtocol, `<a href="http://$1"${htmlClasses}target="_blank">$1</a>`);
           value = value.replace(/http?:\/\/(http[s]?:\/\/)/gi, '$1');
         }
