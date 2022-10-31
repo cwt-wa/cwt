@@ -1,7 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
-import {PageDto, UserOverviewDto} from "../custom";
+import {Router} from "@angular/router";
+import {PageDto, UserOverviewDto, UserMinimalDto} from "../custom";
+import {Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {APP_CONFIG, AppConfig} from "../app.config";
+import {NgbTypeaheadSelectItemEvent} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'cwt-user-overview',
@@ -10,9 +14,22 @@ import {APP_CONFIG, AppConfig} from "../app.config";
 export class UserOverviewComponent implements OnInit {
     pageOfUsers: PageDto<UserOverviewDto> = <PageDto<UserOverviewDto>> {size: 10, start: 0};
     loading: boolean;
+    suggestions: UserMinimalDto[] = null;
+	search: OperatorFunction<string, string[]> = (text$: Observable<string>) =>
+		text$.pipe(
+			debounceTime(200),
+			distinctUntilChanged(),
+			map((term) => this.suggestions
+                .filter(({username}) => username.toLowerCase().includes(term.toLowerCase()))
+                .map(({username}) => username)
+                .slice(0, 10)),
+		);
 
-    constructor(private requestService: RequestService, @Inject(APP_CONFIG) public appConfig: AppConfig) {
+    constructor(private requestService: RequestService,
+                @Inject(APP_CONFIG) public appConfig: AppConfig,
+                private router: Router,) {
     }
+
 
     ngOnInit(): void {
         this.load();
@@ -40,4 +57,16 @@ export class UserOverviewComponent implements OnInit {
                 this.loading = false;
             });
     }
+
+    lazyLoad() {
+        if (this.suggestions?.length) return;
+        this.requestService
+            .get<UserMinimalDto[]>("user", {minimal: "true"}).toPromise()
+            .then(users => this.suggestions = users);
+    }
+
+    searchSubmit(e: NgbTypeaheadSelectItemEvent) {
+        this.router.navigateByUrl('/users/' + e.item);
+    }
 }
+

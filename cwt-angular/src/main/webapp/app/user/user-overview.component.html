@@ -1,7 +1,26 @@
 <h1 class="float-left">Users</h1>
 
 <div class="float-right text-nowrap" *ngIf="pageOfUsers">
-    <cwt-sorter [pageOfModels]="pageOfUsers" (load)="load()" [disabled]="loading"></cwt-sorter>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input class="form-control" type="text"
+                       (focus)="lazyLoad()"
+                       [ngbTypeahead]="search"
+                       (selectItem)="searchSubmit($event)"
+                       [editable]="false"
+                       placeholder="Username">
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <cwt-sorter [pageOfModels]="pageOfUsers"
+                        (load)="load()"
+                        [disabled]="loading"></cwt-sorter>
+        </div>
+    </div>
 </div>
 
 <div class="clearfix"></div>
