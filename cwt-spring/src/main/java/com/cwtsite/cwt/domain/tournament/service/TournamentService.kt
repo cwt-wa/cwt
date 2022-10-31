@@ -60,6 +60,9 @@ class TournamentService {
     @Transactional
     fun startPlayoffs(games: List<Game>): List<Game> {
         val currentTournament = getCurrentTournament()!!
+        if (currentTournament.status == TournamentStatus.PLAYOFFS) {
+            throw RuntimeException("Playoffs have already started.")
+        }
         currentTournament.status = TournamentStatus.PLAYOFFS
         // group stage plus number of playoff rounds
         currentTournament.maxRounds = treeService.getNumberOfPlayoffRoundsInTournament(currentTournament) + 1
