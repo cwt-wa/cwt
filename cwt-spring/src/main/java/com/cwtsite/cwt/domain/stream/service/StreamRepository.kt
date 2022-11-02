@@ -18,7 +18,7 @@ interface StreamRepository : JpaRepository<Stream, String> {
         """
        select distinct lower(g.homeUser.username) from Game g
        where g.group is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s)
+        and g.id not in (select s.game.id from Stream s where s.game is not null)
     """
     )
     fun findDistinctHomeUsernamesToLowercaseInGroup(@Param("tournament") tournament: Tournament): List<String>
@@ -27,7 +27,7 @@ interface StreamRepository : JpaRepository<Stream, String> {
         """
        select distinct lower(g.awayUser.username) from Game g
        where g.group is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s)
+        and g.id not in (select s.game.id from Stream s where s.game is not null)
     """
     )
     fun findDistinctAwayUsernamesToLowercaseInGroup(@Param("tournament") tournament: Tournament): List<String>
