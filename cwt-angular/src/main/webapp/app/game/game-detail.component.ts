@@ -231,8 +231,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
         this.loadingStats = true;
         this.statsAreBeingProcessed = true;
         this.eventSource = new EventSource(
-            `${this.appConfig.apiEndpoint}game/${this.game.id}`
-                + `/stats-listen?quantity=${this.game.replayQuantity}`);
+            `${this.appConfig.apiEndpoint}game/${this.game.id}/stats-listen`);
         this.eventSource.addEventListener('DONE', () => {
             this.eventSource.close();
             this.statsAreBeingProcessed = false;
