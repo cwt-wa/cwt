@@ -36,7 +36,7 @@ class StreamService {
     private lateinit var tournamentService: TournamentService
 
     private val matchThreshold = 75
-    private val streamGameTolerance = Duration.ofHours(5)
+    private val streamGameTolerance = Duration.ofHours(24)
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun findMatchingGame(stream: Stream): Game? {
@@ -93,10 +93,8 @@ class StreamService {
     fun findMatchingStreams(game: Game): Set<Stream> {
         val streams = streamRepository.findByGameIsNull()
             .filter {
-                (
-                    abs(it.createdAtAsInstant().toEpochMilli().minus(game.reportedAt!!.toEpochMilli()))
-                        < streamGameTolerance.toMillis()
-                    )
+                Duration.between(it.createdAtAsInstant(), game.reportedAt).abs()
+                    .compareTo(streamGameTolerance) <= 0
             }
         logger.info("stream available for matching: $streams")
         if (streams.isEmpty()) return emptySet()
