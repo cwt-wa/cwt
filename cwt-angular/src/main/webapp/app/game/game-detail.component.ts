@@ -218,7 +218,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
         this.requestService.get<GameStats.GameStats[]>(`game/${this.game.id}/stats`)
             .subscribe(res => {
                 this.stats.push(...res)
-                if (this.game.replayQuantity > this.stats.length) {
+                if (this.game.replayQuantity == null || this.game.replayQuantity > this.stats.length) {
                     const now = Date.now();
                     const reportedAt = new Date(this.game.reportedAt).getTime();
                     const reportedAgo = now - reportedAt;
