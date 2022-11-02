@@ -79,7 +79,7 @@ class StreamService {
         }
             .filter { it.reportedAt != null && it.wasPlayed() }
             .sortedBy { Duration.between(it.reportedAt, streamCreated).abs() }
-            .first()
+            .firstOrNull()
     }
 
     @Transactional
