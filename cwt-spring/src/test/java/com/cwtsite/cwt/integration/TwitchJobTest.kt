@@ -23,6 +23,7 @@ import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -67,7 +68,14 @@ class TwitchJobTest {
         val kayz = userRepository.getOne(10)
         val khamski = userRepository.getOne(5)
         val tournament = tournamentRepository.getOne(1)
-        val game = Game(homeUser = kayz, awayUser = khamski, tournament = tournament)
+        val game = Game(
+            homeUser = kayz,
+            awayUser = khamski,
+            scoreHome = 3,
+            scoreAway = 1,
+            reportedAt = Instant.now(),
+            tournament = tournament
+        )
         return gameRepository.save(game)
     }
 

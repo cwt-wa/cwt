@@ -17,38 +17,20 @@ interface StreamRepository : JpaRepository<Stream, String> {
     @Query(
         """
        select distinct lower(g.homeUser.username) from Game g
-       where g.group is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s where s.game is not null)
+        where g.tournament = :tournament
+         and g.id not in (select s.game.id from Stream s where s.game is not null)
     """
     )
-    fun findDistinctHomeUsernamesToLowercaseInGroup(@Param("tournament") tournament: Tournament): List<String>
+    fun findHomeUsernamesForUnlinkedGames(@Param("tournament") tournament: Tournament): List<String>
 
     @Query(
         """
        select distinct lower(g.awayUser.username) from Game g
-       where g.group is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s where s.game is not null)
+        where g.tournament = :tournament
+         and g.id not in (select s.game.id from Stream s where s.game is not null)
     """
     )
-    fun findDistinctAwayUsernamesToLowercaseInGroup(@Param("tournament") tournament: Tournament): List<String>
-
-    @Query(
-        """
-       select distinct lower(g.homeUser.username) from Game g
-       where g.playoff is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s where s.game is not null)
-    """
-    )
-    fun findDistinctHomeUsernamesToLowercaseInPlayoffs(@Param("tournament") tournament: Tournament): List<String>
-
-    @Query(
-        """
-       select distinct lower(g.awayUser.username) from Game g
-       where g.playoff is not null and g.tournament = :tournament
-        and g.id not in (select s.game.id from Stream s where s.game is not null)
-    """
-    )
-    fun findDistinctAwayUsernamesToLowercaseInPlayoffs(@Param("tournament") tournament: Tournament): List<String>
+    fun findAwayUsernamesForUnlinkedGames(@Param("tournament") tournament: Tournament): List<String>
 
     @Query(
         """
@@ -56,7 +38,7 @@ interface StreamRepository : JpaRepository<Stream, String> {
         where g.id not in (select s.game.id from Stream s where s.game is not null)
     """
     )
-    fun findDistinctHomeUsernamesToLowercase(): List<String>
+    fun findHomeUsernamesForUnlinkedGames(): List<String>
 
     @Query(
         """
@@ -64,7 +46,7 @@ interface StreamRepository : JpaRepository<Stream, String> {
         where g.id not in (select s.game.id from Stream s where s.game is not null)
     """
     )
-    fun findDistinctAwayUsernamesToLowercase(): List<String>
+    fun findAwayUsernamesForUnlinkedGames(): List<String>
 
     fun findByGame(game: Game): List<Stream>
 

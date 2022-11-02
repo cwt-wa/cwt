@@ -71,9 +71,9 @@ class StreamServiceTest {
     fun findMatchingGame() {
         val tournament = EntityDefaults.tournament(status = TournamentStatus.PLAYOFFS)
         val streamCreatedAt = tournament.created!!.plus(5, ChronoUnit.DAYS)
-        `when`(streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament))
+        `when`(streamRepository.findHomeUsernamesForUnlinkedGames(tournament))
             .thenReturn(usernames.subList(0, 30))
-        `when`(streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament))
+        `when`(streamRepository.findAwayUsernamesForUnlinkedGames(tournament))
             .thenReturn(usernames.subList(30, usernames.size))
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withZone(ZoneOffset.UTC)
         testSet.forEach { record ->
@@ -90,7 +90,14 @@ class StreamServiceTest {
             val user1 = EntityDefaults.user(username = record.user1)
             val user2 = EntityDefaults.user(username = record.user2)
             `when`(userRepository.findByUsernameIgnoreCase(anyString())).thenReturn(user1).thenReturn(user2)
-            val game = EntityDefaults.game(homeUser = user1, awayUser = user2, playoff = PlayoffGame(1, 1, 1))
+            val game = EntityDefaults.game(
+                homeUser = user1,
+                awayUser = user2,
+                reportedAt = Instant.now(),
+                scoreHome = 1,
+                scoreAway = 3,
+                playoff = PlayoffGame(1, 1, 1)
+            )
             `when`(gameRepository.findGame(user1, user2, tournament)).thenReturn(listOf(game))
             assertThat(cut.findMatchingGame(stream))
                 .satisfies { matchingGame ->

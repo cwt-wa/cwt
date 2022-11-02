@@ -5,7 +5,6 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
-import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import com.cwtsite.cwt.domain.user.repository.entity.User
@@ -43,26 +42,15 @@ class StreamService {
     fun findMatchingGame(stream: Stream): Game? {
         val tournament = tournamentService.getCurrentTournamentAt(stream.createdAtAsInstant())
         logger.info("Finding matching game for stream \"${stream.title}\" in tournament ${tournament?.id}")
-        val usernames = if (tournament == null) {
-            setOf(
-                *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
-                *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray()
+        val usernames = when (tournament) {
+            null -> setOf(
+                *streamRepository.findHomeUsernamesForUnlinkedGames().toTypedArray(),
+                *streamRepository.findAwayUsernamesForUnlinkedGames().toTypedArray()
             )
-        } else {
-            when (tournament.status) {
-                TournamentStatus.GROUP -> setOf(
-                    *streamRepository.findDistinctHomeUsernamesToLowercaseInGroup(tournament).toTypedArray(),
-                    *streamRepository.findDistinctAwayUsernamesToLowercaseInGroup(tournament).toTypedArray()
-                )
-                TournamentStatus.PLAYOFFS -> setOf(
-                    *streamRepository.findDistinctHomeUsernamesToLowercaseInPlayoffs(tournament).toTypedArray(),
-                    *streamRepository.findDistinctAwayUsernamesToLowercaseInPlayoffs(tournament).toTypedArray()
-                )
-                else -> setOf(
-                    *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
-                    *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray()
-                )
-            }
+            else -> setOf(
+                *streamRepository.findHomeUsernamesForUnlinkedGames(tournament).toTypedArray(),
+                *streamRepository.findAwayUsernamesForUnlinkedGames(tournament).toTypedArray()
+            )
         }
         logger.info("usernames available for fuzzy matching: $usernames")
         val matchingUsernames = stream.relevantWordsInTitle(usernames)
@@ -84,19 +72,14 @@ class StreamService {
         val user2 = userRepository.findByUsernameIgnoreCase(matchingUsernames[1])
         if (user1 == null || user2 == null) return null
         logger.info("Usernames were found in the database, finding the games with them")
+        val streamCreated = stream.createdAtAsInstant()
         return when (tournament) {
             null -> gameRepository.findGame(user1, user2)
             else -> gameRepository.findGame(user1, user2, tournament)
         }
-            .filter {
-                logger.info("Filtering game $it")
-                when (tournament?.status) {
-                    TournamentStatus.GROUP -> it.group()
-                    TournamentStatus.PLAYOFFS -> it.playoff()
-                    else -> true
-                }
-            }
-            .maxByOrNull { it.reportedAt!! }
+            .filter { it.reportedAt != null && it.wasPlayed() }
+            .sortedBy { Duration.between(it.reportedAt, streamCreated).abs() }
+            .first()
     }
 
     @Transactional
@@ -118,8 +101,8 @@ class StreamService {
         logger.info("stream available for matching: $streams")
         if (streams.isEmpty()) return emptySet()
         val usernames = setOf(
-            *streamRepository.findDistinctHomeUsernamesToLowercase().toTypedArray(),
-            *streamRepository.findDistinctAwayUsernamesToLowercase().toTypedArray()
+            *streamRepository.findHomeUsernamesForUnlinkedGames(game.tournament).toTypedArray(),
+            *streamRepository.findAwayUsernamesForUnlinkedGames(game.tournament).toTypedArray()
         )
         logger.info("usernames to fuzzy match in stream title: $usernames")
         return streams
