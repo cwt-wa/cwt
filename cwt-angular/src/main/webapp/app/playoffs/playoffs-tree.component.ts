@@ -126,7 +126,7 @@ export class PlayoffsTreeComponent implements OnInit {
                 const idxOfPreviousBet = game.bets.findIndex(b => b.user.id === this.authUser.id);
                 if (idxOfPreviousBet === -1) {
                     game.bets.push(res);
-                    this.toastr.success("Bet successfully placed    .");
+                    this.toastr.success("Bet successfully placed.");
                 } else {
                     game.bets[idxOfPreviousBet] = res;
                     this.toastr.success("Bet successfully updated.");
