@@ -35,8 +35,7 @@ constructor(
             }
             waitFor(1, TimeUnit.MINUTES)
         }
-        val txt = process.inputStream.bufferedReader().use { it.readText() }
-        return txt
+        return process.inputStream.bufferedReader().use { it.readText() }
             .trim()
             .lines()
             .map {
