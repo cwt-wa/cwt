@@ -8,6 +8,7 @@ import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.io.File
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 
@@ -30,6 +31,7 @@ constructor(
             ) { "${it.homeUser!!.id},${it.awayUser!!.id},${it.scoreHome},${it.scoreAway}" }
         val cmd = "/Users/lair/relrank"
         val pb = ProcessBuilder(*cmd.split("\\s".toRegex()).toTypedArray())
+            .directory(File(System.getProperty("java.io.tmpdir")))
             .redirectErrorStream(true)
         with(pb.environment()) {
             put(
