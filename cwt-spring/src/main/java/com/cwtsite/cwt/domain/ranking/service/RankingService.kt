@@ -90,6 +90,7 @@ constructor(
                 ranking.wonRatio = ranking.won.toDouble() / ranking.played
                 ranking.participations = ranking.user?.userStats?.participations ?: 0
                 tournaments
+                    // TODO just process all games
                     .filter { it.status == TournamentStatus.ARCHIVED }
                     .forEach {
                         ranking.gold += if (it.goldWinner == ranking.user) 1 else 0
@@ -98,6 +99,7 @@ constructor(
                     }
                 ranking
             }
+        // TODO lastDiff should compare to the state after last tournament not last generation
         val prev = rankingRepository.findAll().sortedByDescending { it.points }
         rankings.sortedByDescending { it.points }.forEachIndexed { index, ranking ->
             val idx = prev.indexOfFirst { it.user == ranking.user }
