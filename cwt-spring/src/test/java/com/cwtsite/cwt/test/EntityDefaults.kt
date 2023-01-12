@@ -8,12 +8,14 @@ import com.cwtsite.cwt.domain.group.entity.Group
 import com.cwtsite.cwt.domain.message.entity.Message
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
+import com.cwtsite.cwt.domain.ranking.entity.Ranking
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
 import com.cwtsite.cwt.domain.stream.entity.Channel
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import java.math.BigDecimal
 import java.time.Instant
 
 object EntityDefaults {
@@ -31,7 +33,10 @@ object EntityDefaults {
         numOfGroupAdvancing: Int = 2,
         moderators: MutableSet<User> = mutableSetOf(user()),
         threeWay: Boolean = false,
-        status: TournamentStatus = TournamentStatus.FINISHED
+        status: TournamentStatus = TournamentStatus.FINISHED,
+        goldWinner: User? = null,
+        silverWinner: User? = null,
+        bronzeWinner: User? = null,
     ) = Tournament(
         id = id,
         created = created,
@@ -39,7 +44,10 @@ object EntityDefaults {
         numOfGroupAdvancing = numOfGroupAdvancing,
         moderators = moderators,
         threeWay = threeWay,
-        status = status
+        status = status,
+        goldWinner = goldWinner,
+        silverWinner = silverWinner,
+        bronzeWinner = bronzeWinner,
     )
 
     fun game(
@@ -67,12 +75,13 @@ object EntityDefaults {
         reportedAt = reportedAt
     )
 
-    fun channel(id: String = "1111", title: String = "TitleTV", user: User = user(), login: String = "zemkecwt") = Channel(
-        id = id,
-        title = title,
-        login = login,
-        user = user
-    )
+    fun channel(id: String = "1111", title: String = "TitleTV", user: User = user(), login: String = "zemkecwt") =
+        Channel(
+            id = id,
+            title = title,
+            login = login,
+            user = user
+        )
 
     fun stream(
         title: String = "epic stream",
@@ -138,5 +147,16 @@ object EntityDefaults {
             newsType = newsType,
             recipients = recipients,
             created = created
+        )
+
+    fun ranking(
+        id: Long = 1,
+        user: User,
+        points: BigDecimal = BigDecimal("1.0")
+    ) =
+        Ranking(
+            id = id,
+            user = user,
+            points = points,
         )
 }
