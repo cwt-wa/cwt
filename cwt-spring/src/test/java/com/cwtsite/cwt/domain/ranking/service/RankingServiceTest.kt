@@ -1,6 +1,7 @@
 package com.cwtsite.cwt.domain.ranking.service
 
 import com.cwtsite.cwt.domain.game.service.GameRepository
+import com.cwtsite.cwt.domain.ranking.service.RankingService.Companion.MAX_ROUNDS_WON
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
@@ -11,6 +12,9 @@ import com.cwtsite.cwt.test.EntityDefaults.tournament
 import com.cwtsite.cwt.test.EntityDefaults.user
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.notNullValue
+import org.junit.Assume
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -18,12 +22,16 @@ import org.mockito.Mock
 import org.mockito.Mockito.anyList
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
+import org.slf4j.LoggerFactory
+import org.springframework.test.util.ReflectionTestUtils
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @RunWith(MockitoJUnitRunner::class)
 class RankingServiceTest {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     @InjectMocks
     private lateinit var rankingService: RankingService
@@ -56,8 +64,14 @@ class RankingServiceTest {
                 scoreAway = 1,
             ),
         )
-        assertThat(rankingService.relrank(games)).satisfies {r ->
-            assertThat(r.maxOf { it.value }).isEqualTo(BigDecimal(1 * RankingService.MAX_ROUNDS_WON))
+        val relrankExec = System.getenv("RELRANK_EXEC")
+        val warn = "no relrank executable, did not test this unit."
+        logger.warn(warn)
+        Assume.assumeThat(warn, relrankExec, `is`(notNullValue()))
+        logger.info("Using relrank executable: $relrankExec")
+        ReflectionTestUtils.setField(rankingService, "relrankExec", relrankExec)
+        assertThat(rankingService.relrank(games)).satisfies { r ->
+            assertThat(r.maxOf { it.value }).isEqualTo(BigDecimal(1 * MAX_ROUNDS_WON))
             assertThat(r).hasSize(4)
             assertThat(r.keys).containsExactlyInAnyOrder(1, 2, 3, 4)
         }

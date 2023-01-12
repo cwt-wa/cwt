@@ -6,7 +6,9 @@ import com.cwtsite.cwt.domain.ranking.entity.Ranking
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.io.File
 import java.math.BigDecimal
@@ -21,16 +23,23 @@ constructor(
     private val rankingRepository: RankingRepository,
     private val tournamentRepository: TournamentRepository,
 ) {
+    @Value("\${relrank.executable:#{null}}")
+    private val relrankExec: String? = null
 
-    fun relrank(games: List<Game>): Map<Long, BigDecimal> {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
+    fun relrank(games: List<Game>): Map<Long, BigDecimal>? {
+        if (relrankExec == null) {
+            logger.warn("No relrank executable, cannot generate ranking")
+            return null
+        }
         val stdin = games
             .filter { it.wasPlayed() }
             .joinToString(
                 separator = "\n",
                 postfix = "\n"
             ) { "${it.homeUser!!.id},${it.awayUser!!.id},${it.scoreHome},${it.scoreAway}" }
-        val cmd = "/Users/lair/relrank"
-        val pb = ProcessBuilder(*cmd.split("\\s".toRegex()).toTypedArray())
+        val pb = ProcessBuilder(relrankExec)
             .directory(File(System.getProperty("java.io.tmpdir")))
             .redirectErrorStream(true)
         with(pb.environment()) {
