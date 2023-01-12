@@ -32,7 +32,10 @@ constructor(
         val pb = ProcessBuilder(*cmd.split("\\s".toRegex()).toTypedArray())
             .redirectErrorStream(true)
         with(pb.environment()) {
-            put("RELRANK_SCALE_MAX", "5000")
+            put(
+                "RELRANK_SCALE_MAX",
+                (games.distinctBy { it.tournament }.size * MAX_ROUNDS_WON).toString()
+            )
         }
         val process = pb.start().apply {
             outputStream.bufferedWriter().apply {
@@ -96,5 +99,13 @@ constructor(
             }
         }
         return rankingRepository.saveAll(rankings).sortedByDescending { it.points }
+    }
+
+    companion object {
+        /**
+         * Per tournament one can win 3 group stage games, round of last 16,
+         * quarterfinal, semifinal and final.
+         */
+        const val MAX_ROUNDS_WON: Int = 3 * 3 + 3 * 3 + 4
     }
 }

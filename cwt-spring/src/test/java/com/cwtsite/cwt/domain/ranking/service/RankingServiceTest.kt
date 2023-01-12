@@ -56,9 +56,11 @@ class RankingServiceTest {
                 scoreAway = 1,
             ),
         )
-        val res = rankingService.relrank(games)
-        assertThat(res).hasSize(4)
-        assertThat(res.keys).containsExactlyInAnyOrder(1, 2, 3, 4)
+        assertThat(rankingService.relrank(games)).satisfies {r ->
+            assertThat(r.maxOf { it.value }).isEqualTo(BigDecimal(1 * RankingService.MAX_ROUNDS_WON))
+            assertThat(r).hasSize(4)
+            assertThat(r.keys).containsExactlyInAnyOrder(1, 2, 3, 4)
+        }
     }
 
     @Test
