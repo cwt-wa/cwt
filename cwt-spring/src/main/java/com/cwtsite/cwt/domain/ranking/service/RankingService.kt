@@ -90,8 +90,7 @@ constructor(
                 ranking.wonRatio = ranking.won.toDouble() / ranking.played
                 ranking.participations = ranking.user?.userStats?.participations ?: 0
                 tournaments
-                    // TODO conceptually do ranking only for archived tournaments?
-                    .filter { it.status == TournamentStatus.FINISHED || it.status == TournamentStatus.ARCHIVED }
+                    .filter { it.status == TournamentStatus.ARCHIVED }
                     .forEach {
                         ranking.gold += if (it.goldWinner == ranking.user) 1 else 0
                         ranking.silver += if (it.silverWinner == ranking.user) 1 else 0
