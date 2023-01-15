@@ -29,10 +29,15 @@ data class Ranking(
      * Last tournament participated in.
      */
     @ManyToOne
-    var last: Tournament? = null,
+    var lastTournament: Tournament? = null,
 
     /**
-     * Change in places in this ranking since last tournament.
+     * Zero-based index sorted by points descendingly in ranking after last finished or archived tournament.
+     */
+    var lastPlace: Int = 0,
+
+    /**
+     * Change in places in this ranking since last finished or archived tournament.
      */
     var lastDiff: Int = 0,
 
@@ -57,7 +62,7 @@ data class Ranking(
 ) {
 
     override fun toString(): String {
-        return "Ranking(id=$id, user=$user, last=$last, lastDiff=$lastDiff, points=$points, participations=$participations, gold=$gold, silver=$silver, bronze=$bronze, played=$played, won=$won, lost=$lost, wonRatio=$wonRatio)"
+        return "Ranking(id=$id, user=$user, lastTournament=$lastTournament, lastDiff=$lastDiff, points=$points, participations=$participations, gold=$gold, silver=$silver, bronze=$bronze, played=$played, won=$won, lost=$lost, wonRatio=$wonRatio)"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -3,9 +3,11 @@ package com.cwtsite.cwt.domain.ranking.service
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.service.GameRepository
 import com.cwtsite.cwt.domain.ranking.entity.Ranking
-import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus
+import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus.ARCHIVED
+import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus.FINISHED
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
+import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -43,6 +45,7 @@ constructor(
             .directory(File(System.getProperty("java.io.tmpdir")))
             .redirectErrorStream(true)
         with(pb.environment()) {
+            // TODO tweak some more variables to get chuv rated better
             put(
                 "RELRANK_SCALE_MAX",
                 (games.distinctBy { it.tournament }.size * MAX_ROUNDS_WON).toString()
@@ -82,16 +85,16 @@ constructor(
                             ranking.won += g.scoreAway ?: 0
                             ranking.lost += g.scoreHome ?: 0
                         }
-                        if (ranking.last == null || g.tournament.created!!.isAfter(ranking.last!!.created)) {
-                            ranking.last = g.tournament
+                        if (ranking.lastTournament == null ||
+                            g.tournament.created!!.isAfter(ranking.lastTournament!!.created)
+                        ) {
+                            ranking.lastTournament = g.tournament
                         }
                     }
                 ranking.played = ranking.won + ranking.lost
                 ranking.wonRatio = ranking.won.toDouble() / ranking.played
                 ranking.participations = ranking.user?.userStats?.participations ?: 0
                 tournaments
-                    // TODO just process all games
-                    .filter { it.status == TournamentStatus.ARCHIVED }
                     .forEach {
                         ranking.gold += if (it.goldWinner == ranking.user) 1 else 0
                         ranking.silver += if (it.silverWinner == ranking.user) 1 else 0
@@ -99,17 +102,26 @@ constructor(
                     }
                 ranking
             }
-        // TODO lastDiff should compare to the state after last tournament not last generation
-        val prev = rankingRepository.findAll().sortedByDescending { it.points }
-        rankings.sortedByDescending { it.points }.forEachIndexed { index, ranking ->
-            val idx = prev.indexOfFirst { it.user == ranking.user }
-            if (idx >= 0) {
-                ranking.lastDiff = index - idx
-            } else {
-                // not having participated works as if you'd ended up last
-                ranking.lastDiff = -prev.size + index
-            }
+        // comparing new position to position of after last finished/archived tournament
+        val prev = rankingRepository.findAll()
+        val userPlaceAssoc: MutableMap<User, Int> = mutableMapOf()
+        rankings.sortedByDescending { it.points }.forEachIndexed { newPlace, ranking ->
+            userPlaceAssoc[ranking.user!!] =
+                newPlace - (prev.find { it.user == ranking.user }?.lastPlace ?: prev.size)
+            ranking.lastDiff = userPlaceAssoc[ranking.user!!]!!
         }
+        val prevRef = prev
+            .mapNotNull { it.lastTournament }
+            .filter { it.status == ARCHIVED || it.status == FINISHED }
+            .maxByOrNull { it.created!! }!!
+        val newRef = rankings
+            .mapNotNull { it.lastTournament }
+            .filter { it.status == ARCHIVED || it.status == FINISHED }
+            .maxByOrNull { it.created!! }!!
+        if (newRef != prevRef) {
+            rankings.forEach { it.lastPlace = userPlaceAssoc[it.user]!! }
+        }
+        rankingRepository.deleteAll()
         return rankingRepository.saveAll(rankings).sortedByDescending { it.points }
     }
 

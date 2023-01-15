@@ -110,7 +110,7 @@ class RankingServiceTest {
                         awayUser = users[1],
                         scoreHome = 1,
                         scoreAway = 2,
-                        tournament = tournaments[0],
+                        tournament = tournaments[1],
                     ),
                     game(
                         homeUser = users[2],
@@ -125,11 +125,15 @@ class RankingServiceTest {
             .thenReturn(listOf(tournaments[0], tournaments[1]))
         `when`(rankingRepository.saveAll(anyList())).thenAnswer { it.arguments[0] }
         `when`(userRepository.findAllById(users.map { it.id }.toSet())).thenReturn(users)
-        val prev = listOf(users[0] to 4, users[1] to 3, users[2] to 2).associate {
-            it.first to ranking(
-                id = it.first.id!!,
-                user = it.first,
-                points = BigDecimal(it.second)
+        val prev = listOf(users[0] to 4, users[1] to 3, users[2] to 2)
+            .withIndex()
+            .associate {
+            it.value.first to ranking(
+                id = it.value.first.id!!,
+                user = it.value.first,
+                points = BigDecimal(it.value.second),
+                lastTournament = tournaments[0],
+                lastPlace = it.index,
             )
         }
         `when`(rankingRepository.findAll()).thenReturn(prev.values.toList())
@@ -147,7 +151,7 @@ class RankingServiceTest {
                     assertThat(it.wonRatio).isCloseTo(.333, within(.001))
                     assertThat(it.points).isGreaterThan(BigDecimal.ZERO)
                     assertThat(it.participations).isEqualTo(users[0].userStats!!.participations)
-                    assertThat(it.last).isEqualTo(tournaments[0])
+                    assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(0)
                 }
 
@@ -161,7 +165,7 @@ class RankingServiceTest {
                     assertThat(it.wonRatio).isCloseTo(.666, within(.001))
                     assertThat(it.points).isGreaterThan(BigDecimal.ZERO)
                     assertThat(it.participations).isEqualTo(users[1].userStats!!.participations)
-                    assertThat(it.last).isEqualTo(tournaments[0])
+                    assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(0)
                 }
 
@@ -175,7 +179,7 @@ class RankingServiceTest {
                     assertThat(it.wonRatio).isCloseTo(.8, within(.1))
                     assertThat(it.points).isGreaterThan(BigDecimal.ZERO)
                     assertThat(it.participations).isEqualTo(users[2].userStats!!.participations)
-                    assertThat(it.last).isEqualTo(tournaments[1])
+                    assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(1)
                 }
 
@@ -189,7 +193,7 @@ class RankingServiceTest {
                     assertThat(it.wonRatio).isCloseTo(.2, within(.1))
                     assertThat(it.points).isGreaterThan(BigDecimal.ZERO)
                     assertThat(it.participations).isEqualTo(users[3].userStats!!.participations)
-                    assertThat(it.last).isEqualTo(tournaments[1])
+                    assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(-1) // didn't participate
                 }
             }

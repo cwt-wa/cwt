@@ -152,11 +152,15 @@ object EntityDefaults {
     fun ranking(
         id: Long = 1,
         user: User,
-        points: BigDecimal = BigDecimal("1.0")
+        points: BigDecimal = BigDecimal("1.0"),
+        lastTournament: Tournament = tournament(),
+        lastPlace: Int = 0,
     ) =
         Ranking(
             id = id,
             user = user,
             points = points,
+            lastTournament = lastTournament,
+            lastPlace = lastPlace,
         )
 }
