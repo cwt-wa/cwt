@@ -20,6 +20,7 @@ import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.anyList
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import org.slf4j.LoggerFactory
@@ -138,6 +139,7 @@ class RankingServiceTest {
         }
         `when`(rankingRepository.findAll()).thenReturn(prev.values.toList())
         val act = rankingService.save(relrank)
+        verify(rankingRepository).deleteAll();
         assertThat(act.map { it.user }).containsExactlyInAnyOrder(*users.toTypedArray())
         act.forEach {
             when (it.user) {
