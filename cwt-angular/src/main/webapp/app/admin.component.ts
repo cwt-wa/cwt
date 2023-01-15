@@ -35,4 +35,12 @@ export class AdminComponent implements OnInit {
                     this.tournament = res;
                 });
     }
+
+    calcRanking(): void {
+        this.toastr.info("Calc has been triggered. Please wait a bit.");
+        this.requestService.post('ranking/calc')
+                .subscribe(() => {
+                    this.toastr.success("Ranking has been calculated.");
+                });
+    }
 }

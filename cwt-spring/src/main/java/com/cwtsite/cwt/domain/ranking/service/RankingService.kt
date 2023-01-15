@@ -67,8 +67,7 @@ constructor(
             }
     }
 
-    fun save(relrank: Map<Long, BigDecimal>): List<Ranking> {
-        val games = gameRepository.findAll()
+    fun save(games: List<Game>, relrank: Map<Long, BigDecimal>): List<Ranking> {
         val tournaments = tournamentRepository.findAll()
         val users = userRepository.findAllById(relrank.keys)
         val rankings = users
@@ -120,6 +119,8 @@ constructor(
         rankingRepository.deleteAll()
         return rankingRepository.saveAll(rankings).sortedByDescending { it.points }
     }
+
+    fun findRelevantGames() = gameRepository.findAll().filter { it.wasPlayed() }
 
     companion object {
         /**
