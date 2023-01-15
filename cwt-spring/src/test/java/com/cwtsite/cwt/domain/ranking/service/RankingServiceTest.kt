@@ -129,17 +129,17 @@ class RankingServiceTest {
         val prev = listOf(users[0] to 4, users[1] to 3, users[2] to 2)
             .withIndex()
             .associate {
-            it.value.first to ranking(
-                id = it.value.first.id!!,
-                user = it.value.first,
-                points = BigDecimal(it.value.second),
-                lastTournament = tournaments[0],
-                lastPlace = it.index,
-            )
-        }
+                it.value.first to ranking(
+                    id = it.value.first.id!!,
+                    user = it.value.first,
+                    points = BigDecimal(it.value.second),
+                    lastTournament = tournaments[0],
+                    lastPlace = it.index,
+                )
+            }
         `when`(rankingRepository.findAll()).thenReturn(prev.values.toList())
         val act = rankingService.save(relrank)
-        verify(rankingRepository).deleteAll();
+        verify(rankingRepository).deleteAll()
         assertThat(act.map { it.user }).containsExactlyInAnyOrder(*users.toTypedArray())
         act.forEach {
             when (it.user) {
@@ -155,6 +155,7 @@ class RankingServiceTest {
                     assertThat(it.participations).isEqualTo(users[0].userStats!!.participations)
                     assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(0)
+                    assertThat(it.lastPlace).isEqualTo(0)
                 }
 
                 users[1] -> {
@@ -169,6 +170,7 @@ class RankingServiceTest {
                     assertThat(it.participations).isEqualTo(users[1].userStats!!.participations)
                     assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(0)
+                    assertThat(it.lastPlace).isEqualTo(1)
                 }
 
                 users[2] -> {
@@ -183,6 +185,7 @@ class RankingServiceTest {
                     assertThat(it.participations).isEqualTo(users[2].userStats!!.participations)
                     assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(1)
+                    assertThat(it.lastPlace).isEqualTo(3)
                 }
 
                 users[3] -> {
@@ -197,6 +200,7 @@ class RankingServiceTest {
                     assertThat(it.participations).isEqualTo(users[3].userStats!!.participations)
                     assertThat(it.lastTournament).isEqualTo(tournaments[1])
                     assertThat(it.lastDiff).isEqualTo(-1) // didn't participate
+                    assertThat(it.lastPlace).isEqualTo(2)
                 }
             }
         }

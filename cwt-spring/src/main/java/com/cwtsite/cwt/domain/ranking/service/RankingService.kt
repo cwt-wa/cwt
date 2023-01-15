@@ -7,7 +7,6 @@ import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus.ARC
 import com.cwtsite.cwt.domain.tournament.entity.enumeration.TournamentStatus.FINISHED
 import com.cwtsite.cwt.domain.tournament.service.TournamentRepository
 import com.cwtsite.cwt.domain.user.repository.UserRepository
-import com.cwtsite.cwt.domain.user.repository.entity.User
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -104,12 +103,6 @@ constructor(
             }
         // comparing new position to position of after last finished/archived tournament
         val prev = rankingRepository.findAll()
-        val userPlaceAssoc: MutableMap<User, Int> = mutableMapOf()
-        rankings.sortedByDescending { it.points }.forEachIndexed { newPlace, ranking ->
-            userPlaceAssoc[ranking.user!!] =
-                newPlace - (prev.find { it.user == ranking.user }?.lastPlace ?: prev.size)
-            ranking.lastDiff = userPlaceAssoc[ranking.user!!]!!
-        }
         val prevRef = prev
             .mapNotNull { it.lastTournament }
             .filter { it.status == ARCHIVED || it.status == FINISHED }
@@ -118,8 +111,11 @@ constructor(
             .mapNotNull { it.lastTournament }
             .filter { it.status == ARCHIVED || it.status == FINISHED }
             .maxByOrNull { it.created!! }!!
-        if (newRef != prevRef) {
-            rankings.forEach { it.lastPlace = userPlaceAssoc[it.user]!! }
+        rankings.sortedByDescending { it.points }.forEachIndexed { newPlace, ranking ->
+            if (newRef != prevRef) {
+                ranking.lastPlace = newPlace
+            }
+            ranking.lastDiff = newPlace - (prev.find { it.user == ranking.user }?.lastPlace ?: prev.size)
         }
         rankingRepository.deleteAll()
         return rankingRepository.saveAll(rankings).sortedByDescending { it.points }
