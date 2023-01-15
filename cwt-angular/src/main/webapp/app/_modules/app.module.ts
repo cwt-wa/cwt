@@ -99,6 +99,10 @@ const appRoutes: Routes = [
         loadChildren: () => import('./password-reset.module').then(m => m.PasswordResetModule)
     },
     {
+        path: "ranking",
+        redirectTo: "archive/ranking",
+    },
+    {
         path: "hell",
         redirectTo: "maps/hell",
     },

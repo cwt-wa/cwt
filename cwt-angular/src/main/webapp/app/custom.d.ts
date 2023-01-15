@@ -474,3 +474,18 @@ export interface ZemkeTagboxElement extends HTMLElement {
     zemkeInput: HTMLInputElement;
 }
 
+export interface RankingDto {
+    user: UserMinimalDto;
+    lastTournament: TournamentDto;
+    lastPlace: number;
+    lastDiff: number;
+    points: number;
+    participations: number;
+    gold: number;
+    silver: number;
+    bronze: number;
+    played: number;
+    won: number;
+    lost: number;
+    wonRatio: number;
+}

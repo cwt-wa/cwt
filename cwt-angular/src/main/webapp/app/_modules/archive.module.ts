@@ -8,6 +8,7 @@ import {SharedModule} from "./shared.module";
 import {GroupModule} from "./group.module";
 import {ArchiveDetailComponent} from "../archive/archive-detail.component";
 import {DamnArchiveComponent} from "../archive/damn-archive.component";
+import {RankingComponent} from "../archive/ranking.component";
 import {PlayoffModule} from "./playoff.module";
 
 
@@ -16,7 +17,10 @@ const routes: Routes = [
         path: '',
         component: DamnArchiveComponent
     },
-
+    {
+        path: 'ranking',
+        component: RankingComponent
+    },
     {
         path: ':idOrYear',
         component: ArchiveDetailComponent
@@ -37,6 +41,7 @@ const routes: Routes = [
     declarations: [
         DamnArchiveComponent,
         ArchiveDetailComponent,
+        RankingComponent,
     ],
     exports: [],
     providers: [],

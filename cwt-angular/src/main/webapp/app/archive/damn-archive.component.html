@@ -1,4 +1,12 @@
-<h1 class="mb-5">Archive</h1>
+<div class="row mb-5">
+    <h1 class="col">Archive</h1>
+    <div class="col text-right">
+        <a class="btn btn-lg btn-primary text-nowrap" [routerLink]="['ranking']">
+            <i class="fa fa fa-table"></i>
+            <span class="d-none d-sm-inline">&nbsp;All-Time Ranking</span>
+        </a>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 mb-sm-4" *ngFor="let tournament of tournaments">

@@ -122,6 +122,8 @@ constructor(
 
     fun findRelevantGames() = gameRepository.findAll().filter { it.wasPlayed() }
 
+    fun findRankings() = rankingRepository.findAll().sortedByDescending { it.points }
+
     companion object {
         /**
          * Per tournament one can win 3 group stage games, round of last 16,

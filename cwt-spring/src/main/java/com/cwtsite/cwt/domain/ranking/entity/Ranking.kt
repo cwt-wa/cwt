@@ -18,11 +18,11 @@ import javax.validation.constraints.Digits
 data class Ranking(
 
     @Id
-    @Column
+    @Column(name = "user_id")
     var userId: Long? = null,
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     @MapsId
     var user: User,
 
