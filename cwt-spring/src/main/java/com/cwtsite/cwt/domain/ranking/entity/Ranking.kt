@@ -3,27 +3,28 @@ package com.cwtsite.cwt.domain.ranking.entity
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import java.math.BigDecimal
+import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.MapsId
 import javax.persistence.OneToOne
-import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 import javax.validation.constraints.Digits
 
 @Entity
 @Table(name = "ranking")
-@SequenceGenerator(name = "ranking_seq", sequenceName = "ranking_id_seq", allocationSize = 1)
 data class Ranking(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ranking_seq")
-    var id: Long? = null,
+    @Column
+    var userId: Long? = null,
 
     @OneToOne
-    var user: User? = null,
+    @JoinColumn(name = "id")
+    @MapsId
+    var user: User,
 
     /**
      * Last tournament participated in.
@@ -60,20 +61,22 @@ data class Ranking(
 
     var wonRatio: Double = .0,
 ) {
-
+    init {
+        userId = user.id
+    }
     override fun toString(): String {
-        return "Ranking(id=$id, user=$user, lastTournament=$lastTournament, lastDiff=$lastDiff, points=$points, participations=$participations, gold=$gold, silver=$silver, bronze=$bronze, played=$played, won=$won, lost=$lost, wonRatio=$wonRatio)"
+        return "Ranking(user=$user, lastTournament=$lastTournament, lastDiff=$lastDiff, points=$points, participations=$participations, gold=$gold, silver=$silver, bronze=$bronze, played=$played, won=$won, lost=$lost, wonRatio=$wonRatio)"
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         other as Ranking
-        if (id != other.id) return false
+        if (user.id != other.user.id) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return id?.hashCode() ?: 0
+        return user.id?.hashCode() ?: 0
     }
 }

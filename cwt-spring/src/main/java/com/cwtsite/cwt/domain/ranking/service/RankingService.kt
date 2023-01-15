@@ -91,7 +91,7 @@ constructor(
                     }
                 ranking.played = ranking.won + ranking.lost
                 ranking.wonRatio = ranking.won.toDouble() / ranking.played
-                ranking.participations = ranking.user?.userStats?.participations ?: 0
+                ranking.participations = ranking.user.userStats?.participations ?: 0
                 tournaments
                     .forEach {
                         ranking.gold += if (it.goldWinner == ranking.user) 1 else 0
