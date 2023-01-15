@@ -157,8 +157,8 @@ object EntityDefaults {
         lastPlace: Int = 0,
     ) =
         Ranking(
-            id = id,
             user = user,
+            userId = user.id,
             points = points,
             lastTournament = lastTournament,
             lastPlace = lastPlace,
