@@ -85,7 +85,7 @@ data class User(
     @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
     var photo: Photo? = null,
 
-    @Column(optional = false)
+    @Column(nullable = false)
     var locked: Boolean = false,
 
     @field:CreationTimestamp
