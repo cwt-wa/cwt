@@ -103,25 +103,22 @@ class RankingServiceTest {
                 bronzeWinner = users[2],
             )
         }
-        `when`(gameRepository.findAll())
-            .thenReturn(
-                listOf(
-                    game(
-                        homeUser = users[0],
-                        awayUser = users[1],
-                        scoreHome = 1,
-                        scoreAway = 2,
-                        tournament = tournaments[1],
-                    ),
-                    game(
-                        homeUser = users[2],
-                        awayUser = users[3],
-                        scoreHome = 4,
-                        scoreAway = 1,
-                        tournament = tournaments[1],
-                    )
-                )
+        val games = listOf(
+            game(
+                homeUser = users[0],
+                awayUser = users[1],
+                scoreHome = 1,
+                scoreAway = 2,
+                tournament = tournaments[1],
+            ),
+            game(
+                homeUser = users[2],
+                awayUser = users[3],
+                scoreHome = 4,
+                scoreAway = 1,
+                tournament = tournaments[1],
             )
+        )
         `when`(tournamentRepository.findAll())
             .thenReturn(listOf(tournaments[0], tournaments[1]))
         `when`(rankingRepository.saveAll(anyList())).thenAnswer { it.arguments[0] }
@@ -138,7 +135,7 @@ class RankingServiceTest {
                 )
             }
         `when`(rankingRepository.findAll()).thenReturn(prev.values.toList())
-        val act = rankingService.save(relrank)
+        val act = rankingService.save(games, relrank)
         verify(rankingRepository).deleteAll()
         assertThat(act.map { it.user }).containsExactlyInAnyOrder(*users.toTypedArray())
         act.forEach {

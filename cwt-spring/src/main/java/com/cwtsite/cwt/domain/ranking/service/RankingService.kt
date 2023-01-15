@@ -24,7 +24,7 @@ constructor(
     private val rankingRepository: RankingRepository,
     private val tournamentRepository: TournamentRepository,
 ) {
-    @Value("\${relrank.executable:#{null}}")
+    @Value("\${cwt.relrank.executable:#{null}}")
     private val relrankExec: String? = null
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -105,7 +105,7 @@ constructor(
         val prevRef = prev
             .mapNotNull { it.lastTournament }
             .filter { it.status == ARCHIVED || it.status == FINISHED }
-            .maxByOrNull { it.created!! }!!
+            .maxByOrNull { it.created!! }
         val newRef = rankings
             .mapNotNull { it.lastTournament }
             .filter { it.status == ARCHIVED || it.status == FINISHED }
