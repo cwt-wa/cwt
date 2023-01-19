@@ -5,10 +5,34 @@ import {RankingDto} from "../custom";
 @Component({
     selector: 'cwt-ranking',
     styles: [`
+        .wrapper {
+            border-radius: .5rem;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+        }
+        table {
+            color: #aaa;
+        }
+        table a {
+            color: #ccc;
+        }
         td {
             padding: .4rem .7rem;
         }
-        td.lastDiff, td.place, td.points {
+        td.user, td.place, td.points {
+            font-weight: strong;
+            font-size: 1.2rem;
+        }
+        td.lastDiff,
+        td.place,
+        td.points,
+        td.won,
+        td.wonRatio,
+        td.lost,
+        td.played,
+        td.participations {
             font-family: monospace;
             text-align: right;
         }
@@ -22,30 +46,43 @@ import {RankingDto} from "../custom";
             content: "\\25B2"
         }
         td.lastDiff span.lose {
-            color: rgb(137, 2, 62);
+            color: rgb(200, 0, 62);
         }
         td.lastDiff span.lose::after {
             content: "\\25BC"
         }
+        td.won,
+        td.participations {
+            padding-left: 2rem;
+        }
         td.reach {
             text-align: left;
             font-size: 1.2rem;
+            white-space: nowrap;
         }
         td.reach img {
             height: 3rem;
-            padding-right: 1rem;
+        }
+        td.reach .imgcont {
+            display: inline-block;
+        }
+        td.reach .imgcont:not(:first-child) {
+            margin-left: 1.5rem;
         }
         td.won {
             color: rgb(42, 157, 143);
         }
+        td.wonRatio {
+            padding-left: 0;
+        }
         td.lost {
-            color: rgb(137, 2, 62);
+            color: rgb(200, 0, 62);
         }
     `],
     template: `
+    <h1 class="mb-4">All-Time Ranking</h1>
     <img *ngIf="!rankings?.length" src="/loading.gif">
-    <ng-container *ngIf="rankings?.length">
-        <h1>All-Time Ranking</h1>
+    <div class="wrapper" *ngIf="rankings?.length">
         <table>
             <!--
             <thead>
@@ -57,7 +94,7 @@ import {RankingDto} from "../custom";
             </thead>
             -->
             <tbody>
-            <tr *ngFor="let r of rankings; index as index">
+            <tr *ngFor="let r of rankings; index as index" [style.background]="'rgba(50, 42, 33, ' + bgs[r.lastTournament.year] + ')'">
                 <td class="lastDiff">
                     <span [class.gain]="r.lastDiff < 0" [class.lose]="r.lastDiff > 0">
                         {{ absLastDiffs[index] }}
@@ -66,8 +103,8 @@ import {RankingDto} from "../custom";
                 <td class="place">
                     {{ index + 1 }}
                 </td>
-                <td>
-                    <cwt-user [username]="r.user.username"></cwt-user>
+                <td class="user">
+                    <a [routerLink]="['/users', r.user.username]">{{r.user.username}}</a>
                 </td>
                 <td class="points">
                     <strong>{{ r.points }}</strong>
@@ -81,10 +118,10 @@ import {RankingDto} from "../custom";
                 <td class="lost">
                     {{ r.lost }}
                 </td>
-                <td>
+                <td class="played">
                     {{ r.played }}
                 </td>
-                <td>
+                <td class="participations">
                     {{ r.participations }}
                 </td>
                 <td>
@@ -94,17 +131,16 @@ import {RankingDto} from "../custom";
                 </td>
                 <td class="reach">
                     <ng-container *ngFor="let kv of trophies">
-                        <ng-container *ngIf="r[kv[0]] > 0">
+                        <div class="imgcont" *ngIf="r[kv[0]] > 0">
                             {{ r[kv[0]] }}x
                             <img [src]="kv[1]">
-                        </ng-container>
+                        </div>
                     </ng-container>
                 </td>
             </tr>
             </tbody>
         </table>
-        <pre>{{ rankings[0] | json }}</pre>
-    </ng-container>
+    </div>
     `
 })
 export class RankingComponent implements OnInit {
@@ -113,16 +149,25 @@ export class RankingComponent implements OnInit {
     public absLastDiffs: number[];
     public trophies = ['gold', 'silver', 'bronze']
         .map(t => ([t, require(`../../img/reach/${t}.png`)]));
+    public bgs: {[number]: number};
 
     constructor(private requestService: RequestService) {
-        console.log(this.trophies);
     }
 
     ngOnInit(): void {
         this.requestService.get<RankingDto[]>('ranking')
             .subscribe(res => {
-                this.rankings = res;
                 this.absLastDiffs = res.map(x => Math.abs(x.lastDiff));
+                this.bgs = res
+                    .map(r => r.lastTournament.year)
+                    .filter((y, idx, arr) => arr.indexOf(y) === idx)
+                    .sort()
+                    .map((y, idx, arr) => [y, idx / arr.length + (1 - (arr.length-1) / arr.length)])
+                    .reduce((acc, [y, op]) => {
+                        acc[y] = op
+                        return acc;
+                    }, {});
+                this.rankings = res;
             });
     }
 }

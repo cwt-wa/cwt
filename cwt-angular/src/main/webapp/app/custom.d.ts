@@ -379,6 +379,11 @@ export interface TournamentDto {
     moderators: UserMinimalDto[];
 }
 
+export interface TournamentMinimalDto {
+    id: number;
+    year: number;
+}
+
 export interface TournamentUpdateDto {
     status?: TournamentStatus;
     review?: String;
@@ -476,7 +481,7 @@ export interface ZemkeTagboxElement extends HTMLElement {
 
 export interface RankingDto {
     user: UserMinimalDto;
-    lastTournament: TournamentDto;
+    lastTournament: TournamentMinimalDto;
     lastPlace: number;
     lastDiff: number;
     points: number;

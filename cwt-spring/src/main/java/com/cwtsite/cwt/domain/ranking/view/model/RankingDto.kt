@@ -2,7 +2,7 @@ package com.cwtsite.cwt.domain.ranking.view.model
 
 import com.cwtsite.cwt.domain.core.DataTransferObject
 import com.cwtsite.cwt.domain.ranking.entity.Ranking
-import com.cwtsite.cwt.domain.tournament.view.model.TournamentDto
+import com.cwtsite.cwt.domain.tournament.view.model.TournamentMinimalDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import java.math.MathContext
 import java.math.RoundingMode
@@ -11,7 +11,7 @@ import kotlin.math.roundToInt
 @DataTransferObject
 data class RankingDto(
     val user: UserMinimalDto,
-    val lastTournament: TournamentDto,
+    val lastTournament: TournamentMinimalDto,
     val lastPlace: Int,
     val lastDiff: Int,
     val points: Int,
@@ -28,7 +28,7 @@ data class RankingDto(
     companion object {
         fun toDto(ranking: Ranking) = RankingDto(
             UserMinimalDto.toDto(ranking.user),
-            lastTournament = TournamentDto.toDto(ranking.lastTournament!!),
+            lastTournament = TournamentMinimalDto.toDto(ranking.lastTournament!!),
             lastPlace = ranking.lastPlace,
             lastDiff = ranking.lastDiff,
             points = ranking.points.round(MathContext(0, RoundingMode.HALF_UP)).toInt(),
