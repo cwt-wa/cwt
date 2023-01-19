@@ -3,6 +3,7 @@ package com.cwtsite.cwt.domain.ranking.entity
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import java.math.BigDecimal
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -21,7 +22,7 @@ data class Ranking(
     @Column(name = "user_id")
     var userId: Long? = null,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.MERGE])
     @JoinColumn(name = "user_id")
     @MapsId
     var user: User,
@@ -64,6 +65,7 @@ data class Ranking(
     init {
         userId = user.id
     }
+
     override fun toString(): String {
         return "Ranking(user=$user, lastTournament=$lastTournament, lastDiff=$lastDiff, points=$points, participations=$participations, gold=$gold, silver=$silver, bronze=$bronze, played=$played, won=$won, lost=$lost, wonRatio=$wonRatio)"
     }
