@@ -30,7 +30,7 @@ data class Ranking(
     var user: User,
 
     /**
-     * Last tournament participated in.
+     * Last finished or archived tournament participated in.
      */
     @ManyToOne
     var lastTournament: Tournament? = null,

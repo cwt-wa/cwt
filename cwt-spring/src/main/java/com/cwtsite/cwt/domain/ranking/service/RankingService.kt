@@ -108,10 +108,15 @@ constructor(
             .filter { it.status == ARCHIVED || it.status == FINISHED }
             .maxByOrNull { it.created!! }!!
         rankings.sortedByDescending { it.points }.forEachIndexed { newPlace, ranking ->
+            val prevUser = prev.find { it.user == ranking.user }
+            val diff = newPlace - (prevUser?.lastPlace ?: prev.size)
             if (newRef != prevRef) {
                 ranking.lastPlace = newPlace
+                ranking.lastDiff = diff
+            } else {
+                // update during tournament
+                ranking.lastDiff = prevUser?.lastDiff?.plus(diff) ?: diff
             }
-            ranking.lastDiff = newPlace - (prev.find { it.user == ranking.user }?.lastPlace ?: prev.size)
         }
         rankingRepository.deleteAll()
         return rankingRepository.saveAll(rankings).sortedByDescending { it.points }
