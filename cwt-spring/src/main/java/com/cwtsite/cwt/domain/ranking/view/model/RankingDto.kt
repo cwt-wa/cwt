@@ -39,7 +39,7 @@ data class RankingDto(
             played = ranking.played,
             won = ranking.won,
             lost = ranking.lost,
-            wonRatio = ranking.wonRatio.roundToInt(),
+            wonRatio = (ranking.wonRatio * 100).roundToInt(),
         )
     }
 }
