@@ -43,7 +43,7 @@ import {RankingDto} from "../custom";
             font-size: 1.2rem;
         }
         th {
-            padding-left: 1.3rem;
+            text-align: center;
             padding-bottom: .2rem;
             font-size: .8rem;
             font-variant: all-petite-caps;
@@ -51,15 +51,6 @@ import {RankingDto} from "../custom";
             line-height: .7rem;
             vertical-align: bottom;
             white-space: nowrap;
-        }
-        th.place {
-            padding-left: .5rem;
-        }
-        th.rounds {
-            padding-left: 2.5rem;
-        }
-        th.participations {
-            padding-left: 2.5rem;
         }
         td.lastDiff,
         td.place,
