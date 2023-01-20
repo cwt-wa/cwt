@@ -109,7 +109,7 @@ import {RankingDto} from "../custom";
             </select>
         </label>
     </div>
-    <h1 class="mb-4">All-Time Ranking</h1>
+    <h1 class="mb-5">All-Time Ranking</h1>
     <img *ngIf="!rankings?.length" src="/loading.gif">
     <table *ngIf="rankings?.length">
         <thead>
