@@ -99,6 +99,16 @@ import {RankingDto} from "../custom";
         }
     `],
     template: `
+    <div class="float-right mt-4" *ngIf="rankings?.length">
+        <label>
+            Only show participants since
+            <select [(ngModel)]="setting" name="setting" (change)="filter($event)">
+                <option *ngFor="let t of tournaments; index as index" value="{{ t }}">
+                    {{ t }}{{ index == 0 ? ' (all)' : '' }}
+                </option>
+            </select>
+        </label>
+    </div>
     <h1 class="mb-4">All-Time Ranking</h1>
     <img *ngIf="!rankings?.length" src="/loading.gif">
     <table *ngIf="rankings?.length">
@@ -175,6 +185,8 @@ export class RankingComponent implements OnInit {
     public trophies = ['gold', 'silver', 'bronze']
         .map(t => ([t, require(`../../img/reach/${t}.png`)]));
     public bgs: {[number]: number};
+    public tournaments: number[];
+    public setting: number;
 
     constructor(private requestService: RequestService) {
     }
@@ -183,16 +195,26 @@ export class RankingComponent implements OnInit {
         this.requestService.get<RankingDto[]>('ranking')
             .subscribe(res => {
                 this.absLastDiffs = res.map(x => Math.abs(x.lastDiff));
-                this.bgs = res
+                this.tournaments = res
                     .map(r => r.lastTournament.year)
                     .filter((y, idx, arr) => arr.indexOf(y) === idx)
-                    .sort()
+                    .sort();
+                this.bgs = this.tournaments
                     .map((y, idx, arr) => [y, idx / arr.length + (1 - (arr.length-1) / arr.length)])
                     .reduce((acc, [y, op]) => {
                         acc[y] = op
                         return acc;
                     }, {});
+                this.setting = this.tournaments[0];
+                this.allRankings = [...res];
                 this.rankings = res;
             });
+    }
+
+    filter(e): void {
+        const y = e.target.value;
+        console.log(y, this.setting);
+        this.rankings = this.allRankings
+            .filter(r => r.lastTournament.year >= y);
     }
 }
