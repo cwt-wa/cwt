@@ -176,6 +176,17 @@ import {RankingDto} from "../custom";
         </tr>
         </tbody>
     </table>
+    <div *ngIf="rankings?.length" class="mt-5 alert alert-info">
+        This ranking has been generated at
+        <strong>TODO</strong>
+        using the
+        <strong><a href="https://github.com/Zemke/relrank" target="_blank">Relative Ranking System</a></strong>
+        originally developed for
+        <strong><a href="https://wl.zemke.io" target="_blank">Worms League</a></strong>.<br>
+        Its main purpose is to satisfy curiosity and it might be used as a seed for groups or playoffs.
+        CWT is an annual tournament and this ranking is not meant to and cannot possibly accurately
+        display actual skill level of players.
+    </div>
     `
 })
 export class RankingComponent implements OnInit {
@@ -218,3 +229,4 @@ export class RankingComponent implements OnInit {
             .filter(r => r.lastTournament.year >= y);
     }
 }
+
