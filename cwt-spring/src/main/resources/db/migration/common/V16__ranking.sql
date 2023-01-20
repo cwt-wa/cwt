@@ -13,6 +13,7 @@ create table ranking
     won_ratio float not null default 0,
     participations int not null default 0,
     played int not null default 0,
+    modified timestamp not null default now(),
     primary key (user_id),
     foreign key (user_id) references "user" (id),
     foreign key (last_tournament_id) references tournament (id)

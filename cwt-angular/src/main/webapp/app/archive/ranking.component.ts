@@ -177,8 +177,8 @@ import {RankingDto} from "../custom";
         </tbody>
     </table>
     <div *ngIf="rankings?.length" class="mt-5 alert alert-info">
-        This ranking has been generated at
-        <strong>TODO</strong>
+        This ranking has been generated
+        <strong>{{ updatedAt | cwtDate }}</strong>
         using the
         <strong><a href="https://github.com/Zemke/relrank" target="_blank">Relative Ranking System</a></strong>
         originally developed for
@@ -198,6 +198,7 @@ export class RankingComponent implements OnInit {
     public bgs: {[number]: number};
     public tournaments: number[];
     public setting: number;
+    public updatedAt: string;
 
     constructor(private requestService: RequestService) {
     }
@@ -218,6 +219,9 @@ export class RankingComponent implements OnInit {
                     }, {});
                 this.setting = this.tournaments[0];
                 this.allRankings = [...res];
+                this.updatedAt = res
+                    .map(r => r.modified)
+                    .sort((a,b) => (new Date(a)).getTime() - (new Date(b)).getTime())[0];
                 this.rankings = res;
             });
     }

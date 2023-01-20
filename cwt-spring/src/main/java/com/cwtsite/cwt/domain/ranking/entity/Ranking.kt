@@ -2,7 +2,9 @@ package com.cwtsite.cwt.domain.ranking.entity
 
 import com.cwtsite.cwt.domain.tournament.entity.Tournament
 import com.cwtsite.cwt.domain.user.repository.entity.User
+import org.hibernate.annotations.UpdateTimestamp
 import java.math.BigDecimal
+import java.time.Instant
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -61,6 +63,10 @@ data class Ranking(
     var lost: Int = 0,
 
     var wonRatio: Double = .0,
+
+    @field:UpdateTimestamp
+    @Column(name = "modified", nullable = false)
+    var modified: Instant? = null,
 ) {
     init {
         userId = user.id

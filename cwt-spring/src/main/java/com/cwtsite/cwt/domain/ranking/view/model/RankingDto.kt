@@ -6,6 +6,7 @@ import com.cwtsite.cwt.domain.tournament.view.model.TournamentMinimalDto
 import com.cwtsite.cwt.domain.user.view.model.UserMinimalDto
 import java.math.MathContext
 import java.math.RoundingMode
+import java.time.Instant
 import kotlin.math.roundToInt
 
 @DataTransferObject
@@ -23,6 +24,7 @@ data class RankingDto(
     val won: Int,
     val lost: Int,
     val wonRatio: Int,
+    val modified: Instant,
 ) {
 
     companion object {
@@ -40,6 +42,7 @@ data class RankingDto(
             won = ranking.won,
             lost = ranking.lost,
             wonRatio = (ranking.wonRatio * 100).roundToInt(),
+            modified = ranking.modified!!,
         )
     }
 }
