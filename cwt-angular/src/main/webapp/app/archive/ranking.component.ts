@@ -5,6 +5,15 @@ import {RankingDto} from "../custom";
 @Component({
     selector: 'cwt-ranking',
     styles: [`
+        h1 {
+            white-space: nowrap;
+        }
+        @media screen and (max-width: 400px) {
+            td:not(:nth-child(2)) {
+                padding-left: .1rem !important;
+                padding-right: .1rem !important;
+            }
+        }
         table {
             color: #aaa;
             width: 100%;
@@ -27,6 +36,7 @@ import {RankingDto} from "../custom";
         }
         td {
             padding: .4rem .7rem;
+            white-space: nowrap;
         }
         td.user, td.place, td.points {
             font-weight: strong;
@@ -40,8 +50,15 @@ import {RankingDto} from "../custom";
             font-weight: normal;
             line-height: .7rem;
             vertical-align: bottom;
+            white-space: nowrap;
+        }
+        th.place {
+            padding-left: .5rem;
         }
         th.rounds {
+            padding-left: 2.5rem;
+        }
+        th.participations {
             padding-left: 2.5rem;
         }
         td.lastDiff,
@@ -99,29 +116,35 @@ import {RankingDto} from "../custom";
         }
     `],
     template: `
-    <div class="float-right mt-4" *ngIf="rankings?.length">
-        <label>
-            Only show participants since
-            <select [(ngModel)]="setting" name="setting" (change)="filter($event)">
-                <option *ngFor="let t of tournaments; index as index" value="{{ t }}">
-                    {{ t }}{{ index == 0 ? ' (all)' : '' }}
-                </option>
-            </select>
-        </label>
+    <div class="row mb-5">
+        <div class="col">
+            <h1>All-Time Ranking</h1>
+        </div>
+        <div class="col text-right mt-md-4" *ngIf="rankings?.length">
+            <label>
+                Only show participants since
+                <select [(ngModel)]="setting" name="setting" (change)="filter($event)">
+                    <option *ngFor="let t of tournaments; index as index" value="{{ t }}">
+                        {{ t }}{{ index == 0 ? ' (all)' : '' }}
+                    </option>
+                </select>
+            </label>
+        </div>
     </div>
-    <h1 class="mb-5">All-Time Ranking</h1>
     <img *ngIf="!rankings?.length" src="/loading.gif">
     <table *ngIf="rankings?.length">
         <thead>
         <tr>
-            <th colspan="4">
-                Change since<br>
-                last tournament
+            <th class="place" colspan="4">
+                <span class="d-none d-sm-table-cell">
+                    Change since<br>
+                    last tournament
+                </span>
             </th>
-            <th class="rounds" colspan="4">
+            <th class="rounds d-none d-lg-table-cell" colspan="4">
                 Rounds won, lost, played
             </th>
-            <th colspan="3">
+            <th class="d-none d-md-table-cell participations" colspan="3">
                 Participantions<br>
                 and most recent
             </th>
@@ -131,7 +154,8 @@ import {RankingDto} from "../custom";
         <tr *ngFor="let r of rankings; index as index;">
             <ng-container *ngIf="'rgba(50, 42, 33, ' + bgs[r.lastTournament.year] + ')' as bg">
                 <td class="lastDiff" [style.background]="bg">
-                    <span [class.gain]="r.lastDiff < 0" [class.lose]="r.lastDiff > 0">
+                    <span class="d-none d-sm-table-cell"
+                          [class.gain]="r.lastDiff < 0" [class.lose]="r.lastDiff > 0">
                         {{ absLastDiffs[index] }}
                     </span>
                 </td>
@@ -144,33 +168,35 @@ import {RankingDto} from "../custom";
                 <td class="points" [style.background]="bg">
                     <strong>{{ r.points }}</strong>
                 </td>
-                <td class="won" [style.background]="bg">
+                <td class="won d-none d-lg-table-cell" [style.background]="bg">
                     {{ r.won }}
                 </td>
-                <td class="wonRatio" [style.background]="bg">
+                <td class="wonRatio d-none d-lg-table-cell" [style.background]="bg">
                     {{ r.wonRatio }}%
                 </td>
-                <td class="lost" [style.background]="bg">
+                <td class="lost d-none d-lg-table-cell" [style.background]="bg">
                     {{ r.lost }}
                 </td>
-                <td class="played" [style.background]="bg">
+                <td class="played d-none d-lg-table-cell" [style.background]="bg">
                     {{ r.played }}
                 </td>
-                <td class="participations" [style.background]="bg">
+                <td class="d-none d-md-table-cell participations" [style.background]="bg">
                     {{ r.participations }}
                 </td>
-                <td [style.background]="bg">
+                <td class="d-none d-md-table-cell " [style.background]="bg">
                     <a [routerLink]="['/archive', r.lastTournament.year]">
                         {{ r.lastTournament.year }}
                     </a>
                 </td>
                 <td class="reach" [style.background]="bg">
-                    <ng-container *ngFor="let kv of trophies">
-                        <div class="imgcont" *ngIf="r[kv[0]] > 0">
-                            {{ r[kv[0]] }}x
-                            <img [src]="kv[1]">
-                        </div>
-                    </ng-container>
+                    <div class="d-none d-xl-table-cell">
+                        <ng-container *ngFor="let kv of trophies">
+                            <div class="imgcont" *ngIf="r[kv[0]] > 0">
+                                {{ r[kv[0]] }}x
+                                <img [src]="kv[1]">
+                            </div>
+                        </ng-container>
+                    </div>
                 </td>
             </ng-container>
         </tr>
