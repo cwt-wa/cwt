@@ -135,7 +135,7 @@ import {RankingDto} from "../custom";
             <th class="rounds d-none d-lg-table-cell" colspan="4">
                 Rounds won, lost, played
             </th>
-            <th class="d-none d-md-table-cell participations" colspan="3">
+            <th class="d-none d-md-table-cell participations" colspan="2">
                 Participantions<br>
                 and most recent
             </th>
