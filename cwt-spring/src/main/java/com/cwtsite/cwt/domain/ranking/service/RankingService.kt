@@ -44,11 +44,8 @@ constructor(
             .directory(File(System.getProperty("java.io.tmpdir")))
             .redirectErrorStream(true)
         with(pb.environment()) {
-            // TODO tweak some more variables to get chuv rated better
-            put(
-                "RELRANK_SCALE_MAX",
-                (games.distinctBy { it.tournament }.size * MAX_ROUNDS_WON).toString()
-            )
+            put("RELRANK_RELREL", "21")
+            put("RELRANK_SCALE_MAX", (games.distinctBy { it.tournament }.size * MAX_ROUNDS_WON).toString())
         }
         val process = pb.start().apply {
             outputStream.bufferedWriter().apply {
