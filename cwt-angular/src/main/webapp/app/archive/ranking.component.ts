@@ -5,18 +5,24 @@ import {RankingDto} from "../custom";
 @Component({
     selector: 'cwt-ranking',
     styles: [`
-        .wrapper {
-            border-radius: .5rem;
-            overflow: hidden;
-        }
-        table {
-            width: 100%;
-        }
         table {
             color: #aaa;
+            width: 100%;
         }
         table a {
             color: #ccc;
+        }
+        table tr:first-child td:first-child {
+            border-top-left-radius: .5rem;
+        }
+        table tr:first-child td:last-child {
+            border-top-right-radius: .5rem;
+        }
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: .5rem;
+        }
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: .5rem;
         }
         td {
             padding: .4rem .7rem;
@@ -24,6 +30,18 @@ import {RankingDto} from "../custom";
         td.user, td.place, td.points {
             font-weight: strong;
             font-size: 1.2rem;
+        }
+        th {
+            padding-left: 1.3rem;
+            padding-bottom: .2rem;
+            font-size: .8rem;
+            font-variant: all-petite-caps;
+            font-weight: normal;
+            line-height: .7rem;
+            vertical-align: bottom;
+        }
+        th.rounds {
+            padding-left: 2.5rem;
         }
         td.lastDiff,
         td.place,
@@ -82,54 +100,60 @@ import {RankingDto} from "../custom";
     template: `
     <h1 class="mb-4">All-Time Ranking</h1>
     <img *ngIf="!rankings?.length" src="/loading.gif">
-    <div class="wrapper" *ngIf="rankings?.length">
-        <table>
-            <!--
-            <thead>
-            <tr>
-                <th></th>
-                <th>User</th>
-                <th>Points</th>
-            </tr>
-            </thead>
-            -->
-            <tbody>
-            <tr *ngFor="let r of rankings; index as index" [style.background]="'rgba(50, 42, 33, ' + bgs[r.lastTournament.year] + ')'">
-                <td class="lastDiff">
+    <table *ngIf="rankings?.length">
+        <thead>
+        <tr>
+            <th colspan="4">
+                Change since<br>
+                last tournament
+            </th>
+            <th class="rounds" colspan="4">
+                Rounds won, lost, played
+            </th>
+            <th colspan="3">
+                Participantions<br>
+                and most recent
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let r of rankings; index as index;">
+            <ng-container *ngIf="'rgba(50, 42, 33, ' + bgs[r.lastTournament.year] + ')' as bg">
+                <td class="lastDiff" [style.background]="bg">
                     <span [class.gain]="r.lastDiff < 0" [class.lose]="r.lastDiff > 0">
                         {{ absLastDiffs[index] }}
                     </span>
                 </td>
-                <td class="place">
+                <td class="place" [style.background]="bg">
                     {{ index + 1 }}
                 </td>
-                <td class="user">
+                <td class="user" [style.background]="bg">
                     <a [routerLink]="['/users', r.user.username]">{{r.user.username}}</a>
                 </td>
-                <td class="points">
+                <td class="points" [style.background]="bg">
                     <strong>{{ r.points }}</strong>
                 </td>
-                <td class="won">
+                <td class="won" [style.background]="bg">
                     {{ r.won }}
                 </td>
-                <td class="wonRatio">
+                <td class="wonRatio" [style.background]="bg">
                     {{ r.wonRatio }}%
                 </td>
-                <td class="lost">
+                <td class="lost" [style.background]="bg">
                     {{ r.lost }}
                 </td>
-                <td class="played">
+                <td class="played" [style.background]="bg">
                     {{ r.played }}
                 </td>
-                <td class="participations">
+                <td class="participations" [style.background]="bg">
                     {{ r.participations }}
                 </td>
-                <td>
+                <td [style.background]="bg">
                     <a [routerLink]="['/archive', r.lastTournament.year]">
                         {{ r.lastTournament.year }}
                     </a>
                 </td>
-                <td class="reach">
+                <td class="reach" [style.background]="bg">
                     <ng-container *ngFor="let kv of trophies">
                         <div class="imgcont" *ngIf="r[kv[0]] > 0">
                             {{ r[kv[0]] }}x
@@ -137,10 +161,10 @@ import {RankingDto} from "../custom";
                         </div>
                     </ng-container>
                 </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+            </ng-container>
+        </tr>
+        </tbody>
+    </table>
     `
 })
 export class RankingComponent implements OnInit {
