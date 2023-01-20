@@ -11,6 +11,7 @@ import {RankingDto} from "../custom";
         }
         table a {
             color: #ccc;
+            font-weight: bold;
         }
         table tr:first-child td:first-child {
             border-top-left-radius: .5rem;
