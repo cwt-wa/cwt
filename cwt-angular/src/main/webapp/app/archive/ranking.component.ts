@@ -147,11 +147,11 @@ import {RankingDto} from "../custom";
                 <td class="lastDiff" [style.background]="bg">
                     <span class="d-none d-sm-table-cell"
                           [class.gain]="r.lastDiff < 0" [class.lose]="r.lastDiff > 0">
-                        {{ absLastDiffs[index] }}
+                        {{ absLastDiffs[r.user.id] }}
                     </span>
                 </td>
                 <td class="place" [style.background]="bg">
-                    {{ index + 1 }}
+                    {{ place[r.user.id] }}
                 </td>
                 <td class="user" [style.background]="bg">
                     <a [routerLink]="['/users', r.user.username]">{{r.user.username}}</a>
@@ -209,7 +209,8 @@ import {RankingDto} from "../custom";
 export class RankingComponent implements OnInit {
 
     public rankings: RankingDto[];
-    public absLastDiffs: number[];
+    public absLastDiffs: {[number]: number} = {};
+    public place: {[number]: number} = {};
     public trophies = ['gold', 'silver', 'bronze']
         .map(t => ([t, require(`../../img/reach/${t}.png`)]));
     public bgs: {[number]: number};
@@ -223,7 +224,6 @@ export class RankingComponent implements OnInit {
     ngOnInit(): void {
         this.requestService.get<RankingDto[]>('ranking')
             .subscribe(res => {
-                this.absLastDiffs = res.map(x => Math.abs(x.lastDiff));
                 this.tournaments = res
                     .map(r => r.lastTournament.year)
                     .filter((y, idx, arr) => arr.indexOf(y) === idx)
@@ -238,7 +238,11 @@ export class RankingComponent implements OnInit {
                 this.allRankings = [...res];
                 this.updatedAt = res
                     .map(r => r.modified)
-                    .sort((a,b) => (new Date(a)).getTime() - (new Date(b)).getTime())[0];
+                    .sort((a,b) => (new Date(b)).getTime() - (new Date(a)).getTime())[0];
+                res.forEach((r, idx) => {
+                    this.absLastDiffs[r.user.id] = Math.abs(r.lastDiff);
+                    this.place[r.user.id] = idx + 1;
+                });
                 this.rankings = res;
             });
     }
