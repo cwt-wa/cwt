@@ -197,9 +197,9 @@ import {RankingDto} from "../custom";
         This ranking has been generated
         <strong>{{ updatedAt | cwtDate }}</strong>
         using the
-        <strong><a href="https://github.com/Zemke/relrank" target="_blank">Relative Ranking System</a></strong>
+        <strong><a class="text-danger" href="https://github.com/Zemke/relrank" target="_blank">Relative Ranking System</a></strong>
         originally developed for
-        <strong><a href="https://wl.zemke.io" target="_blank">Worms League</a></strong>.<br>
+        <strong><a class="text-danger" href="https://wl.zemke.io" target="_blank">Worms League</a></strong>.<br>
         Its main purpose is to satisfy curiosity and it might be used as a seed for groups or playoffs.
         CWT is an annual tournament and this ranking is not meant to and cannot possibly accurately
         display actual skill level of players.
