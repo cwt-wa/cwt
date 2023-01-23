@@ -493,4 +493,6 @@ export interface RankingDto {
     won: number;
     lost: number;
     wonRatio: number;
+    modified: string;
 }
+

@@ -209,11 +209,12 @@ import {RankingDto} from "../custom";
 export class RankingComponent implements OnInit {
 
     public rankings: RankingDto[];
-    public absLastDiffs: {[number]: number} = {};
-    public place: {[number]: number} = {};
+    public allRankings: RankingDto[];
+    public absLastDiffs: {[key: number]: number} = {};
+    public place: {[key: number]: number} = {};
     public trophies = ['gold', 'silver', 'bronze']
         .map(t => ([t, require(`../../img/reach/${t}.png`)]));
-    public bgs: {[number]: number};
+    public bgs: {[key: number]: number} = {};
     public tournaments: number[];
     public setting: number;
     public updatedAt: string;
@@ -230,7 +231,7 @@ export class RankingComponent implements OnInit {
                     .sort();
                 this.bgs = this.tournaments
                     .map((y, idx, arr) => [y, idx / arr.length + (1 - (arr.length-1) / arr.length)])
-                    .reduce((acc, [y, op]) => {
+                    .reduce((acc: {[key: number]: number}, [y, op]) => {
                         acc[y] = op
                         return acc;
                     }, {});
@@ -247,11 +248,9 @@ export class RankingComponent implements OnInit {
             });
     }
 
-    filter(e): void {
-        const y = e.target.value;
-        console.log(y, this.setting);
-        this.rankings = this.allRankings
-            .filter(r => r.lastTournament.year >= y);
+    filter(e: Event): void {
+        const y = parseInt((e.target as HTMLSelectElement).value);
+        this.rankings = this.allRankings.filter(r => r.lastTournament.year >= y);
     }
 }
 
