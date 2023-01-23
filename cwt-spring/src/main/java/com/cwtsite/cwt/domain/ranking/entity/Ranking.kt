@@ -30,7 +30,7 @@ data class Ranking(
     var user: User,
 
     /**
-     * Last finished or archived tournament participated in.
+     * Last tournament participated in.
      */
     @ManyToOne
     var lastTournament: Tournament? = null,
@@ -70,6 +70,40 @@ data class Ranking(
 ) {
     init {
         userId = user.id
+    }
+
+    /**
+     * Set [lastDiff] and [lastPlace].
+     *
+     * @param newPlace Zero-based new place in the ranking.
+     * @param newRef New reference tournament (most recent finished or archived).
+     * @param prevRef Previous reference tournament (most recent finished or archived).
+     * @param prevLastPlace Previous [lastPlace] of user's ranking.
+     * @param max The number of users in the ranking.
+     */
+    fun diff(
+        newPlace: Int,
+        newRef: Tournament?,
+        prevRef: Tournament?,
+        prevLastPlace: Int?,
+        max: Int,
+    ) {
+        val diff = newPlace - (prevLastPlace ?: max)
+        if (newRef == null && prevRef == null) {
+            // no finished tournaments
+            lastDiff = diff
+            lastPlace = newPlace
+        } else if (prevRef == null) {
+            // no previous finished tournament
+            lastDiff = 0
+            lastPlace = newPlace
+        } else {
+            if (newRef != prevRef) {
+                // new ref
+                lastPlace = newPlace
+            }
+            lastDiff = newPlace - (prevLastPlace ?: max)
+        }
     }
 
     override fun toString(): String {

@@ -109,14 +109,13 @@ constructor(
             .maxByOrNull { it.created!! }!!
         rankings.sortedByDescending { it.points }.forEachIndexed { newPlace, ranking ->
             val prevUser = prev.find { it.user == ranking.user }
-            val diff = newPlace - (prevUser?.lastPlace ?: prev.size)
-            if (newRef != prevRef) {
-                ranking.lastPlace = newPlace
-                ranking.lastDiff = diff
-            } else {
-                // update during tournament
-                ranking.lastDiff = prevUser?.lastDiff?.plus(diff) ?: diff
-            }
+            ranking.diff(
+                newPlace,
+                newRef,
+                prevRef,
+                prevUser?.lastPlace,
+                prev.size,
+            )
         }
         rankingRepository.deleteAll()
         return rankingRepository.saveAll(rankings).sortedByDescending { it.points }
