@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.io.File
 import java.math.BigDecimal
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 @Component
@@ -65,6 +66,13 @@ constructor(
     }
 
     fun save(games: List<Game>, relrank: Map<Long, BigDecimal>): List<Ranking> {
+        val prev = rankingRepository.findAll()
+        if ((prev.mapNotNull { it.modified }.maxOrNull() ?: Instant.MIN)
+                .isAfter((games.mapNotNull { it.reportedAt }.maxOrNull() ?: Instant.MIN))
+        ) {
+            logger.warn("There are no new games.")
+            return prev
+        }
         val tournaments = tournamentRepository.findAll()
         val users = userRepository.findAllById(relrank.keys)
         val rankings = users
@@ -98,7 +106,6 @@ constructor(
                 ranking
             }
         // comparing new position to position of after last finished/archived tournament
-        val prev = rankingRepository.findAll()
         val prevRef = prev
             .mapNotNull { it.lastTournament }
             .filter { it.status == ARCHIVED || it.status == FINISHED }
