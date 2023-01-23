@@ -223,29 +223,28 @@ export class RankingComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.requestService.get<RankingDto[]>('ranking')
-            .subscribe(res => {
-                this.tournaments = res
-                    .map(r => r.lastTournament.year)
-                    .filter((y, idx, arr) => arr.indexOf(y) === idx)
-                    .sort();
-                this.bgs = this.tournaments
-                    .map((y, idx, arr) => [y, idx / arr.length + (1 - (arr.length-1) / arr.length)])
-                    .reduce((acc: {[key: number]: number}, [y, op]) => {
-                        acc[y] = op
-                        return acc;
-                    }, {});
-                this.setting = this.tournaments[0];
-                this.allRankings = [...res];
-                this.updatedAt = res
-                    .map(r => r.modified)
-                    .sort((a,b) => (new Date(b)).getTime() - (new Date(a)).getTime())[0];
-                res.forEach((r, idx) => {
-                    this.absLastDiffs[r.user.id] = Math.abs(r.lastDiff);
-                    this.place[r.user.id] = idx + 1;
-                });
-                this.rankings = res;
+        this.requestService.get<RankingDto[]>('ranking').subscribe(res => {
+            this.tournaments = res
+                .map(r => r.lastTournament.year)
+                .filter((y, idx, arr) => arr.indexOf(y) === idx)
+                .sort();
+            this.bgs = this.tournaments
+                .map((y, idx, arr) => [y, idx / arr.length + (1 - (arr.length-1) / arr.length)])
+                .reduce((acc: {[key: number]: number}, [y, op]) => {
+                    acc[y] = op
+                    return acc;
+                }, {});
+            this.setting = this.tournaments[0];
+            this.allRankings = [...res];
+            this.updatedAt = res
+                .map(r => r.modified)
+                .sort((a,b) => (new Date(b)).getTime() - (new Date(a)).getTime())[0];
+            res.forEach((r, idx) => {
+                this.absLastDiffs[r.user.id] = Math.abs(r.lastDiff);
+                this.place[r.user.id] = idx + 1;
             });
+            this.rankings = res;
+        });
     }
 
     filter(e: Event): void {
