@@ -14,6 +14,12 @@
         </span>
         <span class="text-muted" *ngIf="!undrawnApplicants.length">You have drawn all applicants.</span>
     </p>
+
+    <p>
+        <button class="btn btn-sm btn-secondary" (click)="assignByRanking()">
+            Assign pots by All-Time Ranking
+        </button>
+    </p>
 </div>
 
 <form #groupDrawForm="ngForm" (submit)="submit()" *ngIf="applications && !loading">
@@ -25,14 +31,14 @@
                         <span class="text-muted">Pot</span>
                         {{potIndex + 1}}
                     </h4>
-                    <input *ngFor="let userInPot of pot; let userInPotIndex = index; trackBy:trackByIdx"
+                    <input *ngFor="let userInPot of pot; let userInPotIndex = index; trackBy:trackByIdx;"
                            class="form-control w-100 mb-1"
                            [(ngModel)]="pots[potIndex][userInPotIndex]" placeholder="Enter name" [editable]="false"
                            [ngbTypeahead]="typeAheadForGroupMember" [inputFormatter]="typeAheadInputFormatter"
                            required [resultFormatter]="typeAheadResultFormatter"
-                           name="{{'user.' + userInPotIndex}}"
-                           [attr.name]="'user.' + userInPotIndex"
-                           [attr.id]="'user.' + userInPotIndex">
+                           name="{{'user.' + potIndex + '.' + userInPotIndex}}"
+                           [attr.name]="'user.' + potIndex + '.' + userInPotIndex"
+                           [attr.id]="'user.' + potIndex + '.' + userInPotIndex">
                 </div>
             </div>
         </div>

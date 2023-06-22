@@ -1,6 +1,6 @@
 import {distinctUntilChanged, finalize, map} from 'rxjs/operators';
 import {Component, Input, OnInit} from "@angular/core";
-import {Application, Group, GroupDto, User} from "../custom";
+import {Application, Group, GroupDto, User, UserMinimalDto, RankingDto} from "../custom";
 import {Observable} from "rxjs";
 import {RequestService} from "../_services/request.service";
 import {Router} from "@angular/router";
@@ -17,9 +17,10 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
     @Input() groups: Group[];
     @Input() applications: Application[];
 
-    pots: User[][];
+    pots: (User | UserMinimalDto)[][];
     usersPerGroup: number;
     numberOfGroups: number;
+    rankings: UserMinimalDto[];
     loading: boolean = true;
 
     typeAheadForGroupMember: (text$: Observable<string>) => Observable<User[]>;
@@ -74,6 +75,7 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
 
     public get drawnApplicants(): User[] {
         return this.applications
+
             .map(a => a.applicant)
             .filter(u => this.userIsDrawn(u));
     }
@@ -105,6 +107,26 @@ export class AdminGroupsStartAutomaticDrawComponent implements OnInit {
                     this.pots.push(newPot);
                 }
             })
+    }
+
+    public assignByRanking(): void {
+        this.requestService.get<RankingDto[]>('ranking').subscribe(res => {
+            this.rankings = res.map(r => r.user);
+            const applicantIds = this.applications.map(a => a.applicant.id);
+            let consume = 0;
+            for (let i = 0; i < this.pots.length; i++) {
+                for (let j = 0; j < this.pots[i].length; j++) {
+                    while (!applicantIds.includes(this.rankings[consume].id)) {
+                        consume++;
+                        if (consume >= this.rankings.length) {
+                            return;
+                        }
+                    }
+                    this.pots[i][j] = this.rankings[consume]
+                    consume++;
+                }
+            }
+        });
     }
 
     private userIsDrawn(user: User): boolean {
