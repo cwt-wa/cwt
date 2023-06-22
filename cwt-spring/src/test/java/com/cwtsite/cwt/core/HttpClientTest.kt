@@ -12,7 +12,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandler
 import java.net.http.HttpResponse.BodyHandlers
-import java.util.Random
+import java.util.*
 
 class HttpClientTest {
 
@@ -49,8 +49,8 @@ class HttpClientTest {
         val throwable = catchThrowable { cut.request(request, testBodyHandler.bodyHandler) }
         assertThat(throwable).isExactlyInstanceOf(HttpClient.HttpClientException::class.java)
         throwable is HttpClient.HttpClientException
-        // assertThat(throwable.statusCode).isEqualTo(404) // TODO
-        assertThat(throwable.message).isEqualTo("""{"status":404}""")
+        assertThat(throwable.message!!.filter { !it.isWhitespace() })
+            .isEqualTo("""{"status":404}""")
     }
 
     @Test
