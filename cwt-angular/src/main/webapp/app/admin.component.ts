@@ -37,6 +37,9 @@ export class AdminComponent implements OnInit {
     }
 
     calcRanking(): void {
+        if (!confirm("Do you really want to trigger ranking calc?")) {
+            return;
+        }
         this.toastr.info("Calc has been triggered. Please wait a bit.");
         this.requestService.post('ranking/calc')
                 .subscribe(() => {
