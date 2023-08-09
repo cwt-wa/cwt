@@ -2,6 +2,7 @@ package com.cwtsite.cwt.controller
 
 import com.cwtsite.cwt.core.BinaryOutboundService
 import com.cwtsite.cwt.core.FileValidator
+import com.cwtsite.cwt.core.HttpClient.HttpClientException
 import com.cwtsite.cwt.core.MultipartFileToFile.convertMultipartFileToFile
 import com.cwtsite.cwt.core.event.stats.GameStatsEventPublisher
 import com.cwtsite.cwt.domain.core.Unzip
@@ -206,7 +207,12 @@ class BinaryRestController {
     fun getReplayFile(@PathVariable gameId: Long): ResponseEntity<InputStreamResource> {
         assertBinaryDataStoreEndpoint("Replays cannot be retrieven at the moment")
         val response = runCatching { binaryOutboundService.retrieveReplay(gameId) }
-            .getOrElse { throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it) }
+            .getOrElse {
+                if (it is HttpClientException && it.statusCode == HttpStatus.NOT_FOUND.value()) {
+                    throw RestException("There is no replay file for this game.", HttpStatus.NOT_FOUND, it)
+                }
+                throw RestException(it.message ?: "", HttpStatus.BAD_GATEWAY, it)
+            }
         return createResponseEntity(response)
     }
 
