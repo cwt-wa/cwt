@@ -16,7 +16,6 @@ data class GameMinimalDto(
     val modified: Instant,
     val homeUser: UserMinimalDto,
     val awayUser: UserMinimalDto,
-    val replayExists: Boolean
 ) {
 
     companion object {
@@ -32,7 +31,6 @@ data class GameMinimalDto(
                 modified = game.modified!!,
                 homeUser = UserMinimalDto(game.homeUser!!.id!!, game.homeUser!!.username),
                 awayUser = UserMinimalDto(game.awayUser!!.id!!, game.awayUser!!.username),
-                replayExists = game.replay != null
             )
         }
     }

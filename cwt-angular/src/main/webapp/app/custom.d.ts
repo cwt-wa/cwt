@@ -230,7 +230,6 @@ export interface GameDetailDto {
     ratings?: RatingDto[];
     tournament: TournamentDetailDto;
     voided: boolean;
-    replayExists: boolean;
     replayQuantity?: number;
     playoffRoundLocalized: string;
     created: string;
@@ -253,7 +252,6 @@ export interface PlayoffGameDto {
     reporter?: User;
     ratings?: RatingDto[];
     tournament: TournamentDetailDto;
-    replayExists: boolean;
     bets: PlayoffTreeBetDto[];
     playoffRoundLocalized: string;
     created: string;
@@ -278,7 +276,6 @@ export interface GameMinimalDto {
     modified: string;
     homeUser: UserMinimalDto;
     awayUser: UserMinimalDto;
-    replayExists: Boolean;
 }
 
 export interface GameMicroDto {
