@@ -3,6 +3,7 @@ import {NgModule} from "@angular/core";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HomeComponent} from "../home/home.component";
+import {DonateComponent} from "../home/donate.component";
 import {ApplyBannerComponent} from "../application/apply-banner.component";
 import {SchedulerComponent} from "../scheduler/scheduler.component";
 import {SharedModule} from "./shared.module";
@@ -34,6 +35,7 @@ const homeRoutes: Routes = [
         SchedulerComponent,
         ApplyBannerComponent,
         DateTimeInputDirective,
+        DonateComponent,
     ],
     providers: [],
     bootstrap: [],

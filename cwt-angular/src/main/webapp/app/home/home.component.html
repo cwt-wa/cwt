@@ -51,6 +51,12 @@
     </div>
 </div>
 
+<cwt-donate *ngIf="donate"
+            [productId]="donate.id"
+            [targetAmount]="donate.target"
+            [raisedAmount]="donate.raised">
+</cwt-donate>
+
 <div class="row mb-3" *ngIf="tournament">
     <div class="col-12">
         <cwt-scheduler></cwt-scheduler>

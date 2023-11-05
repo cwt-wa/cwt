@@ -85,5 +85,33 @@ export class HomeComponent implements OnInit {
             .subscribe(res => this.news = res[0]);
 
         this.currentTournamentService.value.then(res => this.tournament = res);
+
+
+        fetch("https://cwtsite.com/donate")
+          .then(res => res.text())
+          .then(res => (new DOMParser().parseFromString(res, "text/html")))
+          .then(res => {
+            const j = Array.from(res.querySelectorAll("script[type='application/json']"))
+              .map(res => res.textContent)
+              .filter(res =>
+                res.includes("campaignTargetAmount")
+                && res.includes("productId")
+                && res.includes("campaignTotalAmountRaised"))
+              .map(res => {
+                try {
+                  return JSON.parse(res);
+                } catch {
+                  return null;
+                }
+              })
+              .filter(res => res != null)[0];
+            this.donate = {
+              target: j["campaignTargetAmount"],
+              raised: j["campaignTotalAmountRaised"],
+              id: j["productId"],
+            };
+            console.log(this.donate);
+            // const url = "https://www.paypal.com/donate?campaign_id=" + j["productId"];
+          });
     }
 }
