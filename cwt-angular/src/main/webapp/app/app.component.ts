@@ -75,6 +75,9 @@ export class AppComponent implements AfterViewInit, OnInit {
             .subscribe(({tournament, config}) =>
                 this.eventSourceTwitchWebhook =
                     config && tournament && ["OPEN", "GROUP", "PLAYOFFS"].includes(tournament.status));
+
+      // TODO from button click (perhaps user panel notification settings)
+      Notification.requestPermission();
     }
 
     public ngAfterViewInit(): void {

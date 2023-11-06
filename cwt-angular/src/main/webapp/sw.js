@@ -10,3 +10,15 @@ self.addEventListener('fetch', (event) => {
       });
     }));
 });
+
+self.addEventListener('push', event => {
+  console.log("received push", event);
+  // reference impl
+  // https://github.com/mdn/serviceworker-cookbook/tree/master/push-payload
+  const payload = event.data ? event.data.text() : 'no payload';
+  event.waitUntil(
+    self.registration.showNotification('CWT', {
+      body: payload,
+    })
+  );
+});
