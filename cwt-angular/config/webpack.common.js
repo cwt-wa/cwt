@@ -110,6 +110,11 @@ module.exports = {
                 use: ['file-loader?name=manifest.json']
             },
             {
+                type: 'javascript/auto',
+                test: /sw.js$/,
+                use: ['file-loader?name=sw.js']
+            },
+            {
                 test: /img\/icons\/icon-.*.png$/,
                 use: ['file-loader?name=img/icons/[name].png']
             },
