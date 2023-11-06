@@ -110,6 +110,10 @@ module.exports = {
                 use: ['file-loader?name=manifest.json']
             },
             {
+                test: /img\/icons\/icon-.*.png$/,
+                use: ['file-loader?name=img/icons/[name].png']
+            },
+            {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'main', 'webapp', 'app'),
                 use: appCssExtractTextPlugin.extract({
