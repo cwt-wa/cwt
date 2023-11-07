@@ -18,8 +18,8 @@ import {finalize} from "rxjs/operators";
             </button>
         </div>
 
-        <h1>Stream linking</h1>
-        <p class="lead">Manual stream/game linking.</p>
+        <h1>Link Stream</h1>
+        <p class="lead">Manually link live stream broadcasts to games on CWT. Normally this should work automatically.</p>
 
         <div class="row mt-5">
             <h2 class="col">Game to Stream Linking</h2>
