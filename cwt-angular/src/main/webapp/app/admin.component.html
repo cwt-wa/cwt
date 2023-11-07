@@ -1,85 +1,90 @@
-<div class="row justify-content-center">
-    <div class="col-10 col-sm-6 offset-md-1 col-md-5">
-        <h2>Administrative</h2>
+<div class="row justify-content-center ml-4 ml-md-0">
+    <div class="col-md-4">
+        <h2>Admin</h2>
         <ul>
             <li>
                 <a routerLink="/admin/news">
-                    Write admin news
-                </a>
-            </li>
-            <li>
-                <a routerLink="/admin/rules">
-                    Write rules
-                </a>
-            </li>
-            <li>
-                <a routerLink="/admin/settings">
-                    Tweak settings
-                </a>
-            </li>
-            <li>
-                <a routerLink="/admin/tournaments/review">
-                    Write tournament reviews
+                    News
                 </a>
             </li>
             <li>
                 <a routerLink="/admin/chat">
-                    Administer Chat
+                    Chat
                 </a>
             </li>
             <li>
-                <a routerLink="/admin/extract-stats">
-                    Extract stats from replay
+                <a routerLink="/admin/rules">
+                    Rules
                 </a>
             </li>
             <li>
-                <a routerLink="/admin/stream-linking">
-                    Manual link stream to game
-                </a>
-            </li>
-            <li>
-                <a href="" (click)="$event.preventDefault(); calcRanking()">
-                    Calc ranking
+                <a routerLink="/admin/tournaments/review">
+                    Tournament Reviews
                 </a>
             </li>
         </ul>
     </div>
-    <div class="col-10 col-sm-6 col-md-5">
+    <div class="col-md-4">
         <h2>Tournament</h2>
         <ul>
             <li *ngIf="tournament?.status === 'FINISHED'">
                 <a href="" (click)="$event.preventDefault(); archive()">
-                    Archive tournament
+                    Archive Tournament
                 </a>
             </li>
             <li *ngIf="tournament?.status == null">
                 <a routerLink="/admin/tournaments/start">
-                    Start a new tournament
+                    Start Tournament
                 </a>
             </li>
             <li *ngIf="tournament?.status === 'OPEN'">
                 <a routerLink="/admin/groups/start">
-                    Start group stage
+                    Start Groups
                 </a>
             </li>
             <li *ngIf="tournament?.status === 'GROUP'">
                 <a routerLink="/admin/playoffs/start">
-                    Start playoffs
+                    Start Playoffs
                 </a>
             </li>
             <li *ngIf="tournament?.status === 'GROUP' || tournament?.status === 'PLAYOFFS'">
                 <a routerLink="/admin/tech-win">
-                    Add tech win
+                    Add Tech. Win
                 </a>
             </li>
             <li *ngIf="tournament?.status === 'GROUP'">
                 <a routerLink="/admin/replace-player">
-                    Replace player
+                    Replace Player
                 </a>
             </li>
             <li *ngIf="tournament?.status === 'GROUP' || tournament?.status === 'PLAYOFFS'">
                 <a routerLink="/admin/void-game">
-                    Void game
+                    Void Game
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h2>System</h2>
+        <ul>
+            <li>
+                <a routerLink="/admin/settings">
+                    Settings
+                </a>
+            </li>
+            <li>
+                <a routerLink="/admin/extract-stats">
+                    Replay Stats
+                </a>
+            </li>
+            <li>
+                <a routerLink="/admin/stream-linking">
+                    Link Stream
+                </a>
+            </li>
+            <li>
+                <a href="" (click)="$event.preventDefault(); calcRanking()">
+                    Calc Ranking
                 </a>
             </li>
         </ul>
