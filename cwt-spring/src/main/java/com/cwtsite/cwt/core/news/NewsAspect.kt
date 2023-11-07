@@ -1,5 +1,6 @@
 package com.cwtsite.cwt.core.news
 
+import com.cwtsite.cwt.core.HttpClient
 import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
@@ -12,8 +13,12 @@ import com.cwtsite.cwt.security.SecurityContextHolderFacade
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
+import org.json.JSONObject
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.net.URI
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 import java.time.ZoneOffset
 
 @Aspect
@@ -21,7 +26,8 @@ import java.time.ZoneOffset
 class NewsAspect(
     private val messageService: MessageService,
     private val securityContextHolderFacade: SecurityContextHolderFacade,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val httpClient: HttpClient,
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -55,6 +61,28 @@ class NewsAspect(
                     subject.homeUser!!.username, subject.awayUser!!.username,
                     subject.scoreHome, subject.scoreAway
                 )
+                if (messageNewsType == MessageNewsType.REPORT) {
+                    val payload =
+                        JSONObject(
+                            mapOf(
+                                "payload" to mapOf(
+                                    "title" to "New Game",
+                                    "body" to "${subject.homeUser!!.username} ${subject.scoreHome}–${subject.scoreAway} ${subject.awayUser!!.username}",
+                                    "link" to "https://cwtsite.com/games/${subject.id}",
+                                )
+                            )
+                        )
+                    try {
+                        val request = HttpRequest.newBuilder()
+                            .uri(URI.create("https://push.zemke.io/pub"))
+                            .POST(HttpRequest.BodyPublishers.ofString(payload.toString()))
+                            .header("Content-Type", "application/json")
+                            .build()
+                        httpClient.request(request, HttpResponse.BodyHandlers.ofString())
+                    } catch (e: Exception) {
+                        logger.error("Error sending to Web Push server:", e)
+                    }
+                }
             }
             is Rating -> {
                 messageService.publishNews(
