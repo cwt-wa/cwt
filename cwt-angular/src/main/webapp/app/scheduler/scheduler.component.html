@@ -11,7 +11,7 @@
                         <button ngbDropdownItem title="Delete this game from the schedule"
                                 *ngIf="authUser && (schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id)"
                                 (click)="deleteSchedule(schedule)">
-                            <i class="fa fa-trash"></i>
+                            <i class="fa fa-ban"></i>
                         </button>
                         <button ngbDropdownItem title="Schedule a live stream"
                                 *ngIf="authUserChannel != null"
