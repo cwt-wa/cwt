@@ -25,6 +25,8 @@ export class ChatInputComponent {
     @ViewChild('tagbox') tagbox: ElementRef<ZemkeTagboxElement>;
     @ViewChild('valueEl') valueEl: ElementRef<HTMLInputElement>;
 
+    private users: UserMinimalDto[];
+
     value = '';
     recipients: number[] = [];
     _disabled = false;
@@ -71,12 +73,16 @@ export class ChatInputComponent {
         });
     }
 
-    lazyLoad(e: KeyboardEvent) {
+    async lazyLoad(e: KeyboardEvent) {
         if (!(e.target as HTMLInputElement).value.includes('@')) return;
-        this.requestService.get<UserMinimalDto[]>("user", {minimal: "true"}).toPromise()
-            .then(users => this.suggestions.push(
-                ...users.filter(user =>
-                    !this.suggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id)));
+        if (!this.users) {
+            this.users = await this.requestService.get<UserMinimalDto[]>("user", {minimal: "true"})
+                .toPromise();
+            console.log('req users', this.users);
+        }
+        this.suggestions.push(
+            ...this.users.filter(user =>
+                !this.suggestions.map(u => u.id).includes(user.id) && user.id !== this.authUser.id));
     }
 
     submit(valid: boolean) {
