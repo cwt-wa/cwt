@@ -11,7 +11,7 @@
                         <button ngbDropdownItem title="Delete this game from the schedule"
                                 *ngIf="authUser && (schedule.homeUser.id === authUser.id || schedule.awayUser.id === authUser.id)"
                                 (click)="deleteSchedule(schedule)">
-                            <i class="fa fa-trash"></i>
+                            <i class="fa fa-ban"></i>
                         </button>
                         <button ngbDropdownItem title="Schedule a live stream"
                                 *ngIf="authUserChannel != null"
@@ -30,6 +30,7 @@
                     <i class="fa fa-twitch"></i>
                 </div>
                 <ng-template #streamTooltip>
+                    <small>Live Stream by</small><br>
                     <span *ngFor="let channel of schedule.streams, let last = last;">{{channel.user.username}}<span *ngIf="!last">, </span></span>
                 </ng-template>
             </div>

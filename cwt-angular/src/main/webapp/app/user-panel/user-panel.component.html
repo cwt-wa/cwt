@@ -1,88 +1,64 @@
 <h1 class="mb-4">User Panel</h1>
-
-<div class="row mb-4">
-    <div class="col-md-7">
-        <h2>Profile</h2>
-
-        <form #profileForm="ngForm" class="mt-4" (ngSubmit)="submitProfile()">
-            <div class="row" *ngIf="profile">
-                <div class="col-8 col-lg-6">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input class="form-control" required placeholder="Username" [(ngModel)]="profile.username"
-                               name="username" id="username">
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email"
-                               [(ngModel)]="profile.email" name="email" #email="ngModel" email required>
-                        <div class="text-danger" *ngIf="email.errors && email.dirty">
-                            <div [hidden]="!email.errors.email">
-                                The email address is invalid.
-                            </div>
-                            <div [hidden]="!email.errors.required">
-                                Your email address is mandatory.
-                            </div>
-                        </div>
-                        <small class="form-text text-muted" [innerHTML]="null | cwtEmailNote">
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label for="country">Country</label>
-                        <select id="country" class="form-control" [(ngModel)]="profile.country"
-                                name="country">
-                            <option value=""></option>
-                            <option *ngFor="let country of possibleCountries" [value]="country.id">
-                                {{country.name}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-12 col-md-10">
-                    <div class="form-group">
-                        <label for="about">About</label>
-                        <textarea [(ngModel)]="profile.about" id="about" name="about" class="form-control" rows="12"
-                                  (keyup.control.enter)="profileForm.onSubmit($event)"></textarea>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary"
-                                [disabled]="profileForm.form.invalid">
-                            Submit
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-md-5">
+<div class="row">
+    <div class="col-12 col-md-7 order-2 order-md-1">
         <div class="row">
             <div class="col-12">
-                <h2 class="mt-4 mt-md-0">Photo</h2>
+                <h2 class="mt-4 mt-md-0">Profile</h2>
 
-                <div class="mb-3">
-                    <img *ngIf="loadingPhoto" src="../../img/loading.gif"/>
-                    <img #photoPreview alt="Current photo" [hidden]="!showPhoto || thereIsNoPhoto" class="w-100">
-                    <div class="alert alert-info" *ngIf="showPhoto && thereIsNoPhoto">You don’t have a photo.</div>
-                    <button class="btn btn-secondary btn-sm" (click)="showCurrentPhoto()" [hidden]="showPhoto">Show current photo</button>
-                    <button type="button" class="btn btn-danger btn-sm" [ngClass]="{'ml-1': !showPhoto}"
-                            (click)="deletePhoto()" *ngIf="!thereIsNoPhoto">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </div>
-
-                <form (ngSubmit)="submitPhoto()">
-                    <label for="photoFile" class="sr-only">Photo</label>
-                    <input type="file" #photoFile class="form-control-file" id="photoFile"
-                           required name="photoFile" accept=".jpeg,.jpg,.png,.gif">
-                    <input type="submit" value="Upload photo" class="btn btn-primary mt-1" [disabled]="photoFile?.files?.length !== 1">
+                <form #profileForm="ngForm" class="mt-4" (ngSubmit)="submitProfile()">
+                    <div class="row" *ngIf="profile">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input class="form-control" required placeholder="Username" [(ngModel)]="profile.username"
+                                       name="username" id="username">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Email"
+                                       [(ngModel)]="profile.email" name="email" #email="ngModel" email required>
+                                <div class="text-danger" *ngIf="email.errors && email.dirty">
+                                    <div [hidden]="!email.errors.email">
+                                        The email address is invalid.
+                                    </div>
+                                    <div [hidden]="!email.errors.required">
+                                        Your email address is mandatory.
+                                    </div>
+                                </div>
+                                <small class="form-text text-muted" [innerHTML]="null | cwtEmailNote">
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <select id="country" class="form-control" [(ngModel)]="profile.country"
+                                        name="country">
+                                    <option value=""></option>
+                                    <option *ngFor="let country of possibleCountries" [value]="country.id">
+                                        {{country.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <div class="form-group">
+                                <label for="about">About</label>
+                                <textarea [(ngModel)]="profile.about" id="about" name="about" class="form-control" rows="12"
+                                          (keyup.control.enter)="profileForm.onSubmit($event)"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"
+                                        [disabled]="profileForm.form.invalid">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
-        </div>
-        <div class="row mt-4">
             <div class="col-12">
-                <h2 class="mt-md-0">Twitch</h2>
+                <h2 class="mt-4">Twitch</h2>
                 <ng-container *ngIf="!userChannel">
                     <a class="btn btn-lg btn-success" routerLink="/channels/create">
                         <i class="fa fa-twitch"></i>
@@ -150,39 +126,71 @@
             </div>
         </div>
     </div>
-</div>
+    <div class="col-12 col-md-5 order-1 order-md-2">
+        <div class="row">
+            <div class="col-12">
+                <h2>Photo</h2>
 
-<h2>Password</h2>
+                <div class="mb-3">
+                    <img *ngIf="loadingPhoto" src="../../img/loading.gif"/>
+                    <img #photoPreview alt="Current photo" [hidden]="!showPhoto || thereIsNoPhoto" class="w-100">
+                    <div class="alert alert-info" *ngIf="showPhoto && thereIsNoPhoto">You don’t have a photo.</div>
+                    <button class="btn btn-secondary btn-sm" (click)="showCurrentPhoto()" [hidden]="showPhoto">Show current photo</button>
+                    <button type="button" class="btn btn-danger btn-sm" [ngClass]="{'ml-1': !showPhoto}"
+                            (click)="deletePhoto()" *ngIf="!thereIsNoPhoto">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
 
-<form #passwordChangeForm="ngForm" class="mt-4" (submit)="submitPasswordChange()" cwtConfirmValidator="newPassword,confirmPassword">
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-5">
-            <div class="form-group">
-                <label for="currentPassword">Current password</label>
-                <input class="form-control" required placeholder="Current password" [(ngModel)]="passwordChange.currentPassword"
-                       name="currentPassword" id="currentPassword" type="password">
+                <form (ngSubmit)="submitPhoto()">
+                    <label for="photoFile" class="sr-only">Photo</label>
+                    <input type="file" #photoFile class="form-control-file" id="photoFile"
+                           required name="photoFile" accept=".jpeg,.jpg,.png,.gif">
+                    <input type="submit" value="Upload photo" class="btn btn-primary mt-1" [disabled]="photoFile?.files?.length !== 1">
+                </form>
             </div>
-            <div class="form-group">
-                <label for="newPassword">New password</label>
-                <input class="form-control" required placeholder="New password" [(ngModel)]="passwordChange.newPassword"
-                       name="newPassword" id="newPassword" type="password" #newPasswordControl="ngModel">
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm password</label>
-                <input class="form-control" required placeholder="Confirm password" [(ngModel)]="confirmPassword"
-                       name="confirmPassword" id="confirmPassword" type="password" #confirmPasswordControl="ngModel">
-                <div class="text-danger" *ngIf="passwordChangeForm?.errors && newPasswordControl.touched && confirmPasswordControl.touched">
-                    <div *ngIf="passwordChangeForm?.errors.confirmValidator">
-                        The passwords don’t match.
-                    </div>
+            <div class="col-12">
+                <h2 class="mt-4">Notifications</h2>
+                <div class="alert alert-info">
+                    Soon you will be able to receive Push Notifications on your desktop as well as your mobile devices on Android and iOS.
                 </div>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary"
-                        [disabled]="passwordChangeForm.form.invalid">
-                    Change password
-                </button>
+            <div class="col-12">
+                <h2 class="mt-4">Password</h2>
+
+                <form #passwordChangeForm="ngForm" class="mt-4" (submit)="submitPasswordChange()" cwtConfirmValidator="newPassword,confirmPassword">
+                    <div class="row">
+                        <div class="col-10 col-md-8">
+                            <div class="form-group">
+                                <label for="currentPassword">Current password</label>
+                                <input class="form-control" required placeholder="Current password" [(ngModel)]="passwordChange.currentPassword"
+                                       name="currentPassword" id="currentPassword" type="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New password</label>
+                                <input class="form-control" required placeholder="New password" [(ngModel)]="passwordChange.newPassword"
+                                       name="newPassword" id="newPassword" type="password" #newPasswordControl="ngModel">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm password</label>
+                                <input class="form-control" required placeholder="Confirm password" [(ngModel)]="confirmPassword"
+                                       name="confirmPassword" id="confirmPassword" type="password" #confirmPasswordControl="ngModel">
+                                <div class="text-danger" *ngIf="passwordChangeForm?.errors && newPasswordControl.touched && confirmPasswordControl.touched">
+                                    <div *ngIf="passwordChangeForm?.errors.confirmValidator">
+                                        The passwords don’t match.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"
+                                        [disabled]="passwordChangeForm.form.invalid">
+                                    Change password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</form>
+</div>
