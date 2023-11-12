@@ -12,6 +12,7 @@ html {
 body {
   background: transparent;
   color: #808080;
+  height: 100%;
 
   &.goldWinner {
     &::before {
@@ -579,7 +580,7 @@ select.custom-select-sm {
 
 @media (max-width: 576px) {
   .navbar .collapse.show {
-    height: calc(100vh - 58px);
+    height: calc(100dvh - 58px);
     margin-top: 58px;
   }
 }
