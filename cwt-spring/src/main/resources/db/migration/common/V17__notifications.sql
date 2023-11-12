@@ -9,7 +9,7 @@ create table notification
     modified timestamp not null default now(),
     created timestamp not null default now(),
     primary key (id),
-    foreign key (user_id) references "user" (id),
+    foreign key (user_id) references "user" (id)
 );
 
 create index idx_notif_user on notification (user_id);
