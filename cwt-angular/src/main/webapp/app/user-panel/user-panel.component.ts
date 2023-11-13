@@ -28,6 +28,7 @@ export class UserPanelComponent implements OnInit {
     botInvited: boolean = null;
     botRequestFailed: boolean = false;
     togglingBotAutoJoin: boolean = false;
+    notification;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -57,6 +58,12 @@ export class UserPanelComponent implements OnInit {
         this.requestService.get<CountryDto[]>("country")
             .subscribe(res => this.possibleCountries = res);
 
+        const sub = await (await navigator.serviceWorker.ready).pushManager.getSubscription()
+            .then(res => res.endpoint)
+            .catch(() => null);
+        this.requestService.get(`user/${this.authUser.id}/notification`, sub != null ? {sub} : null)
+            .subscribe(res => this.notification = res.human.sort((a,b) => a.pos - b.pos));
+
         if (this.authUser) {
             this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
                 .subscribe(async res => {
@@ -71,6 +78,36 @@ export class UserPanelComponent implements OnInit {
                     }
                 });
         }
+    }
+
+    async subscribe() {
+        const perm = await Notification.requestPermission().catch(e => e);
+        console.log('perm:', perm);
+        if (perm !== "granted") {
+            this.toastr.error("Cannot send notifications without permission.");
+            return;
+        }
+
+        // get sub
+        const reg = await navigator.serviceWorker.ready
+        let sub = await reg.pushManager.getSubscription();
+        if (!sub) {
+          console.log('creating sub');
+          const key = await (await fetch('https://push.zemke.io/key')).text();
+          console.log('public key:', key);
+          sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: key
+          });
+        }
+        console.log('sub:', sub);
+        const payload = {
+            subscription: sub,
+            setting: this.notification,
+            userAgent: navigator.userAgent,
+        };
+        this.requestService.post(`user/${this.authUser.id}/notification`, payload)
+            .subscribe(() => this.toastr.success("Subscribed to notifications on this device"))
     }
 
     async twitchBotEndpoint(action: string) {

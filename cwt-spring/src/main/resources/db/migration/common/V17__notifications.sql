@@ -13,4 +13,4 @@ create table notification
 );
 
 create index idx_notif_user on notification (user_id);
-
+create sequence notification_seq increment by 1 start with 1;

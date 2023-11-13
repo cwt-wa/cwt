@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface NotificationRepository : JpaRepository<Notification, Long> {
 
-    fun findByUser(user: User): Notification?
+    fun findByUser(user: User): List<Notification>
 
     fun findByUserIn(users: List<User>): List<Notification>
 }
