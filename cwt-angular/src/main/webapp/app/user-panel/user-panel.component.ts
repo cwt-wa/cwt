@@ -62,7 +62,7 @@ export class UserPanelComponent implements OnInit {
             .then(res => res.endpoint)
             .catch(() => null);
         this.requestService.get(`user/${this.authUser.id}/notification`, sub != null ? {sub} : null)
-            .subscribe(res => this.notification = res.human.sort((a,b) => a.pos - b.pos));
+            .subscribe(res => this.notification = res.human.sort((a,b) => b.pos - a.pos));
 
         if (this.authUser) {
             this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})

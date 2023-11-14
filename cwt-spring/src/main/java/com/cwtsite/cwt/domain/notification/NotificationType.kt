@@ -2,73 +2,76 @@ package com.cwtsite.cwt.domain.notification
 
 import com.cwtsite.cwt.core.toInt
 
+private const val MAX = 100
+
 enum class NotificationType(
-    val pos: Int, val label: String,
+    val pos: Int,
+    val label: String,
     val title: String,
     val tag: String
 ) {
     PUBLIC_CHAT(
-        1,
+        MAX,
         "Public chat messages",
         "New Chat Message",
         "chat"
     ),
     PRIVATE_MESSAGE(
-        2,
+        99,
         "Private messages",
         "New Private Message",
         "pm"
     ),
     REPORTED_GAME(
-        3,
+        98,
         "New game reported",
         "New Game Report",
         "report"
     ),
     VOIDED_GAME(
-        4,
+        97,
         "Game voided",
         "Game Voided",
         "void"
     ),
     RATED_GAME(
-        5,
+        96,
         "Game rated",
         "Game Rated",
         "rating"
     ),
     COMMENTED_GAME(
-        6,
+        95,
         "Game commented",
         "Game Commented",
         "comment"
     ),
     SCHEDULED_GAME(
-        7,
+        94,
         "Game scheduled",
         "Game Scheduled",
         "schedule"
     ),
     SCHEDULED_LIVE_STREAM(
-        8,
+        93,
         "Live Stream scheduled",
         "Live Stream scheduled",
         "stream_schedule"
     ),
     RECORDED_LIVE_STREAM(
-        9,
+        92,
         "New Live Stream recorded",
         "Live Stream recorded",
         "stream_record"
     ),
     LIVE_STREAM_ONLINE(
-        10,
+        91,
         "Live Stream channel gone live (not yet implemented)",
         "Live Stream went live",
         "stream_live"
     ),
     ANNOUNCEMENTS(
-        11,
+        90,
         "Announcements (not yet implemented)",
         "New Announcement",
         "announcement"
@@ -83,7 +86,7 @@ enum class NotificationType(
     }
 
     fun on(i: Int): Boolean =
-        Integer.toBinaryString(i).padEnd(pos, '0')[pos - 1] == '1'
+        Integer.toBinaryString(i).padStart(MAX, '0')[pos-1] == '1'
 
     fun tag(postfix: String) = "$tag-$postfix"
 }

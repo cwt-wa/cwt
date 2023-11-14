@@ -60,7 +60,7 @@ constructor(
     ): ResponseEntity<NotificationViewDto> {
         val user = userService.getById(id).orElseThrow { RestException("", HttpStatus.NOT_FOUND, null) }
         if (authService.authUser(request)!!.id != user.id) throw RestException("", HttpStatus.FORBIDDEN, null)
-        val sub = dto.subscription["endpoint"].toString()
+        val sub = dto.subscription["endpoint"].asText()
         val n = notificationService.findSubscriptionForUser(user, sub) ?: Notification(
             user = user,
             subscription = dto.subscription.toString(),
