@@ -7,6 +7,10 @@ import com.cwtsite.cwt.domain.notification.service.PushService
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.domain.user.service.UserService
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
@@ -27,6 +31,8 @@ constructor(
     private val applicationRepository: ApplicationRepository,
     private val pushService: PushService,
 ) {
+
+    val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     fun findNewMessages(
         after: Instant,
@@ -54,8 +60,10 @@ constructor(
         val persisted = messageRepository.save(message)
         TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
             override fun afterCommit() {
-                messageEventListener.publish(persisted)
-                pushService.push(persisted)
+                GlobalScope.launch {
+                    messageEventListener.publish(persisted)
+                    pushService.push(persisted)
+                }
             }
         })
         return persisted
