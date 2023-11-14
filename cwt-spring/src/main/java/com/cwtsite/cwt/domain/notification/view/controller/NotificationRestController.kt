@@ -61,15 +61,16 @@ constructor(
         val user = userService.getById(id).orElseThrow { RestException("", HttpStatus.NOT_FOUND, null) }
         if (authService.authUser(request)!!.id != user.id) throw RestException("", HttpStatus.FORBIDDEN, null)
         val sub = dto.subscription["endpoint"].asText()
+        val userAgent = request.getHeader("User-Agent")
         val n = notificationService.findSubscriptionForUser(user, sub) ?: Notification(
             user = user,
             subscription = dto.subscription.toString(),
             subscriptionCreated = Instant.now(),
             setting = dto.setting?.let { NotificationTypeDto.fromDtos(it) } ?: 0,
-            userAgent = dto.userAgent,
+            userAgent = userAgent,
         )
         dto.setting?.let { n.setting = NotificationTypeDto.fromDtos(it) }
-        dto.userAgent?.let { n.userAgent = it }
+        n.userAgent = userAgent
         return ResponseEntity
             .status(if (n.id == null) HttpStatus.CREATED else HttpStatus.OK)
             .body(NotificationViewDto.toDto(notificationService.save(n)))

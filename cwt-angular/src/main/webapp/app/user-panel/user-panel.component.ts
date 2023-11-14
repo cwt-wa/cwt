@@ -104,7 +104,6 @@ export class UserPanelComponent implements OnInit {
         const payload = {
             subscription: sub,
             setting: this.notification,
-            userAgent: navigator.userAgent,
         };
         this.requestService.post(`user/${this.authUser.id}/notification`, payload)
             .subscribe(() => this.toastr.success("Subscribed to notifications on this device"))

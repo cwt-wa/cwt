@@ -7,5 +7,4 @@ import com.fasterxml.jackson.databind.JsonNode
 data class NotificationWriteDto(
     val subscription: JsonNode,
     val setting: List<NotificationTypeDto>? = null,
-    val userAgent: String? = null,
 )
