@@ -19,6 +19,9 @@ import '../img/icons/icon-192x192.png';
 import '../img/icons/icon-384x384.png';
 import '../img/icons/icon-512x512.png';
 
+import '../img/icons/masked.png';
+import '../img/icons/badge.png';
+
 import '../manifest.json';
 import '../sw.js';
 

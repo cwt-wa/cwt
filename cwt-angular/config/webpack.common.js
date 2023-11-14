@@ -115,7 +115,7 @@ module.exports = {
                 use: ['file-loader?name=sw.js']
             },
             {
-                test: /img\/icons\/icon-.*.png$/,
+                test: /img\/icons\/.*.png$/,
                 use: ['file-loader?name=img/icons/[name].png']
             },
             {
