@@ -4,6 +4,7 @@ import com.cwtsite.cwt.domain.game.entity.Game
 import com.cwtsite.cwt.domain.game.entity.Rating
 import com.cwtsite.cwt.domain.message.service.MessageNewsType
 import com.cwtsite.cwt.domain.message.service.MessageService
+import com.cwtsite.cwt.domain.notification.service.PushService
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
 import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.user.repository.UserRepository
@@ -21,7 +22,8 @@ import java.time.ZoneOffset
 class NewsAspect(
     private val messageService: MessageService,
     private val securityContextHolderFacade: SecurityContextHolderFacade,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val pushService: PushService,
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -55,6 +57,7 @@ class NewsAspect(
                     subject.homeUser!!.username, subject.awayUser!!.username,
                     subject.scoreHome, subject.scoreAway
                 )
+                if (subject.voided) pushService.pushVoid(subject) else pushService.pushReport(subject)
             }
             is Rating -> {
                 messageService.publishNews(
@@ -62,6 +65,7 @@ class NewsAspect(
                     subject.game.homeUser!!.username, subject.game.awayUser!!.username,
                     subject.game.scoreHome, subject.game.scoreAway, subject.type.name.toLowerCase()
                 )
+                pushService.push(subject)
             }
             is Comment -> {
                 messageService.publishNews(
@@ -69,6 +73,7 @@ class NewsAspect(
                     subject.game!!.homeUser!!.username, subject.game!!.awayUser!!.username,
                     subject.game!!.scoreHome, subject.game!!.scoreAway
                 )
+                pushService.push(subject)
             }
             is Stream -> {
                 messageService.publishNews(
@@ -77,21 +82,24 @@ class NewsAspect(
                 )
             }
             is Schedule -> {
-                val fallbackMethod = "scheduleStream"
+                val scheduleStream = "scheduleStream"
                 val technicallyDeleted = "deleteSchedule"
+                val removeStream = "removeStream"
+                val createSchedule = "createSchedule"
+                val cancelSchedule = "cancelSchedule"
                 val methods = arrayOf(
-                    "removeStream", fallbackMethod,
-                    "createSchedule", technicallyDeleted, "cancelSchedule"
+                    removeStream, scheduleStream,
+                    createSchedule, technicallyDeleted, cancelSchedule
                 )
                 val method = runCatching { jp.signature.name }.getOrElse {
                     logger.error("Error when getting method name", it)
-                    logger.info("Falling back to $fallbackMethod")
-                    fallbackMethod
+                    logger.info("Falling back to $scheduleStream")
+                    scheduleStream
                 }.let {
                     if (!methods.contains(it)) {
                         logger.warn("$it was called, but is not handled by $methods")
-                        logger.info("Falling back to $fallbackMethod")
-                        fallbackMethod
+                        logger.info("Falling back to $scheduleStream")
+                        scheduleStream
                     } else {
                         it
                     }
@@ -106,6 +114,10 @@ class NewsAspect(
                         subject.homeUser.username, subject.awayUser.username,
                         appointment
                     )
+                    when (method) {
+                        scheduleStream, removeStream -> pushService.pushStreamSchedule(subject, method == removeStream)
+                        createSchedule, cancelSchedule -> pushService.pushGameSchedule(subject, method == cancelSchedule)
+                    }
                 }
             }
             else -> {
