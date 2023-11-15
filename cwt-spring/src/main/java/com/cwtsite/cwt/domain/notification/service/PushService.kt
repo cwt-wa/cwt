@@ -112,6 +112,7 @@ constructor(
             logger.info("No Push Server configured")
             return
         }
+        logger.info("Pushing ${n.tag} to ${subscriptions.size} subscribers")
         val res = httpClient.request(
             HttpRequest.newBuilder()
                 .headers("third-party-token", thirdPartyToken)
