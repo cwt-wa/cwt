@@ -73,7 +73,7 @@ class MessageEventHandlingTest {
                 created = Instant.ofEpochMilli(1605483348499)
             )
         )
-        verify(sseEmitter).send("EVENT", message)
+        verify(sseEmitter, times(2)).send("EVENT", message)
     }
 
     @Test

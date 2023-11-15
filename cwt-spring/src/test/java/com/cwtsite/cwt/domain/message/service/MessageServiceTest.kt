@@ -2,6 +2,7 @@ package com.cwtsite.cwt.domain.message.service
 
 import com.cwtsite.cwt.domain.application.service.ApplicationRepository
 import com.cwtsite.cwt.domain.message.entity.enumeration.MessageCategory
+import com.cwtsite.cwt.domain.notification.service.PushService
 import com.cwtsite.cwt.domain.tournament.service.TournamentService
 import com.cwtsite.cwt.domain.user.service.UserService
 import com.cwtsite.cwt.test.EntityDefaults.message
@@ -25,6 +26,7 @@ class MessageServiceTest {
     @Mock private lateinit var messageRepository: MessageRepository
     @Mock private lateinit var messageEventListener: MessageEventListener
     @Mock private lateinit var applicationRepository: ApplicationRepository
+    @Mock private lateinit var pushService: PushService
 
     @Test
     fun genSuggestions() {
