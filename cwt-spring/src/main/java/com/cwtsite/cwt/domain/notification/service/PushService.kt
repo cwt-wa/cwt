@@ -115,7 +115,7 @@ constructor(
         val res = httpClient.request(
             HttpRequest.newBuilder()
                 .headers("third-party-token", thirdPartyToken)
-                .uri(URI.create(pushServer))
+                .uri(URI.create("$pushServer/pub"))
                 .POST(HttpRequest.BodyPublishers.ofString(JSONObject(n.toRequest(subscriptions)).toString()))
                 .header("Content-Type", "application/json")
                 .build(),
