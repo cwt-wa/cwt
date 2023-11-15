@@ -1,16 +1,16 @@
-const cacheName = 'cwt-v1';
+const CACHE = 'cwt-v1';
 
 self.addEventListener('fetch', (event) => {
-    if (event.request.method === "GET") {
-        event.respondWith(caches.open(cacheName).then((cache) => {
-          return fetch(event.request).then((fetchedResponse) => {
-            cache.put(event.request, fetchedResponse.clone());
-            return fetchedResponse;
-          }).catch(() => {
-            return cache.match(event.request);
-          });
-        }));
-    }
+  if (event.request.method === "GET") {
+      event.respondWith(caches.open(CACHE).then((cache) => {
+        return fetch(event.request).then((fetchedResponse) => {
+          cache.put(event.request, fetchedResponse.clone());
+          return fetchedResponse;
+        }).catch(() => {
+          return cache.match(event.request);
+        });
+      }));
+  }
 });
 
 self.addEventListener('push', event => {
@@ -32,9 +32,26 @@ self.addEventListener("notificationclick", event => {
   console.log("On notification click: ", event);
   const n = event.notification;
   n.close();
+  const tag = n.data.tag;
+  if (tag.startsWith("chat-")
+    || tag.startsWith("pm-")
+    || tag.startsWith("schedule-")
+    || tag.startsWith("stream_schedule-")
+    || tag.startsWith("announcement-")
+    || tag.startsWith("stream_live-")) {
+    const link = "/";
+  } else if (tag.startsWith("report-")
+    || tag.startsWith("void-")
+    || tag.startsWith("rating-")
+    || tag.startsWith("comment-")
+    || tag.startsWith("stream_record-")) {
+    const link = "/games/" + tag.split("-")[1];
+  } else {
+    const link = "/";
+  }
   event.waitUntil(
     clients
-      .openWindow(n.data.link)
+      .openWindow(link)
       .then(c => (c ? c.focus() : null))
   );
 });
