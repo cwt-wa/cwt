@@ -1,5 +1,15 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
-import {ChannelDto, CountryDto, JwtUser, PasswordChangeDto, UserChangeDto, UserDetailDto} from "../custom";
+import {
+    ChannelDto,
+    CountryDto,
+    JwtUser,
+    PasswordChangeDto,
+    UserChangeDto,
+    UserDetailDto,
+    NotificationViewDto,
+    NotificationTypeDto,
+    NotificationWriteDto,
+} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
@@ -28,7 +38,7 @@ export class UserPanelComponent implements OnInit {
     botInvited: boolean = null;
     botRequestFailed: boolean = false;
     togglingBotAutoJoin: boolean = false;
-    notification;
+    notification: NotificationTypeDto[];
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -61,7 +71,7 @@ export class UserPanelComponent implements OnInit {
         const sub = await (await navigator.serviceWorker.ready).pushManager.getSubscription()
             .then(res => res.endpoint)
             .catch(() => null);
-        this.requestService.get(`user/${this.authUser.id}/notification`, sub != null ? {sub} : null)
+        this.requestService.get<NotificationViewDto>(`user/${this.authUser.id}/notification`, sub != null ? {sub} : null)
             .subscribe(res => this.notification = res.human.sort((a,b) => b.pos - a.pos));
 
         if (this.authUser) {
@@ -101,7 +111,7 @@ export class UserPanelComponent implements OnInit {
           });
         }
         console.log('sub:', sub);
-        const payload = {
+        const payload: NotificationWriteDto = {
             subscription: sub,
             setting: this.notification,
         };
