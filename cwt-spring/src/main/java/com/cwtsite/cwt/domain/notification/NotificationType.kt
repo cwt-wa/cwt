@@ -86,7 +86,7 @@ enum class NotificationType(
     }
 
     fun on(i: Int): Boolean =
-        Integer.toBinaryString(i).padStart(MAX, '0')[pos-1] == '1'
+        Integer.toBinaryString(i).padStart(MAX, '0')[pos - 1] == '1'
 
     fun tag(postfix: String) = "$tag-$postfix"
 }

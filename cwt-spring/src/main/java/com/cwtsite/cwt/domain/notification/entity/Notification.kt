@@ -47,5 +47,4 @@ data class Notification(
     @field:CreationTimestamp
     @Column(name = "created", nullable = false, updatable = false)
     var created: Instant? = null,
-) {
-}
+)
