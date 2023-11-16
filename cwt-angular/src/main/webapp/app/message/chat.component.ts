@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit, HostListener} from '@angular/core';
 import {RequestService} from "../_services/request.service";
 import {JwtUser, MessageCategory, MessageCreationDto, MessageDto} from "../custom";
 import {AuthService} from "../_services/auth.service";
@@ -56,6 +56,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
     }
 
+    @HostListener('document:visibilitychange', ['$event'])
+    visibilitychange() {
+        document.visibilityState === "visible" && this.update();
+    }
+
     ngOnInit(): void {
         this.endpoint = this.admin ? 'message/admin' : 'message';
         this.authService.authState.then(user => this.authUser = user);
@@ -78,6 +83,10 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.eventSource.onerror = (err: any) =>
             err?.originalTarget?.readyState === 2 && setTimeout(() => this.setupEventSource(), 1000);
         this.eventSource.onopen = e => console.log('listening for messages', e);
+        this.eventSource.addEventListener("PRIVATE", () => {
+            console.log("PM");
+            this.update();
+        });
         this.eventSource.addEventListener("EVENT", e => {
             // @ts-ignore
             console.log('EVENT', e.data);
@@ -131,6 +140,16 @@ ${message.author.username}: ${message.body}`;
             .subscribe(res => res.length
                     ? this.messages = [...this._messages, ...res]
                     : this.toastr.info('There are no more messages'));
+    }
+
+    private update() {
+        if (!this.messages?.length) return;
+        const after: string = (new Date(this.messages[0].created).getTime() + 1).toString();
+        this.requestService
+            .get<MessageDto[]>(this.endpoint, {after, size: this.messagesSize.toString()})
+            .subscribe(res => {
+                this.messages = [...res, ...this._messages];
+            });
     }
 }
 
