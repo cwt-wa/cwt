@@ -39,6 +39,7 @@ export class UserPanelComponent implements OnInit {
     botRequestFailed: boolean = false;
     togglingBotAutoJoin: boolean = false;
     notification: NotificationTypeDto[];
+    loadingSubscribe = false;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -91,6 +92,7 @@ export class UserPanelComponent implements OnInit {
     }
 
     async subscribe() {
+        this.loadingSubscribe = true;
         try {
             const perm = await Notification.requestPermission().catch(e => e);
             console.log('perm:', perm);
@@ -117,9 +119,12 @@ export class UserPanelComponent implements OnInit {
                 setting: this.notification,
             };
             this.requestService.post(`user/${this.authUser.id}/notification`, payload)
+                .pipe(finalize(() => this.loadingSubscribe = false))
                 .subscribe(() => this.toastr.success("Subscribed to notifications on this device"))
         } catch (_) {
             this.toastr.error("Sorry, could not subscribe.");
+        } finally {
+            this.loadingSubscribe = false;
         }
     }
 

@@ -182,9 +182,10 @@
                         </label>
                     </div>
                     <div class="form-group mt-2">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary" [disabled]="loadingSubscribe">
                             Save
                         </button>
+                        <img src="../../img/loading.gif" class="loading ml-1" *ngIf="loadingSubscribe">
                     </div>
                 </form>
             </div>
