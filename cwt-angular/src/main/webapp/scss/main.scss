@@ -12,6 +12,7 @@ html {
 body {
   background: transparent;
   color: #808080;
+  height: 100%;
 
   &.goldWinner {
     &::before {
@@ -215,6 +216,7 @@ body {
 @media (max-width: 575px) {
   .content.container {
     width: auto;
+    margin-top: 53px;
   }
 
   .cwt-nav-container .navbar.container {
@@ -228,9 +230,6 @@ body {
 
   .cwt-nav-container .cwt-navbar {
     background-color: theme-color('primary');
-  }
-
-  .cwt-fixed-top {
     position: fixed;
     top: 0;
     right: 0;
@@ -324,14 +323,6 @@ body {
   .container.content {
     padding-top: 15px;
   }
-
-  .container.content.standalone-container {
-    margin-top: 53px;
-  }
-
-  .container.content.apple-standalone-container {
-    margin-top: 67px;
-  }
 }
 
 @media (min-width: 576px) {
@@ -371,11 +362,6 @@ body {
 
   .nav-item.cwt-icon .nav-link:focus {
     outline: auto;
-  }
-
-  .cwt-top-bar.apple-standalone {
-    padding-top: 20px;
-    height: 50px;
   }
 }
 
@@ -433,17 +419,6 @@ body {
 
   .nav-link {
     padding: 0;
-  }
-}
-
-@media (orientation: portrait) {
-  nav.cwt-navbar.apple-standalone {
-    padding-top: 15px;
-  }
-
-  .collapse.show.apple-standalone {
-    height: calc(100vh - 72px);
-    margin-top: 72px;
   }
 }
 
@@ -605,7 +580,7 @@ select.custom-select-sm {
 
 @media (max-width: 576px) {
   .navbar .collapse.show {
-    height: calc(100vh - 58px);
+    height: calc(100dvh - 58px);
     margin-top: 58px;
   }
 }

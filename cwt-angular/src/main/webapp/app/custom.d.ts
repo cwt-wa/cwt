@@ -493,3 +493,20 @@ export interface RankingDto {
     modified: string;
 }
 
+export interface NotificationTypeDto {
+    name: string;
+    pos: number;
+    label: string;
+    on: boolean;
+}
+
+export interface NotificationViewDto {
+    user: UserMinimalDto;
+    setting: number;
+    human: NotificationTypeDto[];
+}
+
+export interface NotificationWriteDto {
+    subscription: any;
+    setting: NotificationTypeDto[];
+}

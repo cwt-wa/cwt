@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, HostBinding, OnInit} from "@angular/core";
-import {WebAppViewService} from "./_services/web-app-view.service";
 import {Router} from "@angular/router";
 import {RequestService} from "./_services/request.service";
 import {AuthService} from "./_services/auth.service";
@@ -23,8 +22,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     @HostBinding('class.nav-is-expanded') navIsExpandedHostClass: boolean = false;
 
     public isNavCollapsed: boolean = true;
-    public isAppleStandalone: boolean;
-    public isStandalone: boolean;
     public highscores: TetrisDto[];
     public eventSourceTwitchWebhook: boolean;
     private authenticatedUser: JwtUser;
@@ -34,13 +31,11 @@ export class AppComponent implements AfterViewInit, OnInit {
     //@ts-ignore
     private newTetrisEntryId: number;
 
-    constructor(private webAppViewService: WebAppViewService, private requestService: RequestService,
+    constructor(private requestService: RequestService,
                 private router: Router, private authService: AuthService, private canReportService: CanReportService,
                 private toastr: Toastr, private configurationService: ConfigurationService,
                 private currentTournamentService: CurrentTournamentService,
                 private goldWinnerService: GoldWinnerService) {
-        this.isAppleStandalone = this.webAppViewService.isAppleStandalone;
-        this.isStandalone = this.webAppViewService.isStandalone;
     }
 
     public ngOnInit(): void {

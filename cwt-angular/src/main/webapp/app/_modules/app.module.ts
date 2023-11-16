@@ -4,7 +4,6 @@ import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 import {AppComponent} from "../app.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {WebAppViewService} from "../_services/web-app-view.service";
 import {GmtClockComponent} from "../_util/gmt-clock.component";
 import {RouterModule, Routes} from "@angular/router";
 import {PageNotFoundComponent} from "../_util/page-not-found.component";
@@ -137,7 +136,6 @@ const appRoutes: Routes = [
     ],
     providers: [
         AdminCanActivateGuard,
-        WebAppViewService,
         AuthService,
         RequestService,
         ConfigurationService,
