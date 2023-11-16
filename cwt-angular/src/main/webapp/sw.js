@@ -1,7 +1,10 @@
 const CACHE = 'cwt-v1';
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method === "GET") {
+  const pathname = new URL(event.request.url).pathname;
+  if (event.request.method === "GET"
+  && pathname !== "/api/message/listen"
+  && pathname.endsWith("/stats-listen")) {
       event.respondWith(caches.open(CACHE).then((cache) => {
         return fetch(event.request).then((fetchedResponse) => {
           cache.put(event.request, fetchedResponse.clone());
