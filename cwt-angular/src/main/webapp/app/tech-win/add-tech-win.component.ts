@@ -37,7 +37,7 @@ export class AddTechWinComponent implements OnInit {
         this.requestService.post<GameCreationDto>('game/tech-win', this.game)
             .subscribe(res => {
                 this.router.navigateByUrl(`/games/${res.id}`);
-                this.toastr.success("Successfully saved.");
+                this.toastr.success("Saved");
             });
     }
 }

@@ -132,7 +132,7 @@ export class StreamLinkingComponent implements OnInit {
 
     submit(stream: StreamDto): void {
         if (this.forms[stream.id].controls.gameId.invalid) {
-            this.toastr.error("Please enter a game ID.");
+            this.toastr.error("Please enter a game ID");
             return;
         }
         const gameId = this.forms[stream.id].get('gameId').value.trim();
@@ -141,7 +141,7 @@ export class StreamLinkingComponent implements OnInit {
             if (!confirm) return;
             this.requestService.post<StreamDto>(`stream/${stream.id}/game/${gameId}/link`)
                 .subscribe(res => {
-                    this.toastr.success("Successfully linked game.");
+                    this.toastr.success("Linked game");
                     if (stream.game == null) {
                         this.streams.splice(this.streams.findIndex(({id}) => id === stream.id), 1);
                     } else { // new game to link to
@@ -158,7 +158,7 @@ export class StreamLinkingComponent implements OnInit {
             if (!confirm) return;
             this.requestService.delete<StreamDto>(`stream/${stream.id}/link`)
                 .subscribe(res => {
-                    this.toastr.success("Successfully unlinked stream.");
+                    this.toastr.success("Unlinked stream");
                     this.streams.push(res);
                     this.linkedStreams.splice(this.linkedStreams.findIndex(s => s.id === stream.id), 1);
                     this.streams = this.streams
@@ -175,9 +175,9 @@ export class StreamLinkingComponent implements OnInit {
             .pipe(finalize(() => this.linkingLoading = false))
             .subscribe(res => {
                 this.streams = this.streams.filter(s => res.find(s1 => s.id === s1.id) == null);
-                if (res.length === 0) this.toastr.info(`No streams could be linked.`);
-                else if (res.length === 1) this.toastr.success(`1 stream was linked.`);
-                else if (res.length > 1) this.toastr.success(`${res.length} streams were linked.`);
+                if (res.length === 0) this.toastr.info(`No streams could be linked`);
+                else if (res.length === 1) this.toastr.success(`1 stream was linked`);
+                else if (res.length > 1) this.toastr.success(`${res.length} streams were linked`);
             });
     }
 
@@ -185,7 +185,7 @@ export class StreamLinkingComponent implements OnInit {
         this.jobLoading = true;
         this.requestService.post<void>('stream/job')
             .pipe(finalize(() => this.jobLoading = false))
-            .subscribe(() => this.toastr.success("Job run successfully."));
+            .subscribe(() => this.toastr.success("Cleanup job run"));
     }
 
     deleteStream(stream: StreamDto) {
@@ -197,7 +197,7 @@ export class StreamLinkingComponent implements OnInit {
                 const idx = this.linkedStreams.findIndex(s => s.id === stream.id);
                 this.linkedStreams.splice(idx, 1);
             }
-            this.toastr.success("Stream successfully deleted.");
+            this.toastr.success("Stream deleted");
         });
     }
 
@@ -205,13 +205,13 @@ export class StreamLinkingComponent implements OnInit {
         this.requestService.delete<StreamDto>(`stream/${stream.id}/link`).subscribe(res => {
             const idx = this.streams.findIndex(s => s.id === stream.id);
             this.streams[idx] = res;
-            this.toastr.success("Stream successfully unlinked.");
+            this.toastr.success("Stream unlinked");
         });
     }
 
     submitGameToStreamLink(isValid: boolean) {
         if (!isValid) {
-            this.toastr.error("Specify game ID and Twitch video ID.");
+            this.toastr.error("Specify game ID and Twitch video ID");
             return;
         }
         const {gameId, videoId} = this.gameToStreamLink;
@@ -219,7 +219,7 @@ export class StreamLinkingComponent implements OnInit {
                 `Do you really want to link game with ID ${gameId} to stream with video ${videoId}`);
         if (!confirm) return;
         this.requestService.post(`stream/${videoId}/game/${gameId}/link`)
-            .subscribe(() => this.toastr.success("Successfully linked game to stream."));
+            .subscribe(() => this.toastr.success("Linked game to stream"));
     }
 
     private buildForms(): void {

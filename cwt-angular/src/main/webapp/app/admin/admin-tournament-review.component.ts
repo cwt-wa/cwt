@@ -55,7 +55,7 @@ export class AdminTournamentReviewComponent implements OnInit, Deactivatable {
     submit() {
         this.requestService.put<TournamentDetailDto>(`tournament/${this.tournamentBeingEdited}`, {review: this.reviewBeingEdited} as TournamentUpdateDto)
             .subscribe(() => {
-                this.toastr.success("Successfully saved.");
+                this.toastr.success("Review saved");
                 this.tournaments[this.tournaments.findIndex(t => t.id === this.tournamentBeingEdited)].review =
                     this.reviewBeingEdited;
             })

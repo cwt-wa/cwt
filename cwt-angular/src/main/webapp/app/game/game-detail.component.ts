@@ -261,13 +261,13 @@ export class GameDetailComponent implements OnInit, OnDestroy {
 
     rate(ratingType: RatingType): void {
         if (!this.authenticatedUser) {
-            this.toastr.error("Log in to rate.");
+            this.toastr.error("Log in to rate");
             return;
         }
         const payload: RatingCreationDto = {type: ratingType, user: this.authenticatedUser.id};
         const alreadyRated = this.game.ratings.find(r => r.type === payload.type && r.user.id === payload.user);
         if (alreadyRated) {
-            this.toastr.success(`You’ve already ${ratingType.toLowerCase()}d this game.`);
+            this.toastr.success(`You’ve already ${ratingType.toLowerCase()}d this game`);
             return;
         }
         this.submittingRating = ratingType;
@@ -277,10 +277,10 @@ export class GameDetailComponent implements OnInit, OnDestroy {
                 const idx = this.game.ratings.findIndex(r => r.id === res.id);
                 if (idx !== -1) {
                     this.game.ratings[idx] = res;
-                    this.toastr.success("Updated your rating.");
+                    this.toastr.success("Rating updated");
                 } else {
                     this.game.ratings.push(res);
-                    this.toastr.success(`${ratingType[0]}${ratingType.slice(1).toLowerCase()}d this game.`);
+                    this.toastr.success(`${ratingType[0]}${ratingType.slice(1).toLowerCase()}d this game`);
                 }
             });
     }

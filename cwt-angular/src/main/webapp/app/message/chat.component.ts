@@ -102,7 +102,7 @@ ${message.author.username}: ${message.body}`;
         if (!confirm(text)) return;
         this.requestService.delete(`message/${message.id}`)
             .subscribe(() => {
-                this.toastr.success("Message has been deleted.");
+                this.toastr.success("Message has been deleted");
                 this._messages.splice(this.messages.findIndex(m => m.id === message.id), 1);
             })
     }
@@ -130,7 +130,7 @@ ${message.author.username}: ${message.body}`;
             .get<MessageDto[]>(`${this.endpoint}`, queryParams)
             .subscribe(res => res.length
                     ? this.messages = [...this._messages, ...res]
-                    : this.toastr.info('There are no more messages.'));
+                    : this.toastr.info('There are no more messages'));
     }
 }
 

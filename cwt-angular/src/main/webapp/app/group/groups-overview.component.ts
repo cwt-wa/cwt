@@ -34,7 +34,7 @@ export class GroupsOverviewComponent implements OnInit {
     public async ngOnInit() {
         const tournamentId = this.tournamentId || (await this.currentTournamentService.value)?.id;
         if (tournamentId == null) {
-            this.toastr.info("There is currently no tournament.");
+            this.toastr.info("There is currently no tournament");
             this.loading = false;
         } else {
             this.requestService.get<GroupWithGamesDto[]>(`tournament/${tournamentId}/group`)

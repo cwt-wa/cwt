@@ -25,10 +25,10 @@ export class ApplyComponent implements OnInit {
 
     public async submit() {
         const authUser: JwtUser = await this.authService.authState;
-        if (!authUser) this.toastr.error("You’re not signed in.");
+        if (!authUser) this.toastr.error("You’re not signed in");
         this.requestService.post(`user/${authUser.id}/application`)
             .subscribe(() => {
-                this.toastr.success('You have applied successfully.');
+                this.toastr.success('You have applied for CWT');
                 this.router.navigateByUrl('/applicants');
             })
     }

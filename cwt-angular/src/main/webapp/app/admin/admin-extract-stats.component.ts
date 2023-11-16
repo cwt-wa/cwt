@@ -56,6 +56,6 @@ export class AdminExtractStatsComponent {
         this.submitting = true;
         this.requestService.formDataPost(`binary/game/${this.gameId}/stats`, formData)
             .pipe(finalize(() => this.submitting = false))
-            .subscribe(() => this.toastr.success("Replay stats have been persisted."));
+            .subscribe(() => this.toastr.success("Replay stats have been persisted"));
     }
 }

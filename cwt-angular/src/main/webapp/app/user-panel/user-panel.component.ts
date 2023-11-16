@@ -97,7 +97,7 @@ export class UserPanelComponent implements OnInit {
             const perm = await Notification.requestPermission().catch(e => e);
             console.log('perm:', perm);
             if (perm !== "granted") {
-                this.toastr.error("Cannot send notifications without permission.");
+                this.toastr.error("Cannot send notifications without permission");
                 return;
             }
 
@@ -122,7 +122,7 @@ export class UserPanelComponent implements OnInit {
                 .pipe(finalize(() => this.loadingSubscribe = false))
                 .subscribe(() => this.toastr.success("Subscribed to notifications on this device"))
         } catch (_) {
-            this.toastr.error("Sorry, could not subscribe.");
+            this.toastr.error("Sorry, could not subscribe");
         } finally {
             this.loadingSubscribe = false;
         }
@@ -166,29 +166,29 @@ export class UserPanelComponent implements OnInit {
                     this.toastr.success("Successfully saved profile. Page will refresh shortly…");
                     setTimeout(() => location.reload(), 2000);
                 } else {
-                    this.toastr.success("Successfully saved profile.")
+                    this.toastr.success("Profile saved")
                 }
             });
     }
 
     submitPasswordChange() {
         this.requestService.post(`user/${this.authUser.id}/change-password`, this.passwordChange)
-            .subscribe(() => this.toastr.success("Successfully changed password."));
+            .subscribe(() => this.toastr.success("Changed password"));
     }
 
     submitPhoto() {
         this.binaryService.saveUserPhoto(this.authUser.id, this.photoFile.nativeElement.files[0])
             .subscribe(() => {
-                this.toastr.success("Successfully saved photo.");
+                this.toastr.success("Photo saved");
                 this.showPhoto = false;
             });
     }
 
     deletePhoto() {
         this.binaryService.deleteUserPhoto(this.authUser.id).subscribe(() => {
-            this.toastr.success("Successfully deleted photo.");
+            this.toastr.success("Photo deleted");
             this.showPhoto = false;
-        }, () => this.toastr.error("An unknown error occurred."));
+        }, () => this.toastr.error("An unknown error occurred"));
     }
 
     toggleBotAutoJoin() {
@@ -212,10 +212,10 @@ export class UserPanelComponent implements OnInit {
         try {
             await this.twitchBotEndpoint(joinOrPart);
             this.botInvited = !this.botInvited;
-            this.toastr.success(`Successfully ${joinOrPart}ed.`);
+            this.toastr.success(`Successfully ${joinOrPart}ed`);
         } catch (err) {
             console.error(`${joinOrPart} not working:`, err);
-            this.toastr.error("Excuse me, Beep Boop no working.");
+            this.toastr.error("Excuse me, Beep Boop no working");
             this.togglingBotInvite = false;
         }
     }

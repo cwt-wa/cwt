@@ -46,9 +46,9 @@ export class SchedulerComponent implements OnInit {
     public submit(valid: boolean) {
         if (!valid) {
             if (this.scheduleForm.control.get('appointment').errors.cwtDateTimeInput) {
-                this.toastr.error('Invalid date/time format.');
+                this.toastr.error('Invalid date/time format');
             } else if (this.scheduleForm.control.get('appointment').errors.cwtDateTimeInputAfter) {
-                this.toastr.error('You mustn’t schedule in the past.');
+                this.toastr.error('You mustn’t schedule in the past');
             }
             return;
         }
@@ -67,7 +67,7 @@ export class SchedulerComponent implements OnInit {
     deleteSchedule(schedule: ScheduleDto) {
         this.requestService.delete(`schedule/${schedule.id}`)
             .subscribe(() => {
-                this.toastr.success('Successfully deleted schedule.');
+                this.toastr.success('Deleted schedule');
                 this.schedules.splice(this.schedules.findIndex(s => s.id === schedule.id), 1);
 
                 // @ts-ignore
@@ -95,7 +95,7 @@ export class SchedulerComponent implements OnInit {
             this.requestService
                 .delete<ChannelDto>(`schedule/${schedule.id}/channel/${this.authUserChannel.id}`)
                 .subscribe(() => {
-                    this.toastr.success("Successfully deleted scheduled stream.");
+                    this.toastr.success("Deleted scheduled stream");
                     schedule.streams.splice(idxOfAlreadyScheduledStream, 1);
                     // this.schedules[this.schedules.findIndex(s => s.id === schedule.id)].streams.push(res);
                 });
@@ -103,7 +103,7 @@ export class SchedulerComponent implements OnInit {
             this.requestService
                 .post<ChannelDto>(`schedule/${schedule.id}/channel/${this.authUserChannel.id}`)
                 .subscribe(res => {
-                    this.toastr.success("Successfully scheduled stream for game.");
+                    this.toastr.success("Scheduled stream for game");
                     schedule.streams.push(res);
                 });
         }

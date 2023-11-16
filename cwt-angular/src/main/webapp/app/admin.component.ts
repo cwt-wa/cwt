@@ -31,7 +31,7 @@ export class AdminComponent implements OnInit {
             `tournament/${this.tournament.id}`,
             {status: "ARCHIVED"} as TournamentUpdateDto)
                 .subscribe((res: TournamentDetailDto) => {
-                    this.toastr.success("Tournament has been archived.");
+                    this.toastr.success("Archived tournament");
                     this.tournament = res;
                 });
     }
@@ -43,7 +43,7 @@ export class AdminComponent implements OnInit {
         this.toastr.info("Calc has been triggered. Please wait a bit.");
         this.requestService.post('ranking/calc')
                 .subscribe(() => {
-                    this.toastr.success("Ranking has been calculated.");
+                    this.toastr.success("Ranking has been calculated");
                 });
     }
 }

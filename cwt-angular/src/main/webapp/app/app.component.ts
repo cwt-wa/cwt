@@ -109,7 +109,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
                 this.requestService.post<TetrisDto>(`user/${this.authenticatedUser.id}/tetris`, highscore)
                     .subscribe(res => {
-                        this.toastr.success("Highscore saved.");
+                        this.toastr.success("Highscore saved");
                         this.highscores.push(res);
                         this.newTetrisEntryId = res.id;
                         this.highscores = this.sortTetrisHighscore(this.highscores);
@@ -139,7 +139,7 @@ export class AppComponent implements AfterViewInit, OnInit {
             }
             this.requestService.post<TetrisDto>(`tetris`, new TetrisGuest(this.highscore, this.tetrisGuestName))
                 .subscribe(res => {
-                    this.toastr.success("Highscore saved.");
+                    this.toastr.success("Highscore saved");
                     this.highscores.push(res);
                     this.highscores = this.sortTetrisHighscore(this.highscores);
                     this.newTetrisEntryId = res.id;

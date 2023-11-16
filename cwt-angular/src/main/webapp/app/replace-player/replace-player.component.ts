@@ -1,6 +1,7 @@
 import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {RequestService} from "../_services/request.service";
+
 import {ReplacePlayerDto, User, UserMinimalDto} from "../custom";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
@@ -55,7 +56,7 @@ export class ReplacePlayerComponent implements OnInit {
             .subscribe(
                 () => {
                     this.router.navigateByUrl('/groups');
-                    this.toastr.success("Successfully saved.");
+                    this.toastr.success("Player replaced");
                 });
     }
 }
