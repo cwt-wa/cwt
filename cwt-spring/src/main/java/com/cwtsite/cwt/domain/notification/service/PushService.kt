@@ -36,19 +36,21 @@ constructor(
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     fun push(message: Message): PushNotification {
+        var private: Boolean
         val subs = when (message.category) {
             MessageCategory.PRIVATE -> notificationRepository.findByUserIn(message.recipients)
                 .filter { PRIVATE_MESSAGE.on(it.setting) }
                 .map { it.subscription }
+                .also { private = true }
 
-            MessageCategory.SHOUTBOX -> subscribers(PUBLIC_CHAT)
+            MessageCategory.SHOUTBOX -> subscribers(PUBLIC_CHAT).also { private = false }
 
             else -> throw RuntimeException("${message.category} cannot be pushed")
         }
         return PushNotification(
-            title = PRIVATE_MESSAGE.title,
+            title = (if (private) PRIVATE_MESSAGE else PUBLIC_CHAT).title,
             body = "from " + message.author.username,
-            tag = PRIVATE_MESSAGE.tag(message.author.id.toString()),
+            tag = (if (private) PRIVATE_MESSAGE else PUBLIC_CHAT).tag(message.author.id.toString()),
         ).also { push(it, subs) }
     }
 
