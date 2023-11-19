@@ -80,6 +80,7 @@ class NewsAspect(
                     MessageNewsType.STREAM, subject.channel.user,
                     subject.id, subject.title
                 )
+                pushService.push(subject)
             }
             is Schedule -> {
                 val scheduleStream = "scheduleStream"

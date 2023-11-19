@@ -60,7 +60,7 @@ enum class NotificationType(
     ),
     RECORDED_LIVE_STREAM(
         92,
-        "New Live Stream recorded (not yet implemented)",
+        "New Live Stream recorded",
         "Live Stream recorded",
         "stream_record"
     ),

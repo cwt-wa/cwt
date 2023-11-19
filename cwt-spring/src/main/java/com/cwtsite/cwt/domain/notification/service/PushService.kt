@@ -10,11 +10,13 @@ import com.cwtsite.cwt.domain.notification.NotificationType.COMMENTED_GAME
 import com.cwtsite.cwt.domain.notification.NotificationType.PRIVATE_MESSAGE
 import com.cwtsite.cwt.domain.notification.NotificationType.PUBLIC_CHAT
 import com.cwtsite.cwt.domain.notification.NotificationType.RATED_GAME
+import com.cwtsite.cwt.domain.notification.NotificationType.RECORDED_LIVE_STREAM
 import com.cwtsite.cwt.domain.notification.NotificationType.REPORTED_GAME
 import com.cwtsite.cwt.domain.notification.NotificationType.SCHEDULED_GAME
 import com.cwtsite.cwt.domain.notification.NotificationType.SCHEDULED_LIVE_STREAM
 import com.cwtsite.cwt.domain.notification.NotificationType.VOIDED_GAME
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
+import com.cwtsite.cwt.domain.stream.entity.Stream
 import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Comment
 import org.json.JSONObject
@@ -104,6 +106,15 @@ constructor(
                 body = "${s.homeUser.username} vs. ${s.awayUser.username}",
                 tag = SCHEDULED_GAME.tag(s.id.toString()),
             ).also { push(it, subscribers(SCHEDULED_GAME, schedule.author)) }
+        }
+
+    fun push(stream: Stream)  =
+        stream.game!!.let { g ->
+            PushNotification(
+                title = RECORDED_LIVE_STREAM.title,
+                body = "${g.homeUser!!.username} ${g.scoreHome}–${g.scoreAway} ${g.awayUser!!.username}",
+                tag = RECORDED_LIVE_STREAM.tag(g.id!!.toString()),
+            ).also { push(it, subscribers(RECORDED_LIVE_STREAM)) }
         }
 
     private fun subscribers(type: NotificationType, excl: User? = null): List<String> =
