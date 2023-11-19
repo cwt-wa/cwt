@@ -4,7 +4,8 @@ self.addEventListener('fetch', (event) => {
   const pathname = new URL(event.request.url).pathname;
   if (event.request.method === "GET"
   && pathname !== "/api/message/listen"
-  && !pathname.endsWith("/stats-listen")) {
+  && !pathname.endsWith("/stats-listen")
+  && !pathname.endsWith("/produce")) {
       event.respondWith(caches.open(CACHE).then((cache) => {
         return fetch(event.request).then((fetchedResponse) => {
           cache.put(event.request, fetchedResponse.clone());
