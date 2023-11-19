@@ -70,13 +70,13 @@ constructor(
             tag = VOIDED_GAME.tag(g.id!!.toString()),
         ).also { push(it, subscribers(VOIDED_GAME)) }
 
-    fun push(message: Rating): PushNotification =
-        message.game.let { g ->
+    fun push(rating: Rating): PushNotification =
+        rating.game.let { g ->
             PushNotification(
                 title = RATED_GAME.title,
                 body = "${g.homeUser!!.username} ${g.scoreHome}–${g.scoreAway} ${g.awayUser!!.username}",
                 tag = RATED_GAME.tag(g.id!!.toString()),
-            ).also { push(it, subscribers(RATED_GAME, message.user)) }
+            ).also { push(it, subscribers(RATED_GAME, rating.user)) }
         }
 
     fun push(comment: Comment): PushNotification =
