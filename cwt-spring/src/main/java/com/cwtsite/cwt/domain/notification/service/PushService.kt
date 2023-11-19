@@ -14,6 +14,7 @@ import com.cwtsite.cwt.domain.notification.NotificationType.REPORTED_GAME
 import com.cwtsite.cwt.domain.notification.NotificationType.SCHEDULED_LIVE_STREAM
 import com.cwtsite.cwt.domain.notification.NotificationType.VOIDED_GAME
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
+import com.cwtsite.cwt.domain.user.repository.entity.User
 import com.cwtsite.cwt.entity.Comment
 import org.json.JSONObject
 import org.slf4j.Logger
@@ -43,7 +44,7 @@ constructor(
                 .map { it.subscription }
                 .also { private = true }
 
-            MessageCategory.SHOUTBOX -> subscribers(PUBLIC_CHAT).also { private = false }
+            MessageCategory.SHOUTBOX -> subscribers(PUBLIC_CHAT, message.author).also { private = false }
 
             else -> throw RuntimeException("${message.category} cannot be pushed")
         }
@@ -59,7 +60,7 @@ constructor(
             title = REPORTED_GAME.title,
             body = "${g.homeUser!!.username} ${g.scoreHome}–${g.scoreAway} ${g.awayUser!!.username}",
             tag = REPORTED_GAME.tag(g.id!!.toString()),
-        ).also { push(it, subscribers(REPORTED_GAME)) }
+        ).also { push(it, subscribers(REPORTED_GAME, g.reporter)) }
 
     fun pushVoid(g: Game): PushNotification =
         PushNotification(
@@ -74,7 +75,7 @@ constructor(
                 title = RATED_GAME.title,
                 body = "${g.homeUser!!.username} ${g.scoreHome}–${g.scoreAway} ${g.awayUser!!.username}",
                 tag = RATED_GAME.tag(g.id!!.toString()),
-            ).also { push(it, subscribers(RATED_GAME)) }
+            ).also { push(it, subscribers(RATED_GAME, message.user)) }
         }
 
     fun push(comment: Comment): PushNotification =
@@ -83,7 +84,7 @@ constructor(
                 title = COMMENTED_GAME.title,
                 body = "${g.homeUser!!.username} ${g.scoreHome}–${g.scoreAway} ${g.awayUser!!.username}",
                 tag = COMMENTED_GAME.tag(g.id!!.toString()),
-            ).also { push(it, subscribers(COMMENTED_GAME)) }
+            ).also { push(it, subscribers(COMMENTED_GAME, comment.author)) }
         }
 
     fun pushStreamSchedule(schedule: Schedule, cancelled: Boolean) =
@@ -101,12 +102,13 @@ constructor(
                 title = if (cancelled) "Cancelled Game" else NotificationType.SCHEDULED_GAME.title,
                 body = "${s.homeUser.username} vs. ${s.awayUser.username}",
                 tag = SCHEDULED_LIVE_STREAM.tag(s.id.toString()),
-            ).also { push(it, subscribers(SCHEDULED_LIVE_STREAM)) }
+            ).also { push(it, subscribers(SCHEDULED_LIVE_STREAM, schedule.author)) }
         }
 
-    private fun subscribers(type: NotificationType): List<String> =
+    private fun subscribers(type: NotificationType, excl: User? = null): List<String> =
         notificationRepository.findAll()
             .filter { type.on(it.setting) }
+            .filter { excl == null || excl != it.user }
             .map { it.subscription }
 
     private fun push(n: PushNotification, subscriptions: List<String>) {
