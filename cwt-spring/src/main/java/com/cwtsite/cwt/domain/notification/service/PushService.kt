@@ -11,6 +11,7 @@ import com.cwtsite.cwt.domain.notification.NotificationType.PRIVATE_MESSAGE
 import com.cwtsite.cwt.domain.notification.NotificationType.PUBLIC_CHAT
 import com.cwtsite.cwt.domain.notification.NotificationType.RATED_GAME
 import com.cwtsite.cwt.domain.notification.NotificationType.REPORTED_GAME
+import com.cwtsite.cwt.domain.notification.NotificationType.SCHEDULED_GAME
 import com.cwtsite.cwt.domain.notification.NotificationType.SCHEDULED_LIVE_STREAM
 import com.cwtsite.cwt.domain.notification.NotificationType.VOIDED_GAME
 import com.cwtsite.cwt.domain.schedule.entity.Schedule
@@ -99,10 +100,10 @@ constructor(
     fun pushGameSchedule(schedule: Schedule, cancelled: Boolean) =
         schedule.let { s ->
             PushNotification(
-                title = if (cancelled) "Cancelled Game" else NotificationType.SCHEDULED_GAME.title,
+                title = if (cancelled) "Cancelled Game" else SCHEDULED_GAME.title,
                 body = "${s.homeUser.username} vs. ${s.awayUser.username}",
-                tag = SCHEDULED_LIVE_STREAM.tag(s.id.toString()),
-            ).also { push(it, subscribers(SCHEDULED_LIVE_STREAM, schedule.author)) }
+                tag = SCHEDULED_GAME.tag(s.id.toString()),
+            ).also { push(it, subscribers(SCHEDULED_GAME, schedule.author)) }
         }
 
     private fun subscribers(type: NotificationType, excl: User? = null): List<String> =
