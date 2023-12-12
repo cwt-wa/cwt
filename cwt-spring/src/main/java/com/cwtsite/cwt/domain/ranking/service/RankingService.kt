@@ -68,7 +68,7 @@ constructor(
     fun save(games: List<Game>, relrank: Map<Long, BigDecimal>): List<Ranking> {
         val prev = rankingRepository.findAll()
         if ((prev.mapNotNull { it.modified }.maxOrNull() ?: Instant.MIN)
-                .isAfter((games.mapNotNull { it.reportedAt }.maxOrNull() ?: Instant.MIN))
+            .isAfter((games.mapNotNull { it.reportedAt }.maxOrNull() ?: Instant.MIN))
         ) {
             logger.warn("There are no new games.")
             return prev

@@ -66,7 +66,7 @@ ${gameToVoid.homeUser.username} ${gameToVoid.scoreHome}–${gameToVoid.scoreAway
         this.requestService
             .post(`game/${this.gameToVoid}/void`)
             .subscribe(() => {
-                this.toastr.success("The game has been voided.");
+                this.toastr.success("The game has been voided");
                 this.router.navigateByUrl(`/games/${this.gameToVoid}`);
             });
     }

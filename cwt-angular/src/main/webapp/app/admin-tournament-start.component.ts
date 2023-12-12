@@ -62,6 +62,6 @@ export class AdminTournamentStartComponent implements OnInit {
     public submit(): void {
         const payload: { moderatorIds: number[] } = {moderatorIds: this.moderators.map(m => m.id)};
         this.requestService.post('tournament', payload).subscribe(
-            () => this.toastr.success('The tournament has been started successfully.'));
+            () => this.toastr.success('Tournament has been started'));
     }
 }

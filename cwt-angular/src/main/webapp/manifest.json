@@ -3,18 +3,82 @@
   "name": "CWT",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "img/icons/icon-72x72.png",
+      "type": "image/png",
+      "sizes": "72x72"
     },
     {
-      "src": "/assets/favicon.png",
+      "src": "img/icons/icon-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "img/icons/icon-128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "img/icons/icon-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "img/icons/icon-152x152.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "img/icons/icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "img/icons/icon-384x384.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "img/icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",
   "background_color": "#322a21",
   "display": "standalone",
-  "theme_color": "#322a21"
+  "theme_color": "#322a21",
+  "description": "Crespo’s Worms Tournament (CWT) is the most prestigious tournament of Team17’s strategy game title Worms Armageddon held annually since 2002.",
+  "scope": "/",
+  "lang": "en",
+  "display_override": [
+    "standalone",
+    "fullscreen",
+    "minimal-ui",
+    "browser"
+  ],
+  "categories": [
+    "games"
+  ],
+  "shortcuts": [
+    {
+      "name": "Groups",
+      "url": "/groups",
+      "description": "Groups of the current tournament."
+    },
+    {
+      "name": "Playoffs",
+      "url": "/playoffs",
+      "description": "Playoffs of the current tournament."
+    },
+    {
+      "name": "Streams",
+      "url": "/streams",
+      "description": "Past live CWT broadcasts."
+    },
+    {
+      "name": "Archive",
+      "url": "/archive",
+      "description": "Archive of past tournaments and ranking."
+    }
+  ]
 }

@@ -22,6 +22,6 @@ export class WriteRulesComponent implements OnInit {
 
     submit(): void {
         this.requestService.post('configuration', <ConfigurationDto> {value: this.rules.value, key: this.rules.key})
-            .subscribe(() => this.toastr.success("Successfully saved."));
+            .subscribe(() => this.toastr.success("Rules published"));
     }
 }

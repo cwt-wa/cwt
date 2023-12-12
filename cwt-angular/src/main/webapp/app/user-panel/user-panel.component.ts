@@ -1,5 +1,15 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
-import {ChannelDto, CountryDto, JwtUser, PasswordChangeDto, UserChangeDto, UserDetailDto} from "../custom";
+import {
+    ChannelDto,
+    CountryDto,
+    JwtUser,
+    PasswordChangeDto,
+    UserChangeDto,
+    UserDetailDto,
+    NotificationViewDto,
+    NotificationTypeDto,
+    NotificationWriteDto,
+} from "../custom";
 import {RequestService} from "../_services/request.service";
 import {AuthService} from "../_services/auth.service";
 import {Toastr} from "../_services/toastr";
@@ -28,6 +38,8 @@ export class UserPanelComponent implements OnInit {
     botInvited: boolean = null;
     botRequestFailed: boolean = false;
     togglingBotAutoJoin: boolean = false;
+    notification: NotificationTypeDto[];
+    loadingSubscribe = false;
 
     private authUser: JwtUser;
     // @ts-ignore
@@ -57,6 +69,12 @@ export class UserPanelComponent implements OnInit {
         this.requestService.get<CountryDto[]>("country")
             .subscribe(res => this.possibleCountries = res);
 
+        const sub = await (await navigator.serviceWorker.ready).pushManager.getSubscription()
+            .then(res => res.endpoint)
+            .catch(() => null);
+        this.requestService.get<NotificationViewDto>(`user/${this.authUser.id}/notification`, sub != null ? {sub} : null)
+            .subscribe(res => this.notification = res.human.sort((a,b) => b.pos - a.pos));
+
         if (this.authUser) {
             this.requestService.get<ChannelDto[]>('channel', {user: `${this.authUser.id}`})
                 .subscribe(async res => {
@@ -70,6 +88,43 @@ export class UserPanelComponent implements OnInit {
                         }
                     }
                 });
+        }
+    }
+
+    async subscribe() {
+        this.loadingSubscribe = true;
+        try {
+            const perm = await Notification.requestPermission().catch(e => e);
+            console.log('perm:', perm);
+            if (perm !== "granted") {
+                this.toastr.error("Cannot send notifications without permission");
+                return;
+            }
+
+            // get sub
+            const reg = await navigator.serviceWorker.ready
+            let sub = await reg.pushManager.getSubscription();
+            if (!sub) {
+              console.log('creating sub');
+              const key = await (await fetch('https://push.zemke.io/key')).text();
+              console.log('public key:', key);
+              sub = await reg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: key
+              });
+            }
+            console.log('sub:', sub);
+            const payload: NotificationWriteDto = {
+                subscription: sub,
+                setting: this.notification,
+            };
+            this.requestService.post(`user/${this.authUser.id}/notification`, payload)
+                .pipe(finalize(() => this.loadingSubscribe = false))
+                .subscribe(() => this.toastr.success("Subscribed to notifications on this device"))
+        } catch (_) {
+            this.toastr.error("Sorry, could not subscribe");
+        } finally {
+            this.loadingSubscribe = false;
         }
     }
 
@@ -111,29 +166,29 @@ export class UserPanelComponent implements OnInit {
                     this.toastr.success("Successfully saved profile. Page will refresh shortly…");
                     setTimeout(() => location.reload(), 2000);
                 } else {
-                    this.toastr.success("Successfully saved profile.")
+                    this.toastr.success("Profile saved")
                 }
             });
     }
 
     submitPasswordChange() {
         this.requestService.post(`user/${this.authUser.id}/change-password`, this.passwordChange)
-            .subscribe(() => this.toastr.success("Successfully changed password."));
+            .subscribe(() => this.toastr.success("Changed password"));
     }
 
     submitPhoto() {
         this.binaryService.saveUserPhoto(this.authUser.id, this.photoFile.nativeElement.files[0])
             .subscribe(() => {
-                this.toastr.success("Successfully saved photo.");
+                this.toastr.success("Photo saved");
                 this.showPhoto = false;
             });
     }
 
     deletePhoto() {
         this.binaryService.deleteUserPhoto(this.authUser.id).subscribe(() => {
-            this.toastr.success("Successfully deleted photo.");
+            this.toastr.success("Photo deleted");
             this.showPhoto = false;
-        }, () => this.toastr.error("An unknown error occurred."));
+        }, () => this.toastr.error("An unknown error occurred"));
     }
 
     toggleBotAutoJoin() {
@@ -157,10 +212,10 @@ export class UserPanelComponent implements OnInit {
         try {
             await this.twitchBotEndpoint(joinOrPart);
             this.botInvited = !this.botInvited;
-            this.toastr.success(`Successfully ${joinOrPart}ed.`);
+            this.toastr.success(`Successfully ${joinOrPart}ed`);
         } catch (err) {
             console.error(`${joinOrPart} not working:`, err);
-            this.toastr.error("Excuse me, Beep Boop no working.");
+            this.toastr.error("Excuse me, Beep Boop no working");
             this.togglingBotInvite = false;
         }
     }

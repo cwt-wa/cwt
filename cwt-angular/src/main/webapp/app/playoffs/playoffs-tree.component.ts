@@ -37,7 +37,7 @@ export class PlayoffsTreeComponent implements OnInit {
         try {
             this.tournamentId = this.tournamentId || (await this.currentTournamentService.value)?.id;
             if (this.tournamentId == null) {
-                this.toastr.info("There is currently no tournament.");
+                this.toastr.info("There is currently no tournament");
             } else {
               const playoffGames =
                   await this.requestService.get<PlayoffGameDto[]>(`tournament/${this.tournamentId}/game/playoff`)
@@ -45,7 +45,7 @@ export class PlayoffsTreeComponent implements OnInit {
               this.createTree(playoffGames);
             }
         } catch (err) {
-            this.toastr.error("The tournament could not be fetched.");
+            this.toastr.error("Tournament could not be fetched");
         } finally {
             this.loading = false;
         }
@@ -126,10 +126,10 @@ export class PlayoffsTreeComponent implements OnInit {
                 const idxOfPreviousBet = game.bets.findIndex(b => b.user.id === this.authUser.id);
                 if (idxOfPreviousBet === -1) {
                     game.bets.push(res);
-                    this.toastr.success("Bet successfully placed.");
+                    this.toastr.success("Bet placed");
                 } else {
                     game.bets[idxOfPreviousBet] = res;
-                    this.toastr.success("Bet successfully updated.");
+                    this.toastr.success("Bet updated");
                 }
                 game.betResult = this.betService.createBetResult(game.bets, this.authUser);
             });

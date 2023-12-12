@@ -43,17 +43,11 @@ class MessageRestController {
     @GetMapping("/listen", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun listen(request: HttpServletRequest): ResponseBodyEmitter {
         val emitter = sseEmitterFactory.createInstance()
-        val user = authService.authUser(request)
         val listener = { message: Message ->
             logger.info("listener received message $message")
             if (message.category === MessageCategory.PRIVATE) {
-                if (user != null && (
-                    message.author.id == user.id ||
-                        message.recipients.map { it.id }.contains(user.id)
-                    )
-                ) {
-                    logger.info("Not publishing message to user as it's private.")
-                }
+                logger.info("Publishing existence of private message.")
+                emitter.send("PRIVATE", "MESSAGE")
             } else {
                 logger.info("Publishing message to the user.")
                 emitter.send("EVENT", message)

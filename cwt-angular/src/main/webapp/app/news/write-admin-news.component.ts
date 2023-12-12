@@ -22,6 +22,6 @@ export class WriteAdminNewsComponent implements OnInit {
 
     submit(): void {
         this.requestService.post('configuration', <ConfigurationDto> {value: this.news.value, key: this.news.key})
-            .subscribe(() => this.toastr.success("Successfully saved."));
+            .subscribe(() => this.toastr.success("News published"));
     }
 }

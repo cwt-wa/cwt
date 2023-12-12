@@ -24,6 +24,6 @@ export class AdminSettingsComponent implements OnInit {
 
     submit(key: ConfigurationKey, value: string) {
         this.requestService.post("configuration", {key, value})
-            .subscribe(() => this.toastr.success("Successfully saved."))
+            .subscribe(() => this.toastr.success(key + " saved"))
     }
 }

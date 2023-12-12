@@ -55,7 +55,7 @@ export class AdminGroupsStartManualDrawComponent {
             .subscribe(
                 () => {
                     this.router.navigateByUrl('/groups');
-                    this.toastr.success("Successfully saved.");
+                    this.toastr.success("Groups created and started");
                 });
     }
 

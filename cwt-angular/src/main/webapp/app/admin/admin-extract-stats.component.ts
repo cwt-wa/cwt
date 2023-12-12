@@ -6,9 +6,10 @@ import {finalize} from "rxjs/operators";
 @Component({
     selector: 'cwt-admin-extract-stats',
     template: `
-        <h1 class="mb-4">Extract stats from replay</h1>
+        <h1 class="">Replay Stats</h1>
+        <p class="lead">Upload a Zip archive of *.WAgame replay files to trigger extraction of stats manually.</p>
 
-        <div class="row">
+        <div class="row mt-4">
             <div class="col-lg-6 col-md-8 col-sm-10">
                 <form #form="ngForm" (submit)="submit()" enctype="multipart/form-data">
                     <div class="form-row">
@@ -55,6 +56,6 @@ export class AdminExtractStatsComponent {
         this.submitting = true;
         this.requestService.formDataPost(`binary/game/${this.gameId}/stats`, formData)
             .pipe(finalize(() => this.submitting = false))
-            .subscribe(() => this.toastr.success("Replay stats have been persisted."));
+            .subscribe(() => this.toastr.success("Replay stats have been persisted"));
     }
 }

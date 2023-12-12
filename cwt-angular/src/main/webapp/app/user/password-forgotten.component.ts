@@ -25,7 +25,7 @@ export class PasswordForgottenComponent {
             .post('user/password-forgotten', {email: this.email})
             .pipe(finalize(() => this.loading = false))
             .subscribe(() => {
-                this.toastr.success('You will receive an email shortly.');
+                this.toastr.success('You will receive an email shortly');
                 this.router.navigateByUrl('/');
             });
     }

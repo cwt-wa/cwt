@@ -56,7 +56,7 @@ export class ReportGameComponent implements OnInit {
         const {name} = this.replayFile.nativeElement.files[0];
 
         if (!name.endsWith('.zip')) {
-            this.toastr.error('Only Zip files permitted.');
+            this.toastr.error('Only Zip files permitted');
             return;
         }
 
@@ -69,7 +69,7 @@ export class ReportGameComponent implements OnInit {
 
         this.requestService.post('game', payload).subscribe((res: GameCreationDto) => {
             this.router.navigateByUrl(`/games/${res.id}`);
-            this.toastr.success("Successfully saved.");
+            this.toastr.success("Game reported");
             this.canReportService.canReport.next(this.remainingOpponents.length - 1 > 0);
 
             this.goldWinnerService.highlight();
@@ -82,7 +82,7 @@ export class ReportGameComponent implements OnInit {
             this.requestService.formDataPost(`binary/game/${res.id}/replay`, formData)
                 .subscribe({
                     error: () => {
-                        this.toastr.error("The replay file could not be uploaded.");
+                        this.toastr.error("The replay file could not be uploaded");
                     }
                 });
         });

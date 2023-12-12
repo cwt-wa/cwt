@@ -1,4 +1,4 @@
-<div class="cwt-top-bar" [ngClass]="{'apple-standalone': isAppleStandalone}">
+<div class="cwt-top-bar">
     <div class="container">
         <div class="row ">
             <div class="col-sm-6 cwt-gmt">
@@ -31,8 +31,7 @@
 </div>
 
 <div class="cwt-nav-container">
-    <nav [ngClass]="{'apple-standalone': isAppleStandalone, 'cwt-fixed-top': isStandalone || !isNavCollapsed}"
-         class="navbar navbar-expand navbar-inverse cwt-navbar">
+    <nav class="navbar navbar-expand navbar-inverse cwt-navbar">
         <div class="row no-gutters cwt-mobile-nav">
             <div class="col">
                 <button (click)="collapseNav()" [ngClass]="{'is-active': !isNavCollapsed}"
@@ -76,7 +75,7 @@
     </nav>
 
     <div class="navbar navbar-expand container">
-        <div [ngClass]="{'apple-standalone': isAppleStandalone}" [ngbCollapse]="isNavCollapsed">
+        <div [ngbCollapse]="isNavCollapsed">
             <ul class="navbar-nav all-petite-caps" (click)="isNavCollapsed = true">
                 <li class="nav-item cwt-icon">
                     <a class="nav-link" routerLink="/">
@@ -118,9 +117,7 @@
     </div>
 </div>
 
-<div [hidden]="!isNavCollapsed"
-     [ngClass]="{'standalone-container': isStandalone && !isAppleStandalone, 'apple-standalone-container': isAppleStandalone}"
-     class="container content">
+<div [hidden]="!isNavCollapsed" class="container content">
     <cwt-live-stream *ngIf="eventSourceTwitchWebhook"></cwt-live-stream>
     <router-outlet></router-outlet>
 </div>
