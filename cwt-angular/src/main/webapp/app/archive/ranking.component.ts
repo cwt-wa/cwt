@@ -7,6 +7,13 @@ import {RankingDto} from "../custom";
     styles: [`
         h1 {
             white-space: nowrap;
+            position: relative;
+        }
+        h1 .hyphen {
+            color: transparent;
+            width: 1.5rem;
+            display: inline-block;
+            text-align: center;
         }
         @media screen and (max-width: 400px) {
             td:not(:nth-child(2)) {
@@ -105,11 +112,47 @@ import {RankingDto} from "../custom";
         td.lost {
             color: rgb(200, 0, 62);
         }
+        .histw {
+            position: absolute;
+            left: 1.8rem;
+            z-index: -1;
+            display: inline-block;
+            height: 50px;
+            width: 50px;
+            transform: scaleX(-1);
+        }
+        .histw img {
+            height: 100%;
+        }
+        .histw .mustache {
+            position: absolute;
+            height: 4px;
+            top: 28px;
+            border-radius: 100%;
+            background-color: gray;
+        }
+        .histw .mustache.mustache-1 {
+            left: 5px;
+            width: 12px;
+            transform: rotate(10deg);
+        }
+        .histw .mustache.mustache-2 {
+            left: 18px;
+            width: 16px;
+            transform: rotate(-13deg);
+        }
     `],
     template: `
     <div class="row mb-5">
         <div class="col">
-            <h1>All-Time Ranking</h1>
+            <h1>
+                <div class="histw">
+                    <img src="${require(`../../img/worms/worm.png`)}">
+                    <div class="mustache mustache-1"></div>
+                    <div class="mustache mustache-2"></div>
+                </div>
+                All<span class="hyphen">-</span>Time Ranking
+            </h1>
         </div>
         <div class="col text-right mt-md-4" *ngIf="rankings?.length">
             <label>
