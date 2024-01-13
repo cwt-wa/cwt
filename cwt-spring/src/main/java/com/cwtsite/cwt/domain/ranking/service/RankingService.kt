@@ -56,13 +56,19 @@ constructor(
             }
             waitFor(1, TimeUnit.MINUTES)
         }
-        return process.inputStream.bufferedReader().use { it.readText() }
-            .trim()
-            .lines()
-            .associate {
-                val (id, rating) = it.split(",")
-                id.toLong() to BigDecimal(rating)
-            }
+        val out = process.inputStream.bufferedReader().use { it.readText() }
+        val exitValue = process.exitValue()
+        if (exitValue != 0) {
+            throw RuntimeException("relrank exited with code $exitValue and output $out")
+        } else {
+            return out
+                .trim()
+                .lines()
+                .associate {
+                    val (id, rating) = it.split(",")
+                    id.toLong() to BigDecimal(rating)
+                }
+        }
     }
 
     fun save(games: List<Game>, relrank: Map<Long, BigDecimal>): List<Ranking> {
