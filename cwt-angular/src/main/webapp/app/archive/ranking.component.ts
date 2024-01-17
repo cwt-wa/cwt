@@ -123,11 +123,12 @@ import {RankingDto} from "../custom";
         }
         .histw img {
             height: 100%;
+            position: absolute;
         }
         .histw .mustache {
             position: absolute;
             height: 4px;
-            top: 28px;
+            top: 25px;
             border-radius: 100%;
             background-color: gray;
         }
