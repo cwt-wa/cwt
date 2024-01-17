@@ -31,7 +31,7 @@ import {finalize} from "rxjs/operators";
                         <div class="col">
                             <button class="btn btn-primary mt-3" [disabled]="form.invalid || submitting">
                                 <span *ngIf="!submitting">Extract stats from replay</span>
-                                <img src="../../img/loading.gif" class="loading" *ngIf="submitting"/>
+                                <img src="${require(`../../img/loading.gif`)}" class="loading" *ngIf="submitting">
                             </button>
                         </div>
                     </div>
