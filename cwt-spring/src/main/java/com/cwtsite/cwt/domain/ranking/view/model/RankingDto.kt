@@ -33,7 +33,7 @@ data class RankingDto(
             lastTournament = TournamentMinimalDto.toDto(ranking.lastTournament!!),
             lastPlace = ranking.lastPlace,
             lastDiff = ranking.lastDiff,
-            points = ranking.points.round(MathContext(0, RoundingMode.HALF_UP)).toInt(),
+            points = ranking.points.setScale(0, RoundingMode.HALF_UP),
             participations = ranking.participations,
             gold = ranking.gold,
             silver = ranking.silver,
